@@ -48,7 +48,7 @@
 		<li>
 			<a href="<?php echo base_url('staff_managers/language_study'); ?>">
 				<img src="<?php echo base_url(); ?>public/images/view-all.png">
-				<span> Quản lý ngôn ngữ lớp học </span>
+				<span> Quản lý ngoại ngữ </span>
 			</a>
 		</li>
 

@@ -43,12 +43,12 @@ class Class_study extends MY_Table {
 			'language_id' => array(
 				'type' => 'custom',
 				'value' => $this->get_data_from_model('language_study'),
-				'name_display' => 'Ngôn ngữ học',
+				'name_display' => 'Ngoại ngữ',
 			),
-			'fee' => array(
-				'type' => 'currency',
-				'name_display' => 'Học phí',
-			),
+//			'fee' => array(
+//				'type' => 'currency',
+//				'name_display' => 'Học phí',
+//			),
 
 			'level_language_id' => array(
 				'type' => 'custom',
@@ -138,7 +138,7 @@ class Class_study extends MY_Table {
 					'type' => 'array',
 					'value' => $this->get_data_from_model('classroom')
 				),
-				'fee' => array(),
+//				'fee' => array(),
 //				'class_time_id' => array(
 //					'type' => 'array',
 //					'value' => $this->get_data_from_model('class_time')
@@ -194,7 +194,7 @@ class Class_study extends MY_Table {
 //				redirect_and_die('Trạng thái hoạt động là 0 hoặc 1!');
 //			}
 
-			$paramArr = array('class_study_id', 'classroom_id', 'fee', 'level_language_id', 'language_id', 'class_time_id', 'number_student', 'number_student_max', 'slot_id', 'teacher_id');
+			$paramArr = array('class_study_id', 'classroom_id', 'level_language_id', 'language_id', 'class_time_id', 'number_student', 'number_student_max', 'slot_id', 'teacher_id');
 
 			foreach ($paramArr as $value) {
 
@@ -238,7 +238,7 @@ class Class_study extends MY_Table {
 					'type' => 'array',
 					'value' => $this->get_data_from_model('classroom')
 				),
-				'fee' => array(),
+//				'fee' => array(),
 //				'class_time_id' => array(
 //					'type' => 'array',
 //					'value' => $this->get_data_from_model('class_time')
@@ -296,7 +296,7 @@ class Class_study extends MY_Table {
 				redirect_and_die('Mã lớp học này đã tồn tại!');
 			}
 
-			$paramArr = array('class_study_id', 'classroom_id', 'fee', 'level_language_id', 'language_id', 'class_time_id',
+			$paramArr = array('class_study_id', 'classroom_id', 'level_language_id', 'language_id', 'class_time_id',
 				'number_student', 'number_student_max', 'slot_id', 'teacher_id', 'active');
 
 			foreach ($paramArr as $value) {

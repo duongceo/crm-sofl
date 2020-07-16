@@ -448,7 +448,7 @@ class MY_Table extends MY_Controller {
 					</script>
 				</div>";
 
-			$action = 'http://crm.sofl.edu.vn/contact/add_contact';
+			$action = 'http://crm.sofl.edu.vn/cam-on-da-dang-ky.html';
 			
             $rows[0]['form_plugin'] = '<div class="widget-content">
 				<form class="form-border-white e_submit e_form_submit" role="form" id="dang-ky-2" method="POST"  name="fr_register" action="'.$action.'">
@@ -556,9 +556,10 @@ class MY_Table extends MY_Controller {
 					<div class='fb-comments' data-href='" . $rows[0]['url'] . "' data-width='100%' data-numposts='10' data-order-by='reverse_time'></div>
 				</div>";
 
+
 			$rows[0]['header_plugin'] = '<meta property="fb:admins" content="100004021107387"/>
 				<meta property="fb:app_id" content="162078224495583" />
-				<link rel="icon" href="https://lakita.vn/data/source/setting/favicon.png" />
+				<link rel="shortcut icon" href="http://crm.sofl.edu.vn/style/img/logo.png" type="image/x-icon" />
 				<script src="https://code.jquery.com/jquery-3.3.1.js" 
 					integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous">
 				</script>

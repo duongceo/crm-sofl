@@ -249,24 +249,16 @@
             </a>
 
         <?php } else if($controller != 'affiliate'){ //marketing ?>
-			
-            <a href="#" class="edit_item" edit-url="" data-modal-name="edit-item-modal" item_id="0">
 
-                <li><i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp; Chỉnh sửa</li>
-
-            </a>
-
-			<?php if ($controller == 'marketer') { ?>
-				<a href="#" class="note_contact load-new-contact-id one-item-selected" contact_name="" data-contact-id ="0">
-
-					<li>
-
-						<i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp; Ghi chú cho contact này
-
-					</li>
-
-				</a>
-			<?php } ?>
+<!--			<a href="#" class="note_contact load-new-contact-id one-item-selected" contact_name="" data-contact-id ="0">-->
+<!---->
+<!--				<li>-->
+<!---->
+<!--					<i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp; Ghi chú cho contact này-->
+<!---->
+<!--				</li>-->
+<!---->
+<!--			</a>-->
 
 			<?php if($controller == 'landingpage'){ ?>
 
@@ -278,17 +270,23 @@
 
 			<?php } ?>
 
-			<?php if ($controller == 'class_study') { ?>
-				<a href="#" class="view_student" item_id="0" show_url="staff_managers/class_study/show_student">
-					<li>
+			<?php if ($controller != 'marketer' && $controller != 'student'){ ?>
+				<a href="#" class="edit_item" edit-url="" data-modal-name="edit-item-modal" item_id="0">
 
-						<i class="fa fa-info-circle" aria-hidden="true"></i> &nbsp; &nbsp; Xem danh sách học viên
+					<li><i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp; Chỉnh sửa</li>
 
-					</li>
 				</a>
-			<?php } ?>
 
-			<?php if ($controller != 'teacher'){ ?>
+				<?php if ($controller == 'class_study') { ?>
+					<a href="#" class="view_student" item_id="0" show_url="staff_managers/class_study/show_student">
+						<li>
+
+							<i class="fa fa-info-circle" aria-hidden="true"></i> &nbsp; &nbsp; Xem danh sách học viên
+
+						</li>
+					</a>
+				<?php } ?>
+
 				<a href="#" class="delete_item" item_id="0">
 
 					<li><i class="fa fa-trash-o" aria-hidden="true"></i> &nbsp; &nbsp; Xóa dòng </li>
@@ -316,7 +314,7 @@
 <!--	        </a>-->
 <!--				-->
 
-		<?php if (in_array('sale', 'manager', 'customer_care', 'marketer', 'marketing')) { ?>
+		<?php if (in_array($controller, array('sale', 'manager', 'customer_care', 'marketer', 'marketing', 'student'))) { ?>
 			<a href="#" class="ajax-request-modal load-new-contact-id one-item-selected" data-contact-id ="0" data-modal-name="view-detail-contact-div"
 
 			  data-url="common/view_detail_contact">

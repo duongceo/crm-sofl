@@ -232,279 +232,283 @@ class Ad extends MY_Table {
 
         parent::show_table();
 
-        $get = $this->input->get();
-
-        $date_form = '';
-
-        $date_end = '';
-
-        /*Nếu không có lọc ngày tháng từ người dùng thì chọn mặc định là hôm qua*/
-
-        if (!isset($get['date_from']) && !isset($get['date_end'])) {
-
-            $date_form = strtotime(date('d-m-Y', strtotime("-1 days")));
-
-            $date_end = strtotime(date('d-m-Y', strtotime("-1 days")));
-
-        } else {
-
-            $date_form = strtotime($get['date_from']);
-
-            $date_end = strtotime($get['date_end']);
-
-        }
-
-
-
-        $this->load->model('account_fb_model');
-
-        $account = $this->account_fb_model->getAccountArr();
-
-        foreach ($this->data['rows'] as &$value) {
-
-            /*
-
-             * Lấy số C3 & số tiền tiêu
-
-             */
-
-            $total_c3 = array();
-
-            $total_c3['select'] = 'id';
-
-            /*
-
-             * Giờ VN
-
-             */
-
-            if ($this->account_fb_model->getAccountTimeZone($value['account_fb_id']) == 'VN') {
-
-                $total_c3['where'] = array(
-
-                    'ad_id' => $value['id'],
-
-                    'date_rgt >=' => $date_form,
-
-                    'date_rgt <=' => $date_end + 24 * 3600 - 1);
-
-            } else {
-
-                $total_c3['where'] = array(
-
-                    'ad_id' => $value['id'],
-
-                    'date_rgt >=' => $date_form + 14 * 3600,
-
-                    'date_rgt <=' => $date_end + 3600 * 38);
-
-            }
-
-            $value['total_C3'] = count($this->contacts_model->load_all($total_c3));
-
-            $input = array();
-
-            $input['where'] = array('ad_id' => $value['id'], 'time >=' => $date_form, 'time <=' => $date_end + 3600 * 24 - 1);
-
-//            $ad_cost = $this->ad_cost_model->load_all($input);
+//        $get = $this->input->get();
 //
-//            $ad_cost = h_caculate_channel_cost($ad_cost);
-
-            if (!empty($ad_cost)) {
-
-                $value['total_C1'] = $ad_cost['total_C1'];
-
-                $value['total_C2'] = $ad_cost['total_C2'];
-
-                $value['C2pC1'] = ($value['total_C1'] > 0) ? round($value['total_C2'] / $value['total_C1'] * 100) . '%' : '#N/A';
-
-                $value['C3pC2'] = ($value['total_C2'] > 0) ? round($value['total_C3'] / $value['total_C2'] * 100) . '%' : '#N/A';
-
-                $value['spend'] = $ad_cost['spend'];
-
-                $value['pricepC1'] = ($value['total_C1'] > 0) ? round($value['spend'] / $value['total_C1']) . ' đ' : '#N/A';
-
-                $value['pricepC2'] = ($value['total_C2'] > 0) ? round($value['spend'] / $value['total_C2']) . ' đ' : '#N/A';
-
-                $value['pricepC3'] = ($value['total_C3'] > 0) ? round($value['spend'] / $value['total_C3']) : '#N/A';
-
-            } else {
-
-                $value['total_C1'] = '#NA';
-
-                $value['total_C2'] = '#NA';
-
-                $value['total_C3'] = '#NA';
-
-                $value['C2pC1'] = '#NA';
-
-                $value['C3pC2'] = '#NA';
-
-                $value['spend'] = '#NA';
-
-                $value['pricepC1'] = '#NA';
-
-                $value['pricepC2'] = '#NA';
-
-                $value['pricepC3'] = '#NA';
-
-            }
-
-            /*L6*/
-
-            if ($value['active'] == 1) {
-
-                $total_L6 = array();
-
-                $total_L6['select'] = 'id';
-
-                if ($this->account_fb_model->getAccountTimeZone($value['account_fb_id']) == 'VN') {
-
-                    $total_L6['where'] = array(
-
-                        'ad_id' => $value['id'],
-
-                        'date_rgt >=' => $date_form,
-
-                        'date_rgt <=' => $date_end + 24 * 3600 - 1,
-
-                        'call_status_id' => _DA_LIEN_LAC_DUOC_,
-
-                        'ordering_status_id' => _DONG_Y_MUA_);
-
-                } else {
-
-                    $total_L6['where'] = array(
-
-                        'ad_id' => $value['id'],
-
-                        'date_rgt >=' => $date_form + 14 * 3600,
-
-                        'date_rgt <=' => $date_end + 3600 * 38,
-
-                        'call_status_id' => _DA_LIEN_LAC_DUOC_,
-
-                        'ordering_status_id' => _DONG_Y_MUA_
-
-                    );
-
-                }
-
-                $value['L6'] = count($this->contacts_model->load_all($total_L6));
-
-                /* L8 */
-
-                $total_L8 = array();
-
-                $total_L8['select'] = 'id';
-
-                if ($this->account_fb_model->getAccountTimeZone($value['account_fb_id']) == 'VN') {
-
-                    $total_L8['where'] = array(
-
-                        'ad_id' => $value['id'],
-
-                        'date_rgt >=' => $date_form,
-
-                        'date_rgt <=' => $date_end + 24 * 3600 - 1,
-
-                        'call_status_id' => _DA_LIEN_LAC_DUOC_,
-
-                        'ordering_status_id' => _DONG_Y_MUA_,
-
-                        'cod_status_id' => _DA_THU_LAKITA_);
-
-                } else {
-
-                    $total_L8['where'] = array(
-
-                        'ad_id' => $value['id'],
-
-                        'date_rgt >=' => $date_form + 14 * 3600,
-
-                        'date_rgt <=' => $date_end + 3600 * 38,
-
-                        'call_status_id' => _DA_LIEN_LAC_DUOC_,
-
-                        'ordering_status_id' => _DONG_Y_MUA_,
-
-                        'cod_status_id' => _DA_THU_LAKITA_
-
-                    );
-
-                }
-
-                $value['L8'] = count($this->contacts_model->load_all($total_L8));
-
-                $value['pricepL8'] = ($value['L8'] > 0) ? round($value['spend'] / $value['L8']) : ( ($value['spend'] > 0) ? 9999999999 : '#N/A');
-
-            }
-
-            $value['account_fb_id'] = $account[$value['account_fb_id']];
-
-            $value['marketer_id'] = $this->staffs_model->find_staff_name($value['marketer_id']);
-
-            if (intval($value['spend']) > 50000 && $value['total_C3'] == 0) {
-
-                $value['warning_class'] = 'bgred';
-
-            }
-
-            if (is_numeric($value['pricepC3']) && $value['pricepC3'] < 50000) {
-
-                $value['warning_class'] = 'receive-lakita';
-
-            }
-
-        }
-
-        unset($value);
-
-        usort($this->data['rows'], function($a, $b) {
-
-            if ($a['active'] == '0' && $b['active'] == '1') {
-
-                return +1;
-
-            } else if ($a['active'] == '1' && $b['active'] == '0') {
-
-                return -1;
-
-            } else if ($a['active'] == '0' && $b['active'] == '0') {
-
-                if (is_numeric($a['pricepC3']) && is_numeric($b['pricepC3'])) {
-
-                    return $b['pricepC3'] - $a['pricepC3'];
-
-                } else if (is_numeric($a['pricepC3']) && !is_numeric($b['pricepC3'])) {
-
-                    return -1;
-
-                } else if (!is_numeric($a['pricepC3']) && is_numeric($b['pricepC3'])) {
-
-                    return +1;
-
-                }
-
-            } else {
-
-                if (is_numeric($a['pricepC3']) && is_numeric($b['pricepC3'])) {
-
-                    return $b['pricepC3'] - $a['pricepC3'];
-
-                } else if (is_numeric($a['pricepC3']) && !is_numeric($b['pricepC3'])) {
-
-                    return -1;
-
-                } else if (!is_numeric($a['pricepC3']) && is_numeric($b['pricepC3'])) {
-
-                    return +1;
-
-                }
-
-            }
-
-        });
+//        $date_form = '';
+//
+//        $date_end = '';
+//
+//        /*Nếu không có lọc ngày tháng từ người dùng thì chọn mặc định là hôm qua*/
+//
+//        if (!isset($get['date_from']) && !isset($get['date_end'])) {
+//
+//            $date_form = strtotime(date('d-m-Y', strtotime("-1 days")));
+//
+//            $date_end = strtotime(date('d-m-Y', strtotime("-1 days")));
+//
+//        } else {
+//
+//            $date_form = strtotime($get['date_from']);
+//
+//            $date_end = strtotime($get['date_end']);
+//
+//        }
+//
+//
+//
+//        $this->load->model('account_fb_model');
+//
+//        $account = $this->account_fb_model->getAccountArr();
+//
+//        foreach ($this->data['rows'] as &$value) {
+//
+//            /*
+//
+//             * Lấy số C3 & số tiền tiêu
+//
+//             */
+//
+//            $total_c3 = array();
+//
+//            $total_c3['select'] = 'id';
+//
+//            /*
+//
+//             * Giờ VN
+//
+//             */
+//
+//            if ($this->account_fb_model->getAccountTimeZone($value['account_fb_id']) == 'VN') {
+//
+//                $total_c3['where'] = array(
+//
+//                    'ad_id' => $value['id'],
+//
+//                    'date_rgt >=' => $date_form,
+//
+//                    'date_rgt <=' => $date_end + 24 * 3600 - 1);
+//
+//            } else {
+//
+//                $total_c3['where'] = array(
+//
+//                    'ad_id' => $value['id'],
+//
+//                    'date_rgt >=' => $date_form + 14 * 3600,
+//
+//                    'date_rgt <=' => $date_end + 3600 * 38);
+//
+//            }
+//
+//            $value['total_C3'] = count($this->contacts_model->load_all($total_c3));
+//
+//            $input = array();
+//
+//            $input['where'] = array('ad_id' => $value['id'], 'time >=' => $date_form, 'time <=' => $date_end + 3600 * 24 - 1);
+//
+////            $ad_cost = $this->ad_cost_model->load_all($input);
+////
+////            $ad_cost = h_caculate_channel_cost($ad_cost);
+//
+//            if (!empty($ad_cost)) {
+//
+//                $value['total_C1'] = $ad_cost['total_C1'];
+//
+//                $value['total_C2'] = $ad_cost['total_C2'];
+//
+//                $value['C2pC1'] = ($value['total_C1'] > 0) ? round($value['total_C2'] / $value['total_C1'] * 100) . '%' : '#N/A';
+//
+//                $value['C3pC2'] = ($value['total_C2'] > 0) ? round($value['total_C3'] / $value['total_C2'] * 100) . '%' : '#N/A';
+//
+//                $value['spend'] = $ad_cost['spend'];
+//
+//                $value['pricepC1'] = ($value['total_C1'] > 0) ? round($value['spend'] / $value['total_C1']) . ' đ' : '#N/A';
+//
+//                $value['pricepC2'] = ($value['total_C2'] > 0) ? round($value['spend'] / $value['total_C2']) . ' đ' : '#N/A';
+//
+//                $value['pricepC3'] = ($value['total_C3'] > 0) ? round($value['spend'] / $value['total_C3']) : '#N/A';
+//
+//            } else {
+//
+//                $value['total_C1'] = '#NA';
+//
+//                $value['total_C2'] = '#NA';
+//
+//                $value['total_C3'] = '#NA';
+//
+//                $value['C2pC1'] = '#NA';
+//
+//                $value['C3pC2'] = '#NA';
+//
+//                $value['spend'] = '#NA';
+//
+//                $value['pricepC1'] = '#NA';
+//
+//                $value['pricepC2'] = '#NA';
+//
+//                $value['pricepC3'] = '#NA';
+//
+//            }
+//
+//            /*L6*/
+//
+//            if ($value['active'] == 1) {
+//
+//                $total_L6 = array();
+//
+//                $total_L6['select'] = 'id';
+//
+//                if ($this->account_fb_model->getAccountTimeZone($value['account_fb_id']) == 'VN') {
+//
+//                    $total_L6['where'] = array(
+//
+//                        'ad_id' => $value['id'],
+//
+//                        'date_rgt >=' => $date_form,
+//
+//                        'date_rgt <=' => $date_end + 24 * 3600 - 1,
+//
+//                        'call_status_id' => _DA_LIEN_LAC_DUOC_,
+//
+//                        'ordering_status_id' => _DONG_Y_MUA_
+//
+//					);
+//
+//                } else {
+//
+//                    $total_L6['where'] = array(
+//
+//                        'ad_id' => $value['id'],
+//
+//                        'date_rgt >=' => $date_form + 14 * 3600,
+//
+//                        'date_rgt <=' => $date_end + 3600 * 38,
+//
+//                        'call_status_id' => _DA_LIEN_LAC_DUOC_,
+//
+//                        'ordering_status_id' => _DONG_Y_MUA_
+//
+//                    );
+//
+//                }
+//
+//                $value['L6'] = count($this->contacts_model->load_all($total_L6));
+//
+//                /* L8 */
+//
+//                $total_L8 = array();
+//
+//                $total_L8['select'] = 'id';
+//
+//                if ($this->account_fb_model->getAccountTimeZone($value['account_fb_id']) == 'VN') {
+//
+//                    $total_L8['where'] = array(
+//
+//                        'ad_id' => $value['id'],
+//
+//                        'date_rgt >=' => $date_form,
+//
+//                        'date_rgt <=' => $date_end + 24 * 3600 - 1,
+//
+//                        'call_status_id' => _DA_LIEN_LAC_DUOC_,
+//
+//                        'ordering_status_id' => _DONG_Y_MUA_,
+//
+//                        'cod_status_id' => _DA_THU_LAKITA_
+//
+//					);
+//
+//                } else {
+//
+//                    $total_L8['where'] = array(
+//
+//                        'ad_id' => $value['id'],
+//
+//                        'date_rgt >=' => $date_form + 14 * 3600,
+//
+//                        'date_rgt <=' => $date_end + 3600 * 38,
+//
+//                        'call_status_id' => _DA_LIEN_LAC_DUOC_,
+//
+//                        'ordering_status_id' => _DONG_Y_MUA_,
+//
+//                        'cod_status_id' => _DA_THU_LAKITA_
+//
+//                    );
+//
+//                }
+//
+//                $value['L8'] = count($this->contacts_model->load_all($total_L8));
+//
+//                $value['pricepL8'] = ($value['L8'] > 0) ? round($value['spend'] / $value['L8']) : ( ($value['spend'] > 0) ? 9999999999 : '#N/A');
+//
+//            }
+//
+//            $value['account_fb_id'] = $account[$value['account_fb_id']];
+//
+//            $value['marketer_id'] = $this->staffs_model->find_staff_name($value['marketer_id']);
+//
+//            if (intval($value['spend']) > 50000 && $value['total_C3'] == 0) {
+//
+//                $value['warning_class'] = 'bgred';
+//
+//            }
+//
+//            if (is_numeric($value['pricepC3']) && $value['pricepC3'] < 50000) {
+//
+//                $value['warning_class'] = 'receive-lakita';
+//
+//            }
+//
+//        }
+//
+//        unset($value);
+//
+//        usort($this->data['rows'], function($a, $b) {
+//
+//            if ($a['active'] == '0' && $b['active'] == '1') {
+//
+//                return +1;
+//
+//            } else if ($a['active'] == '1' && $b['active'] == '0') {
+//
+//                return -1;
+//
+//            } else if ($a['active'] == '0' && $b['active'] == '0') {
+//
+//                if (is_numeric($a['pricepC3']) && is_numeric($b['pricepC3'])) {
+//
+//                    return $b['pricepC3'] - $a['pricepC3'];
+//
+//                } else if (is_numeric($a['pricepC3']) && !is_numeric($b['pricepC3'])) {
+//
+//                    return -1;
+//
+//                } else if (!is_numeric($a['pricepC3']) && is_numeric($b['pricepC3'])) {
+//
+//                    return +1;
+//
+//                }
+//
+//            } else {
+//
+//                if (is_numeric($a['pricepC3']) && is_numeric($b['pricepC3'])) {
+//
+//                    return $b['pricepC3'] - $a['pricepC3'];
+//
+//                } else if (is_numeric($a['pricepC3']) && !is_numeric($b['pricepC3'])) {
+//
+//                    return -1;
+//
+//                } else if (!is_numeric($a['pricepC3']) && is_numeric($b['pricepC3'])) {
+//
+//                    return +1;
+//
+//                }
+//
+//            }
+//
+//        });
 
     }
 
