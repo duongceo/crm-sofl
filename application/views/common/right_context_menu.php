@@ -131,11 +131,13 @@
                 <li> <i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp; Chăm sóc contact này </li>
 
             </a>
+
 			<a href="#" class="select_provider multi-item-selected"> 
 
                 <li> <i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp; Chăm sóc các contact đã chọn </li>
 
             </a>
+
 			<a href="#" contact_id="0" contact_name="0" class="transfer_one_contact one-item-selected" >
 
                 <li> <i class="fa fa-exchange" aria-hidden="true"></i>  &nbsp; &nbsp; Chuyển nhượng contact này</li>
@@ -147,11 +149,13 @@
                 <li>  <i class="fa fa-exchange" aria-hidden="true"></i>  &nbsp; &nbsp; Chuyển nhượng các contact đã chọn </li>
 
             </a>
+
             <a href="#" contact_name="0" contact_phone="0" class="send_to_mobile one-item-selected" >
 
                 <li> <i class="fa fa-phone-square" aria-hidden="true"></i> &nbsp; &nbsp;  Gửi số điện thoại vào mobile </li>
 
             </a>
+
             <a href="#" class="btn-export-excel multi-item-selected"> 
 
                 <li> <i class="fa fa-print" aria-hidden="true"></i> &nbsp; &nbsp; Xuất file excel để in </li>
@@ -177,6 +181,7 @@
                 <li> <i class="fa fa-envelope" aria-hidden="true"></i> &nbsp; &nbsp; Gửi mail cho Viettel các contact đã chọn </li>
 
             </a>
+
 			<a href="#" class="send-email-to-vnpost multi-item-selected" data-form-id="action_contact" data-action="cod/SendEmailToProviderVnpost"
 
                data-method="POST">
@@ -215,7 +220,7 @@
 
                data-url="admin/retrieve_contact"> 
 
-                <li> 
+                <li>
 
                     <i class="fa fa-retweet" aria-hidden="true"></i> &nbsp; &nbsp; Thu hồi 
 
@@ -250,73 +255,80 @@
                 <li><i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp; Chỉnh sửa</li>
 
             </a>
-			
-			<a href="#" class="note_contact load-new-contact-id one-item-selected" contact_name="" data-contact-id ="0">
 
-				<li>
+			<?php if ($controller == 'marketer') { ?>
+				<a href="#" class="note_contact load-new-contact-id one-item-selected" contact_name="" data-contact-id ="0">
 
-					<i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp; Ghi chú cho contact này
+					<li>
 
-				</li>
+						<i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp; Ghi chú cho contact này
+
+					</li>
+
+				</a>
+			<?php } ?>
+
+			<?php if($controller == 'landingpage'){ ?>
+
+				<a href="#" class="form_plugin" item_id="0" edit-url="MANAGERS/landingpage/show_plugin_landingpage" data-modal-name="edit-item-modal">
+
+					<li> <i class="fa fa-paperclip" aria-hidden="true"></i> &nbsp; &nbsp; Thành phần gắn Landingpage </li>
+
+				</a>
+
+			<?php } ?>
+
+			<?php if ($controller == 'class_study') { ?>
+				<a href="#" class="view_student" item_id="0" show_url="staff_managers/class_study/show_student">
+					<li>
+
+						<i class="fa fa-info-circle" aria-hidden="true"></i> &nbsp; &nbsp; Xem danh sách học viên
+
+					</li>
+				</a>
+			<?php } ?>
+
+			<?php if ($controller != 'teacher'){ ?>
+				<a href="#" class="delete_item" item_id="0">
+
+					<li><i class="fa fa-trash-o" aria-hidden="true"></i> &nbsp; &nbsp; Xóa dòng </li>
+
+				</a>
+
+				<a class="delete_multi_item" href="#">
+
+					<li><i class="fa fa-trash-o" aria-hidden="true"></i> &nbsp; &nbsp; Xóa các dòng đã chọn </li>
+
+				</a>
+
+			<?php }} ?>
+
+<!--	        <a href="#"  class="export-to-excel multi-item-selected" -->
+<!--	-->
+<!--	           data-form-id="action_contact"-->
+<!--	-->
+<!--	           data-action="common/ExportToExcel"-->
+<!--	-->
+<!--	           data-method="POST">-->
+<!--	-->
+<!--	            <li><i class="fa fa-file-excel-o" aria-hidden="true"></i> &nbsp; &nbsp; Xuất dữ liệu</li>-->
+<!--	-->
+<!--	        </a>-->
+<!--				-->
+
+		<?php if (in_array('sale', 'manager', 'customer_care', 'marketer', 'marketing')) { ?>
+			<a href="#" class="ajax-request-modal load-new-contact-id one-item-selected" data-contact-id ="0" data-modal-name="view-detail-contact-div"
+
+			  data-url="common/view_detail_contact">
+
+			  <li>
+
+				  <i class="fa fa-info-circle" aria-hidden="true"></i> &nbsp; &nbsp; Chi tiết contact
+
+			  </li>
 
 			</a>
-
-		<?php if($controller == 'landingpage'){ ?>
-
-            <a href="#" class="form_plugin" item_id="0" edit-url="MANAGERS/landingpage/show_plugin_landingpage" data-modal-name="edit-item-modal">
-
-                <li> <i class="fa fa-paperclip" aria-hidden="true"></i> &nbsp; &nbsp; Thành phần gắn Landingpage </li>
-
-            </a>
-
 		<?php } ?>
-
-        <?php if ($controller != 'teacher'){ ?>
-            <a href="#" class="delete_item" item_id="0">
-
-                <li><i class="fa fa-trash-o" aria-hidden="true"></i> &nbsp; &nbsp; Xóa dòng </li>
-
-            </a>
-
-            <a class="delete_multi_item" href="#"> 
-
-                <li><i class="fa fa-trash-o" aria-hidden="true"></i> &nbsp; &nbsp; Xóa các dòng đã chọn </li>
-
-            </a>
-
-        <?php }} ?>
-
-<!--        <a href="#"  class="export-to-excel multi-item-selected" -->
-<!---->
-<!--           data-form-id="action_contact"-->
-<!---->
-<!--           data-action="common/ExportToExcel"-->
-<!---->
-<!--           data-method="POST">-->
-<!---->
-<!--            <li><i class="fa fa-file-excel-o" aria-hidden="true"></i> &nbsp; &nbsp; Xuất dữ liệu</li>-->
-<!---->
-<!--        </a>-->
-
-		<a href="#" class="view_student" item_id="0" show_url="staff_managers/class_study/show_student">
-			<li>
-
-				<i class="fa fa-info-circle" aria-hidden="true"></i> &nbsp; &nbsp; Xem danh sách học viên
-
-			</li>
-		</a>
-
-        <a href="#" class="ajax-request-modal load-new-contact-id one-item-selected" data-contact-id ="0" data-modal-name="view-detail-contact-div"
-
-          data-url="common/view_detail_contact">
-
-          <li>
-
-              <i class="fa fa-info-circle" aria-hidden="true"></i> &nbsp; &nbsp; Chi tiết contact 
-
-          </li>
-
-        </a>
 
     </ul>
 
