@@ -78,6 +78,10 @@ class Class_study extends MY_Table {
 				'value' => $this->get_data_from_model('teacher'),
 				'name_display' => 'Giảng viên'
 			),
+			'active' => array(
+				'type' => 'active',
+				'name_display' => 'Hoạt động ?'
+			)
 		);
 		$this->set_list_view($list_view);
 		$this->set_model('class_study_model');
