@@ -28,7 +28,8 @@ h1 {
   color: #2d4ab9; }
 
 .login_box {
-  background: #c0d8ce;
+  /*background: #c0d8ce;*/
+  background: #E76C6C;
   width: 35%;
   /* height:70%; */
   position: absolute;
