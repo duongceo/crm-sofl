@@ -32,7 +32,7 @@ class Classroom extends MY_Table {
 				'name_display' => 'Mã phòng học',
 //				'order' => '1'
 			),
-			'branch_id' => array(
+			'branch' => array(
 				'type' => 'custom',
 				'value' => $this->get_data_from_model('branch'),
 				'name_display' => 'Cơ sở - chi nhánh',
@@ -48,6 +48,17 @@ class Classroom extends MY_Table {
 	}
 
 	public function index($offset = 0) {
+
+		$this->data['branch'] = $this->get_data_from_model('branch');
+
+		$this->list_filter = array(
+			'left_filter' => array(
+				'branch' => array(
+					'type' => 'arr_multi'
+				)
+			)
+		);
+
 		$conditional = array();
 		if ($this->session->userdata('role_id') == 12) {
 			$conditional['where']['branch_id'] = $this->session->userdata('branch_id');

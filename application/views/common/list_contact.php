@@ -51,7 +51,6 @@
 
 <?php } ?>
 
-
 <?php //if (isset($sale_call_process)) { ?>
 <!--    <div class="container">-->
 <!--        <div class="row">-->

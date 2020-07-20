@@ -1,13 +1,13 @@
 
 <tr>
 
-	<td class="text-right"> Ngoại ngữ</td>
+	<td class="text-right"> Cơ sở </td>
 
 	<td>
 
-		<select class="form-control select_course_code selectpicker" name="add_language_id">
+		<select class="form-control selectpicker" name="add_branch_id">
 
-			<option value="0"> Ngoại ngữ</option>
+			<option value=""> Chọn cơ sở</option>
 
 			<?php foreach ($arr as $key => $value) { ?>
 

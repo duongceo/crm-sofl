@@ -15,7 +15,18 @@ class Test2 extends CI_Controller {
     }
 
     function test_insert() {
-		echo phpinfo();
+//		echo phpinfo();
+
+		$this->load->model('level_language_model');
+		for ($i=3; $i<7; $i++) {
+			$param = array(
+				'level_code' => 'ONTHI_HSK'.$i,
+				'name' => 'Ôn thi HSK'.$i,
+				'language_id' => 3,
+				'time_created' => time()
+			);
+			$this->level_language_model->insert($param);
+		}
 	}
 	
 	function test14(){

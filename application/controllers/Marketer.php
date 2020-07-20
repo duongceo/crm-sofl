@@ -36,6 +36,7 @@ class Marketer extends MY_Controller {
          * Điều kiện lấy contact :
          * contact ở trang chủ là contact đăng kí trong ngày hôm nay
          */
+
 		$conditional['where'] = array('date_rgt >' => strtotime(date('d-m-Y')), 'marketer_id' => $this->user_id, 'is_hide' => '0');
 
 		$data_pagination = $this->_query_all_from_get($get, $conditional, $this->per_page, $offset);
@@ -44,6 +45,7 @@ class Marketer extends MY_Controller {
 		/*
          * Lấy link phân trang và danh sách contacts
          */
+
 		$data['pagination'] = $this->_create_pagination_link($data_pagination['total_row']);
 		$data['contacts'] = $data_pagination['data'];
 		$data['total_contact'] = $data_pagination['total_row'];
@@ -51,12 +53,14 @@ class Marketer extends MY_Controller {
 		/*
          * Filter ở cột trái và cột phải
          */
+
 		$data['left_col'] = array('tv_dk', 'date_rgt', 'channel');
 //		$data['right_col'] = array();
 
 		/*
          * Các trường cần hiện của bảng contact (đã có default)
          */
+
 		$this->table .= 'adset ads channel date_rgt ordering_stt';
 		$data['table'] = explode(' ', $this->table);
 		//echo '<pre>'; print_r($data['table']);die;
@@ -179,26 +183,26 @@ class Marketer extends MY_Controller {
         $this->L['C3'] = count($this->contacts_model->load_all($input));
 
 
-        $input = array();
+//        $input = array();
+//
+//        $input['select'] = 'id';
+//
+//        $input['where']['marketer_id'] = $this->user_id;
+//
+//        $input['where']['date_confirm >'] = strtotime(date('d-m-Y'));
+//
+//        $this->L['L6'] = count($this->contacts_model->load_all($input));
 
-        $input['select'] = 'id';
-
-        $input['where']['marketer_id'] = $this->user_id;
-
-        $input['where']['date_confirm >'] = strtotime(date('d-m-Y'));
-
-        $this->L['L6'] = count($this->contacts_model->load_all($input));
-
-
-        $input = array();
-
-        $input['select'] = 'id';
-
-        $input['where']['marketer_id'] = $this->user_id;
-
-        $input['where']['date_confirm >'] = strtotime(date('1-m-Y'));
-
-        $this->L['L6All'] = count($this->contacts_model->load_all($input));
+//
+//        $input = array();
+//
+//        $input['select'] = 'id';
+//
+//        $input['where']['marketer_id'] = $this->user_id;
+//
+//        $input['where']['date_confirm >'] = strtotime(date('1-m-Y'));
+//
+//        $this->L['L6All'] = count($this->contacts_model->load_all($input));
 
 
         $input = array();

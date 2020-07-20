@@ -72,47 +72,45 @@ class MY_Controller extends CI_Controller {
 
         require_once APPPATH . 'libraries/Pusher.php';
 
-//        $input = array();
-//
-//        $input['select'] = 'id';
-//
-//        $input['where'] = array('call_status_id' => '0', 'sale_staff_id' => '0', 'is_hide' => '0');
-//
-//        $this->L['L1'] = count($this->contacts_model->load_all($input));
-//
-//        $input = array();
-//
-//        $input['select'] = 'id';
-//
-//        $input['where'] = array('is_hide' => '0');
-//
-//        $this->L['all'] = count($this->contacts_model->load_all($input));
-//
-//        $this->_loadCountListContact();
+        $input = array();
+
+        $input['select'] = 'id';
+
+        $input['where'] = array('call_status_id' => '0', 'sale_staff_id' => '0', 'is_hide' => '0');
+
+        $this->L['L1'] = count($this->contacts_model->load_all($input));
+
+        $input = array();
+
+        $input['select'] = 'id';
+
+        $input['where'] = array('is_hide' => '0');
+
+        $this->L['all'] = count($this->contacts_model->load_all($input));
+
+        $this->_loadCountListContact();
 
         $data['time_remaining'] = 0;
 
-//        $input = array();
-//
-//        $input['select'] = 'date_recall';
-//
-//        $input['where']['date_recall >'] = time();
-//
-//        $input['where']['cod_status_id >'] = '0';
-//
-//        $input['order']['date_recall'] = 'ASC';
-//
-//        $input['limit'] = array('1', '0');
-//
-//        $noti_contact = $this->contacts_model->load_all($input);
-//
-//        if (!empty($noti_contact)) {
-//
-//            $time_remaining = $noti_contact[0]['date_recall'] - time();
-//
-//            $data['time_remaining'] = ($time_remaining < 3600 * 3) ? $time_remaining : 0;
-//
-//        }
+        $input = array();
+
+        $input['select'] = 'date_recall';
+
+        $input['where']['date_recall >'] = time();
+
+        $input['order']['date_recall'] = 'ASC';
+
+        $input['limit'] = array('1', '0');
+
+        $noti_contact = $this->contacts_model->load_all($input);
+
+        if (!empty($noti_contact)) {
+
+            $time_remaining = $noti_contact[0]['date_recall'] - time();
+
+            $data['time_remaining'] = ($time_remaining < 3600 * 3) ? $time_remaining : 0;
+
+        }
 
         $this->load->vars($data);
 
@@ -142,7 +140,6 @@ class MY_Controller extends CI_Controller {
         }
 
     }
-
 
     private function _set_default_variable() {
 
@@ -1181,34 +1178,36 @@ class MY_Controller extends CI_Controller {
 
         $input['select'] = 'id';
 
-        $input['where'] = array('ordering_status_id' => _DONG_Y_MUA_, 'cod_status_id' => '0',
-
-            'date_expect_receive_cod <' => strtotime('tomorrow'), 'payment_method_rgt' => '1', 'is_hide' => '0');
+        $input['where'] = array(
+        	'ordering_status_id' => 'L5',
+			'payment_method_rgt' => '1',
+			'is_hide' => '0'
+		);
 
         $this->L['L6'] = count($this->contacts_model->load_all($input));
 
 
-        $input = array();
+//        $input = array();
+//
+//        $input['select'] = 'id';
+//
+//        $input['where'] = array(
+//        	'cod_status_id' => _DANG_GIAO_HANG_, 'payment_method_rgt' => '1', 'is_hide' => '0');
+//
+//        $this->L['pending'] = count($this->contacts_model->load_all($input));
 
-        $input['select'] = 'id';
 
-        $input['where'] = array('cod_status_id' => _DANG_GIAO_HANG_, 'payment_method_rgt' => '1', 'is_hide' => '0');
-
-        $this->L['pending'] = count($this->contacts_model->load_all($input));
-
-
-        $input = array();
-
-        $input['select'] = 'id';
-
-        $input['where'] = array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'ordering_status_id' => _DONG_Y_MUA_,
-
-            'cod_status_id' => '0', 'payment_method_rgt >' => '1', 'is_hide' => '0');
-
-        $this->L['transfer'] = count($this->contacts_model->load_all($input));
+//        $input = array();
+//
+//        $input['select'] = 'id';
+//
+//        $input['where'] = array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'ordering_status_id' => _DONG_Y_MUA_,
+//
+//            'cod_status_id' => '0', 'payment_method_rgt >' => '1', 'is_hide' => '0');
+//
+//        $this->L['transfer'] = count($this->contacts_model->load_all($input));
 
     }
-
 
     function _get_customer_care_id_auto() {
 

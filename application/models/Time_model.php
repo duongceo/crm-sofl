@@ -1,12 +1,12 @@
 <?php
 
-class Class_time_model extends MY_Model {
+class Time_model extends MY_Model {
 
 	public function __construct() {
 
 		parent::__construct();
 
-		$this->table = 'class_time';
+		$this->table = 'times';
 
 	}
 

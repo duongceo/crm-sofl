@@ -222,7 +222,7 @@ class MY_Table extends MY_Controller {
 
         $input_get_arr = $this->_get_query_condition_arr($get);
 
-//        print_arr($input_get_arr);
+//        print_arr($get);
 
         /* Lấy điều kiện query từ các thao tác lọc, sắp xếp, tìm kiếm */
 
@@ -349,7 +349,18 @@ class MY_Table extends MY_Controller {
 
             }
 
-        }
+        } else {
+
+			if ($this->controller_path == 'staff_managers/class_study') {
+				$this->load->model('notes_model');
+				$input['where'] = array(
+					'class_study_id' => $rows[0]['id']
+				);
+				$rows[0]['notes'] = $this->notes_model->load_all($input);
+			}
+
+		}
+//        print_arr($rows);
 
 		$data['canEdited'] = $canEdited;
 		if ($this->role_id == 6 && $this->controller_path == 'MANAGERS/landingpage' && $this->method == 'show_edit_item') {
@@ -443,7 +454,6 @@ class MY_Table extends MY_Controller {
 							$('.num-hour').text(r_hours);
 							$('.num-minute').text(r_minus);
 							$('.num-second').text(r_seconds);
-			
 						}
 					</script>
 				</div>";
@@ -695,8 +705,6 @@ class MY_Table extends MY_Controller {
 
 					$input_get['or_like']['name'] = $searchStr;
 
-					$input_get['or_like']['code_cross_check'] = $searchStr;
-
 					$input_get['or_like']['email'] = $searchStr;
 
 					$input_get['or_like']['address'] = $searchStr;
@@ -765,14 +773,11 @@ class MY_Table extends MY_Controller {
 
                     $input_get['where_in'][$column_name] = $value;
 
-                }
-
-				if (strpos($key, "filter_arr_") !== FALSE && !empty($value)) {
+                } elseif (strpos($key, "filter_arr_") !== FALSE && !empty($value)) {
 
 					$column_name = substr($key, strlen("filter_arr_"));
 
 					$input_get['where'][$column_name] = $value;
-
 				}
 
                 /*Lọc nhị phân*/
@@ -1003,10 +1008,6 @@ class MY_Table extends MY_Controller {
 			if ($table == 'class_time') {
 				$input['where']['empty'] = '0';
 			}
-
-//			if ($table == 'class_study') {
-//			}
-
 		}
 
 		$table = $this->{$model}->load_all($input);

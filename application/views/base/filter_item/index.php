@@ -36,6 +36,8 @@
 
                             $data['value'] = $value;
 
+//                            print_arr($data);
+
                             $this->load->view('base/filter_item/arr_multi', $data);
 
                             break;

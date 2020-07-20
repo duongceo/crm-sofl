@@ -16,6 +16,8 @@
 
                 <div class="modal-body replace_content_edit_item_modal">
 
+<!--					--><?php //print_arr($row) ?>
+
                     <form method="post" action="<?php echo base_url() . $this->controller_path . '/action_edit_item/' . $row['id']; ?>" class="form_submit">
 
                         <?php
@@ -149,6 +151,8 @@
                                                     break;
 
                                                 case 'custom' :
+
+                                                	$data['notes'] = (isset($row['notes'])) ? $row['notes'] : array();
 
                                                     $this->load->view($this->view_path . '/edit_item/' . $key, $data);
 

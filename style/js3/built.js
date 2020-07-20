@@ -924,9 +924,9 @@ $('th[class^="order_new_"]').on('click', function () {
         return;
     }
 });
-/*
- * Real filter
- */
+
+
+/*Real filter*/
 $(".real_filter").on('change', function () {
     $("#form_item").submit();
 });
@@ -935,10 +935,9 @@ $(".real_filter").on('change', function () {
  * Cố định thanh <thead> và phần search của table
  */
 
-$(function () {
+$(function() {
     $(".table-fixed-head").setFixTable();
 });
-
 
 $(document).on("change", '.toggle-input [name="edit_active"]', function () {
     var active = ($(this).prop('checked')) ? '1' : '0';
@@ -2344,33 +2343,30 @@ $(document).ready(function () {
         myclass = myclass.split(/ /);
         myclass = myclass[0];
         $('input[class^="order_"]').not("input." + myclass).attr('value', '0');
-        if ($("input." + myclass).val() === '0')
-        {
+        if ($("input." + myclass).val() === '0') {
             $("input." + myclass).attr('value', 'ASC').promise().done(
-                    function () {
-                        $("#action_contact").attr("action", "#").attr("method", "GET");
-                        $("#action_contact").submit();
-                    }
+				function () {
+					$("#action_contact").attr("action", "#").attr("method", "GET");
+					$("#action_contact").submit();
+				}
             );
             return;
         }
-        if ($("input." + myclass).val() === 'ASC')
-        {
+        if ($("input." + myclass).val() === 'ASC') {
             $("input." + myclass).val('DESC').promise().done(
-                    function () {
-                        $("#action_contact").attr("action", "#").attr("method", "GET");
-                        $("#action_contact").submit();
-                    }
+				function () {
+					$("#action_contact").attr("action", "#").attr("method", "GET");
+					$("#action_contact").submit();
+				}
             );
             return;
         }
-        if ($("input." + myclass).val() === 'DESC')
-        {
+        if ($("input." + myclass).val() === 'DESC') {
             $("input." + myclass).val('0').promise().done(
-                    function () {
-                        $("#action_contact").attr("action", "#").attr("method", "GET");
-                        $("#action_contact").submit();
-                    }
+				function () {
+					$("#action_contact").attr("action", "#").attr("method", "GET");
+					$("#action_contact").submit();
+				}
             );
             return;
         }
@@ -2430,6 +2426,7 @@ $(function () {
             $(".filter-tbl-1").height($(".filter-tbl-2").height());
         }
     });
+
     $('#collapse-filter').on('hidden.bs.collapse', function () {
         $(this).prev().find(".fa").removeClass("fa-arrow-circle-up").addClass("fa-arrow-circle-down");
     });
@@ -2449,11 +2446,6 @@ $(function () {
         $(".view-detail-contact-by-get-url").remove();
     }
 });
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /*
 $(".send_to_mobile").on('click', function (e) {
@@ -3043,11 +3035,11 @@ $(document).on('click', '.btn-divide-multi-contact-auto', function (e) {
      */
     var contactIdArray = [];
     $('input[type="checkbox"]').each(
-            function () {
-                if ($(this).is(":checked")) {
-                    contactIdArray.push($(this).val());
-                }
-            });
+		function () {
+			if ($(this).is(":checked")) {
+				contactIdArray.push($(this).val());
+			}
+		});
 
     // var sale_id_array = $('#sale_id').val();
     // console.log(sale_id_array);
@@ -3239,6 +3231,47 @@ $(document).on('change', '[name="add_role_id"]', function () {
 
 		success: function (data) {
 			$(".ajax_kpi").html(data);
+		},
+
+		// complete: function () {
+		// 	$('.selectpicker').selectpicker({});
+		// }
+
+	});
+});
+
+$(document).on('change', '[name="add_branch_id"]',  function () {
+	var item_id = $(this).val();
+	// console.log(item_id);return false;
+	$.ajax({
+		url: $('#base_url').val() + 'staff_managers/class_study/get_data_ajax',
+		type: "POST",
+		data: {
+			branch_id: item_id,
+		},
+
+		success: function (data) {
+			$(".ajax_class_study").html(data);
+		},
+
+		complete: function () {
+			$('.selectpicker').selectpicker({});
+		}
+	});
+});
+
+$(document).on('change', '[name="add_language_id"]',  function () {
+	var item_id = $(this).val();
+	// console.log(item_id);return false;
+	$.ajax({
+		url: $('#base_url').val() + 'staff_managers/class_study/get_data_ajax',
+		type: "POST",
+		data: {
+			language_id: item_id,
+		},
+
+		success: function (data) {
+			$(".ajax_level_language").html(data);
 		},
 
 		complete: function () {

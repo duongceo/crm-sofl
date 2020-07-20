@@ -617,7 +617,6 @@ class Link extends MY_Table {
     }
 
 
-
     function get_adset() {
 
         $post = $this->input->post();

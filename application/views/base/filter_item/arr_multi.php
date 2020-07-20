@@ -15,7 +15,6 @@
  */
 
 
-
 $field = isset($value['field']) ? $value['field'] : ($key.'_id');
 
 $field_name = isset($value['field_name']) ? $value['field_name'] : 'name';
@@ -84,11 +83,11 @@ $table_id = isset($value['table_id']) ? $value['table_id'] : 'id';
 
 <tr>
 
-    <td class="text-right"> <?php echo h_find_name_display($key, $this->list_view); ?> ?  </td>
+    <td class="text-right"> <?php echo h_find_name_display($key, $this->list_view); ?> ? </td>
 
     <td>
 
-		<select class="form-control channel_id" name="<?php echo $get_name; ?>[]" multiple="multiple">
+		<select class="form-control item_id" name="<?php echo $get_name; ?>[]" multiple="multiple">
 			<?php
 
 			foreach ($$key as $value) {
@@ -137,7 +136,7 @@ $table_id = isset($value['table_id']) ? $value['table_id'] : 'id';
 
 <script>
 	$(document).ready(function() {
-		$('.channel_id').select2({
+		$('.item_id').select2({
 			placeholder: 'Tìm Kiếm',
 		});
 	});
