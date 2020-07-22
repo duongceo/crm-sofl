@@ -197,7 +197,6 @@ class Marketing extends MY_Table {
 
         $this->data['marketer'] = $this->staffs_model->load_all($input);
 
-
         $this->load->model('courses_model');
 
         $input = array();
@@ -970,9 +969,6 @@ class Marketing extends MY_Table {
             }
         }
 
-
-
-
         if ((!isset($get['filter_date_happen_from']) && !isset($get['filter_date_happen_end'])) || (isset($get['filter_date_happen_from']) && $get['filter_date_happen_from'] == '' && $get['filter_date_happen_end'] == '')) {
             date_default_timezone_set('Asia/Ho_Chi_Minh');
             $startDate = strtotime(date('1-m-Y'));
@@ -1378,8 +1374,8 @@ class Marketing extends MY_Table {
          * - Tính % Me/Re = chi/thu
          * - Tính % com
          * - Com thực nhận = PL1A * %com
-         * 
          */
+
         $input = array();
         $input['select'] = 'id,name,lever';
         $input['where']['role_id'] = 6;
@@ -1697,6 +1693,7 @@ foreach ($marketer as $m_key => $m_value){
 	
 	public function test3() {
 		ini_set('max_execution_time', 3000);
+//		echo ini_set('max_execution_time');
         $this->load->model('contacts_model');
         $this->load->model('landingpage_model');
         $this->load->model('courses_model');
@@ -1714,8 +1711,6 @@ foreach ($marketer as $m_key => $m_value){
 		$input['where']['landingpage_id !='] = '';
 //$input['where']['course_code'] = 'CBSK3002-PC1006';$input['where']['landingpage_id !='] = 248;
         $contact = $this->contacts_model->load_all($input);
-		
-	
 		print_r($contact);
 		
 		

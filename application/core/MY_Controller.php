@@ -477,7 +477,6 @@ class MY_Controller extends CI_Controller {
 
         }
 
-
         //lấy thông tin hiển thị contact đầu, contact cuối và tổng contact
 
         $this->begin_paging = ($total_row == 0) ? 0 : $offset + 1;
@@ -561,7 +560,6 @@ class MY_Controller extends CI_Controller {
 
     }
 
-
     /*
 
      * Hàm lấy data tìm kiếm
@@ -571,8 +569,6 @@ class MY_Controller extends CI_Controller {
      * @return: dữ liệu ocntact tìm kiếm đc
 
      */
-
-
 
     protected function _common_find_all($get, $conditional = '') {
 
@@ -686,7 +682,6 @@ class MY_Controller extends CI_Controller {
 
     }
 
-
     protected function _find_dupliacte_contact($email = '', $phone = '', $class_study_id = '') {
 
         $phone = substr($phone, -9, 9);
@@ -789,8 +784,6 @@ class MY_Controller extends CI_Controller {
 
     }
 
-
-
     /*
 
      * Hàm lấy điều kiện để query khi có biến get từ client truyền lên
@@ -800,8 +793,6 @@ class MY_Controller extends CI_Controller {
      * @return: mảng điều kiện query trong hàm load_all (được viết theo quy tắc ở MY_Model)
 
      */
-
-
 
     protected function _get_query_condition_arr($get) {
 

@@ -139,17 +139,25 @@ class Contact extends CI_Controller {
 
                 'cluster' => 'ap1',
 
-                'encrypted' => true
+                'encrypted' => true,
+
+				'useTLS' => true
 
             );
 
-            $pusher = new Pusher(
+//            $pusher = new Pusher(
+//
+//                '32b339fca68db27aa480', '32f6731ad5d48264c579', '490390', $options
+//
+//            );
 
-                '32b339fca68db27aa480', '32f6731ad5d48264c579', '490390', $options
+			$pusher = new Pusher(
 
-            );
+				'f3c70a5a0960d7b811c9', '2fb574e3cce59e4659ac', '1042224', $options
 
-            $inputMkt = [];
+			);
+
+			$inputMkt = [];
 
             $inputMkt['where'] = array('id' => $marketerId);
 

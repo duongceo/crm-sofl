@@ -359,8 +359,6 @@ function h_caculate_channel_cost($channel_cost) {
 
 }
 
-
-
 function h_caculate_campaign_spend($campaigns) {
 
     $spend = 0;
@@ -374,8 +372,6 @@ function h_caculate_campaign_spend($campaigns) {
     return $spend;
 
 }
-
-
 
 function h_phone_format($phone) {
 

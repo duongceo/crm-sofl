@@ -33,8 +33,7 @@ class Marketer extends MY_Controller {
 		//echo '<pre>'; print_r($data['ad']);die;
 		
 		/*
-         * Điều kiện lấy contact :
-         * contact ở trang chủ là contact đăng kí trong ngày hôm nay
+         * Điều kiện lấy contact : contact ở trang chủ là contact đăng kí trong ngày hôm nay
          */
 
 		$conditional['where'] = array('date_rgt >' => strtotime(date('d-m-Y')), 'marketer_id' => $this->user_id, 'is_hide' => '0');
@@ -61,7 +60,7 @@ class Marketer extends MY_Controller {
          * Các trường cần hiện của bảng contact (đã có default)
          */
 
-		$this->table .= 'adset ads channel date_rgt ordering_stt';
+		$this->table .= 'adset ads channel date_rgt';
 		$data['table'] = explode(' ', $this->table);
 		//echo '<pre>'; print_r($data['table']);die;
 		/*
@@ -86,7 +85,6 @@ class Marketer extends MY_Controller {
 		$data['actionForm'] = 'marketer/note_contact';
 		$data['content'] = 'common/list_contact';
 		$this->load->view(_MAIN_LAYOUT_, $data);
-
     }
 
     function view_all($offset = 0) {

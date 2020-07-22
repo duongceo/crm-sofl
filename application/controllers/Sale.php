@@ -460,7 +460,9 @@ class Sale extends MY_Controller {
 				if(isset($input['ad_id']) && !empty($input['ad_id'])){
 					$param['ad_id'] = $input['ad_id'];
 				}
-				
+
+//				print_arr($param);
+
                 $id = $this->contacts_model->insert_return_id($param, 'id');
 				$id_backup = $this->contacts_backup_model->insert_return_id($param, 'id');
 				
@@ -475,19 +477,26 @@ class Sale extends MY_Controller {
                     $this->load->model('notes_model');
                     $this->notes_model->insert($param2);
                 }
-                $data2 = [];
 
+                $data2 = array();
                 $data2['title'] = 'Có 1 contact mới đăng ký';
                 $data2['message'] = 'Click để xem ngay';
 
-                require_once APPPATH . 'libraries/Pusher.php';
+				require_once APPPATH . 'libraries/Pusher.php';
                 $options = array(
                     'cluster' => 'ap1',
-                    'encrypted' => true
+                    'encrypted' => true,
+					'useTLS' => true
                 );
-                $pusher = new Pusher(
-                        '32b339fca68db27aa480', '32f6731ad5d48264c579', '490390', $options
-                );
+
+//                $pusher = new Pusher(
+//                        '32b339fca68db27aa480', '32f6731ad5d48264c579', '490390', $options
+//                );
+
+				$pusher = new Pusher(
+					'f3c70a5a0960d7b811c9', '2fb574e3cce59e4659ac', '1042224', $options
+				);
+
                 $pusher->trigger('my-channel', 'notice', $data2);
                 show_error_and_redirect('Thêm thành công contact', $input['back_location']);
             }

@@ -17,16 +17,8 @@ class Test2 extends CI_Controller {
     function test_insert() {
 //		echo phpinfo();
 
-		$this->load->model('level_language_model');
-		for ($i=3; $i<7; $i++) {
-			$param = array(
-				'level_code' => 'ONTHI_HSK'.$i,
-				'name' => 'Ôn thi HSK'.$i,
-				'language_id' => 3,
-				'time_created' => time()
-			);
-			$this->level_language_model->insert($param);
-		}
+		ini_set('max_execution_time', 3000);
+		echo ini_set('max_execution_time');
 	}
 	
 	function test14(){
@@ -127,7 +119,7 @@ class Test2 extends CI_Controller {
 		// $array['value'] = $contact_re_buy;
 
 	}
-	
+
     function test13() {
         $input['select'] = 'name,email,phone,date_rgt,course_code,price_purchase,call_status_id,ordering_status_id,cod_status_id,marketer_id,channel_id,source_id';
         $input['where'] = array('date_rgt >' => 1504198800, 'date_rgt <' => 1522515600,'duplicate_id' => '0');

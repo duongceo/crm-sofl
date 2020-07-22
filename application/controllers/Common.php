@@ -580,7 +580,8 @@ class Common extends MY_Controller {
                     'content' => $post['note'],
                     'time' => time(),
                     'sale_id' => $this->user_id,
-                    'contact_code' => $this->contacts_model->get_contact_code($id)
+                    'contact_code' => $this->contacts_model->get_contact_code($id),
+					'class_study_id' => 0
                 );
                 $this->load->model('notes_model');
                 $this->notes_model->insert($param2);
@@ -615,95 +616,95 @@ class Common extends MY_Controller {
     }
 	
 	 //Tạo tài khoản học viên
-    public function create_new_account_student($id) {   
-        $post = $this->input->post();
-        //return $id;
-        if (!empty($post) && isset($id)) {
-            $this->db->select('name, course_code, email, phone, payment_method_rgt');
-            $contacts = $this->contacts_model->find($id);
-			//var_dump($contacts);die;
-			 
-            if (!empty($contacts)) {
-
-                $contact = $contacts[0];
-				
-                switch ($contact['course_code']) {
-                    case 'KT610':
-                        $contact['course_code'] = 'KT240';
-                        break;
-                    case 'KT620':
-                        $contact['course_code'] = 'KT270';
-                        break;
-                    case 'KT630':
-                        $contact['course_code'] = 'KT280';
-                        break;
-                    case 'KT460':
-                        $contact['course_code'] = 'KT290';
-                        break;
-                    default:
-                        break;
-                }
-
-                $this->load->model('courses_model');
-                $contact_s = $this->courses_model->find_course_combo($contact['course_code']);
-                // $courseCode = explode(",", $contact_s);
-                $contact['course_code'] = $contact_s;
-				//var_dump($contact);die;
-                if ($contact['name'] == '' || $contact['phone'] == '') {
-                    $result = [];
-                    $result['success'] = 0;
-                    $result['message'] = 'Contact đã chọn không có tên hoặc số đt hoặc địa chỉ! Vui lòng cập nhật thông tin khách hàng đầy đủ.';
-                    echo json_encode($result);
-                    die;
-                }
-
-                $student = $this->_create_account_student_lakita($contact);
-                // return json_encode($student);
-                if ($student->success != 0) {
-                    $contact['password'] = $student->password;
-					
-					$id_lakita = $student->id_lakita;
-
-                    $where = array('id' => $id);
-
-                    $data = array('send_account_lakita' => 1, 'id_lakita' => $id_lakita, 'date_active' => time());
-
-                    $this->contacts_model->update($where, $data);
-
-                    return $student;
-                    // die(); 
-                } else {
-
-                    $id_lakita = $student->id_lakita;
-
-                    $where = array('id' => $id);
-
-                    $data = array('id_lakita' => $id_lakita);
-
-                    $this->contacts_model->update($where, $data);
-
-                    return $student;
-
-                }
-            }
-
-        }
-    }
+//    public function create_new_account_student($id) {
+//        $post = $this->input->post();
+//        //return $id;
+//        if (!empty($post) && isset($id)) {
+//            $this->db->select('name, course_code, email, phone, payment_method_rgt');
+//            $contacts = $this->contacts_model->find($id);
+//			//var_dump($contacts);die;
+//
+//            if (!empty($contacts)) {
+//
+//                $contact = $contacts[0];
+//
+//                switch ($contact['course_code']) {
+//                    case 'KT610':
+//                        $contact['course_code'] = 'KT240';
+//                        break;
+//                    case 'KT620':
+//                        $contact['course_code'] = 'KT270';
+//                        break;
+//                    case 'KT630':
+//                        $contact['course_code'] = 'KT280';
+//                        break;
+//                    case 'KT460':
+//                        $contact['course_code'] = 'KT290';
+//                        break;
+//                    default:
+//                        break;
+//                }
+//
+//                $this->load->model('courses_model');
+//                $contact_s = $this->courses_model->find_course_combo($contact['course_code']);
+//                // $courseCode = explode(",", $contact_s);
+//                $contact['course_code'] = $contact_s;
+//				//var_dump($contact);die;
+//                if ($contact['name'] == '' || $contact['phone'] == '') {
+//                    $result = [];
+//                    $result['success'] = 0;
+//                    $result['message'] = 'Contact đã chọn không có tên hoặc số đt hoặc địa chỉ! Vui lòng cập nhật thông tin khách hàng đầy đủ.';
+//                    echo json_encode($result);
+//                    die;
+//                }
+//
+//                $student = $this->_create_account_student_lakita($contact);
+//                // return json_encode($student);
+//                if ($student->success != 0) {
+//                    $contact['password'] = $student->password;
+//
+//					$id_lakita = $student->id_lakita;
+//
+//                    $where = array('id' => $id);
+//
+//                    $data = array('send_account_lakita' => 1, 'id_lakita' => $id_lakita, 'date_active' => time());
+//
+//                    $this->contacts_model->update($where, $data);
+//
+//                    return $student;
+//                    // die();
+//                } else {
+//
+//                    $id_lakita = $student->id_lakita;
+//
+//                    $where = array('id' => $id);
+//
+//                    $data = array('id_lakita' => $id_lakita);
+//
+//                    $this->contacts_model->update($where, $data);
+//
+//                    return $student;
+//
+//                }
+//            }
+//
+//        }
+//    }
     //end
 
     //api tạo tài khoản cho học viên
-    private function _create_account_student_lakita($contact) {
-        require_once APPPATH . "libraries/Rest_Client.php";
-        $config = array(
-            'server' => 'https://lakita.vn/',
-            'api_key' => 'RrF3rcmYdWQbviO5tuki3fdgfgr4',
-            'api_name' => 'lakita-key'
-        );
-        $restClient = new Rest_Client($config);
-        $uri = "account_api/create_new_account";
-        $student = $restClient->post($uri, $contact);
-        return $student;
-    }
+//    private function _create_account_student_lakita($contact) {
+//        require_once APPPATH . "libraries/Rest_Client.php";
+//        $config = array(
+//            'server' => 'https://lakita.vn/',
+//            'api_key' => 'RrF3rcmYdWQbviO5tuki3fdgfgr4',
+//            'api_name' => 'lakita-key'
+//        );
+//        $restClient = new Rest_Client($config);
+//        $uri = "account_api/create_new_account";
+//        $student = $restClient->post($uri, $contact);
+//        return $student;
+//    }
     //end
 
     private function _action_edit_by_affiliate($id, $rows) {

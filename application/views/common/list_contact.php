@@ -23,7 +23,7 @@
 
                         <div class="progress skill-bar ">
 
-                            <div class="progress-bar <?php echo getProgressBarClass($team['progress']); ?>" role="progressbar" aria-valuenow="<?php echo $team['progress'] ?>" aria-valuemin="0" aria-valuemax="100">
+                            <div class="progress-bar progress-bar-striped active <?php echo getProgressBarClass($team['progress']); ?>" role="progressbar" aria-valuenow="<?php echo $team['progress'] ?>" aria-valuemin="0" aria-valuemax="100" width="<?php echo $team['progress'].'%' ?>">
 
                                 <span class="skill text-uppercase"> 
 
@@ -132,21 +132,23 @@
 
 								<div class="progress skill-bar ">
 
-									<div class="progress-bar <?php echo getProgressBarClass($marketer['progress']); ?>" role="progressbar" aria-valuenow="<?php echo $marketer['progress'] ?>" aria-valuemin="0" aria-valuemax="100">
+									<div class="progress-bar progress-bar-striped active <?php echo getProgressBarClass($marketer['progress']); ?>" role="progressbar" aria-valuenow="<?php echo $marketer['progress'] ?>" aria-valuemin="0" aria-valuemax="100" style="<?php echo 'width:'.$marketer['progress'].'%' ?>">
 
-                                <span class="skill text-uppercase">
+										<span class="skill text-uppercase">
 
-                                    <?php // echo $marketer['name'] . ' (' . $marketer['totalC3'] . '/' . $marketer['targets'] . ')'; ?>
+											<?php // echo $marketer['name'] . ' (' . $marketer['totalC3'] . '/' . $marketer['targets'] . ')'; ?>
 
-									<?php echo $marketer['progress'] ?>%
+											<?php echo $marketer['progress'] ?>%
 
-                                </span>
+										</span>
 
 									</div>
+
 
 								</div>
 
 							</div>
+
 
 						</div>
 

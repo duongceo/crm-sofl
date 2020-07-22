@@ -324,7 +324,7 @@ class Link extends MY_Table {
 
         );
 
-        parent::show_add_item();
+		parent::show_add_item();
 
     }
 
@@ -684,15 +684,15 @@ class Link extends MY_Table {
 
             $xhml .= '  <td class="text-right">
 
-                            Chọn ad
+				Chọn ad
 
-                        </td>
+			</td>
 
-                        <td>
+			<td>
 
-                            <select class="form-control selectpicker" name="add_ad_id">
+				<select class="form-control selectpicker" name="add_ad_id">
 
-                                <option value="0"> Chọn ad </option>';
+					<option value="0"> Chọn ad </option>';
 
             foreach ($ads as $value) {
 
@@ -700,11 +700,9 @@ class Link extends MY_Table {
 
             }
 
-            $xhml .= '      </select>
+            $xhml .= ' </select>
 
-                        </td>
-
-                      ';
+			</td>';
 
         }
 

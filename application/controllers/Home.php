@@ -16,11 +16,7 @@
 
 class Home extends CI_Controller {
 
-    /*
-
-     * Ham khi khoi tao
-
-     */
+    /*Ham khi khoi tao*/
 
     public function __construct() {
 

@@ -426,9 +426,13 @@ class Manager extends MY_Controller {
                     'cluster' => 'ap1',
                     'encrypted' => true
                 );
-                $pusher = new Pusher(
-                        '32b339fca68db27aa480', '32f6731ad5d48264c579', '490390', $options
-                );
+//                $pusher = new Pusher(
+//                        '32b339fca68db27aa480', '32f6731ad5d48264c579', '490390', $options
+//                );
+				$pusher = new Pusher(
+					'f3c70a5a0960d7b811c9', '2fb574e3cce59e4659ac', '1042224', $options
+				);
+
                 $pusher->trigger('my-channel', 'notice', $data2);
                 $result['success'] = 1;
                 $result['message'] = 'Thêm thành công contact!';

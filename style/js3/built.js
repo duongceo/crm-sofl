@@ -2483,9 +2483,10 @@ $(".btn-export-one-contact-for-send-vnpost").on('click', function (e) {
 });
 
  */
+/* 32b339fca68db27aa480 -- f3c70a5a0960d7b811c9*/
 
 Pusher.logToConsole = true;
-var pusher = new Pusher('32b339fca68db27aa480', {
+var pusher = new Pusher('f3c70a5a0960d7b811c9', {
     cluster: 'ap1',
     encrypted: true
 });
@@ -2493,21 +2494,19 @@ var channel = pusher.subscribe('my-channel');
 channel.bind('notice', function (data) {
     $("#notificate")[0].play();
     n = new Notification(
-            data.title,
-            {
-                body: data.message,
-                icon: $("#base_url").val() + 'public/images/logo2.png',
-                tag: 'https://crm2.lakita.vn/quan-ly/trang-chu.html',
-                sound: $("#base_url").val() + 'public/mp3/new-contact.mp3',
-                image: data.image,
-                "data": data.url || ''
-            });
+		data.title, {
+			body: data.message,
+			icon: $("#base_url").val() + 'public/images/logo2.png',
+			// tag: 'https://crm2.lakita.vn/quan-ly/trang-chu.html',
+			sound: $("#base_url").val() + 'public/mp3/new-contact.mp3',
+			image: data.image,
+			"data": data.url || ''
+		});
     n.onclick = function (e) {
         window.location.href = e.target.data;
     };
 
-    if (($("#input_controller").val() === 'manager' && $("#input_method").val() === 'index')
-            || $("#input_controller").val() === 'marketing' && $("#input_method").val() === 'index') {
+    if (($("#input_controller").val() === 'manager' && $("#input_method").val() === 'index') || $("#input_controller").val() === 'marketer' && $("#input_method").val() === 'index') {
         setTimeout(function () {
             location.reload();
         }, 4000);
@@ -3167,7 +3166,7 @@ $(document).on('change', '[name="add_channel_id"], [name="edit_channel_id"]', fu
         success: function (data) {
             $(".ajax_campaign").html(data);
             $(".ajax_adset").html('');
-            $(".ajax_ad").html('');
+            $(".ajax_ads").html('');
         },
         complete: function () {
             $('.selectpicker').selectpicker({});
@@ -3185,7 +3184,7 @@ $(document).on('change', '[name="add_campaign_id"]', function () {
         },
         success: function (data) {
             $(".ajax_adset").html(data);
-            $(".ajax_ad").html('');
+            $(".ajax_ads").html('');
         },
         complete: function () {
             $('.selectpicker').selectpicker({});
@@ -3203,7 +3202,7 @@ $(document).on('change', '[name="add_adset_id"]', function () {
         },
 
         success: function (data) {
-            $(".ajax_ad").html(data);
+            $(".ajax_ads").html(data);
         },
         complete: function () {
             $('.selectpicker').selectpicker({});
