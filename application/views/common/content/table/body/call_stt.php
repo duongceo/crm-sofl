@@ -1,4 +1,4 @@
-<td class="tbl_call_stt">
+<td class="text-center tbl_call_stt">
     <?php
     if (isset($call_status)) {
         foreach ($call_status as $key2 => $value2) {

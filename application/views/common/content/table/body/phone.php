@@ -1,6 +1,6 @@
 <?php $idCopy = h_generateRandomString();?>
 
-<td class="center tbl_phone btn-copy view_contact_phone" id-copy="<?php echo $idCopy?>"
+<td class="text-center tbl_phone btn-copy view_contact_phone" id-copy="<?php echo $idCopy?>"
 
     data-clipboard-text="<?php echo trim($value['phone']); ?>">
 

@@ -17,7 +17,7 @@
 <tr>
     <td class="text-right">  Mã lớp học </td>
     <td>  
-        <select class="form-control select_course_code course_code_select" name="class_study_id">
+        <select class="form-control course_code_select" name="class_study_id">
             <option value="0"> Chọn mã lớp học </option>
             <?php foreach ($class_study as $key => $value) { ?>
                 <option value="<?php echo $value['class_study_id']; ?>" <?php if ($rows['class_study_id'] == $value['class_study_id']) echo "selected"; ?>>

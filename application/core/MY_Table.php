@@ -170,7 +170,7 @@ class MY_Table extends MY_Controller {
 
         $this->data['load_js'] = array('common_real_filter_contact');
 
-//        $this->_loadCountListContact();
+        $this->_loadCountListContact();
 
     }
     /*
@@ -458,6 +458,16 @@ class MY_Table extends MY_Controller {
 					</script>
 				</div>";
 
+            $branch = $this->get_data_from_model('branch');
+			unset($branch[0]);
+
+            $this->load->model('level_language_model');
+            $input_level['where'] = array(
+            	'active' => 1,
+				'language_id' => $rows[0]['language_id']
+			);
+			$level_language = $this->level_language_model->load_all($input_level);
+
 			$action = 'http://crm.sofl.edu.vn/cam-on-da-dang-ky.html';
 			
             $rows[0]['form_plugin'] = '<div class="widget-content">
@@ -465,12 +475,32 @@ class MY_Table extends MY_Controller {
 					<div class="form-input"><input type="text" required="required" name="name" placeholder="Họ tên *"></div>
 					<div class="form-input"><input type="text" name="email" placeholder="Email *"></div>
 					<div class="form-input"><input type="text" required="required" name="phone" placeholder="Số điện thoại *"></div>
-					<div class="form-input"><input type="text" required="required" name="dia_chi" placeholder="Địa chỉ "></div>
-					<input type="hidden" value="" name="link_id" />
+					<div class="form-input">
+						<select name="branch_id">
+							<option>Chọn cơ sở gần bạn nhất</option>';
+							foreach ($branch as $value) {
+								$rows[0]['form_plugin'] .= "<option value='{$value['id']}'>{$value['name']} : {$value['address']}</option>";
+							}
+			$rows[0]['form_plugin'] .= '</select>
+					</div>';
+
+			$rows[0]['form_plugin'] .= '<div class="form-input">
+				<select name="level_language_id" required="required">
+					<option>Chọn học mà bạn quan tâm</option>';
+
+					foreach ($level_language as $value) {
+						$rows[0]['form_plugin'] .= "<option value='{$value['id']}'>{$value['name']}</option>";
+					}
+					
+			$rows[0]['form_plugin'] .= '</select>
+					</div>';
+
+			$rows[0]['form_plugin'] .= '<input type="hidden" value="" name="link_id" />
 					<input type="hidden" value="'.$rows[0]['code'].'" name="code_landingpage" />
-					<div class="btn-submit e_btn_submit"><button type="submit">ĐĂNG KÝ NGAY</button></div>
+					<div class="form-input"><input type="text" name="source_id" placeholder="Không bắt buộc"></div>
+					<div class="btn-submit e_btn_submit"><button type="submit">ĐĂNG KÝ TƯ VẤN NGAY</button></div>
 				</form>
-	
+
 				<style>
 					.form-border-white input[type="text"] {
 						width: 100%;
@@ -506,7 +536,7 @@ class MY_Table extends MY_Controller {
 						color: #ffe305;
 						text-decoration: none;
 						font-size: 24px;
-						background: #f7250e;
+						background: #c9302c;
 						width: 100%;
 						border-radius: 5px;
 						line-height: 45px;
@@ -520,7 +550,7 @@ class MY_Table extends MY_Controller {
 					}
 					.form-border-white .form-input {
 						background: #fff;
-						border-radius: 5px;
+						border-radius: 20px;
 						margin-bottom: 10px;
 						padding: 0 20px;
 						border: solid 2px #9da0a5;
@@ -876,6 +906,8 @@ class MY_Table extends MY_Controller {
 
         $input['where']['is_hide'] = '0';
 
+		$input['where']['marketer_id'] = $this->user_id;
+
         $this->L['C3'] = count($this->contacts_model->load_all($input));
 
         $input = array();
@@ -883,6 +915,8 @@ class MY_Table extends MY_Controller {
         $input['select'] = 'id';
 
         $input['where']['is_hide'] = '0';
+
+		$input['where']['marketer_id'] = $this->user_id;
 
         $this->L['all'] = count($this->contacts_model->load_all($input));
 

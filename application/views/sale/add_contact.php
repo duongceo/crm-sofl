@@ -6,7 +6,7 @@
     <?php echo validation_errors(); ?>
     <div class="row">
         <div class="col-md-7 col-md-offset-1">
-            <h3 class="text-center marginbottom20"> Thêm mới contact </h3>
+            <h3 class="text-center marginbottom20"> Thêm mới 1 contact </h3>
             <form method="post" action="<?php echo base_url('sale/add_contact'); ?>">
                 <div class="form-group">
                     <div class="row">
@@ -30,7 +30,7 @@
                             Email
                         </div>
                         <div class="col-md-8">
-                            <input type="email" class="form-control" name="email" value="
+                            <input type="email" class="form-control" placeholder="Email" name="email" value="
                             <?php if (isset($_GET['email'])) {
 								echo $_GET['email'];
 							} else {
@@ -57,30 +57,85 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-md-4 text-right">
-                            Địa chỉ
-                        </div>
-                        <div class="col-md-8">
-                            <input type="text" class="form-control" placeholder="Địa chỉ" name="address" value="
-                            <?php if (isset($_GET['address'])) {
-								echo $_GET['address'];
-							} else {
-								echo set_value('address');
-							} ?>
-							"/>
-                        </div>
-                    </div>
-                </div>
+<!--                <div class="form-group">-->
+<!--                    <div class="row">-->
+<!--                        <div class="col-md-4 text-right">-->
+<!--                            Địa chỉ-->
+<!--                        </div>-->
+<!--                        <div class="col-md-8">-->
+<!--                            <input type="text" class="form-control" placeholder="Địa chỉ" name="address" value="-->
+<!--                            --><?php //if (isset($_GET['address'])) {
+//								echo $_GET['address'];
+//							} else {
+//								echo set_value('address');
+//							} ?>
+<!--							"/>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+				<div class="form-group">
+					<div class="row">
+						<div class="col-md-4 text-right">
+							Cơ sở
+						</div>
+						<div class="col-md-8">
+							<select class="form-control" name="branch_id">
+								<option value="0"> Chọn cơ sở </option>
+								<?php foreach ($branch as $key => $value) { ?>
+									<option value="<?php echo $value['id']; ?>">
+										<?php echo $value['name'] . ' - ' . $value['address']; ?>
+									</option>
+								<?php } ?>
+							</select>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="row">
+						<div class="col-md-4 text-right">
+							Ngoại ngữ
+						</div>
+						<div class="col-md-8">
+							<select class="form-control" name="language_id">
+								<option value="0"> Ngoại ngữ </option>
+								<?php foreach ($language_study as $value) { ?>
+									<option value="<?php echo $value['id']; ?>">
+										<?php echo $value['name']?>
+									</option>
+								<?php } ?>
+							</select>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="row">
+						<div class="col-md-4 text-right">
+							Trình độ ngoại ngữ
+						</div>
+						<div class="col-md-8">
+							<select class="form-control" name="level_language_id">
+								<option value="0"> Trình độ </option>
+								<?php foreach ($level_language as $value) { ?>
+									<option value="<?php echo $value['id']; ?>">
+										<?php echo $value['name']?>
+									</option>
+								<?php } ?>
+							</select>
+						</div>
+					</div>
+				</div>
 
                 <div class="form-group">
                     <div class="row">
                         <div class="col-md-4 text-right">
-                            Mã lớp học
+                            Mã lớp học (Nếu có)
                         </div>
                         <div class="col-md-8">
-							<select class="form-control select_course" name="class_study_id" multiple="multiple">
+							<select class="form-control select_course" name="class_study_id">
+								<option value="">Mã lớp học</option>
 								<?php foreach ($class_study as $value) { ?>
 									<option value="<?php echo $value['class_study_id']; ?>">
 										<?php echo $value['class_study_id'] . ' -- ' . $value['name_class'] .''; ?>
@@ -119,7 +174,7 @@
                         </div>
                         <div class="col-md-8">
                             <select class="form-control" name="channel_id">
-								<option value="">Chọn kênh quảng cáo</option>
+								<option value="2">Facebook Ads</option>
                                <?php foreach($channel as $value) { ?>
 							   <option value="<?php echo $value['id']; ?>"><?php echo $value['name']; ?></option>
 							   <?php } ?>
@@ -182,21 +237,20 @@
                         </div>
                     </div>
                 </div>
-				 <?php } ?>
+			<?php } ?>
 
                 <div class="form-group">
                     <div class="row">
                         <div class="col-md-4 text-right">
-                            Hình thức mua
+                            Hình thức thanh toán
                         </div>
                         <div class="col-md-8">
-                            <select class="form-control" name="payment_method_rgt">
-                                <option value="1"> Thanh toán bằng tiền mặt </option>
-                                <option value="2"> Chuyển khoản </option>
-                                <option value="3"> ATM </option>
-<!--                                <option value="4"> Thanh toán trực tiếp </option>-->
-                                <option value="5"> VISA </option>
-                            </select>
+							<select class="form-control" name="payment_method_rgt">
+								<option value="1">Thanh toán trực tiếp</option>
+								<?php foreach($payment_method_rgt as $value) { ?>
+									<option value="<?php echo $value['id']; ?>"><?php echo $value['method']; ?></option>
+								<?php } ?>
+							</select>
                         </div>
                     </div>
                 </div>
@@ -247,8 +301,7 @@
 <!--                        </div>-->
 <!--                    </div>-->
 <!--                </div>-->
-				
-				
+
                 <div class="form-group">
                     <div class="row">
                         <div class="col-md-4 text-right">

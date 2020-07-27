@@ -2414,15 +2414,13 @@ $(function () {
      */
 	if($('#input_controller').val() == 'affiliate'){
 		$('#collapse-filter').show();
-	} 
+	}
 	 
     $('#collapse-filter').on('shown.bs.collapse', function () {
         $(this).prev().find(".fa").removeClass("fa-arrow-circle-down").addClass("fa-arrow-circle-up");
-        if ($(".filter-tbl-1").height() > $(".filter-tbl-2").height())
-        {
+        if ($(".filter-tbl-1").height() > $(".filter-tbl-2").height()) {
             $(".filter-tbl-2").height($(".filter-tbl-1").height());
-        } else
-        {
+        } else {
             $(".filter-tbl-1").height($(".filter-tbl-2").height());
         }
     });

@@ -103,16 +103,16 @@ class Common extends MY_Controller {
 
         if ($this->role_id == 1) {  //sale
             $left_edit = array(
-                'contact_id' => 'view',
+//                'contact_id' => 'view',
                 'name' => 'edit',
                 'email' => 'edit',
                 'phone' => 'edit',
-                'address' => 'edit',
+				'branch' => 'edit',
+				'level_language' => 'edit',
+//                'address' => 'edit',
                 'class_study_id' => 'edit',
                 'fee' => 'edit',
                 'paid' => 'edit',
-                'date_rgt' => 'view',
-
             );
             $right_edit = array(
                 'payment_method_rgt' => 'edit',
@@ -122,10 +122,10 @@ class Common extends MY_Controller {
                 'date_recall' => 'edit',
 //                'send_banking_info' => 'edit',
                 'note' => 'edit',
+				'date_rgt' => 'view',
 				'date_handover' => 'view',
 				'date_last_calling' => 'view',
 				'date_confirm' => 'view',
-
             );
         }
 
@@ -135,7 +135,7 @@ class Common extends MY_Controller {
 //                'name' => 'edit',
 //                'email' => 'view',
 //                'phone' => 'edit',
-//				'is_black' => 'edit',
+//				  'is_black' => 'edit',
 //                'address' => 'edit',
 //                'course_code' => 'view',
 //                'price_purchase' => 'edit',
@@ -180,9 +180,10 @@ class Common extends MY_Controller {
                 'note' => 'edit',
 				'date_customer_care_handover' => 'view',
 				'date_customer_care_call' => 'view',
-				'date_last_calling' => 'view',
+//				'date_last_calling' => 'view',
             );
         }
+
 //		if ($this->role_id == 13) { //affiliate
 //			$left_edit = array(
 //				'contact_id' => 'view',
@@ -235,7 +236,7 @@ class Common extends MY_Controller {
             die;
         }
 
-        if ($this->role_id == 1 && $rows[0]['sale_staff_id'] != $this->user_id && $this->user_id != 141) {
+        if ($this->role_id == 1 && $rows[0]['sale_staff_id'] != $this->user_id) {
             $result['success'] = 0;
             $result['message'] = 'Contact này không được phân cho bạn!';
             echo json_encode($result);
@@ -259,11 +260,12 @@ class Common extends MY_Controller {
 			die;
 		}
 
-        $require_model = array(
-            'staffs' => array(),
+		$require_model = array(
+//            'staffs' => array(),
             'class_study' => array(
                 'order' => array('class_study_id' => 'ASC')
             ),
+            'branch' => array(),
             'notes' => array(
                 //'where' => array('contact_code' => $contact_code),
 				'where' => array('contact_id' => $contact_id),
@@ -277,14 +279,23 @@ class Common extends MY_Controller {
 				'order' => array('level_id' => 'ASC'),
 				'where' => array('parent_id' => ''),
 			),
+            'level_language' => array(
+            	'where' => array('language_id' => $rows[0]['language_id'])
+			),
             'call_status' => array(
                 'order' => array('sort' => 'ASC')
             ),
-            'ordering_status' => array(
-                'order' => array('sort' => 'ASC')
-            ),
+//            'ordering_status' => array(
+//                'order' => array('sort' => 'ASC')
+//            ),
             'payment_method_rgt' => array(),
         );
+
+		if ($rows[0]['level_contact_id'] != '') {
+			$this->load->model('level_contact_model');
+			$rows[0]['level_contact_name'] = $this->level_contact_model->get_name_from_level($rows[0]['level_contact_id']);
+		}
+
         $data = $this->_get_require_data($require_model);
 
         $data['view_edit_left'] = $left_edit;
@@ -331,6 +342,7 @@ class Common extends MY_Controller {
         $data['call_logs'] = $this->call_log_model->load_all_call_log($input_call_log);
 
         $data['rows'] = $rows[0];
+//        print_arr($data);
 //		$data['action_url'] = 'common/action_edit_contact/' . $id;
         $result['success'] = 1;
         $result['message'] = $this->load->view('common/modal/edit_contact', $data, true);
@@ -490,7 +502,7 @@ class Common extends MY_Controller {
             $post = $this->input->post();
 //			print_arr($post);
             $param = array();
-            $post_arr = array('name', 'email', 'phone', 'address', 'class_study_id', 'fee', 'paid', 'payment_method_rgt', 'call_status_id');
+            $post_arr = array('name', 'email', 'phone', 'branch_id', 'class_study_id', 'level_language_id', 'fee', 'paid', 'payment_method_rgt', 'call_status_id');
 
             foreach ($post_arr as $value) {
                 if (isset($post[$value])) {
@@ -542,25 +554,26 @@ class Common extends MY_Controller {
             if (in_array($param['level_contact_id'], $level_success)) {
                 $param['date_confirm'] = time();
 
-                $input = [];
-                $input['where'] = array('id' => $this->user_id);
-                $thisSale = $this->staffs_model->load_all($input);
+//                $input = [];
+//                $input['where'] = array('id' => $this->user_id);
+//                $thisSale = $this->staffs_model->load_all($input);
+//
+//                $inputPush = [];
+//                $inputPush['select'] = 'id';
+//                $inputPush['where'] = array('sale_staff_id' => $this->user_id, 'date_confirm >' => strtotime(date('d-m-Y')), 'is_hide' => '0');
+//                $today = $this->contacts_model->load_all($inputPush);
+//                $totalL5 = count($today) + 1;
+//
+//                $dataPush['title'] = "L5 số " . $totalL5 . " của " . $thisSale[0]['short_name'] . " hôm nay";
+//
+//                if ($totalL5 < $thisSale[0]['targets']) {
+//                    $dataPush['message'] = "Bạn còn " . ($thisSale[0]['targets'] - $totalL5) . " L6 nữa là đạt mục tiêu hôm nay!";
+//                }
+//                if ($totalL5 > $thisSale[0]['targets']) {
+//                    $dataPush['message'] = "Xin chúc mừng, bạn đã vượt mục tiêu hôm nay. Cố gắng phát huy bạn nhé <3 <3 <3";
+//                }
 
-                $inputPush = [];
-                $inputPush['select'] = 'id';
-                $inputPush['where'] = array('sale_staff_id' => $this->user_id, 'date_confirm >' => strtotime(date('d-m-Y')), 'is_hide' => '0');
-                $today = $this->contacts_model->load_all($inputPush);
-                $totalL5 = count($today) + 1;
-
-                $dataPush['title'] = "L5 số " . $totalL5 . " của " . $thisSale[0]['short_name'] . " hôm nay";
-
-                if ($totalL5 < $thisSale[0]['targets']) {
-                    $dataPush['message'] = "Bạn còn " . ($thisSale[0]['targets'] - $totalL5) . " L6 nữa là đạt mục tiêu hôm nay!";
-                }
-                if ($totalL5 > $thisSale[0]['targets']) {
-                    $dataPush['message'] = "Xin chúc mừng, bạn đã vượt mục tiêu hôm nay. Cố gắng phát huy bạn nhé <3 <3 <3";
-                }
-
+				$dataPush['message'] = 'Yeah Yeah !!';
                 $dataPush['success'] = '1';
 				
 				 //Tạo tài khoản tự động cho học viên
@@ -569,6 +582,8 @@ class Common extends MY_Controller {
             } else {
                 $param['date_confirm'] = 0;
             }
+
+//            print_arr($param);
 			
             $param['last_activity'] = time();
             $where = array('id' => $id);
@@ -587,8 +602,8 @@ class Common extends MY_Controller {
                 $this->notes_model->insert($param2);
             }
 			
-			$this->load->model('call_log_model');
-			$input_log['where'] = array('contact_id' => $id);
+//			$this->load->model('call_log_model');
+//			$input_log['where'] = array('contact_id' => $id);
 //			if (empty($this->call_log_model->load_all($input_log))) {
 //				$result['new'] = 1;
 //			}
@@ -602,11 +617,17 @@ class Common extends MY_Controller {
 
             $options = array(
                 'cluster' => 'ap1',
-                'encrypted' => true
+                'encrypted' => true,
+				'useTLS' => true
             );
-            $pusher = new Pusher(
-                    '32b339fca68db27aa480', '32f6731ad5d48264c579', '490390', $options
-            );
+
+//            $pusher = new Pusher(
+//                    '32b339fca68db27aa480', '32f6731ad5d48264c579', '490390', $options
+//            );
+
+			$pusher = new Pusher(
+				'f3c70a5a0960d7b811c9', '2fb574e3cce59e4659ac', '1042224', $options
+			);
 
             $dataPush['image'] = $this->staffs_model->GetStaffImage($this->user_id);
             $pusher->trigger('my-channel', 'callLog', $dataPush);
@@ -707,188 +728,186 @@ class Common extends MY_Controller {
 //    }
     //end
 
-    private function _action_edit_by_affiliate($id, $rows) {
-    	$result = array();
-        $edited_contact = ($rows[0]['cod_status_id'] == 3 || $rows[0]['cod_status_id'] == 4)?false:true;
-        if (!$edited_contact) {
-            $result['success'] = 0;
-            $result['message'] = 'Contact này ở trạng thái không thể chăm sóc được nữa, vì vậy bạn không có quyền chăm sóc contact này nữa!';
-            echo json_encode($result);
-            die;
-        }
-        if (!empty($this->input->post())) {
-
-            /*
-             * Thông báo số L6 gọi đc
-             */
-
-            $post = $this->input->post();
-            $param = array();
-            $post_arr = array('name', 'email', 'address', 'course_code', 'phone',
-                'price_purchase', 'payment_method_rgt', 'source_sale_id', 'call_status_id',
-                'ordering_status_id', 'note_cod', 'script','provider_id', 'reason_id', 'cod_status_id', 'code_cross_check','weight_envelope', 'cod_fee', 'fee_resend', 'date_expect_receive_cod');
-
-            foreach ($post_arr as $value) {
-                if (isset($post[$value])) {
-                    $param[$value] = $post[$value];
-                }
-            }
-
-            // echo "<pre>";print_r($param);die();
-            $param['date_last_calling'] = time();
-            $param['date_recall'] = (isset($post['date_recall']) && $post['date_recall'] != '') ? strtotime($post['date_recall']) : 0;
-            $param['date_expect_receive_cod'] = (isset($post['date_expect_receive_cod']) && $post['date_expect_receive_cod'] != '') ? strtotime($post['date_expect_receive_cod']) : 0;
-
-            if ($param['date_expect_receive_cod'] > 0 && $param['ordering_status_id'] != _DONG_Y_MUA_) {
-                $result['success'] = 0;
-                $result['message'] = 'Contact đồng ý mua mới có ngày dự kiến giao hàng!';
-                echo json_encode($result);
-                die;
-            }
-            /* Kiểm tra điều kiện các trạng thái và ngày hẹn gọi lại có logic ko */
-            if (isset($post['call_status_id']) && $post['call_status_id'] == '0') {
-                $result['success'] = 0;
-                $result['message'] = 'Bạn phải cập nhật trạng thái cuộc gọi!';
-                echo json_encode($result);
-                die;
-            }
-            if (isset($post['course_code']) && $post['course_code'] == '0') {
-                $result['success'] = 0;
-                $result['message'] = 'Bạn phải chọn mã khóa học!';
-                echo json_encode($result);
-                die;
-            }
-            if (isset($post['price_purchase']) && $post['price_purchase'] == '') {
-                $result['success'] = 0;
-                $result['message'] = 'Bạn phải cập nhật giá tiền mua!';
-                echo json_encode($result);
-                die;
-            }
-            if (isset($post['note_cod']) && $post['note_cod'] != '' && $post['ordering_status_id'] != _DONG_Y_MUA_) {
-                $result['success'] = 0;
-                $result['message'] = 'Chỉ contact nào đồng ý mua mới có ghi chú khi giao hàng!';
-                echo json_encode($result);
-                die;
-            }
-//            if (isset($post['provider_id'])) {
-//                if ($post['provider_id'] > 0 && $post['ordering_status_id'] != _DONG_Y_MUA_) {
-//                    $result['success'] = 0;
-//                    $result['message'] = 'Chỉ contact đồng ý mua mới có đơn vị giao hàng!';
-//                    echo json_encode($result);
-//                    die;
-//                } else if ($post['provider_id'] == 0 && $post['ordering_status_id'] == _DONG_Y_MUA_) {
-//                    $result['success'] = 0;
-//                    $result['message'] = 'Bạn cần chọn đơn vị giao hàng!';
-//                    echo json_encode($result);
-//                    die;
-//                } else {
-//                    $param['provider_id'] = $post['provider_id'];
+//    private function _action_edit_by_affiliate($id, $rows) {
+//    	$result = array();
+//        $edited_contact = ($rows[0]['cod_status_id'] == 3 || $rows[0]['cod_status_id'] == 4)?false:true;
+//        if (!$edited_contact) {
+//            $result['success'] = 0;
+//            $result['message'] = 'Contact này ở trạng thái không thể chăm sóc được nữa, vì vậy bạn không có quyền chăm sóc contact này nữa!';
+//            echo json_encode($result);
+//            die;
+//        }
+//        if (!empty($this->input->post())) {
+//
+//            /*
+//             * Thông báo số L6 gọi đc
+//             */
+//
+//            $post = $this->input->post();
+//            $param = array();
+//            $post_arr = array('name', 'email', 'address', 'course_code', 'phone',
+//                'price_purchase', 'payment_method_rgt', 'source_sale_id', 'call_status_id',
+//                'ordering_status_id', 'note_cod', 'script','provider_id', 'reason_id', 'cod_status_id', 'code_cross_check','weight_envelope', 'cod_fee', 'fee_resend', 'date_expect_receive_cod');
+//
+//            foreach ($post_arr as $value) {
+//                if (isset($post[$value])) {
+//                    $param[$value] = $post[$value];
 //                }
 //            }
-
-            $check_rule = $this->_check_rule($param['call_status_id'], $param['ordering_status_id'], $param['date_recall']);
-
-            if ($check_rule == false) {
-                $result['success'] = 0;
-                $result['message'] = 'Trạng thái gọi và trạng thái đơn hàng không logic!';
-                echo json_encode($result);
-                die;
-            }
-
-            if ($post['ordering_status_id'] == _DONG_Y_MUA_) {
-                $param['date_confirm'] = time();
-                if ($post['date_expect_receive_cod'] != '' && strtotime($post['date_expect_receive_cod']) < time()) {
-                    $result['success'] = 0;
-                    $result['message'] = 'Ngày dự kiến giao hàng không thể là quá khứ! Mã lỗi 69874514';
-                    echo json_encode($result);
-                    die;
-                }
-
-				 //Tạo tài khoản tự động cho học viên
-//                    $acc = $this->create_new_account_student(trim($id));
-
-            } else {
-                $param['date_confirm'] = 0;
-            }
-			
-			$cod_status_id = $post['cod_status_id'];
-            if ($cod_status_id > 1) {
-                if(($cod_status_id == 2 || $cod_status_id == 3)){
-                    $input = array();
-                    $input['select'] = 'customer_care_staff_id';
-                    $input['where']['id'] = $id;
-                    $da_phan_cham_soc = $this->contacts_model->load_all($input);
-                    if($da_phan_cham_soc[0]['customer_care_staff_id'] != ''){
-                        $param['customer_care_staff_id'] = $this->_get_customer_care_id_auto();
-                        $param['date_customer_care_handover'] = time();
-                        
-                    }
-                }
-                switch ($cod_status_id) {
-                    case 2:
-                        //đã thu COD
-                        //$receiveCOD[] = $rows[0]['contact_id'];
-                        $param['date_receive_cod'] = time();
-                        $param['date_expect_receive_cod'] = '0';
-                        $param['date_recall'] = 0;
-                        break;
-                    case 3:
-                        //dã thu lakita
-                        // $receiveCOD[] = $rows[0]['contact_id'];
-                        $param['date_receive_lakita'] = time();
-                        $param['date_expect_receive_cod'] = '0';
-                        $param['date_recall'] = 0;
-                        break;
-                    case 4:
-                        //hủy đơn
-                        $param['date_receive_cancel_cod'] = time();
-                        $param['date_expect_receive_cod'] = '0';
-                        $param['date_recall'] = 0;
-                        break;
-                }
-            } else {
-                $param['date_receive_cod'] = 0;
-                $param['date_receive_lakita'] = 0;
-                $param['date_receive_cancel_cod'] = 0;
-            }
-			
-            $param['last_activity'] = time();
-            $where = array('id' => $id);
-            $this->contacts_model->update($where, $param);
-			
-            if ($post['note'] != '') {
-                $param2 = array(
-                    'contact_id' => $id,
-                    'content' => $post['note'],
-                    'time_created' => time(),
-                    'sale_id' => $this->user_id,
-                    'contact_code' => $this->contacts_model->get_contact_code($id)
-                );
-                $this->load->model('notes_model');
-                $this->notes_model->insert($param2);
-            }
-
-            $this->_set_call_log($id, $post, $rows); 
-			
-			/*
-			if (($post['ordering_status_id'] != _DONG_Y_MUA_ && $post['call_status_id'] != PAYMENT_METHOD_COD) || ($post['ordering_status_id'] == _DONG_Y_MUA_ && $post['call_status_id'] != PAYMENT_METHOD_COD)) {
-
-                $result['success'] = 1;
-                $result['role'] = 1;
-                $result['message'] = 'Chăm sóc thành công contact!';
-                echo json_encode($result);
-            } */
-			
-            $result['success'] = 1;
-            $result['role'] = 13;
-            $result['message'] = 'Chăm sóc thành công contact!';
-            echo json_encode($result);
-
-    
-
-            die;
-        }
-    }
+//
+//            // echo "<pre>";print_r($param);die();
+//            $param['date_last_calling'] = time();
+//            $param['date_recall'] = (isset($post['date_recall']) && $post['date_recall'] != '') ? strtotime($post['date_recall']) : 0;
+//            $param['date_expect_receive_cod'] = (isset($post['date_expect_receive_cod']) && $post['date_expect_receive_cod'] != '') ? strtotime($post['date_expect_receive_cod']) : 0;
+//
+//            if ($param['date_expect_receive_cod'] > 0 && $param['ordering_status_id'] != _DONG_Y_MUA_) {
+//                $result['success'] = 0;
+//                $result['message'] = 'Contact đồng ý mua mới có ngày dự kiến giao hàng!';
+//                echo json_encode($result);
+//                die;
+//            }
+//            /* Kiểm tra điều kiện các trạng thái và ngày hẹn gọi lại có logic ko */
+//            if (isset($post['call_status_id']) && $post['call_status_id'] == '0') {
+//                $result['success'] = 0;
+//                $result['message'] = 'Bạn phải cập nhật trạng thái cuộc gọi!';
+//                echo json_encode($result);
+//                die;
+//            }
+//            if (isset($post['course_code']) && $post['course_code'] == '0') {
+//                $result['success'] = 0;
+//                $result['message'] = 'Bạn phải chọn mã khóa học!';
+//                echo json_encode($result);
+//                die;
+//            }
+//            if (isset($post['price_purchase']) && $post['price_purchase'] == '') {
+//                $result['success'] = 0;
+//                $result['message'] = 'Bạn phải cập nhật giá tiền mua!';
+//                echo json_encode($result);
+//                die;
+//            }
+//            if (isset($post['note_cod']) && $post['note_cod'] != '' && $post['ordering_status_id'] != _DONG_Y_MUA_) {
+//                $result['success'] = 0;
+//                $result['message'] = 'Chỉ contact nào đồng ý mua mới có ghi chú khi giao hàng!';
+//                echo json_encode($result);
+//                die;
+//            }
+////            if (isset($post['provider_id'])) {
+////                if ($post['provider_id'] > 0 && $post['ordering_status_id'] != _DONG_Y_MUA_) {
+////                    $result['success'] = 0;
+////                    $result['message'] = 'Chỉ contact đồng ý mua mới có đơn vị giao hàng!';
+////                    echo json_encode($result);
+////                    die;
+////                } else if ($post['provider_id'] == 0 && $post['ordering_status_id'] == _DONG_Y_MUA_) {
+////                    $result['success'] = 0;
+////                    $result['message'] = 'Bạn cần chọn đơn vị giao hàng!';
+////                    echo json_encode($result);
+////                    die;
+////                } else {
+////                    $param['provider_id'] = $post['provider_id'];
+////                }
+////            }
+//
+//            $check_rule = $this->_check_rule($param['call_status_id'], $param['ordering_status_id'], $param['date_recall']);
+//
+//            if ($check_rule == false) {
+//                $result['success'] = 0;
+//                $result['message'] = 'Trạng thái gọi và trạng thái đơn hàng không logic!';
+//                echo json_encode($result);
+//                die;
+//            }
+//
+//            if ($post['ordering_status_id'] == _DONG_Y_MUA_) {
+//                $param['date_confirm'] = time();
+//                if ($post['date_expect_receive_cod'] != '' && strtotime($post['date_expect_receive_cod']) < time()) {
+//                    $result['success'] = 0;
+//                    $result['message'] = 'Ngày dự kiến giao hàng không thể là quá khứ! Mã lỗi 69874514';
+//                    echo json_encode($result);
+//                    die;
+//                }
+//
+//				 //Tạo tài khoản tự động cho học viên
+////                    $acc = $this->create_new_account_student(trim($id));
+//
+//            } else {
+//                $param['date_confirm'] = 0;
+//            }
+//
+//			$cod_status_id = $post['cod_status_id'];
+//            if ($cod_status_id > 1) {
+//                if(($cod_status_id == 2 || $cod_status_id == 3)){
+//                    $input = array();
+//                    $input['select'] = 'customer_care_staff_id';
+//                    $input['where']['id'] = $id;
+//                    $da_phan_cham_soc = $this->contacts_model->load_all($input);
+//                    if($da_phan_cham_soc[0]['customer_care_staff_id'] != ''){
+//                        $param['customer_care_staff_id'] = $this->_get_customer_care_id_auto();
+//                        $param['date_customer_care_handover'] = time();
+//
+//                    }
+//                }
+//                switch ($cod_status_id) {
+//                    case 2:
+//                        //đã thu COD
+//                        //$receiveCOD[] = $rows[0]['contact_id'];
+//                        $param['date_receive_cod'] = time();
+//                        $param['date_expect_receive_cod'] = '0';
+//                        $param['date_recall'] = 0;
+//                        break;
+//                    case 3:
+//                        //dã thu lakita
+//                        // $receiveCOD[] = $rows[0]['contact_id'];
+//                        $param['date_receive_lakita'] = time();
+//                        $param['date_expect_receive_cod'] = '0';
+//                        $param['date_recall'] = 0;
+//                        break;
+//                    case 4:
+//                        //hủy đơn
+//                        $param['date_receive_cancel_cod'] = time();
+//                        $param['date_expect_receive_cod'] = '0';
+//                        $param['date_recall'] = 0;
+//                        break;
+//                }
+//            } else {
+//                $param['date_receive_cod'] = 0;
+//                $param['date_receive_lakita'] = 0;
+//                $param['date_receive_cancel_cod'] = 0;
+//            }
+//
+//            $param['last_activity'] = time();
+//            $where = array('id' => $id);
+//            $this->contacts_model->update($where, $param);
+//
+//            if ($post['note'] != '') {
+//                $param2 = array(
+//                    'contact_id' => $id,
+//                    'content' => $post['note'],
+//                    'time_created' => time(),
+//                    'sale_id' => $this->user_id,
+//                    'contact_code' => $this->contacts_model->get_contact_code($id)
+//                );
+//                $this->load->model('notes_model');
+//                $this->notes_model->insert($param2);
+//            }
+//
+//            $this->_set_call_log($id, $post, $rows);
+//
+//			/*
+//			if (($post['ordering_status_id'] != _DONG_Y_MUA_ && $post['call_status_id'] != PAYMENT_METHOD_COD) || ($post['ordering_status_id'] == _DONG_Y_MUA_ && $post['call_status_id'] != PAYMENT_METHOD_COD)) {
+//
+//                $result['success'] = 1;
+//                $result['role'] = 1;
+//                $result['message'] = 'Chăm sóc thành công contact!';
+//                echo json_encode($result);
+//            } */
+//
+//            $result['success'] = 1;
+//            $result['role'] = 13;
+//            $result['message'] = 'Chăm sóc thành công contact!';
+//            echo json_encode($result);
+//
+//            die;
+//        }
+//    }
 
     private function _action_edit_by_customer_care($id, $rows) {
         $result = array();
@@ -958,11 +977,17 @@ class Common extends MY_Controller {
 
             $options = array(
                 'cluster' => 'ap1',
-                'encrypted' => true
+                'encrypted' => true,
+				'useTLS' => true
             );
-            $pusher = new Pusher(
-                    '32b339fca68db27aa480', '32f6731ad5d48264c579', '490390', $options
-            );
+
+//            $pusher = new Pusher(
+//                    '32b339fca68db27aa480', '32f6731ad5d48264c579', '490390', $options
+//            );
+
+			$pusher = new Pusher(
+				'f3c70a5a0960d7b811c9', '2fb574e3cce59e4659ac', '1042224', $options
+			);
 
             $dataPush['image'] = $this->staffs_model->GetStaffImage($this->user_id);
             $pusher->trigger('my-channel', 'callLog', $dataPush);
@@ -1223,7 +1248,7 @@ class Common extends MY_Controller {
         }
     }
 
-    private function _check_cod_stt_avalid($cod_status_id, $cur_cod_status_id) {
+//    private function _check_cod_stt_avalid($cod_status_id, $cur_cod_status_id) {
 //        if ($cur_cod_status_id == 1 && $cod_status_id < 1) {
 //            $error = 'Vui lòng cập nhật trạng thái giao COD';
 //            show_error_and_redirect($error, base_url('error'));
@@ -1232,55 +1257,55 @@ class Common extends MY_Controller {
 //            $error = 'Contact đang ở trạng thái chưa giao hàng, nên không thể cập nhật thành đã thu COD, đã thu Lakita hoặc Hủy đơn được!';
 //            show_error_and_redirect($error, base_url('error'));
 //        }
-        if (($cur_cod_status_id == 2 || $cur_cod_status_id == 3) && ($cod_status_id == 4 || $cod_status_id <= 1)) {
-            $error = 'Contact đang ở trạng thái đã thu COD/ đã thu Lakita thì không thể cập nhật thành Hủy đơn hoặc Đang giao hàng được!';
-            show_error_and_redirect($error, base_url('error'));
-        }
-    }
+//        if (($cur_cod_status_id == 2 || $cur_cod_status_id == 3) && ($cod_status_id == 4 || $cod_status_id <= 1)) {
+//            $error = 'Contact đang ở trạng thái đã thu COD/ đã thu Lakita thì không thể cập nhật thành Hủy đơn hoặc Đang giao hàng được!';
+//            show_error_and_redirect($error, base_url('error'));
+//        }
+//    }
 
-    private function _gen_code_cross_check($post, $id) {
-        $code_cross_check = '';
-        $this->load->model('providers_model');
-        $input_provider = array();
-        $input_provider['where'] = array('id' => $post['provider_id']);
-        $provider = $this->providers_model->load_all($input_provider);
-        $provider_prefix = $provider[0]['prefix'];
-
-        $this->load->model('cod_cross_check_model');
-        $today = date('dmy'); //lấy định dạng ngày_tháng để ghép vào mã bill
-        $input_cod_cross_check = array();
-        $input_cod_cross_check['where'] = array('date_print_cod' => $today, 'provider_id' => $post['provider_id']);
-        $input_cod_cross_check['order'] = array('id' => 'DESC');
-        /* Kiểm tra trong bảng tạo mã Bill có contact tạo ngày hôm nay chưa, */
-        $cod_cross_check = $this->cod_cross_check_model->load_all($input_cod_cross_check);
-
-        if (empty($cod_cross_check)) { // nếu chưa thì gán STT = 01,
-            $code_cross_check = $provider_prefix . $today . '01';
-            $this->cod_cross_check_model->insert(array('contact_id' => $id, 'date_print_cod' => $today,
-                'provider_id' => $post['provider_id'], 'number' => 1,
-                'phone' => $this->contacts_model->get_contact_phone($id), 'code' => $code_cross_check, 'time' => date('Y/m/d H:i:s', time())));
-        } else {
-            //kiểm tra 1 khách hàng (cùng số đt) mua nhiều khóa học thì ko tạo mã vận đơn mới, mà dùng mã vận đơn cũ
-            $input_duplicate = array();
-            $input_duplicate['where'] = array('date_print_cod' => $today,
-                'phone' => $this->contacts_model->get_contact_phone($id), 'provider_id' => $post['provider_id']);
-            $contact_duplicate = $this->cod_cross_check_model->load_all($input_duplicate);
-            if (!empty($contact_duplicate)) {
-                $code_cross_check = $contact_duplicate[0]['code'];
-            } else {
-                // nếu có rồi thì gán STT = STT + 1 (tăng lên 1 đơn vị)
-                $number = $cod_cross_check[0]['number'] + 1;
-                if ($number < 10) {
-                    $number = '0' . $number;
-                }
-                $code_cross_check = $provider_prefix . $today . '' . $number;
-                $this->cod_cross_check_model->insert(array('contact_id' => $id, 'date_print_cod' => $today,
-                    'provider_id' => $post['provider_id'], 'number' => $number,
-                    'phone' => $this->contacts_model->get_contact_phone($id), 'code' => $code_cross_check, 'time' => date('Y/m/d H:i:s', time())));
-            }
-        }
-        return $code_cross_check;
-    }
+//    private function _gen_code_cross_check($post, $id) {
+//        $code_cross_check = '';
+//        $this->load->model('providers_model');
+//        $input_provider = array();
+//        $input_provider['where'] = array('id' => $post['provider_id']);
+//        $provider = $this->providers_model->load_all($input_provider);
+//        $provider_prefix = $provider[0]['prefix'];
+//
+//        $this->load->model('cod_cross_check_model');
+//        $today = date('dmy'); //lấy định dạng ngày_tháng để ghép vào mã bill
+//        $input_cod_cross_check = array();
+//        $input_cod_cross_check['where'] = array('date_print_cod' => $today, 'provider_id' => $post['provider_id']);
+//        $input_cod_cross_check['order'] = array('id' => 'DESC');
+//        /* Kiểm tra trong bảng tạo mã Bill có contact tạo ngày hôm nay chưa, */
+//        $cod_cross_check = $this->cod_cross_check_model->load_all($input_cod_cross_check);
+//
+//        if (empty($cod_cross_check)) { // nếu chưa thì gán STT = 01,
+//            $code_cross_check = $provider_prefix . $today . '01';
+//            $this->cod_cross_check_model->insert(array('contact_id' => $id, 'date_print_cod' => $today,
+//                'provider_id' => $post['provider_id'], 'number' => 1,
+//                'phone' => $this->contacts_model->get_contact_phone($id), 'code' => $code_cross_check, 'time' => date('Y/m/d H:i:s', time())));
+//        } else {
+//            //kiểm tra 1 khách hàng (cùng số đt) mua nhiều khóa học thì ko tạo mã vận đơn mới, mà dùng mã vận đơn cũ
+//            $input_duplicate = array();
+//            $input_duplicate['where'] = array('date_print_cod' => $today,
+//                'phone' => $this->contacts_model->get_contact_phone($id), 'provider_id' => $post['provider_id']);
+//            $contact_duplicate = $this->cod_cross_check_model->load_all($input_duplicate);
+//            if (!empty($contact_duplicate)) {
+//                $code_cross_check = $contact_duplicate[0]['code'];
+//            } else {
+//                // nếu có rồi thì gán STT = STT + 1 (tăng lên 1 đơn vị)
+//                $number = $cod_cross_check[0]['number'] + 1;
+//                if ($number < 10) {
+//                    $number = '0' . $number;
+//                }
+//                $code_cross_check = $provider_prefix . $today . '' . $number;
+//                $this->cod_cross_check_model->insert(array('contact_id' => $id, 'date_print_cod' => $today,
+//                    'provider_id' => $post['provider_id'], 'number' => $number,
+//                    'phone' => $this->contacts_model->get_contact_phone($id), 'code' => $code_cross_check, 'time' => date('Y/m/d H:i:s', time())));
+//            }
+//        }
+//        return $code_cross_check;
+//    }
 
     private function _set_call_log($id, $post, $rows) {
         $data = array();
@@ -1299,7 +1324,8 @@ class Common extends MY_Controller {
             '[Họ tên]: ' => 'name',
             '[Email]: ' => 'email',
             '[Địa chỉ]: ' => 'address',
-            '[Mã lớp học]: ' => 'class_study_id',
+//            '[Mã lớp học]: ' => 'class_study_id',
+//            '[Khóa học]: ' => 'level_language_id',
             '[Giá học phí]: ' => 'fee',
             '[Đã thanh toán]: ' => 'paid',
         );
@@ -1329,7 +1355,7 @@ class Common extends MY_Controller {
                 )
             ),
             'call_status' => array(),
-            'ordering_status' => array(),
+//            'ordering_status' => array(),
         );
         $data = $this->_get_require_data($require_model);
         $post = $this->input->post();
@@ -1375,7 +1401,10 @@ class Common extends MY_Controller {
             'call_status' => array(),
             'ordering_status' => array(),
             'level_contact' => array(),
+			'level_language' => array(),
+			'branch' => array()
         );
+
         $data = array_merge($this->data, $this->_get_require_data($require_model));
 
         $contact_id = $this->input->post('contact_id', true);
@@ -1719,13 +1748,14 @@ class Common extends MY_Controller {
         }
         show_error_and_redirect('Khôi phục thông tin thành công', '', 0);
     }
+
     private function _contact_export($ids) {
         $this->load->model('Courses_model');
         $contacts = array();
         $i = 0;
         foreach ($ids as $value) {
             $input = array();
-            $input['select'] = 'id, phone, code_cross_check, course_code, name, address, price_purchase, note_cod, provider_id';
+            $input['select'] = 'id, phone, name, address, price_purchase, note_cod, provider_id';
             $input['where'] = array('id' => $value);
             $contact = $this->contacts_model->load_all($input);
             //tìm xem số đt của contact có trong mảng contacts hay chưa, 
@@ -1766,11 +1796,11 @@ class Common extends MY_Controller {
 //		print_arr($chil_level);
     	if (isset($chil_level) && !empty($chil_level)) {
 			 $str = '<td class="text-right">
-					Chọn trạng thái chi tiết hơn
+					Trạng thái chi tiết
 				</td>
 				<td>
 					<select class="form-control selectpicker" name="level_contact_id_child">
-						<option value=""> Chọn trạng thái chi tiết hơn </option>';
+						<option value=""> Trạng thái chi tiết </option>';
 						foreach ($chil_level as $value) {
 							$str .= "<option value='{$value['level_id']}'> {$value['level_id']} - {$value['name']} </option>";
 						}

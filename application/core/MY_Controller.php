@@ -197,18 +197,17 @@ class MY_Controller extends CI_Controller {
 
         if ($this->role_id == 1) {
 
-    	    $this->table = 'selection name phone address class_study_id fee ';
+    	    $this->table = 'selection name phone branch level_language ';
 
         } else if ($this->role_id == 2) {
     		
-    		$this->table = 'selection name phone address class_study_id fee ';
+    		$this->table = 'selection name phone branch level_language ';
 
     	} else {
-            $this->table = 'selection name phone address class_study_id fee ';
+            $this->table = 'selection name phone branch level_language ';
         }
 
     }
-
 
 
     private function _check_permission() {
@@ -530,7 +529,7 @@ class MY_Controller extends CI_Controller {
 
         $input = array();
 
-        $input['select'] = 'fee';
+        $input['select'] = 'paid';
 
         if (!empty($condition)) {
 
@@ -552,7 +551,7 @@ class MY_Controller extends CI_Controller {
 
         foreach ($total_contact as $key => $value) {
 
-           $re += $value['fee'];
+           $re += $value['paid'];
            
         }
 
@@ -592,7 +591,7 @@ class MY_Controller extends CI_Controller {
 
             'ordering_status' => array(),
 
-            'cod_status' => array()
+//            'cod_status' => array()
 
         );
 
@@ -682,7 +681,7 @@ class MY_Controller extends CI_Controller {
 
     }
 
-    protected function _find_dupliacte_contact($email = '', $phone = '', $class_study_id = '') {
+    protected function _find_dupliacte_contact($email = '', $phone = '', $level_language_id = '') {
 
         $phone = substr($phone, -9, 9);
         
@@ -696,7 +695,7 @@ class MY_Controller extends CI_Controller {
 
            // 'phone' => $phone,
 
-            'class_study_id' => $class_study_id
+            'level_language_id' => $level_language_id
 
         );
         
@@ -762,7 +761,9 @@ class MY_Controller extends CI_Controller {
 
             $this->load->library('REST');
 
-            $config = array('server' => 'http://mol.lakita.vn/',
+            $config = array(
+
+            	'server' => 'http://mol.lakita.vn/',
 
                 'api_key' => 'SSeKfm7RXCJZxnFUleFsPf63o2ymZ93fWuCmvCjq',
 
@@ -1098,9 +1099,9 @@ class MY_Controller extends CI_Controller {
 
         /*Filter ở cột trái và cột phải*/
 
-        $data['left_col'] = array('tu_van', 'duplicate', 'date_rgt');
+        $data['left_col'] = array('duplicate', 'date_rgt');
 
-        $data['right_col'] = array('course_code');
+//        $data['right_col'] = array('course_code');
 
         /*Các trường cần hiện của bảng contact (đã có default)*/
 
@@ -1120,7 +1121,7 @@ class MY_Controller extends CI_Controller {
 		
         if($this->role_id == 10){
 
-            $this->table = 'selection name phone email course_code date_receive_lakita account_lakita';
+            $this->table = 'selection name phone email';
 
         }
 
@@ -1176,7 +1177,6 @@ class MY_Controller extends CI_Controller {
 		);
 
         $this->L['L6'] = count($this->contacts_model->load_all($input));
-
 
 //        $input = array();
 //

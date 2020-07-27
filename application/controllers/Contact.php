@@ -44,21 +44,15 @@ class Contact extends CI_Controller {
 
             $address = isset($input['dia_chi']) ? $input['dia_chi'] : '';
 
-            $address .= ' ';
-
-            $address .= isset($input['quan']) ? $input['quan'] : '';
-
-            $address .= ' ';
-
-            $address .= isset($input['tinh']) ? $input['tinh'] : '';
-
             $param['address'] = str_replace('NO_PARAM', '', $address);
 
-            $param['is_consultant'] = (stripos($param['address'], 'tv') !== false) ? 1 : 0;
+           	$param['class_study_id'] = isset($input['class_study_id']) ? $input['class_study_id'] : '';
 
-            $param['class_study_id'] = $this->get_class_study($input['code_landingpage']);
+            $param['branch_id'] = isset($input['branch_id']) ? $input['branch_id'] : 0;
 
-            $param['branch_id'] = $this->get_branch_id($param['class_study_id']);
+            $param['language_id'] = $this->get_language_id($input['code_landingpage']);
+
+            $param['level_language_id'] = isset($input['level_language_id']) ? $input['level_language_id'] : 0;
 
             $param['payment_method_rgt'] = isset($input['payment_method_rgt']) ? $input['payment_method_rgt'] : 1;
 
@@ -107,16 +101,22 @@ class Contact extends CI_Controller {
                 }
 
             } else {
-                $param['channel_id'] = (isset($input['channel_id']) && !empty($input['channel_id'])) ? $input['channel_id'] : '';
+                $param['channel_id'] = (isset($input['channel_id'])) ? $input['channel_id'] : '';
             }
 
-            $param['source_id'] = (isset($input['source_id']) && !empty($input['source_id'])) ? $input['source_id'] : 1;
+           	if (isset($input['source_id']) && strripos($input['source_id'], 'ib') != false) {
+           		$param['source_id'] = 1;
+           	} else {
+           		$param['source_id'] = 2;
+           	}
+
+            // $param['source_id'] = (isset($input['source_id'])) ? $input['source_id'] : 1;
 
             $param['last_activity'] = time();
 
             /* ======= Lọc trùng contact ============ */
 
-            $param['duplicate_id'] = $this->_find_dupliacte_contact($param['phone'], $param['class_study_id']);
+            $param['duplicate_id'] = $this->_find_dupliacte_contact($param['phone'], $param['level_language_id']);
 
             // print_arr($param);
 
@@ -177,7 +177,6 @@ class Contact extends CI_Controller {
 
                 $data2['title'] = "C3 số " . $totalC3 . " của " . $marketer[0]['short_name'] . " hôm nay";
 
-
                 if ($totalC3 < $marketer[0]['targets']) {
 
                     $data2['message'] = "Bạn còn " . ($marketer[0]['targets'] - $totalC3) . " C3 nữa là đạt mục tiêu hôm nay!";
@@ -214,7 +213,7 @@ class Contact extends CI_Controller {
 
     }
 
-	private function _find_dupliacte_contact($phone = '', $class_study_id = '') {
+	private function _find_dupliacte_contact($phone = '', $level_language_id = '') {
 
         $dulicate = 0;
 
@@ -226,7 +225,7 @@ class Contact extends CI_Controller {
 
             'phone' => $phone,
 
-            'class_study_id' => $class_study_id,
+            'level_language_id' => $level_language_id,
 
             'is_hide' => '0'
 
@@ -248,34 +247,33 @@ class Contact extends CI_Controller {
 
     }
 
-    private function get_class_study($code_lp) {
-        $this->load->model('landingpage_model');
+   private function get_language_id($code_lp) {
+       $this->load->model('landingpage_model');
 
-        $input['where'] = array(
-            'code' => $code_lp
-        );
+       $input['where'] = array(
+           'code' => $code_lp
+       );
 
-        $class_study = $this->landingpage_model->load_all($input);
-        if (isset($class_study) && !empty($class_study)) {
-            return $class_study[0]['class_study_id'];
-        } else {
-            return 'ERROR';
-        }
+       $class_study = $this->landingpage_model->load_all($input);
+       if (isset($class_study) && !empty($class_study)) {
+           return $class_study[0]['language_id'];
+       } else {
+           return 'ERROR';
+       }
 
-    }
+   }
 
-    private function get_branch_id($class_id) {
-    	$this->load->model('class_study_model');
-
-    	$input['where'] = array('class_study_id' => $class_id);
-    	$branch_id = $this->class_study_model->load_all($input);
-    	if (isset($branch_id)) {
-    		return $branch_id['branch_id'];
-		} else {
-    		return 'ERROR';
-		}
-	}
-
+//    private function get_branch_id($class_id) {
+//    	$this->load->model('class_study_model');
+//
+//    	$input['where'] = array('class_study_id' => $class_id);
+//    	$branch_id = $this->class_study_model->load_all($input);
+//    	if (isset($branch_id)) {
+//    		return $branch_id['branch_id'];
+//		} else {
+//    		return 'ERROR';
+//		}
+//	}
 
 
 }

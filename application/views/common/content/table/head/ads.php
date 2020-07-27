@@ -1,4 +1,4 @@
-<th class="tbl_ad" id="th_tbl_ad12">
+<th class="tbl_ads" id="th_tbl_ad12">
 
     Ads
 

@@ -18,8 +18,6 @@
 
             </div><!-- /input-group -->
 
-
-
         <?php } else { ?>
 
             <p>Contact đã có tài khoản</p>

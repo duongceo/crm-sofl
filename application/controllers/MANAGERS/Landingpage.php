@@ -78,11 +78,13 @@ class Landingpage extends MY_Table {
 
             ),
 
-            'class_study_id' => array(
+            'language' => array(
 
                 'type' => 'custom',
 
-                'name_display' => 'Mã lớp học',
+                'value' => $this->get_data_from_model('language_study'),
+
+                'name_display' => 'Ngoại ngữ',
 
                 'order' => '1'
 
@@ -222,7 +224,6 @@ class Landingpage extends MY_Table {
 
     }
 
-
     function delete_item() {
 
         die('Không thể xóa, liên hệ admin để biết thêm chi tiết');
@@ -237,6 +238,8 @@ class Landingpage extends MY_Table {
 
     function index($offset = 0) {
 
+		$this->data['language'] = $this->get_data_from_model('language_study');
+
         $this->list_filter = array(
 
             'left_filter' => array(
@@ -246,6 +249,11 @@ class Landingpage extends MY_Table {
                     'type' => 'custom',
 
                 ),
+
+				'language' => array(
+
+					'type' => 'arr_multi'
+				)
 			
             ),
 
@@ -308,11 +316,11 @@ class Landingpage extends MY_Table {
 
 				'landingpage_code' => array(),
 
-                'class_study_id' => array(
+                'language' => array(
 
                     'type' => 'array',
 
-                    'value' => $this->get_data_from_model('class_study'),
+                    'value' => $this->get_data_from_model('language_study'),
 
                 ),
 
@@ -365,7 +373,7 @@ class Landingpage extends MY_Table {
 
             }
 
-            $paramArr = array('url', 'landingpage_code', 'class_study_id', 'active');
+            $paramArr = array('url', 'landingpage_code', 'language_id', 'active');
 
             foreach ($paramArr as $value) {
 
@@ -403,11 +411,11 @@ class Landingpage extends MY_Table {
 
 				'landingpage_code' => array(),
 
-				'class_study_id' => array(
+				'language' => array(
 
 					'type' => 'array',
 
-					'value' => $this->get_data_from_model('class_study'),
+					'value' => $this->get_data_from_model('language_study'),
 
 				),
 
@@ -455,7 +463,7 @@ class Landingpage extends MY_Table {
 			
 			$post['edit_landingpage_code'] =  $this->replace_str_to_url($post['edit_landingpage_code']);
 
-            $paramArr = array('url','landingpage_code', 'course_code', 'group_course_code', 'price_root', 'price', 'active');
+            $paramArr = array('url','landingpage_code', 'language_id', 'active');
 
             foreach ($paramArr as $value) {
 

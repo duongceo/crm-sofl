@@ -64,7 +64,7 @@ class Sale extends MY_Controller {
          * Filter ở cột trái và cột phải
          */
 		 
-        $data['left_col'] = array('tv_dk', 'date_rgt');
+        $data['left_col'] = array('date_rgt');
         $data['right_col'] = array('class_study');
 
         /*
@@ -88,7 +88,7 @@ class Sale extends MY_Controller {
         $data['actionForm'] = 'sale/transfer_contact';
         $informModal = 'sale/modal/transfer_multi_contact';
         $data['informModal'] = explode(' ', $informModal);
-        $outformModal = 'sale/modal/transfer_one_contact sale/modal/show_script sale/modal/transfer_one_contact_to_manager';
+        $outformModal = 'sale/modal/transfer_one_contact sale/modal/transfer_one_contact_to_manager';
         $data['outformModal'] = explode(' ', $outformModal);
 
         $data['content'] = 'common/list_contact';
@@ -156,7 +156,7 @@ class Sale extends MY_Controller {
         $data['actionForm'] = 'sale/transfer_contact';
         $informModal = 'sale/modal/transfer_multi_contact';
         $data['informModal'] = explode(' ', $informModal);
-        $outformModal = 'sale/modal/transfer_one_contact sale/modal/show_script sale/modal/transfer_one_contact_to_manager';
+        $outformModal = 'sale/modal/transfer_one_contact sale/modal/transfer_one_contact_to_manager';
         $data['outformModal'] = explode(' ', $outformModal);
 
         $data['content'] = 'common/list_contact';
@@ -203,6 +203,7 @@ class Sale extends MY_Controller {
             }
         }
         unset($value);
+
         $data['contacts'] = $contacts;
         $data['total_contact'] = $data_pagination['total_row'];
         $data['left_col'] = array('tv_dk', 'date_handover', 'date_last_calling','call_status');
@@ -224,7 +225,7 @@ class Sale extends MY_Controller {
         $data['actionForm'] = 'sale/transfer_contact';
         $informModal = 'sale/modal/transfer_multi_contact';
         $data['informModal'] = explode(' ', $informModal);
-        $outformModal = 'sale/modal/transfer_one_contact sale/modal/show_script sale/modal/transfer_one_contact_to_manager';
+        $outformModal = 'sale/modal/transfer_one_contact sale/modal/transfer_one_contact_to_manager';
         $data['outformModal'] = explode(' ', $outformModal);
         $data['content'] = 'common/list_contact';
         $this->load->view(_MAIN_LAYOUT_, $data);
@@ -234,8 +235,8 @@ class Sale extends MY_Controller {
         $get = $this->input->get();
         $conditional = ''; //' AND `sale_staff_id` = ' . $this->user_id;
         $data = $this->_common_find_all($get, $conditional);
-        $table = 'selection contact_id name phone address course_code price_purchase ';
-        $table .= 'date_rgt date_last_calling call_stt ordering_stt action';
+        $table = 'selection contact_id name phone address ';
+        $table .= 'date_rgt date_last_calling call_stt action';
         $data['table'] = explode(' ', $table);
         $data['content'] = 'sale/find_contact';
         $this->load->view(_MAIN_LAYOUT_, $data);
@@ -288,7 +289,7 @@ class Sale extends MY_Controller {
 					'sale_id_1' => $this->user_id,
 					'sale_id_2' => $post['sale_id'],
 					'time' => time(),
-//					'is_transfered' => '0'
+					'is_transfered' => '0'
 				));
 			}
 		} else {
@@ -297,7 +298,7 @@ class Sale extends MY_Controller {
 					'sale_id_1' => $this->user_id,
 					'sale_id_2' => $post['sale_id'],
 					'time' => time(),
-//					'is_transfered' => '0'
+					'is_transfered' => '0'
 				));
 		}
 
@@ -337,14 +338,14 @@ class Sale extends MY_Controller {
     function view_all_contact($offset = 0) {
         $data = $this->_get_all_require_data();
         $get = $this->input->get();
-        $conditional['where'] = array('sale_staff_id' => $this->user_id, 'is_hide' => '0', 'call_status_id !=' => '0');
+        $conditional['where'] = array('sale_staff_id' => $this->user_id, 'is_hide' => '0');
         $conditional['order'] = array('date_last_calling' => 'DESC');
         $data_pagination = $this->_query_all_from_get($get, $conditional, $this->per_page, $offset);
         $data['pagination'] = $this->_create_pagination_link($data_pagination['total_row']);
         $data['contacts'] = $data_pagination['data'];
         $data['total_contact'] = $data_pagination['total_row'];
 
-        $data['left_col'] = array('tv_dk', 'date_rgt', 'date_handover', 'date_last_calling');
+        $data['left_col'] = array('date_rgt', 'date_handover', 'date_last_calling');
         $data['right_col'] = array('call_status');
 
         $this->table .= 'date_last_calling call_stt level_contact';
@@ -366,7 +367,7 @@ class Sale extends MY_Controller {
         $data['actionForm'] = 'sale/transfer_contact';
         $informModal = 'sale/modal/transfer_multi_contact';
         $data['informModal'] = explode(' ', $informModal);
-        $outformModal = 'sale/modal/transfer_one_contact sale/modal/show_script sale/modal/transfer_one_contact_to_manager';
+        $outformModal = 'sale/modal/transfer_one_contact sale/modal/transfer_one_contact_to_manager';
         $data['outformModal'] = explode(' ', $outformModal);
 
         $data['content'] = 'common/list_contact';
@@ -378,8 +379,8 @@ class Sale extends MY_Controller {
 //		echo '<pre>';print_r($input);die;
         $this->load->library('form_validation');
         $this->form_validation->set_rules('name', 'Họ tên', 'trim|required|min_length[2]');
-        $this->form_validation->set_rules('address', 'Địa chỉ', 'trim|required|min_length[3]');
-        $this->form_validation->set_rules('phone', 'Số điện thoại', 'required|min_length[2]|integer');
+//        $this->form_validation->set_rules('address', 'Địa chỉ', 'trim|required|min_length[3]');
+        $this->form_validation->set_rules('phone', 'Số điện thoại', 'trim|required|min_length[2]|integer');
 //        $this->form_validation->set_rules('course_code', 'Mã khóa học', 'required|callback_check_course_code');
 //        $this->form_validation->set_rules('source_id', 'Nguồn contact', 'required|callback_check_source_id');
         if (!empty($input)) {
@@ -387,8 +388,12 @@ class Sale extends MY_Controller {
                 $this->session->set_tempdata('message', 'Có lỗi xảy ra trong quá trình nhập liệu', 2);
                 $this->session->set_tempdata('msg_success', 0, 2);
                 $require_model = array(
-                    'class_study' => array(),
-                    'sources' => array(),
+					'branch' => array(),
+					'language_study' => array(),
+					'level_language' => array(),
+					'class_study' => array(),
+					'sources' => array(),
+					'payment_method_rgt' => array(),
 					'campaign' =>array(
 						'where' => array('active' => '1', 'marketer_id' => $this->user_id),
 						'order' => array(
@@ -409,22 +414,17 @@ class Sale extends MY_Controller {
 					),
                 );
                 $data = array_merge($this->data, $this->_get_require_data($require_model));
+//                print_arr($data);
                 $data['content'] = 'sale/add_contact';
                 $this->load->view(_MAIN_LAYOUT_, $data);
             } else {
-				//echo '<pre>';print_r($input);die;
+//				echo '<pre>';print_r($input);die;
                 $param['name'] = $input['name'];
                 $param['email'] = $input['email'];
-                $param['address'] = $input['address'];
-				if (stripos($param['address'], 'mh') != 0) {
-					$param['is_consultant'] = 1;
-				} elseif (stripos($param['address'], 'ib') != 0) {
-					$param['is_consultant'] = 1;
-				} elseif (stripos($param['address'], 'cb') != 0) {
-					$param['is_consultant'] = 1;
-				} else {
-					$param['is_consultant'] = 0;
-				}
+//                $param['address'] = $input['address'];
+				$param['branch_id'] = $input['branch_id'];
+				$param['language_id'] = $input['language_id'];
+				$param['level_language_id'] = $input['level_language_id'];
                 $param['phone'] = trim($input['phone']);
                 $param['class_study_id'] = $input['class_study_id'];
                 $param['source_id'] = $input['source_id'];
@@ -432,6 +432,8 @@ class Sale extends MY_Controller {
                 $param['fee'] = $input['fee'];
                 $param['paid'] = $input['paid'];
                 $param['channel_id'] = $input['channel_id'];
+
+//                print_arr($param);
 				
 				switch($this->role_id){
 					case 1:
@@ -444,7 +446,7 @@ class Sale extends MY_Controller {
                 
 				$param['date_rgt'] = time();
                 $param['date_handover'] = time();
-                $param['duplicate_id'] = $this->_find_dupliacte_contact($input['email'], $input['phone'], $input['class_study_id']);
+                $param['duplicate_id'] = $this->_find_dupliacte_contact($input['email'], $input['phone'], $input['level_language_id']);
 //                print_arr($param);
                 $param['last_activity'] = time();
 //                $param['source_sale_id'] = $input['source_sale_id'];
@@ -460,9 +462,7 @@ class Sale extends MY_Controller {
 				if(isset($input['ad_id']) && !empty($input['ad_id'])){
 					$param['ad_id'] = $input['ad_id'];
 				}
-
-//				print_arr($param);
-
+				
                 $id = $this->contacts_model->insert_return_id($param, 'id');
 				$id_backup = $this->contacts_backup_model->insert_return_id($param, 'id');
 				
@@ -472,38 +472,44 @@ class Sale extends MY_Controller {
                         'content' => $input['note'],
                         'time' => time(),
                         'sale_id' => $this->user_id,
-                        'contact_code' => $this->contacts_model->get_contact_code($id)
+                        'contact_code' => $this->contacts_model->get_contact_code($id),
+                        'class_study_id' => 0
                     );
                     $this->load->model('notes_model');
                     $this->notes_model->insert($param2);
                 }
+                $data2 = [];
 
-                $data2 = array();
                 $data2['title'] = 'Có 1 contact mới đăng ký';
                 $data2['message'] = 'Click để xem ngay';
 
-				require_once APPPATH . 'libraries/Pusher.php';
+                require_once APPPATH . 'libraries/Pusher.php';
+
                 $options = array(
                     'cluster' => 'ap1',
                     'encrypted' => true,
-					'useTLS' => true
+                    'useTLS' => true
                 );
 
 //                $pusher = new Pusher(
 //                        '32b339fca68db27aa480', '32f6731ad5d48264c579', '490390', $options
 //                );
 
-				$pusher = new Pusher(
-					'f3c70a5a0960d7b811c9', '2fb574e3cce59e4659ac', '1042224', $options
-				);
+                $pusher = new Pusher(
+                    'f3c70a5a0960d7b811c9', '2fb574e3cce59e4659ac', '1042224', $options
+                );
 
                 $pusher->trigger('my-channel', 'notice', $data2);
                 show_error_and_redirect('Thêm thành công contact', $input['back_location']);
             }
         } else {
             $require_model = array(
+            	'branch' => array(),
+                'language_study' => array(),
+                'level_language' => array(),
                 'class_study' => array(),
                 'sources' => array(),
+				'payment_method_rgt' => array(),
 				'campaign' =>array(
 					'where' => array('active' => '1', 'marketer_id' => $this->user_id),
 					'order' => array(
@@ -528,6 +534,7 @@ class Sale extends MY_Controller {
 				)
             );
             $data = array_merge($this->data, $this->_get_require_data($require_model));
+//            print_arr($data);
             $data['content'] = 'sale/add_contact';
 			//echo '<pre>';print_r($data);die;
 
@@ -769,6 +776,9 @@ class Sale extends MY_Controller {
                     'class_study_id' => 'ASC'
                 )
             ),
+            'branch' => array('active' => 1),
+            'level_language' => array(),
+            'language_study' => array(),
             'call_status' => array('order' => array('sort' => 'ASC')),
             'ordering_status' => array('order' => array('sort' => 'ASC')),
             'payment_method_rgt' => array(),

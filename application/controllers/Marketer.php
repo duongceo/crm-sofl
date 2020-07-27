@@ -53,14 +53,14 @@ class Marketer extends MY_Controller {
          * Filter ở cột trái và cột phải
          */
 
-		$data['left_col'] = array('tv_dk', 'date_rgt', 'channel');
+		$data['left_col'] = array('date_rgt', 'channel');
 //		$data['right_col'] = array();
 
 		/*
          * Các trường cần hiện của bảng contact (đã có default)
          */
 
-		$this->table .= 'adset ads channel date_rgt';
+		$this->table .= 'channel campaign call_stt level_contact';
 		$data['table'] = explode(' ', $this->table);
 		//echo '<pre>'; print_r($data['table']);die;
 		/*
@@ -99,17 +99,17 @@ class Marketer extends MY_Controller {
 
 		$contact = $data_pagination['data'];
 
-		$this->load->model('call_log_model');
-		foreach ($contact as &$value) {
-			$input['where'] = array('contact_id' => $value['id']);
-			$value['care_number'] = count($this->call_log_model->load_all($input));
-		}
+//		$this->load->model('call_log_model');
+//		foreach ($contact as &$value) {
+//			$input['where'] = array('contact_id' => $value['id']);
+//			$value['care_number'] = count($this->call_log_model->load_all($input));
+//		}
 
 		$data['contacts'] = $contact;
 		
-		$data['left_col'] = array('channel', 'tv_dk', 'date_rgt', 'date_handover');
+		$data['left_col'] = array('channel', 'date_rgt', 'date_handover');
 		$data['right_col'] = array('call_status');
-		$this->table .= 'campaign channel date_rgt call_stt level_contact';
+		$this->table .= 'channel campaign date_rgt call_stt level_contact';
 		$data['table'] = explode(' ', $this->table);
 
 		/*
@@ -127,7 +127,6 @@ class Marketer extends MY_Controller {
 		$data['C3Total'] = $progress['total_kpi_mkt'];
 		$data['progressType_mkt'] = 'Tiến độ của team tháng này';
 
-		
 		$outformModal = 'marketer/modal/view_note_contact';
 		$data['outformModal'] = explode(' ', $outformModal);
 		$data['actionForm'] = 'marketer/note_contact';
@@ -154,8 +153,8 @@ class Marketer extends MY_Controller {
 //			),
 //			'transfer_logs' => array(),
 			'call_status' => array('order' => array('sort' => 'ASC')),
-//			'ordering_status' => array('order' => array('sort' => 'ASC')),
-//			'cod_status' => array(),
+			'level_language' => array(),
+			'branch' => array(),
 			'payment_method_rgt' => array(),
 			'channel' => array(),
 			'campaign' => array(),
