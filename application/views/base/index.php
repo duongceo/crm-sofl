@@ -77,5 +77,5 @@ cố định thanh tiêu đề phía trên của bảng khi người dùng cuộ
 <?php
 $this->load->view('staff_managers/class_study/show_student');
 
-$this->load->view('base/js');
+//$this->load->view('base/js');
 

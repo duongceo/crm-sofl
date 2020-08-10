@@ -28,11 +28,11 @@
 
             </th>
 
-<!--            <th>-->
-<!---->
-<!--                Trạng thái đơn hàng-->
-<!---->
-<!--            </th>-->
+            <th>
+
+                Trạng thái contact
+
+            </th>
 
 
             <th class="content-change">
@@ -65,7 +65,7 @@
 
                     <td>
 
-                        <?php echo date('d/m/Y H:i:s', $value_call_log['time']); ?>
+                        <?php echo date('d/m/Y H:i:s', $value_call_log['time_created']); ?>
 
                     </td>
 
@@ -81,11 +81,11 @@
 
                     </td>
 
-<!--                    <td>-->
-<!---->
-<!--                        --><?php //echo $value_call_log['ordering_status_desc']; ?>
-<!---->
-<!--                    </td>-->
+                    <td class="text-center">
+
+                        <?php echo $value_call_log['level_contact_id']; ?>
+
+                    </td>
 
 
                     <td>

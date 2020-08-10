@@ -946,13 +946,13 @@ class MY_Controller extends CI_Controller {
 
             $input_get['or_like']['name'] = $searchStr;
 
-            $input_get['or_like']['code_cross_check'] = $searchStr;
+//            $input_get['or_like']['code_cross_check'] = $searchStr;
 
             $input_get['or_like']['email'] = $searchStr;
 
             $input_get['or_like']['address'] = $searchStr;
 
-            $input_get['or_like']['matrix'] = $searchStr;
+//            $input_get['or_like']['matrix'] = $searchStr;
 
             $input_get['group_end_or_like']['id'] = $searchStr;
 
@@ -1045,7 +1045,7 @@ class MY_Controller extends CI_Controller {
 
             'ordering_status' => array(),
 
-            'cod_status' => array(),
+//            'cod_status' => array(),
 
 //            'providers' => array(),
 
@@ -1115,9 +1115,9 @@ class MY_Controller extends CI_Controller {
 
         }
 		
-		if($this->role_id == 3){
-			$this->table .= ' matrix';
-		}
+//		if($this->role_id == 3){
+//			$this->table .= ' matrix';
+//		}
 		
         if($this->role_id == 10){
 
@@ -1129,13 +1129,13 @@ class MY_Controller extends CI_Controller {
 
         /*Các file js cần load*/
 
-        $data['load_js'] = array(
-
-            'common_view_detail_contact', 'common_real_filter_contact',
-
-            'm_delete_one_contact', 'm_divide_contact', 'm_view_duplicate', 'm_delete_multi_contact'
-
-        );
+//        $data['load_js'] = array(
+//
+//            'common_view_detail_contact', 'common_real_filter_contact',
+//
+//            'm_delete_one_contact', 'm_divide_contact', 'm_view_duplicate', 'm_delete_multi_contact'
+//
+//        );
 
         $data['search_all'] = $get['search_all'];
 

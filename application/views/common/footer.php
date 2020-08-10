@@ -20,36 +20,10 @@
 
 </div>
 
-<!--<link rel="stylesheet" href="<?php echo base_url(); ?>style/build/bootstrap-table-expandable.css">
-
-<script src="<?php echo base_url(); ?>style/build//bootstrap-table-expandable.js"></script>-->
-
-<!--<script src="<?php echo base_url(); ?>style/js/common/jquery.min.js"></script>
-
-<script src="<?php echo base_url(); ?>style/js/common/bootstrap.min.js"></script>
-
-<script src="<?php echo base_url(); ?>style/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
-
-<script src="<?php echo base_url(); ?>style/js/common/moment.min.js"></script>
-
-<script src="<?php echo base_url(); ?>style/js/common/daterangepicker.min.js"></script>
-
-<script src="<?php echo base_url(); ?>style/js/common/bootstrap-select.min.js"></script>
-
-<script src="<?php echo base_url(); ?>style/js/common/notify.min.js" type="text/javascript"></script>
-
-<script src="<?php echo base_url(); ?>style/js/common/clipboard.min.js" type="text/javascript"></script>-->
-
-<!--
-
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
-
-integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>-->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!--<script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js'></script>-->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
-
-<script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js'></script>
-<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>-->
 
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
 
@@ -75,9 +49,8 @@ integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="ano
 <!--<script src="<?php echo base_url(); ?>style/js/dropzone/dropzone.min.js"></script>-->
 
 <script src="<?php echo base_url(); ?>style/js/common/shortcut.min.js" type="text/javascript"></script>
-<!--
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<!-- jQuery Custom Scroller CDN -->
+<!--jQuery Custom Scroller CDN -->
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>-->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 
@@ -101,7 +74,6 @@ integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="ano
     });
 </script>
 
-
 <!--<script src="<?php echo base_url(); ?>style/js/common_view/filter_tbl_set_equal_height.min.js" type="text/javascript"></script>-->
 
 <!--<script src="<?php echo base_url(); ?>vendors/build/js/custom.min.js" type="text/javascript"></script>-->
@@ -120,21 +92,8 @@ integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="ano
 
 <?php } ?>
 
-<?php
 
-//if (isset($load_js) && is_array($load_js)) {
-
-//    foreach ($load_js as $value) {
-
-//        $this->load->view('common/js/' . $value);
-
-//    }
-
-//}
-
-?>
-
-<?php if ($this->controller == 'sale' || $controller == 'cod') { ?>
+<?php if ($this->controller == 'sale' || $this->controller == 'cod') { ?>
 
     <?php if ($time_remaining > 0) { ?>
 

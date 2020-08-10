@@ -16,8 +16,6 @@
 
                     <!-- <div id="filters" class="dropdown-menu mega-dropdown-menu">
 
-                        
-
                     </div> -->
 
                     <?php //$this->load->view('common/menu/test.php') ?>
@@ -26,7 +24,14 @@
 
                 <!-- <li class="dropdown mega-dropdown dropdown-hover pull-right"> -->
 
-                <form action="<?php echo base_url() . $controller; ?>/search" class="form-search" method="GET">
+<!--				--><?php //if (isset($this->sub_folder)) {
+//					$action = base_url() . $this->sub_folder .'/'. $controller . '/search';
+//				} else {
+//					$action =  base_url() . $controller . '/search';
+//				}
+//				?>
+
+                <form action="" class="form-search" method="GET">
 
                     <input style="width: 60%" type="text" class="form-control input-navbar-search" name="search_all" placeholder="Tìm mọi thứ...." 
 

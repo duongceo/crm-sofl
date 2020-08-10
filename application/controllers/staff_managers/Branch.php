@@ -220,4 +220,5 @@ class Branch extends MY_Table {
 		show_error_and_redirect('Sửa thông tin cơ sở thành công!');
 	}
 
+
 }

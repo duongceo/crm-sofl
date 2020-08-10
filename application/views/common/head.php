@@ -18,8 +18,8 @@
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
 
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-<!--		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">-->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<!--        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">-->
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.1/animate.min.css">
 
@@ -39,7 +39,64 @@
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.1.1/min/dropzone.min.css" />
 
-        <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+		<!--JQuery 2-->
+		<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+		<script type="text/javascript">
+			var $j2 = $.noConflict();
+			// alert(j2().jquery);
+		</script>
+
+		<!--JQuery 3-->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<!--		<script type="text/javascript">-->
+		<!--			var j3 = $.noConflict();-->
+		<!--			alert(j3().jquery);-->
+		<!--		</script>-->
+
+		<?php if ($this->controller == 'sale' || $this->controller == 'cod') { ?>
+			<script src="https://minio.infra.omicrm.com/statics/web-sdk/v14/sdk.min.js"></script>
+			<script>
+				$(document).ready(function () {
+					var config = {
+						theme: 'fuji',
+						language: "vi", /* Ngôn ngữ giao diện dialog */
+						register_fn: function (data) { /* Sự kiện xảy ra khi ghi danh tổng đài */
+							console.log(data);
+						},
+						incall_fn: function (data) { /* Sự kiện xảy ra khi thay đổi trạng thái trong cuộc gọi */
+							console.log(data);
+						},
+						accept_fn: function (data) { /* Sự kiện xảy ra khi cuộc gọi được chấp nhận */
+							console.log(data);
+						},
+						accept_out_fn: function (data) { /* Sự kiện xảy ra khi cuộc gọi được chấp nhật trên một thiết bị khác */
+							console.log(data);
+						},
+						invite_fn: function (data) { /* Sự kiện xảy ra khi có một cuộc gọi tới */
+							console.log(data);
+						},
+						invite_2fn: function (data) { /*Sự kiện xảy ra khi đang trong cuộc gọi với một thuê bao, thì có thuê bao khác gọi tới */
+							console.log(data);
+						},
+						ping_fn: function (data) { /* Kiểm tra tính hiệu cuộc gọi */
+							console.log(data);
+						},
+						endcall_fn: function (data) { /* Sự kiện xảy ra khi cuộc gọi kết thúc */
+							console.log(data);
+						}
+					};
+					/** Thông tin ghi danh tổng đài được lấy từ OMI. Cấu hình >> Tổng đài >> Số nội bộ **/
+					omiSDK.init(config, function () {
+						var params = {
+							domain: "nvquang28971",
+							username: "101",
+							password: "o4nCXS2Rtt"
+						};
+						omiSDK.register(params);
+					});
+				});
+			</script>
+		<?php } ?>
 
         <link href="<?php echo base_url(); ?>vendors/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css" rel="stylesheet" type="text/css"/>
 

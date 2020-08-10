@@ -2741,8 +2741,15 @@ $(".btn-navbar-search").click(function (e) {
     }
     var locationOrigin = location.href.split("#");
     location.href = locationOrigin[0] + '#search=' + $(".input-navbar-search").val();
+
+    if ($("#input_sub_folder").val() != '') {
+    	var url = $("#base_url").val() + $("#input_sub_folder").val() + '/' + $("#input_controller").val() + '/search';
+	} else {
+		var url = $("#base_url").val() + $("#input_controller").val() + '/search';
+	}
+
     $.ajax({
-        url: $("#base_url").val() + $("#input_controller").val() + '/search',
+        url: url,
         type: "GET",
         data: {
             search_all: $(".input-navbar-search").val()
@@ -3619,3 +3626,5 @@ $('.view_student').on('click', function (e) {
 		},
 	});
 });
+
+
