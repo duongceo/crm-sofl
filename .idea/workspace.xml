@@ -5,25 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="69eb84fb-ba45-4936-a9cb-c470d45988cb" name="Default Changelist" comment="add active">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/staff_managers/Branch.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/staff_managers/Branch.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/staff_managers/Class_study.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/staff_managers/Class_study.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/core/MY_Controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/core/MY_Controller.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/core/MY_Table.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/core/MY_Table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/base/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/base/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/base/js.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/common/content/call_log.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/common/content/call_log.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/common/content/edit_contact/date_recall.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/common/content/edit_contact/date_recall.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/common/content/edit_contact/phone.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/common/content/edit_contact/phone.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/common/footer.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/common/footer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/common/head.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/common/head.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/common/hidden_input.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/common/hidden_input.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/common/menu/12.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/common/menu/12.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/common/menu/2.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/common/menu/2.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/common/menu/4.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/common/menu/4.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/common/menu/5.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/common/menu/5.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/manager/common/top-nav.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/manager/common/top-nav.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/style/js3/built.js" beforeDir="false" afterPath="$PROJECT_DIR$/style/js3/built.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -53,33 +36,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/style/js3/built.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="8">
-              <caret line="2713" column="14" lean-forward="true" selection-start-line="2713" selection-start-column="14" selection-end-line="2713" selection-end-column="14" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/application/views/common/right_context_menu.php">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="24">
-              <caret line="42" column="46" selection-start-line="42" selection-start-column="46" selection-end-line="42" selection-end-column="46" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/views/common/menu/12.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-144">
-              <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
+            <state relative-caret-position="418">
+              <caret line="22" column="25" lean-forward="true" selection-start-line="22" selection-start-column="25" selection-end-line="22" selection-end-column="25" />
             </state>
           </provider>
         </entry>
@@ -88,7 +49,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>googleapis</find>
       <find>bootstrap.min.js</find>
       <find>boo</find>
       <find>_loadCountListContact</find>
@@ -118,6 +78,7 @@
       <find>btn-navbar-search</find>
       <find>matrix</find>
       <find>sale</find>
+      <find>dist</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -133,7 +94,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/application/controllers/Manager.php" />
         <option value="$PROJECT_DIR$/application/controllers/Marketing.php" />
         <option value="$PROJECT_DIR$/application/libraries/Pusher.php" />
         <option value="$PROJECT_DIR$/application/config/constants.php" />
@@ -184,6 +144,7 @@
         <option value="$PROJECT_DIR$/application/controllers/staff_managers/Branch.php" />
         <option value="$PROJECT_DIR$/application/views/common/menu/12.php" />
         <option value="$PROJECT_DIR$/application/views/common/right_context_menu.php" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -223,7 +184,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -258,25 +218,34 @@
             <path>
               <item name="crm_sofl" type="b2602c69:ProjectViewProjectNode" />
               <item name="crm_sofl" type="462c0819:PsiDirectoryNode" />
-              <item name="application" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
+              <item name="vendors" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="crm_sofl" type="b2602c69:ProjectViewProjectNode" />
               <item name="crm_sofl" type="462c0819:PsiDirectoryNode" />
-              <item name="style" type="462c0819:PsiDirectoryNode" />
+              <item name="vendors" type="462c0819:PsiDirectoryNode" />
+              <item name="bootstrap-switch" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="crm_sofl" type="b2602c69:ProjectViewProjectNode" />
               <item name="crm_sofl" type="462c0819:PsiDirectoryNode" />
-              <item name="style" type="462c0819:PsiDirectoryNode" />
-              <item name="js3" type="462c0819:PsiDirectoryNode" />
+              <item name="vendors" type="462c0819:PsiDirectoryNode" />
+              <item name="bootstrap-switch" type="462c0819:PsiDirectoryNode" />
+              <item name="dist" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="crm_sofl" type="b2602c69:ProjectViewProjectNode" />
+              <item name="crm_sofl" type="462c0819:PsiDirectoryNode" />
+              <item name="vendors" type="462c0819:PsiDirectoryNode" />
+              <item name="bootstrap-switch" type="462c0819:PsiDirectoryNode" />
+              <item name="dist" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -374,6 +343,7 @@
       <workItem from="1596530429767" duration="857000" />
       <workItem from="1596635281576" duration="7700000" />
       <workItem from="1596682530849" duration="16846000" />
+      <workItem from="1597115868988" duration="320000" />
     </task>
     <task id="LOCAL-00001" summary="thay doi css form login">
       <created>1594867918855</created>
@@ -407,12 +377,13 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="519172000" />
+    <option name="totallyTimeSpent" value="519492000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4623656" visible="true" weight="0.26174498" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4623656" visible="true" weight="0.2657718" />
       <window_info id="Structure" order="1" sideWeight="0.53763443" side_tool="true" weight="0.26174498" />
       <window_info id="Favorites" order="2" sideWeight="0.5201613" side_tool="true" weight="0.2033557" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -444,16 +415,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="edit right menu" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/application/views/sale/add_contact.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="488">
-          <caret line="239" column="12" selection-start-line="239" selection-start-column="12" selection-end-line="239" selection-end-column="12" />
-          <folding>
-            <element signature="e#2695#2727#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/application/views/common/content/table/body/branch.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="168">
@@ -534,9 +495,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/base/js.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/base/js.php" />
     <entry file="file://$PROJECT_DIR$/application/views/common/search_all.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
@@ -719,20 +678,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/common/menu/12.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-144">
-          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/style/js3/built.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="8">
-          <caret line="2713" column="14" lean-forward="true" selection-start-line="2713" selection-start-column="14" selection-end-line="2713" selection-end-column="14" />
+        <state relative-caret-position="24">
+          <caret line="2713" column="14" selection-start-line="2713" selection-start-column="14" selection-end-line="2713" selection-end-column="14" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -741,6 +692,20 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="24">
           <caret line="42" column="46" selection-start-line="42" selection-start-column="46" selection-end-line="42" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/common/menu/12.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="24">
+          <caret line="9" selection-start-line="9" selection-end-line="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="418">
+          <caret line="22" column="25" lean-forward="true" selection-start-line="22" selection-start-column="25" selection-end-line="22" selection-end-column="25" />
         </state>
       </provider>
     </entry>

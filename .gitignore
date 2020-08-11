@@ -25,9 +25,9 @@ application/logs/*
 
 ### NetBeans ###
 nbproject/
-build/
+#build/
 nbbuild/
-dist/
+#dist/
 nbdist/
 .nb-gradle/
 
