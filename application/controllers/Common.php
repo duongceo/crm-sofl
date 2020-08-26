@@ -263,6 +263,7 @@ class Common extends MY_Controller {
 		$require_model = array(
 //            'staffs' => array(),
             'class_study' => array(
+				'where' => array('active' => 1, 'branch_id' => $rows[0]['branch_id']),
                 'order' => array('class_study_id' => 'ASC')
             ),
             'branch' => array(),

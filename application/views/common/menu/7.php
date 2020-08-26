@@ -9,12 +9,12 @@
         </div>
 
     <ul class="list-unstyled components">
-		<li>
+		<!-- <li>
 			<a href="<?php echo base_url('staff_managers/class_time'); ?>">
 				<img src="<?php echo base_url(); ?>public/images/view-all.png">
 				<span>Danh sách phòng & ca học</span>
 			</a>
-		</li>
+		</li> -->
 
 		<li>
 			<a href="<?php echo base_url('danh-sach-hoc-vien.html'); ?>">

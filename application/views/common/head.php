@@ -57,6 +57,10 @@
 			<script src="https://minio.infra.omicrm.com/statics/web-sdk/v14/sdk.min.js"></script>
 			<script>
 				$(document).ready(function () {
+
+					var pass_ipphone = $('#input_pass_ipphone').val();
+					var username_ipphone = $('#input_username_ipphone').val();
+
 					var config = {
 						theme: 'fuji',
 						language: "vi", /* Ngôn ngữ giao diện dialog */
@@ -89,13 +93,20 @@
 					omiSDK.init(config, function () {
 						var params = {
 							domain: "nvquang28971",
-							username: "101",
-							password: "o4nCXS2Rtt"
+							username: username_ipphone,
+							password: pass_ipphone
 						};
 						omiSDK.register(params);
 					});
 				});
 			</script>
+
+			<style type="text/css">
+				.callio_form_container {
+					z-index: 5000;
+				}
+			</style>
+			
 		<?php } ?>
 
         <link href="<?php echo base_url(); ?>vendors/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css" rel="stylesheet" type="text/css"/>

@@ -25,6 +25,10 @@
 
 <input type="hidden" value="<?php   echo _VER_CACHED_;?>" id="version-cache" />
 
+<input type="hidden" value="<?php if(isset($_SESSION['pass_ipphone'])) echo $_SESSION['pass_ipphone'];?>" id="input_pass_ipphone" />
+<input type="hidden" value="<?php if(isset($_SESSION['username_ipphone'])) echo $_SESSION['username_ipphone'];?>" id="input_username_ipphone" />
+
+
 <?php if($this->controller == 'vip'){ ?>
 
 <!-- URL thêm dòng -->

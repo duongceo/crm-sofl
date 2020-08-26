@@ -111,11 +111,11 @@ class Class_study extends MY_Table {
 		$this->data['level_language'] = $this->get_data_from_model('level_language');
 
 		$conditional = array();
-		if ($this->role_id == 12) {
-			$branh_id = $this->session->userdata('branch_id');
-			$conditional['where']['classroom_id'] = $branh_id;
-			unset($this->data['branch']);
-		}
+		// if ($this->role_id == 12) {
+		// 	$branh_id = $this->session->userdata('branch_id');
+		// 	$conditional['where']['classroom_id'] = $branh_id;
+		// 	unset($this->data['branch']);
+		// }
 
 		$this->list_filter = array(
 
@@ -157,7 +157,7 @@ class Class_study extends MY_Table {
 
 	function show_add_item() {
 
-		if ($this->role_id == 12 || $this->role_id == 6) {
+		if ($this->role_id == 6) {
 			echo '<script> alert("Bạn ko có quyền thực hiện việc này");</script>';
 			die();
 		}
@@ -268,7 +268,7 @@ class Class_study extends MY_Table {
 
 	function show_edit_item($inputData = []) {
 
-		if ($this->role_id == 12 || $this->role_id == 6) {
+		if ($this->role_id == 6) {
 			echo '<script> alert("Bạn ko có quyền thực hiện việc này");</script>';
 			die();
 		}

@@ -129,17 +129,17 @@
                 <span>Báo Cáo</span>
             </a>
             <ul class="collapse list-unstyled" id="homeSubmenu_3">
-<!--                <li>-->
-<!---->
-<!--                    <a href="--><?php //echo base_url('quan-ly/xem-bao-cao-tu-van-tuyen-sinh.html'); ?><!--">-->
-<!---->
-<!--                        <img src="--><?php //echo base_url(); ?><!--public/images/tvts.png"> -->
-<!---->
-<!--                        <span> Xem báo cáo TVTS </span>-->
-<!---->
-<!--                    </a>-->
-<!---->
-<!--                </li>-->
+                <li>
+
+                    <a href="<?php echo base_url('quan-ly/xem-bao-cao-tu-van-tuyen-sinh.html'); ?>">
+
+                        <img src="<?php echo base_url(); ?>public/images/tvts.png">
+
+                        <span> Xem báo cáo TVTS </span>
+
+                    </a>
+
+                </li>
 
 <!--                <li>-->
 <!---->
@@ -165,7 +165,7 @@
 <!---->
 <!--                </li>-->
 
-                <li>
+<!--                 <li>
 
                     <a href="<?php echo base_url('manager/show_report_operation'); ?>">
 
@@ -199,7 +199,7 @@
 
                     </a>
 
-                </li>
+                </li> -->
                 
             </ul>
         </li>
