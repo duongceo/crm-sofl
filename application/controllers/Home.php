@@ -194,6 +194,10 @@ class Home extends CI_Controller {
 
                 $this->session->set_userdata('branch_id', $result[0]['branch_id']);
 
+                $this->session->set_userdata('pass_ipphone', $result[0]['ipphone_password']);
+
+                $this->session->set_userdata('username_ipphone', $result[0]['ipphone_user_name']);
+
                 $last_page = $this->session->userdata('last_page');
 
                 if (isset($last_page)) {

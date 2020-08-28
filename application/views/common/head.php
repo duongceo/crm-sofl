@@ -54,7 +54,7 @@
 		<!--		</script>-->
 
 		<?php if ($this->controller == 'sale' || $this->controller == 'cod') { ?>
-			<script src="https://minio.infra.omicrm.com/statics/web-sdk/v14/sdk.min.js"></script>
+			<script src="https://minio.infra.omicrm.com/statics/web-sdk/v17/sdk.min.js"></script>
 			<script>
 				$(document).ready(function () {
 

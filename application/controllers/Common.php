@@ -84,11 +84,11 @@ class Common extends MY_Controller {
         $data['view_edit_left'] = $left_view;
         $data['view_edit_right'] = $right_view;
 
-//        $input_call_log = array();
-//        $input_call_log['where'] = array('contact_id' => $id);
-//        $input_call_log['order'] = array('time_created' => 'ASC');
-//        $this->load->model('call_log_model');
-//        $data['call_logs'] = $this->call_log_model->load_all_call_log($input_call_log);
+        $input_call_log = array();
+        $input_call_log['where'] = array('contact_id' => $id);
+		$input_call_log['order'] = array('time_created' => 'ASC');
+        $this->load->model('call_log_model');
+        $data['call_logs'] = $this->call_log_model->load_all_call_log($input_call_log);
 
         $data['rows'] = $rows[0];
         $result = array();
@@ -521,26 +521,29 @@ class Common extends MY_Controller {
             $param['date_recall'] = (isset($post['date_recall']) && $post['date_recall'] != '') ? strtotime($post['date_recall']) : 0;
 
             /* Kiểm tra điều kiện các trạng thái và ngày hẹn gọi lại có logic ko */
-            if (isset($post['call_status_id']) && $post['call_status_id'] == '0') {
-                $result['success'] = 0;
-                $result['message'] = 'Bạn phải cập nhật trạng thái cuộc gọi!';
-                echo json_encode($result);
-                die;
-            }
-
-            if (isset($post['class_study_id']) && $post['class_study_id'] == '') {
-                $result['success'] = 0;
-                $result['message'] = 'Bạn phải chọn mã lớp học!';
-                echo json_encode($result);
-                die;
-            }
-
-            if (isset($post['fee']) && $post['fee'] == 0) {
-                $result['success'] = 0;
-                $result['message'] = 'Bạn phải cập nhật giá tiền mua!';
-                echo json_encode($result);
-                die;
-            }
+            if (isset($post['call_status_id'])) {
+				if ($post['call_status_id'] == 0) {
+					$result['success'] = 0;
+					$result['message'] = 'Bạn phải cập nhật trạng thái cuộc gọi!';
+					echo json_encode($result);
+					die;
+				} else if (!in_array($post['call_status_id'], array(_KHONG_NGHE_MAY_, _NHAM_MAY_, _SO_MAY_SAI_))){
+					if (isset($post['class_study_id']) && $post['class_study_id'] == '') {
+						$result['success'] = 0;
+						$result['message'] = 'Bạn phải chọn mã lớp học!';
+						echo json_encode($result);
+						die;
+					}
+				
+					if (isset($post['fee']) && $post['fee'] == 0) {
+						$result['success'] = 0;
+						$result['message'] = 'Bạn phải cập nhật giá tiền mua!';
+						echo json_encode($result);
+						die;
+					}
+			
+				}
+			}
 
             $check_rule = $this->_check_rule($param['call_status_id'], $param['level_contact_id'], $param['date_recall']);
 

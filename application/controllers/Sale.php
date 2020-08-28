@@ -376,7 +376,7 @@ class Sale extends MY_Controller {
 
     public function add_contact() {
         $input = $this->input->post();
-//		echo '<pre>';print_r($input);die;
+		//echo '<pre>';print_r($input);die;
         $this->load->library('form_validation');
         $this->form_validation->set_rules('name', 'Họ tên', 'trim|required|min_length[2]');
 //        $this->form_validation->set_rules('address', 'Địa chỉ', 'trim|required|min_length[3]');
@@ -418,7 +418,13 @@ class Sale extends MY_Controller {
                 $data['content'] = 'sale/add_contact';
                 $this->load->view(_MAIN_LAYOUT_, $data);
             } else {
-//				echo '<pre>';print_r($input);die;
+				//echo '<pre>';print_r($input);die;
+				$param['duplicate_id'] = $this->_find_dupliacte_contact($input['email'], $input['phone'], $input['level_language_id']);
+				
+				if ($param['duplicate_id'] > 0) {
+                    show_error_and_redirect('Contact bạn vừa thêm bị trùng, nên không thể thêm được nữa!', 0, $input['back_location']);
+                }
+				
                 $param['name'] = $input['name'];
                 $param['email'] = $input['email'];
 //                $param['address'] = $input['address'];
@@ -432,6 +438,7 @@ class Sale extends MY_Controller {
                 $param['fee'] = $input['fee'];
                 $param['paid'] = $input['paid'];
                 $param['channel_id'] = $input['channel_id'];
+                $param['date_rgt'] = strtotime($input['date_rgt']);
 
 //                print_arr($param);
 				
@@ -444,15 +451,13 @@ class Sale extends MY_Controller {
 						break;
 				}
                 
-				$param['date_rgt'] = time();
+				//$param['date_rgt'] = time();
                 $param['date_handover'] = time();
-                $param['duplicate_id'] = $this->_find_dupliacte_contact($input['email'], $input['phone'], $input['level_language_id']);
+                
 //                print_arr($param);
                 $param['last_activity'] = time();
 //                $param['source_sale_id'] = $input['source_sale_id'];
-                if ($param['duplicate_id'] > 0) {
-                    show_error_and_redirect('Contact bạn vừa thêm bị trùng, nên không thể thêm được nữa!', 0, $input['back_location']);
-                }
+                
 				if(isset($input['campaign_id']) && !empty($input['campaign_id'])){
 					$param['campaign_id'] = $input['campaign_id'];
 				}

@@ -205,6 +205,7 @@ check_edit_contact = () => {
             }
         }
     }
+	/*
     if (class_study_id == 0) {
         $.alert({
             theme: 'modern',
@@ -214,6 +215,8 @@ check_edit_contact = () => {
         });
         return false;
     }
+	*/
+	/*
     if (fee == 0) {
         $.alert({
             theme: 'modern',
@@ -223,6 +226,7 @@ check_edit_contact = () => {
         });
         return false;
     }
+	*/
 
     return true;
 };
