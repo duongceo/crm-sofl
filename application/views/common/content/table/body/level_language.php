@@ -8,6 +8,6 @@
 				break;
 			}
 		}
-	} else echo 'UNKNOWN';
+	} else echo 'Chưa có';
 	?>
 </td>

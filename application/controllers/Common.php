@@ -48,6 +48,7 @@ class Common extends MY_Controller {
 //            ),
             'payment_method_rgt' => array(),
             'sources' => array(),
+			'branch' => array()
         );
         $data = array_merge($this->data, $this->_get_require_data($require_model));
         $left_view = array(
@@ -55,7 +56,7 @@ class Common extends MY_Controller {
             'name' => 'view',
             'email' => 'view',
             'phone' => 'view',
-            'address' => 'view',
+            //'address' => 'view',
             'class_study_id' => 'view',
             'fee' => 'view',
             'paid' => 'view',
@@ -101,7 +102,7 @@ class Common extends MY_Controller {
     function show_edit_contact_modal() {
         $post = $this->input->post();
 
-        if ($this->role_id == 1) {  //sale
+        if ($this->role_id == 1 || $this->role_id == 12) {  //sale && nhân viên cơ sở
             $left_edit = array(
 //                'contact_id' => 'view',
                 'name' => 'edit',
@@ -243,7 +244,7 @@ class Common extends MY_Controller {
             die;
         }
 
-        if ($this->role_id != 1 && $this->role_id != 2 && $this->role_id != 10 && $this->role_id != 13) {
+        if ($this->role_id != 1 && $this->role_id != 2 && $this->role_id != 10 && $this->role_id != 12) {
             $result['success'] = 0;
             $result['message'] = 'Bạn không có quyền chỉnh sửa contact này!';
             echo json_encode($result);
@@ -261,7 +262,7 @@ class Common extends MY_Controller {
 		}
 
 		$require_model = array(
-//            'staffs' => array(),
+            'staffs' => array(),
             'class_study' => array(
 				'where' => array('active' => 1, 'branch_id' => $rows[0]['branch_id']),
                 'order' => array('class_study_id' => 'ASC')
@@ -302,7 +303,7 @@ class Common extends MY_Controller {
         $data['view_edit_left'] = $left_edit;
         $data['view_edit_right'] = $right_edit;
 
-        if ($this->role_id == 1) {
+        if ($this->role_id == 1 || $this->role_id == 12) {
             $edited_contact = ($this->_can_edit_by_sale($rows[0]['call_status_id'], $rows[0]['ordering_status_id']));
 			$data['action_url'] = 'common/update_before_edit_contact/' . $id;
         }
@@ -440,8 +441,11 @@ class Common extends MY_Controller {
             die;
         }
 
-        if ($this->role_id == 1) { // sale
-            if ($rows[0]['sale_staff_id'] != $this->user_id) {
+        if ($this->role_id == 1 || $this->role_id == 12) { // sale && cơ sở
+			if ($this->role_id == 12) {
+				$this->_action_edit_by_sale(trim($id), $rows);
+				die;
+			} else if ($rows[0]['sale_staff_id'] != $this->user_id) {
                 $result['success'] = 0;
                 $result['message'] = "Contact này không được phân cho bạn, vì vậy bạn không thể chăm sóc!";
                 echo json_encode($result);
@@ -554,7 +558,7 @@ class Common extends MY_Controller {
                 die;
             }
 
-            $level_success = array('L3', 'L3.1', 'L3.2');
+            $level_success = array('L3', 'L3.1', 'L3.2', 'L5', 'L5.1', 'L5.2', 'L5.3');
             if (in_array($param['level_contact_id'], $level_success)) {
                 $param['date_confirm'] = time();
 
@@ -597,11 +601,13 @@ class Common extends MY_Controller {
                 $param2 = array(
                     'contact_id' => $id,
                     'content' => $post['note'],
-                    'time' => time(),
+                    'time_created' => time(),
                     'sale_id' => $this->user_id,
                     'contact_code' => $this->contacts_model->get_contact_code($id),
 					'class_study_id' => 0
                 );
+				
+				//print_arr($param2);
                 $this->load->model('notes_model');
                 $this->notes_model->insert($param2);
             }
@@ -1233,7 +1239,7 @@ class Common extends MY_Controller {
                 $param2 = array(
                     'contact_id' => $id,
                     'content' => $post['note'],
-                    'time' => time(),
+                    'time_created' => time(),
                     'sale_id' => $this->user_id,
                     'contact_code' => $this->contacts_model->get_contact_code($id)
                 );
@@ -1315,6 +1321,11 @@ class Common extends MY_Controller {
         $data = array();
         $data['contact_id'] = $id;
         $data['staff_id'] = $this->user_id;
+		
+		if (isset($post['level_contact_id_child']) && !empty($post['level_contact_id_child']) && $post['level_contact_id_child'] != '') {
+			$post['level_contact_id'] = $post['level_contact_id_child'];
+		}
+		
         $statusArr = array('call_status_id', 'level_contact_id');
         foreach ($statusArr as $value) {
             if (isset($post[$value])) {
@@ -1323,6 +1334,7 @@ class Common extends MY_Controller {
                 $data[$value] = "-1";
             }
         }
+		
         $data['time_created'] = time();
         $diffArr = array(
             '[Họ tên]: ' => 'name',
@@ -1436,7 +1448,7 @@ class Common extends MY_Controller {
         /*
          * Các trường cần hiện của bảng contact (đã có default)
          */
-        $this->table .= 'date_rgt date_last_calling call_stt ordering_stt';
+        $this->table .= 'date_rgt call_stt level_contact';
         $data['table'] = explode(' ', $this->table);
         $data['controller'] = $this->input->post('controller', true);
         $result = array();
@@ -1445,7 +1457,8 @@ class Common extends MY_Controller {
         echo json_encode($result);
         die;
     }
-
+	
+	/*
     function find_course_name() {
         $post = $this->input->post();
         $input = array();
@@ -1459,6 +1472,7 @@ class Common extends MY_Controller {
 			echo json_encode(array('name' => 'Không tìm thấy khóa học!','url' => json_decode(file_get_contents($url), true) ));
 		}
     }
+	*/
 
     function send_phone_to_mobile() {
         $post = $this->input->post();
@@ -1546,7 +1560,7 @@ class Common extends MY_Controller {
             $notes = '';
             if (!empty($last_note)) {
                 foreach ($last_note as $value2) {
-                    $notes .= date('d/m/Y', $value2['time']) . ' ==> ' . $value2['content'] . ' ------ ';
+                    $notes .= date('d/m/Y', $value2['time_created']) . ' ==> ' . $value2['content'] . ' ------ ';
                 }
             }
             $notes = html_entity_decode($notes);
@@ -1662,7 +1676,7 @@ class Common extends MY_Controller {
             $notes = '';
             if (!empty($last_note)) {
                 foreach ($last_note as $value2) {
-                    $notes .= date('d/m/Y', $value2['time']) . ' ==> ' . $value2['content'] . ' ------ ';
+                    $notes .= date('d/m/Y', $value2['time_created']) . ' ==> ' . $value2['content'] . ' ------ ';
                 }
             }
             $notes = html_entity_decode($notes);

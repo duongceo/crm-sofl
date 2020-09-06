@@ -92,6 +92,24 @@
 					</div>
 				</div>
 
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-4 text-right">
+                            Trạng thái contact
+                        </div>
+                        <div class="col-md-8">
+                            <select class="form-control select_contact_status" name="level_contact_id">
+                                <option value="">Trạng thái contact</option>
+                                <?php foreach ($level_contact as $value) { ?>
+                                    <option value="<?php echo $value['level_id']; ?>">
+                                        <?php echo $value['level_id'] . ' -- ' . $value['name'] .''; ?>
+                                    </option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
 				<div class="form-group">
 					<div class="row">
 						<div class="col-md-4 text-right">
@@ -280,7 +298,7 @@
                 <div class="form-group">
                     <div class="row">
                         <div class="col-md-4 text-right">
-                            Ngày đăng ký
+                            Ngày contact về
                         </div>
                         <div class="col-md-8">
                             <div class="form-group">
@@ -348,6 +366,15 @@
 		});
 
 	});
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('.select_contact_status').select2({
+            placeholder: 'Tìm trạng thái'
+        });
+
+    });
 </script>
 
 <script type="text/javascript">

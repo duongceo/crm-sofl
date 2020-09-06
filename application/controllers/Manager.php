@@ -13,7 +13,7 @@ class Manager extends MY_Controller {
         parent::__construct();
         $input = array();
         $input['select'] = 'id';
-        $input['where'] = array('call_status_id' => '0', 'sale_staff_id' => '0', 'is_hide' => '0', 'duplicate_id' => '0');
+        $input['where'] = array('call_status_id' => '0', 'level_contact_id' => '', 'sale_staff_id' => '0', 'is_hide' => '0', 'duplicate_id' => '0');
         $this->L['L1'] = count($this->contacts_model->load_all($input));
         $input = array();
         $input['select'] = 'id';
@@ -35,7 +35,7 @@ class Manager extends MY_Controller {
          *
          */
 
-        $conditional['where'] = array('call_status_id' => '0', 'sale_staff_id' => '0', 'is_hide' => '0', 'duplicate_id' => '0');
+        $conditional['where'] = array('call_status_id' => '0', 'level_contact_id' => '', 'sale_staff_id' => '0', 'is_hide' => '0', 'duplicate_id' => '0');
         $data_pagination = $this->_query_all_from_get($get, $conditional, $this->per_page, $offset);
         /*
          * Lấy danh sách contacts
@@ -64,7 +64,7 @@ class Manager extends MY_Controller {
         /*
          * Các trường cần hiện của bảng contact (đã có default)
          */
-        $this->table .= 'date_rgt matrix';
+        $this->table .= 'class_study_id date_rgt matrix';
         $data['table'] = explode(' ', $this->table);
 
         $data['titleListContact'] = 'Danh sách contact mới không trùng';
@@ -124,7 +124,7 @@ class Manager extends MY_Controller {
         /*
          * Các trường cần hiện của bảng contact (đã có default)
          */
-        $this->table .= 'date_rgt matrix';
+        $this->table .= 'class_study_id date_rgt matrix';
         $data['table'] = explode(' ', $this->table);
 
         $data['titleListContact'] = 'Danh sách contact mới bị trùng';
@@ -278,13 +278,14 @@ class Manager extends MY_Controller {
         /*
          * Filter ở cột trái và cột phải
          */
-        $data['left_col'] = array('class_study', 'sale', 'marketer', 'channel', 'payment_method_rgt', 'date_rgt', 'date_handover');
-        $data['right_col'] = array('source', 'call_status', 'ordering_status',);
+        $data['left_col'] = array('class_study', 'sale', 'marketer', 'date_rgt', 'date_handover', 'date_confirm');
+        $data['right_col'] = array('source', 'call_status', 'level_contact');
 
         /*
          * Các trường cần hiện của bảng contact (đã có default)
          */
-        $this->table .= 'call_stt ordering_stt last_activity';
+		 
+        $this->table .= 'class_study_id call_stt level_contact date_rgt date_handover date_confirm';
         $data['table'] = explode(' ', $this->table);
 
         /*
@@ -322,14 +323,16 @@ class Manager extends MY_Controller {
                     'role_id' => 1
                 )
             ),
+			/*
             'courses' => array(
                 'where' => array(
                     'active' => 1
                 )
             ),
+			*/
             'call_status' => array(),
-            'ordering_status' => array(),
-            'cod_status' => array(),
+            //'ordering_status' => array(),
+            //'cod_status' => array(),
             'providers' => array(),
             'payment_method_rgt' => array()
         );
@@ -1352,115 +1355,6 @@ class Manager extends MY_Controller {
         $this->load->view(_MAIN_LAYOUT_, $data);
     }
 
-
-    function view_report_sale_back_up() {
-        $require_model = array(
-            'courses' => array()
-        );
-        $data = array_merge($this->data, $this->_get_require_data($require_model));
-        $get = $this->input->get();
-
-        $input = array();
-        $input['where'] = array('role_id' => 1);
-        $staffs = $this->staffs_model->load_all($input);
-
-        $conditionArr = array(
-            'CHUA_GOI' => array(
-                'where' => array('call_status_id' => '0'),
-                'sum' => 0
-            ),
-            'L1' => array(
-                'where' => array(),
-                'sum' => 0
-            ),
-            'L2' => array(
-                'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_),
-                'sum' => 0
-            ),
-            'L6' => array(
-                'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'ordering_status_id' => _DONG_Y_MUA_),
-                'sum' => 0
-            ),
-            'TU_CHOI_MUA' => array(
-                'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'ordering_status_id' => _TU_CHOI_MUA_),
-                'sum' => 0
-            ),
-            'CHUA_GIAO_HANG_COD' => array(
-                'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'ordering_status_id' => _DONG_Y_MUA_,
-                    'payment_method_rgt' => '1', 'cod_status_id' => '0'),
-                'sum' => 0
-            ),
-            'CHUA_GIAO_HANG_TRANSFER' => array(
-                'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'ordering_status_id' => _DONG_Y_MUA_,
-                    'payment_method_rgt >' => '1', 'cod_status_id' => '0'),
-                'sum' => 0
-            ),
-            'DANG_GIAO_HANG' => array(
-                'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'ordering_status_id' => _DONG_Y_MUA_,
-                    'cod_status_id' => _DANG_GIAO_HANG_),
-                'sum' => 0
-            ),
-            'DA_THU_COD' => array(
-                'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'ordering_status_id' => _DONG_Y_MUA_,
-                    'cod_status_id' => _DA_THU_COD_),
-                'sum' => 0
-            ),
-            'L8' => array(
-                'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'ordering_status_id' => _DONG_Y_MUA_,
-                    'cod_status_id' => _DA_THU_LAKITA_),
-                'sum' => 0
-            ),
-            'L7L8' => array(
-                'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'ordering_status_id' => _DONG_Y_MUA_,
-                    '(`cod_status_id` = ' . _DA_THU_COD_ . ' OR `cod_status_id` = ' . _DA_THU_LAKITA_ . ')' => 'NO-VALUE'),
-                'sum' => 0
-            ),
-            'HUY_DON' => array(
-                'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'ordering_status_id' => _DONG_Y_MUA_,
-                    'cod_status_id' => _HUY_DON_),
-                'sum' => 0
-            ),
-            'LC' => array(
-                'where' => array(
-                    '(`call_status_id` = ' . _SO_MAY_SAI_ . ' OR `call_status_id` = ' . _NHAM_MAY_ . ' OR `ordering_status_id` = ' . _CONTACT_CHET_ . ')' => 'NO-VALUE'),
-                'sum' => 0
-            ),
-            'CON_CUU_DUOC' => array(
-                'where' => array(
-                    '(`call_status_id` = ' . _KHONG_NGHE_MAY_ . ' OR `ordering_status_id` in (' . _BAN_GOI_LAI_SAU_ . ' , ' . _CHAM_SOC_SAU_MOT_THOI_GIAN_ . ',' . _LAT_NUA_GOI_LAI_ . '))' => 'NO-VALUE'),
-                'sum' => 0
-            ),
-        );
-
-        foreach ($staffs as $key => $value) {
-            foreach ($conditionArr as $key2 => $value2) {
-                $conditional = array();
-                $conditional['where']['sale_staff_id'] = $value['id'];
-                if (!count($get)) {
-                    $conditional['where']['date_handover >='] = strtotime(date('01-m-Y'));
-                }
-                foreach ($value2['where'] as $key3 => $value3) {
-                    $conditional['where'][$key3] = $value3;
-                }
-                $staffs[$key][$key2] = $this->_query_for_report($get, $conditional);
-                $conditionArr[$key2]['sum'] += $staffs[$key][$key2];
-            }
-        }
-        foreach ($conditionArr as $key => $value) {
-            $data[$key] = $value['sum'];
-        }
-
-//        echo '<pre>';
-//        print_r($data);die;
-
-        $data['staffs'] = $staffs;
-        $data['left_col'] = array('date_handover');
-        $data['right_col'] = array('course_code');
-        $data['load_js'] = array('m_view_report');
-        $data['content'] = 'manager/view_report';
-        $this->load->view(_MAIN_LAYOUT_, $data);
-    }
-
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Báo cáo doanh thu theo ngày nhận tiền">
@@ -1973,6 +1867,9 @@ class Manager extends MY_Controller {
             'payment_method_rgt' => array(),
             'sources' => array(),
             'channel' => array(),
+            'branch' => array(),
+            'level_language' => array(),
+			'level_contact' => array()
         );
         return array_merge($this->data, $this->_get_require_data($require_model));
     }
@@ -2131,6 +2028,7 @@ class Manager extends MY_Controller {
         $progress['sale']['progress'] = round($progress['sale']['count'] / $progress['sale']['kpi'] * 100, 2);
 
         // thêm hàng cod L8
+		/*
         $inputContact = array();
         $inputContact['select'] = 'id';
         $inputContact['where'] = array('date_receive_cost >' => strtotime(date('d-m-Y')), 'is_hide' => '0');
@@ -2142,6 +2040,7 @@ class Manager extends MY_Controller {
             'type' => 'L8'
         );
         $progress['cod']['progress'] = round($progress['cod']['count'] / $progress['cod']['kpi'] * 100, 2);
+		*/
 
         return $progress;
     }
@@ -2180,7 +2079,8 @@ class Manager extends MY_Controller {
             'type' => 'L6'
 			);
         $progress['sale']['progress'] = round($progress['sale']['count'] / $progress['sale']['kpi'] * 100, 2);
-
+		
+		/*
         $inputContact = array();
         $inputContact['select'] = 'id';
         $inputContact['where'] = array('date_receive_cost >' => strtotime(date('01-m-Y')), 'is_hide' => '0');
@@ -2193,7 +2093,7 @@ class Manager extends MY_Controller {
         );
 
         $progress['cod']['progress'] = round($progress['cod']['count'] / $progress['cod']['kpi'] * 100, 2);
-
+		*/
         return $progress;
     }
 

@@ -410,13 +410,22 @@ class Class_study extends MY_Table {
 
 //		$student = $this->contacts_model->load_all($input);
 
+		$require_model = array(
+            'branch' => array(),
+			'level_contact' => array(),
+            'level_language' => array(),
+
+        );
+
+        $data = $this->_get_require_data($require_model);
+
 		$data_pagination = $this->_query_all_from_get(array(), $input, 40, 0);
 
 		$data['pagination'] = $this->_create_pagination_link($data_pagination['total_row']);
         $data['contacts'] = $data_pagination['data'];
         $data['total_contact'] = $data_pagination['total_row'];
 
-		$this->table .= 'date_rgt';
+		$this->table .= 'level_contact date_confirm date_rgt';
 		$data['table'] = explode(' ', $this->table);
 		$this->load->view('common/content/tbl_contact', $data);
 	}

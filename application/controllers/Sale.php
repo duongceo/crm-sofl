@@ -126,7 +126,7 @@ class Sale extends MY_Controller {
             $notes = '';
             if (!empty($last_note)) {
                 foreach ($last_note as $value2) {
-                    $notes .= '<p>' . date('d/m/Y', $value2['time']) . ' ==> ' . $value2['content'] . '</p>';
+                    $notes .= '<p>' . date('d/m/Y', $value2['time_created']) . ' ==> ' . $value2['content'] . '</p>';
                 }
                 $value['last_note'] = $notes;
             } else {
@@ -140,7 +140,7 @@ class Sale extends MY_Controller {
         $data['left_col'] = array('date_recall', 'date_rgt', 'date_last_calling');
 //        $data['right_col'] = array('');
 
-        $this->table = 'selection name phone last_note class_study_id fee date_recall link';
+        $this->table = 'selection name phone last_note level_language level_contact fee date_recall';
         $data['table'] = explode(' ', $this->table);
 
         /*
@@ -195,7 +195,7 @@ class Sale extends MY_Controller {
             $notes = '';
             if (!empty($last_note)) {
                 foreach ($last_note as $value2) {
-                    $notes .= '<p>' . date('d/m/Y', $value2['time']) . ' ==> ' . $value2['content'] . '</p>';
+                    $notes .= '<p>' . date('d/m/Y', $value2['time_created']) . ' ==> ' . $value2['content'] . '</p>';
                 }
                 $value['last_note'] = $notes;
             } else {
@@ -345,10 +345,10 @@ class Sale extends MY_Controller {
         $data['contacts'] = $data_pagination['data'];
         $data['total_contact'] = $data_pagination['total_row'];
 
-        $data['left_col'] = array('date_rgt', 'date_handover', 'date_last_calling');
-        $data['right_col'] = array('call_status');
+        $data['left_col'] = array('date_rgt', 'date_handover', 'date_confirm');
+        $data['right_col'] = array('call_status', 'level_contact');
 
-        $this->table .= 'date_last_calling call_stt level_contact';
+        $this->table .= 'call_stt level_contact date_rgt date_last_calling';
         $data['table'] = explode(' ', $this->table);
 
         /*
@@ -389,6 +389,7 @@ class Sale extends MY_Controller {
                 $this->session->set_tempdata('msg_success', 0, 2);
                 $require_model = array(
 					'branch' => array(),
+					'level_contact' => array(),
 					'language_study' => array(),
 					'level_language' => array(),
 					'class_study' => array(),
@@ -414,7 +415,7 @@ class Sale extends MY_Controller {
 					),
                 );
                 $data = array_merge($this->data, $this->_get_require_data($require_model));
-//                print_arr($data);
+                //print_arr($data);
                 $data['content'] = 'sale/add_contact';
                 $this->load->view(_MAIN_LAYOUT_, $data);
             } else {
@@ -439,6 +440,7 @@ class Sale extends MY_Controller {
                 $param['paid'] = $input['paid'];
                 $param['channel_id'] = $input['channel_id'];
                 $param['date_rgt'] = strtotime($input['date_rgt']);
+                $param['level_contact_id'] = $input['level_contact_id'];
 
 //                print_arr($param);
 				
@@ -449,6 +451,12 @@ class Sale extends MY_Controller {
 					case 6:
 						$param['marketer_id'] = $this->user_id;
 						break;
+				}
+				
+				$success = array('L5', 'L5.1', 'L5.2', 'L5.3');
+				
+				if (in_array($param['level_contact_id'], $success)) {
+					$param['date_confirm'] = $param['date_last_calling'] = time();
 				}
                 
 				//$param['date_rgt'] = time();
@@ -511,6 +519,7 @@ class Sale extends MY_Controller {
             $require_model = array(
             	'branch' => array(),
                 'language_study' => array(),
+                'level_contact' => array(),
                 'level_language' => array(),
                 'class_study' => array(),
                 'sources' => array(),
@@ -539,9 +548,12 @@ class Sale extends MY_Controller {
 				)
             );
             $data = array_merge($this->data, $this->_get_require_data($require_model));
+			
+			if ($this->role_id == 12 || $this->role_id == 6) {
+				$data['top_nav'] = 'manager/common/top-nav';
+			}
 //            print_arr($data);
             $data['content'] = 'sale/add_contact';
-			//echo '<pre>';print_r($data);die;
 
             $this->load->view(_MAIN_LAYOUT_, $data);
         }
@@ -781,6 +793,7 @@ class Sale extends MY_Controller {
                     'class_study_id' => 'ASC'
                 )
             ),
+			'level_contact' => array(),
             'branch' => array('active' => 1),
             'level_language' => array(),
             'language_study' => array(),

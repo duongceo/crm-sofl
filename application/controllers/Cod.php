@@ -668,12 +668,17 @@ class Cod extends MY_Controller {
 
         $this->load->library("email");
         
-		$this->email->from('cskh@lakita.vn', "lakita");
+		//$this->email->from('cskh@lakita.vn', "lakita");
 		//$emailto = 'thanhloc1302@gmail.com';
+		
+		$this->load->from('htkt.sofl@gmail.com');
 
-		 $emailto = 'hubhbt@gmail.com'; //viettel
+		//$emailto = 'hubhbt@gmail.com'; //viettel
+		
+		$emailto = 'nv.quang.2897@gmail.com';
+		
         $this->email->to($emailto);
-        $this->email->subject('Lakita gửi danh sách đơn ngày ' . date('d/m/Y'));
+        $this->email->subject('Trung tâm ngoại ngữ SOFL gửi danh sách đơn ngày ' . date('d/m/Y'));
         $this->email->message('Anh cho em gửi  danh sách COD Viettel ngày ' . date('d/m/Y') . '. Anh giúp em với ạ. Em cảm ơn ạ!');
         $this->email->attach($fileName);
         $this->email->send();
@@ -983,6 +988,7 @@ class Cod extends MY_Controller {
 
     function view_all_contact($offset = 0) {
         $data = $this->_get_all_require_data();
+		//print_arr($data);
         $get = $this->input->get();
         $conditional['where'] = array('ordering_status_id' => _DONG_Y_MUA_, 'is_hide' => '0');
         $data_pagination = $this->_query_all_from_get($get, $conditional, $this->per_page, $offset);
@@ -990,8 +996,8 @@ class Cod extends MY_Controller {
         $data['contacts'] = $data_pagination['data'];
         //print_arr($data['contacts']);
         $data['total_contact'] = $data_pagination['total_row'];
-        $data['left_col'] = array('sale', 'date_print_cod', 'date_confirm', 'date_receive_cod', 'date_receive_lakita','date_receive_cancel_cod');
-        $data['right_col'] = array('provider', 'warning', 'payment_method_rgt', 'cod_status', 'is_black');
+        $data['left_col'] = array('sale', 'date_print_cod', 'date_confirm', 'date_receive_cod');
+        $data['right_col'] = array('provider', 'payment_method_rgt', 'cod_status');
         $this->table .= 'date_print_cod provider code_cross_check cod_status';
         $data['table'] = explode(' ', $this->table);
 

@@ -15,7 +15,7 @@ class Notes_model extends MY_Model {
 
     public function __construct() {
         parent::__construct();
-        $this->table = 'note';
+        $this->table = 'tbl_note';
     }
 
 }

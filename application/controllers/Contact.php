@@ -123,7 +123,7 @@ class Contact extends CI_Controller {
             $this->contacts_model->insert_from_mol($param);
             $this->contacts_backup_model->insert_from_mol($param);
 
-            // $this->load->view('landingpage/popup_dangky');
+            //$this->load->view('landingpage/popup_dangky');
 
             $marketerId = isset($param['marketer_id']) ? $param['marketer_id'] : '0';
 
@@ -163,7 +163,7 @@ class Contact extends CI_Controller {
 
             $marketer = $this->staffs_model->load_all($inputMkt);
 
-            if ($marketer[0]['targets'] != '') {
+            if ($marketer[0]['targets'] != 0) {
 
                 $inputToday = [];
 
