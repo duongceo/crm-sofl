@@ -82,35 +82,35 @@
 	        $this->load->view(_MAIN_LAYOUT_, $data);
 	    }
 
+	    private function get_all_require_data() {
+	        $require_model = array(
+	            'staffs' => array(
+	                'where' => array(
+	                    'role_id' => 1,
+	                    'active' => 1
+	                )
+	            ),
+	            'class_study' => array(
+	                'where' => array(
+	                    'active' => 1
+	                ),
+	                'order' => array(
+	                    'class_study_id' => 'ASC'
+	                )
+	            ),
+	            'call_status' => array(),
+	            'ordering_status' => array(),
+	            'payment_method_rgt' => array(),
+	            'sources' => array(),
+	            'channel' => array(),
+	            'branch' => array(),
+	            'level_language' => array(),
+				'level_contact' => array()
+	        );
+	        return array_merge($this->data, $this->_get_require_data($require_model));
+	    }
 
+    
 	}
-
-	private function get_all_require_data() {
-        $require_model = array(
-            'staffs' => array(
-                'where' => array(
-                    'role_id' => 1,
-                    'active' => 1
-                )
-            ),
-            'class_study' => array(
-                'where' => array(
-                    'active' => 1
-                ),
-                'order' => array(
-                    'class_study_id' => 'ASC'
-                )
-            ),
-            'call_status' => array(),
-            'ordering_status' => array(),
-            'payment_method_rgt' => array(),
-            'sources' => array(),
-            'channel' => array(),
-            'branch' => array(),
-            'level_language' => array(),
-			'level_contact' => array()
-        );
-        return array_merge($this->data, $this->_get_require_data($require_model));
-    }
 
 ?>
