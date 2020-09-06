@@ -48,10 +48,10 @@
 
               <li> <i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp; Chăm sóc contact này </li>
 
-			<!--
+			
             </a>
 
-			     <a href="#" contact_id="0" contact_name="0" class="restore-infor one-item-selected" >
+			<!-- <a href="#" contact_id="0" contact_name="0" class="restore-infor one-item-selected" >
 
                 <li> <i class="fa fa-wrench" aria-hidden="true"></i>  &nbsp; &nbsp; Khôi phục thông tin</li>
 
@@ -60,8 +60,8 @@
 
                 <li> <i class="fa fa-wrench" aria-hidden="true"></i>  &nbsp; &nbsp; Khôi phục thông tin</li>
 
-            </a>
-			-->
+            </a> -->
+			
 <!--            <a href="#" contact_name="0" contact_phone="0" class="send-banking-info-multi-course multi-item-selected" >-->
 <!---->
 <!--                <li> <i class="fa fa-credit-card-alt" aria-hidden="true"></i> &nbsp; &nbsp;  -->
@@ -70,11 +70,11 @@
 <!---->
 <!--            </a>-->
 
-            <!-- <a href="#" contact_id="0" contact_name="0" class="transfer_one_contact one-item-selected" >
+            <a href="#" contact_id="0" contact_name="0" class="transfer_one_contact one-item-selected" >
 
                 <li> <i class="fa fa-exchange" aria-hidden="true"></i>  &nbsp; &nbsp; Chuyển nhượng contact này</li>
 
-            </a> -->
+            </a>
 
 <!--            <a href="#" contact_id="0" contact_name="0" class="transfer_one_contact_to_manager one-item-selected" >-->
 <!---->
@@ -88,11 +88,11 @@
 <!---->
 <!--            </a>-->
 
-            <!-- <a href="#" class="transfer_contact multi-item-selected">
+            <a href="#" class="transfer_contact multi-item-selected">
 
                 <li>  <i class="fa fa-exchange" aria-hidden="true"></i>  &nbsp; &nbsp; Chuyển nhượng các contact đã chọn </li>
 
-            </a> -->
+            </a>
 
         <?php } else if ($controller == 'customer_care') { ?>
 
@@ -132,29 +132,29 @@
 
             </a>
 
-			<a href="#" class="select_provider multi-item-selected"> 
+			<!-- <a href="#" class="select_provider multi-item-selected"> 
 
                 <li> <i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp; Chăm sóc các contact đã chọn </li>
 
-            </a>
+            </a> -->
 
-			<a href="#" contact_id="0" contact_name="0" class="transfer_one_contact one-item-selected" >
+			<!-- <a href="#" contact_id="0" contact_name="0" class="transfer_one_contact one-item-selected" >
 
                 <li> <i class="fa fa-exchange" aria-hidden="true"></i>  &nbsp; &nbsp; Chuyển nhượng contact này</li>
 
-            </a>
+            </a> -->
 
-            <a href="#" class="cod_transfer_multi_contact multi-item-selected">
+            <!-- <a href="#" class="cod_transfer_multi_contact multi-item-selected">
 
                 <li>  <i class="fa fa-exchange" aria-hidden="true"></i>  &nbsp; &nbsp; Chuyển nhượng các contact đã chọn </li>
 
-            </a>
+            </a> -->
 
-            <a href="#" contact_name="0" contact_phone="0" class="send_to_mobile one-item-selected" >
+            <!-- <a href="#" contact_name="0" contact_phone="0" class="send_to_mobile one-item-selected" >
 
                 <li> <i class="fa fa-phone-square" aria-hidden="true"></i> &nbsp; &nbsp;  Gửi số điện thoại vào mobile </li>
 
-            </a>
+            </a> -->
 
             <a href="#" class="btn-export-excel multi-item-selected"> 
 
@@ -182,25 +182,25 @@
 
             </a>
 
-			<a href="#" class="send-email-to-vnpost multi-item-selected" data-form-id="action_contact" data-action="cod/SendEmailToProviderVnpost"
+			<!-- <a href="#" class="send-email-to-vnpost multi-item-selected" data-form-id="action_contact" data-action="cod/SendEmailToProviderVnpost"
 
                data-method="POST">
 
                 <li> <i class="fa fa-envelope" aria-hidden="true"></i> &nbsp; &nbsp; Gửi mail cho VNPOST các contact đã chọn </li>
 
             </a>
-
+ -->
             <a href="#" class="btn-export-exel-for-viettel"> 
 
                 <li> <i class="fa fa-paper-plane" aria-hidden="true"></i> &nbsp; &nbsp; Xuất file excel để gửi cho Viettel </li>
 
             </a>
 
-            <a href="#" class="export_to_string multi-item-selected"> 
+            <!-- <a href="#" class="export_to_string multi-item-selected"> 
 
                 <li> <i class="fa fa-link" aria-hidden="true"></i> &nbsp; &nbsp; Xuất thành chuỗi đối soát </li>
 
-            </a>
+            </a> -->
 
             <a href="#" class="btn-reset-provider multi-item-selected"> 
 
@@ -208,12 +208,12 @@
 
             </a>
 
-            <a href="#" class="send-lakita-account-combo-course multi-item-selected"> 
+            <!-- <a href="#" class="send-lakita-account-combo-course multi-item-selected"> 
 
                 <li> <i class="fa fa-user" aria-hidden="true"></i> &nbsp; &nbsp; Tạo tài khoản Lakita và gửi email cho các contact đã chọn </li>
 
             </a>
-
+ -->
         <?php } else if ($controller == 'admin') { ?>
 
             <a href="#" class="action-contact-admin load-new-contact-id" data-contact-id ="0" data-answer="Thu hồi thành công contact!"
@@ -232,7 +232,7 @@
 
                data-url="admin/delete_one_contact"> 
 
-                <li> 
+                <li>
 
                     <i class="fa fa-recycle" aria-hidden="true"></i> &nbsp; &nbsp; Thùng rác 
 
@@ -287,7 +287,7 @@
 					</a>
 				<?php } ?>
 
-				<a href="#" class="delete_item" item_id="0">
+				<!-- <a href="#" class="delete_item" item_id="0">
 
 					<li><i class="fa fa-trash-o" aria-hidden="true"></i> &nbsp; &nbsp; Xóa dòng </li>
 
@@ -297,7 +297,7 @@
 
 					<li><i class="fa fa-trash-o" aria-hidden="true"></i> &nbsp; &nbsp; Xóa các dòng đã chọn </li>
 
-				</a>
+				</a> -->
 
 			<?php }} ?>
 
@@ -314,7 +314,18 @@
 <!--	        </a>-->
 <!--				-->
 
-		<?php if (in_array($controller, array('sale', 'manager', 'customer_care', 'marketer', 'marketing', 'student'))) { ?>
+        <?php if ($this->role_id == 12) { ?>
+            <a href="#" class="ajax-request-modal load-new-contact-id edit-one-contact one-item-selected" data-contact-id ="0" data-modal-name="edit-contact-div"
+
+               data-url="common/show_edit_contact_modal">
+
+              <li> <i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp; Chăm sóc contact này </li>
+
+            
+            </a>
+        <?php } ?>
+        
+		<?php //if (in_array($controller, array('sale', 'manager', 'customer_care', 'marketer', 'marketing', 'student'))) { ?>
 			<a href="#" class="ajax-request-modal load-new-contact-id one-item-selected" data-contact-id ="0" data-modal-name="view-detail-contact-div"
 
 			  data-url="common/view_detail_contact">
@@ -326,7 +337,7 @@
 			  </li>
 
 			</a>
-		<?php } ?>
+		<?php //} ?>
 
     </ul>
 

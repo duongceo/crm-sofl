@@ -222,7 +222,7 @@ class MY_Table extends MY_Controller {
 
         $input_get_arr = $this->_get_query_condition_arr($get);
 
-//        print_arr($get);
+        // print_arr($get);
 
         /* Lấy điều kiện query từ các thao tác lọc, sắp xếp, tìm kiếm */
 
@@ -262,10 +262,10 @@ class MY_Table extends MY_Controller {
 
         $this->conditional = $input;
 		
-//		echo '<pre>';print_r($input);die;
+		// echo '<pre>';print_r($input);die;
 
         $total_row = $this->{$this->model}->m_count_all_result_from_get($this->conditional);
-//		print_arr($total_row);
+		// print_arr($total_row);
         $this->data['total_rows'] = $total_row;
 
         /* lấy data sau khi phân trang
@@ -498,7 +498,7 @@ class MY_Table extends MY_Controller {
 			$rows[0]['form_plugin'] .= '<input type="hidden" value="" name="link_id" />
 					<input type="hidden" value="'.$rows[0]['code'].'" name="code_landingpage" />
 					<div class="form-input"><input type="text" name="source_id" placeholder="Không bắt buộc"></div>
-					<div class="btn-submit e_btn_submit"><button type="submit">ĐĂNG KÝ TƯ VẤN NGAY</button></div>
+					<div class="btn-submit e_btn_submit"><button type="submit">ĐĂNG KÝ</button></div>
 				</form>
 
 				<style>

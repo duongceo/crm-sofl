@@ -735,7 +735,7 @@ class MY_Controller extends CI_Controller {
 
         $param['content_change'] = $content_change;
 
-        $param['time'] = time();
+        $param['time_created'] = time();
 
         $this->call_log_model->insert($param);
 
@@ -1056,6 +1056,10 @@ class MY_Controller extends CI_Controller {
 			'channel' => array(),
 			
 			'campaign' => array(),
+			
+			'branch' => array(),
+			
+			'level_language' => array()
 
         );
 
@@ -1105,7 +1109,7 @@ class MY_Controller extends CI_Controller {
 
         /*Các trường cần hiện của bảng contact (đã có default)*/
 
-        $this->table .= 'date_last_calling call_stt ordering_stt last_activity';
+        $this->table .= 'call_stt level_contact';
 
         if ($this->role_id == 1) {
 

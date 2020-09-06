@@ -30,7 +30,7 @@
                                 <?php echo $value['content']; ?>
                             </td>	
                             <td class="center">
-                                <?php echo date(_DATE_FORMAT_, $value['time']); ?>
+                                <?php echo date(_DATE_FORMAT_, $value['time_created']); ?>
                             </td>
 							
                             <td class="center">

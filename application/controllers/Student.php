@@ -8,7 +8,7 @@ class Student extends MY_Controller {
 	}
 
 	public function index($offset=0) {
-		$data = $this->data;
+		$data = $this->get_all_require_data();
 		$branch_id = $this->session->userdata('branch_id');
 		$role_id =  $this->session->userdata('role_id');
 
@@ -31,10 +31,10 @@ class Student extends MY_Controller {
 		$data['contacts'] = $data_pagination['data'];
 		$data['total_contact'] = $data_pagination['total_row'];
 
-		$data['left_col'] = array('date_rgt');
+		$data['left_col'] = array('date_rgt', 'date_confirm');
 		$data['right_col'] = array('class_study');
 
-		$this->table .= 'paid date_confirm';
+		$this->table .= 'class_study_id fee paid date_confirm date_rgt';
 		$data['table'] = explode(' ', $this->table);
 		//echo '<pre>'; print_r($data['table']);die;
 
@@ -44,4 +44,31 @@ class Student extends MY_Controller {
 		$this->load->view(_MAIN_LAYOUT_, $data);
 
 	}
+
+	private function get_all_require_data() {
+        $require_model = array(
+            'staffs' => array(
+                'where' => array(
+                    'role_id' => 1,
+                    'active' => 1
+                )
+            ),
+            'class_study' => array(
+                'where' => array(
+                    'active' => 1
+                ),
+                'order' => array(
+                    'class_study_id' => 'ASC'
+                )
+            ),
+            'call_status' => array(),
+            //'ordering_status' => array(),
+            'payment_method_rgt' => array(),
+            'sources' => array(),
+            'channel' => array(),
+            'branch' => array(),
+            'level_language' => array()
+        );
+        return array_merge($this->data, $this->_get_require_data($require_model));
+    }
 }

@@ -34,7 +34,7 @@ class Contacts_model extends MY_Model {
         $input = array();
         $input['where'] = array('id' => $id);
         $rows = $this->load_all($input);
-        $code = $rows[0]['phone'] . '_' . $rows[0]['class_study_id'];
+        $code = $rows[0]['phone'] . '_' . $rows[0]['level_language_id'];
         return $code;
     }
 
