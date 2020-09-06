@@ -238,8 +238,6 @@ class Marketing extends MY_Table {
 
         $data['content'] = 'marketing/index';
 
-
-
         $this->load->view(_MAIN_LAYOUT_, $data);
     }
 

@@ -53,7 +53,7 @@
 
                     <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 
-                        <img src="<?php echo $this->session->userdata('image_staff'); ?>" alt=""> <?php echo $this->session->userdata('name'); ?> &nbsp;&nbsp;&nbsp;&nbsp;
+                        <img src="<?php echo base_url(); ?>style/img/logo.png" alt=""> <?php echo $this->session->userdata('name'); ?> &nbsp;&nbsp;&nbsp;&nbsp;
 
 <!--                        <span class=" fa fa-angle-down"></span>-->
 

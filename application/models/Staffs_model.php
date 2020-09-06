@@ -34,8 +34,6 @@ class Staffs_model extends MY_Model {
 
     }
 
-
-
     function update_where_in($where_in = array(), $data = array()) {
 
         foreach ($where_in as $key => $value) {
@@ -57,8 +55,6 @@ class Staffs_model extends MY_Model {
         }
 
     }
-
-
 
     public function find_staff_name($id) {
 
@@ -99,7 +95,6 @@ class Staffs_model extends MY_Model {
         return $name;
 
     }
-
 
     public function GetActiveMarketers() {
 
