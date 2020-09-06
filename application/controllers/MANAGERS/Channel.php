@@ -420,6 +420,7 @@ class Channel extends MY_Table {
 
 //        }
 
+		
         $this->set_conditional($conditional);
 
         $this->set_offset($offset);
