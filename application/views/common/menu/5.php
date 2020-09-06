@@ -16,7 +16,7 @@ s
 
                 <img src="<?php echo base_url(); ?>public/images/new.png"> 
 
-                <span> Danh sách contact mới (<?php echo $this->L['C3']; ?>)</span>
+                <span> Danh sách contact mới (<?php echo $this->L['L1']; ?>)</span>
 
             </a>
 
@@ -95,29 +95,29 @@ s
 
                 </li>
 
-                <li>
-
-                    <a href="<?php echo base_url('MANAGERS/marketers'); ?>">
-
-                        <img src="<?php echo base_url(); ?>public/images/marketer.png">   
-
-                        <span> Quản lý Marketer </span> 
-
-                    </a>
-
-                </li>
-
-                <li>
-
-                    <a href="<?php echo base_url('warehouse'); ?>">
-
-                        <img src="<?php echo base_url(); ?>public/images/warehouse.png"> 
-
-                        <span> Quản lý Kho email  </span>
-
-                    </a>
-
-                </li>
+<!--                <li>-->
+<!---->
+<!--                    <a href="--><?php //echo base_url('MANAGERS/marketers'); ?><!--">-->
+<!---->
+<!--                        <img src="--><?php //echo base_url(); ?><!--public/images/marketer.png">   -->
+<!---->
+<!--                        <span> Quản lý Marketer </span> -->
+<!---->
+<!--                    </a>-->
+<!---->
+<!--                </li>-->
+<!---->
+<!--                <li>-->
+<!---->
+<!--                    <a href="--><?php //echo base_url('warehouse'); ?><!--">-->
+<!---->
+<!--                        <img src="--><?php //echo base_url(); ?><!--public/images/warehouse.png"> -->
+<!---->
+<!--                        <span> Quản lý Kho email  </span>-->
+<!---->
+<!--                    </a>-->
+<!---->
+<!--                </li>-->
     
             </ul>
         </li>
@@ -130,17 +130,17 @@ s
             </a>
             <ul class="collapse list-unstyled" id="homeSubmenu_2">
             
-               <li>
-
-                    <a href="<?php echo base_url('marketing/view_report_operation'); ?>">
-
-                        <img src="<?php echo base_url(); ?>public/images/report.png"> 
-
-                        <span> Xem báo cáo marketing  </span>
-
-                    </a>
-
-                </li>
+<!--               <li>-->
+<!---->
+<!--                    <a href="--><?php //echo base_url('marketing/view_report_operation'); ?><!--">-->
+<!---->
+<!--                        <img src="--><?php //echo base_url(); ?><!--public/images/report.png"> -->
+<!---->
+<!--                        <span> Xem báo cáo marketing  </span>-->
+<!---->
+<!--                    </a>-->
+<!---->
+<!--                </li>-->
                 <li>
 
                     <a href="<?php echo base_url('marketing/view_report_quality_contact'); ?>">
@@ -153,17 +153,17 @@ s
 
                 </li>
                 
-                <li>
-
-                    <a href="<?php echo base_url('marketing/view_report_courses'); ?>">
-
-                        <img src="<?php echo base_url(); ?>public/images/course.png"> 
-
-                        <span> Xem báo cáo vòng đời khóa học  </span>
-
-                    </a>
-
-                </li>
+<!--                <li>-->
+<!---->
+<!--                    <a href="--><?php //echo base_url('marketing/view_report_courses'); ?><!--">-->
+<!---->
+<!--                        <img src="--><?php //echo base_url(); ?><!--public/images/course.png"> -->
+<!---->
+<!--                        <span> Xem báo cáo vòng đời khóa học  </span>-->
+<!---->
+<!--                    </a>-->
+<!---->
+<!--                </li>-->
 
             </ul>
         </li>

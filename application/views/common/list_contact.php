@@ -9,6 +9,8 @@
 
             <h1 class="text-center text-uppercase red margintop20 marginbottom20"> <?php echo $progressType?> </h1>
 
+<!--			--><?php //print_arr($progress)?>
+
             <?php foreach ($progress as $team) { ?>
 
                 <div class="row">
