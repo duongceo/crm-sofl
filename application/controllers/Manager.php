@@ -59,7 +59,7 @@ class Manager extends MY_Controller {
          * Filter ở cột trái và cột phải
          */
         $data['left_col'] = array('duplicate', 'date_rgt');
-        $data['right_col'] = array('tv_dk');
+        //$data['right_col'] = array('tv_dk');
 
         /*
          * Các trường cần hiện của bảng contact (đã có default)
@@ -278,14 +278,14 @@ class Manager extends MY_Controller {
         /*
          * Filter ở cột trái và cột phải
          */
-        $data['left_col'] = array('class_study', 'sale', 'marketer', 'date_rgt', 'date_handover', 'date_confirm');
-        $data['right_col'] = array('source', 'call_status', 'level_contact');
+        $data['left_col'] = array('language', 'sale', 'marketer', 'date_rgt', 'date_handover', 'date_confirm');
+        $data['right_col'] = array('branch', 'source', 'call_status', 'level_contact');
 
         /*
          * Các trường cần hiện của bảng contact (đã có default)
          */
 		 
-        $this->table .= 'class_study_id call_stt level_contact date_rgt date_handover date_confirm';
+        $this->table .= 'class_study_id call_stt level_contact date_rgt date_handover';
         $data['table'] = explode(' ', $this->table);
 
         /*
@@ -1869,7 +1869,8 @@ class Manager extends MY_Controller {
             'channel' => array(),
             'branch' => array(),
             'level_language' => array(),
-			'level_contact' => array()
+			'level_contact' => array(),
+			'language_study' => array(),
         );
         return array_merge($this->data, $this->_get_require_data($require_model));
     }
