@@ -378,10 +378,10 @@ class Sale extends MY_Controller {
         $input = $this->input->post();
 		//echo '<pre>';print_r($input);die;
         $this->load->library('form_validation');
-        $this->form_validation->set_rules('name', 'Họ tên', 'trim|required|min_length[2]');
+        //$this->form_validation->set_rules('name', 'Họ tên', 'trim|required|min_length[2]');
 //        $this->form_validation->set_rules('address', 'Địa chỉ', 'trim|required|min_length[3]');
         $this->form_validation->set_rules('phone', 'Số điện thoại', 'trim|required|min_length[2]|integer');
-//        $this->form_validation->set_rules('course_code', 'Mã khóa học', 'required|callback_check_course_code');
+        $this->form_validation->set_rules('language_id', 'Ngoại ngữ', 'required');
 //        $this->form_validation->set_rules('source_id', 'Nguồn contact', 'required|callback_check_source_id');
         if (!empty($input)) {
             if ($this->form_validation->run() == FALSE) {

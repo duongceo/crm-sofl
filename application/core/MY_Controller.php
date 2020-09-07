@@ -197,14 +197,14 @@ class MY_Controller extends CI_Controller {
 
         if ($this->role_id == 1) {
 
-    	    $this->table = 'selection name phone branch level_language ';
+    	    $this->table = 'selection name phone branch language level_language ';
 
         } else if ($this->role_id == 2) {
     		
-    		$this->table = 'selection name phone branch level_language ';
+    		$this->table = 'selection name phone branch language level_language ';
 
     	} else {
-            $this->table = 'selection name phone branch level_language ';
+            $this->table = 'selection name phone branch language level_language ';
         }
 
     }
@@ -690,18 +690,23 @@ class MY_Controller extends CI_Controller {
         $input = array();
 
         $input['select'] = 'id';
-
+		
+		/*
         $input['where'] = array(
 
-           // 'phone' => $phone,
+			'phone' => $phone,
 
-            'level_language_id' => $level_language_id
+            //'level_language_id' => $level_language_id
 
         );
+		*/
+		
         
         $input['like_before'] = array('phone' => $phone);
         
         $input['order'] = array('id', 'ASC');
+		
+		//print_arr($input);
 
         $rs = $this->contacts_model->load_all($input);
         

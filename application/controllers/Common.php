@@ -588,7 +588,7 @@ class Common extends MY_Controller {
 //				$acc = $this->create_new_account_student(trim($id));
 
             } else {
-                $param['date_confirm'] = 0;
+                $param['date_confirm'] = '';
             }
 
 //            print_arr($param);
