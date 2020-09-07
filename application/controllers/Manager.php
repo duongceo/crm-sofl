@@ -1874,11 +1874,6 @@ class Manager extends MY_Controller {
         return array_merge($this->data, $this->_get_require_data($require_model));
     }
 
-    function test_report() {
-        $content = file_get_contents('http://chuyenpn.com/crm/quan-ly/xem-bao-cao-tu-van-tuyen-sinh.html');
-        var_dump($content);
-    }
-
     function export_for_send_provider() {
         /* ====================xuất file excel============================== */
         $post = $this->input->post();
