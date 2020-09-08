@@ -131,7 +131,7 @@ check_edit_contact = () => {
     var fee = $('[name="fee"]').val();
     var customer_care_call_id = $("select[name='customer_care_call_id']").val();
     var level_contact = $("select[name='level_contact_id']").val();
-	// alert(level_contact);return false;
+	//alert(call_status_id);return false;
     if (customer_care_call_id == 0) {
         $.alert({
             theme: 'modern',
