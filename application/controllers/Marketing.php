@@ -93,8 +93,8 @@
 
 			$data['contacts'] = $contact;
 
-			$data['left_col'] = array('channel', 'date_rgt', 'date_handover');
-			$data['right_col'] = array('call_status');
+			$data['left_col'] = array('language', 'sale', 'marketer', 'date_rgt', 'date_handover', 'date_confirm');
+			$data['right_col'] = array('branch', 'source', 'call_status', 'level_contact');
 			$this->table .= 'channel campaign call_stt level_contact date_rgt';
 			$data['table'] = explode(' ', $this->table);
 
