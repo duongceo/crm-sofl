@@ -441,6 +441,7 @@ class Sale extends MY_Controller {
                 $param['channel_id'] = $input['channel_id'];
                 $param['date_rgt'] = strtotime($input['date_rgt']);
                 $param['level_contact_id'] = $input['level_contact_id'];
+                $param['call_status_id'] = $input['call_status_id'];
 
 //                print_arr($param);
 				
@@ -519,6 +520,7 @@ class Sale extends MY_Controller {
             $require_model = array(
             	'branch' => array(),
                 'language_study' => array(),
+				'call_status' => array(),
                 'level_contact' => array(),
                 'level_language' => array(),
                 'class_study' => array(),

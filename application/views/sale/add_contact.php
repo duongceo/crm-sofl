@@ -92,6 +92,24 @@
 					</div>
 				</div>
 
+				<div class="form-group">
+					<div class="row">
+						<div class="col-md-4 text-right">
+							Trạng thái gọi
+						</div>
+						<div class="col-md-8">
+							<select class="form-control" name="call_status_id">
+								<option value="0"> Trạng thái gọi</option>
+								<?php foreach ($call_status as $key => $value) { ?>
+									<option value="<?php echo $value['id']; ?>">
+										<?php echo $value['name']; ?>
+									</option>
+								<?php } ?>
+							</select>
+						</div>
+					</div>
+				</div>
+
                 <div class="form-group">
                     <div class="row">
                         <div class="col-md-4 text-right">
