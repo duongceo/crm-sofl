@@ -131,7 +131,9 @@ check_edit_contact = () => {
     var fee = $('[name="fee"]').val();
     var customer_care_call_id = $("select[name='customer_care_call_id']").val();
     var level_contact = $("select[name='level_contact_id']").val();
-	// alert(level_contact);return false;
+	//console.log(call_status_id);
+	//alert(call_status_id);return false;
+	
     if (customer_care_call_id == 0) {
         $.alert({
             theme: 'modern',
@@ -141,6 +143,7 @@ check_edit_contact = () => {
         });
         return false;
     }
+	
     if ($("select.edit_payment_method_rgt").val() == 0) {
         $.alert({
             theme: 'modern',
@@ -181,7 +184,7 @@ check_edit_contact = () => {
         return false;
     }
 
-     */
+    */
 
     if (date_recall !== undefined) {
         if (date_recall != '') {
