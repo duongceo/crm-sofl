@@ -48,7 +48,8 @@ class Common extends MY_Controller {
 //            ),
             'payment_method_rgt' => array(),
             'sources' => array(),
-			'branch' => array()
+			'branch' => array(),
+			'language_study' => array()
         );
         $data = array_merge($this->data, $this->_get_require_data($require_model));
         $left_view = array(
@@ -1418,7 +1419,8 @@ class Common extends MY_Controller {
             'ordering_status' => array(),
             'level_contact' => array(),
 			'level_language' => array(),
-			'branch' => array()
+			'branch' => array(),
+			'language_study' => array()
         );
 
         $data = array_merge($this->data, $this->_get_require_data($require_model));

@@ -67,7 +67,8 @@ class Student extends MY_Controller {
             'sources' => array(),
             'channel' => array(),
             'branch' => array(),
-            'level_language' => array()
+            'level_language' => array(),
+            'language_study' => array(),
         );
         return array_merge($this->data, $this->_get_require_data($require_model));
     }
