@@ -233,7 +233,8 @@
 				'channel' => array(),
 				'branch' => array(),
 				'level_language' => array(),
-				'level_contact' => array()
+				'level_contact' => array(),
+				'language_study' => array()
 			);
 			return array_merge($this->data, $this->_get_require_data($require_model));
 		}
