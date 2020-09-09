@@ -1064,7 +1064,8 @@ class MY_Controller extends CI_Controller {
 			
 			'branch' => array(),
 			
-			'level_language' => array()
+			'level_language' => array(),
+			'language_study' => array()
 
         );
 
