@@ -7,7 +7,7 @@
 //			print_arr($rows['level_contact_id']);
 			foreach ($level_contact as $key => $value) {
 				?>
-				<option value="<?php echo $value['level_id']; ?>" <?php echo ($value['level_id'] == $rows['level_contact_id'])?'selected':''; ?>>
+				<option value="<?php echo $value['level_id']; ?>">
 					<?php echo $value['level_id'] . ' - ' .$value['name']; ?>
 				</option>
 				<?php
