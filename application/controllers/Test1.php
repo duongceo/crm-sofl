@@ -364,6 +364,44 @@ class Test1 extends CI_Controller {
         $this->response('success', 200);
     }
     */
+	
+	function get_contact() {
+		
+		$input['select'] = 'phone, level_contact_id, language_id';
+		$input['where'] = array(
+			'is_hide' => '0'
+		);
+		$cts = $this->contacts_model->load_all($input);
+		//print_arr($cts);
+		
+		$this->load->library('PHPExcel');
+		$objPHPExcel = new PHPExcel();
+//		$objPHPExcel = PHPExcel_IOFactory::createReader('Excel2007');
+//		$template_file_print = $this->config->item('template_file_print');
+//		$objPHPExcel = $objPHPExcel->load($template_file_print);
+		$objPHPExcel->setActiveSheetIndex(0);
+//		$contact_export = $this->_contact_export($post['contact_id']);
+
+		$objPHPExcel->getActiveSheet()->SetCellValue('A1', 'SDT');
+		$objPHPExcel->getActiveSheet()->SetCellValue('B1', 'TT');
+		$objPHPExcel->getActiveSheet()->SetCellValue('C1', 'Mã ngoại ngữ');
+	
+		
+		$rowCount = 2;
+		foreach ($cts as $key => $val) {
+			$columnName = 'A';	
+			$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $val['phone']);
+			$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $val['level_contact_id']);
+			$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $val['language_id']);
+			$rowCount++;
+
+		}
+		$objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
+		header('Content-Type: application/vnd.ms-excel');
+		header('Content-Disposition: attachment;filename="Contact_' . date('d/m/Y') . '.xlsx"');
+		header('Cache-Control: max-age=0');
+		$objWriter->save('php://output');
+	}
 
 }
 

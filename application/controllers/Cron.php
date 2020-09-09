@@ -1693,8 +1693,9 @@ class Cron extends CI_Controller {
 //		$input1 = array();
 		$date_start = strtotime(date('2019-03-01 00:00:00'));
 		$date_end = strtotime(date('2019-06-01 00:00:00'));
-			
+		
 		//echo $date_start; die;
+		
 		foreach ($course as $value) {
 			//L1
     		$input_L1['where'] = array(
@@ -2091,6 +2092,17 @@ class Cron extends CI_Controller {
 		header('Content-Disposition: attachment;filename="C' . date('d/m/Y') . '.xlsx"');
 		header('Cache-Control: max-age=0');
 		$objWriter->save('php://output');
+	}
+	
+	function get_contact(){
+		echo 'sfsf'; die;
+		
+		$input['select'] = 'phone, level_contact_id, language_id';
+		$input['where'] = array(
+			'is_hide' => '0'
+		);
+		$cts = $this->contacts_model->load_all($input);
+		print_arr($cts);
 	}
 	
 }

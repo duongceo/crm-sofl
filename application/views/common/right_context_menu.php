@@ -28,11 +28,19 @@
 
             </a> -->
 
-            <a href="#" class="btn-export-all-contact-to-excel one-item-selected"
+            <!-- <a href="#" class="btn-export-all-contact-to-excel one-item-selected" data-form-id="action_contact">
 
-               data-form-id="action_contact">
+                <li>
 
-                <li> 
+                    <i class="fa fa-file-excel-o" aria-hidden="true"></i> &nbsp; &nbsp; Xuất toàn bộ dữ liệu
+
+                </li>
+
+            </a> -->
+
+            <a href="#" class="btn-export-all-contact-to-excel multi-item-selected">
+
+                <li>
 
                     <i class="fa fa-file-excel-o" aria-hidden="true"></i> &nbsp; &nbsp; Xuất toàn bộ dữ liệu
 
