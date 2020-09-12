@@ -13,7 +13,7 @@
 
 			$input = array();
 	        $input['select'] = 'id';
-	        $input['where'] = array('date_rgt >' => strtotime(date('d-m-Y')), 'is_hide' => '0');
+	        $input['where'] = array('call_status_id' => '0', 'level_contact_id' => '', 'sale_staff_id' => '0', 'is_hide' => '0', 'duplicate_id' => '0');
 	        $this->L['L1'] = count($this->contacts_model->load_all($input));
 
 	        $input['where'] = array('is_hide' => '0');
@@ -31,7 +31,7 @@
 	         *
 	         */
 
-	        $conditional['where'] = array('date_rgt >' => strtotime(date('d-m-Y')), 'is_hide' => '0');
+	        $conditional['where'] = array('call_status_id' => '0', 'level_contact_id' => '', 'sale_staff_id' => '0', 'is_hide' => '0', 'duplicate_id' => '0');
 	        $data_pagination = $this->_query_all_from_get($get, $conditional, $this->per_page, $offset);
 	        /*
 	         * Lấy danh sách contacts

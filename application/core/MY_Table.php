@@ -468,7 +468,7 @@ class MY_Table extends MY_Controller {
 			);
 			$level_language = $this->level_language_model->load_all($input_level);
 
-			$action = 'http://crm.sofl.edu.vn/cam-on-da-dang-ky.html';
+			$action = 'http://crm2.sofl.edu.vn/cam-on-da-dang-ky.html';
 			
             $rows[0]['form_plugin'] = '<div class="widget-content">
 				<form class="form-border-white e_submit e_form_submit" role="form" id="dang-ky-2" method="POST"  name="fr_register" action="'.$action.'">
