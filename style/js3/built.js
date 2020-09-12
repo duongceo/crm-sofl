@@ -219,17 +219,17 @@ check_edit_contact = () => {
         return false;
     }
 	*/
-	/*
-    if (fee == 0) {
+	
+    if (fee != 0 &&  fee.length < 6) {
         $.alert({
             theme: 'modern',
             type: 'red',
             title: 'Có lỗi xảy ra!',
-            content: 'Vui lòng điền học phí'
+            content: 'Vui lòng điền đúng mức học phí'
         });
         return false;
     }
-	*/
+	
 
     return true;
 };

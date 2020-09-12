@@ -532,14 +532,16 @@ class Common extends MY_Controller {
 					$result['message'] = 'Bạn phải cập nhật trạng thái cuộc gọi!';
 					echo json_encode($result);
 					die;
-				} else if (!in_array($post['call_status_id'], array(_KHONG_NGHE_MAY_, _NHAM_MAY_, _SO_MAY_SAI_))){
+				}
+				/*
+				else if (!in_array($post['call_status_id'], array(_KHONG_NGHE_MAY_, _NHAM_MAY_, _SO_MAY_SAI_))){
 					if (isset($post['class_study_id']) && $post['class_study_id'] == '') {
 						$result['success'] = 0;
 						$result['message'] = 'Bạn phải chọn mã lớp học!';
 						echo json_encode($result);
 						die;
 					}
-				
+					
 					if (isset($post['fee']) && $post['fee'] == 0) {
 						$result['success'] = 0;
 						$result['message'] = 'Bạn phải cập nhật giá tiền mua!';
@@ -548,6 +550,7 @@ class Common extends MY_Controller {
 					}
 			
 				}
+				*/
 			}
 
             $check_rule = $this->_check_rule($param['call_status_id'], $param['level_contact_id'], $param['date_recall']);
