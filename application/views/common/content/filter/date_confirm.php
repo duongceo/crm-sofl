@@ -1,6 +1,6 @@
 <tr class="filter_date_date_confirm">
 
-    <td class="text-right"> Ngày đăng ký học: </td>
+    <td class="text-right"> Ngày chốt đơn: </td>
 
     <td>
 

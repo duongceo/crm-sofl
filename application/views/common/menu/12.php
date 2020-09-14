@@ -25,6 +25,13 @@
 		</li>
 
 		<li>
+			<a href="<?php echo base_url('student/view_all_contact'); ?>">
+				<img src="<?php echo base_url(); ?>public/images/view-all.png">
+				<span>Danh sách tất cả học viên</span>
+			</a>
+		</li>
+
+		<li>
 			<a href="<?php echo base_url('staff_managers/classroom'); ?>">
 				<img src="<?php echo base_url(); ?>public/images/view-all.png">
 				<span> Quản lý phòng học

@@ -76,7 +76,8 @@ class Common extends MY_Controller {
 			'date_last_calling' => 'view',
 			'date_confirm' => 'view',
 			'date_recall' => 'view',
-			'date_receive_cost' => 'view'
+			'date_rgt_study' => 'view',
+			//'date_receive_cost' => 'view'
         );
 		
 		if ($this->role_id == 8) {
@@ -110,8 +111,8 @@ class Common extends MY_Controller {
                 'email' => 'edit',
                 'phone' => 'edit',
 				'branch' => 'edit',
+				'language' => 'edit',
 				'level_language' => 'edit',
-//                'address' => 'edit',
                 'class_study_id' => 'edit',
                 'fee' => 'edit',
                 'paid' => 'edit',
@@ -292,6 +293,7 @@ class Common extends MY_Controller {
 //                'order' => array('sort' => 'ASC')
 //            ),
             'payment_method_rgt' => array(),
+			'language_study' => array(),
         );
 
 		if ($rows[0]['level_contact_id'] != '') {
@@ -508,7 +510,7 @@ class Common extends MY_Controller {
             $post = $this->input->post();
 //			print_arr($post);
             $param = array();
-            $post_arr = array('name', 'email', 'phone', 'branch_id', 'class_study_id', 'level_language_id', 'fee', 'paid', 'payment_method_rgt', 'call_status_id');
+            $post_arr = array('name', 'email', 'phone', 'branch_id', 'language_id', 'class_study_id', 'level_language_id', 'fee', 'paid', 'payment_method_rgt', 'call_status_id');
 
             foreach ($post_arr as $value) {
                 if (isset($post[$value])) {
@@ -562,28 +564,9 @@ class Common extends MY_Controller {
                 die;
             }
 
-            $level_success = array('L3', 'L3.1', 'L3.2', 'L5', 'L5.1', 'L5.2', 'L5.3');
+            $level_success = array('L3', 'L3.1', 'L3.2');
             if (in_array($param['level_contact_id'], $level_success)) {
                 $param['date_confirm'] = time();
-
-//                $input = [];
-//                $input['where'] = array('id' => $this->user_id);
-//                $thisSale = $this->staffs_model->load_all($input);
-//
-//                $inputPush = [];
-//                $inputPush['select'] = 'id';
-//                $inputPush['where'] = array('sale_staff_id' => $this->user_id, 'date_confirm >' => strtotime(date('d-m-Y')), 'is_hide' => '0');
-//                $today = $this->contacts_model->load_all($inputPush);
-//                $totalL5 = count($today) + 1;
-//
-//                $dataPush['title'] = "L5 số " . $totalL5 . " của " . $thisSale[0]['short_name'] . " hôm nay";
-//
-//                if ($totalL5 < $thisSale[0]['targets']) {
-//                    $dataPush['message'] = "Bạn còn " . ($thisSale[0]['targets'] - $totalL5) . " L6 nữa là đạt mục tiêu hôm nay!";
-//                }
-//                if ($totalL5 > $thisSale[0]['targets']) {
-//                    $dataPush['message'] = "Xin chúc mừng, bạn đã vượt mục tiêu hôm nay. Cố gắng phát huy bạn nhé <3 <3 <3";
-//                }
 
 				$dataPush['message'] = 'Yeah Yeah !!';
                 $dataPush['success'] = '1';
@@ -594,8 +577,15 @@ class Common extends MY_Controller {
             } else {
                 $param['date_confirm'] = '';
             }
-
-//            print_arr($param);
+			
+			$level_study = array('L5', 'L5.1', 'L5.2', 'L5.3');
+			if (in_array($param['level_contact_id'], $level_study)) {
+				$param['date_rgt_study'] = time();
+				$dataPush['message'] = 'Yeah Yeah !!';
+                $dataPush['success'] = '1';
+			} else {
+				$param['date_rgt_study'] = '';
+			}
 			
             $param['last_activity'] = time();
             $where = array('id' => $id);

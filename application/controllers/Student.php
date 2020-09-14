@@ -44,6 +44,29 @@ class Student extends MY_Controller {
 		$this->load->view(_MAIN_LAYOUT_, $data);
 
 	}
+	
+	function view_all_contact($offset = 0) {
+        $data = $this->get_all_require_data();
+		
+        $get = $this->input->get();
+        $conditional['where'] = array('branch_id' => $this->session->userdata('branch_id'), 'is_hide' => '0');
+        $conditional['order'] = array('date_rgt' => 'DESC');
+        $data_pagination = $this->_query_all_from_get($get, $conditional, $this->per_page, $offset);
+        $data['pagination'] = $this->_create_pagination_link($data_pagination['total_row']);
+        $data['contacts'] = $data_pagination['data'];
+        $data['total_contact'] = $data_pagination['total_row'];
+
+        $data['left_col'] = array('date_rgt', 'date_handover', 'date_recall');
+        $data['right_col'] = array('call_status', 'level_contact');
+
+        $this->table .= 'call_stt level_contact date_rgt date_last_calling';
+        $data['table'] = explode(' ', $this->table);
+		
+        $data['titleListContact'] = 'Danh sách toàn bộ contact';
+		
+        $data['content'] = 'common/list_contact';
+        $this->load->view(_MAIN_LAYOUT_, $data);
+    }
 
 	private function get_all_require_data() {
         $require_model = array(
@@ -69,6 +92,7 @@ class Student extends MY_Controller {
             'branch' => array(),
             'level_language' => array(),
             'language_study' => array(),
+			'level_contact' => array()
         );
         return array_merge($this->data, $this->_get_require_data($require_model));
     }

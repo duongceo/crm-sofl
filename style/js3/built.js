@@ -129,6 +129,7 @@ check_edit_contact = () => {
     var date_recall = $(".date_recall").val();
     var class_study_id = $('select[name="class_study_id"]').val();
     var fee = $('[name="fee"]').val();
+    var paid = $('[name="paid"]').val();
     var customer_care_call_id = $("select[name='customer_care_call_id']").val();
     var level_contact = $("select[name='level_contact_id']").val();
 	//alert(call_status_id);return false;
@@ -150,14 +151,17 @@ check_edit_contact = () => {
         });
         return false;
     }
+	
     if (call_status_id == 0) {
-        $.alert({
-            theme: 'modern',
-            type: 'red',
-            title: 'Có lỗi xảy ra!',
-            content: 'Bạn cần cập nhật trạng thái gọi!'
-        });
-        return false;
+		if ($("#input_controller").val() == 'sale') {
+			$.alert({
+				theme: 'modern',
+				type: 'red',
+				title: 'Có lỗi xảy ra!',
+				content: 'Bạn cần cập nhật trạng thái gọi!'
+			});
+			return false;
+		}
     }
 
     if (check_logic_call_stt_level(call_status_id, level_contact) == false) {
@@ -217,12 +221,22 @@ check_edit_contact = () => {
     }
 	*/
 	
-    if (fee != 0 &&  fee.length < 6) {
+    if (fee != 0 && fee.length < 6) {
         $.alert({
             theme: 'modern',
             type: 'red',
             title: 'Có lỗi xảy ra!',
             content: 'Vui lòng điền đúng mức học phí'
+        });
+        return false;
+    }
+	
+	if (paid != 0 && paid.length < 6) {
+        $.alert({
+            theme: 'modern',
+            type: 'red',
+            title: 'Có lỗi xảy ra!',
+            content: 'Vui lòng điền đúng mức thanh toán'
         });
         return false;
     }

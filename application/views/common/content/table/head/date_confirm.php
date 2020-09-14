@@ -4,7 +4,7 @@
 
            value="<?php echo (isset($_GET['order_date_confirm']) && $_GET['order_date_confirm'] != '') ? $_GET['order_date_confirm'] : '0'; ?>" />
 
-    Ngày đăng ký học
+    Ngày đăng chốt đơn
 
     <?php
 
