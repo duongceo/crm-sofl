@@ -34,9 +34,9 @@ class Common extends MY_Controller {
 				'where' => array('contact_id' => $contact_id),
                 'order' => array('time_created' => 'ASC')
             ),
-//            'transfer_logs' => array(
-//                'where' => array('contact_id' => $id, 'is_transfered' => 1)
-//            ),
+            'transfer_logs' => array(
+                'where' => array('contact_id' => $id)
+            ),
             'call_status' => array(
                 'order' => array('sort' => 'ASC')
             ),
@@ -65,7 +65,7 @@ class Common extends MY_Controller {
             'source' => 'view',
         );
         $right_view = array(
-//            'transfer_log' => 'view',
+            'transfer_log' => 'view',
 			'date_rgt' => 'view',
 			'date_handover' => 'view',
             'call_stt' => 'view',
@@ -275,9 +275,9 @@ class Common extends MY_Controller {
 				'where' => array('contact_id' => $contact_id),
                 'order' => array('time_created' => 'ASC')
             ),
-//            'transfer_logs' => array(
-//                'where' => array('contact_id' => $id)
-//            ),
+            'transfer_logs' => array(
+                'where' => array('contact_id' => $id)
+            ),
 
 			'level_contact' => array(
 				'order' => array('level_id' => 'ASC'),
