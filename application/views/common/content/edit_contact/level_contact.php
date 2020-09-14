@@ -20,7 +20,7 @@
 <tr class="ajax_level_contact_id">
 	<td class="text-right">Trạng thái chi tiết</td>
 	<td>
-		<input class="form-control" name="level_contact_id_child" type="hidden" value="<?php echo (isset($rows['level_contact_id'])) ? $rows['level_contact_id'] : ''?>">
+		<input class="form-control" name="level_contact_detail" type="hidden" value="<?php echo (isset($rows['level_contact_id'])) ? $rows['level_contact_id'] : ''?>">
 		<?php echo (isset($rows['level_contact_name'])) ? $rows['level_contact_name'] : ''; ?>
 	</td>
 </tr>

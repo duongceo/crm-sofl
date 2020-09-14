@@ -43,9 +43,9 @@ class Common extends MY_Controller {
 			'level_contact' => array(
 				'order' => array('level_id' => 'ASC')
 			),
-//            'ordering_status' => array(
-//                'order' => array('sort' => 'ASC')
-//            ),
+			'level_student' => array(
+				'order' => array('level_id' => 'ASC')
+			),
             'payment_method_rgt' => array(),
             'sources' => array(),
 			'branch' => array(),
@@ -120,8 +120,8 @@ class Common extends MY_Controller {
             $right_edit = array(
                 'payment_method_rgt' => 'edit',
                 'call_stt' => 'edit',
-//                'ordering_stt' => 'edit',
                 'level_contact' => 'edit',
+				'level_student' => 'edit',
                 'date_recall' => 'edit',
 //                'send_banking_info' => 'edit',
                 'note' => 'edit',
@@ -131,6 +131,10 @@ class Common extends MY_Controller {
 				'date_confirm' => 'view',
             );
         }
+
+        if ($this->role_id == 1) {
+        	unset($right_edit['level_student']);
+		}
 
 //        if ($this->role_id == 2) { //cod
 //            $left_edit = array(
@@ -283,6 +287,12 @@ class Common extends MY_Controller {
 				'order' => array('level_id' => 'ASC'),
 				'where' => array('parent_id' => ''),
 			),
+
+			'level_student' => array(
+				'order' => array('level_id' => 'ASC'),
+				'where' => array('parent_id' => ''),
+			),
+
             'level_language' => array(
             	'where' => array('language_id' => $rows[0]['language_id'])
 			),
@@ -299,6 +309,11 @@ class Common extends MY_Controller {
 		if ($rows[0]['level_contact_id'] != '') {
 			$this->load->model('level_contact_model');
 			$rows[0]['level_contact_name'] = $this->level_contact_model->get_name_from_level($rows[0]['level_contact_id']);
+		}
+
+		if ($rows[0]['level_student_id'] != '') {
+			$this->load->model('level_student_model');
+			$rows[0]['level_student_name'] = $this->level_student_model->get_name_from_level($rows[0]['level_student_id']);
 		}
 
         $data = $this->_get_require_data($require_model);
@@ -510,7 +525,7 @@ class Common extends MY_Controller {
             $post = $this->input->post();
 //			print_arr($post);
             $param = array();
-            $post_arr = array('name', 'email', 'phone', 'branch_id', 'language_id', 'class_study_id', 'level_language_id', 'fee', 'paid', 'payment_method_rgt', 'call_status_id');
+            $post_arr = array('name', 'email', 'phone', 'branch_id', 'language_id', 'class_study_id', 'level_language_id', 'fee', 'paid', 'payment_method_rgt', 'call_status_id', 'level_contact_id', 'level_contact_detail');
 
             foreach ($post_arr as $value) {
                 if (isset($post[$value])) {
@@ -518,10 +533,12 @@ class Common extends MY_Controller {
                 }
             }
 
-			if (isset($post['level_contact_id_child']) && !empty($post['level_contact_id_child']) && $post['level_contact_id_child'] != '') {
-				$param['level_contact_id'] = $post['level_contact_id_child'];
-			} else {
-				$param['level_contact_id'] = $post['level_contact_id'];
+			if (isset($post['level_student_id']) && !empty($post['level_student_id']) && $post['level_student_id'] != '') {
+				$param['level_student_id'] = $post['level_student_id'];
+			}
+
+			if (isset($post['level_student_detail']) && !empty($post['level_student_detail']) && $post['level_student_detail'] != '') {
+				$param['level_student_detail'] = $post['level_student_detail'];
 			}
 
 			$param['date_last_calling'] = time();
@@ -555,7 +572,13 @@ class Common extends MY_Controller {
 				*/
 			}
 
-            $check_rule = $this->_check_rule($param['call_status_id'], $param['level_contact_id'], $param['date_recall']);
+            if (isset($post['level_contact_detail']) && !empty($post['level_contact_detail']) && $post['level_contact_detail'] != '') {
+				$level_contact = $param['level_contact_detail'];
+			} else {
+				$level_contact = $param['level_contact_id'];
+			}
+
+            $check_rule = $this->_check_rule($param['call_status_id'], $level_contact, $param['date_recall']);
 
             if ($check_rule == false) {
                 $result['success'] = 0;
@@ -579,12 +602,17 @@ class Common extends MY_Controller {
             }
 			
 			$level_study = array('L5', 'L5.1', 'L5.2', 'L5.3');
-			if (in_array($param['level_contact_id'], $level_study)) {
+			if (in_array($param['level_student_id'], $level_study)) {
+				if (!in_array($param['level_contact_id'], $level_success)) {
+					$result['success'] = 0;
+					$result['message'] = 'Trạng thái contact và học viên ko logic!';
+					echo json_encode($result);
+					die;
+				}
 				$param['date_rgt_study'] = time();
+				$param['date_paid'] = time();
 				$dataPush['message'] = 'Yeah Yeah !!';
                 $dataPush['success'] = '1';
-			} else {
-				$param['date_rgt_study'] = '';
 			}
 			
             $param['last_activity'] = time();
@@ -1316,11 +1344,15 @@ class Common extends MY_Controller {
         $data['contact_id'] = $id;
         $data['staff_id'] = $this->user_id;
 		
-		if (isset($post['level_contact_id_child']) && !empty($post['level_contact_id_child']) && $post['level_contact_id_child'] != '') {
-			$post['level_contact_id'] = $post['level_contact_id_child'];
+		if (isset($post['level_contact_detail']) && !empty($post['level_contact_detail']) && $post['level_contact_detail'] != '') {
+			$post['level_contact_id'] = $post['level_contact_detail'];
 		}
-		
-        $statusArr = array('call_status_id', 'level_contact_id');
+
+		if (isset($post['level_student_detail']) && !empty($post['level_student_detail']) && $post['level_student_detail'] != '') {
+			$post['level_student_id'] = $post['level_student_detail'];
+		}
+
+        $statusArr = array('call_status_id', 'level_contact_id', 'level_student_id');
         foreach ($statusArr as $value) {
             if (isset($post[$value])) {
                 $data[$value] = $post[$value];
@@ -1800,19 +1832,25 @@ class Common extends MY_Controller {
 
     public function get_level_contact() {
     	$post = $this->input->post();
-
-    	$this->load->model('level_contact_model');
-    	$input['where'] = array(
-    		'parent_id' => $post['level_id'],
+		$input['where'] = array(
+			'parent_id' => $post['level_id'],
 		);
-    	$chil_level = $this->level_contact_model->load_all($input);
+    	if (in_array($post['level_id'], array('L1', 'L2', 'L3', 'L4'))) {
+			$this->load->model('level_contact_model');
+			$chil_level = $this->level_contact_model->load_all($input);
+			$name = "level_contact_detail";
+		} else if (in_array($post['level_id'], array('L5', 'L6', 'L7', 'L8'))) {
+			$this->load->model('level_student_model');
+			$chil_level = $this->level_student_model->load_all($input);
+			$name = "level_student_detail";
+		}
 //		print_arr($chil_level);
     	if (isset($chil_level) && !empty($chil_level)) {
 			 $str = '<td class="text-right">
 					Trạng thái chi tiết
 				</td>
 				<td>
-					<select class="form-control selectpicker" name="level_contact_id_child">
+					<select class="form-control selectpicker" name='.$name.'>
 						<option value=""> Trạng thái chi tiết </option>';
 						foreach ($chil_level as $value) {
 							$str .= "<option value='{$value['level_id']}'> {$value['level_id']} - {$value['name']} </option>";

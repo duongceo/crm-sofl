@@ -382,6 +382,7 @@ class Sale extends MY_Controller {
 //        $this->form_validation->set_rules('address', 'Địa chỉ', 'trim|required|min_length[3]');
         $this->form_validation->set_rules('phone', 'Số điện thoại', 'trim|required|min_length[2]|integer');
         $this->form_validation->set_rules('language_id', 'Ngoại ngữ', 'required');
+        $this->form_validation->set_rules('date_rgt', 'Ngày contact về', 'required');
 //        $this->form_validation->set_rules('source_id', 'Nguồn contact', 'required|callback_check_source_id');
         if (!empty($input)) {
             if ($this->form_validation->run() == FALSE) {
