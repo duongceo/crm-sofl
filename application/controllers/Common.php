@@ -35,7 +35,7 @@ class Common extends MY_Controller {
                 'order' => array('time_created' => 'ASC')
             ),
             'transfer_logs' => array(
-                'where' => array('contact_id' => $id, 'is_transfered' => 1)
+                'where' => array('contact_id' => $id)
             ),
             'call_status' => array(
                 'order' => array('sort' => 'ASC')
