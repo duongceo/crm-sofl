@@ -69,8 +69,8 @@ class Common extends MY_Controller {
 			'date_rgt' => 'view',
 			'date_handover' => 'view',
             'call_stt' => 'view',
-//            'ordering_stt' => 'view',
 			'level_contact' => 'view',
+			'level_student' => 'view',
             'payment_method_rgt' => 'view',
             'note' => 'view',
 			'date_last_calling' => 'view',
@@ -525,13 +525,26 @@ class Common extends MY_Controller {
             $post = $this->input->post();
 //			print_arr($post);
             $param = array();
-            $post_arr = array('name', 'email', 'phone', 'branch_id', 'language_id', 'class_study_id', 'level_language_id', 'fee', 'paid', 'payment_method_rgt', 'call_status_id', 'level_contact_id', 'level_contact_detail');
+            $post_arr = array('name', 'email', 'phone', 'branch_id', 'language_id', 'class_study_id', 'level_language_id', 'fee', 'paid', 'payment_method_rgt', 'call_status_id');
 
             foreach ($post_arr as $value) {
                 if (isset($post[$value])) {
                     $param[$value] = $post[$value];
                 }
             }
+			
+			if (isset($post['level_contact_id']) && !empty($post['level_contact_id']) && $post['level_contact_id'] != '') {
+				$param['level_contact_id'] = $post['level_contact_id'];
+			} else {
+				$param['level_contact_id'] = $rows[0]['level_contact_id'];
+			}
+			
+			if (isset($post['level_contact_detail']) && !empty($post['level_contact_detail']) && $post['level_contact_detail'] != '') {
+				$param['level_contact_detail'] = $post['level_contact_detail'];
+				$level_contact = $param['level_contact_detail'];
+			} else {
+				$level_contact = $param['level_contact_id'];
+			}
 
 			if (isset($post['level_student_id']) && !empty($post['level_student_id']) && $post['level_student_id'] != '') {
 				$param['level_student_id'] = $post['level_student_id'];
@@ -543,7 +556,7 @@ class Common extends MY_Controller {
 
 			$param['date_last_calling'] = time();
             $param['date_recall'] = (isset($post['date_recall']) && $post['date_recall'] != '') ? strtotime($post['date_recall']) : 0;
-
+			//print_arr($param);
             /* Kiểm tra điều kiện các trạng thái và ngày hẹn gọi lại có logic ko */
             if (isset($post['call_status_id'])) {
 				if ($post['call_status_id'] == 0) {
@@ -570,12 +583,6 @@ class Common extends MY_Controller {
 			
 				}
 				*/
-			}
-
-            if (isset($post['level_contact_detail']) && !empty($post['level_contact_detail']) && $post['level_contact_detail'] != '') {
-				$level_contact = $param['level_contact_detail'];
-			} else {
-				$level_contact = $param['level_contact_id'];
 			}
 
             $check_rule = $this->_check_rule($param['call_status_id'], $level_contact, $param['date_recall']);

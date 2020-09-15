@@ -88,7 +88,7 @@ class Manager extends MY_Controller {
 
     function new_duplicate($offset = 0) {
         $data = $this->get_all_require_data();
-        //var_dump($data);
+        //print_arr($data);
         $get = $this->input->get();
         /*
          * Điều kiện lấy contact :
@@ -279,14 +279,14 @@ class Manager extends MY_Controller {
         /*
          * Filter ở cột trái và cột phải
          */
-        $data['left_col'] = array('language', 'sale', 'marketer', 'date_rgt', 'date_handover', 'date_confirm');
-        $data['right_col'] = array('branch', 'source', 'call_status', 'level_contact');
+        $data['left_col'] = array('language', 'sale', 'marketer', 'date_rgt', 'date_handover', 'date_confirm', 'date_rgt_study', 'date_last_calling');
+        $data['right_col'] = array('branch', 'source', 'call_status', 'level_contact', 'level_student');
 
         /*
          * Các trường cần hiện của bảng contact (đã có default)
          */
 		 
-        $this->table .= 'class_study_id call_stt level_contact date_rgt date_handover';
+        $this->table .= 'class_study_id call_stt level_contact level_student date_rgt date_handover date_last_calling';
         $data['table'] = explode(' ', $this->table);
 
         /*
@@ -1870,7 +1870,16 @@ class Manager extends MY_Controller {
             'channel' => array(),
             'branch' => array(),
             'level_language' => array(),
-			'level_contact' => array(),
+			'level_contact' => array(
+				'where' => array(
+					'parent_id' => ''
+				)
+			),
+			'level_student' => array(
+				'where' => array(
+					'parent_id' => ''
+				)
+			),
 			'language_study' => array(),
         );
         return array_merge($this->data, $this->_get_require_data($require_model));

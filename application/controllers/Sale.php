@@ -345,10 +345,10 @@ class Sale extends MY_Controller {
         $data['contacts'] = $data_pagination['data'];
         $data['total_contact'] = $data_pagination['total_row'];
 
-        $data['left_col'] = array('date_rgt', 'date_handover', 'date_confirm');
-        $data['right_col'] = array('call_status', 'level_contact');
+        $data['left_col'] = array('date_rgt', 'date_handover', 'date_confirm', 'date_rgt_study', 'date_last_calling');
+        $data['right_col'] = array('call_status', 'level_contact', 'level_student');
 
-        $this->table .= 'call_stt level_contact date_rgt date_last_calling';
+        $this->table .= 'call_stt level_contact level_student date_rgt date_last_calling';
         $data['table'] = explode(' ', $this->table);
 
         /*
@@ -797,6 +797,7 @@ class Sale extends MY_Controller {
                 )
             ),
 			'level_contact' => array(),
+			'level_student' => array(),
             'branch' => array('active' => 1),
             'level_language' => array(),
             'language_study' => array(),

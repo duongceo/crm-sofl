@@ -93,8 +93,8 @@
 
 			$data['contacts'] = $contact;
 
-			$data['left_col'] = array('language', 'sale', 'marketer', 'date_rgt', 'date_handover', 'date_confirm');
-			$data['right_col'] = array('branch', 'source', 'call_status', 'level_contact');
+			$data['left_col'] = array('language', 'sale', 'marketer', 'date_rgt', 'date_handover', 'date_confirm', 'date_rgt_study', 'date_last_calling');
+			$data['right_col'] = array('branch', 'source', 'call_status', 'level_contact', 'level_student');
 			$this->table .= 'channel campaign call_stt level_contact date_rgt';
 			$data['table'] = explode(' ', $this->table);
 
@@ -234,6 +234,7 @@
 				'branch' => array(),
 				'level_language' => array(),
 				'level_contact' => array(),
+				'level_student' => array(),
 				'language_study' => array()
 			);
 			return array_merge($this->data, $this->_get_require_data($require_model));

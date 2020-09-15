@@ -57,7 +57,7 @@ class Student extends MY_Controller {
         $data['total_contact'] = $data_pagination['total_row'];
 
         $data['left_col'] = array('date_rgt', 'date_handover', 'date_recall');
-        $data['right_col'] = array('call_status', 'level_contact');
+        $data['right_col'] = array('call_status', 'level_contact', 'level_student');
 
         $this->table .= 'call_stt level_contact date_rgt date_last_calling';
         $data['table'] = explode(' ', $this->table);
@@ -92,7 +92,8 @@ class Student extends MY_Controller {
             'branch' => array(),
             'level_language' => array(),
             'language_study' => array(),
-			'level_contact' => array()
+			'level_contact' => array(),
+			'level_student' => array(),
         );
         return array_merge($this->data, $this->_get_require_data($require_model));
     }

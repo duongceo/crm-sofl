@@ -92,7 +92,7 @@
 					</div>
 				</div>
 
-				<div class="form-group">
+				<!-- <div class="form-group">
 					<div class="row">
 						<div class="col-md-4 text-right">
 							Trạng thái gọi
@@ -108,9 +108,9 @@
 							</select>
 						</div>
 					</div>
-				</div>
+				</div> -->
 
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <div class="row">
                         <div class="col-md-4 text-right">
                             Trạng thái contact
@@ -126,7 +126,7 @@
                             </select>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
 				<div class="form-group">
 					<div class="row">
