@@ -92,7 +92,7 @@
 					</div>
 				</div>
 
-				<!-- <div class="form-group">
+				<div class="form-group">
 					<div class="row">
 						<div class="col-md-4 text-right">
 							Trạng thái gọi
@@ -108,9 +108,9 @@
 							</select>
 						</div>
 					</div>
-				</div> -->
+				</div>
 
-                <!-- <div class="form-group">
+                <div class="form-group">
                     <div class="row">
                         <div class="col-md-4 text-right">
                             Trạng thái contact
@@ -126,7 +126,25 @@
                             </select>
                         </div>
                     </div>
-                </div> -->
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-4 text-right">
+                            Trạng thái học viên
+                        </div>
+                        <div class="col-md-8">
+                            <select class="form-control select_contact_status" name="level_student_id">
+                                <option value="">Trạng thái học viên</option>
+                                <?php foreach ($level_student as $value) { ?>
+                                    <option value="<?php echo $value['level_id']; ?>">
+                                        <?php echo $value['level_id'] . ' -- ' . $value['name'] .''; ?>
+                                    </option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
+                </div>
 
 				<div class="form-group">
 					<div class="row">

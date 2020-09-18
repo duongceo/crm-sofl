@@ -59,7 +59,7 @@ class Student extends MY_Controller {
         $data['left_col'] = array('date_rgt', 'date_handover', 'date_recall');
         $data['right_col'] = array('call_status', 'level_contact', 'level_student');
 
-        $this->table .= 'call_stt level_contact date_rgt date_last_calling';
+        $this->table .= 'fee paid call_stt level_contact date_rgt date_last_calling';
         $data['table'] = explode(' ', $this->table);
 		
         $data['titleListContact'] = 'Danh sách toàn bộ contact';

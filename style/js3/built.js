@@ -3304,7 +3304,7 @@ $(document).on('change', '[name="add_language_id"]',  function () {
 
 $(document).on('change', '[name="level_contact_id"], [name="level_student_id"]', function () {
 	var level_id = $(this).val();
-	var level_contact_array = ['L1', 'L2', 'L3', 'L4'];
+	var level_contact_array = ['L1', 'L2', 'L3', 'L4', 'L5'];
 	//console.log(level_id);return false;
 	$.ajax({
 		url: $('#base_url').val() + 'common/get_level_contact',

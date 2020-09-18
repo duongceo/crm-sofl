@@ -240,6 +240,15 @@ class Manager extends MY_Controller {
             'active' => 1
 		);
         $data['marketers'] = $this->staffs_model->load_all($input);
+		
+		$input['where'] = array(
+			'parent_id !=' => '' 
+		);
+		
+		$this->load->model('level_contact_model');
+		$this->load->model('level_student_model');
+		$data['level_contact_detail'] = $this->level_contact_model->load_all($input);
+		$data['level_student_detail'] = $this->level_student_model->load_all($input);
 
         $get = $this->input->get();
 
@@ -280,7 +289,7 @@ class Manager extends MY_Controller {
          * Filter ở cột trái và cột phải
          */
         $data['left_col'] = array('language', 'sale', 'marketer', 'date_rgt', 'date_handover', 'date_confirm', 'date_rgt_study', 'date_last_calling');
-        $data['right_col'] = array('branch', 'source', 'call_status', 'level_contact', 'level_student');
+        $data['right_col'] = array('branch', 'source', 'call_status', 'level_contact', 'level_contact_detail', 'level_student', 'level_student_detail');
 
         /*
          * Các trường cần hiện của bảng contact (đã có default)

@@ -340,15 +340,22 @@ class Sale extends MY_Controller {
         $get = $this->input->get();
         $conditional['where'] = array('sale_staff_id' => $this->user_id, 'is_hide' => '0');
         $conditional['order'] = array('date_last_calling' => 'DESC');
+		
+		$data['left_col'] = array('date_rgt', 'date_handover', 'date_confirm', 'date_rgt_study', 'date_last_calling');
+        $data['right_col'] = array('call_status', 'level_contact', 'level_contact', 'level_contact_detail', 'level_student', 'level_student_detail');
+		
+		if ($this->user_id == 18) {
+			unset($conditional['where']['sale_staff_id']);
+			$data['left_col'] = array('language', 'sale', 'marketer', 'date_rgt', 'date_handover', 'date_confirm', 'date_rgt_study', 'date_last_calling');
+			$data['right_col'] = array('branch', 'source', 'call_status', 'level_contact', 'level_contact_detail', 'level_student', 'level_student_detail');
+		}
+		
         $data_pagination = $this->_query_all_from_get($get, $conditional, $this->per_page, $offset);
         $data['pagination'] = $this->_create_pagination_link($data_pagination['total_row']);
         $data['contacts'] = $data_pagination['data'];
         $data['total_contact'] = $data_pagination['total_row'];
 
-        $data['left_col'] = array('date_rgt', 'date_handover', 'date_confirm', 'date_rgt_study', 'date_last_calling');
-        $data['right_col'] = array('call_status', 'level_contact', 'level_student');
-
-        $this->table .= 'call_stt level_contact level_student date_rgt date_last_calling';
+        $this->table .= 'fee paid call_stt level_contact level_student date_rgt date_last_calling';
         $data['table'] = explode(' ', $this->table);
 
         /*
@@ -390,7 +397,16 @@ class Sale extends MY_Controller {
                 $this->session->set_tempdata('msg_success', 0, 2);
                 $require_model = array(
 					'branch' => array(),
-					'level_contact' => array(),
+					'level_contact' => array(
+						'where' => array(
+							'parent_id' => ''
+						),
+					),
+					'level_student' => array(
+						'where' => array(
+							'parent_id' => ''
+						),
+					),
 					'language_study' => array(),
 					'level_language' => array(),
 					'class_study' => array(),
@@ -426,7 +442,7 @@ class Sale extends MY_Controller {
 				if ($param['duplicate_id'] > 0) {
                     show_error_and_redirect('Contact bạn vừa thêm bị trùng, nên không thể thêm được nữa!', 0, $input['back_location']);
                 }
-				
+			
                 $param['name'] = $input['name'];
                 $param['email'] = $input['email'];
 //                $param['address'] = $input['address'];
@@ -442,6 +458,7 @@ class Sale extends MY_Controller {
                 $param['channel_id'] = $input['channel_id'];
                 $param['date_rgt'] = strtotime($input['date_rgt']);
                 $param['level_contact_id'] = $input['level_contact_id'];
+                $param['level_student_id'] = $input['level_student_id'];
                 $param['call_status_id'] = $input['call_status_id'];
 
 //                print_arr($param);
@@ -455,12 +472,33 @@ class Sale extends MY_Controller {
 						break;
 				}
 				
-				$success = array('L5', 'L5.1', 'L5.2', 'L5.3');
+				if (isset($input['level_contact_id']) && $input['level_contact_id'] != '') {
+					if(!isset($input['call_status_id']) || $input['call_status_id'] != 4) {
+						show_error_and_redirect('Contact bạn vừa thêm ko đúng logic trạng thái contact và trạng thái gọi', 0, $input['back_location']);
+					}
 				
-				if (in_array($param['level_contact_id'], $success)) {
-					$param['date_confirm'] = $param['date_last_calling'] = time();
+					if ($param['level_contact_id'] == 'L5') {
+						$param['date_rgt_study'] = time();
+					}
+					
+					if ($param['level_contact_id'] == 'L3') {
+						$param['date_confirm'] = time();
+					}
+					$param['date_last_calling'] = time();
+
 				}
-                
+				
+				if (isset($input['level_contact_id']) && $input['level_contact_id'] != '') {
+					if(!isset($input['call_status_id']) || $input['call_status_id'] != 4) {
+						show_error_and_redirect('Contact bạn vừa thêm ko đúng logic trạng thái học viên và trạng thái gọi', 0, $input['back_location']);
+					}
+				
+					if (!isset($input['level_contact_id']) || $input['level_contact_id'] != 'L5') {
+						show_error_and_redirect('Contact bạn vừa thêm ko đúng logic trạng thái học viên và trạng thái contact', 0, $input['back_location']);
+					}
+
+				}
+				
 				//$param['date_rgt'] = time();
                 $param['date_handover'] = time();
                 
@@ -482,17 +520,24 @@ class Sale extends MY_Controller {
 				$id_backup = $this->contacts_backup_model->insert_return_id($param, 'id');
 				
                 if ($input['note'] != '') {
-                    $param2 = array(
-                        'contact_id' => $id,
-                        'content' => $input['note'],
-                        'time' => time(),
-                        'sale_id' => $this->user_id,
-                        'contact_code' => $this->contacts_model->get_contact_code($id),
-                        'class_study_id' => 0
-                    );
-                    $this->load->model('notes_model');
-                    $this->notes_model->insert($param2);
-                }
+					$param2 = array(
+						'contact_id' => $id,
+						'content' => $input['note'],
+						'time_created' => time(),
+						'sale_id' => $this->user_id,
+						'contact_code' => $this->contacts_model->get_contact_code($id),
+						'class_study_id' => 0
+					);
+					
+					//print_arr($param2);
+					$this->load->model('notes_model');
+					$this->notes_model->insert($param2);
+				}
+				
+				if (isset($input['level_contact_id']) && $input['level_contact_id'] != '') {
+					$this->_set_call_log($id, $input);
+				}
+				
                 $data2 = [];
 
                 $data2['title'] = 'Có 1 contact mới đăng ký';
@@ -522,7 +567,16 @@ class Sale extends MY_Controller {
             	'branch' => array(),
                 'language_study' => array(),
 				'call_status' => array(),
-                'level_contact' => array(),
+                'level_contact' => array(
+					'where' => array(
+						'parent_id' => ''
+					),
+				),
+				'level_student' => array(
+						'where' => array(
+							'parent_id' => ''
+						),
+					),
                 'level_language' => array(),
                 'class_study' => array(),
                 'sources' => array(),
@@ -560,6 +614,35 @@ class Sale extends MY_Controller {
 
             $this->load->view(_MAIN_LAYOUT_, $data);
         }
+    }
+	
+	private function _set_call_log($id, $post, $rows) {
+        $data = array();
+        $data['contact_id'] = $id;
+        $data['staff_id'] = $this->user_id;
+		
+		if (isset($post['level_contact_detail']) && !empty($post['level_contact_detail']) && $post['level_contact_detail'] != '') {
+			$post['level_contact_id'] = $post['level_contact_detail'];
+		}
+
+		if (isset($post['level_student_detail']) && !empty($post['level_student_detail']) && $post['level_student_detail'] != '') {
+			$post['level_student_id'] = $post['level_student_detail'];
+		}
+
+        $statusArr = array('call_status_id', 'level_contact_id', 'level_student_id');
+        foreach ($statusArr as $value) {
+            if (isset($post[$value])) {
+                $data[$value] = $post[$value];
+            } else {
+                $data[$value] = "-1";
+            }
+        }
+		
+        $data['time_created'] = time();
+
+        $data['content_change'] = 'Thêm contact mới';
+        $this->load->model('call_log_model');
+        $this->call_log_model->insert($data);
     }
 
     function check_course_code($str) {
