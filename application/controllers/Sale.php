@@ -488,7 +488,7 @@ class Sale extends MY_Controller {
 
 				}
 				
-				if (isset($input['level_contact_id']) && $input['level_contact_id'] != '') {
+				if (isset($input['level_student_id']) && $input['level_student_id'] != '') {
 					if(!isset($input['call_status_id']) || $input['call_status_id'] != 4) {
 						show_error_and_redirect('Contact bạn vừa thêm ko đúng logic trạng thái học viên và trạng thái gọi', 0, $input['back_location']);
 					}
