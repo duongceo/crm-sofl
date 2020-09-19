@@ -18,7 +18,7 @@ class Student extends MY_Controller {
 			$conditional['where']['branch_id'] = $branch_id;
 		}
 
-		$conditional['where_in']['level_contact_id'] = array('L5', 'L5.1', 'L5.2', 'L5.3');
+		$conditional['where']['level_contact_id'] = 'L5';
 		$conditional['order'] = array('date_confirm' => 'DESC');
 
 		$data_pagination = $this->_query_all_from_get($get, $conditional, $this->per_page, $offset);
@@ -31,7 +31,7 @@ class Student extends MY_Controller {
 		$data['contacts'] = $data_pagination['data'];
 		$data['total_contact'] = $data_pagination['total_row'];
 
-		$data['left_col'] = array('date_rgt', 'date_confirm');
+		$data['left_col'] = array('date_rgt', 'date_confirm', 'date_rgt_study');
 		$data['right_col'] = array('class_study');
 
 		$this->table .= 'class_study_id fee paid date_confirm date_rgt';
@@ -55,9 +55,19 @@ class Student extends MY_Controller {
         $data['pagination'] = $this->_create_pagination_link($data_pagination['total_row']);
         $data['contacts'] = $data_pagination['data'];
         $data['total_contact'] = $data_pagination['total_row'];
+		
+		$input = array();
+		$input['where'] = array(
+			'parent_id !=' => '' 
+		);
+		
+		$this->load->model('level_contact_model');
+		$this->load->model('level_student_model');
+		$data['level_contact_detail'] = $this->level_contact_model->load_all($input);
+		$data['level_student_detail'] = $this->level_student_model->load_all($input);
 
-        $data['left_col'] = array('date_rgt', 'date_handover', 'date_recall');
-        $data['right_col'] = array('call_status', 'level_contact', 'level_student');
+        $data['left_col'] = array('date_rgt', 'date_handover', 'date_recall', 'date_confirm', 'date_rgt_study');
+        $data['right_col'] = array('call_status', 'level_contact', 'level_contact_detail', 'level_student', 'level_student_detail');
 
         $this->table .= 'fee paid call_stt level_contact date_rgt date_last_calling';
         $data['table'] = explode(' ', $this->table);

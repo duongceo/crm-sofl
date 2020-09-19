@@ -341,6 +341,16 @@ class Sale extends MY_Controller {
         $conditional['where'] = array('sale_staff_id' => $this->user_id, 'is_hide' => '0');
         $conditional['order'] = array('date_last_calling' => 'DESC');
 		
+		$input = array();
+		$input['where'] = array(
+			'parent_id !=' => '' 
+		);
+		
+		$this->load->model('level_contact_model');
+		$this->load->model('level_student_model');
+		$data['level_contact_detail'] = $this->level_contact_model->load_all($input);
+		$data['level_student_detail'] = $this->level_student_model->load_all($input);
+		
 		$data['left_col'] = array('language', 'date_rgt', 'date_handover', 'date_confirm', 'date_rgt_study', 'date_last_calling');
         $data['right_col'] = array('call_status', 'level_contact', 'level_contact', 'level_contact_detail', 'level_student', 'level_student_detail');
 		
