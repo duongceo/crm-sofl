@@ -2617,12 +2617,10 @@ $(document).on('show.bs.modal', '.modal', function () {
         $(".datepicker").val("");
         $(".datetimepicker").val('');
     });
-    $('.datetimepicker').datetimepicker(
-            {
-                format: 'DD-MM-YYYY HH:mm'
-            });
-    
-    
+    $('.datetimepicker').datetimepicker({
+		format: 'DD-MM-YYYY HH:mm'
+	});
+
     setTimeout(function () {
         setEqualTableHeight();
     }, 1000);
