@@ -12,9 +12,10 @@ show_number_selected_row = () => {
      */
     var sum = 0;
     for (i = 0; i < numberOfChecked; i++) {
-        sum += parseInt($($('input.tbl-item-checkbox:checked')[i]).parent().parent().find('.tbl_price_purchase').text());
+        /*sum += parseInt($($('input.tbl-item-checkbox:checked')[i]).parent().parent().find('.tbl_paid').text());*/
+		sum += parseInt($($('input.tbl-item-checkbox:checked')[i]).parent().parent().find('.paid_real').text());
     }
-    sum *= 1000;
+    /*sum *= 1000;*/
     $.notify(`Đã chọn: ${numberOfChecked} / ${totalCheckboxes}. tổng tiền = ${sum.toLocaleString()}`, {
         position: "top left",
         className: 'success',
@@ -221,7 +222,7 @@ check_edit_contact = () => {
     }
 	*/
 	
-    if (fee != 0 && fee.length < 6) {
+    if ((fee != 0 && fee.length < 6) || (fee.length > 7)) {
         $.alert({
             theme: 'modern',
             type: 'red',
@@ -231,7 +232,7 @@ check_edit_contact = () => {
         return false;
     }
 	
-	if (paid != 0 && paid.length < 6) {
+	if ((paid != 0 && paid.length < 6) || (paid.length > 7) || parseInt(paid) > parseInt(fee)) {
         $.alert({
             theme: 'modern',
             type: 'red',
@@ -241,7 +242,6 @@ check_edit_contact = () => {
         return false;
     }
 	
-
     return true;
 };
 

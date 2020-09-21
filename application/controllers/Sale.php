@@ -341,6 +341,16 @@ class Sale extends MY_Controller {
         $conditional['where'] = array('sale_staff_id' => $this->user_id, 'is_hide' => '0');
         $conditional['order'] = array('date_last_calling' => 'DESC');
 		
+		$input = array();
+		$input['where'] = array(
+			'parent_id !=' => '' 
+		);
+		
+		$this->load->model('level_contact_model');
+		$this->load->model('level_student_model');
+		$data['level_contact_detail'] = $this->level_contact_model->load_all($input);
+		$data['level_student_detail'] = $this->level_student_model->load_all($input);
+		
 		$data['left_col'] = array('language', 'date_rgt', 'date_handover', 'date_confirm', 'date_rgt_study', 'date_last_calling');
         $data['right_col'] = array('call_status', 'level_contact', 'level_contact', 'level_contact_detail', 'level_student', 'level_student_detail');
 		
@@ -499,6 +509,14 @@ class Sale extends MY_Controller {
 
 				}
 				
+				if (($param['fee'] != 0 && strlen($param['fee']) < 6) || (strlen($param['fee']) > 7)) {
+					show_error_and_redirect('Contact bạn vừa thêm có số tiền học phí không đúng chuẩn', 0, $input['back_location']);
+				}
+				
+				if (($param['paid'] != 0 && strlen($param['paid']) < 6) || (strlen($param['paid']) > 7) || (int)$param['paid'] > (int)$param['fee']) {
+					show_error_and_redirect('Contact bạn vừa thêm có số tiền đã đóng không đúng chuẩn', 0, $input['back_location']);
+				}
+
 				//$param['date_rgt'] = time();
                 $param['date_handover'] = time();
                 
