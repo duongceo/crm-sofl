@@ -509,6 +509,14 @@ class Sale extends MY_Controller {
 
 				}
 				
+				if (($param['fee'] != 0 && strlen($param['fee']) < 6) || (strlen($param['fee']) > 7)) {
+					show_error_and_redirect('Contact bạn vừa thêm có số tiền học phí không đúng chuẩn', 0, $input['back_location']);
+				}
+				
+				if (($param['paid'] != 0 && strlen($param['paid']) < 6) || (strlen($param['paid']) > 7) || (int)$param['paid'] > (int)$param['fee']) {
+					show_error_and_redirect('Contact bạn vừa thêm có số tiền đã đóng không đúng chuẩn', 0, $input['back_location']);
+				}
+
 				//$param['date_rgt'] = time();
                 $param['date_handover'] = time();
                 
