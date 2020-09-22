@@ -65,7 +65,7 @@ class Manager extends MY_Controller {
         /*
          * Các trường cần hiện của bảng contact (đã có default)
          */
-        $this->table .= 'class_study_id date_rgt matrix';
+        $this->table .= 'class_study_id fee paid date_rgt matrix';
         $data['table'] = explode(' ', $this->table);
 
         $data['titleListContact'] = 'Danh sách contact mới không trùng';
@@ -74,14 +74,7 @@ class Manager extends MY_Controller {
         $data['informModal'] = explode(' ', $informModal);
         $outformModal = 'manager/modal/divide_one_contact';
         $data['outformModal'] = explode(' ', $outformModal);
-        /*
-         * Các file js cần load
-         */
 
-//        $data['load_js'] = array(
-//            'common_view_detail_contact', 'common_real_filter_contact',
-//            'm_delete_one_contact', 'm_divide_contact', 'm_view_duplicate', 'm_delete_multi_contact'
-//        );
         $data['content'] = 'common/list_contact';
         $this->load->view(_MAIN_LAYOUT_, $data);
     }
@@ -295,7 +288,7 @@ class Manager extends MY_Controller {
          * Các trường cần hiện của bảng contact (đã có default)
          */
 		 
-        $this->table .= 'class_study_id call_stt level_contact level_student date_rgt date_handover date_last_calling';
+        $this->table .= 'class_study_id fee paid call_stt level_contact level_student date_rgt date_handover date_last_calling';
         $data['table'] = explode(' ', $this->table);
 
         /*
@@ -2014,8 +2007,8 @@ class Manager extends MY_Controller {
         //L6,L8 tính theo ngày
         $total = $this->GetProccessThisMonth();
         $total_marketing_day = round($total['marketing']['kpi']/30);
-        $total_sale_day_L6 = round($total['sale']['kpi']/30);
-        $total_day_L8 = round($total_sale_day_L6*0.85);
+        $total_sale_day_L5 = round($total['sale']['kpi']/30);
+        $total_day_L8 = round($total_sale_day_L5*0.85);
 
         $progress = [];
         $inputContact = array();
@@ -2033,13 +2026,14 @@ class Manager extends MY_Controller {
 
         $inputContact = array();
         $inputContact['select'] = 'id';
-        $inputContact['where'] = array('date_confirm >' => strtotime(date('d-m-Y')), 'is_hide' => '0');
+        $inputContact['where'] = array('date_rgt_study >' => strtotime(date('d-m-Y')), 'is_hide' => '0');
         $today = $this->contacts_model->load_all($inputContact);
         $progress['sale'] = array(
             'count' => count($today),
-            'kpi' => $total_sale_day_L6,
+            'kpi' => $total_sale_day_L5,
             'name' => 'TVTS',
-            'type' => 'L6');
+            'type' => 'L5'
+		);
         $progress['sale']['progress'] = round($progress['sale']['count'] / $progress['sale']['kpi'] * 100, 2);
 
         // thêm hàng cod L8
@@ -2067,8 +2061,8 @@ class Manager extends MY_Controller {
         $this->load->model('staffs_model');
         $qr = $this->staffs_model->SumTarget();
 		//echo $qr[0]['targets'];die;
-        $total_month_L6 = round($qr[0]['targets']*30*0.61);
-        $total_month_L8 = round($total_month_L6*0.85);
+        $total_month_L5 = round($qr[0]['targets']*30*0.61);
+        $total_month_L8 = round($total_month_L5*0.85);
 
         $progress = [];
         $inputContact = array();
@@ -2080,19 +2074,19 @@ class Manager extends MY_Controller {
             'kpi' => $qr[0]['targets'] * 30,
             'name' => 'Marketing',
             'type' => 'C3'
-			);
+		);
         $progress['marketing']['progress'] = round($progress['marketing']['count'] / $progress['marketing']['kpi'] * 100, 2);
 
         $inputContact = array();
         $inputContact['select'] = 'id';
-        $inputContact['where'] = array('date_confirm >' => strtotime(date('01-m-Y')), 'is_hide' => '0');
+        $inputContact['where'] = array('date_rgt >' => strtotime(date('01-m-Y')), 'is_hide' => '0');
         $today = $this->contacts_model->load_all($inputContact);
         $progress['sale'] = array(
             'count' => count($today),
-            'kpi' => $total_month_L6,
+            'kpi' => $total_month_L5,
             'name' => 'TVTS',
             'type' => 'L6'
-			);
+		);
         $progress['sale']['progress'] = round($progress['sale']['count'] / $progress['sale']['kpi'] * 100, 2);
 		
 		/*

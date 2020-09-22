@@ -25,7 +25,7 @@
 
                         <div class="progress skill-bar ">
 
-                            <div class="progress-bar progress-bar-striped active <?php echo getProgressBarClass($team['progress']); ?>" role="progressbar" aria-valuenow="<?php echo $team['progress'] ?>" aria-valuemin="0" aria-valuemax="100" width="<?php echo $team['progress'].'%' ?>">
+                            <div class="progress-bar progress-bar-striped active <?php echo getProgressBarClass($team['progress']); ?>" role="progressbar" aria-valuenow="<?php echo $team['progress'] ?>" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $team['progress'].'%' ?>">
 
                                 <span class="skill text-uppercase"> 
 
@@ -134,7 +134,7 @@
 
 								<div class="progress skill-bar ">
 
-									<div class="progress-bar progress-bar-striped active <?php echo getProgressBarClass($marketer['progress']); ?>" role="progressbar" aria-valuenow="<?php echo $marketer['progress'] ?>" aria-valuemin="0" aria-valuemax="100" style="<?php echo 'width:'.$marketer['progress'].'%' ?>">
+									<div class="progress-bar progress-bar-striped active <?php echo getProgressBarClass($marketer['progress']); ?>" role="progressbar" aria-valuenow="<?php echo $marketer['progress'] ?>" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $marketer['progress'].'%' ?>">
 
 										<span class="skill text-uppercase">
 
@@ -145,7 +145,6 @@
 										</span>
 
 									</div>
-
 
 								</div>
 
@@ -241,4 +240,3 @@ if (isset($outformModal)) {
 <?php
 
 //$this->load->view('manager/modal/divide_one_contact');
-

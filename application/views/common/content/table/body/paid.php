@@ -1,4 +1,4 @@
-<td class="center tbl_paid">
+<td class="text-center tbl_paid">
 
 	<?php echo h_number_format($value['paid']); ?>
 

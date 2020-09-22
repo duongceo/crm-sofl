@@ -102,8 +102,16 @@ class Student extends MY_Controller {
             'branch' => array(),
             'level_language' => array(),
             'language_study' => array(),
-			'level_contact' => array(),
-			'level_student' => array(),
+			'level_contact' => array(
+				'where' => array(
+					'parent_id' => ''
+				)
+			),
+			'level_student' => array(
+				'where' => array(
+					'parent_id' => ''
+				)
+			),
         );
         return array_merge($this->data, $this->_get_require_data($require_model));
     }

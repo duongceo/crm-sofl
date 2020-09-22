@@ -312,134 +312,88 @@ class Marketer extends MY_Controller {
 	}
 	
 	public function get_ma_mkt() {
-		$this->load->model('campaign_spend_model');
-		$data = $this->data;
+		$this->load->model('spending_model');
+		
+		$require_model = array(
+			'language_study' => array(),
+			'channel' => array(),
+		);
+		
+		$data = $this->_get_require_data($require_model);
 		//echo '<pre>'; print_r($data); die();
 
-		if (!empty($_FILES)) {
-
-			$tempFile = $_FILES['file']['tmp_name'];
-
-			$fileName = $_FILES['file']['name'];
-
-			$okExtensions = array('xls', 'xlsx');
-
-			$fileParts = explode('.', $fileName);
-
-			if (!in_array(strtolower(end($fileParts)), $okExtensions)) {
-
-				echo 'Vui lòng chọn file đúng định dạng!';
-
-				die;
-
-			}
-
-			$targetFile = APPPATH . '../public/upload/chi_phi_mkt/' . $this->user_id . '-' . date('Y-m-d-H-i') . '.' . pathinfo($fileName, PATHINFO_EXTENSION);
-
-			move_uploaded_file($tempFile, $targetFile);
-
-			$this->load->library('PHPExcel');
-
-			$objPHPExcel = PHPExcel_IOFactory::load($targetFile);
-
-			$sheet = $objPHPExcel->getActiveSheet();
-
-			$data = $sheet->rangeToArray('A2:H100');
-
-			foreach ($data as $value) {
-				if ($value[3] != 0 && isset($value[3])) {
-					$input1['where'] = $where = array(
-						'campaign_id' => $this->campaign_model->find_campaign_id($value[3]),
-						'time' => strtotime($value[0])
-					);
-					// echo "<pre>";print_r($input['where']);die();
-					if (!empty($this->campaign_spend_model->load_all($input1))) {
-						$this->campaign_spend_model->delete($where);
-					}
-
-					$param['time'] = strtotime($value[0]);
-					$param['campaign_id'] = $this->campaign_model->find_campaign_id($value[3]);
-					$param['campaign_id_fb'] = $value[3];
-					$param['total_C1'] = $value[4];
-					$param['total_C2'] = $value[5];
-					$param['spend'] = $value[6];
-					$param['date_create'] = time();
-					$param['date_spend'] = date('Y-m-d', $param['time']);
-					
-					//echo "<pre>";print_r($param);die();
-					
-					$this->campaign_spend_model->insert($param);
-				}
-			}
-			redirect(base_url('marketer/get_ma_mkt'));
+		$get = $this->input->get();
+		
+		if (isset($get['filter_date_date_happen']) && $get['filter_date_date_happen'] != '') {
+			$time = $get['filter_date_date_happen'];
 		} else {
+			$time = '01' . '/' . date('m') . '/' . date('Y') . ' - ' . date('d') . '/' . date('m') . '/' . date('Y');
+		}
 
-			$this->load->model('campaign_model');
-			$this->load->model('staffs_model');
+		$dateArr = explode('-', $time);
+		$date_from = trim($dateArr[0]);
+		$date_from = strtotime(str_replace("/", "-", $date_from));
+		$date_end = trim($dateArr[1]);
+		$date_end = strtotime(str_replace("/", "-", $date_end)) + 3600 * 24;
+		
+		$input = array();
+		$input['where'] = array(
+			'day_spend >=' => $date_from,
+			'day_spend <' => $date_end,
+			'marketer_id' => $this->user_id
+		);
 
-			$get = $this->input->get();
-//			echo '<pre>';print_r($get);die();
-
-			if (isset($get['filter_date_date_happen']) && $get['filter_date_date_happen'] != '') {
-				$time = $get['filter_date_date_happen'];
-			} else {
-				$time = '01' . '/' . date('m') . '/' . date('Y') . ' - ' . date('d') . '/' . date('m') . '/' . date('Y');
-			}
-
-			$dateArr = explode('-', $time);
-			$date_from = trim($dateArr[0]);
-			$date_from = strtotime(str_replace("/", "-", $date_from));
-			$date_end = trim($dateArr[1]);
-			$date_end = strtotime(str_replace("/", "-", $date_end)) + 3600 * 24;
-
-			$marketer_id = $this->user_id;
-			$input_fb['where'] = array(
-				'marketer_id' => $marketer_id,
-				'channel_id' => 2
-			);
-			$campaign_fb = $this->campaign_model->load_all($input_fb);
-			$campaign_fb_list = array();
-			foreach ($campaign_fb as $value) {
-				$campaign_fb_list[] = $value['id'];
-			}
-
-			$input['where'] = array(
-				'time >=' => $date_from,
-				'time <' => $date_end
-			);
-			$input['where_in'] = array(
-				'campaign_id' => $campaign_fb_list
-			);
-			if (isset($get['filter_number_records'])) {
-				$input['limit'] = array($get['filter_number_records']);
-			} else {
-				$input['limit'] = array(40);
-			}
-			$input['order']['time'] = 'desc';
-			$campaign_spend = $this->campaign_spend_model->load_all($input);
-			$spend_fb = 0;
-			foreach ($campaign_spend as $value) {
-				$data['campaign'][] = array(
-					'campaign_name' => $this->campaign_model->find_campaign_name($value['campaign_id']),
-					'id_fb' => $value['campaign_id_fb'],
-					'account' => $this->campaign_model->find_acc_name($value['campaign_id']),
+		if (isset($get['filter_number_records'])) {
+			$input['limit'] = array($get['filter_number_records']);
+		} else {
+			$input['limit'] = array(40);
+		}
+		$input['order']['day_spend'] = 'desc';
+	
+		$spend = $this->spending_model->load_all($input);
+		
+		$spend_fb = 0;
+		$this->load->model('language_study_model');
+		$this->load->model('channel_model');
+		
+		if (isset($spend)) {
+			foreach ($spend as $value) {
+				$data['spend'][] = array(
+					'channel_name' => $this->channel_model->find_channel_name($value['channel_id']),
+					'language_name' => $this->language_study_model->find_language_name($value['language_id']),
 					'spend' => str_replace(',', '.', number_format($value['spend'])),
-					'time' => $value['time'],
-					'date_create' => $value['date_create'],
-					'user_create' => $this->staffs_model->find_staff_name($marketer_id)
+					'day_spend' => $value['day_spend'],
+					'time_created' => $value['time_created'],
 				);
 				$spend_fb = $spend_fb + $value['spend'];
 			}
-
-			$data['total_spend'] = str_replace(',', '.', number_format($spend_fb));
-			$data['startDate'] = isset($date_from) ? $date_from : '0';
-			$data['endDate'] = isset($date_end) ? $date_end : '0';
-			$data['left_col'] = array('date_happen_1');
-			$data['content'] = 'marketer/upload';
-			//echo '<pre>';print_r($data);die();
-
-			$this->load->view(_MAIN_LAYOUT_, $data);
 		}
+
+		$post = $this->input->post();
+		//print_arr($post);
+		
+		if (isset($post) && !empty($post)) {
+			$param['channel_id'] = $post['channel_id'];
+			$param['language_id'] = $post['language_id'];
+			$param['spend'] = $post['spend'];
+			$param['day_spend'] = strtotime(str_replace("/", "-", $post['day_spend']));
+			$param['time_created'] = time();
+			$param['marketer_id'] = $this->user_id;
+			$param['time'] = date('Y-m-d', strtotime($post['day_spend']));
+			//print_arr($param);
+			$this->spending_model->insert($param);
+			redirect(base_url('marketer/get_ma_mkt'));
+		}
+
+		$data['total_spend'] = str_replace(',', '.', number_format($spend_fb));
+		$data['startDate'] = isset($date_from) ? $date_from : '0';
+		$data['endDate'] = isset($date_end) ? $date_end : '0';
+		$data['left_col'] = array('date_happen_1');
+		$data['content'] = 'marketer/upload_spend';
+		//echo '<pre>';print_r($data);die();
+
+		$this->load->view(_MAIN_LAYOUT_, $data);
+	
 	}
 	
 	public function note_contact() {
