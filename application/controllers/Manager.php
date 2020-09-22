@@ -2061,8 +2061,8 @@ class Manager extends MY_Controller {
         $this->load->model('staffs_model');
         $qr = $this->staffs_model->SumTarget();
 		//echo $qr[0]['targets'];die;
-        $total_month_L5 = round($qr[0]['targets']*30*0.61);
-        $total_month_L8 = round($total_month_L5*0.85);
+        $total_month_L5 = round($qr[0]['targets']*30);
+//        $total_month_L8 = round($total_month_L5*0.85);
 
         $progress = [];
         $inputContact = array();
@@ -2085,7 +2085,7 @@ class Manager extends MY_Controller {
             'count' => count($today),
             'kpi' => $total_month_L5,
             'name' => 'TVTS',
-            'type' => 'L6'
+            'type' => 'L5'
 		);
         $progress['sale']['progress'] = round($progress['sale']['count'] / $progress['sale']['kpi'] * 100, 2);
 		
