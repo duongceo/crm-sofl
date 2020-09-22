@@ -9,9 +9,9 @@
 
             <h1 class="text-center text-uppercase red margintop20 marginbottom20"> <?php echo $progressType?> </h1>
 
-<!--			--><?php //print_arr($progress)?>
+        <?php //print_arr($progress)?>
 
-            <?php foreach ($progress as $team) { ?>
+            <?php foreach ($progress['progressbar'] as $team) { ?>
 
                 <div class="row">
 
@@ -49,6 +49,26 @@
 
     </div>
 
+    <?php if (in_array($this->role_id, array(3, 12))) { ?>
+        <div class="row">
+            <?php foreach ($language_study as $key => $value) {?>
+                <div class="col-md-3">
+                    <div class="panel panel-success text-center">
+                        <div class="panel-heading"><?php echo $value['name']; ?></div>
+                        <div class="panel-body" style="color: #006cf1"><?php echo h_number_format($progress[$value['language_id']][0]['RE']) ?></div>
+                    </div>
+                </div>
+            <?php } ?>
+
+            <div class="col-md-3">
+                <div class="panel panel-success text-center">
+                    <div class="panel-heading">Tổng</div>
+                    <div class="panel-body" style="color: #006cf1"><?php echo h_number_format($progress['total']); ?></div>
+                </div>
+            </div>
+        </div>
+    <?php } ?>
+    
 </div>
 
 <?php } ?>

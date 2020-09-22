@@ -400,6 +400,7 @@ class Sale extends MY_Controller {
         $this->form_validation->set_rules('phone', 'Số điện thoại', 'trim|required|min_length[2]|integer');
         $this->form_validation->set_rules('language_id', 'Ngoại ngữ', 'required');
         $this->form_validation->set_rules('date_rgt', 'Ngày contact về', 'required');
+        $this->form_validation->set_rules('branch_id', 'Cơ sở', 'required');
 //        $this->form_validation->set_rules('source_id', 'Nguồn contact', 'required|callback_check_source_id');
         if (!empty($input)) {
             if ($this->form_validation->run() == FALSE) {
@@ -513,8 +514,20 @@ class Sale extends MY_Controller {
 					show_error_and_redirect('Contact bạn vừa thêm có số tiền học phí không đúng chuẩn', 0, $input['back_location']);
 				}
 				
-				if (($param['paid'] != 0 && strlen($param['paid']) < 6) || (strlen($param['paid']) > 7) || (int)$param['paid'] > (int)$param['fee']) {
-					show_error_and_redirect('Contact bạn vừa thêm có số tiền đã đóng không đúng chuẩn', 0, $input['back_location']);
+				if ($param['paid'] != 0) {
+					if(!isset($input['call_status_id']) || $input['call_status_id'] != 4) {
+						show_error_and_redirect('Contact bạn vừa thêm ko đúng logic tiền đóng và trạng thái gọi', 0, $input['back_location']);
+					}
+				
+					if (!isset($input['level_contact_id']) || $input['level_contact_id'] != 'L5') {
+						show_error_and_redirect('Contact bạn vừa thêm ko đúng logic tiền đóng và trạng thái contact', 0, $input['back_location']);
+					}
+					
+					if (strlen($param['paid']) < 6 || strlen($param['paid'] > 7) || (int)$param['paid'] > (int)$param['fee']) {
+						show_error_and_redirect('Contact bạn vừa thêm có số tiền đã đóng không đúng chuẩn', 0, $input['back_location']);
+					} else {
+						$param['date_paid'] = time();
+					}
 				}
 
 				//$param['date_rgt'] = time();
@@ -550,6 +563,20 @@ class Sale extends MY_Controller {
 					//print_arr($param2);
 					$this->load->model('notes_model');
 					$this->notes_model->insert($param2);
+				}
+				
+				if ($input['paid'] != 0) {
+					$param3 = array(
+						'contact_id' => $id,
+						'paid' => $input['paid'],
+						'time_created' => time(),
+						'language_id' => $input['language_id'],
+						'branch_id' => $input['branch_id'],
+					);
+					
+					//print_arr($param2);
+					$this->load->model('paid_model');
+					$this->paid_model->insert($param3);
 				}
 				
 				if (isset($input['level_contact_id']) && $input['level_contact_id'] != '') {
@@ -977,6 +1004,8 @@ class Sale extends MY_Controller {
             'type' => 'L6'
 		);
         $progress['sale']['progress'] = round($progress['sale']['count'] / $progress['sale']['kpi'] * 100, 2);
+		
+		$progress['progressbar'] = $progress;
 
         // thêm hàng cod L8
 //        $inputContact = array();
@@ -1029,19 +1058,8 @@ class Sale extends MY_Controller {
             'type' => 'L6'
 		);
         $progress['sale']['progress'] = round($progress['sale']['count'] / $progress['sale']['kpi'] * 100, 2);
-
-//        $inputContact = array();
-//        $inputContact['select'] = 'id';
-//        $inputContact['where'] = array('date_receive_lakita >' => strtotime(date('01-m-Y')), 'is_hide' => '0');
-//        $today = $this->contacts_model->load_all($inputContact);
-//        $progress['cod'] = array(
-//            'count' => count($today),
-//            'kpi' => $total_month_L8,
-//            'name' => 'COD',
-//            'type' => 'L8'
-//        );
-//
-//        $progress['cod']['progress'] = round($progress['cod']['count'] / $progress['cod']['kpi'] * 100, 2);
+		
+		$progress['progressbar'] = $progress;
 
         return $progress;
 	}

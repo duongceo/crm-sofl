@@ -132,7 +132,6 @@ class Common extends MY_Controller {
             );
         }
 
-
 //        if ($this->role_id == 2) { //cod
 //            $left_edit = array(
 //                'contact_id' => 'view',
@@ -617,9 +616,12 @@ class Common extends MY_Controller {
 
 			if ($param['level_contact_id'] == 'L5' && $rows[0]['level_contact_id'] != 'L5') {
 				$param['date_rgt_study'] = time();
-				$param['date_paid'] = time();
 				$dataPush['message'] = 'Yeah Yeah !!';
                 $dataPush['success'] = '1';
+			}
+			
+			if ($param['paid'] != 0 && $rows[0]['paid'] != $param['paid']) {
+				$param['date_paid'] = time();
 			}
 			
 			//print_arr($param);
@@ -641,6 +643,20 @@ class Common extends MY_Controller {
                 $this->load->model('notes_model');
                 $this->notes_model->insert($param2);
             }
+			
+			if ($post['paid'] != 0) {
+				$param3 = array(
+                    'contact_id' => $id,
+                    'paid' => $post['paid'],
+                    'time_created' => time(),
+                    'language_id' => $post['language_id'],
+                    'branch_id' => $post['branch_id'],
+                );
+				
+				//print_arr($param2);
+                $this->load->model('paid_model');
+                $this->paid_model->insert($param3);
+			}
 			
             $this->_set_call_log($id, $post, $rows);
 			
