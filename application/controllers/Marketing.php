@@ -62,6 +62,9 @@
 	        $data['left_col'] = array('duplicate', 'date_rgt');
 //	        $data['right_col'] = array('tv_dk');
 
+			$data['progress'] = $this->GetProccessToday();
+			$data['progressType'] = 'Doanh thu ngày hôm nay';
+
 	        /*
 	         * Các trường cần hiện của bảng contact (đã có default)
 	         */
@@ -95,7 +98,7 @@
 
 			$data['left_col'] = array('language', 'sale', 'marketer', 'date_rgt', 'date_handover', 'date_confirm', 'date_rgt_study', 'date_last_calling');
 			$data['right_col'] = array('branch', 'source', 'call_status', 'level_contact', 'level_student');
-			$this->table .= 'channel campaign call_stt level_contact date_rgt';
+			$this->table .= 'fee paid channel call_stt level_contact date_rgt';
 			$data['table'] = explode(' ', $this->table);
 
 			$progress = $this->GetProccessMarketerThisMonth();
@@ -103,6 +106,9 @@
 			$data['C3Team'] = $progress['C3Team'];
 			$data['C3Total'] = $progress['total_kpi_mkt'];
 			$data['progressType_mkt'] = 'Tiến độ của team tháng này';
+			
+			$data['progress'] = $this->GetProccessThisMonth();
+			$data['progressType'] = 'Doanh thu tháng';
 
 			$outformModal = 'marketer/modal/view_note_contact';
 			$data['outformModal'] = explode(' ', $outformModal);
@@ -111,6 +117,292 @@
 			$data['content'] = 'common/list_contact';
 
 			$this->load->view(_MAIN_LAYOUT_, $data);
+		}
+		
+		public function view_report_quality_contact() {
+			//echo $this->role_id;die;
+			$this->load->model('language_study_model');
+			$this->load->model('spending_model');
+			$get = $this->input->get();
+			
+			$input = array();
+			$language = $this->language_study_model->load_all($input);
+
+			if (isset($get['filter_date_date_happen']) && $get['filter_date_date_happen'] != '') {
+				$time = $get['filter_date_date_happen'];
+			} else {
+				$time = '01' . '/' . date('m') . '/' . date('Y') . ' - ' . date('d') . '/' . date('m') . '/' . date('Y');
+			}
+			
+			$dateArr = explode('-', $time);
+			$date_from = trim($dateArr[0]);
+			$date_from = strtotime(str_replace("/", "-", $date_from));
+			$date_end = trim($dateArr[1]);
+			$date_end = strtotime(str_replace("/", "-", $date_end)) + 3600 * 24;
+
+			// echo '<pre>'; print_r($date_from); die;
+			// echo $date_from.'--'.$date_end;die();
+
+			if (isset($get['tic_report'])) {
+				$typeReport = array(
+					'C3' => array(
+						'where' => array(),
+						'time' => 'filter_date_date_rgt'
+					),
+					/*
+					'L1' => array(
+						'where' => array('is_hide' => '0', 'duplicate_id' => '0'),
+						'time' => 'filter_date_date_rgt'
+					),
+					'L2' => array(
+						'where' => array('is_hide' => '0', 'duplicate_id' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_),
+						'time' => 'filter_date_date_rgt'
+					),
+					'L6' => array(
+						'where' => array('is_hide' => '0', 'ordering_status_id' => _DONG_Y_MUA_, 'call_status_id' => _DA_LIEN_LAC_DUOC_),
+						'time' => 'filter_date_date_rgt'
+					),
+					'L8' => array(
+						'where' => array('is_hide' => '0', 'ordering_status_id' => _DONG_Y_MUA_, 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'cod_status_id' => _DA_THU_LAKITA_),
+						'time' => 'filter_date_date_rgt'
+					),
+					*/
+					'RE' => array(
+						'where' => array('is_hide' => '0', 'ordering_status_id' => _DONG_Y_MUA_, 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'cod_status_id' => _DA_THU_LAKITA_),
+						'time' => 'filter_date_date_rgt'
+					)
+				);
+			} else {
+				$typeReport = array(
+					'C3' => array(
+						'where' => array(),
+						'time' => 'filter_date_date_rgt'
+					),
+					/*
+					'L1' => array(
+						'where' => array('is_hide' => '0','duplicate_id' => '0'),
+						'time' => 'filter_date_date_handover'
+					),
+					'L2' => array(
+						'where' => array('is_hide' => '0', 'duplicate_id' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_),
+						'time' => 'filter_date_date_handover'
+					),
+					'L6' => array(
+						'where' => array('is_hide' => '0', 'ordering_status_id' => _DONG_Y_MUA_, 'call_status_id' => _DA_LIEN_LAC_DUOC_),
+						'time' => 'filter_date_date_confirm'
+					),
+					'L8' => array(
+						'where' => array('is_hide' => '0', 'ordering_status_id' => _DONG_Y_MUA_, 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'cod_status_id' => _DA_THU_LAKITA_),
+						'time' => 'filter_date_date_receive_lakita'
+					),
+					*/
+					'RE' => array(
+						'where' => array('is_hide' => '0', 'ordering_status_id' => _DONG_Y_MUA_, 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'cod_status_id' => _DA_THU_LAKITA_),
+						'time' => 'filter_date_date_receive_lakita'
+					)
+				);
+			}
+
+			//echo '(`brand_id` in (' . $brand .'))';die;
+			//echo '<pre>'; print_r($course); die;
+			
+			$conditionnal_2 = array();
+
+			$Report = array();
+
+			foreach ($language as $v_language) {
+				foreach ($typeReport as $report_type => $value) {
+					
+					$typeTime = array($value['time'] => $time);
+				  
+					if ($this->role_id == 6) {
+						$condition = array('where' => array_merge($value['where'], array('language_id' => $v_language['id'], 'marketer_id' => $this->user_id)));
+					} else {
+						if (isset($get['filter_marketer_id']) && $get['filter_marketer_id'] != '') {
+							$condition = array('where' => array_merge($value['where'], array('language_id' => $v_language['id'])));
+							$fillter_marketer_id['where_in']['marketer_id'] = $get['filter_marketer_id'];
+							$condition = array_merge($condition, $fillter_marketer_id);
+							// echo '<pre>'; print_r($condition); die;
+						} else {
+							$condition = array('where' => array_merge($value['where'], array('language_id' => $v_language['id'])));
+						}
+					}
+					$condition = array_merge_recursive($condition, $conditionnal_2);
+					//echo '<pre>'; print_r($condition); die;
+					$Report[$v_language['language_id']][$report_type] = $this->_query_for_report($typeTime, $condition);
+					print_arr($Report[$v_language['language_id']]);
+					//$Report[$v_language['language_id']]['RE'] = $this->_query_for_report_re($typeTime, $condition);
+					// $Report[$v_course['course_code']]['RE'] = str_replace(',', '.', number_format($this->_query_for_report_re($typeTime, $condition)));
+				}
+				
+				/*
+				if ($Report[$v_language['language_id']]['C3'] == 0 && $Report[$v_language['language_id']]['L1'] == 0 && $Report[$v_language['language_id']]['L6'] == 0 && $Report[$v_course['language_id']]['L8'] == 0) {
+					unset($Report[$v_language['language_id']]);
+				}
+				*/
+				
+				if ($Report[$v_language['language_id']]['C3'] == 0) {
+					unset($Report[$v_language['language_id']]);
+				}
+				
+
+			}
+
+			echo '<pre>'; print_r($Report); die;
+
+			$total_C3 = 0;
+			$total_L1 = 0;
+			$total_L2 = 0;
+			$total_L6 = 0;
+			$total_L8 = 0;
+			$total_spend = 0;
+
+			foreach ($Report as $key => $value) {
+				$input_campaign = array();
+				$input_campaign['select'] = 'id';
+				$input_campaign['where']['course_id'] = $this->courses_model->find_id_by_course_code($key);
+
+				if (isset($get['filter_marketer_id'])) {
+					$input_campaign['where_in']['marketer_id'] = $get['filter_marketer_id'];
+				}
+
+				if ($this->role_id == 6) {
+					$input_campaign['where']['marketer_id'] = $this->user_id;
+				}
+
+				//campaign FB
+				$input_campaign['where']['channel_id'] = 2;
+				$campaign_fb = $this->campaign_model->load_all($input_campaign);
+				$campaign_fb_list = array();
+				foreach ($campaign_fb as $value) {
+					$campaign_fb_list[] = $value['id'];
+				}
+				
+				//echo '<pre>'; print_r($input_campaign); die;
+				//campaign GA
+				$input_campaign['where']['channel_id'] = 3;
+				$campaign_ga = $this->campaign_model->load_all($input_campaign);
+				$campaign_ga_list = array();
+				foreach ($campaign_ga as $value) {
+					$campaign_ga_list[] = $value['id'];
+				}
+				//echo '<pre>'; print_r($input_campaign); die;
+
+				// lấy chi fb
+				$input = array();
+				$input['select'] = 'SUM(spend) as spend';
+				$input['where']['time >='] = $date_from;
+				$input['where']['time <='] = $date_end;
+				$input['where_in']['campaign_id'] = $campaign_fb_list;
+				if (empty($campaign_fb_list)) {
+					$spend_fb = 0;
+				} else {
+					// $spend_fb = (int) $this->campaign_cost_model->load_all($input)[0]['spend'];
+					$spend_fb = (int) $this->campaign_spend_model->load_all($input)[0]['spend'];
+				}
+				// echo '<pre>'; print_r($spend_fb); die;
+
+				//lấy chi ga
+				$input = array();
+				$input['select'] = 'SUM(spend) as spend';
+				$input['where']['time >='] = $date_from;
+				$input['where']['time <='] = $date_end;
+				$input['where_in']['campaign_id'] = $campaign_ga_list;
+				if (empty($campaign_ga_list)) {
+					$spend_ga = 0;
+				} else {
+					$spend_ga = (int) $this->Cost_GA_campaign_model->load_all($input)[0]['spend'];
+				}
+
+				//echo $price_course;die;
+				$price_course = 370000;
+				//Tổng chi marketing
+				if (($this->user_id == 66) || ($this->role_id == 5) || ($get['filter_marketer_id'][0] == 66)) {
+					$sum_spend = $spend_fb + $spend_ga + $spend_em_per_course;
+				} else {
+					$sum_spend = $spend_fb + $spend_ga;
+				}
+
+				$Report[$key]['Gia_L8'] = ($Report[$key]['L8'] == 0) ? '0' : str_replace(',', '.', number_format(round($sum_spend / $Report[$key]['L8'])));
+				$Report[$key]['Ma_Re_du_kien'] = ($Report[$key]['L6'] == 0) ? '0' : round($sum_spend / ($Report[$key]['L6'] * $ty_le_brand * $price_course), 4) * 100;
+				$Report[$key]['Ma_Re_thuc_te'] = ($Report[$key]['L8'] == 0) ? '0' : round($sum_spend / ($Report[$key]['RE']), 4) * 100;
+				$Report[$key]['Re_du_kien'] = str_replace(',', '.', number_format(($Report[$key]['L6'] * $price_course) * $ty_le_brand));
+				// $Report[$key]['Re_thuc_te'] = str_replace(',', '.', number_format($Report[$key]['L8'] * $price_course));
+				$Report[$key]['Re_thuc_te'] = str_replace(',', '.', number_format($Report[$key]['RE']));
+				$Report[$key]['Ma_mkt'] = str_replace(',', '.', number_format($sum_spend));
+
+				$total_C3 += $Report[$key]['C3'];
+				$total_L1 += $Report[$key]['L1'];
+				$total_L2 += $Report[$key]['L2'];
+				$total_L6 += $Report[$key]['L6'];
+				$total_L8 += $Report[$key]['L8'];
+				$total_RE += $Report[$key]['RE'];
+				$total_spend += $sum_spend;
+
+				$Report[$key]['L1/C3'] = ($Report[$key]['C3'] == 0) ? '0' : round($Report[$key]['L1'] / $Report[$key]['C3'], 4) * 100;
+				$Report[$key]['L2/L1'] = ($Report[$key]['L1'] == 0) ? '0' : round($Report[$key]['L2'] / $Report[$key]['L1'], 4) * 100;
+				$Report[$key]['L6/L1'] = ($Report[$key]['L1'] == 0) ? '0' : round($Report[$key]['L6'] / $Report[$key]['L1'], 4) * 100;
+				$Report[$key]['L6/L2'] = ($Report[$key]['L2'] == 0) ? '0' : round($Report[$key]['L6'] / $Report[$key]['L2'], 4) * 100;
+				$Report[$key]['L8/L6'] = ($Report[$key]['L6'] == 0) ? '0' : round($Report[$key]['L8'] / $Report[$key]['L6'], 4) * 100;
+				$Report[$key]['L8/L1'] = ($Report[$key]['L1'] == 0) ? '0' : round($Report[$key]['L8'] / $Report[$key]['L1'], 4) * 100;
+				// $Report[$key]['tong'] = $total_L1.'-'.$total_L2.'-'.$total_L6.'-'.$total_L8;
+
+				$Report[$key]['course_code'] = $key;
+			}
+
+			$Report['Tổng'] = array(
+				'C3' => $total_C3,
+				'L1' => $total_L1,
+				'L2' => $total_L2,
+				'L6' => $total_L6,
+				'L8' => $total_L8,
+				// 'RE' => str_replace(',', '.', number_format($total_RE)),
+				'Gia_L8' => str_replace(',', '.', number_format(round($total_spend / $total_L8))),
+				'L1/C3' => round(($total_L1 / $total_C3), 4) * 100,
+				'L2/L1' => round(($total_L2 / $total_L1), 4) * 100,
+				'L6/L1' => round(($total_L6 / $total_L1), 4) * 100,
+				'L6/L2' => round(($total_L6 / $total_L2), 4) * 100,
+				'L8/L6' => round(($total_L8 / $total_L6), 4) * 100,
+				'L8/L1' => round(($total_L8 / $total_L1), 4) * 100,
+				'Ma_mkt' => str_replace(',', '.', number_format($total_spend)),
+				'Ma_Re_du_kien' => ($total_L6 == 0) ? '0' : round($total_spend / ($total_L6 * $ty_le_brand * 395000), 4) * 100,
+				'Ma_Re_thuc_te' => ($total_L6 == 0) ? '0' : round($total_spend / $total_RE, 4) * 100,
+				// 'Ma_Re_thuc_te' => str_replace(',', '.', number_format($total_RE)),
+				'Re_du_kien' => str_replace(',', '.', number_format($total_L6 * 395000 * $ty_le_brand)),
+				'Re_thuc_te' => str_replace(',', '.', number_format($total_RE)),
+				'course_code' => 'Tổng'
+			);
+
+			usort($Report, function($a, $b) {
+				return $b['L1'] - $a['L1'];
+			});
+
+			// echo '<pre>'; print_r($Report); die;
+
+			$this->load->model('brand_model');
+			$data['brand'] = $this->brand_model->load_all(array('where' => array('active' => 1)));
+
+			$this->load->model('channel_model');
+			$data['channel'] = $this->channel_model->load_all(array('where' => array('active' => 1)));
+			
+			$this->load->model('staffs_model');
+			$data['marketers'] = $this->staffs_model->load_all(array('where' => array('role_id' => 6, 'active' => 1), 'order' => array('name' => 'asc')));
+
+			$data['report'] = $Report;
+			$data['startDate'] = isset($date_from) ? $date_from : '0';
+			$data['endDate'] = isset($date_end) ? $date_end : '0';
+
+			if ($this->role_id == 6) {
+				$data['left_col'] = array('date_happen_1', 'tic_report', 'brand');
+				$data['right_col'] = array('channel');
+			} else {
+				$data['left_col'] = array('date_happen_1', 'marketer', 'tic_report');
+				$data['right_col'] = array('brand', 'channel');
+			}
+
+			$data['content'] = 'marketing/view_report_quality_contact';
+			$this->load->view(_MAIN_LAYOUT_, $data);
+			
 		}
 
 		protected function GetProccessMarketerToday() {
