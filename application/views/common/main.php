@@ -40,6 +40,10 @@
         </div>
         <?php $this->load->view('common/right_context_menu'); ?>
         <?php $this->load->view('common/footer'); ?>
+
+        <?php if ($this->role_id == 12) {
+        	$this->load->view('sale/modal/transfer_one_contact');
+        }?>
     <?php } ?>
 	
 </body>
