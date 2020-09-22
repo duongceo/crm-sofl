@@ -520,7 +520,7 @@ class MY_Controller extends CI_Controller {
 		//echo '<pre>'; print_r($input);die;
 
         $total_row = count($this->contacts_model->load_all($input));
-
+		
         return $total_row;
 
     }
@@ -1307,6 +1307,9 @@ class MY_Controller extends CI_Controller {
 				'paid !=' => 0,
 				'time_created >' => strtotime(date('d-m-Y'))
 			);
+			if ($this->role_id != 12) {
+				unset($input_re['where']['branch_id']);
+			}
 			$progress[$value['language_id']] = $this->paid_model->load_all($input_re);
 			$total += $progress[$value['language_id']][0]['RE'];
 		}
@@ -1332,6 +1335,10 @@ class MY_Controller extends CI_Controller {
 				'paid !=' => 0,
 				'date_paid >=' => strtotime(date('01-m-Y'))
 			);
+			
+			if ($this->role_id != 12) {
+				unset($input_re['where']['branch_id']);
+			}
 			
 			$progress[$value['language_id']] = $this->contacts_model->load_all($input_re);
 			$total += $progress[$value['language_id']][0]['RE'];
