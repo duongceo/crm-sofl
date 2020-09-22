@@ -26,7 +26,10 @@ class Student extends MY_Controller {
 		/*
          * Lấy link phân trang và danh sách contacts
          */
-
+		 
+		$data['progress'] = $this->GetProccessToday();
+		$data['progressType'] = 'Doanh thu tại cơ sở ngày hôm nay';
+		
 		$data['pagination'] = $this->_create_pagination_link($data_pagination['total_row']);
 		$data['contacts'] = $data_pagination['data'];
 		$data['total_contact'] = $data_pagination['total_row'];
@@ -65,6 +68,9 @@ class Student extends MY_Controller {
 		$this->load->model('level_student_model');
 		$data['level_contact_detail'] = $this->level_contact_model->load_all($input);
 		$data['level_student_detail'] = $this->level_student_model->load_all($input);
+		
+		$data['progress'] = $this->GetProccessThisMonth();
+		$data['progressType'] = 'Doanh thu tại cơ sở tháng này';
 
         $data['left_col'] = array('date_rgt', 'date_handover', 'date_recall', 'date_confirm', 'date_rgt_study');
         $data['right_col'] = array('call_status', 'level_contact', 'level_contact_detail', 'level_student', 'level_student_detail');
@@ -74,9 +80,12 @@ class Student extends MY_Controller {
 		
         $data['titleListContact'] = 'Danh sách toàn bộ contact';
 		
+		
+		
         $data['content'] = 'common/list_contact';
         $this->load->view(_MAIN_LAYOUT_, $data);
     }
+	
 
 	private function get_all_require_data() {
         $require_model = array(

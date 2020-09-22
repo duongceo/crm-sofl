@@ -1291,6 +1291,56 @@ class MY_Controller extends CI_Controller {
         $str = strtoupper($str);
         return $str;
     }
+	
+	protected function GetProccessToday() {
+		$this->load->model('language_study_model');
+		$this->load->model('paid_model');
+        $input = array();
+		$language = $this->language_study_model->load_all($input);
+		
+		$total = 0;
+		foreach ($language as $value) {
+			$input_re['select'] = 'SUM(paid) AS RE';
+			$input_re['where'] = array(
+				'language_id' => $value['id'],
+				'branch_id' => $this->session->userdata('branch_id'),
+				'paid !=' => 0,
+				'time_created >' => strtotime(date('d-m-Y'))
+			);
+			$progress[$value['language_id']] = $this->paid_model->load_all($input_re);
+			$total += $progress[$value['language_id']][0]['RE'];
+		}
+		$progress['total'] = $total;
+		//print_arr($progress);
+
+        return $progress;
+    }
+	
+	protected function GetProccessThisMonth() {
+		
+		$this->load->model('language_study_model');
+
+        $input = array();
+		$language = $this->language_study_model->load_all($input);
+		
+		$total = 0;
+		foreach ($language as $value) {
+			$input_re['select'] = 'SUM(paid) AS RE';
+			$input_re['where'] = array(
+				'language_id' => $value['id'],
+				'branch_id' => $this->session->userdata('branch_id'),
+				'paid !=' => 0,
+				'date_paid >=' => strtotime(date('01-m-Y'))
+			);
+			
+			$progress[$value['language_id']] = $this->contacts_model->load_all($input_re);
+			$total += $progress[$value['language_id']][0]['RE'];
+		}
+
+		$progress['total'] = $total;
+		
+        return $progress;
+    }
 
 }
 

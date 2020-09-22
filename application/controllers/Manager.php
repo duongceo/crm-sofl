@@ -52,6 +52,8 @@ class Manager extends MY_Controller {
         $data['progressType'] = 'Tiến độ các team ngày hôm nay';
 
         $data['total_contact'] = $data_pagination['total_row'];
+		
+		//print_arr($data);
         /*
          * Lấy link phân trang
          */
@@ -2035,21 +2037,26 @@ class Manager extends MY_Controller {
             'type' => 'L5'
 		);
         $progress['sale']['progress'] = round($progress['sale']['count'] / $progress['sale']['kpi'] * 100, 2);
-
-        // thêm hàng cod L8
-		/*
-        $inputContact = array();
-        $inputContact['select'] = 'id';
-        $inputContact['where'] = array('date_receive_cost >' => strtotime(date('d-m-Y')), 'is_hide' => '0');
-        $today = $this->contacts_model->load_all($inputContact);
-        $progress['cod'] = array(
-            'count' => count($today),
-            'kpi' => $total_day_L8,
-            'name' => 'COD',
-            'type' => 'L8'
-        );
-        $progress['cod']['progress'] = round($progress['cod']['count'] / $progress['cod']['kpi'] * 100, 2);
-		*/
+		$progress['progressbar'] = $progress;
+		
+		$this->load->model('language_study_model');
+		$this->load->model('paid_model');
+        $input = array();
+		$language = $this->language_study_model->load_all($input);
+		
+		$total = 0;
+		foreach ($language as $value) {
+			$input_re['select'] = 'SUM(paid) AS RE';
+			$input_re['where'] = array(
+				'language_id' => $value['id'],
+				'paid !=' => 0,
+				'time_created >' => strtotime(date('d-m-Y'))
+			);
+			$progress[$value['language_id']] = $this->paid_model->load_all($input_re);
+			$total += $progress[$value['language_id']][0]['RE'];
+		}
+		$progress['total'] = $total;
+		//print_arr($progress);
 
         return $progress;
     }
@@ -2079,7 +2086,7 @@ class Manager extends MY_Controller {
 
         $inputContact = array();
         $inputContact['select'] = 'id';
-        $inputContact['where'] = array('date_rgt >' => strtotime(date('01-m-Y')), 'is_hide' => '0');
+        $inputContact['where'] = array('date_rgt >' => strtotime(date('01-m-Y')), 'level_contact_id' => 'L5', 'is_hide' => '0');
         $today = $this->contacts_model->load_all($inputContact);
         $progress['sale'] = array(
             'count' => count($today),
@@ -2089,20 +2096,26 @@ class Manager extends MY_Controller {
 		);
         $progress['sale']['progress'] = round($progress['sale']['count'] / $progress['sale']['kpi'] * 100, 2);
 		
-		/*
-        $inputContact = array();
-        $inputContact['select'] = 'id';
-        $inputContact['where'] = array('date_receive_cost >' => strtotime(date('01-m-Y')), 'is_hide' => '0');
-        $today = $this->contacts_model->load_all($inputContact);
-        $progress['cod'] = array(
-            'count' => count($today),
-            'kpi' => $total_month_L8,
-            'name' => 'COD',
-            'type' => 'L8'
-        );
+		$progress['progressbar'] = $progress;
+		
+		$this->load->model('language_study_model');
 
-        $progress['cod']['progress'] = round($progress['cod']['count'] / $progress['cod']['kpi'] * 100, 2);
-		*/
+        $input = array();
+		$language = $this->language_study_model->load_all($input);
+		
+		$total = 0;
+		foreach ($language as $value) {
+			$input_re['select'] = 'SUM(paid) AS RE';
+			$input_re['where'] = array(
+				'language_id' => $value['id'],
+				'paid !=' => 0,
+				'last_activity >=' => strtotime(date('01-m-Y'))
+			);
+			$progress[$value['language_id']] = $this->contacts_model->load_all($input_re);
+			$total += $progress[$value['language_id']][0]['RE'];
+		}
+		$progress['total'] = $total;
+		
         return $progress;
     }
 
