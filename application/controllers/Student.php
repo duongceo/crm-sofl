@@ -37,7 +37,7 @@ class Student extends MY_Controller {
 		$data['left_col'] = array('date_rgt', 'date_confirm', 'date_rgt_study');
 		$data['right_col'] = array('class_study');
 
-		$this->table .= 'class_study_id fee paid date_confirm date_rgt';
+		$this->table .= 'class_study_id fee paid date_rgt date_rgt_study';
 		$data['table'] = explode(' ', $this->table);
 		//echo '<pre>'; print_r($data['table']);die;
 

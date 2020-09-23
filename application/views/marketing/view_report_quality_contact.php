@@ -23,11 +23,12 @@
             <tr>
 					<th rowspan = "2" style="font-weight: bold">Ngôn ngữ</th>
                 <!--<th style="font-weight: bold">C3</th>-->
-					<th colspan = "1" style="font-weight: bold"> Số Lượng</th>
+					<th colspan = "2" style="font-weight: bold"> Số Lượng</th>
 <!--					<th colspan = "6" style="font-weight: bold; background-color: blue"> Tỷ Lệ</th>-->
 					<th colspan = "6" style="font-weight: bold; background-color: purple"> Hiệu quả</th>
 				<tr>
 					<th style="font-weight: bold">Contact</th>
+                    <th style="font-weight: bold">Đăng ký</th>
 <!--					<th style="font-weight: bold">L1</th>-->
 <!--					<th style="font-weight: bold">L2</th>-->
 <!--					<th style="font-weight: bold">L6</th>-->
@@ -52,7 +53,8 @@
             <?php foreach ($report as $course => $value) { ?>
                 <tr>
                     <td style="background-color: #0EA3EF ;color: #FFF;font-weight: bold"><?php echo $value['language_name'] ?></td>
-                    <td><?php echo $value['C3'] ?></td> 
+                    <td><?php echo $value['C3'] ?></td>
+                    <td><?php echo $value['L5'] ?></td>
 <!--                    <td>--><?php //echo $value['L1'] ?><!--</td>-->
 <!--                    <td>--><?php //echo $value['L2'] ?><!--</td>-->
 <!--                    <td>--><?php //echo $value['L6'] ?><!--</td>-->

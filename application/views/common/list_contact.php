@@ -49,7 +49,7 @@
 
     </div>
 
-    <?php if (in_array($this->role_id, array(3, 12, 5))) { ?>
+    <?php if (in_array($this->role_id, array(3, 12, 5, 7))) { ?>
         <div class="row">
             <?php foreach ($language_study as $key => $value) {?>
                 <div class="col-md-3">

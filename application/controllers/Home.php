@@ -94,7 +94,7 @@ class Home extends CI_Controller {
 
                 case 7:
 
-                    redirect(base_url('staff_managers/class_study' . $this->initGetVariable));
+                    redirect(base_url('danh-sach-hoc-vien.html' . $this->initGetVariable));
 
                     break;
 
@@ -124,7 +124,7 @@ class Home extends CI_Controller {
 
 				case 12:
 
-                    redirect(base_url('staff_managers/class_study' . $this->initGetVariable));
+                    redirect(base_url('danh-sach-hoc-vien.html' . $this->initGetVariable));
 
                     break;
 

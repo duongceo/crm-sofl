@@ -93,11 +93,19 @@
 //			$input['where'] = array('contact_id' => $value['id']);
 //			$value['care_number'] = count($this->call_log_model->load_all($input));
 //		}
+			$input['where'] = array(
+				'parent_id !=' => '' 
+			);
+		
+			$this->load->model('level_contact_model');
+			$this->load->model('level_student_model');
+			$data['level_contact_detail'] = $this->level_contact_model->load_all($input);
+			$data['level_student_detail'] = $this->level_student_model->load_all($input);
 
 			$data['contacts'] = $contact;
 
 			$data['left_col'] = array('language', 'sale', 'marketer', 'date_rgt', 'date_handover', 'date_confirm', 'date_rgt_study', 'date_last_calling');
-			$data['right_col'] = array('branch', 'source', 'call_status', 'level_contact', 'level_student');
+			$data['right_col'] = array('branch', 'source', 'call_status', 'level_contact', 'level_contact_detail', 'level_student', 'level_student_detail');
 			$this->table .= 'fee paid channel call_stt level_contact date_rgt';
 			$data['table'] = explode(' ', $this->table);
 
@@ -138,7 +146,7 @@
 			$date_from = trim($dateArr[0]);
 			$date_from = strtotime(str_replace("/", "-", $date_from));
 			$date_end = trim($dateArr[1]);
-			$date_end = strtotime(str_replace("/", "-", $date_end)) + 3600 * 24;
+			$date_end = strtotime(str_replace("/", "-", $date_end)) + 3600 * 24 - 1;
 
 			// echo '<pre>'; print_r($date_from); die;
 			// echo $date_from.'--'.$date_end;die();
@@ -147,6 +155,10 @@
 				$typeReport = array(
 					'C3' => array(
 						'where' => array(),
+						'time' => 'filter_date_date_rgt'
+					),
+					'L5' => array(
+						'where' => array('is_hide' => '0', 'level_contact_id' => 'L5'),
 						'time' => 'filter_date_date_rgt'
 					),
 					/*
@@ -178,6 +190,10 @@
 						'where' => array(),
 						'time' => 'filter_date_date_rgt'
 					),
+					'L5' => array(
+						'where' => array('is_hide' => '0', 'level_contact_id' => 'L5'),
+						'time' => 'filter_date_date_rgt_study'
+					),
 					/*
 					'L1' => array(
 						'where' => array('is_hide' => '0','duplicate_id' => '0'),
@@ -198,13 +214,13 @@
 					*/
 					'RE' => array(
 						'where' => array('is_hide' => '0', 'paid !=' => '0'),
-						'time' => 'date_paid'
+						'time' => 'filter_date_date_paid'
 					)
 				);
 			}
 
 			//echo '(`brand_id` in (' . $brand .'))';die;
-			//echo '<pre>'; print_r($course); die;
+			//echo '<pre>'; print_r($typeReport); die;
 			
 			$conditionnal_2 = array();
 
@@ -230,7 +246,10 @@
 					$condition = array_merge_recursive($condition, $conditionnal_2);
 					//echo '<pre>'; print_r($condition); die;
 					$Report[$v_language['id']][$report_type] = $this->_query_for_report($typeTime, $condition);
-					$Report[$v_language['id']]['RE'] = $this->_query_for_report_re($typeTime, $condition);
+					if ($report_type == 'RE') {
+						$Report[$v_language['id']]['RE'] = $this->_query_for_report_re($typeTime, $condition);
+					}
+					
 					// $Report[$v_course['course_code']]['RE'] = str_replace(',', '.', number_format($this->_query_for_report_re($typeTime, $condition)));
 				}
 				
@@ -248,6 +267,7 @@
 //			echo '<pre>'; print_r($Report); die;
 
 			$total_C3 = 0;
+			$total_L5 = 0;
 //			$total_L1 = 0;
 //			$total_L2 = 0;
 //			$total_L6 = 0;
@@ -262,7 +282,7 @@
 
 				// lấy chi fb
 				$input = array();
-				$input['select'] = 'SUM(spend) as spend';
+				$input['select'] = 'SUM(spend) as spending';
 				$input['where']['time_created >='] = $date_from;
 				$input['where']['time_created <='] = $date_end;
 				$input['where']['language_id'] = $key;
@@ -279,7 +299,7 @@
 					$input['where']['marketer_id'] = $this->user_id;
 				}
 
-				$spend = (int) $this->spending_model->load_all($input)[0]['spend'];
+				$spend = (int) $this->spending_model->load_all($input)[0]['spending'];
 //				 echo '<pre>'; print_r($spend); die;
 
 //				$Report[$key]['Gia_L8'] = ($Report[$key]['L8'] == 0) ? '0' : str_replace(',', '.', number_format(round($sum_spend / $Report[$key]['L8'])));
@@ -291,6 +311,7 @@
 				$Report[$key]['Ma_mkt'] = str_replace(',', '.', number_format($spend));
 
 				$total_C3 += $Report[$key]['C3'];
+				$total_L5 += $Report[$key]['L5'];
 //				$total_L1 += $Report[$key]['L1'];
 //				$total_L2 += $Report[$key]['L2'];
 //				$total_L6 += $Report[$key]['L6'];
@@ -312,6 +333,7 @@
 
 			$Report['Tổng'] = array(
 				'C3' => $total_C3,
+				'L5' => $total_L5,
 //				'L1' => $total_L1,
 //				'L2' => $total_L2,
 //				'L6' => $total_L6,
@@ -484,8 +506,16 @@
 				'channel' => array(),
 				'branch' => array(),
 				'level_language' => array(),
-				'level_contact' => array(),
-				'level_student' => array(),
+				'level_contact' => array(
+				'where' => array(
+						'parent_id' => ''
+					)
+				),
+				'level_student' => array(
+					'where' => array(
+						'parent_id' => ''
+					)
+				),
 				'language_study' => array()
 			);
 			return array_merge($this->data, $this->_get_require_data($require_model));

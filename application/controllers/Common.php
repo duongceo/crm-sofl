@@ -114,6 +114,7 @@ class Common extends MY_Controller {
 				'language' => 'edit',
 				'level_language' => 'edit',
                 'class_study_id' => 'edit',
+                'is_old' => 'edit',
                 'fee' => 'edit',
                 'paid' => 'edit',
             );
@@ -122,6 +123,7 @@ class Common extends MY_Controller {
                 'call_stt' => 'edit',
                 'level_contact' => 'edit',
 				'level_student' => 'edit',
+				//'date_rgt_study' => 'edit',
                 'date_recall' => 'edit',
 //                'send_banking_info' => 'edit',
                 'note' => 'edit',
@@ -522,13 +524,23 @@ class Common extends MY_Controller {
             $post = $this->input->post();
 //			print_arr($post);
             $param = array();
-            $post_arr = array('name', 'email', 'phone', 'branch_id', 'language_id', 'class_study_id', 'level_language_id', 'fee', 'paid', 'payment_method_rgt', 'call_status_id');
+            $post_arr = array('name', 'email', 'phone', 'branch_id', 'language_id', 'class_study_id', 'level_language_id', 'fee', 'paid', 'payment_method_rgt', 'call_status_id', 'is_old');
 
             foreach ($post_arr as $value) {
                 if (isset($post[$value])) {
                     $param[$value] = $post[$value];
                 }
             }
+			//print_arr($param);
+			
+			if ($this->role_id == 12) {
+				if ($param['branch_id'] == 0 || $param['language_id'] == 0) {
+					$result['success'] = 0;
+					$result['message'] = 'Bạn phải cập nhật cơ sở hoặc ngoại ngữ';
+					echo json_encode($result);
+					die;
+				}
+			}
 			
 			if (isset($post['level_contact_id']) && !empty($post['level_contact_id']) && $post['level_contact_id'] != '') {
 				$param['level_contact_id'] = $post['level_contact_id'];
@@ -549,6 +561,15 @@ class Common extends MY_Controller {
 
 			if (isset($post['level_student_detail']) && !empty($post['level_student_detail']) && $post['level_student_detail'] != '') {
 				$param['level_student_detail'] = $post['level_student_detail'];
+			}
+			
+			if ($post['level_contact_detail'] == 'L5.2' || $post['level_student_id'] == 'L8') {
+				if ($post['is_old'] == 0) {
+					$result['success'] = 0;
+					$result['message'] = 'Contact là học viên cũ đúng ko ?';
+					echo json_encode($result);
+					die;
+				}
 			}
 
 			$param['date_last_calling'] = time();
@@ -644,13 +665,15 @@ class Common extends MY_Controller {
                 $this->notes_model->insert($param2);
             }
 			
-			if ($post['paid'] != 0) {
+			if ($post['paid'] != 0 && $post['paid'] != $rows[0]['paid']) {
 				$param3 = array(
                     'contact_id' => $id,
                     'paid' => $post['paid'],
                     'time_created' => time(),
                     'language_id' => $post['language_id'],
                     'branch_id' => $post['branch_id'],
+					'day' => date('Y-m-d', time()),
+					'student_old' => $rows[0]['is_old'],
                 );
 				
 				//print_arr($param2);
@@ -1060,7 +1083,7 @@ class Common extends MY_Controller {
         }
 		
 		if ($level_student != '') {
-			if (!in_array($level_contact_id, array('L3', 'L3.1', 'L3.2', 'L5', 'L5.1', 'L5.2', 'L5,3')) || $call_status_id != _DA_LIEN_LAC_DUOC_) {
+			if (!in_array($level_contact_id, array('L5', 'L5.1', 'L5.2', 'L5,3')) || $call_status_id != _DA_LIEN_LAC_DUOC_) {
 				return false;
 			}
 		}
@@ -1883,7 +1906,9 @@ class Common extends MY_Controller {
 				</td>';
 			echo $str;
 		} else {
-    		echo '';
+    		echo '<td class="text-right">
+					
+				</td>';
 		}
 	}
 

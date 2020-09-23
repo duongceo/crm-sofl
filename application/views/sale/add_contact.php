@@ -49,10 +49,26 @@
                             <input type="tel" class="form-control" placeholder="Số điện thoại" name="phone" value="
                             <?php if (isset($_GET['phone'])) {
 								echo $_GET['phone'];
-							} else {
-								echo set_value('phone');
-							} ?>
-							"/>
+							}?>"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-4 text-right">
+                            Học viên mới hay cũ
+                        </div>
+                        <div class="col-md-8">
+                            <div class="radio">
+                                <label class="radio-inline">
+                                    <input type="radio" name="is_old" value="1"> Cũ
+
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="is_old" value="0"> Mới
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -146,6 +162,24 @@
                     </div>
                 </div>
 
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-4 text-right">
+                            Ngày đăng ký học
+                        </div>
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <div class='input-group date date_rgt'>
+                                    <input type='text' class="form-control" name='date_rgt_study' value="" />
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
 				<div class="form-group">
 					<div class="row">
 						<div class="col-md-4 text-right">
@@ -153,7 +187,7 @@
 						</div>
 						<div class="col-md-8">
 							<select class="form-control" name="language_id">
-								<option value="0"> Ngoại ngữ </option>
+								<option value=""> Ngoại ngữ </option>
 								<?php foreach ($language_study as $value) { ?>
 									<option value="<?php echo $value['id']; ?>">
 										<?php echo $value['name']?>

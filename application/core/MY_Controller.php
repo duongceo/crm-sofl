@@ -520,16 +520,15 @@ class MY_Controller extends CI_Controller {
 		//echo '<pre>'; print_r($input);die;
 
         $total_row = count($this->contacts_model->load_all($input));
-		
         return $total_row;
 
     }
 
     protected function _query_for_report_re($get = [], $condition = []) {
-
+		
         $input = array();
 
-        $input['select'] = 'paid';
+        $input['select'] = 'SUM(paid) AS st_paid';
 
         if (!empty($condition)) {
 
@@ -544,9 +543,13 @@ class MY_Controller extends CI_Controller {
         $input_get_arr = $this->_get_query_condition_arr($get);
 
         $input = array_merge_recursive($input, $input_get_arr['input_get']);
+		//print_arr($input);
 
         $total_contact = $this->contacts_model->load_all($input);
-
+		//print_arr($total_contact);
+		return $total_contact[0]['st_paid'];
+		
+		/*
         $re = 0;
 
         foreach ($total_contact as $key => $value) {
@@ -556,7 +559,8 @@ class MY_Controller extends CI_Controller {
         }
 
         return $re;
-
+		
+		*/
     }
 
     /*

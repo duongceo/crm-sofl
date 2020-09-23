@@ -401,6 +401,7 @@ class Sale extends MY_Controller {
         $this->form_validation->set_rules('language_id', 'Ngoại ngữ', 'required');
         $this->form_validation->set_rules('date_rgt', 'Ngày contact về', 'required');
         $this->form_validation->set_rules('branch_id', 'Cơ sở', 'required');
+        $this->form_validation->set_rules('is_old', 'Học viên cũ hay mới ?', 'required');
 //        $this->form_validation->set_rules('source_id', 'Nguồn contact', 'required|callback_check_source_id');
         if (!empty($input)) {
             if ($this->form_validation->run() == FALSE) {
@@ -408,6 +409,8 @@ class Sale extends MY_Controller {
                 $this->session->set_tempdata('msg_success', 0, 2);
                 $require_model = array(
 					'branch' => array(),
+					'language_study' => array(),
+					'call_status' => array(),
 					'level_contact' => array(
 						'where' => array(
 							'parent_id' => ''
@@ -418,7 +421,6 @@ class Sale extends MY_Controller {
 							'parent_id' => ''
 						),
 					),
-					'language_study' => array(),
 					'level_language' => array(),
 					'class_study' => array(),
 					'sources' => array(),
@@ -441,7 +443,11 @@ class Sale extends MY_Controller {
 							'name' => 'ASC'
 						)
 					),
-                );
+					'channel' => array(
+						'where' => array('active' => '1'),
+						'order' => array('name' => 'ASC')
+					)
+				);
                 $data = array_merge($this->data, $this->_get_require_data($require_model));
                 //print_arr($data);
                 $data['content'] = 'sale/add_contact';
@@ -471,6 +477,7 @@ class Sale extends MY_Controller {
                 $param['level_contact_id'] = $input['level_contact_id'];
                 $param['level_student_id'] = $input['level_student_id'];
                 $param['call_status_id'] = $input['call_status_id'];
+                $param['is_old'] = $input['is_old'];
 
 //                print_arr($param);
 				
@@ -483,18 +490,29 @@ class Sale extends MY_Controller {
 						break;
 				}
 				
+				if ($this->role_id == 12) {
+					if ($param['branch_id'] == 0) {
+						show_error_and_redirect('Contact bạn vừa thêm chưa cập nhật cơ sở', 0, $input['back_location']);
+					}
+				}
+				
 				if (isset($input['level_contact_id']) && $input['level_contact_id'] != '') {
 					if(!isset($input['call_status_id']) || $input['call_status_id'] != 4) {
 						show_error_and_redirect('Contact bạn vừa thêm ko đúng logic trạng thái contact và trạng thái gọi', 0, $input['back_location']);
 					}
 				
 					if ($param['level_contact_id'] == 'L5') {
-						$param['date_rgt_study'] = time();
+						if (isset($input['date_rgt_study']) && $input['date_rgt_study'] != '') {
+							$param['date_rgt_study'] = $input['date_rgt_study'];
+						} else {
+							show_error_and_redirect('Contact đăng ký thành công thì phải có ngày đăng ký', 0, $input['back_location']);
+						}
 					}
 					
 					if ($param['level_contact_id'] == 'L3') {
 						$param['date_confirm'] = time();
 					}
+					
 					$param['date_last_calling'] = time();
 
 				}
@@ -507,7 +525,6 @@ class Sale extends MY_Controller {
 					if (!isset($input['level_contact_id']) || $input['level_contact_id'] != 'L5') {
 						show_error_and_redirect('Contact bạn vừa thêm ko đúng logic trạng thái học viên và trạng thái contact', 0, $input['back_location']);
 					}
-
 				}
 				
 				if (($param['fee'] != 0 && strlen($param['fee']) < 6) || (strlen($param['fee']) > 7)) {
@@ -523,7 +540,7 @@ class Sale extends MY_Controller {
 						show_error_and_redirect('Contact bạn vừa thêm ko đúng logic tiền đóng và trạng thái contact', 0, $input['back_location']);
 					}
 					
-					if (strlen($param['paid']) < 6 || strlen($param['paid'] > 7) || (int)$param['paid'] > (int)$param['fee']) {
+					if (strlen($param['paid']) < 6 || strlen($param['paid']) > 7 || ((int)$param['paid'] > (int)$param['fee'])) {
 						show_error_and_redirect('Contact bạn vừa thêm có số tiền đã đóng không đúng chuẩn', 0, $input['back_location']);
 					} else {
 						$param['date_paid'] = time();
@@ -572,6 +589,8 @@ class Sale extends MY_Controller {
 						'time_created' => time(),
 						'language_id' => $input['language_id'],
 						'branch_id' => $input['branch_id'],
+						'day' => date('Y-m-d', time()),
+						'student_old' => $input['is_old'],
 					);
 					
 					//print_arr($param2);
@@ -618,10 +637,10 @@ class Sale extends MY_Controller {
 					),
 				),
 				'level_student' => array(
-						'where' => array(
-							'parent_id' => ''
-						),
+					'where' => array(
+						'parent_id' => ''
 					),
+				),
                 'level_language' => array(),
                 'class_study' => array(),
                 'sources' => array(),
