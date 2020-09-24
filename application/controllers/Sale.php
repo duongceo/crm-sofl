@@ -393,15 +393,15 @@ class Sale extends MY_Controller {
 
     public function add_contact() {
         $input = $this->input->post();
-		//echo '<pre>';print_r($input);die;
+//		echo '<pre>';print_r($input);die;
         $this->load->library('form_validation');
         //$this->form_validation->set_rules('name', 'Họ tên', 'trim|required|min_length[2]');
 //        $this->form_validation->set_rules('address', 'Địa chỉ', 'trim|required|min_length[3]');
         $this->form_validation->set_rules('phone', 'Số điện thoại', 'trim|required|min_length[2]|integer');
-        $this->form_validation->set_rules('language_id', 'Ngoại ngữ', 'required');
-        $this->form_validation->set_rules('date_rgt', 'Ngày contact về', 'required');
-        $this->form_validation->set_rules('branch_id', 'Cơ sở', 'required');
-        $this->form_validation->set_rules('is_old', 'Học viên cũ hay mới ?', 'required');
+//        $this->form_validation->set_rules('language_id', 'Ngoại ngữ', 'required');
+//        $this->form_validation->set_rules('date_rgt', 'Ngày contact về', 'required');
+//        $this->form_validation->set_rules('branch_id', 'Cơ sở', 'required');
+//        $this->form_validation->set_rules('is_old', 'Học viên cũ hay mới ?', 'required');
 //        $this->form_validation->set_rules('source_id', 'Nguồn contact', 'required|callback_check_source_id');
         if (!empty($input)) {
             if ($this->form_validation->run() == FALSE) {
@@ -470,8 +470,8 @@ class Sale extends MY_Controller {
                 $param['class_study_id'] = $input['class_study_id'];
                 $param['source_id'] = $input['source_id'];
                 $param['payment_method_rgt'] = $input['payment_method_rgt'];
-                $param['fee'] = $input['fee'];
-                $param['paid'] = $input['paid'];
+//                $param['fee'] = $input['fee'];
+//                $param['paid'] = $input['paid'];
                 $param['channel_id'] = $input['channel_id'];
                 $param['date_rgt'] = strtotime($input['date_rgt']);
                 $param['level_contact_id'] = $input['level_contact_id'];
@@ -507,6 +507,9 @@ class Sale extends MY_Controller {
 						} else {
 							show_error_and_redirect('Contact đăng ký thành công thì phải có ngày đăng ký', 0, $input['back_location']);
 						}
+//						if (!isset($input['language_id']) || $input['language_id'] == '') {
+//							show_error_and_redirect('Contact đăng ký thành công thì phải có ngôn ngữ đăng ký', 0, $input['back_location'
+//						}
 					}
 					
 					if ($param['level_contact_id'] == 'L3') {
@@ -527,11 +530,15 @@ class Sale extends MY_Controller {
 					}
 				}
 				
-				if (($param['fee'] != 0 && strlen($param['fee']) < 6) || (strlen($param['fee']) > 7)) {
-					show_error_and_redirect('Contact bạn vừa thêm có số tiền học phí không đúng chuẩn', 0, $input['back_location']);
+				if (isset($input['fee']) && $input['fee'] != '') {
+					$param['fee'] = str_replace(',', '', $input['fee']);
+					if (strlen($param['fee']) < 6 || (strlen($param['fee']) > 7)) {
+						show_error_and_redirect('Contact bạn vừa thêm có số tiền học phí không đúng chuẩn', 0, $input['back_location']);
+					}
 				}
 				
-				if ($param['paid'] != 0) {
+				if (isset($input['paid']) && $input['paid'] != '') {
+					$param['paid'] = str_replace(',', '', $input['paid']);
 					if(!isset($input['call_status_id']) || $input['call_status_id'] != 4) {
 						show_error_and_redirect('Contact bạn vừa thêm ko đúng logic tiền đóng và trạng thái gọi', 0, $input['back_location']);
 					}
@@ -563,9 +570,10 @@ class Sale extends MY_Controller {
 				if(isset($input['ad_id']) && !empty($input['ad_id'])){
 					$param['ad_id'] = $input['ad_id'];
 				}
+//				print_arr($param);
 				
                 $id = $this->contacts_model->insert_return_id($param, 'id');
-				$id_backup = $this->contacts_backup_model->insert_return_id($param, 'id');
+//				$id_backup = $this->contacts_backup_model->insert_return_id($param, 'id');
 				
                 if ($input['note'] != '') {
 					$param2 = array(
@@ -582,10 +590,10 @@ class Sale extends MY_Controller {
 					$this->notes_model->insert($param2);
 				}
 				
-				if ($input['paid'] != 0) {
+				if (isset($input['paid']) && $input['paid'] != '') {
 					$param3 = array(
 						'contact_id' => $id,
-						'paid' => $input['paid'],
+						'paid' => $param['paid'],
 						'time_created' => time(),
 						'language_id' => $input['language_id'],
 						'branch_id' => $input['branch_id'],

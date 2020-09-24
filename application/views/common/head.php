@@ -52,6 +52,7 @@
 		<!--			var j3 = $.noConflict();-->
 		<!--			alert(j3().jquery);-->
 		<!--		</script>-->
+		<script type="text/javascript" src="<?php echo base_url(); ?>style/js/simple.money.format.js"></script>
 
 		<?php if ($this->controller == 'sale' || $this->controller == 'cod') { ?>
 			<script src="https://minio.infra.omicrm.com/statics/web-sdk/v17/sdk.min.js"></script>

@@ -349,7 +349,7 @@
                             Học phí
                         </div>
                         <div class="col-md-8">
-                            <input type="text" class="form-control" placeholder="Học phí" name="fee" value=""/>
+                            <input type="text" class="form-control money" placeholder="Học phí" name="fee" value=""/>
                         </div>
                     </div>
                 </div>
@@ -360,7 +360,7 @@
 							Đã đóng
 						</div>
 						<div class="col-md-8">
-							<input type="text" class="form-control" placeholder="" name="paid" value="0"/>
+							<input type="text" class="form-control money" placeholder="" name="paid" value=""/>
 						</div>
 					</div>
 				</div>
@@ -451,4 +451,8 @@
     $(function () {
         $('.date_rgt').datetimepicker();
     });
+</script>
+
+<script  type="text/javascript">
+	$('.money').simpleMoneyFormat();
 </script>
