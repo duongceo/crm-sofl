@@ -222,6 +222,7 @@ check_edit_contact = () => {
     }
 	*/
 	
+	/*
     if (fee != 0) {
     	fee = fee.replaceAll(',', '');
     	if (fee.length < 6 || fee.length > 7) {
@@ -234,7 +235,9 @@ check_edit_contact = () => {
 			return false;
 		}
     }
+	*/
 	
+	/*
 	if (paid != 0) {
 		paid = paid.replaceAll(',', '');
 		if (paid.length < 6 || paid.length > 7 || (parseInt(paid) > parseInt(fee))) {
@@ -247,6 +250,7 @@ check_edit_contact = () => {
 			return false;
 		}
     }
+	*/
 	
     return true;
 };

@@ -671,12 +671,6 @@ class Common extends MY_Controller {
                 $this->notes_model->insert($param2);
             }
 
-			if ($param['paid'] != 0 && $param['paid'] != $rows[0]['paid']) {
-				$paid = $param['paid'] - $rows[0]['paid'];
-				if ($paid > 0) {
-
-				}
-			}
 			if ($post['paid'] != 0 && $post['paid'] != $rows[0]['paid']) {
 				$paid = $param['paid'] - $rows[0]['paid'];
 				if ($paid > 0) {

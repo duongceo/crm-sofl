@@ -398,10 +398,10 @@ class Sale extends MY_Controller {
         //$this->form_validation->set_rules('name', 'Họ tên', 'trim|required|min_length[2]');
 //        $this->form_validation->set_rules('address', 'Địa chỉ', 'trim|required|min_length[3]');
         $this->form_validation->set_rules('phone', 'Số điện thoại', 'trim|required|min_length[2]|integer');
-//        $this->form_validation->set_rules('language_id', 'Ngoại ngữ', 'required');
-//        $this->form_validation->set_rules('date_rgt', 'Ngày contact về', 'required');
-//        $this->form_validation->set_rules('branch_id', 'Cơ sở', 'required');
-//        $this->form_validation->set_rules('is_old', 'Học viên cũ hay mới ?', 'required');
+        $this->form_validation->set_rules('language_id', 'Ngoại ngữ', 'required');
+        $this->form_validation->set_rules('date_rgt', 'Ngày contact về', 'required');
+        $this->form_validation->set_rules('branch_id', 'Cơ sở', 'required');
+        $this->form_validation->set_rules('is_old', 'Học viên cũ hay mới ?', 'required');
 //        $this->form_validation->set_rules('source_id', 'Nguồn contact', 'required|callback_check_source_id');
         if (!empty($input)) {
             if ($this->form_validation->run() == FALSE) {
@@ -503,7 +503,7 @@ class Sale extends MY_Controller {
 				
 					if ($param['level_contact_id'] == 'L5') {
 						if (isset($input['date_rgt_study']) && $input['date_rgt_study'] != '') {
-							$param['date_rgt_study'] = $input['date_rgt_study'];
+							$param['date_rgt_study'] = strtotime($input['date_rgt_study']);
 						} else {
 							show_error_and_redirect('Contact đăng ký thành công thì phải có ngày đăng ký', 0, $input['back_location']);
 						}
