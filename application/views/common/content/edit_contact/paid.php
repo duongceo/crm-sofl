@@ -8,10 +8,14 @@
 
 			<label for="price-purchase" class="sr-only">Đã thanh toán</label>
 
-			<input type="text" class="form-control edit-contact-price-purchase" value="<?php echo $rows['paid']; ?>" name="paid"/>
+			<input type="text" class="form-control edit-contact-price-purchase money" value="<?php echo $rows['paid']; ?>" name="paid"/>
 
 		</div>
 
 	</td>
 
 </tr>
+
+<script  type="text/javascript">
+	$('.money').simpleMoneyFormat();
+</script>

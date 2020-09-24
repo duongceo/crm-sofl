@@ -531,7 +531,13 @@ class Common extends MY_Controller {
                     $param[$value] = $post[$value];
                 }
             }
-			//print_arr($param);
+
+            if ($param['fee'] != 0 || $param['paid'] != 0) {
+				$param['fee'] = str_replace(',', '', $param['fee']);
+				$param['paid'] = str_replace(',', '', $param['paid']);
+			}
+
+//			print_arr($param);
 			
 			if ($this->role_id == 12) {
 				if ($param['branch_id'] == 0 || $param['language_id'] == 0) {
@@ -664,21 +670,31 @@ class Common extends MY_Controller {
                 $this->load->model('notes_model');
                 $this->notes_model->insert($param2);
             }
-			
+
+			if ($param['paid'] != 0 && $param['paid'] != $rows[0]['paid']) {
+				$paid = $param['paid'] - $rows[0]['paid'];
+				if ($paid > 0) {
+
+				}
+			}
 			if ($post['paid'] != 0 && $post['paid'] != $rows[0]['paid']) {
-				$param3 = array(
-                    'contact_id' => $id,
-                    'paid' => $post['paid'],
-                    'time_created' => time(),
-                    'language_id' => $post['language_id'],
-                    'branch_id' => $post['branch_id'],
-					'day' => date('Y-m-d', time()),
-					'student_old' => $rows[0]['is_old'],
-                );
-				
-				//print_arr($param2);
-                $this->load->model('paid_model');
-                $this->paid_model->insert($param3);
+				$paid = $param['paid'] - $rows[0]['paid'];
+				if ($paid > 0) {
+					$param3 = array(
+						'contact_id' => $id,
+						'paid' => $paid,
+						'time_created' => time(),
+						'language_id' => $post['language_id'],
+						'branch_id' => $post['branch_id'],
+						'day' => date('Y-m-d', time()),
+						'student_old' => $post['is_old'],
+					);
+
+					//print_arr($param2);
+					$this->load->model('paid_model');
+					$this->paid_model->insert($param3);
+				}
+
 			}
 			
             $this->_set_call_log($id, $post, $rows);

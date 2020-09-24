@@ -222,24 +222,30 @@ check_edit_contact = () => {
     }
 	*/
 	
-    if ((fee != 0 && fee.length < 6) || (fee.length > 7)) {
-        $.alert({
-            theme: 'modern',
-            type: 'red',
-            title: 'Có lỗi xảy ra!',
-            content: 'Vui lòng điền đúng mức học phí'
-        });
-        return false;
+    if (fee != 0) {
+    	fee = fee.replaceAll(',', '');
+    	if (fee.length < 6 || fee.length > 7) {
+			$.alert({
+				theme: 'modern',
+				type: 'red',
+				title: 'Có lỗi xảy ra!',
+				content: 'Vui lòng điền đúng mức học phí'
+			});
+			return false;
+		}
     }
 	
-	if ((paid != 0 && paid.length < 6) || (paid.length > 7) || parseInt(paid) > parseInt(fee)) {
-        $.alert({
-            theme: 'modern',
-            type: 'red',
-            title: 'Có lỗi xảy ra!',
-            content: 'Vui lòng điền đúng mức thanh toán'
-        });
-        return false;
+	if (paid != 0) {
+		paid = paid.replaceAll(',', '');
+		if (paid.length < 6 || paid.length > 7 || (parseInt(paid) > parseInt(fee))) {
+			$.alert({
+				theme: 'modern',
+				type: 'red',
+				title: 'Có lỗi xảy ra!',
+				content: 'Vui lòng điền đúng mức thanh toán'
+			});
+			return false;
+		}
     }
 	
     return true;

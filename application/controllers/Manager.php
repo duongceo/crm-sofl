@@ -225,10 +225,6 @@ class Manager extends MY_Controller {
     function view_all_contact($offset = 0) {
         $data = $this->get_all_require_data();
 
-        /*
-         * Lấy danh sách các marketer
-         */
-        
         $input = array();
         $input['where'] = array(
             'role_id' => 6,
@@ -284,7 +280,7 @@ class Manager extends MY_Controller {
          * Filter ở cột trái và cột phải
          */
         $data['left_col'] = array('language', 'sale', 'marketer', 'date_rgt', 'date_handover', 'date_confirm', 'date_rgt_study', 'date_last_calling');
-        $data['right_col'] = array('branch', 'source', 'call_status', 'level_contact', 'level_contact_detail', 'level_student', 'level_student_detail');
+        $data['right_col'] = array('branch', 'is_old', 'source', 'call_status', 'level_contact', 'level_contact_detail', 'level_student', 'level_student_detail');
 
         /*
          * Các trường cần hiện của bảng contact (đã có default)
