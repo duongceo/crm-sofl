@@ -528,6 +528,12 @@ class Sale extends MY_Controller {
 					if (!isset($input['level_contact_id']) || $input['level_contact_id'] != 'L5') {
 						show_error_and_redirect('Contact bạn vừa thêm ko đúng logic trạng thái học viên và trạng thái contact', 0, $input['back_location']);
 					}
+					
+					if ($input['level_student_id'] == 'L8') {
+						if (!isset($input['is_old']) || $input['is_old'] == 0) {
+							show_error_and_redirect('Contact có phải là học viên cũ ko?', 0, $input['back_location']);
+						}
+					}
 				}
 				
 				if (isset($input['fee']) && $input['fee'] != '') {
