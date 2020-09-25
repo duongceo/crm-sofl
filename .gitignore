@@ -8,7 +8,7 @@
 */cache/*
 !*/cache/index.html
 !*/cache/.htaccess
-index.php
+
 
 user_guide_src/build/*
 user_guide_src/cilexer/build/*
@@ -34,4 +34,5 @@ nbdist/
 
 # End of https://www.gitignore.io/api/netbeans,codeigniter
 
+index.php
 style/node_modules

@@ -1060,127 +1060,96 @@ class Manager extends MY_Controller {
     function view_report_sale() {
 
 		$require_model = array(
-			'courses' => array(),
-			'brand' => array(),
-			'sources' => array()
+			'branch' => array(),
+			'language_study' => array()
 		);
 		$data = array_merge($this->data, $this->_get_require_data($require_model));
 
-        $this->load->model('courses_model');
-		$this->load->model('call_log_model');
+//		$this->load->model('call_log_model');
         $get = $this->input->get();
-
 		//echo '<pre>'; print_r($get);die;
 
-		if (isset($get['filter_course_code'])) {
-            $course = array();
-            foreach ($get['filter_course_code'] as $key => $value) {
-	            $courses[] = $value;
-            }
-			$course_code = implode(',', $courses);
-		}
-        //echo '<pre>'; print_r($course_code);die();
-
-		if (isset($get['filter_brand_id'])) {
-            $brand_id = array();
-            foreach ($get['filter_brand_id'] as $key => $value) {
-                $brand_id[] = $value;
-            }
-			// echo '<pre>'; print_r($brand_id);die;
-            $brand = implode(',', $brand_id);
-		}
-
-		if (isset($get['filter_source_id'])) {
-			$source = $get['filter_source_id'][0];
-		}
-		//echo '<pre>'; print_r($brand);die;
-
-		if ($this->out_of_lakita == 0){
-	        $input = array();
-
-	        //if ($this->role_id == 1) {
-	        //    $input['where'] = array('id' => $this->user_id);
-	        //} else {
-
-	        $input['where'] = array('role_id' => 1, 'active' => 1);
-			}else{
-				$input = array();
-				$input['where'] = array('id' => $this->user_id);
-		}
-        //}
+		$input = array();
+		$input['where'] = array('role_id' => 1, 'active' => 1);
         $staffs = $this->staffs_model->load_all($input);
 
         /* Mảng chứa các ngày lẻ */
-        if (isset($get['filter_date_happen_from']) && $get['filter_date_happen_from'] != '' && isset($get['filter_date_happen_end']) && $get['filter_date_happen_end'] != '') {
-            $startDate = strtotime($get['filter_date_happen_from']);
-            $endDate = strtotime($get['filter_date_happen_end']) + 86399;
-        } else {
-            $startDate = strtotime(date('01-m-Y'));
-            $endDate = mktime(23, 59, 59, date('m'), date('d'), date('Y'));
-        }
+		if (isset($get['filter_date_date_happen']) && $get['filter_date_date_happen'] != '') {
+			$time = $get['filter_date_date_happen'];
+		} else {
+			$time = '01' . '/' . date('m') . '/' . date('Y') . ' - ' . date('d') . '/' . date('m') . '/' . date('Y');
+		}
+
+		$dateArr = explode('-', $time);
+		$startDate = trim($dateArr[0]);
+		$startDate = strtotime(str_replace("/", "-", $startDate));
+		$endDate = trim($dateArr[1]);
+		$endDate = strtotime(str_replace("/", "-", $endDate)) + 3600 * 24 - 1;
+
+//        if (isset($get['filter_date_happen_from']) && $get['filter_date_happen_from'] != '' && isset($get['filter_date_happen_end']) && $get['filter_date_happen_end'] != '') {
+//            $startDate = strtotime($get['filter_date_happen_from']);
+//            $endDate = strtotime($get['filter_date_happen_end']) + 86399;
+//        } else {
+//            $startDate = strtotime(date('01-m-Y'));
+//            $endDate = mktime(23, 59, 59, date('m'), date('d'), date('Y'));
+//        }
 		//echo $startDate .'-'. $endDate;die;
 
         if (isset($get['tic_report']) && !empty($get['tic_report'])) {
             $conditionArr = array(
+				'NHAN' => array(
+					'where' => array('date_handover !=' => '0', 'date_rgt >' => $startDate, 'date_rgt <' => $endDate, 'is_hide' => '0'),
+					'sum' => 0
+				),
                 'CHUA_GOI' => array(
                     'where' => array('call_status_id' => '0', 'date_rgt >' => $startDate, 'date_rgt <' => $endDate, 'is_hide' => '0'),
                     'sum' => 0
                 ),
-				'DA_GOI' => array(
+				'XU_LY' => array(
                     'where' => array('call_status_id !=' => '0', 'date_handover !=' => '0', 'date_rgt >' => $startDate, 'date_rgt <' => $endDate, 'is_hide' => '0'),
                     'sum' => 0
                 ),
+				'NGHE_MAY' => array(
+					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'date_handover !=' => '0', 'date_rgt >' => $startDate, 'date_rgt <' => $endDate),
+					'sum' => 0
+				),
+				'KHONG_NGHE_MAY' => array(
+					'where' => array('call_status_id' => _KHONG_NGHE_MAY_, 'date_handover !=' => '0', 'date_rgt >' => $startDate, 'date_rgt <' => $endDate, 'is_hide' => '0'),
+					'sum' => 0
+				),
                 'L1' => array(
-                    'where' => array('is_hide' => '0', 'date_handover !=' => '0', 'date_rgt >' => $startDate, 'date_rgt <' => $endDate),
+                    'where' => array('is_hide' => '0', 'date_handover !=' => '0', 'date_rgt >' => $startDate, 'date_rgt <' => $endDate, 'level_contact_id' => 'L1'),
                     'sum' => 0
                 ),
                 'L2' => array(
-                    'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'date_handover !=' => '0', 'date_rgt >' => $startDate, 'date_rgt <' => $endDate),
+                    'where' => array('is_hide' => '0', 'level_contact_id' => 'L2', 'date_handover !=' => '0', 'date_rgt >' => $startDate, 'date_rgt <' => $endDate),
+                    'sum' => 0
+                ),
+                'L3' => array(
+                    'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L3', 'date_rgt >' => $startDate, 'date_rgt <' => $endDate),
+                    'sum' => 0
+                ),
+                'L4' => array(
+                    'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L4', 'date_rgt >' => $startDate, 'date_rgt <' => $endDate),
+                    'sum' => 0
+                ),
+                'L5' => array(
+                    'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'date_rgt >' => $startDate, 'date_rgt <' => $endDate),
                     'sum' => 0
                 ),
                 'L6' => array(
-                    'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'ordering_status_id' => _DONG_Y_MUA_, 'date_rgt >' => $startDate, 'date_rgt <' => $endDate),
+                    'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_student_id' => 'L6', 'date_rgt >' => $startDate, 'date_rgt <' => $endDate),
                     'sum' => 0
                 ),
-                'TU_CHOI_MUA' => array(
-                    'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'ordering_status_id' => _TU_CHOI_MUA_, 'date_rgt >' => $startDate, 'date_rgt <' => $endDate),
-                    'sum' => 0
-                ),
-                'CHUA_GIAO_HANG_COD' => array(
-                    'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'ordering_status_id' => _DONG_Y_MUA_,
-                        'payment_method_rgt' => '1', 'cod_status_id' => '0', 'date_rgt >' => $startDate, 'date_rgt <' => $endDate),
-                    'sum' => 0
-                ),
-                'CHUA_GIAO_HANG_TRANSFER' => array(
-                    'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'ordering_status_id' => _DONG_Y_MUA_,
-                        'payment_method_rgt >' => '1', 'cod_status_id' => '0', 'date_rgt >' => $startDate, 'date_rgt <' => $endDate),
-                    'sum' => 0
-                ),
-                'DANG_GIAO_HANG' => array(
-                    'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'ordering_status_id' => _DONG_Y_MUA_,
-                        'cod_status_id' => _DANG_GIAO_HANG_, 'date_rgt >' => $startDate, 'date_rgt <' => $endDate),
-                    'sum' => 0
-                ),
-                'DA_THU_COD' => array(
-                    'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'ordering_status_id' => _DONG_Y_MUA_,
-                        'cod_status_id' => _DA_THU_COD_, 'date_rgt >=' => $startDate, 'date_rgt <' => $endDate),
+                'L7' => array(
+                    'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_student_id' => 'L7', 'date_rgt >' => $startDate, 'date_rgt <' => $endDate),
                     'sum' => 0
                 ),
                 'L8' => array(
-                    'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'ordering_status_id' => _DONG_Y_MUA_,
-                        'cod_status_id' => _DA_THU_LAKITA_, 'date_rgt >=' => $startDate, 'date_rgt <' => $endDate),
+                    'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_student_id' => 'L8', 'date_rgt >=' => $startDate, 'date_rgt <' => $endDate),
                     'sum' => 0
                 ),
-                'L7L8' => array(
-                    'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'ordering_status_id' => _DONG_Y_MUA_,
-                        '(`cod_status_id` = ' . _DA_THU_COD_ . ' OR `cod_status_id` = ' . _DA_THU_LAKITA_ . ')' => 'NO-VALUE'),
-                    'sum' => 0
-                ),
-                'HUY_DON' => array(
-                    'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'ordering_status_id' => _DONG_Y_MUA_,
-                        'cod_status_id' => _HUY_DON_, 'date_rgt >' => $startDate, 'date_rgt <' => $endDate),
-                    'sum' => 0
-                ),
+                /*
                 'LC' => array(
                     'where' => array('is_hide' => '0', 'date_rgt >' => $startDate, 'date_rgt <' => $endDate,
                         '(`call_status_id` = ' . _SO_MAY_SAI_ . ' OR `call_status_id` = ' . _NHAM_MAY_ . ' OR `ordering_status_id` = ' . _CONTACT_CHET_ . ')' => 'NO-VALUE'),
@@ -1191,122 +1160,128 @@ class Manager extends MY_Controller {
                         '(`call_status_id` = ' . _KHONG_NGHE_MAY_ . ' OR `ordering_status_id` in (' . _BAN_GOI_LAI_SAU_ . ' , ' . _CHAM_SOC_SAU_MOT_THOI_GIAN_ . ',' . _LAT_NUA_GOI_LAI_ . '))' => 'NO-VALUE'),
                     'sum' => 0
                 ),
+                */
             );
         } else {
             $conditionArr = array(
-                'CHUA_GOI' => array(
-                    'where' => array('call_status_id' => '0', 'date_handover >' => $startDate, 'date_handover <' => $endDate, 'is_hide' => '0'),
-                    'sum' => 0
-                ),
-				'DA_GOI' => array(
-                    'where' => array('call_status_id !=' => '0', 'date_rgt >' => $startDate, 'date_rgt <' => $endDate, 'is_hide' => '0'),
-                    'sum' => 0
-                ),
-                'L1' => array(
-                    'where' => array('is_hide' => '0', 'date_handover >' => $startDate, 'date_handover <' => $endDate),
-                    'sum' => 0
-                ),
-                'L2' => array(
-                    'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'date_handover >' => $startDate, 'date_handover <' => $endDate),
-                    'sum' => 0
-                ),
-                'L6' => array(
-                    'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'ordering_status_id' => _DONG_Y_MUA_, 'date_confirm >' => $startDate, 'date_confirm <' => $endDate),
-                    'sum' => 0
-                ),
-                'TU_CHOI_MUA' => array(
-                    'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'ordering_status_id' => _TU_CHOI_MUA_, 'date_confirm >' => $startDate, 'date_confirm <' => $endDate),
-                    'sum' => 0
-                ),
-                'CHUA_GIAO_HANG_COD' => array(
-                    'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'ordering_status_id' => _DONG_Y_MUA_,
-                        'payment_method_rgt' => '1', 'cod_status_id' => '0', 'date_confirm >' => $startDate, 'date_confirm <' => $endDate),
-                    'sum' => 0
-                ),
-                'CHUA_GIAO_HANG_TRANSFER' => array(
-                    'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'ordering_status_id' => _DONG_Y_MUA_,
-                        'payment_method_rgt >' => '1', 'cod_status_id' => '0', 'date_confirm >' => $startDate, 'date_confirm <' => $endDate),
-                    'sum' => 0
-                ),
-                'DANG_GIAO_HANG' => array(
-                    'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'ordering_status_id' => _DONG_Y_MUA_,
-                        'cod_status_id' => _DANG_GIAO_HANG_, 'date_print_cod >' => $startDate, 'date_print_cod <' => $endDate),
-                    'sum' => 0
-                ),
-                'DA_THU_COD' => array(
-                    'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'ordering_status_id' => _DONG_Y_MUA_,
-                        'cod_status_id' => _DA_THU_COD_, 'date_receive_cod >' => $startDate, 'date_receive_cod <' => $endDate),
-                    'sum' => 0
-                ),
-                'L8' => array(
-                    'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'ordering_status_id' => _DONG_Y_MUA_,
-                        'cod_status_id' => _DA_THU_LAKITA_, 'date_receive_lakita >' => $startDate, 'date_receive_lakita <' => $endDate),
-                    'sum' => 0
-                ),
-                'L7L8' => array(
-                    'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'ordering_status_id' => _DONG_Y_MUA_,
-                        '(`cod_status_id` = ' . _DA_THU_COD_ . ' OR `cod_status_id` = ' . _DA_THU_LAKITA_ . ')' => 'NO-VALUE'),
-                    'sum' => 0
-                ),
-                'HUY_DON' => array(
-                    'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'ordering_status_id' => _DONG_Y_MUA_,
-                        'cod_status_id' => _HUY_DON_, 'date_receive_cancel_cod >' => $startDate, 'date_receive_cancel_cod <' => $endDate),
-                    'sum' => 0
-                ),
+				'NHAN' => array(
+					'where' => array('date_handover >' => $startDate, 'date_handover <' => $endDate, 'is_hide' => '0'),
+					'sum' => 0
+				),
+				'CHUA_GOI' => array(
+					'where' => array('call_status_id' => '0', 'date_handover >' => $startDate, 'date_handover <' => $endDate, 'is_hide' => '0'),
+					'sum' => 0
+				),
+				'XU_LY' => array(
+					'where' => array('call_status_id !=' => '0', 'date_last_calling >' => $startDate, 'date_last_calling <' => $endDate, 'is_hide' => '0'),
+					'sum' => 0
+				),
+				'NGHE_MAY' => array(
+					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'date_last_calling >' => $startDate, 'date_last_calling <' => $endDate),
+					'sum' => 0
+				),
+				'KHONG_NGHE_MAY' => array(
+					'where' => array('call_status_id' => _KHONG_NGHE_MAY_, 'date_last_calling >' => $startDate, 'date_last_calling <' => $endDate, 'is_hide' => '0'),
+					'sum' => 0
+				),
+				'L1' => array(
+					'where' => array('is_hide' => '0', 'date_handover >' => $startDate, 'date_handover <' => $endDate, 'level_contact_id' => 'L1'),
+					'sum' => 0
+				),
+				'L2' => array(
+					'where' => array('is_hide' => '0', 'level_contact_id' => 'L2', 'date_handover >' => $startDate, 'date_handover <' => $endDate),
+					'sum' => 0
+				),
+				'L3' => array(
+					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L3', 'date_confirm >' => $startDate, 'date_confirm <' => $endDate),
+					'sum' => 0
+				),
+				'L4' => array(
+					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L4', 'date_handover >' => $startDate, 'date_handover <' => $endDate),
+					'sum' => 0
+				),
+				'L5' => array(
+					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'date_rgt_study >' => $startDate, 'date_rgt_study <' => $endDate),
+					'sum' => 0
+				),
+				'L6' => array(
+					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_student_id' => 'L6', 'date_rgt_study >' => $startDate, 'date_rgt_study <' => $endDate),
+					'sum' => 0
+				),
+				'L7' => array(
+					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_student_id' => 'L7', 'date_last_calling >' => $startDate, 'date_last_calling <' => $endDate),
+					'sum' => 0
+				),
+				'L8' => array(
+					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_student_id' => 'L8', 'date_rgt_study >=' => $startDate, 'date_rgt_study <' => $endDate),
+					'sum' => 0
+				),
+				/*
                 'LC' => array(
-                    'where' => array('is_hide' => '0', 'date_handover >' => $startDate, 'date_handover <' => $endDate,
+                    'where' => array('is_hide' => '0', 'date_rgt >' => $startDate, 'date_rgt <' => $endDate,
                         '(`call_status_id` = ' . _SO_MAY_SAI_ . ' OR `call_status_id` = ' . _NHAM_MAY_ . ' OR `ordering_status_id` = ' . _CONTACT_CHET_ . ')' => 'NO-VALUE'),
                     'sum' => 0
                 ),
                 'CON_CUU_DUOC' => array(
-                    'where' => array('is_hide' => '0', 'date_handover >' => $startDate, 'date_handover <' => $endDate,
+                    'where' => array('is_hide' => '0', 'date_rgt >' => $startDate, 'date_rgt <' => $endDate,
                         '(`call_status_id` = ' . _KHONG_NGHE_MAY_ . ' OR `ordering_status_id` in (' . _BAN_GOI_LAI_SAU_ . ' , ' . _CHAM_SOC_SAU_MOT_THOI_GIAN_ . ',' . _LAT_NUA_GOI_LAI_ . '))' => 'NO-VALUE'),
                     'sum' => 0
                 ),
+                */
             );
         }
 
-        $conditionnal_2 = array();
 
-        if (isset($get['filter_source_id'])) {
-			$conditionnal_2['where']['source_id'] = $source;
-		}
-		if (isset($get['filter_brand_id'])){
-			$conditionnal_2['where_in']['brand_id'] = $brand;
-		}
-		if (isset($get['filter_course_code'])) {
-			$conditionnal_2['where_in']['course_code'] = $course_code;
-		}
-		if (isset($get['filter_source_id']) && isset($get['filter_brand_id'])) {
-			$conditionnal_2['where']['source_id'] = $source;
-			$conditionnal_2['where_in']['brand_id'] = $brand;
-		}
-		if (isset($get['filter_source_id']) && isset($get['filter_course_code'])) {
-			$conditionnal_2['where']['source_id'] = $source;
-			$conditionnal_2['where_in']['course_code'] = $course_code;
-		}
-		if (isset($get['filter_brand_id']) && isset($get['filter_course_code'])) {
-			$conditionnal_2['where_in']['course_code'] = $course_code;
-			$conditionnal_2['where_in']['brand_id'] = $brand;
-		}
-		if (isset($get['filter_brand_id']) && isset($get['filter_course_code']) && isset($get['filter_source_id'])) {
-			$conditionnal_2['where_in']['course_code'] = $course_code;
-			$conditionnal_2['where_in']['brand_id'] = $brand;
-			$conditionnal_2['where']['source_id'] = $source;
-		}
+		//echo '<pre>'; print_r($course_code);die();
 
+//		if (isset($get['filter_language_id'])) {
+//			$language = array();
+//			foreach ($get['filter_language'] as $key => $value) {
+//				$language_id[] = $value;
+//			}
+//			// echo '<pre>'; print_r($brand_id);die;
+//			$language = implode(',', $language_id);
+//		}
+
+//        $conditionnal_2 = array();
+//
+//		if (isset($get['filter_branch_id'])) {
+////			$branch = array();
+////			foreach ($get['filter_branch_id'] as $key => $value) {
+////				$branch_id[] = $value;
+////			}
+////			$conditionnal_2['where_in']['filter_branch_id'] = implode(',', $branch_id);
+//			$conditionnal_2['where_in']['filter_branch_id'] = $get['filter_branch_id'];
+//		}
+//
+//		if (isset($get['filter_source_id']) && isset($get['filter_brand_id'])) {
+//			$conditionnal_2['where']['source_id'] = $source;
+//			$conditionnal_2['where_in']['brand_id'] = $brand;
+//		}
+//		if (isset($get['filter_source_id']) && isset($get['filter_course_code'])) {
+//			$conditionnal_2['where']['source_id'] = $source;
+//			$conditionnal_2['where_in']['course_code'] = $course_code;
+//		}
+//		if (isset($get['filter_brand_id']) && isset($get['filter_course_code'])) {
+//			$conditionnal_2['where_in']['course_code'] = $course_code;
+//			$conditionnal_2['where_in']['brand_id'] = $brand;
+//		}
+//		if (isset($get['filter_brand_id']) && isset($get['filter_course_code']) && isset($get['filter_source_id'])) {
+//			$conditionnal_2['where_in']['course_code'] = $course_code;
+//			$conditionnal_2['where_in']['brand_id'] = $brand;
+//			$conditionnal_2['where']['source_id'] = $source;
+//		}
 		// echo '<pre>';print_r($conditionnal_2);die;
 
-        $get = array();
+		unset($get['filter_date_date_happen']);
+//        $get = array();
+//		print_arr($get);
         foreach ($staffs as $key => $value) {
             foreach ($conditionArr as $key2 => $value2) {
                 $conditional = array();
-
-				// echo '<pre>'; print_r($conditional);die;
-
                 $conditional['where']['sale_staff_id'] = $value['id'];
 
-                $conditional = array_merge_recursive($conditional, $conditionnal_2);
+//                $conditional = array_merge_recursive($conditional, $conditionnal_2);
 				// echo '<pre>'; print_r($conditional);die();
 
                 foreach ($value2['where'] as $key3 => $value3) {
@@ -1315,28 +1290,25 @@ class Manager extends MY_Controller {
                 $staffs[$key][$key2] = $this->_query_for_report($get, $conditional);
                 $conditionArr[$key2]['sum'] += $staffs[$key][$key2];
 
-				if ($value['id'] == 163) { // ko tính contact trùng vào tổng
+				if ($value['id'] == 5) { // ko tính contact trùng vào tổng
 					$conditionArr[$key2]['sum'] = $conditionArr[$key2]['sum'] - $staffs[$key][$key2];
 				}
             }
-            //  $conditionArr['L7L8']['sum'] = $conditionArr['DA_THU_COD']['sum'] + $conditionArr['L8']['sum'];
         }
 
-		//echo '<pre>';print_r($staffs);die;
+//		foreach ($staffs as $key => $value) {
+//            $input = array();
+//            $input['where']['staff_id'] = $value['id'];
+//            $input['where']['time >'] = $startDate;
+//            $input['where']['time <'] = $endDate;
+//            $staffs[$key]['LUOT_GOI'] = count($this->call_log_model->load_all($input));
+//            $conditionArr['LUOT_GOI']['sum'] += $staffs[$key]['LUOT_GOI'];
+//            if ($value['id'] == 163) { // ko tính contact trùng vào tổng
+//                $conditionArr['LUOT_GOI']['sum'] = $conditionArr['LUOT_GOI']['sum'] - $staffs[$key]['LUOT_GOI'];
+//            }
+//        }
 
-		foreach ($staffs as $key => $value) {
-            $input = array();
-            $input['where']['staff_id'] = $value['id'];
-            $input['where']['time >'] = $startDate;
-            $input['where']['time <'] = $endDate;
-            $staffs[$key]['LUOT_GOI'] = count($this->call_log_model->load_all($input));
-            $conditionArr['LUOT_GOI']['sum'] += $staffs[$key]['LUOT_GOI'];
-            if ($value['id'] == 163) { // ko tính contact trùng vào tổng
-                $conditionArr['LUOT_GOI']['sum'] = $conditionArr['LUOT_GOI']['sum'] - $staffs[$key]['LUOT_GOI'];
-            }
-        }
-
-		//echo '<pre>';print_r($staffs);die;
+//		echo '<pre>';print_r($staffs);die;
 
         foreach ($conditionArr as $key => $value) {
             $data[$key] = $value['sum'];
@@ -1346,8 +1318,8 @@ class Manager extends MY_Controller {
         $data['staffs'] = $staffs;
         $data['startDate'] = $startDate;
         $data['endDate'] = $endDate;
-        $data['left_col'] = array('date_happen', 'tic_report');
-        $data['right_col'] = array('course_code', 'brand', 'source');
+        $data['left_col'] = array('date_happen_1', 'tic_report');
+        $data['right_col'] = array('branch', 'language');
         $data['load_js'] = array('m_view_report');
         $data['content'] = 'manager/view_report';
         if($this->role_id == 1){
