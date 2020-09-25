@@ -1102,7 +1102,7 @@ class Manager extends MY_Controller {
 					'sum' => 0
 				),
                 'CHUA_GOI' => array(
-                    'where' => array('call_status_id' => '0', 'date_rgt >' => $startDate, 'date_rgt <' => $endDate, 'is_hide' => '0'),
+                    'where' => array('call_status_id' => '0', 'level_contact_id' => '', 'date_rgt >' => $startDate, 'date_rgt <' => $endDate, 'is_hide' => '0'),
                     'sum' => 0
                 ),
 				'XU_LY' => array(
@@ -1169,7 +1169,7 @@ class Manager extends MY_Controller {
 					'sum' => 0
 				),
 				'CHUA_GOI' => array(
-					'where' => array('call_status_id' => '0', 'date_handover >' => $startDate, 'date_handover <' => $endDate, 'is_hide' => '0'),
+					'where' => array('call_status_id' => '0', 'level_contact_id' => '', 'date_handover >' => $startDate, 'date_handover <' => $endDate, 'is_hide' => '0'),
 					'sum' => 0
 				),
 				'XU_LY' => array(
