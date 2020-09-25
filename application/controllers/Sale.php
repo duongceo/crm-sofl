@@ -555,9 +555,9 @@ class Sale extends MY_Controller {
 					
 					if (strlen($param['paid']) < 6 || strlen($param['paid']) > 7 || ((int)$param['paid'] > (int)$param['fee'])) {
 						show_error_and_redirect('Contact bạn vừa thêm có số tiền đã đóng không đúng chuẩn', 0, $input['back_location']);
-					} else {
-						$param['date_paid'] = time();
 					}
+					
+					$param['date_paid'] = time();
 				}
 
 				//$param['date_rgt'] = time();
@@ -600,7 +600,7 @@ class Sale extends MY_Controller {
 					$param3 = array(
 						'contact_id' => $id,
 						'paid' => $param['paid'],
-						'time_created' => time(),
+						'time_created' => strtotime($input['date_rgt_study']),
 						'language_id' => $input['language_id'],
 						'branch_id' => $input['branch_id'],
 						'day' => date('Y-m-d', time()),
@@ -699,11 +699,11 @@ class Sale extends MY_Controller {
         $data['contact_id'] = $id;
         $data['staff_id'] = $this->user_id;
 		
-		if (isset($post['level_contact_detail']) && !empty($post['level_contact_detail']) && $post['level_contact_detail'] != '') {
+		if (isset($post['level_contact_detail']) && $post['level_contact_detail'] != '') {
 			$post['level_contact_id'] = $post['level_contact_detail'];
 		}
 
-		if (isset($post['level_student_detail']) && !empty($post['level_student_detail']) && $post['level_student_detail'] != '') {
+		if (isset($post['level_student_detail']) && $post['level_student_detail'] != '') {
 			$post['level_student_id'] = $post['level_student_detail'];
 		}
 
