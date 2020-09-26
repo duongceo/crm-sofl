@@ -640,7 +640,7 @@ class Common extends MY_Controller {
 
             }
 
-			if ($param['level_contact_id'] == 'L5' && $rows[0]['level_contact_id'] != 'L5') {
+			if ($param['level_contact_id'] == 'L5') {
 				$param['date_rgt_study'] = (isset($post['date_rgt_study']) && $post['date_rgt_study'] != '') ? strtotime($post['date_rgt_study']) : time();
 				$dataPush['message'] = 'Yeah Yeah !!';
                 $dataPush['success'] = '1';
@@ -660,7 +660,7 @@ class Common extends MY_Controller {
 				}
 			}
 			
-			//print_arr($param);
+//			print_arr($param);
             $param['last_activity'] = time();
             $where = array('id' => $id);
             $this->contacts_model->update($where, $param);
