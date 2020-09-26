@@ -123,7 +123,7 @@ class Common extends MY_Controller {
                 'call_stt' => 'edit',
                 'level_contact' => 'edit',
 				'level_student' => 'edit',
-				//'date_rgt_study' => 'edit',
+				'date_rgt_study' => 'edit',
                 'date_recall' => 'edit',
 //                'send_banking_info' => 'edit',
                 'note' => 'edit',
@@ -304,13 +304,17 @@ class Common extends MY_Controller {
 			'language_study' => array(),
         );
 
-		if ($rows[0]['level_contact_id'] != '') {
-			$this->load->model('level_contact_model');
+		$this->load->model('level_contact_model');
+		if ($rows[0]['level_contact_detail'] != '') {
+			$rows[0]['level_contact_name'] = $this->level_contact_model->get_name_from_level($rows[0]['level_contact_detail']);
+		} else {
 			$rows[0]['level_contact_name'] = $this->level_contact_model->get_name_from_level($rows[0]['level_contact_id']);
 		}
 
-		if ($rows[0]['level_student_id'] != '') {
-			$this->load->model('level_student_model');
+		$this->load->model('level_student_model');
+		if ($rows[0]['level_student_detail'] != '') {
+			$rows[0]['level_student_name'] = $this->level_student_model->get_name_from_level($rows[0]['level_student_detail']);
+		} else {
 			$rows[0]['level_student_name'] = $this->level_student_model->get_name_from_level($rows[0]['level_student_id']);
 		}
 
@@ -511,11 +515,6 @@ class Common extends MY_Controller {
             die;
         }
         if (!empty($this->input->post())) {
-
-            /*
-             * Thông báo số chốt đơn
-             */
-
             $dataPush = [];
             $dataPush['title'] = 'Lịch sử trang web (beta)';
             $dataPush['message'] = $this->staffs_model->find_staff_name($this->user_id) . ' đã cập nhật cuộc gọi';
@@ -642,13 +641,23 @@ class Common extends MY_Controller {
             }
 
 			if ($param['level_contact_id'] == 'L5' && $rows[0]['level_contact_id'] != 'L5') {
-				$param['date_rgt_study'] = time();
+				$param['date_rgt_study'] = (isset($post['date_rgt_study']) && $post['date_rgt_study'] != '') ? strtotime($post['date_rgt_study']) : time();
 				$dataPush['message'] = 'Yeah Yeah !!';
                 $dataPush['success'] = '1';
 			}
 			
 			if ($param['paid'] != 0 && $rows[0]['paid'] != $param['paid']) {
-				$param['date_paid'] = time();
+				if ($param['level_contact_id'] != 'L5') {
+					$result['success'] = 0;
+					$result['message'] = 'Bạn phải cập nhật trạng thái contact là L5';
+					echo json_encode($result);
+					die;
+				}
+				if ($rows[0]['paid'] == 0) {
+					$param['date_paid'] = strtotime($post['date_rgt_study']);
+				} else {
+					$param['date_paid'] = time();
+				}
 			}
 			
 			//print_arr($param);
@@ -677,10 +686,10 @@ class Common extends MY_Controller {
 					$param3 = array(
 						'contact_id' => $id,
 						'paid' => $paid,
-						'time_created' => time(),
+						'time_created' => $param['date_paid'],
 						'language_id' => $post['language_id'],
 						'branch_id' => $post['branch_id'],
-						'day' => date('Y-m-d', time()),
+						'day' => date('Y-m-d', $param['date_paid']),
 						'student_old' => $post['is_old'],
 					);
 
@@ -688,7 +697,6 @@ class Common extends MY_Controller {
 					$this->load->model('paid_model');
 					$this->paid_model->insert($param3);
 				}
-
 			}
 			
             $this->_set_call_log($id, $post, $rows);

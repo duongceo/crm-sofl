@@ -1056,6 +1056,7 @@ class Manager extends MY_Controller {
     }
 
     // </editor-fold>
+
     // <editor-fold defaultstate="collapsed" desc="Báo cáo TVTS">
     function view_report_sale() {
 
@@ -1114,7 +1115,7 @@ class Manager extends MY_Controller {
 					'sum' => 0
 				),
 				'KHONG_NGHE_MAY' => array(
-					'where' => array('call_status_id' => _KHONG_NGHE_MAY_, 'date_handover !=' => '0', 'date_rgt >' => $startDate, 'date_rgt <' => $endDate, 'is_hide' => '0'),
+					'where' => array('call_status_id' => _KHONG_NGHE_MAY_, 'date_rgt >' => $startDate, 'date_rgt <' => $endDate, 'is_hide' => '0'),
 					'sum' => 0
 				),
                 'L1' => array(
@@ -1185,11 +1186,11 @@ class Manager extends MY_Controller {
 					'sum' => 0
 				),
 				'L1' => array(
-					'where' => array('is_hide' => '0', 'date_handover >' => $startDate, 'date_handover <' => $endDate, 'level_contact_id' => 'L1'),
+					'where' => array('is_hide' => '0', 'date_last_calling >' => $startDate, 'date_last_calling <' => $endDate, 'level_contact_id' => 'L1'),
 					'sum' => 0
 				),
 				'L2' => array(
-					'where' => array('is_hide' => '0', 'level_contact_id' => 'L2', 'date_handover >' => $startDate, 'date_handover <' => $endDate),
+					'where' => array('is_hide' => '0', 'level_contact_id' => 'L2', 'date_last_calling >' => $startDate, 'date_last_calling <' => $endDate),
 					'sum' => 0
 				),
 				'L3' => array(
@@ -1197,7 +1198,7 @@ class Manager extends MY_Controller {
 					'sum' => 0
 				),
 				'L4' => array(
-					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L4', 'date_handover >' => $startDate, 'date_handover <' => $endDate),
+					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L4', 'date_last_calling >' => $startDate, 'date_last_calling <' => $endDate),
 					'sum' => 0
 				),
 				'L5' => array(
@@ -1230,9 +1231,7 @@ class Manager extends MY_Controller {
                 */
             );
         }
-
-
-		//echo '<pre>'; print_r($course_code);die();
+//		echo '<pre>'; print_r($conditionArr);die();
 
 //		if (isset($get['filter_language_id'])) {
 //			$language = array();
@@ -1284,12 +1283,13 @@ class Manager extends MY_Controller {
 //                $conditional = array_merge_recursive($conditional, $conditionnal_2);
 				// echo '<pre>'; print_r($conditional);die();
 
-                foreach ($value2['where'] as $key3 => $value3) {
-                    $conditional['where'][$key3] = $value3;
-                }
+//                foreach ($value2['where'] as $key3 => $value3) {
+//                    $conditional['where'][$key3] = $value3;
+//                }
+				$conditional = array_merge_recursive($conditional, $value2);
+//				echo '<pre>'; print_r($conditional);
                 $staffs[$key][$key2] = $this->_query_for_report($get, $conditional);
                 $conditionArr[$key2]['sum'] += $staffs[$key][$key2];
-
 				if ($value['id'] == 5) { // ko tính contact trùng vào tổng
 					$conditionArr[$key2]['sum'] = $conditionArr[$key2]['sum'] - $staffs[$key][$key2];
 				}

@@ -500,6 +500,9 @@ class MY_Controller extends CI_Controller {
 
     protected function _query_for_report($get = [], $condition = []) {
 
+    	unset($condition['sum']);
+//    	print_arr($condition);
+
         $input = array();
 
         $input['select'] = 'id';
