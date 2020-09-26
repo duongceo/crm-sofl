@@ -34,5 +34,4 @@ nbdist/
 
 # End of https://www.gitignore.io/api/netbeans,codeigniter
 
-index.php
 style/node_modules
