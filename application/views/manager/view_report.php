@@ -67,7 +67,7 @@
 			
 			array('Xử Lý', 'XU_LY', $XU_LY),
 			array('Nghe Máy', 'NGHE_MAY', $NGHE_MAY),
-			array('Ko Nghe Máy', 'KO_NGHE_MAY', $KO_NGHE_MAY),
+			array('Ko Nghe Máy', 'KHONG_NGHE_MAY', $KO_NGHE_MAY),
 
 //			array('Lượt gọi', 'LUOT_GOI', $LUOT_GOI),
 			
@@ -153,7 +153,7 @@
         $report2 = array(
 
             array('Nghe Máy/Xử lý', 'NGHE_MAY', 'XU_LY', ($XU_LY != 0) ? round(($NGHE_MAY / $XU_LY) * 100, 2) : 'không thể chia cho 0', 70),
-            array('Ko Nghe Máy/Xử lý', 'KO_NGHE_MAY', 'XU_LY', ($XU_LY != 0) ? round(($KO_NGHE_MAY / $XU_LY) * 100, 2) : 'không thể chia cho 0', 25),
+            array('Ko Nghe Máy/Xử lý', 'KHONG_NGHE_MAY', 'XU_LY', ($XU_LY != 0) ? round(($KO_NGHE_MAY / $XU_LY) * 100, 2) : 'không thể chia cho 0', 25),
             array('L5/Xử lý', 'L5', 'XU_LY', ($XU_LY != 0) ? round(($L5 / $XU_LY) * 100, 2) : 'không thể chia cho 0', 20),
 
 //            array('L6/L1', 'L6', 'L1', ($L1 != 0) ? round(($L6 / $L1) * 100, 2) : 'không thể chia cho 0', 80),

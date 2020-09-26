@@ -2,7 +2,7 @@
 	<td class="text-right"> Contact Mới/Cũ </td>
 	<td>
 		<select class="form-control filter selectpicker" name="filter_is_old">
-			<option value="" <?php if (!isset($_GET['filter_is_old'])) { ?> selected="selected" <?php } ?>>
+			<option value="" <?php if (!isset($_GET['filter_is_old']) || $_GET['filter_is_old'] == '') { ?> selected="selected" <?php } ?>>
 				Nothing selected
 			</option>
 
