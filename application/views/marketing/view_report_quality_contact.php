@@ -3,7 +3,7 @@
 
     <div class="col-md-10 col-md-offset-1">
 
-        <h3 class="text-center marginbottom20"> Báo cáo chất lượng contact từ ngày <?php echo date('d-m-Y', $startDate); ?> đến ngày <?php echo date('d-m-Y', $endDate); ?></h3>
+        <h3 class="text-center marginbottom20"> Báo cáo theo ngôn ngữ từ ngày <?php echo date('d-m-Y', $startDate); ?> đến ngày <?php echo date('d-m-Y', $endDate); ?></h3>
 
     </div>
 
@@ -27,8 +27,8 @@
 <!--					<th colspan = "6" style="font-weight: bold; background-color: blue"> Tỷ Lệ</th>-->
 					<th colspan = "6" style="font-weight: bold; background-color: purple"> Hiệu quả</th>
 				<tr>
-					<th style="font-weight: bold">Contact</th>
-                    <th style="font-weight: bold">Đăng ký</th>
+					<th style="font-weight: bold">Contact (C3)</th>
+                    <th style="font-weight: bold">Đăng ký thành công (L5)</th>
 <!--					<th style="font-weight: bold">L1</th>-->
 <!--					<th style="font-weight: bold">L2</th>-->
 <!--					<th style="font-weight: bold">L6</th>-->
@@ -77,4 +77,50 @@
         </tbody>
     </table>   
     
+</div>
+
+<hr>
+
+<div class="row">
+
+	<div class="col-md-10 col-md-offset-1">
+
+		<h3 class="text-center marginbottom20"> Báo cáo Marketer từ ngày <?php echo date('d-m-Y', $startDate); ?> đến ngày <?php echo date('d-m-Y', $endDate); ?></h3>
+
+	</div>
+
+</div>
+
+<div class="row">
+
+	<table class="table table-bordered table-striped view_report gr4-table">
+		<thead class="table-head-pos">
+			<tr>
+				<th rowspan = "2" style="font-weight: bold">Nhân viên</th>
+				<th colspan = "2" style="font-weight: bold"> Số Lượng</th>
+				<th colspan = "6" style="font-weight: bold; background-color: #1b6d85 "> Hiệu quả</th>
+				<tr>
+					<th style="font-weight: bold">Contact (C3)</th>
+					<th style="font-weight: bold">Đăng ký thành công (L5)</th>
+					<th style="font-weight: bold; background-color: #1b6d85">Chi phí MKT</th>
+					<th style="font-weight: bold; background-color: #1b6d85">Giá Contact</th>
+<!--					<th style="font-weight: bold; background-color: #1b6d85">Doanh thu</th>-->
+<!--					<th style="font-weight: bold; background-color: #1b6d85">Chí Phí / Doanh thu</th>-->
+				</tr>
+			</tr>
+		</thead>
+		<tbody>
+			<?php foreach ($report_mkt as $value) { ?>
+				<tr>
+					<td style="background-color: #0c6681 ;color: #FFF;font-weight: bold"><?php echo $value['mkt_name'] ?></td>
+					<td><?php echo $value['C3'] ?></td>
+					<td><?php echo $value['L5'] ?></td>
+					<td><?php echo $value['Ma_mkt']?></td>
+					<td><?php echo $value['Gia_So']?></td>
+<!--					<td>--><?php //echo $value['Re_thuc_te']?><!--</td>-->
+<!--					<td>--><?php //echo $value['Ma_Re_thuc_te'].'%' ?><!--</td>-->
+				</tr>
+			<?php } ?>
+		</tbody>
+	</table>
 </div>

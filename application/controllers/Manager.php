@@ -212,10 +212,10 @@ class Manager extends MY_Controller {
         $outformModal = 'manager/modal/divide_one_contact';
         $data['outformModal'] = explode(' ', $outformModal);
 		
-		$data['load_js'] = array(
-            'common_view_detail_contact', 'common_real_filter_contact',
-            'm_delete_one_contact', 'm_divide_contact', 'm_view_duplicate', 'm_delete_multi_contact'
-        );
+//		$data['load_js'] = array(
+//            'common_view_detail_contact', 'common_real_filter_contact',
+//            'm_delete_one_contact', 'm_divide_contact', 'm_view_duplicate', 'm_delete_multi_contact'
+//        );
 
         $data['content'] = 'common/list_contact';
         $this->load->view(_MAIN_LAYOUT_, $data);
@@ -1062,7 +1062,6 @@ class Manager extends MY_Controller {
 
 		$require_model = array(
 			'branch' => array(),
-			'language_study' => array()
 		);
 		$data = array_merge($this->data, $this->_get_require_data($require_model));
 
@@ -1233,45 +1232,6 @@ class Manager extends MY_Controller {
         }
 //		echo '<pre>'; print_r($conditionArr);die();
 
-//		if (isset($get['filter_language_id'])) {
-//			$language = array();
-//			foreach ($get['filter_language'] as $key => $value) {
-//				$language_id[] = $value;
-//			}
-//			// echo '<pre>'; print_r($brand_id);die;
-//			$language = implode(',', $language_id);
-//		}
-
-//        $conditionnal_2 = array();
-//
-//		if (isset($get['filter_branch_id'])) {
-////			$branch = array();
-////			foreach ($get['filter_branch_id'] as $key => $value) {
-////				$branch_id[] = $value;
-////			}
-////			$conditionnal_2['where_in']['filter_branch_id'] = implode(',', $branch_id);
-//			$conditionnal_2['where_in']['filter_branch_id'] = $get['filter_branch_id'];
-//		}
-//
-//		if (isset($get['filter_source_id']) && isset($get['filter_brand_id'])) {
-//			$conditionnal_2['where']['source_id'] = $source;
-//			$conditionnal_2['where_in']['brand_id'] = $brand;
-//		}
-//		if (isset($get['filter_source_id']) && isset($get['filter_course_code'])) {
-//			$conditionnal_2['where']['source_id'] = $source;
-//			$conditionnal_2['where_in']['course_code'] = $course_code;
-//		}
-//		if (isset($get['filter_brand_id']) && isset($get['filter_course_code'])) {
-//			$conditionnal_2['where_in']['course_code'] = $course_code;
-//			$conditionnal_2['where_in']['brand_id'] = $brand;
-//		}
-//		if (isset($get['filter_brand_id']) && isset($get['filter_course_code']) && isset($get['filter_source_id'])) {
-//			$conditionnal_2['where_in']['course_code'] = $course_code;
-//			$conditionnal_2['where_in']['brand_id'] = $brand;
-//			$conditionnal_2['where']['source_id'] = $source;
-//		}
-		// echo '<pre>';print_r($conditionnal_2);die;
-
 		unset($get['filter_date_date_happen']);
 //        $get = array();
 //		print_arr($get);
@@ -1296,6 +1256,23 @@ class Manager extends MY_Controller {
             }
         }
 
+        $this->load->model('language_study_model');
+		$input_language['where'] = array('active' => 1);
+		$language = $this->language_study_model->load_all($input_language);
+
+        foreach ($language as $key => $value) {
+			foreach ($conditionArr as $key2 => $value2) {
+				$conditional = array();
+				$conditional['where']['language_id'] = $value['id'];
+
+				$conditional = array_merge_recursive($conditional, $value2);
+//				echo '<pre>'; print_r($conditional); die();
+				$language[$key][$key2] = $this->_query_for_report($get, $conditional);
+				$conditionArr[$key2]['sum'] += $language[$key][$key2];
+
+			}
+		}
+
 //		foreach ($staffs as $key => $value) {
 //            $input = array();
 //            $input['where']['staff_id'] = $value['id'];
@@ -1315,6 +1292,7 @@ class Manager extends MY_Controller {
         }
 		//echo '<pre>';print_r($data);die;
 
+		$data['language'] = $language;
         $data['staffs'] = $staffs;
         $data['startDate'] = $startDate;
         $data['endDate'] = $endDate;
@@ -1325,6 +1303,7 @@ class Manager extends MY_Controller {
         if($this->role_id == 1){
             $data['top_nav'] = 'sale/common/top-nav';
         }
+//        print_arr($data);
         $this->load->view(_MAIN_LAYOUT_, $data);
     }
 

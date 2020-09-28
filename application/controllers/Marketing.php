@@ -131,6 +131,7 @@
 			//echo $this->role_id;die;
 			$this->load->model('language_study_model');
 			$this->load->model('spending_model');
+			$this->load->model('paid_model');
 			$get = $this->input->get();
 			
 			$input = array();
@@ -179,10 +180,6 @@
 						'time' => 'filter_date_date_rgt'
 					),
 					*/
-					'RE' => array(
-						'where' => array('is_hide' => '0', 'paid !=' => '0'),
-						'time' => 'filter_date_date_rgt'
-					)
 				);
 			} else {
 				$typeReport = array(
@@ -212,25 +209,23 @@
 						'time' => 'filter_date_date_receive_lakita'
 					),
 					*/
-					'RE' => array(
-						'where' => array('is_hide' => '0', 'paid !=' => '0'),
-						'time' => 'filter_date_date_paid'
-					)
 				);
 			}
 
 			//echo '(`brand_id` in (' . $brand .'))';die;
 			//echo '<pre>'; print_r($typeReport); die;
+
+			$input_mkt['where'] = array('role_id' => 6, 'active' => 1);
+			$marketer = $this->staffs_model->load_all($input_mkt);
+//			print_arr($marketer);
 			
-			$conditionnal_2 = array();
+//			$conditionnal_2 = array();
 
 			$Report = array();
 
 			foreach ($language as $v_language) {
 				foreach ($typeReport as $report_type => $value) {
-					
 					$typeTime = array($value['time'] => $time);
-				  
 					if ($this->role_id == 6) {
 						$condition = array('where' => array_merge($value['where'], array('language_id' => $v_language['id'])));
 					} else {
@@ -243,26 +238,74 @@
 							$condition = array('where' => array_merge($value['where'], array('language_id' => $v_language['id'])));
 						}
 					}
-					$condition = array_merge_recursive($condition, $conditionnal_2);
+//					$condition = array_merge_recursive($condition, $conditionnal_2);
 					//echo '<pre>'; print_r($condition); die;
 					$Report[$v_language['id']][$report_type] = $this->_query_for_report($typeTime, $condition);
-					if ($report_type == 'RE') {
-						$Report[$v_language['id']]['RE'] = $this->_query_for_report_re($typeTime, $condition);
-					}
-					
-					// $Report[$v_course['course_code']]['RE'] = str_replace(',', '.', number_format($this->_query_for_report_re($typeTime, $condition)));
 				}
-				
-				/*
-				if ($Report[$v_language['language_id']]['C3'] == 0 && $Report[$v_language['language_id']]['L1'] == 0 && $Report[$v_language['language_id']]['L6'] == 0 && $Report[$v_course['language_id']]['L8'] == 0) {
-					unset($Report[$v_language['language_id']]);
-				}
-				*/
-				
-//				if ($Report[$v_language['language_id']]['C3'] == 0) {
-//					unset($Report[$v_language['language_id']]);
-//				}
 			}
+
+			$Report_mkt = array();
+			foreach ($marketer as $v_mkt) {
+				foreach ($typeReport as $report_type => $value) {
+					$typeTime = array($value['time'] => $time);
+					if ($this->role_id == 6) {
+						$condition = array('where' => array_merge($value['where'], array('marketer_id' => $this->user_id)));
+					} else {
+						$condition = array('where' => array_merge($value['where'], array('marketer_id' => $v_mkt['id'])));
+					}
+//					$condition = array_merge_recursive($condition, $conditionnal_2);
+					//echo '<pre>'; print_r($condition); die;
+					$Report_mkt[$v_mkt['id']][$report_type] = $this->_query_for_report($typeTime, $condition);
+				}
+			}
+
+			$total_mkt_L5 = 0;
+			$total_mkt_C3 = 0;
+//			$total_mkt_RE = 0;
+			$total_spend_mkt = 0;
+
+			foreach ($Report_mkt as $key => $value) {
+				// lấy chi phí
+				$input = array();
+				$input['select'] = 'SUM(spend) as spending';
+				$input['where']['time_created >='] = $date_from;
+				$input['where']['time_created <='] = $date_end;
+				$input['where']['marketer_id'] = $key;
+
+				if (isset($get['filter_channel_id'])) {
+					$input['where_in']['channel_id'] = $get['filter_channel_id'];
+				}
+
+				if ($this->role_id == 6) {
+					$input['where']['marketer_id'] = $this->user_id;
+				}
+
+				$spend_mkt = (int) $this->spending_model->load_all($input)[0]['spending'];
+//				 echo '<pre>'; print_r($spend); die;
+
+				$Report_mkt[$key]['Gia_So'] = ($Report_mkt[$key]['C3'] == 0) ? '0' : str_replace(',', '.', number_format(round($spend_mkt / $Report_mkt[$key]['C3'])));
+				$Report_mkt[$key]['Ma_mkt'] = str_replace(',', '.', number_format($spend_mkt));
+
+				$total_mkt_C3 += $Report_mkt[$key]['C3'];
+				$total_mkt_L5 += $Report_mkt[$key]['L5'];
+
+//				$total_mkt_RE += $Report_mkt[$key]['RE'];
+				$total_spend_mkt += $spend_mkt;
+
+				$Report_mkt[$key]['mkt_name'] = $this->staffs_model->find_staff_name($key);;
+			}
+
+			usort($Report_mkt, function($a, $b) {
+				return $b['C3'] - $a['C3'];
+			});
+
+			$Report_mkt['Tổng'] = array(
+				'C3' => $total_mkt_C3,
+				'L5' => $total_mkt_L5,
+				'Ma_mkt' => str_replace(',', '.', number_format($total_spend_mkt)),
+				'Gia_So' => ($total_mkt_C3 == 0) ? '0' : round($total_spend_mkt / $total_mkt_C3, 2) * 100,
+				'mkt_name' => 'Tổng'
+			);
 
 //			echo '<pre>'; print_r($Report); die;
 
@@ -276,20 +319,16 @@
 			$total_RE = 0;
 
 			foreach ($Report as $key => $value) {
-				$input_spend = array();
-				$input_spend['select'] = 'id';
-				$input_spend['where']['language_id'] = $key;
-
-				// lấy chi fb
+				// lấy chi phí
 				$input = array();
 				$input['select'] = 'SUM(spend) as spending';
 				$input['where']['time_created >='] = $date_from;
 				$input['where']['time_created <='] = $date_end;
 				$input['where']['language_id'] = $key;
 
-				if (isset($get['filter_marketer_id'])) {
-					$input['where_in']['marketer_id'] = $get['filter_marketer_id'];
-				}
+//				if (isset($get['filter_marketer_id'])) {
+//					$input['where_in']['marketer_id'] = $get['filter_marketer_id'];
+//				}
 
 				if (isset($get['filter_channel_id'])) {
 					$input['where_in']['channel_id'] = $get['filter_channel_id'];
@@ -302,6 +341,19 @@
 				$spend = (int) $this->spending_model->load_all($input)[0]['spending'];
 //				 echo '<pre>'; print_r($spend); die;
 
+				$input_re['select'] = 'SUM(paid) as paiding';
+				$input_re['where'] = array(
+					'time_created >=' => $date_from,
+					'time_created >=' => $date_end,
+					'language_id' => $key
+				);
+
+				if (isset($get['filter_branch_id'])) {
+					$input_re['where_in']['branch_id'] = $get['filter_branch_id'];
+				}
+				$re_mkt = (int) $this->paid_model->load_all($input_re)[0]['paiding'];
+
+				$Report_mkt[$key]['RE'] = str_replace(',', '.', number_format($re_mkt));
 //				$Report[$key]['Gia_L8'] = ($Report[$key]['L8'] == 0) ? '0' : str_replace(',', '.', number_format(round($sum_spend / $Report[$key]['L8'])));
 				$Report[$key]['Gia_So'] = ($Report[$key]['C3'] == 0) ? '0' : str_replace(',', '.', number_format(round($spend / $Report[$key]['C3'])));
 //				$Report[$key]['Ma_Re_du_kien'] = ($Report[$key]['L6'] == 0) ? '0' : round($sum_spend / ($Report[$key]['L6'] * $ty_le_brand * $price_course), 4) * 100;
@@ -356,10 +408,6 @@
 				'language_name' => 'Tổng'
 			);
 
-//			usort($Report, function($a, $b) {
-//				return $b['L1'] - $a['L1'];
-//			});
-
 			// echo '<pre>'; print_r($Report); die;
 
 			$this->load->model('channel_model');
@@ -369,6 +417,7 @@
 			$data['marketers'] = $this->staffs_model->load_all(array('where' => array('role_id' => 6, 'active' => 1), 'order' => array('name' => 'asc')));
 
 			$data['report'] = $Report;
+			$data['report_mkt'] = $Report_mkt;
 //			print_arr($data['report']);
 			$data['startDate'] = isset($date_from) ? $date_from : '0';
 			$data['endDate'] = isset($date_end) ? $date_end : '0';
@@ -377,7 +426,7 @@
 				$data['left_col'] = array('date_happen_1', 'tic_report');
 				$data['right_col'] = array('channel');
 			} else {
-				$data['left_col'] = array('date_happen_1', 'marketer', 'tic_report');
+				$data['left_col'] = array('date_happen_1', 'tic_report');
 				$data['right_col'] = array('channel');
 			}
 
