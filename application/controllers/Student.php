@@ -85,7 +85,6 @@ class Student extends MY_Controller {
         $data['content'] = 'common/list_contact';
         $this->load->view(_MAIN_LAYOUT_, $data);
     }
-	
 
 	private function get_all_require_data() {
         $require_model = array(

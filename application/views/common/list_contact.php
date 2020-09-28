@@ -50,12 +50,13 @@
     </div>
 
     <?php if (in_array($this->role_id, array(3, 12, 5, 7))) { ?>
+    	<h4>Học viên mới</h4>
         <div class="row">
             <?php foreach ($language_study as $key => $value) {?>
                 <div class="col-md-3">
                     <div class="panel panel-success text-center">
                         <div class="panel-heading"><?php echo $value['name']; ?></div>
-                        <div class="panel-body" style="color: #006cf1"><?php echo h_number_format($progress[$value['language_id']][0]['RE']) ?></div>
+                        <div class="panel-body" style="color: #006cf1"><?php echo h_number_format($progress['new'][$value['language_id']][0]['RE']) ?></div>
                     </div>
                 </div>
             <?php } ?>
@@ -63,7 +64,26 @@
             <div class="col-md-3">
                 <div class="panel panel-success text-center">
                     <div class="panel-heading">Tổng</div>
-                    <div class="panel-body" style="color: #006cf1"><?php echo h_number_format($progress['total']); ?></div>
+                    <div class="panel-body" style="color: #006cf1"><?php echo h_number_format($progress['total_new']); ?></div>
+                </div>
+            </div>
+        </div>
+
+        <h4>Học viên cũ</h4>
+        <div class="row">
+            <?php foreach ($language_study as $key => $value) {?>
+                <div class="col-md-3">
+                    <div class="panel panel-success text-center">
+                        <div class="panel-heading"><?php echo $value['name']; ?></div>
+                        <div class="panel-body" style="color: #006cf1"><?php echo h_number_format($progress['old'][$value['language_id']][0]['RE']) ?></div>
+                    </div>
+                </div>
+            <?php } ?>
+
+            <div class="col-md-3">
+                <div class="panel panel-success text-center">
+                    <div class="panel-heading">Tổng</div>
+                    <div class="panel-body" style="color: #006cf1"><?php echo h_number_format($progress['total_old']); ?></div>
                 </div>
             </div>
         </div>

@@ -654,7 +654,7 @@ class Common extends MY_Controller {
 					die;
 				}
 				if ($rows[0]['paid'] == 0) {
-					$param['date_paid'] = strtotime($post['date_rgt_study']);
+					$param['date_paid'] = $param['date_rgt_study'];
 				} else {
 					$param['date_paid'] = time();
 				}

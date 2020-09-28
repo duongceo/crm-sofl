@@ -2012,7 +2012,8 @@ class Manager extends MY_Controller {
         $input = array();
 		$language = $this->language_study_model->load_all($input);
 		
-		$total = 0;
+		$total_new = 0;
+		$total_old = 0;
 		foreach ($language as $value) {
 			$input_re['select'] = 'SUM(paid) AS RE';
 			$input_re['where'] = array(
@@ -2020,10 +2021,17 @@ class Manager extends MY_Controller {
 				'paid !=' => 0,
 				'time_created >' => strtotime(date('d-m-Y'))
 			);
-			$progress[$value['language_id']] = $this->paid_model->load_all($input_re);
-			$total += $progress[$value['language_id']][0]['RE'];
+			$input_re_new = array_merge_recursive(array('where' => array('student_old' => '0')), $input_re);
+			$input_re_old = array_merge_recursive(array('where' => array('student_old' => 1)), $input_re);
+			
+			$progress['old'][$value['language_id']] = $this->paid_model->load_all($input_re_old);
+			$progress['new'][$value['language_id']] = $this->paid_model->load_all($input_re_new);
+			
+			$total_new += $progress['new'][$value['language_id']][0]['RE'];
+			$total_old += $progress['old'][$value['language_id']][0]['RE'];
 		}
-		$progress['total'] = $total;
+		$progress['total_new'] = $total_new;
+		$progress['total_old'] = $total_old;
 		//print_arr($progress);
 
         return $progress;
@@ -2067,22 +2075,30 @@ class Manager extends MY_Controller {
 		$progress['progressbar'] = $progress;
 		
 		$this->load->model('language_study_model');
-
+		$this->load->model('paid_model');
         $input = array();
 		$language = $this->language_study_model->load_all($input);
 		
-		$total = 0;
+		$total_new = 0;
+		$total_old = 0;
 		foreach ($language as $value) {
 			$input_re['select'] = 'SUM(paid) AS RE';
 			$input_re['where'] = array(
 				'language_id' => $value['id'],
 				'paid !=' => 0,
-				'last_activity >=' => strtotime(date('01-m-Y'))
+				'time_created >' => strtotime(date('01-m-Y'))
 			);
-			$progress[$value['language_id']] = $this->contacts_model->load_all($input_re);
-			$total += $progress[$value['language_id']][0]['RE'];
+			$input_re_new = array_merge_recursive(array('where' => array('student_old' => '0')), $input_re);
+			$input_re_old = array_merge_recursive(array('where' => array('student_old' => 1)), $input_re);
+			
+			$progress['old'][$value['language_id']] = $this->paid_model->load_all($input_re_old);
+			$progress['new'][$value['language_id']] = $this->paid_model->load_all($input_re_new);
+			
+			$total_new += $progress['new'][$value['language_id']][0]['RE'];
+			$total_old += $progress['old'][$value['language_id']][0]['RE'];
 		}
-		$progress['total'] = $total;
+		$progress['total_new'] = $total_new;
+		$progress['total_old'] = $total_old;
 		
         return $progress;
     }

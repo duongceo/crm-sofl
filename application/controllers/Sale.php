@@ -957,8 +957,12 @@ class Sale extends MY_Controller {
                     'class_study_id' => 'ASC'
                 )
             ),
-			'level_contact' => array(),
-			'level_student' => array(),
+			'level_contact' => array(
+				'where' => array('parent_id' => '')
+			),
+			'level_student' => array(
+				'where' => array('parent_id' => '')
+			),
             'branch' => array('active' => 1),
             'level_language' => array(),
             'language_study' => array(),
