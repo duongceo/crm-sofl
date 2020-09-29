@@ -1235,6 +1235,8 @@ class Manager extends MY_Controller {
 		unset($get['filter_date_date_happen']);
 //        $get = array();
 //		print_arr($get);
+
+		$conditionArr_staff = array();
         foreach ($staffs as $key => $value) {
             foreach ($conditionArr as $key2 => $value2) {
                 $conditional = array();
@@ -1249,9 +1251,10 @@ class Manager extends MY_Controller {
 				$conditional = array_merge_recursive($conditional, $value2);
 //				echo '<pre>'; print_r($conditional);
                 $staffs[$key][$key2] = $this->_query_for_report($get, $conditional);
-                $conditionArr[$key2]['sum'] += $staffs[$key][$key2];
+                //$conditionArr_staff[$key2]['sum'] += $staffs[$key][$key2];
+				$data[$key2] += $staffs[$key][$key2];
 				if ($value['id'] == 5) { // ko tính contact trùng vào tổng
-					$conditionArr[$key2]['sum'] = $conditionArr[$key2]['sum'] - $staffs[$key][$key2];
+					$data[$key2] = $data[$key2] - $staffs[$key][$key2];
 				}
             }
         }
@@ -1259,19 +1262,27 @@ class Manager extends MY_Controller {
         $this->load->model('language_study_model');
 		$input_language['where'] = array('active' => 1);
 		$language = $this->language_study_model->load_all($input_language);
-
+		
+		$conditionArr_language = array();
         foreach ($language as $key => $value) {
 			foreach ($conditionArr as $key2 => $value2) {
 				$conditional = array();
 				$conditional['where']['language_id'] = $value['id'];
-
+				
 				$conditional = array_merge_recursive($conditional, $value2);
 //				echo '<pre>'; print_r($conditional); die();
 				$language[$key][$key2] = $this->_query_for_report($get, $conditional);
-				$conditionArr[$key2]['sum'] += $language[$key][$key2];
-
+				//$conditionArr_language[$key2]['sum'] += $language[$key][$key2];
+				$data[$key2 . '_L'] += $language[$key][$key2];
 			}
 		}
+		
+		/*
+		foreach ($conditionArr as $key => $value) {
+            $data[$key] = $value['sum'];
+        }
+		*/
+		//echo '<pre>';print_r($data);die;
 
 //		foreach ($staffs as $key => $value) {
 //            $input = array();
@@ -1285,19 +1296,14 @@ class Manager extends MY_Controller {
 //            }
 //        }
 
-//		echo '<pre>';print_r($staffs);die;
-
-        foreach ($conditionArr as $key => $value) {
-            $data[$key] = $value['sum'];
-        }
-		//echo '<pre>';print_r($data);die;
-
+		//echo '<pre>';print_r($conditionArr);die;
+		
 		$data['language'] = $language;
         $data['staffs'] = $staffs;
         $data['startDate'] = $startDate;
         $data['endDate'] = $endDate;
         $data['left_col'] = array('date_happen_1', 'tic_report');
-        $data['right_col'] = array('branch', 'language');
+        $data['right_col'] = array('branch', 'is_old');
         $data['load_js'] = array('m_view_report');
         $data['content'] = 'manager/view_report';
         if($this->role_id == 1){

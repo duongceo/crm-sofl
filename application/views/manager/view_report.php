@@ -16,7 +16,7 @@
 
 </form> 
 
-<table class="table table-bordered table-striped view_report gr4-table table-fixed-head">
+<table class="table table-bordered table-striped view_report gr4-table ">
 
     <thead>
 
@@ -60,18 +60,11 @@
         <?php
 
         $report = array(
-
             array('Nhận', 'NHAN', $NHAN),
-
             array('Chưa gọi', 'CHUA_GOI', $CHUA_GOI),
-			
 			array('Xử Lý', 'XU_LY', $XU_LY),
 			array('Nghe Máy', 'NGHE_MAY', $NGHE_MAY),
-			array('Ko Nghe Máy', 'KHONG_NGHE_MAY', $KO_NGHE_MAY),
-
-//			array('Lượt gọi', 'LUOT_GOI', $LUOT_GOI),
-			
-//            array('LC', 'LC', $LC),
+			array('Ko Nghe Máy', 'KHONG_NGHE_MAY', $KHONG_NGHE_MAY),
 
             array('L1', 'L1', $L1),
             array('L2', 'L2', $L2),
@@ -81,24 +74,6 @@
             array('L6', 'L6', $L6),
             array('L7', 'L7', $L7),
             array('L8', 'L8', $L8),
-
-//            array('Còn cứu được', 'CON_CUU_DUOC', $CON_CUU_DUOC),
-
-//            array('Từ chối mua', 'TU_CHOI_MUA', $TU_CHOI_MUA),
-
-//            array('L6', 'L6', $L6),
-
-//            array('L6 chưa giao hàng (COD)', 'CHUA_GIAO_HANG_COD', $CHUA_GIAO_HANG_COD),
-
-//            array('L6 chưa giao hàng (chuyển khoản + khác)', 'CHUA_GIAO_HANG_TRANSFER', $CHUA_GIAO_HANG_TRANSFER),
-
-//            array('Đang giao hàng', 'DANG_GIAO_HANG', $DANG_GIAO_HANG),
-
-//            array('Đã thu COD', 'DA_THU_COD', $DA_THU_COD),
-
-//            array('Hủy đơn', 'HUY_DON', $HUY_DON),
-
-//            array('L8', 'L8', $L8),
 
         );
 
@@ -151,29 +126,11 @@
         <?php
 
         $report2 = array(
-
             array('Nghe Máy/Xử lý', 'NGHE_MAY', 'XU_LY', ($XU_LY != 0) ? round(($NGHE_MAY / $XU_LY) * 100, 2) : 'không thể chia cho 0', 70),
             array('Ko Nghe Máy/Xử lý', 'KHONG_NGHE_MAY', 'XU_LY', ($XU_LY != 0) ? round(($KO_NGHE_MAY / $XU_LY) * 100, 2) : 'không thể chia cho 0', 25),
+            array('L2/Xử lý', 'L2', 'XU_LY', ($XU_LY != 0) ? round(($L2 / $XU_LY) * 100, 2) : 'không thể chia cho 0', 40),
+            array('L3/Xử lý', 'L3', 'XU_LY', ($XU_LY != 0) ? round(($L3 / $XU_LY) * 100, 2) : 'không thể chia cho 0', 35),
             array('L5/Xử lý', 'L5', 'XU_LY', ($XU_LY != 0) ? round(($L5 / $XU_LY) * 100, 2) : 'không thể chia cho 0', 20),
-
-//            array('L6/L1', 'L6', 'L1', ($L1 != 0) ? round(($L6 / $L1) * 100, 2) : 'không thể chia cho 0', 80),
-//
-//            array('L6/L2', 'L6', 'L2', ($L2 != 0) ? round(($L6 / $L2) * 100, 2) : 'không thể chia cho 0', 80),
-//
-//            array('L8/L6', 'L8', 'L6', ($L6 != 0) ? round(($L8 / $L6) * 100, 2) : 'không thể chia cho 0', 80),
-//
-//            array('L8/L1', 'L8', 'L1', ($L1 != 0) ? round(($L8 / $L1) * 100, 2) : 'không thể chia cho 0', 60),
-//
-//            array('L7L8/L1', 'L7L8', 'L1', ($L1 != 0) ? round(( ($DA_THU_COD + $L8) / $L1) * 100, 2) : 'không thể chia cho 0', 60),
-//
-//            array('L8/L2', 'L8', 'L2', ($L2 != 0) ? round(($L8 / $L2) * 100, 2) : 'không thể chia cho 0', 60),
-//
-//            array('Hủy đơn/L6', 'HUY_DON', 'L6', ($L6 != 0) ? round(($HUY_DON / $L6) * 100, 2) : 'không thể chia cho 0', 0),
-//
-//            array('LC/L1', 'LC', 'L1', ($L1 != 0) ? round(($LC / $L1) * 100, 2) : 'không thể chia cho 0', 0),
-//
-//            array('0.5/L1', 'CON_CUU_DUOC', 'L1', ($L1 != 0) ? round(($CON_CUU_DUOC / $L1) * 100, 2) : 'không thể chia cho 0', 0),
-
         );
 
         foreach ($report2 as $values) {
@@ -310,43 +267,20 @@
 
 	$report = array(
 
-		array('Nhận', 'NHAN', $NHAN),
-		array('Chưa gọi', 'CHUA_GOI', $CHUA_GOI),
-		array('Xử Lý', 'XU_LY', $XU_LY),
-		array('Nghe Máy', 'NGHE_MAY', $NGHE_MAY),
-		array('Ko Nghe Máy', 'KHONG_NGHE_MAY', $KO_NGHE_MAY),
+		array('Nhận', 'NHAN', $NHAN_L),
+		array('Chưa gọi', 'CHUA_GOI', $CHUA_GOI_L),
+		array('Xử Lý', 'XU_LY', $XU_LY_L),
+		array('Nghe Máy', 'NGHE_MAY', $NGHE_MAY_L),
+		array('Ko Nghe Máy', 'KHONG_NGHE_MAY', $KHONG_NGHE_MAY_L),
 
-//			array('Lượt gọi', 'LUOT_GOI', $LUOT_GOI),
-
-//            array('LC', 'LC', $LC),
-
-		array('L1', 'L1', $L1),
-		array('L2', 'L2', $L2),
-		array('L3', 'L3', $L3),
-		array('L4', 'L4', $L4),
-		array('L5', 'L5', $L5),
-		array('L6', 'L6', $L6),
-		array('L7', 'L7', $L7),
-		array('L8', 'L8', $L8),
-
-//            array('Còn cứu được', 'CON_CUU_DUOC', $CON_CUU_DUOC),
-
-//            array('Từ chối mua', 'TU_CHOI_MUA', $TU_CHOI_MUA),
-
-//            array('L6', 'L6', $L6),
-
-//            array('L6 chưa giao hàng (COD)', 'CHUA_GIAO_HANG_COD', $CHUA_GIAO_HANG_COD),
-
-//            array('L6 chưa giao hàng (chuyển khoản + khác)', 'CHUA_GIAO_HANG_TRANSFER', $CHUA_GIAO_HANG_TRANSFER),
-
-//            array('Đang giao hàng', 'DANG_GIAO_HANG', $DANG_GIAO_HANG),
-
-//            array('Đã thu COD', 'DA_THU_COD', $DA_THU_COD),
-
-//            array('Hủy đơn', 'HUY_DON', $HUY_DON),
-
-//            array('L8', 'L8', $L8),
-
+		array('L1', 'L1', $L1_L),
+		array('L2', 'L2', $L2_L),
+		array('L3', 'L3', $L3_L),
+		array('L4', 'L4', $L4_L),
+		array('L5', 'L5', $L5_L),
+		array('L6', 'L6', $L6_L),
+		array('L7', 'L7', $L7_L),
+		array('L8', 'L8', $L8_L),
 	);
 
 	foreach ($report as $values) {
@@ -399,27 +333,11 @@
 
 	$report2 = array(
 
-		array('Nghe Máy/Xử lý', 'NGHE_MAY', 'XU_LY', ($XU_LY != 0) ? round(($NGHE_MAY / $XU_LY) * 100, 2) : 'không thể chia cho 0', 70),
-		array('Ko Nghe Máy/Xử lý', 'KHONG_NGHE_MAY', 'XU_LY', ($XU_LY != 0) ? round(($KO_NGHE_MAY / $XU_LY) * 100, 2) : 'không thể chia cho 0', 25),
-		array('L5/Xử lý', 'L5', 'XU_LY', ($XU_LY != 0) ? round(($L5 / $XU_LY) * 100, 2) : 'không thể chia cho 0', 20),
-
-//            array('L6/L1', 'L6', 'L1', ($L1 != 0) ? round(($L6 / $L1) * 100, 2) : 'không thể chia cho 0', 80),
-//
-//            array('L6/L2', 'L6', 'L2', ($L2 != 0) ? round(($L6 / $L2) * 100, 2) : 'không thể chia cho 0', 80),
-//
-//            array('L8/L6', 'L8', 'L6', ($L6 != 0) ? round(($L8 / $L6) * 100, 2) : 'không thể chia cho 0', 80),
-//
-//            array('L8/L1', 'L8', 'L1', ($L1 != 0) ? round(($L8 / $L1) * 100, 2) : 'không thể chia cho 0', 60),
-//
-//            array('L7L8/L1', 'L7L8', 'L1', ($L1 != 0) ? round(( ($DA_THU_COD + $L8) / $L1) * 100, 2) : 'không thể chia cho 0', 60),
-//
-//            array('L8/L2', 'L8', 'L2', ($L2 != 0) ? round(($L8 / $L2) * 100, 2) : 'không thể chia cho 0', 60),
-//
-//            array('Hủy đơn/L6', 'HUY_DON', 'L6', ($L6 != 0) ? round(($HUY_DON / $L6) * 100, 2) : 'không thể chia cho 0', 0),
-//
-//            array('LC/L1', 'LC', 'L1', ($L1 != 0) ? round(($LC / $L1) * 100, 2) : 'không thể chia cho 0', 0),
-//
-//            array('0.5/L1', 'CON_CUU_DUOC', 'L1', ($L1 != 0) ? round(($CON_CUU_DUOC / $L1) * 100, 2) : 'không thể chia cho 0', 0),
+		array('Nghe Máy/Xử lý', 'NGHE_MAY', 'XU_LY', ($XU_LY_L != 0) ? round(($NGHE_MAY_L / $XU_LY_L) * 100, 2) : 'không thể chia cho 0', 70),
+		array('Ko Nghe Máy/Xử lý', 'KHONG_NGHE_MAY', 'XU_LY', ($XU_LY_L != 0) ? round(($KHONG_NGHE_MAY_L / $XU_LY_L) * 100, 2) : 'không thể chia cho 0', 25),
+		array('L2/Xử lý', 'L2', 'XU_LY', ($XU_LY_L != 0) ? round(($L2_L / $XU_LY_L) * 100, 2) : 'không thể chia cho 0', 40),
+        array('L3/Xử lý', 'L3', 'XU_LY', ($XU_LY_L != 0) ? round(($L3_L / $XU_LY_L) * 100, 2) : 'không thể chia cho 0', 35),
+		array('L5/Xử lý', 'L5', 'XU_LY', ($XU_LY_L != 0) ? round(($L5_L / $XU_LY_L) * 100, 2) : 'không thể chia cho 0', 20),
 
 	);
 
