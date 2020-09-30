@@ -118,6 +118,7 @@ class Common extends MY_Controller {
                 'is_old' => 'edit',
                 'fee' => 'edit',
                 'paid' => 'edit',
+                'date_paid' => 'edit',
             );
             $right_edit = array(
                 'payment_method_rgt' => 'edit',
@@ -650,18 +651,22 @@ class Common extends MY_Controller {
 			if ($param['paid'] != 0 && $rows[0]['paid'] != $param['paid']) {
 				if ($param['level_contact_id'] != 'L5') {
 					$result['success'] = 0;
-					$result['message'] = 'Bạn phải cập nhật trạng thái contact là L5';
+					$result['message'] = 'Bạn phải cập nhật trạng thái contact là L5 hoặc phải có ngày đóng tiền';
 					echo json_encode($result);
 					die;
 				}
-				if ($rows[0]['paid'] == 0) {
-					$param['date_paid'] = $param['date_rgt_study'];
+
+				if (!isset($post['date_paid']) || $post['date_paid'] == '') {
+					$result['success'] = 0;
+					$result['message'] = 'Đóng học phí thì phải có ngày đóng';
+					echo json_encode($result);
+					die;
 				} else {
-					$param['date_paid'] = time();
+					$param['date_paid'] = strtotime($post['date_paid']);
 				}
+
 			}
-			
-//			print_arr($param);
+			//print_arr($param);
             $param['last_activity'] = time();
             $where = array('id' => $id);
             $this->contacts_model->update($where, $param);

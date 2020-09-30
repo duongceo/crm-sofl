@@ -54,6 +54,24 @@
                     </div>
                 </div>
 
+				<div class="form-group">
+					<div class="row">
+						<div class="col-md-4 text-right">
+							Ngày contact về
+						</div>
+						<div class="col-md-8">
+							<div class="form-group">
+								<div class='input-group date date_rgt'>
+									<input type='text' class="form-control" name='date_rgt' value="" />
+									<span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
                 <div class="form-group">
                     <div class="row">
                         <div class="col-md-4 text-right">
@@ -169,7 +187,7 @@
                         </div>
                         <div class="col-md-8">
                             <div class="form-group">
-                                <div class='input-group date date_rgt'>
+                                <div class='input-group date'>
                                     <input type='text' class="form-control" name='date_rgt_study' value="" />
                                     <span class="input-group-addon">
                                         <span class="glyphicon glyphicon-calendar"></span>
@@ -365,23 +383,23 @@
 					</div>
 				</div>
 
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-md-4 text-right">
-                            Ngày contact về
-                        </div>
-                        <div class="col-md-8">
-                            <div class="form-group">
-                                <div class='input-group date date_rgt'>
-                                    <input type='text' class="form-control" name='date_rgt' value="" />
-                                    <span class="input-group-addon">
+				<div class="form-group">
+					<div class="row">
+						<div class="col-md-4 text-right">
+							Ngày đóng tiền
+						</div>
+						<div class="col-md-8">
+							<div class="form-group">
+								<div class='input-group date'>
+									<input type='text' class="form-control" name='date_paid' value="" />
+									<span class="input-group-addon">
                                         <span class="glyphicon glyphicon-calendar"></span>
                                     </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 
 <!--                <div class="form-group">-->
 <!--                    <div class="row">-->
@@ -449,7 +467,7 @@
 
 <script type="text/javascript">
     $(function () {
-        $('.date_rgt').datetimepicker();
+        $('.date').datetimepicker();
     });
 </script>
 

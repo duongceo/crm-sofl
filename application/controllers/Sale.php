@@ -463,12 +463,13 @@ class Sale extends MY_Controller {
                 $this->load->view(_MAIN_LAYOUT_, $data);
             } else {
 				//echo '<pre>';print_r($input);die;
-				$param['duplicate_id'] = $this->_find_dupliacte_contact($input['email'], $input['phone'], $input['level_language_id']);
-				
-				if ($param['duplicate_id'] > 0) {
-                    show_error_and_redirect('Contact bạn vừa thêm bị trùng, nên không thể thêm được nữa!', 0, $input['back_location']);
-                }
-			
+				if ($input['is_old'] == 0) {
+					$param['duplicate_id'] = $this->_find_dupliacte_contact($input['email'], $input['phone'], $input['level_language_id']);
+					if ($param['duplicate_id'] > 0) {
+						show_error_and_redirect('Contact bạn vừa thêm bị trùng, nên không thể thêm được nữa!', 0, $input['back_location']);
+					}
+				}
+
                 $param['name'] = $input['name'];
                 $param['email'] = $input['email'];
 //                $param['address'] = $input['address'];
@@ -564,9 +565,15 @@ class Sale extends MY_Controller {
 					
 					if (strlen($param['paid']) < 6 || strlen($param['paid']) > 7 || ((int)$param['paid'] > (int)$param['fee'])) {
 						show_error_and_redirect('Contact bạn vừa thêm có số tiền đã đóng không đúng chuẩn', 0, $input['back_location']);
+					} else if ($param['paid'] == $param['fee']) {
+						$param['complete_fee'] = 1;
 					}
-					
-					$param['date_paid'] = time();
+
+					if (isset($input['date_paid']) && $input['date_paid'] != '') {
+						$param['date_paid'] = strtotime($input['date_paid']);
+					} else {
+						show_error_and_redirect('Contact đóng tiền thì phải có ngày đóng tiền', 0, $input['back_location']);
+					}
 				}
 
 				//$param['date_rgt'] = time();
@@ -599,7 +606,6 @@ class Sale extends MY_Controller {
 						'contact_code' => $this->contacts_model->get_contact_code($id),
 						'class_study_id' => 0
 					);
-					
 					//print_arr($param2);
 					$this->load->model('notes_model');
 					$this->notes_model->insert($param2);
@@ -609,13 +615,12 @@ class Sale extends MY_Controller {
 					$param3 = array(
 						'contact_id' => $id,
 						'paid' => $param['paid'],
-						'time_created' => $param['date_rgt_study'],
+						'time_created' => $param['paid'],
 						'language_id' => $input['language_id'],
 						'branch_id' => $input['branch_id'],
 						'day' => date('Y-m-d', $param['date_rgt_study']),
 						'student_old' => $input['is_old'],
 					);
-					
 					//print_arr($param2);
 					$this->load->model('paid_model');
 					$this->paid_model->insert($param3);
@@ -626,7 +631,6 @@ class Sale extends MY_Controller {
 				}
 				
                 $data2 = [];
-
                 $data2['title'] = 'Có 1 contact mới đăng ký';
                 $data2['message'] = 'Click để xem ngay';
 
