@@ -173,7 +173,6 @@ class Sale extends MY_Controller {
 //            $conditional['where']['(`call_status_id` = ' . _KHONG_NGHE_MAY_ . ' OR `ordering_status_id` in (' . _BAN_GOI_LAI_SAU_ . ' , ' . _CHAM_SOC_SAU_MOT_THOI_GIAN_ . ',' . _LAT_NUA_GOI_LAI_ . '))'] = 'NO-VALUE';
 		$conditional['where_not_in'] = array(
 			'call_status_id' => $this->_get_stop_care_call_stt(),
-//				'ordering_status_id' => $this->_get_stop_care_order_stt()
 			'level_contact_id' => array('L4', 'L4.1', 'L4.2', 'L4.3', 'L4.4', 'L4.5'),
 		);
 		$conditional['order'] = array('date_last_calling' => 'DESC');
@@ -206,20 +205,25 @@ class Sale extends MY_Controller {
 
         $data['contacts'] = $contacts;
         $data['total_contact'] = $data_pagination['total_row'];
-        $data['left_col'] = array('tv_dk', 'date_handover', 'date_last_calling','call_status');
-//        $data['right_col'] = array();
+        $data['left_col'] = array('date_handover', 'date_last_calling','call_status');
+        $data['right_col'] = array('care_number');
 
-        $this->table = 'selection name phone last_note call_stt level_contact class_study_id fee date_last_calling date_rgt date_handover';
+		if (isset($get['filter_care_number']) && $get['filter_care_number'] != '') {
+			$this->load->model('call_log_model');
+			foreach ($contacts as $key => &$value) {
+				$input['where'] = array('contact_id' => $value['id']);
+//				$value['care_number'] = count($this->call_log_model->load_all($input));
+				if (count($this->call_log_model->load_all($input)) != $get['filter_care_number']) {
+					unset($contacts[$key]);
+				}
+			}
+			$data['contacts'] = $contacts;
+			$data['total_contact'] = count($contacts);
+			$data['pagination'] = $this->_create_pagination_link($data['total_contact']);
+		}
+
+        $this->table = 'selection name phone last_note call_stt level_contact fee date_last_calling date_rgt date_handover';
         $data['table'] = explode(' ', $this->table);
-
-        /*
-         * Các file js cần load
-         */
-
-//        $data['load_js'] = array(
-//            'common_view_detail_contact', 'common_real_filter_contact', 'common_edit_contact',
-//            's_check_edit_contact', 's_transfer_contact', 's_show_script'
-//        );
 
         $data['titleListContact'] = 'Danh sách contact còn cứu được';
         $data['actionForm'] = 'sale/transfer_contact';
@@ -351,12 +355,12 @@ class Sale extends MY_Controller {
 		$data['level_contact_detail'] = $this->level_contact_model->load_all($input);
 		$data['level_student_detail'] = $this->level_student_model->load_all($input);
 		
-		$data['left_col'] = array('language', 'date_rgt', 'date_handover', 'date_confirm', 'date_rgt_study', 'date_last_calling');
-        $data['right_col'] = array('call_status', 'level_contact', 'level_contact', 'level_contact_detail', 'level_student', 'level_student_detail');
+		$data['left_col'] = array('care_number', 'language', 'date_rgt', 'date_handover', 'date_confirm', 'date_rgt_study', 'date_last_calling');
+        $data['right_col'] = array('call_status', 'level_contact', 'level_contact_detail', 'level_student', 'level_student_detail');
 		
 		if ($this->user_id == 18) {
 			unset($conditional['where']['sale_staff_id']);
-			$data['left_col'] = array('language', 'sale', 'marketer', 'date_rgt', 'date_handover', 'date_confirm', 'date_rgt_study', 'date_last_calling');
+			$data['left_col'] = array('care_number','language', 'sale', 'marketer', 'date_rgt', 'date_handover', 'date_confirm', 'date_rgt_study', 'date_last_calling');
 			$data['right_col'] = array('branch', 'source', 'call_status', 'level_contact', 'level_contact_detail', 'level_student', 'level_student_detail');
 		}
 		
@@ -365,17 +369,22 @@ class Sale extends MY_Controller {
         $data['contacts'] = $data_pagination['data'];
         $data['total_contact'] = $data_pagination['total_row'];
 
+		if (isset($get['filter_care_number']) && $get['filter_care_number'] != '') {
+			$this->load->model('call_log_model');
+			foreach ($data_pagination['data'] as $key => &$value) {
+				$input['where'] = array('contact_id' => $value['id']);
+//				$value['care_number'] = count($this->call_log_model->load_all($input));
+				if (count($this->call_log_model->load_all($input)) != $get['filter_care_number']) {
+					unset($data_pagination['data'][$key]);
+				}
+			}
+			$data['contacts'] = $data_pagination['data'];
+			$data['total_contact'] = count($data['contacts']);
+			$data['pagination'] = $this->_create_pagination_link($data['total_contact']);
+		}
+
         $this->table .= 'fee paid call_stt level_contact level_student date_rgt date_last_calling';
         $data['table'] = explode(' ', $this->table);
-
-        /*
-         * Các file js cần load
-         */
-
-//        $data['load_js'] = array(
-//            'common_view_detail_contact', 'common_real_filter_contact', 'common_edit_contact',
-//            's_check_edit_contact', 's_transfer_contact', 's_show_script', 'm_view_duplicate'
-//        );
 
 		$data['progressType'] = 'Tiến độ các Team tháng này';
 		$data['progress'] = $this->GetProccessThisMonth();
@@ -852,6 +861,7 @@ class Sale extends MY_Controller {
                 'time' => time()
             ));
         }
+
         if ($note != '') {
             $this->load->model('notes_model');
             foreach ($contact_id as $value) {
@@ -877,19 +887,24 @@ class Sale extends MY_Controller {
         $name = '';
         foreach ($list as $value) {
             $input = array();
-            $input['select'] = 'name, sale_staff_id, call_status_id, ordering_status_id';
+            $input['select'] = 'name, sale_staff_id, call_status_id';
             $input['where'] = array('id' => $value);
             $rows = $this->contacts_model->load_all($input);
-            if ($rows[0]['sale_staff_id'] != $this->user_id) {
+			if (empty($rows)) {
+				die('Không tồn tại khách hàng này! Mã lỗi : 30203');
+			}
+
+            if ($rows[0]['sale_staff_id'] != $this->user_id && $this->role_id != 12) {
                 $msg = 'Contact này không được phân cho bạn vì vậy bạn không thể chuyển nhượng contact này!';
                 show_error_and_redirect($msg, $_SERVER['HTTP_REFERER'], false);
             }
-            if (in_array($rows[0]['call_status_id'], $this->_get_stop_care_call_stt()) || in_array($rows[0]['ordering_status_id'], $this->_get_stop_care_order_stt())) {
-                $name = $rows[0]['name'];
-                $transfered_contact = false;
-                break;
-            }
+//            if (in_array($rows[0]['call_status_id'], $this->_get_stop_care_call_stt())) {
+//                $name = $rows[0]['name'];
+//                $transfered_contact = false;
+//                break;
+//            }
         }
+
         if (!$transfered_contact) {
             $msg = 'Contact ' . $name . ' ở trạng thái không thể chăm sóc được nữa, vì vậy bạn không có quyền chuyển nhượng contact này!';
             show_error_and_redirect($msg, $_SERVER['HTTP_REFERER'], false);
@@ -899,20 +914,10 @@ class Sale extends MY_Controller {
 //            $input = array();
 //            $input['where'] = array('id' => $value);
 //            $rows = $this->contacts_model->load_all($input);
-//            if ($rows[0]['duplicate_id'] > 0) {
-//                $msg = 'Contact "' . $rows[0]['name'] . '" có id = ' . $rows[0]['id'] . ' bị trùng. '
-//                        . 'Vì vậy không thể chuyển nhượng contact đó được! Vui lòng thực hiện lại';
-//                show_error_and_redirect($msg, $_SERVER['HTTP_REFERER'], false);
+//            if (empty($rows)) {
+//                die('Không tồn tại khách hàng này! Mã lỗi : 30203');
 //            }
 //        }
-        foreach ($list as $value) {
-            $input = array();
-            $input['where'] = array('id' => $value);
-            $rows = $this->contacts_model->load_all($input);
-            if (empty($rows)) {
-                die('Không tồn tại khách hàng này! Mã lỗi : 30203');
-            }
-        }
     }
 
     private function _get_stop_care_call_stt() {

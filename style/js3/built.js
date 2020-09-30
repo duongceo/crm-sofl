@@ -98,7 +98,7 @@ right_context_menu_display = (controller, contact_id, contact_name, duplicate_id
                 $(".divide_one_contact_achor").removeClass('hidden');
             }
         }
-    } else if (controller === 'sale' || controller === 'cod' || controller === 'customer_care') {
+    } else if (controller === 'sale' || controller === 'cod' || controller === 'student') {
         $(".transfer_one_contact").attr('contact_id', contact_id);
         $(".transfer_one_contact").attr('contact_name', contact_name);
 		$(".transfer_one_contact_to_manager").attr('contact_id', contact_id);
@@ -2793,6 +2793,7 @@ $(".btn-navbar-search").click(function (e) {
         complete: () => $(`.${modalName} .navbar-search-modal`).modal("show")
     });
 });
+
 /*     <a href="#" class="anchor-navbar-search">6899</a> */
 $(".anchor-navbar-search").click(function (e) {
     e.preventDefault();

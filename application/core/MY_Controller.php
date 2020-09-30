@@ -394,6 +394,8 @@ class MY_Controller extends CI_Controller {
 
         $input_get_arr = $this->_get_query_condition_arr($get);
 
+//        print_arr($input_get_arr);
+
         $input_get = $input_get_arr['input_get'];
 
         $has_user_order = $input_get_arr['has_user_order'];
@@ -430,8 +432,10 @@ class MY_Controller extends CI_Controller {
 
         }
 
-        $total_row = $this->contacts_model->m_count_all_result_from_get($input);
+//		print_arr($input);
 
+        $total_row = $this->contacts_model->m_count_all_result_from_get($input);
+//		echoQuery(); die();
         $result['total_row'] = $total_row; //lấy tổng dòng
 
         //lấy data sau khi phân trang
@@ -970,6 +974,13 @@ class MY_Controller extends CI_Controller {
 
         }
 
+//        if (isset($get['filter_care_number']) && $get['filter_care_number'] != '') {
+//			$input_get['join'] = 'tbl_call_log';
+//			$input_get['group_by'] = array('tbl_call_log.contact_id');
+//			$input_get['having'] = array('COUNT(tbl_call_log.contact_id)' => $get['filter_care_number']);
+////			$input_get['select'] = 'tbl_contact.*';
+//		}
+
         return array(
 
             'input_get' => $input_get,
@@ -1054,10 +1065,6 @@ class MY_Controller extends CI_Controller {
             ),
 
             'call_status' => array(),
-
-            'ordering_status' => array(),
-
-//            'cod_status' => array(),
 
 //            'providers' => array(),
 

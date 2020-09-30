@@ -242,7 +242,7 @@ class Manager extends MY_Controller {
 		$data['level_student_detail'] = $this->level_student_model->load_all($input);
 
         $get = $this->input->get();
-
+//		print_arr($get);
         /*
          * Điều kiện lấy contact :
          * lấy tất cả contact nên $conditional là mảng rỗng
@@ -261,42 +261,52 @@ class Manager extends MY_Controller {
         }
 
         $data_pagination = $this->_query_all_from_get($get, $conditional, $this->per_page, $offset);
+
         /*
          * Lấy link phân trang và danh sách contacts
          */
-        $data['pagination'] = $this->_create_pagination_link($data_pagination['total_row']);
-        $contacts = $data_pagination['data'];
 
-        foreach ($contacts as &$value) {
-            $value['marketer_name'] = $this->staffs_model->find_staff_name($value['marketer_id']);
-        }
+        $contacts = $data_pagination['data'];
+//		print_arr($contacts);
+
+//        foreach ($contacts as &$value) {
+//            $value['marketer_name'] = $this->staffs_model->find_staff_name($value['marketer_id']);
+//        }
         unset($value);
+
         $data['contacts'] = $contacts;
         $data['progress'] = $this->GetProccessThisMonth();
         $data['progressType'] = 'Tiến độ các team tháng này';
         $data['total_contact'] = $data_pagination['total_row'];
+		$data['pagination'] = $this->_create_pagination_link($data_pagination['total_row']);
 
+		if (isset($get['filter_care_number']) && $get['filter_care_number'] != '') {
+			$this->load->model('call_log_model');
+			foreach ($contacts as $key => &$value) {
+				$input['where'] = array('contact_id' => $value['id']);
+//				$value['care_number'] = count($this->call_log_model->load_all($input));
+				if (count($this->call_log_model->load_all($input)) != $get['filter_care_number']) {
+					unset($contacts[$key]);
+				}
+			}
+			$data['contacts'] = $contacts;
+			$data['total_contact'] = count($contacts);
+			$data['pagination'] = $this->_create_pagination_link(count($contacts));
+		}
+
+//		unset($value);
         /*
          * Filter ở cột trái và cột phải
          */
-        $data['left_col'] = array('language', 'sale', 'marketer', 'date_rgt', 'date_handover', 'date_confirm', 'date_rgt_study', 'date_last_calling');
+        $data['left_col'] = array('language', 'sale', 'marketer', 'date_rgt', 'date_handover', 'date_confirm', 'date_rgt_study', 'date_last_calling', 'care_number');
         $data['right_col'] = array('branch', 'is_old', 'source', 'call_status', 'level_contact', 'level_contact_detail', 'level_student', 'level_student_detail');
 
         /*
          * Các trường cần hiện của bảng contact (đã có default)
          */
 		 
-        $this->table .= 'class_study_id fee paid call_stt level_contact level_student date_rgt date_handover date_last_calling';
+        $this->table .= 'fee paid call_stt level_contact level_student date_rgt date_handover date_last_calling care_number';
         $data['table'] = explode(' ', $this->table);
-
-        /*
-         * Các file js cần load
-         */
-
-//        $data['load_js'] = array(
-//            'common_view_detail_contact', 'common_real_filter_contact',
-//            'm_delete_one_contact', 'm_divide_contact', 'm_view_duplicate', 'm_delete_multi_contact'
-//        );
 
         $data['titleListContact'] = 'Danh sách toàn bộ contact';
         $data['actionForm'] = 'manager/divide_contact';
@@ -1236,7 +1246,7 @@ class Manager extends MY_Controller {
 //        $get = array();
 //		print_arr($get);
 
-		$conditionArr_staff = array();
+//		$conditionArr_staff = array();
         foreach ($staffs as $key => $value) {
             foreach ($conditionArr as $key2 => $value2) {
                 $conditional = array();
@@ -1263,7 +1273,7 @@ class Manager extends MY_Controller {
 		$input_language['where'] = array('active' => 1);
 		$language = $this->language_study_model->load_all($input_language);
 		
-		$conditionArr_language = array();
+//		$conditionArr_language = array();
         foreach ($language as $key => $value) {
 			foreach ($conditionArr as $key2 => $value2) {
 				$conditional = array();

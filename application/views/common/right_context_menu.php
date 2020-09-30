@@ -327,14 +327,14 @@
 
               <li> <i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp; Chăm sóc contact này </li>
 
-            
             </a>
+			<?php if ($controller == 'student') { ?>
+				<a href="#" contact_id="0" contact_name="0" class="transfer_one_contact one-item-selected" >
 
-            <a href="#" contact_id="0" contact_name="0" class="transfer_one_contact one-item-selected" >
+					<li> <i class="fa fa-exchange" aria-hidden="true"></i>  &nbsp; &nbsp; Chuyển nhượng contact này</li>
 
-                <li> <i class="fa fa-exchange" aria-hidden="true"></i>  &nbsp; &nbsp; Chuyển nhượng contact này</li>
-
-            </a>
+				</a>
+			<?php } ?>
 
         <?php } ?>
         

@@ -6,7 +6,7 @@
 				Nothing selected
 			</option>
 
-			<option value="0" <?php if (isset($_GET['filter_is_old']) && $_GET['filter_is_old'] == 0) echo 'selected'; ?>> Mới
+			<option value="0" <?php if (isset($_GET['filter_is_old']) && $_GET['filter_is_old'] == '0') echo 'selected'; ?>> Mới
 			</option>
 
 			<option value="1" <?php if (isset($_GET['filter_is_old']) && $_GET['filter_is_old'] == 1) echo 'selected'; ?>> Cũ

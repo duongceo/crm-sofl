@@ -273,14 +273,24 @@ class MY_Model extends CI_Model {
                 $this->db->having($key, $value); 
             }
         }
+
+//		if (isset($input['join']) && !empty($input['join'])) {
+//			$this->db->join($input['join'], 'tbl_call_log.contact_id = tbl_contact.id');
+//		}
+
     }
 
     function m_count_all_result_from_get($input) {
-        $this->db->select('id');
+//		if (isset($input['join']) && !empty($input['join'])) {
+//			$this->db->select('tbl_contact.id');
+//		} else {
+//			$this->db->select('id');
+//		}
+		$this->db->select('id');
         $this->db->from($this->table);
         $this->get_list_set_input($input);
-        return $this->db->count_all_results();
-    }
+		return $this->db->count_all_results();
+	}
 
     function check_exists($where = array()) {
         $result = FALSE;
