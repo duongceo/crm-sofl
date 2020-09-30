@@ -307,7 +307,7 @@
 				'mkt_name' => 'Tổng'
 			);
 
-//			echo '<pre>'; print_r($Report); die;
+			//echo '<pre>'; print_r($Report_mkt); die;
 
 			$total_C3 = 0;
 			$total_L5 = 0;
@@ -326,10 +326,6 @@
 				$input['where']['time_created <='] = $date_end;
 				$input['where']['language_id'] = $key;
 
-//				if (isset($get['filter_marketer_id'])) {
-//					$input['where_in']['marketer_id'] = $get['filter_marketer_id'];
-//				}
-
 				if (isset($get['filter_channel_id'])) {
 					$input['where_in']['channel_id'] = $get['filter_channel_id'];
 				}
@@ -340,20 +336,25 @@
 
 				$spend = (int) $this->spending_model->load_all($input)[0]['spending'];
 //				 echo '<pre>'; print_r($spend); die;
-
+				
 				$input_re['select'] = 'SUM(paid) as paiding';
 				$input_re['where'] = array(
 					'time_created >=' => $date_from,
-					'time_created >=' => $date_end,
+					'time_created <=' => $date_end,
 					'language_id' => $key
 				);
 
 				if (isset($get['filter_branch_id'])) {
 					$input_re['where_in']['branch_id'] = $get['filter_branch_id'];
 				}
-				$re_mkt = (int) $this->paid_model->load_all($input_re)[0]['paiding'];
-
-				$Report_mkt[$key]['RE'] = str_replace(',', '.', number_format($re_mkt));
+				
+				if (isset($get['filter_is_old'])) {
+					$input_re['where']['student_old'] = $get['filter_is_old'];
+				}
+				
+				$re = (int) $this->paid_model->load_all($input_re)[0]['paiding'];
+				
+				$Report[$key]['RE'] = $re;
 //				$Report[$key]['Gia_L8'] = ($Report[$key]['L8'] == 0) ? '0' : str_replace(',', '.', number_format(round($sum_spend / $Report[$key]['L8'])));
 				$Report[$key]['Gia_So'] = ($Report[$key]['C3'] == 0) ? '0' : str_replace(',', '.', number_format(round($spend / $Report[$key]['C3'])));
 //				$Report[$key]['Ma_Re_du_kien'] = ($Report[$key]['L6'] == 0) ? '0' : round($sum_spend / ($Report[$key]['L6'] * $ty_le_brand * $price_course), 4) * 100;
@@ -413,12 +414,12 @@
 			$this->load->model('channel_model');
 			$data['channel'] = $this->channel_model->load_all(array('where' => array('active' => 1)));
 			
-			$this->load->model('staffs_model');
-			$data['marketers'] = $this->staffs_model->load_all(array('where' => array('role_id' => 6, 'active' => 1), 'order' => array('name' => 'asc')));
+			$this->load->model('branch_model');
+			$data['branch'] = $this->branch_model->load_all();
 
 			$data['report'] = $Report;
 			$data['report_mkt'] = $Report_mkt;
-//			print_arr($data['report']);
+			//print_arr($data['report_mkt']);
 			$data['startDate'] = isset($date_from) ? $date_from : '0';
 			$data['endDate'] = isset($date_end) ? $date_end : '0';
 
@@ -426,8 +427,8 @@
 				$data['left_col'] = array('date_happen_1', 'tic_report');
 				$data['right_col'] = array('channel');
 			} else {
-				$data['left_col'] = array('date_happen_1', 'tic_report');
-				$data['right_col'] = array('channel');
+				$data['left_col'] = array('branch', 'date_happen_1', 'tic_report');
+				$data['right_col'] = array('channel', 'is_old');
 			}
 
 			$data['content'] = 'marketing/view_report_quality_contact';

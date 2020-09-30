@@ -556,18 +556,6 @@ class MY_Controller extends CI_Controller {
 		//print_arr($total_contact);
 		return $total_contact[0]['st_paid'];
 		
-		/*
-        $re = 0;
-
-        foreach ($total_contact as $key => $value) {
-
-           $re += $value['paid'];
-           
-        }
-
-        return $re;
-		
-		*/
     }
 
     /*
