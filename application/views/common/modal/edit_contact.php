@@ -145,7 +145,7 @@
 						<section id="content3-edit" class="tab-content">
 
 							<div>
-q
+
 								<?php $this->load->view('common/content/paid_log'); ?>
 
 							</div>

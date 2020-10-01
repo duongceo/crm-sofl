@@ -1,4 +1,4 @@
-<table class="table table-striped table-bordered table-hover">
+<table class="table table-striped table-bordered table-hover call-log">
 
 	<thead>
 
@@ -44,13 +44,13 @@
 
 			<tr>
 
-				<td>
+				<td class="text-center">
 
 					Lần đóng thứ <?php echo $key_paid_log + 1; ?>
 
 				</td>
 
-				<td>
+				<td class="text-center">
 
 					<?php echo date('d/m/Y H:i', $value_paid_log['time_created']); ?>
 
@@ -67,7 +67,6 @@
 					<?php echo $value_paid_log['branch_name']; ?>
 
 				</td>
-
 
 			</tr>
 
