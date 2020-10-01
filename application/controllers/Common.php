@@ -655,6 +655,10 @@ class Common extends MY_Controller {
 					echo json_encode($result);
 					die;
 				}
+				
+				if ($param['paid'] == $param['fee']) {
+					$param['complete_fee'] = 1;
+				}
 
 				if (!isset($post['date_paid']) || $post['date_paid'] == '') {
 					$result['success'] = 0;

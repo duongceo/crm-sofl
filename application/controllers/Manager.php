@@ -2055,8 +2055,6 @@ class Manager extends MY_Controller {
 		);
         $progress['marketing']['progress'] = round($progress['marketing']['count'] / $progress['marketing']['kpi'] * 100, 2);
 
-        $inputContact = array();
-        $inputContact['select'] = 'id';
         $inputContact['where'] = array('date_rgt >' => strtotime(date('01-m-Y')), 'level_contact_id' => 'L5', 'is_hide' => '0');
         $today = $this->contacts_model->load_all($inputContact);
         $progress['sale'] = array(
