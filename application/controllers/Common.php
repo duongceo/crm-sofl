@@ -371,6 +371,12 @@ class Common extends MY_Controller {
         $this->load->model('call_log_model');
         $data['call_logs'] = $this->call_log_model->load_all_call_log($input_call_log);
 
+		$input_paid_log = array();
+		$input_paid_log['where'] = array('contact_id' => $id);
+		$input_paid_log['order'] = array('time_created' => 'ASC');
+		$this->load->model('paid_model');
+		$data['paid_log'] = $this->paid_model->load_all_paid_log($input_paid_log);
+
         $data['rows'] = $rows[0];
 //        print_arr($data);
 //		$data['action_url'] = 'common/action_edit_contact/' . $id;
