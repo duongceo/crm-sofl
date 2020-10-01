@@ -34,6 +34,12 @@
 
             </th>
 
+			<th>
+
+				Trạng thái học viên
+
+			</th>
+
 
             <th class="content-change">
 
@@ -86,6 +92,12 @@
                         <?php echo $value_call_log['level_contact_id']; ?>
 
                     </td>
+
+					<td class="text-center">
+
+						<?php echo $value_call_log['level_student_id']; ?>
+
+					</td>
 
 
                     <td>

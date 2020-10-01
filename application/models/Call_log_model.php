@@ -20,14 +20,11 @@ class Call_log_model extends MY_Model {
 
     public function load_all_call_log($input_call_log) {
         $this->load->model('Call_status_model');
-        $this->load->model('Ordering_status_model');
         $this->load->model('Staffs_model');
         $call_logs = $this->load_all($input_call_log);
         foreach ($call_logs as $key => $value) {
             $call_logs[$key]['call_status_id'] = $value['call_status_id'];
-            $call_logs[$key]['ordering_status_id'] = $value['ordering_status_id'];
             $call_logs[$key]['call_status_desc'] = $this->Call_status_model->find_call_status_desc($value['call_status_id']);
-            $call_logs[$key]['ordering_status_desc'] = $this->Ordering_status_model->find_ordering_status_desc($value['ordering_status_id']);
             $call_logs[$key]['staff_name'] = $this->Staffs_model->find_staff_name($value['staff_id']);
         }
         return $call_logs;
