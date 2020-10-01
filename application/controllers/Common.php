@@ -403,7 +403,6 @@ class Common extends MY_Controller {
         if (in_array($level_contact, $stop_care_call_order_id)) {
 			return false;
 		}
-		
 
 //        if (!empty($stop_care_call_order_id)) {
 //            foreach ($stop_care_call_order_id as $value) {
@@ -412,7 +411,6 @@ class Common extends MY_Controller {
 //                }
 //            }
 //        }
-
 
 //        if ($ordering_stt == _DONG_Y_MUA_) {
 //            return false;
