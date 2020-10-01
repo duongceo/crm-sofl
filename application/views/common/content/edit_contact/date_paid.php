@@ -1,6 +1,6 @@
 <tr>
 
-	<td class="text-right"> Ngày đóng tiền lần trước</td>
+	<td class="text-right"> Ngày đóng tiền</td>
 
 	<td>
 

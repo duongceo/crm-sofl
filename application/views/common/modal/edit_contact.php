@@ -28,6 +28,10 @@
 
                         <label for="tab2-edit"><i class="fa fa-history" aria-hidden="true"></i><span>Lịch sử cuộc gọi</span></label>
 
+						<input id="tab3-edit" type="radio" name="tabs">
+
+						<label for="tab3-edit"><i class="fa fa-money" aria-hidden="true"></i><span>Nhật ký đóng tiền</span></label>
+
                         <section id="content1-edit" class="tab-content">
 
                             <?php
@@ -137,6 +141,16 @@
                             </div>
 
                         </section>
+
+						<section id="content3-edit" class="tab-content">
+
+							<div>
+q
+								<?php $this->load->view('common/content/paid_log'); ?>
+
+							</div>
+
+						</section>
 
                     </div>
 
