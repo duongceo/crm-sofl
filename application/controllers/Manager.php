@@ -305,7 +305,7 @@ class Manager extends MY_Controller {
          * Các trường cần hiện của bảng contact (đã có default)
          */
 		 
-        $this->table .= 'fee paid call_stt level_contact level_student date_rgt date_handover date_last_calling care_number';
+        $this->table .= 'fee paid call_stt level_contact level_student date_rgt date_handover date_last_calling';
         $data['table'] = explode(' ', $this->table);
 
         $data['titleListContact'] = 'Danh sách toàn bộ contact';
@@ -1116,7 +1116,7 @@ class Manager extends MY_Controller {
                     'sum' => 0
                 ),
 				'XU_LY' => array(
-                    'where' => array('call_status_id !=' => '0', 'date_handover !=' => '0', 'date_rgt >' => $startDate, 'date_rgt <' => $endDate, 'is_hide' => '0'),
+                    'where' => array('call_status_id !=' => '0', 'date_rgt >' => $startDate, 'date_rgt <' => $endDate, 'is_hide' => '0'),
                     'sum' => 0
                 ),
 				'NGHE_MAY' => array(
@@ -2055,8 +2055,6 @@ class Manager extends MY_Controller {
 		);
         $progress['marketing']['progress'] = round($progress['marketing']['count'] / $progress['marketing']['kpi'] * 100, 2);
 
-        $inputContact = array();
-        $inputContact['select'] = 'id';
         $inputContact['where'] = array('date_rgt >' => strtotime(date('01-m-Y')), 'level_contact_id' => 'L5', 'is_hide' => '0');
         $today = $this->contacts_model->load_all($inputContact);
         $progress['sale'] = array(

@@ -615,10 +615,10 @@ class Sale extends MY_Controller {
 					$param3 = array(
 						'contact_id' => $id,
 						'paid' => $param['paid'],
-						'time_created' => $param['paid'],
+						'time_created' => $param['date_paid'],
 						'language_id' => $input['language_id'],
 						'branch_id' => $input['branch_id'],
-						'day' => date('Y-m-d', $param['date_rgt_study']),
+						'day' => date('Y-m-d', $param['date_paid']),
 						'student_old' => $input['is_old'],
 					);
 					//print_arr($param2);

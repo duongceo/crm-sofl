@@ -403,7 +403,6 @@ class Common extends MY_Controller {
         if (in_array($level_contact, $stop_care_call_order_id)) {
 			return false;
 		}
-		
 
 //        if (!empty($stop_care_call_order_id)) {
 //            foreach ($stop_care_call_order_id as $value) {
@@ -412,7 +411,6 @@ class Common extends MY_Controller {
 //                }
 //            }
 //        }
-
 
 //        if ($ordering_stt == _DONG_Y_MUA_) {
 //            return false;
@@ -666,6 +664,10 @@ class Common extends MY_Controller {
 					$result['message'] = 'Bạn phải cập nhật trạng thái contact là L5 hoặc phải có ngày đóng tiền';
 					echo json_encode($result);
 					die;
+				}
+				
+				if ($param['paid'] == $param['fee']) {
+					$param['complete_fee'] = 1;
 				}
 
 				if (!isset($post['date_paid']) || $post['date_paid'] == '') {
