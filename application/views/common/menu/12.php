@@ -54,6 +54,13 @@
 		</li>
 
 		<li>
+			<a href="<?php echo base_url('manager/view_report_revenue'); ?>">
+				<img src="<?php echo base_url(); ?>public/images/add-contact.png">
+				<span> Báo cáo doanh thu </span>
+			</a>
+		</li>
+
+		<li>
 
 			<a href="<?php echo base_url('home/logout'); ?>">
 

@@ -52,6 +52,7 @@ class Common extends MY_Controller {
 			'language_study' => array()
         );
         $data = array_merge($this->data, $this->_get_require_data($require_model));
+		
         $left_view = array(
             'contact_id' => 'view',
             'name' => 'view',
