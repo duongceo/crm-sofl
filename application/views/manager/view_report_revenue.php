@@ -70,15 +70,16 @@
 
 			<td>
 
-				<?php echo number_format($value['re_new'], 0, ",", "."); ?>
+				<?php echo number_format($value['re_old'], 0, ",", "."); ?>
 
 			</td>
 
 			<td>
 
-				<?php echo number_format($value['re_old'], 0, ",", "."); ?>
+				<?php echo number_format($value['re_new'], 0, ",", "."); ?>
 
 			</td>
+
 
 			<td>
 
