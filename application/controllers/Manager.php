@@ -1357,7 +1357,7 @@ class Manager extends MY_Controller {
 		);
 
 		$language_re = array();
-        foreach ($data['language_study'] as $value) {
+		foreach ($data['language_study'] as $value) {
 
 			$language_input_re_new = array_merge_recursive(array('where' => array('student_old' => '0', 'language_id' => $value['id'])), $input_re);
 			$language_input_re_old = array_merge_recursive(array('where' => array('student_old' => '1', 'language_id' => $value['id'])), $input_re);
@@ -1370,27 +1370,42 @@ class Manager extends MY_Controller {
 
 		}
 
-		$branch_re = array();
-        unset($data['branch'][0]);
-		foreach ($data['branch'] as $value) {
+		$re = array();
+		$total = array();
+		unset($data['branch'][0]);
+		foreach ($data['branch'] as $v_branch) {
+        	foreach ($data['language_study'] as $v_language) {
+				$input_re = array();
+				$input_re['select'] = 'SUM(paid) as paiding';
+				$input_re['where'] = array(
+					'time_created >=' => $date_from,
+					'time_created <=' => $date_end,
+					'language_id' => $v_language['id'],
+					'branch_id' => $v_branch['id']
+				);
 
-			$branch_input_re_new = array_merge_recursive(array('where' => array('student_old' => '0', 'branch_id' => $value['id'])), $input_re);
-			$branch_input_re_old = array_merge_recursive(array('where' => array('student_old' => '1', 'branch_id' => $value['id'])), $input_re);
-			$branch_input_re = array_merge_recursive(array('where' => array('branch_id' => $value['id'])), $input_re);
+				$input_re_new = array_merge_recursive(array('where' => array('student_old' => '0')), $input_re);
+				$input_re_old = array_merge_recursive(array('where' => array('student_old' => '1')), $input_re);
 
-			$branch_re[$value['id']]['branch_name'] = $value['name'];
-			$branch_re[$value['id']]['re_new'] = (int) $this->paid_model->load_all($branch_input_re_new)[0]['paiding'];
-			$branch_re[$value['id']]['re_old'] = (int) $this->paid_model->load_all($branch_input_re_old)[0]['paiding'];
-			$branch_re[$value['id']]['re_total'] = (int) $this->paid_model->load_all($branch_input_re)[0]['paiding'];
+				$re[$v_branch['id']]['branch_name'] = $v_branch['name'];
+//				$re[$v_branch['id']][$v_language['id']]['re_total'] = (int) $this->paid_model->load_all($input_re)[0]['paiding'];
+				$re[$v_branch['id']][$v_language['id']]['re_new'] = (int) $this->paid_model->load_all($input_re_new)[0]['paiding'];
+				$re[$v_branch['id']][$v_language['id']]['re_old'] = (int) $this->paid_model->load_all($input_re_old)[0]['paiding'];
 
+				$total[$v_language['id']]['total_re_new'] += $re[$v_branch['id']][$v_language['id']]['re_new'];
+				$total[$v_language['id']]['total_re_old'] += $re[$v_branch['id']][$v_language['id']]['re_old'];
+        	}
 		}
 
+//		print_arr($total);
+
 		$data['language_re'] = $language_re;
-		$data['branch_re'] = $branch_re;
+		$data['re'] = $re;
+		$data['total'] = $total;
 		$data['startDate'] = $date_from;
 		$data['endDate'] = $date_end;
 
-		$data['left_col'] = array('date_happen_1', 'tic_report');
+		$data['left_col'] = array('date_happen_1');
         $data['content'] = 'manager/view_report_revenue';
         $this->load->view(_MAIN_LAYOUT_, $data);
     }

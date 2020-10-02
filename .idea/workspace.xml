@@ -4,11 +4,7 @@
     <list default="true" id="69eb84fb-ba45-4936-a9cb-c470d45988cb" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/controllers/Manager.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/Manager.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/common/menu/3.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/common/menu/3.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/home/login3.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/manager/view_report_backup.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/application/views/manager/view_report_revenue.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/manager/view_report_revenue.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/manager/view_report_sale_operation.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/manager/view_report_sale_operation.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -42,8 +38,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/application/controllers/Marketing.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="83">
-              <caret line="225" column="30" selection-start-line="225" selection-start-column="21" selection-end-line="225" selection-end-column="30" />
+            <state relative-caret-position="-13">
+              <caret line="221" column="37" lean-forward="true" selection-start-line="221" selection-start-column="37" selection-end-line="221" selection-end-column="37" />
             </state>
           </provider>
         </entry>
@@ -51,15 +47,15 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/application/controllers/Manager.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="275">
-              <caret line="1374" column="45" lean-forward="true" selection-start-line="1374" selection-start-column="45" selection-end-line="1374" selection-end-column="45" />
+            <state relative-caret-position="371">
+              <caret line="1407" column="49" selection-start-line="1407" selection-start-column="49" selection-end-line="1407" selection-end-column="49" />
               <folding>
                 <element signature="e#14153#14236#0#PHP" expanded="true" />
                 <element signature="e#41485#41546#0#PHP" expanded="true" />
-                <element signature="e#56541#56625#0#PHP" expanded="true" />
+                <element signature="e#56217#56301#0#PHP" expanded="true" />
                 <element signature="n#view_report_revenue_by_date_rgt#0;n#Manager#0;n#!!top" />
                 <element signature="n#_generate_report#0;n#Manager#0;n#!!top" />
-                <element signature="e#71753#71822#0#PHP" expanded="true" />
+                <element signature="e#71429#71498#0#PHP" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -68,8 +64,15 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/application/views/manager/view_report_revenue.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="96">
-              <caret line="4" column="157" selection-start-line="4" selection-start-column="149" selection-end-line="4" selection-end-column="157" />
+            <state relative-caret-position="-336">
+              <caret line="31" lean-forward="true" selection-start-line="31" selection-end-line="31" />
+              <folding>
+                <element signature="n#style#0;n#th#0;n#tr#0;n#thead#0;n#table#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#th#0;n#tr#0;n#thead#0;n#table#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#th#4;n#tr#0;n#thead#0;n#table#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#th#0;n#tr#0;n#thead#0;n#table#1;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#th#1;n#tr#1;n#thead#0;n#table#0;n#!!top" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -77,8 +80,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/application/views/manager/view_report.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="384">
-              <caret line="16" column="8" lean-forward="true" selection-start-line="2" selection-start-column="1" selection-end-line="16" selection-end-column="8" />
+            <state relative-caret-position="168">
+              <caret line="85" column="16" lean-forward="true" selection-start-line="85" selection-start-column="16" selection-end-line="85" selection-end-column="16" />
             </state>
           </provider>
         </entry>
@@ -176,11 +179,11 @@
         <option value="$PROJECT_DIR$/application/views/common/content/paid_log.php" />
         <option value="$PROJECT_DIR$/application/controllers/Common.php" />
         <option value="$PROJECT_DIR$/application/views/common/modal/edit_contact.php" />
-        <option value="$PROJECT_DIR$/index.php" />
         <option value="$PROJECT_DIR$/style/css/home/login.css" />
         <option value="$PROJECT_DIR$/application/views/home/login.php" />
         <option value="$PROJECT_DIR$/application/views/manager/view_report_sale_operation.php" />
         <option value="$PROJECT_DIR$/application/views/common/menu/3.php" />
+        <option value="$PROJECT_DIR$/index.php" />
         <option value="$PROJECT_DIR$/application/views/manager/view_report_revenue.php" />
         <option value="$PROJECT_DIR$/application/controllers/Manager.php" />
       </list>
@@ -212,7 +215,7 @@
       <path value="$PROJECT_DIR$/vendor/phpdocumentor/reflection-common" />
     </include_path>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="width" value="640" />
     <option name="height" value="515" />
   </component>
@@ -397,7 +400,7 @@
       <workItem from="1601278452134" duration="10920000" />
       <workItem from="1601361817757" duration="17934000" />
       <workItem from="1601428512866" duration="16448000" />
-      <workItem from="1601516681939" duration="22638000" />
+      <workItem from="1601516681939" duration="39509000" />
     </task>
     <task id="LOCAL-00001" summary="thay doi css form login">
       <created>1594867918855</created>
@@ -494,7 +497,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="734904000" />
+    <option name="totallyTimeSpent" value="751775000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
@@ -764,13 +767,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="706">
-          <caret line="75" column="22" lean-forward="true" selection-start-line="75" selection-start-column="22" selection-end-line="75" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/application/views/home/login3.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-576" />
@@ -840,38 +836,52 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/manager/view_report.php">
+    <entry file="file://$PROJECT_DIR$/index.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="384">
-          <caret line="16" column="8" lean-forward="true" selection-start-line="2" selection-start-column="1" selection-end-line="16" selection-end-column="8" />
+        <state relative-caret-position="250">
+          <caret line="58" column="17" selection-start-line="58" selection-start-column="17" selection-end-line="58" selection-end-column="17" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/application/controllers/Marketing.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="83">
-          <caret line="225" column="30" selection-start-line="225" selection-start-column="21" selection-end-line="225" selection-end-column="30" />
+        <state relative-caret-position="-13">
+          <caret line="221" column="37" lean-forward="true" selection-start-line="221" selection-start-column="37" selection-end-line="221" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/manager/view_report.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="85" column="16" lean-forward="true" selection-start-line="85" selection-start-column="16" selection-end-line="85" selection-end-column="16" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/application/views/manager/view_report_revenue.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="4" column="157" selection-start-line="4" selection-start-column="149" selection-end-line="4" selection-end-column="157" />
+        <state relative-caret-position="-336">
+          <caret line="31" lean-forward="true" selection-start-line="31" selection-end-line="31" />
+          <folding>
+            <element signature="n#style#0;n#th#0;n#tr#0;n#thead#0;n#table#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#0;n#tr#0;n#thead#0;n#table#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#4;n#tr#0;n#thead#0;n#table#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#0;n#tr#0;n#thead#0;n#table#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#1;n#tr#1;n#thead#0;n#table#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/application/controllers/Manager.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="275">
-          <caret line="1374" column="45" lean-forward="true" selection-start-line="1374" selection-start-column="45" selection-end-line="1374" selection-end-column="45" />
+        <state relative-caret-position="371">
+          <caret line="1407" column="49" selection-start-line="1407" selection-start-column="49" selection-end-line="1407" selection-end-column="49" />
           <folding>
             <element signature="e#14153#14236#0#PHP" expanded="true" />
             <element signature="e#41485#41546#0#PHP" expanded="true" />
-            <element signature="e#56541#56625#0#PHP" expanded="true" />
+            <element signature="e#56217#56301#0#PHP" expanded="true" />
             <element signature="n#view_report_revenue_by_date_rgt#0;n#Manager#0;n#!!top" />
             <element signature="n#_generate_report#0;n#Manager#0;n#!!top" />
-            <element signature="e#71753#71822#0#PHP" expanded="true" />
+            <element signature="e#71429#71498#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
