@@ -1327,145 +1327,70 @@ class Manager extends MY_Controller {
 
     // <editor-fold defaultstate="collapsed" desc="Báo cáo doanh thu theo ngày nhận tiền">
     function view_report_revenue() {
-
         $this->load->helper('manager_helper');
-        $data = $this->get_all_require_data();
+		$this->load->model('paid_model');
+		$require_model = array(
+			'branch' => array(),
+			'language_study' => array(),
+		);
+		$data = array_merge($this->data, $this->_get_require_data($require_model));
+
         $get = $this->input->get();
-        $input = array();
-        $this->load->model('courses_model');
-        $courses = $this->courses_model->load_all($input);
-        $L7 = 0;
-        $L8 = 0;
-        $L7L8 = 0;
-        /*
-         * Lấy ngày nhận tiền và ngày phát thành công
-         */
-        $date_report_from = strtotime(date('01-m-Y'));
-        $date_report_end = strtotime(date('t-m-Y'));
-        if (isset($get['filter_custom_date_report']) && $get['filter_custom_date_report'] != '') {
-            $dateArr = explode('-', $get['filter_custom_date_report']);
-            $date_report_from = trim($dateArr[0]);
-            $date_report_from = strtotime(str_replace("/", "-", $date_report_from));
-            $date_report_end = trim($dateArr[1]);
-            $date_report_end = strtotime(str_replace("/", "-", $date_report_end)) + 3600 * 24;
-        }
 
-        if (isset($get['filter_date_deliver_success']) && $get['filter_date_deliver_success'] != '') {
-            $dateArr = explode('-', $get['filter_date_deliver_success']);
-            $date_deliver_success_from = trim($dateArr[0]);
-            $date_deliver_success_from = strtotime(str_replace("/", "-", $date_deliver_success_from));
-            $date_deliver_success_end = trim($dateArr[1]);
-            $date_deliver_success_end = strtotime(str_replace("/", "-", $date_deliver_success_end)) + 3600 * 24;
-        }
+		if (isset($get['filter_date_date_happen']) && $get['filter_date_date_happen'] != '') {
+			$time = $get['filter_date_date_happen'];
+		} else {
+			$time = '01' . '/' . date('m') . '/' . date('Y') . ' - ' . date('d') . '/' . date('m') . '/' . date('Y');
+		}
 
-        foreach ($courses as $key => $value) {
-            $conditional = array();
-            $conditional['select'] = 'course_code, cod_status_id, price_purchase';
-            if (!count($get)) {
-                $conditional['where']['date_receive_cod >='] = strtotime(date('01-m-Y'));
-            } else {
-                $conditional['where']['date_receive_cod >='] = $date_report_from;
-                $conditional['where']['date_receive_cod <='] = $date_report_end;
-            }
-            $conditional['where']['course_code'] = $value['course_code'];
-            $conditional['where']['cod_status_id'] = _DA_THU_COD_;
+		$dateArr = explode('-', $time);
+		$date_from = trim($dateArr[0]);
+		$date_from = strtotime(str_replace("/", "-", $date_from));
+		$date_end = trim($dateArr[1]);
+		$date_end = strtotime(str_replace("/", "-", $date_end)) + 3600 * 24 - 1;
 
-            // $_L7 = $this->contacts_model->load_all($conditional);
-            $contact = $this->_query_all_from_get($get, $conditional, 50000, 0);
-			//echo '<pre>';print_r($contact);
-            $_L7 = $contact['data'];
-            $courses[$key]['L7'] = sum_L8($_L7);
-            $L7 += $courses[$key]['L7'];
+		$input_re = array();
+		$input_re['select'] = 'SUM(paid) as paiding';
+		$input_re['where'] = array(
+			'time_created >=' => $date_from,
+			'time_created <=' => $date_end,
+		);
 
-            $conditional = array();
-            $conditional['select'] = 'course_code, cod_status_id, price_purchase';
-            if (!count($get)) {
-                $conditional['where']['date_receive_lakita >='] = strtotime(date('01-m-Y'));
-            } else {
-                $conditional['where']['date_receive_lakita >='] = $date_report_from;
-                $conditional['where']['date_receive_lakita <='] = $date_report_end;
-            }
-            $conditional['where']['course_code'] = $value['course_code'];
-            $conditional['where']['cod_status_id'] = _DA_THU_LAKITA_;
+		$language_re = array();
+        foreach ($data['language_study'] as $value) {
 
-            /*
-             * Xem theo ngày phát thành công
-             */
-            if (isset($get['filter_date_deliver_success']) && $get['filter_date_deliver_success'] != '') {
-                $conditional['where']['date_deliver_success >='] = $date_deliver_success_from;
-                $conditional['where']['date_deliver_success <='] = $date_deliver_success_end;
-            }
+			$language_input_re_new = array_merge_recursive(array('where' => array('student_old' => '0', 'language_id' => $value['id'])), $input_re);
+			$language_input_re_old = array_merge_recursive(array('where' => array('student_old' => '1', 'language_id' => $value['id'])), $input_re);
+			$language_input_re = array_merge_recursive(array('where' => array('language_id' => $value['id'])), $input_re);
 
-            // $_L8 = $this->contacts_model->load_all($conditional);
-            $contact = $this->_query_all_from_get($get, $conditional, 50000, 0);
-            $_L8 = $contact['data'];
-            $courses[$key]['L8'] = sum_L8($_L8);
-            $L8 += $courses[$key]['L8'];
+			$language_re[$value['id']]['language_name'] = $value['name'];
+			$language_re[$value['id']]['re_total'] = (int) $this->paid_model->load_all($language_input_re)[0]['paiding'];
+			$language_re[$value['id']]['re_new'] = (int) $this->paid_model->load_all($language_input_re_new)[0]['paiding'];
+			$language_re[$value['id']]['re_old'] = (int) $this->paid_model->load_all($language_input_re_old)[0]['paiding'];
 
-            $courses[$key]['L7L8'] = $courses[$key]['L7'] + $courses[$key]['L8'];
-            $L7L8 += $courses[$key]['L7L8'];
-			//echo 'sfdss <br>';
-        }
-		//echo 'sfdss';die;
-          //print_arr($courses);die;
-        usort($courses, function($a, $b) {
-            return $a['L7L8'] - $b['L7L8'];
-        });
-        $data['L7'] = $L7;
-        $data['L8'] = $L8;
-        $data['L7L8'] = $L7L8;
+		}
 
-        $input = array();
-        $staffs = $this->staffs_model->load_all($input);
-        $L7_TVTS = 0;
-        $L8_TVTS = 0;
-        $L7L8_TVTS = 0;
-        foreach ($staffs as $key => $value) {
+		$branch_re = array();
+        unset($data['branch'][0]);
+		foreach ($data['branch'] as $value) {
 
-            $conditional = array();
-            $conditional['select'] = 'course_code, cod_status_id, price_purchase';
-            if (!count($get)) {
-                $conditional['where']['date_receive_cod >='] = strtotime(date('01-m-Y'));
-            } else {
-                $conditional['where']['date_receive_cod >='] = $date_report_from;
-                $conditional['where']['date_receive_cod <='] = $date_report_end;
-            }
-            $conditional['where']['sale_staff_id'] = $value['id'];
-            $conditional['where']['cod_status_id'] = _DA_THU_COD_;
-            //$_L7 = $this->contacts_model->load_all($conditional);
-            $contact = $this->_query_all_from_get($get, $conditional, 50000, 0);
-            $_L7 = $contact['data'];
+			$branch_input_re_new = array_merge_recursive(array('where' => array('student_old' => '0', 'branch_id' => $value['id'])), $input_re);
+			$branch_input_re_old = array_merge_recursive(array('where' => array('student_old' => '1', 'branch_id' => $value['id'])), $input_re);
+			$branch_input_re = array_merge_recursive(array('where' => array('branch_id' => $value['id'])), $input_re);
 
-            $staffs[$key]['L7'] = sum_L8($_L7);
-            $L7_TVTS += $staffs[$key]['L7'];
+			$branch_re[$value['id']]['branch_name'] = $value['name'];
+			$branch_re[$value['id']]['re_new'] = (int) $this->paid_model->load_all($branch_input_re_new)[0]['paiding'];
+			$branch_re[$value['id']]['re_old'] = (int) $this->paid_model->load_all($branch_input_re_old)[0]['paiding'];
+			$branch_re[$value['id']]['re_total'] = (int) $this->paid_model->load_all($branch_input_re)[0]['paiding'];
 
-            $conditional = array();
-            $conditional['select'] = 'course_code, cod_status_id, price_purchase';
-            if (!count($get)) {
-                $conditional['where']['date_receive_lakita >='] = strtotime(date('01-m-Y'));
-            } else {
-                $conditional['where']['date_receive_lakita >='] = $date_report_from;
-                $conditional['where']['date_receive_lakita <='] = $date_report_end;
-            }
-            $conditional['where']['sale_staff_id'] = $value['id'];
-            $conditional['where']['cod_status_id'] = _DA_THU_LAKITA_;
-            //$_L8 = $this->contacts_model->load_all($conditional);
-            $contact = $this->_query_all_from_get($get, $conditional, 50000, 0);
-            $_L8 = $contact['data'];
+		}
 
-            $staffs[$key]['L8'] = sum_L8($_L8);
-            $L8_TVTS += $staffs[$key]['L8'];
-            $staffs[$key]['L7L8'] = $staffs[$key]['L7'] + $staffs[$key]['L8'];
-            $L7L8_TVTS += $staffs[$key]['L7L8'];
-        }
+		$data['language_re'] = $language_re;
+		$data['branch_re'] = $branch_re;
+		$data['startDate'] = $date_from;
+		$data['endDate'] = $date_end;
 
-
-        $data['left_col'] = array('provider');
-        $data['L7_TVTS'] = $L7_TVTS;
-        $data['L8_TVTS'] = $L8_TVTS;
-        $data['L7L8_TVTS'] = $L7L8_TVTS;
-        $data['staffs'] = $staffs;
-        $data['courses'] = $courses;
+		$data['left_col'] = array('date_happen_1', 'tic_report');
         $data['content'] = 'manager/view_report_revenue';
         $this->load->view(_MAIN_LAYOUT_, $data);
     }
@@ -3400,7 +3325,6 @@ class Manager extends MY_Controller {
       	echo $body;
 
     }
-
 
     function test() {
 

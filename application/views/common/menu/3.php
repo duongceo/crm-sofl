@@ -141,6 +141,18 @@
 
                 </li>
 
+				<li>
+
+					<a href="<?php echo base_url('manager/view_report_revenue'); ?>">
+
+						<img src="<?php echo base_url(); ?>public/images/report.png">
+
+						<span> Báo cáo doanh thu </span>
+
+					</a>
+
+				</li>
+
 <!--                <li>-->
 <!---->
 <!--                    <a href="--><?php //echo base_url('quan-ly/xem-bao-cao-doanh-thu.html'); ?><!--">-->
