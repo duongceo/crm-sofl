@@ -1237,7 +1237,6 @@ class MY_Controller extends CI_Controller {
 
         $customer_care_id_index = $customer_care_id_index[0]['value'];
 
-
         $input = array();
 
         $input['select'] = 'id';
@@ -1274,7 +1273,7 @@ class MY_Controller extends CI_Controller {
             }
 
         }
-        
+
         $data = array('value' => $customer_care_id);
 
         $where = array('name' => 'customer_care_id');

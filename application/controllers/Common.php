@@ -101,6 +101,7 @@ class Common extends MY_Controller {
         $input_paid_log['order'] = array('time_created' => 'ASC');
         $this->load->model('paid_model');
         $data['paid_log'] = $this->paid_model->load_all_paid_log($input_paid_log);
+//		print_arr($data);
 
         $data['rows'] = $rows[0];
         $result = array();
