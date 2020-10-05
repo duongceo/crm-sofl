@@ -20,7 +20,7 @@
 		<li>
 			<a href="<?php echo base_url('danh-sach-hoc-vien.html'); ?>">
 				<img src="<?php echo base_url(); ?>public/images/view-all.png">
-				<span>Danh sách học viên</span>
+				<span>Danh sách học viên đã đăng ký</span>
 			</a>
 		</li>
 

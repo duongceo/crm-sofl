@@ -6,13 +6,7 @@
 
 		<div class="input-group">
 
-			<input type="text" class="form-control datetimepicker" name="date_paid"
-
-				<?php if ($rows['date_paid'] > 0) { ?>
-
-					value="<?php echo date('d-m-Y H:i', $rows['date_paid']); ?>"
-
-				<?php } ?> />
+			<input type="text" class="form-control datetimepicker" name="date_paid"/>
 
 			<div class="input-group-btn">
 

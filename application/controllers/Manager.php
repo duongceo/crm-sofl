@@ -1075,6 +1075,8 @@ class Manager extends MY_Controller {
 		);
 		$data = array_merge($this->data, $this->_get_require_data($require_model));
 
+		$this->load->model('paid_model');
+
 //		$this->load->model('call_log_model');
         $get = $this->input->get();
 		//echo '<pre>'; print_r($get);die;
@@ -1258,6 +1260,7 @@ class Manager extends MY_Controller {
 //                foreach ($value2['where'] as $key3 => $value3) {
 //                    $conditional['where'][$key3] = $value3;
 //                }
+
 				$conditional = array_merge_recursive($conditional, $value2);
 //				echo '<pre>'; print_r($conditional);
                 $staffs[$key][$key2] = $this->_query_for_report($get, $conditional);
@@ -1267,32 +1270,55 @@ class Manager extends MY_Controller {
 					$data[$key2] = $data[$key2] - $staffs[$key][$key2];
 				}
             }
+
+			$input_contact = array();
+			$input_contact['select'] = 'id';
+			$input_contact['where']['sale_staff_id'] = $value['id'];
+			$input_contact['where']['level_contact_id'] = 'L5';
+			$input_contact['where']['date_last_calling >='] = $startDate;
+			$input_contact['where']['date_last_calling <='] = $endDate;
+			$contact = $this->contacts_model->load_all($input_contact);
+			$contact_id = array();
+			foreach ($contact as $item) {
+				$contact_id[] = $item['id'];
+			}
+
+			if (!empty($contact_id)) {
+				$input_re['select'] = 'SUM(paid) as paiding';
+				$input_re['where'] = array(
+					'time_created >=' => $startDate,
+					'time_created <=' => $endDate,
+				);
+				$input_re['where_in']['contact_id'] = $contact_id;
+				$re_sale = (int) $this->paid_model->load_all($input_re)[0]['paiding'];
+			} else {
+				$re_sale = 0;
+			}
+
+			$staffs[$key]['RE'] = $re_sale;
+			$data['RE'] += $staffs[$key]['RE'];
         }
 
-        $this->load->model('language_study_model');
-		$input_language['where'] = array('active' => 1);
-		$language = $this->language_study_model->load_all($input_language);
-		
-//		$conditionArr_language = array();
-        foreach ($language as $key => $value) {
-			foreach ($conditionArr as $key2 => $value2) {
-				$conditional = array();
-				$conditional['where']['language_id'] = $value['id'];
-				
-				$conditional = array_merge_recursive($conditional, $value2);
+        if ($this->role_id == 3) {
+			$this->load->model('language_study_model');
+			$input_language['where'] = array('active' => 1);
+			$language = $this->language_study_model->load_all($input_language);
+
+//			$conditionArr_language = array();
+			foreach ($language as $key => $value) {
+				foreach ($conditionArr as $key2 => $value2) {
+					$conditional = array();
+					$conditional['where']['language_id'] = $value['id'];
+
+					$conditional = array_merge_recursive($conditional, $value2);
 //				echo '<pre>'; print_r($conditional); die();
-				$language[$key][$key2] = $this->_query_for_report($get, $conditional);
-				//$conditionArr_language[$key2]['sum'] += $language[$key][$key2];
-				$data[$key2 . '_L'] += $language[$key][$key2];
+					$language[$key][$key2] = $this->_query_for_report($get, $conditional);
+					//$conditionArr_language[$key2]['sum'] += $language[$key][$key2];
+					$data[$key2 . '_L'] += $language[$key][$key2];
+				}
 			}
+			$data['language'] = $language;
 		}
-		
-		/*
-		foreach ($conditionArr as $key => $value) {
-            $data[$key] = $value['sum'];
-        }
-		*/
-		//echo '<pre>';print_r($data);die;
 
 //		foreach ($staffs as $key => $value) {
 //            $input = array();
@@ -1307,8 +1333,7 @@ class Manager extends MY_Controller {
 //        }
 
 		//echo '<pre>';print_r($conditionArr);die;
-		
-		$data['language'] = $language;
+
         $data['staffs'] = $staffs;
         $data['startDate'] = $startDate;
         $data['endDate'] = $endDate;
@@ -1913,7 +1938,7 @@ class Manager extends MY_Controller {
         $total = $this->GetProccessThisMonth();
         $total_marketing_day = round($total['marketing']['kpi']/30);
         $total_sale_day_L5 = round($total['sale']['kpi']/30);
-        $total_day_L8 = round($total_sale_day_L5*0.85);
+		$total_to_day_L8 = 30;
 
         $progress = [];
         $inputContact = array();
@@ -1929,17 +1954,26 @@ class Manager extends MY_Controller {
         );
         $progress['marketing']['progress'] = round($progress['marketing']['count'] / $progress['marketing']['kpi'] * 100, 2);
 
-        $inputContact = array();
-        $inputContact['select'] = 'id';
-        $inputContact['where'] = array('date_rgt_study >' => strtotime(date('d-m-Y')), 'is_hide' => '0');
+        $inputContact['where'] = array('date_rgt_study >' => strtotime(date('d-m-Y')), 'is_hide' => '0', 'is_old' => '0');
         $today = $this->contacts_model->load_all($inputContact);
         $progress['sale'] = array(
             'count' => count($today),
             'kpi' => $total_sale_day_L5,
-            'name' => 'TVTS',
+            'name' => 'Học viên mới',
             'type' => 'L5'
 		);
         $progress['sale']['progress'] = round($progress['sale']['count'] / $progress['sale']['kpi'] * 100, 2);
+
+		$inputContact['where'] = array('date_rgt_study >' => strtotime(date('d-m-Y')), 'is_hide' => '0', 'is_old' => '1');
+		$today = $this->contacts_model->load_all($inputContact);
+		$progress['branch'] = array(
+			'count' => count($today),
+			'kpi' => $total_to_day_L8,
+			'name' => 'Học viên cũ',
+			'type' => 'L5'
+		);
+		$progress['branch']['progress'] = round($progress['branch']['count'] / $progress['branch']['kpi'] * 100, 2);
+
 		$progress['progressbar'] = $progress;
 		
 		$this->load->model('language_study_model');
@@ -1954,7 +1988,7 @@ class Manager extends MY_Controller {
 			$input_re['where'] = array(
 				'language_id' => $value['id'],
 				'paid !=' => 0,
-				'time_created >' => strtotime(date('d-m-Y'))
+				'time_created >=' => strtotime(date('d-m-Y'))
 			);
 			$input_re_new = array_merge_recursive(array('where' => array('student_old' => '0')), $input_re);
 			$input_re_old = array_merge_recursive(array('where' => array('student_old' => 1)), $input_re);
@@ -2019,7 +2053,7 @@ class Manager extends MY_Controller {
 			$input_re['where'] = array(
 				'language_id' => $value['id'],
 				'paid !=' => 0,
-				'time_created >' => strtotime(date('01-m-Y'))
+				'time_created >=' => strtotime(date('01-m-Y'))
 			);
 			$input_re_new = array_merge_recursive(array('where' => array('student_old' => '0')), $input_re);
 			$input_re_old = array_merge_recursive(array('where' => array('student_old' => 1)), $input_re);

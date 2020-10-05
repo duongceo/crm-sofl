@@ -452,6 +452,15 @@ class MY_Controller extends CI_Controller {
 
         $result['data'] = $this->contacts_model->load_all($input);
 
+		foreach ($result['data'] as &$item) {
+			$input_paid_log = array();
+			$input_paid_log['select'] = 'SUM(paid) as paiding';
+			$input_paid_log['where'] = array('contact_id' => $item['id']);
+			$this->load->model('paid_model');
+			$item['paid'] = $this->paid_model->load_all_paid_log($input_paid_log)[0]['paiding'];
+		}
+		unset($item);
+//		print_arr($result['data']);
         // echoQuery();
 
         /*Lấy thông tin 1 contact đăng ký nhiều khóa học*/
@@ -1265,8 +1274,7 @@ class MY_Controller extends CI_Controller {
             }
 
         }
-
-
+        
         $data = array('value' => $customer_care_id);
 
         $where = array('name' => 'customer_care_id');
@@ -1307,7 +1315,7 @@ class MY_Controller extends CI_Controller {
 			$input_re['where'] = array(
 				'language_id' => $value['id'],
 				'paid !=' => 0,
-				'time_created >' => strtotime(date('d-m-Y'))
+				'time_created >=' => strtotime(date('d-m-Y'))
 			);
 			
 			if ($this->role_id == 12) {
@@ -1344,7 +1352,7 @@ class MY_Controller extends CI_Controller {
 			$input_re['where'] = array(
 				'language_id' => $value['id'],
 				'paid !=' => 0,
-				'time_created >' => strtotime(date('01-m-Y'))
+				'time_created >=s' => strtotime(date('01-m-Y'))
 			);
 			
 			if ($this->role_id == 12) {

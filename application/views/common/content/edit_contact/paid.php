@@ -15,7 +15,3 @@
 	</td>
 
 </tr>
-
-<script  type="text/javascript">
-	$('.money').simpleMoneyFormat();
-</script>

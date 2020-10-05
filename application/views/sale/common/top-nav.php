@@ -172,15 +172,15 @@
 
                     </a>
                 </li>
-                <li>
-                    <a href="<?php echo base_url('tu-van-tuyen-sinh/xem-bao-cao.html'); ?>">
-
-                        <img src="<?php echo base_url(); ?>public/images/report.png"> 
-
-                        <span> Xem báo cáo </span>
-
-                    </a>
-                </li>
+<!--                <li>-->
+<!--                    <a href="--><?php //echo base_url('tu-van-tuyen-sinh/xem-bao-cao.html'); ?><!--">-->
+<!---->
+<!--                        <img src="--><?php //echo base_url(); ?><!--public/images/report.png"> -->
+<!---->
+<!--                        <span> Xem báo cáo </span>-->
+<!---->
+<!--                    </a>-->
+<!--                </li>-->
                 
             </ul>
         </li>

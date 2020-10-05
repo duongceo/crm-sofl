@@ -1,5 +1,4 @@
 
-
 <?php if (!empty($transfer_logs)) { ?>
     <tr>
         <td class="text-right"> Lịch sử chuyển nhượng </td>
@@ -9,7 +8,7 @@
                     <tr>
                         <th>
                             STT
-                        </th>   
+                        </th>
                         <th>
                             Nhân viên 1
                         </th> 

@@ -56,7 +56,7 @@ class Common extends MY_Controller {
         $left_view = array(
             'contact_id' => 'view',
             'name' => 'view',
-            'email' => 'view',
+//            'email' => 'view',
             'phone' => 'view',
             'branch' => 'view',
             'language' => 'view',
@@ -64,6 +64,7 @@ class Common extends MY_Controller {
             'fee' => 'view',
             'paid' => 'view',
             'sale' => 'view',
+            'is_old' => 'view',
             'source' => 'view',
         );
         $right_view = array(
@@ -122,9 +123,11 @@ class Common extends MY_Controller {
 				'language' => 'edit',
 				'level_language' => 'edit',
                 'class_study_id' => 'edit',
-                'is_old' => 'edit',
                 'fee' => 'edit',
-                'paid' => 'edit',
+                'paid' => 'view',
+                'paid_log' => 'view',
+                'paid_today' => 'edit',
+                'complete_fee' => 'edit',
                 'date_paid' => 'edit',
             );
             $right_edit = array(
@@ -133,6 +136,7 @@ class Common extends MY_Controller {
                 'level_contact' => 'edit',
 				'level_student' => 'edit',
 				'date_rgt_study' => 'edit',
+				'is_old' => 'edit',
                 'date_recall' => 'edit',
 //                'send_banking_info' => 'edit',
                 'note' => 'edit',
@@ -289,6 +293,10 @@ class Common extends MY_Controller {
             'transfer_logs' => array(
                 'where' => array('contact_id' => $id)
             ),
+			'paid' => array(
+				'where' => array('contact_id' => $id),
+				'order' => array('time_created' => 'ASC')
+			),
 
 			'level_contact' => array(
 				'order' => array('level_id' => 'ASC'),
@@ -373,13 +381,13 @@ class Common extends MY_Controller {
         $data['call_logs'] = $this->call_log_model->load_all_call_log($input_call_log);
 
 		$input_paid_log = array();
+		$input_paid_log['select'] = 'SUM(paid) as paiding';
 		$input_paid_log['where'] = array('contact_id' => $id);
-		$input_paid_log['order'] = array('time_created' => 'ASC');
+//		$input_paid_log['order'] = array('time_created' => 'ASC');
 		$this->load->model('paid_model');
-		$data['paid_log'] = $this->paid_model->load_all_paid_log($input_paid_log);
+		$rows[0]['paid'] = $this->paid_model->load_all_paid_log($input_paid_log)[0]['paiding'];
 
         $data['rows'] = $rows[0];
-//        print_arr($data);
 //		$data['action_url'] = 'common/action_edit_contact/' . $id;
         $result['success'] = 1;
         $result['message'] = $this->load->view('common/modal/edit_contact', $data, true);
@@ -536,7 +544,7 @@ class Common extends MY_Controller {
             $post = $this->input->post();
 //			print_arr($post);
             $param = array();
-            $post_arr = array('name', 'email', 'phone', 'branch_id', 'language_id', 'class_study_id', 'level_language_id', 'fee', 'paid', 'payment_method_rgt', 'call_status_id', 'is_old');
+            $post_arr = array('name', 'email', 'phone', 'branch_id', 'language_id', 'class_study_id', 'level_language_id', 'payment_method_rgt', 'call_status_id', 'is_old', 'complete_fee');
 
             foreach ($post_arr as $value) {
                 if (isset($post[$value])) {
@@ -544,12 +552,11 @@ class Common extends MY_Controller {
                 }
             }
 
-            if ($param['fee'] != 0 || $param['paid'] != 0) {
-				$param['fee'] = str_replace(',', '', $param['fee']);
-				$param['paid'] = str_replace(',', '', $param['paid']);
+            if ($post['fee'] != 0) {
+				$param['fee'] = str_replace(',', '', $post['fee']);
 			}
 
-//			print_arr($param);
+//			print_arr($post);
 			
 			if ($this->role_id == 12) {
 				if ($param['branch_id'] == 0 || $param['language_id'] == 0) {
@@ -658,17 +665,22 @@ class Common extends MY_Controller {
 				$dataPush['message'] = 'Yeah Yeah !!';
                 $dataPush['success'] = '1';
 			}
-			
-			if ($param['paid'] != 0 && $rows[0]['paid'] != $param['paid']) {
+
+			if ($post['paid_today'] != 0) {
+				$post['paid_today'] = str_replace(',', '', $post['paid_today']);
+				$param['paid'] = $rows[0]['paid'] + $post['paid_today'];
+				if (strlen($post['paid_today']) < 6 || strlen($post['paid_today']) > 7 || ((int)$post['paid_today'] > (int)$param['fee'])) {
+					$result['success'] = 0;
+					$result['message'] = 'Đóng học phí chuẩn giá tiền hoặc số tiền học phí phải đúng';
+					echo json_encode($result);
+					die;
+				}
+
 				if ($param['level_contact_id'] != 'L5') {
 					$result['success'] = 0;
 					$result['message'] = 'Bạn phải cập nhật trạng thái contact là L5 hoặc phải có ngày đóng tiền';
 					echo json_encode($result);
 					die;
-				}
-				
-				if ($param['paid'] == $param['fee']) {
-					$param['complete_fee'] = 1;
 				}
 
 				if (!isset($post['date_paid']) || $post['date_paid'] == '') {
@@ -681,6 +693,7 @@ class Common extends MY_Controller {
 				}
 
 			}
+
 			//print_arr($param);
             $param['last_activity'] = time();
             $where = array('id' => $id);
@@ -701,25 +714,31 @@ class Common extends MY_Controller {
                 $this->notes_model->insert($param2);
             }
 
-			if ($post['paid'] != 0 && $post['paid'] != $rows[0]['paid']) {
-				$paid = $param['paid'] - $rows[0]['paid'];
-				if ($paid > 0) {
-					$param3 = array(
-						'contact_id' => $id,
-						'paid' => $paid,
-						'time_created' => $param['date_paid'],
-						'language_id' => $post['language_id'],
-						'branch_id' => $post['branch_id'],
-						'day' => date('Y-m-d', $param['date_paid']),
-						'student_old' => $post['is_old'],
-					);
+			if ($post['paid_today'] != 0) {
+				$param3 = array(
+					'paid' => $post['paid_today'],
+					'time_created' => $param['date_paid'],
+					'language_id' => $post['language_id'],
+					'branch_id' => $post['branch_id'],
+					'day' => date('Y-m-d', $param['date_paid']),
+					'student_old' => $post['is_old'],
+				);
 
-					//print_arr($param2);
-					$this->load->model('paid_model');
+				$this->load->model('paid_model');
+				$input_paid['where'] = array(
+					'contact_id' => $id,
+					'time_created >=' => strtotime(date('d-m-Y'))
+				);
+				$paid = $this->paid_model->load_all($input_paid);
+
+				if (empty($paid)) {
+					$param3['contact_id'] = $id;
 					$this->paid_model->insert($param3);
+				} else {
+					$this->paid_model->update($input_paid['where'], $param3);
 				}
 			}
-			
+
             $this->_set_call_log($id, $post, $rows);
 			
             $result['success'] = 1;
@@ -1451,11 +1470,12 @@ class Common extends MY_Controller {
         $diffArr = array(
             '[Họ tên]: ' => 'name',
             '[Email]: ' => 'email',
-            '[Địa chỉ]: ' => 'address',
+            '[SĐT]: ' => 'phone',
+//            '[Địa chỉ]: ' => 'address',
 //            '[Mã lớp học]: ' => 'class_study_id',
 //            '[Khóa học]: ' => 'level_language_id',
             '[Giá học phí]: ' => 'fee',
-            '[Đã thanh toán]: ' => 'paid',
+//            '[Đã thanh toán]: ' => 'paid',
         );
         $strDiff = '';
         foreach ($diffArr as $key => $value) {

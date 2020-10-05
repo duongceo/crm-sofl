@@ -50,8 +50,6 @@
 
 	<?php
 
-	$total_L7L8 = 0;
-
 	foreach ($language_re as $value) {
 
 		$total_re += $value['re_total'];
@@ -62,7 +60,7 @@
 
 		<tr>
 
-			<td>
+			<td style="background-color: #8aa6c1">
 
 				<?php echo $value['language_name']; ?>
 
@@ -99,9 +97,9 @@
 
 		<td> Tổng </td>
 
-		<td> <h4> <?php echo number_format($total_re_new, 0, ",", ".") . " VNĐ"; ?></h4></td>
-
 		<td> <h4> <?php echo number_format($total_re_old, 0, ",", ".") . " VNĐ"; ?></h4></td>
+
+		<td> <h4> <?php echo number_format($total_re_new, 0, ",", ".") . " VNĐ"; ?></h4></td>
 
 		<td colspan="3"> <h4> <?php echo number_format($total_re, 0, ",", ".") . " VNĐ"; ?></h4></td>
 
@@ -158,7 +156,7 @@
 		foreach ($re as $key => $value) {
 			?>
 			<tr>
-				<td><?php echo $value['branch_name']?></td>
+				<td style="background-color: #8aa6c1"><?php echo $value['branch_name']?></td>
 		<?php
 			$total_re = 0;
 			foreach ($language_study as $item) {
