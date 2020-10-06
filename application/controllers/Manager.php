@@ -283,7 +283,7 @@ class Manager extends MY_Controller {
         /*
          * Filter ở cột trái và cột phải
          */
-        $data['left_col'] = array('care_number', 'language', 'sale', 'marketer', 'date_rgt', 'date_handover', 'date_confirm', 'date_rgt_study', 'date_last_calling');
+        $data['left_col'] = array('care_number', 'language', 'level_language', 'sale', 'marketer', 'date_rgt', 'date_handover', 'date_confirm', 'date_rgt_study', 'date_last_calling');
         $data['right_col'] = array('branch', 'is_old', 'source', 'call_status', 'level_contact', 'level_contact_detail', 'level_student', 'level_student_detail');
 
         /*
@@ -1781,7 +1781,7 @@ class Manager extends MY_Controller {
                 )
             ),
             'call_status' => array(),
-            'ordering_status' => array(),
+//            'ordering_status' => array(),
             'payment_method_rgt' => array(),
             'sources' => array(),
             'channel' => array(),

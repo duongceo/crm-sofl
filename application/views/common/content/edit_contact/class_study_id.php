@@ -11,7 +11,6 @@
 					<?php echo $value['class_study_id']; ?>
 				</option>
 			<?php } ?>
-
 		</select>
 
 		<div class="input-group-btn">
@@ -21,9 +20,9 @@
 </tr>
 
 <script>
-$(document).ready(function() {
-    $('.course_code_select').select2({
-        width: '100%',
-    });
-});
+	$(document).ready(function() {
+		$('.course_code_select').select2({
+			width: '100%',
+		});
+	});
 </script>
