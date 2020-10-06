@@ -414,7 +414,6 @@ class Class_study extends MY_Table {
             'branch' => array(),
 			'level_contact' => array(),
             'level_language' => array(),
-
         );
 
         $data = $this->_get_require_data($require_model);
@@ -425,7 +424,7 @@ class Class_study extends MY_Table {
         $data['contacts'] = $data_pagination['data'];
         $data['total_contact'] = $data_pagination['total_row'];
 
-		$this->table .= 'level_contact date_confirm date_rgt';
+		$this->table .= 'level_contact date_rgt date_rgt_study';
 		$data['table'] = explode(' ', $this->table);
 		$this->load->view('common/content/tbl_contact', $data);
 	}
