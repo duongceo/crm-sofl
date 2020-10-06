@@ -1351,7 +1351,7 @@ class MY_Controller extends CI_Controller {
 			$input_re['where'] = array(
 				'language_id' => $value['id'],
 				'paid !=' => 0,
-				'time_created >=s' => strtotime(date('01-m-Y'))
+				'time_created >=' => strtotime(date('01-m-Y'))
 			);
 			
 			if ($this->role_id == 12) {
