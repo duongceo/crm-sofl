@@ -971,12 +971,22 @@ class MY_Controller extends CI_Controller {
 
         }
 
-//        if (isset($get['filter_care_number']) && $get['filter_care_number'] != '') {
-//			$input_get['join'] = 'tbl_call_log';
-//			$input_get['group_by'] = array('tbl_call_log.contact_id');
-//			$input_get['having'] = array('COUNT(tbl_call_log.contact_id)' => $get['filter_care_number']);
-////			$input_get['select'] = 'tbl_contact.*';
-//		}
+        if (isset($get['filter_care_number']) && $get['filter_care_number'] != '') {
+			$this->load->model('call_log_model');
+			$input = array();
+			$input['select'] = 'distinct(contact_id)';
+			$input['where'] = array('staff_id' => $this->user_id);
+			$input['group_by'] = array('contact_id');
+			$input['having'] = array('count(contact_id)' => $get['filter_care_number']);
+			$called = $this->call_log_model->load_all($input);
+
+			$array_contact_id = array();
+			foreach ($called as $value) {
+				$array_contact_id[] = $value['contact_id'];
+			}
+
+			$input_get['where_in']['id'] = $array_contact_id;
+		}
 
         return array(
 
