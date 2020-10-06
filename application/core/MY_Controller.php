@@ -975,17 +975,21 @@ class MY_Controller extends CI_Controller {
 			$this->load->model('call_log_model');
 			$input = array();
 			$input['select'] = 'distinct(contact_id)';
-			$input['where'] = array('staff_id' => $this->user_id);
 			$input['group_by'] = array('contact_id');
 			$input['having'] = array('count(contact_id)' => $get['filter_care_number']);
 			$called = $this->call_log_model->load_all($input);
+
+			if ($this->role_id == 1) {
+				$input['where'] = array('staff_id' => $this->user_id);
+			}
 
 			$array_contact_id = array();
 			foreach ($called as $value) {
 				$array_contact_id[] = $value['contact_id'];
 			}
-
-			$input_get['where_in']['id'] = $array_contact_id;
+			if (!empty($array_contact_id)) {
+				$input_get['where_in']['id'] = $array_contact_id;
+			}
 		}
 
         return array(
