@@ -74,14 +74,6 @@ class Sale extends MY_Controller {
         $this->table .= 'date_rgt date_handover';
         $data['table'] = explode(' ', $this->table);
 		//echo '<pre>'; print_r($data['table']);die;
-        /*
-         * Các file js cần load
-         */
-
-//        $data['load_js'] = array(
-//            'common_view_detail_contact', 'common_real_filter_contact', 'common_edit_contact',
-//            's_check_edit_contact', 's_transfer_contact', 's_show_script', 'm_view_duplicate'
-//        );
 
 //		$data['sale_call_process'] = $this->sale_call_process();
         $data['titleListContact'] = 'Danh sách contact mới';
@@ -143,15 +135,6 @@ class Sale extends MY_Controller {
         $this->table = 'selection name phone last_note level_language level_contact fee date_recall';
         $data['table'] = explode(' ', $this->table);
 
-        /*
-         * Các file js cần load
-         */
-
-//        $data['load_js'] = array(
-//            'common_view_detail_contact', 'common_real_filter_contact', 'common_edit_contact',
-//            's_check_edit_contact', 's_transfer_contact', 's_show_script'
-//        );
-
         $data['titleListContact'] = 'Danh sách contact có lịch hẹn gọi lại';
         $data['actionForm'] = 'sale/transfer_contact';
         $informModal = 'sale/modal/transfer_multi_contact';
@@ -207,20 +190,6 @@ class Sale extends MY_Controller {
         $data['total_contact'] = $data_pagination['total_row'];
         $data['left_col'] = array('date_handover', 'date_last_calling','call_status');
         $data['right_col'] = array('care_number');
-
-		if (isset($get['filter_care_number']) && $get['filter_care_number'] != '') {
-			$this->load->model('call_log_model');
-			foreach ($contacts as $key => &$value) {
-				$input['where'] = array('contact_id' => $value['id']);
-//				$value['care_number'] = count($this->call_log_model->load_all($input));
-				if (count($this->call_log_model->load_all($input)) != $get['filter_care_number']) {
-					unset($contacts[$key]);
-				}
-			}
-			$data['contacts'] = $contacts;
-			$data['total_contact'] = count($contacts);
-			$data['pagination'] = $this->_create_pagination_link($data['total_contact']);
-		}
 
         $this->table = 'selection name phone last_note call_stt level_contact fee date_last_calling date_rgt date_handover';
         $data['table'] = explode(' ', $this->table);
@@ -368,20 +337,6 @@ class Sale extends MY_Controller {
         $data['pagination'] = $this->_create_pagination_link($data_pagination['total_row']);
         $data['contacts'] = $data_pagination['data'];
         $data['total_contact'] = $data_pagination['total_row'];
-
-		if (isset($get['filter_care_number']) && $get['filter_care_number'] != '') {
-			$this->load->model('call_log_model');
-			foreach ($data_pagination['data'] as $key => &$value) {
-				$input['where'] = array('contact_id' => $value['id']);
-//				$value['care_number'] = count($this->call_log_model->load_all($input));
-				if (count($this->call_log_model->load_all($input)) != $get['filter_care_number']) {
-					unset($data_pagination['data'][$key]);
-				}
-			}
-			$data['contacts'] = $data_pagination['data'];
-			$data['total_contact'] = count($data['contacts']);
-			$data['pagination'] = $this->_create_pagination_link($data['total_contact']);
-		}
 
         $this->table .= 'fee paid call_stt level_contact level_student date_rgt date_last_calling';
         $data['table'] = explode(' ', $this->table);
@@ -1153,7 +1108,6 @@ class Sale extends MY_Controller {
             $input['where_in']['id'] = $array;
         }
         $data['can_save']['call_less_3'] = $this->contacts_model->m_count_all_result_from_get($input);
-
 
         $input = array();
         $input['select'] = 'distinct(contact_id)';

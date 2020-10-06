@@ -114,7 +114,7 @@ class Manager extends MY_Controller {
         /*
          * Filter ở cột trái và cột phải
          */
-        $data['left_col'] = array('tu_van', 'duplicate', 'date_rgt');
+        $data['left_col'] = array('duplicate', 'date_rgt');
 //        $data['right_col'] = array('');
 
         /*
@@ -269,9 +269,9 @@ class Manager extends MY_Controller {
         $contacts = $data_pagination['data'];
 //		print_arr($contacts);
 
-//        foreach ($contacts as &$value) {
-//            $value['marketer_name'] = $this->staffs_model->find_staff_name($value['marketer_id']);
-//        }
+        foreach ($contacts as &$value) {
+            $value['marketer_name'] = $this->staffs_model->find_staff_name($value['marketer_id']);
+        }
         unset($value);
 
         $data['contacts'] = $contacts;
@@ -280,25 +280,10 @@ class Manager extends MY_Controller {
         $data['total_contact'] = $data_pagination['total_row'];
 		$data['pagination'] = $this->_create_pagination_link($data_pagination['total_row']);
 
-		if (isset($get['filter_care_number']) && $get['filter_care_number'] != '') {
-			$this->load->model('call_log_model');
-			foreach ($contacts as $key => &$value) {
-				$input['where'] = array('contact_id' => $value['id']);
-//				$value['care_number'] = count($this->call_log_model->load_all($input));
-				if (count($this->call_log_model->load_all($input)) != $get['filter_care_number']) {
-					unset($contacts[$key]);
-				}
-			}
-			$data['contacts'] = $contacts;
-			$data['total_contact'] = count($contacts);
-			$data['pagination'] = $this->_create_pagination_link(count($contacts));
-		}
-
-//		unset($value);
         /*
          * Filter ở cột trái và cột phải
          */
-        $data['left_col'] = array('language', 'sale', 'marketer', 'date_rgt', 'date_handover', 'date_confirm', 'date_rgt_study', 'date_last_calling', 'care_number');
+        $data['left_col'] = array('care_number', 'language', 'sale', 'marketer', 'date_rgt', 'date_handover', 'date_confirm', 'date_rgt_study', 'date_last_calling');
         $data['right_col'] = array('branch', 'is_old', 'source', 'call_status', 'level_contact', 'level_contact_detail', 'level_student', 'level_student_detail');
 
         /*
