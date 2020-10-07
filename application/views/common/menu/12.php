@@ -54,10 +54,25 @@
 		</li>
 
 		<li>
-			<a href="<?php echo base_url('manager/view_report_revenue'); ?>">
-				<img src="<?php echo base_url(); ?>public/images/add-contact.png">
-				<span> Báo cáo doanh thu </span>
+			<a href="#homeSubmenu_3" data-toggle="collapse" aria-expanded="false">
+				<img src="<?php echo base_url(); ?>public/images/report.png">
+				<span>Báo Cáo</span>
 			</a>
+			<ul class="collapse list-unstyled" id="homeSubmenu_3">
+
+				<li>
+
+					<a href="<?php echo base_url('manager/view_report_revenue'); ?>">
+
+						<img src="<?php echo base_url(); ?>public/images/report.png">
+
+						<span> Báo cáo doanh thu </span>
+
+					</a>
+
+				</li>
+
+			</ul>
 		</li>
 
 		<li>

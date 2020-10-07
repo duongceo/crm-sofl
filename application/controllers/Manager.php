@@ -1052,7 +1052,7 @@ class Manager extends MY_Controller {
 
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Báo cáo TVTS">
+    // <editor-fold defaultstate="collapsed" desc="Báo cáo chi tiết của sale">
     function view_report_sale() {
 
 		$require_model = array(
@@ -1082,15 +1082,6 @@ class Manager extends MY_Controller {
 		$startDate = strtotime(str_replace("/", "-", $startDate));
 		$endDate = trim($dateArr[1]);
 		$endDate = strtotime(str_replace("/", "-", $endDate)) + 3600 * 24 - 1;
-
-//        if (isset($get['filter_date_happen_from']) && $get['filter_date_happen_from'] != '' && isset($get['filter_date_happen_end']) && $get['filter_date_happen_end'] != '') {
-//            $startDate = strtotime($get['filter_date_happen_from']);
-//            $endDate = strtotime($get['filter_date_happen_end']) + 86399;
-//        } else {
-//            $startDate = strtotime(date('01-m-Y'));
-//            $endDate = mktime(23, 59, 59, date('m'), date('d'), date('Y'));
-//        }
-		//echo $startDate .'-'. $endDate;die;
 
         if (isset($get['tic_report']) && !empty($get['tic_report'])) {
             $conditionArr = array(
@@ -1238,14 +1229,6 @@ class Manager extends MY_Controller {
             foreach ($conditionArr as $key2 => $value2) {
                 $conditional = array();
                 $conditional['where']['sale_staff_id'] = $value['id'];
-
-//                $conditional = array_merge_recursive($conditional, $conditionnal_2);
-				// echo '<pre>'; print_r($conditional);die();
-
-//                foreach ($value2['where'] as $key3 => $value3) {
-//                    $conditional['where'][$key3] = $value3;
-//                }
-
 				$conditional = array_merge_recursive($conditional, $value2);
 //				echo '<pre>'; print_r($conditional);
                 $staffs[$key][$key2] = $this->_query_for_report($get, $conditional);
@@ -1335,7 +1318,7 @@ class Manager extends MY_Controller {
 
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Báo cáo doanh thu theo ngày nhận tiền">
+    // <editor-fold defaultstate="collapsed" desc="Báo cáo doanh thu theo cơ sở và ngôn ngữ">
     function view_report_revenue() {
         $this->load->helper('manager_helper');
 		$this->load->model('paid_model');
@@ -1420,348 +1403,121 @@ class Manager extends MY_Controller {
         $this->load->view(_MAIN_LAYOUT_, $data);
     }
 
-    // </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc="Báo cáo doanh thu theo ngày đăng ký">
-    function view_report_revenue_by_date_rgt() {
-        $data = $this->data;
-        $get = $this->input->get();
-        $input = array();
-        $this->load->model('courses_model');
-        $courses = $this->courses_model->load_all($input);
-        $L7 = 0;
-        $L8 = 0;
-        $L7L8 = 0;
-        foreach ($courses as $key => $value) {
-            $conditional = array();
-            $conditional['select'] = 'course_code, cod_status_id, price_purchase';
-            if (!count($get)) {
-                $conditional['where']['date_rgt >='] = strtotime(date('01-m-Y'));
-            }
-            $conditional['where']['course_code'] = $value['course_code'];
-            $conditional['where']['cod_status_id'] = _DA_THU_COD_;
-            if (isset($get['filter_date_report_from']) && $get['filter_date_report_from'] != '') {
-                $conditional['where']['date_rgt >='] = strtotime($get['filter_date_report_from']);
-            }
-            if (isset($get['filter_date_report_end']) && $get['filter_date_report_end'] != '') {
-                $conditional['where']['date_rgt <='] = strtotime($get['filter_date_report_end']) + 3600 * 24;
-            }
-            $_L7 = $this->contacts_model->load_all($conditional);
-            $courses[$key]['L7'] = sum_L8($_L7);
-            $L7 += $courses[$key]['L7'];
+//    Báo cáo số lượng học viên của cơ sở
+	function view_report_student_branch() {
+		$require_model = array(
+			'branch' => array(),
+		);
+		$data = $this->_get_require_data($require_model);
 
-            $conditional = array();
-            $conditional['select'] = 'course_code, cod_status_id, price_purchase';
-            if (!count($get)) {
-                $conditional['where']['date_rgt >='] = strtotime(date('01-m-Y'));
-            }
-            $conditional['where']['course_code'] = $value['course_code'];
-            $conditional['where']['cod_status_id'] = _DA_THU_LAKITA_;
-            if (isset($get['filter_date_report_from']) && $get['filter_date_report_from'] != '') {
-                $conditional['where']['date_rgt >='] = strtotime($get['filter_date_report_from']);
-            }
-            if (isset($get['filter_date_report_end']) && $get['filter_date_report_end'] != '') {
-                $conditional['where']['date_rgt <='] = strtotime($get['filter_date_report_end']) + 3600 * 24;
-            }
-            $_L8 = $this->contacts_model->load_all($conditional);
-            $courses[$key]['L8'] = sum_L8($_L8);
-            $L8 += $courses[$key]['L8'];
+		$get = $this->input->get();
+//		echo '<pre>'; print_r($data);die;
 
-            $courses[$key]['L7L8'] = $courses[$key]['L7'] + $courses[$key]['L8'];
-            $L7L8 += $courses[$key]['L7L8'];
-        }
-        $data['L7'] = $L7;
-        $data['L8'] = $L8;
-        $data['L7L8'] = $L7L8;
+		/* Mảng chứa các ngày lẻ */
+		if (isset($get['filter_date_date_happen']) && $get['filter_date_date_happen'] != '') {
+			$time = $get['filter_date_date_happen'];
+		} else {
+			$time = '01' . '/' . date('m') . '/' . date('Y') . ' - ' . date('d') . '/' . date('m') . '/' . date('Y');
+		}
 
-        $input = array();
-        $staffs = $this->staffs_model->load_all($input);
-        $L7_TVTS = 0;
-        $L8_TVTS = 0;
-        $L7L8_TVTS = 0;
-        foreach ($staffs as $key => $value) {
-            $conditional = array();
-            $conditional['select'] = 'course_code, cod_status_id, price_purchase';
-            if (!count($get)) {
-                $conditional['where']['date_rgt >='] = strtotime(date('01-m-Y'));
-            }
-            $conditional['where']['sale_staff_id'] = $value['id'];
-            $conditional['where']['cod_status_id'] = _DA_THU_COD_;
-            if (isset($get['filter_date_report_from']) && $get['filter_date_report_from'] != '') {
-                $conditional['where']['date_rgt >='] = strtotime($get['filter_date_report_from']);
-            }
-            if (isset($get['filter_date_report_end']) && $get['filter_date_report_end'] != '') {
-                $conditional['where']['date_rgt <='] = strtotime($get['filter_date_report_end']) + 3600 * 24;
-            }
-            $_L7 = $this->contacts_model->load_all($conditional);
-            $staffs[$key]['L7'] = sum_L8($_L7);
-            $L7_TVTS += $staffs[$key]['L7'];
+		$dateArr = explode('-', $time);
+		$startDate = trim($dateArr[0]);
+		$startDate = strtotime(str_replace("/", "-", $startDate));
+		$endDate = trim($dateArr[1]);
+		$endDate = strtotime(str_replace("/", "-", $endDate)) + 3600 * 24 - 1;
 
-            $conditional = array();
-            $conditional['select'] = 'course_code, cod_status_id, price_purchase';
-            if (!count($get)) {
-                $conditional['where']['date_rgt >='] = strtotime(date('01-m-Y'));
-            }
-            $conditional['where']['sale_staff_id'] = $value['id'];
-            $conditional['where']['cod_status_id'] = _DA_THU_LAKITA_;
-            if (isset($get['filter_date_report_from']) && $get['filter_date_report_from'] != '') {
-                $conditional['where']['date_rgt >='] = strtotime($get['filter_date_report_from']);
-            }
-            if (isset($get['filter_date_report_end']) && $get['filter_date_report_end'] != '') {
-                $conditional['where']['date_rgt <='] = strtotime($get['filter_date_report_end']) + 3600 * 24;
-            }
-            $_L8 = $this->contacts_model->load_all($conditional);
-            $staffs[$key]['L8'] = sum_L8($_L8);
-            $L8_TVTS += $courses[$key]['L8'];
+		if (isset($get['tic_report']) && !empty($get['tic_report'])) {
+			$conditionArr = array(
+				'L1' => array(
+					'where' => array('date_handover !=' => '0', 'date_rgt >' => $startDate, 'date_rgt <' => $endDate, 'is_hide' => '0'),
+					'sum' => 0
+				),
+				'L2' => array(
+					'where' => array('is_hide' => '0', 'level_contact_id' => 'L2', 'date_handover !=' => '0', 'date_rgt >' => $startDate, 'date_rgt <' => $endDate),
+					'sum' => 0
+				),
+				'L3' => array(
+					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L3', 'date_rgt >' => $startDate, 'date_rgt <' => $endDate),
+					'sum' => 0
+				),
 
-            $staffs[$key]['L7L8'] = $staffs[$key]['L7'] + $staffs[$key]['L8'];
-            $L7L8_TVTS += $staffs[$key]['L7L8'];
-        }
-        $data['L7_TVTS'] = $L7_TVTS;
-        $data['L8_TVTS'] = $L8_TVTS;
-        $data['L7L8_TVTS'] = $L7L8_TVTS;
-        $data['staffs'] = $staffs;
-        $data['courses'] = $courses;
-        $data['content'] = 'manager/view_report_revenue_by_date_rgt';
-        $this->load->view(_MAIN_LAYOUT_, $data);
-    }
+				'L5' => array(
+					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'date_rgt >' => $startDate, 'date_rgt <' => $endDate),
+					'sum' => 0
+				),
 
-    // </editor-fold>
+				'L8' => array(
+					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_student_id' => 'L8', 'date_rgt >=' => $startDate, 'date_rgt <' => $endDate),
+					'sum' => 0
+				),
+			);
+		} else {
+			$conditionArr = array(
+				'L1' => array(
+					'where' => array('date_handover >' => $startDate, 'date_handover <' => $endDate, 'is_hide' => '0'),
+					'sum' => 0
+				),
+				'L2' => array(
+					'where' => array('is_hide' => '0', 'level_contact_id' => 'L2', 'date_last_calling >' => $startDate, 'date_last_calling <' => $endDate),
+					'sum' => 0
+				),
+				'L3' => array(
+					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L3', 'date_confirm >' => $startDate, 'date_confirm <' => $endDate),
+					'sum' => 0
+				),
 
-    /*
-     * Hàm xem báo cáo tổng hợp theo loại (kênh, sản phẩm, TVTS, đơn vị giao hàng)
-     * Tham số: loại báo cáo muốn xem
-     * Đầu ra: không có
-     */
-    function view_general_report($view = 'course') {
-        $this->load->helper('manager_helper');
-        $model = '';
-        $key_tb = '';
-        $name_showing = '';
-        switch ($view) {
-            case 'course': {
-                    $model = 'courses';
-                    $prop = 'course_code';
-                    $key_tb = 'course_code';
-                    $name_showing = 'course_code';
-                    break;
-                }
-            case 'tvts': {
-                    $model = 'staffs';
-                    $prop = 'sale_staff_id';
-                    $key_tb = 'id';
-                    $name_showing = 'name';
-                    break;
-                }
-            case 'provider': {
-                    $model = 'providers';
-                    $prop = 'provider_id';
-                    $key_tb = 'id';
-                    $name_showing = 'name';
-                    break;
-                }
-        }
-        $this->_generate_report($model, $prop, $key_tb, $name_showing);
-    }
+				'L5' => array(
+					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'date_rgt_study >' => $startDate, 'date_rgt_study <' => $endDate),
+					'sum' => 0
+				),
 
-    /*
-     * Hàm tạo view xem báo cáo
-     * Tham số:
-     * $model: model tương ứng với loại báo cáo, ví dụ: báo cáo theo sản phẩm thì model là courses
-     * $prop: tên trường tương ứng trong bảng tbl_contact, ví dụ: báo cáo theo sản phẩm thì trường tương ứng là courses_code
-     * $key_tb: Khóa chính trong bảng tương ứng
-     * $name_showing: trường tên của bảng đó
-     */
+				'L8' => array(
+					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_student_id' => 'L8', 'date_rgt_study >=' => $startDate, 'date_rgt_study <' => $endDate),
+					'sum' => 0
+				),
 
-    private function _generate_report($model, $prop, $key_tb, $name_showing) {
-        $require_model = array(
-            $model => array()
-        );
-        $data = array_merge($this->data, $this->_get_require_data($require_model));
-        $model_data = $data[$model];
-        $get = $this->input->get();
+			);
+		}
 
-        $sumL8 = 0;
-        $conditionArr = array(
-            'L1' => array(
-                'sum' => 0
-            ),
-            'L2' => array(
-                'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_),
-                'sum' => 0
-            ),
-            'L6' => array(
-                'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'ordering_status_id' => _DONG_Y_MUA_),
-                'sum' => 0
-            ),
-            'L8' => array(
-                'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'ordering_status_id' => _DONG_Y_MUA_,
-                    'cod_status_id' => _DA_THU_LAKITA_),
-                'sum' => 0
-            )
-        );
-        // print_arr($model_data);
-        foreach ($model_data as $key => $value) {
-            /*
-             * Tính số L1, L2, L6, L8 theo từng khóa học
-             */
-            foreach ($conditionArr as $key2 => $value2) {
-                $conditional = array();
-                /* Điều kiện ràng buộc (khóa ngoại) */
-                $conditional['where'][$prop] = $value[$key_tb];
-                if (isset($value2['where'])) {
-                    foreach ($value2['where'] as $key3 => $value3) {
-                        $conditional['where'][$key3] = $value3;
-                    }
-                }
-                //Mặc định là lấy dữ liệu từ đầu tháng
-                if (!count($get)) {
-                    $conditional['where']['date_handover >='] = strtotime(date("1-m-Y"));
-                }
-                $model_data[$key][$key2] = $this->_query_for_report($get, $conditional);
-                $conditionArr[$key2]['sum'] += $model_data[$key][$key2];
-            }
+		$branch = $data['branch'];
+		unset($branch[0]);
 
-            if ($model_data[$key]['L1'] == 0) {
-                unset($model_data[$key]);
-                continue;
-            }
-            $model_data[$key]['L2/L1'] = ($model_data[$key]['L1'] != 0) ? round(($model_data[$key]['L2'] / $model_data[$key]['L1']) * 100, 2) . '%' : 'Không thể chia cho 0';
-            $model_data[$key]['L6/L2'] = ($model_data[$key]['L2'] != 0) ? round(($model_data[$key]['L6'] / $model_data[$key]['L2']) * 100, 2) . '%' : 'Không thể chia cho 0';
-            $model_data[$key]['L8/L6'] = ($model_data[$key]['L6'] != 0) ? round(($model_data[$key]['L8'] / $model_data[$key]['L6']) * 100, 2) . '%' : 'Không thể chia cho 0';
-            $model_data[$key]['L8/L1'] = ($model_data[$key]['L1'] != 0) ? round(($model_data[$key]['L8'] / $model_data[$key]['L1']) * 100, 2) . '%' : 'Không thể chia cho 0';
+		if ($this->role_id == 3) {
+			foreach ($branch as $key => $value) {
+				foreach ($conditionArr as $key2 => $value2) {
+					$conditional = array();
+					$conditional['where']['branch_id'] = $value['id'];
+					$conditional = array_merge_recursive($conditional, $value2);
+//					echo '<pre>'; print_r($conditional);
+					$branch[$key][$key2] = $this->_query_for_report($get, $conditional);
+					$data[$key2] += $branch[$key][$key2];
+				}
+			}
+		} else if ($this->role_id == 12) {
+			$branch_id = $this->session->userdata('branch_id');
+			foreach ($conditionArr as $key2 => $value2) {
+				$conditional = array();
+				$conditional['where']['branch_id'] = $branch_id;
+				$conditional = array_merge_recursive($conditional, $value2);
+//				echo '<pre>'; print_r($conditional);
+				$branch[$branch_id][$key2] = $this->_query_for_report($get, $conditional);
+				$data[$branch_id] += $branch[$branch_id][$key2];
+			}
+		}
 
-            /*
-             * Tính doanh thu theo từng khóa học
-             */
-            $conditional = array();
-            $conditional['select'] = 'course_code, cod_status_id, price_purchase';
-            if (!count($get)) {
-                $conditional['where']['date_handover >='] = strtotime(date("1-m-Y"));
-            }
-            if (isset($get['filter_date_handover_from']) && $get['filter_date_handover_from'] != '') {
-                $conditional['where']['date_handover >='] = strtotime($get['filter_date_handover_from']);
-            }
-            if (isset($get['filter_date_handover_end']) && $get['filter_date_handover_end'] != '') {
-                $conditional['where']['date_handover <='] = strtotime($get['filter_date_handover_end']) + 3600 * 24;
-            }
-            $conditional['where'][$prop] = $value[$key_tb];
-            $conditional['where']['cod_status_id'] = _DA_THU_LAKITA_;
-            $_L8 = $this->contacts_model->load_all($conditional);
-            $money = sum_L8($_L8);
-            $model_data[$key]['sumL8'] = number_format($money, 0, ",", ".") . " VNĐ";
-            $sumL8 += $money;
-        }
-        foreach ($conditionArr as $key => $value) {
-            $data[$key] = $value['sum'];
-        }
+		$data['startDate'] = $startDate;
+		$data['endDate'] = $endDate;
+		$data['left_col'] = array('date_happen_1', 'tic_report');
+		$data['right_col'] = array('is_old');
+		$data['load_js'] = array('m_view_report');
+		$data['content'] = 'manager/view_report';
+		if($this->role_id == 1){
+			$data['top_nav'] = 'sale/common/top-nav';
+		}
+//        print_arr($data);
+		$this->load->view(_MAIN_LAYOUT_, $data);
 
-        $data['sumL8'] = $sumL8;
-        $data['view'] = $model_data;
-        $data['view_key'] = $key_tb;
-        $data['name_showing'] = $name_showing;
-        $data['prop'] = $prop;
-        $data['left_col'] = array('course_code', 'date_handover');
-        $data['right_col'] = array('date_last_calling');
-        $data['load_js'] = array('m_view_report');
-        $data['content'] = 'manager/view_general_report';
-        $this->load->view(_MAIN_LAYOUT_, $data);
-    }
-
-    function click_see() {
-        $post = $this->input->post();
-        switch ($post['type']) {
-            case 'L6/L2' : {
-                    $this->_report_detail_by_sale($post);
-                    break;
-                }
-            case 'L8/L6' : {
-                    $this->_report_detail_by_cod($post);
-                    break;
-                }
-        }
-    }
-
-    private function _report_detail_by_sale($post) {
-        //print_arr($post);
-
-        $input = array();
-        $input['where'] = array('role_id' => 1);
-        $staffs = $this->staffs_model->load_all($input);
-
-        $conditionArr = array(
-            'L2' => array(
-                'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_),
-                'sum' => 0
-            ),
-            'L6' => array(
-                'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'ordering_status_id' => _DONG_Y_MUA_),
-                'sum' => 0
-        ));
-        foreach ($staffs as $key => $value) {
-            foreach ($conditionArr as $key2 => $value2) {
-                $conditional = array();
-                $conditional['where']['sale_staff_id'] = $value['id'];
-                foreach ($value2['where'] as $key3 => $value3) {
-                    $conditional['where'][$key3] = $value3;
-                }
-                if ($post['course_code'] != 'total') {
-                    $conditional['where']['course_code'] = $post['course_code'];
-                }
-                if (!isset($post['filter_date_handover_from'])) {
-                    $conditional['where']['date_handover >='] = strtotime(date("1-m-Y"));
-                }
-                $staffs[$key][$key2] = $this->_query_for_report($post, $conditional);
-                $conditionArr[$key2]['sum'] += $staffs[$key][$key2];
-                //echoQuery();
-            }
-        }
-        foreach ($conditionArr as $key => $value) {
-            $data[$key] = $value['sum'];
-        }
-        $data['course_code'] = $post['course_code'];
-        $data['staffs'] = $staffs;
-        $this->load->view('manager/report/view_report', $data);
-    }
-
-    private function _report_detail_by_cod($post) {
-        //print_arr($post);
-        $input = array();
-        $this->load->model('providers_model');
-        $providers = $this->providers_model->load_all($input);
-
-        $conditionArr = array(
-            'L6' => array(
-                'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'ordering_status_id' => _DONG_Y_MUA_,
-                    'date_handover >=' => strtotime(date("1-m-Y"))),
-                'sum' => 0
-            ),
-            'L8' => array(
-                'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'ordering_status_id' => _DONG_Y_MUA_,
-                    'cod_status_id' => _DA_THU_LAKITA_, 'date_handover >=' => strtotime(date("1-m-Y"))),
-                'sum' => 0
-        ));
-        foreach ($providers as $key => $value) {
-            foreach ($conditionArr as $key2 => $value2) {
-                $conditional = array();
-                $conditional['where']['provider_id'] = $value['id'];
-                foreach ($value2['where'] as $key3 => $value3) {
-                    $conditional['where'][$key3] = $value3;
-                }
-                if ($post['course_code'] != 'total') {
-                    $conditional['where']['course_code'] = $post['course_code'];
-                }
-                $providers[$key][$key2] = $this->_query_for_report($post, $conditional);
-                $conditionArr[$key2]['sum'] += $providers[$key][$key2];
-                //echoQuery();
-            }
-        }
-        foreach ($conditionArr as $key => $value) {
-            $data[$key] = $value['sum'];
-        }
-        $data['course_code'] = $post['course_code'];
-        $data['providers'] = $providers;
-        $this->load->view('manager/report/view_report_cod', $data);
-    }
+	}
 
     // <editor-fold defaultstate="collapsed" desc="get_all_require_data">
     private function get_all_require_data() {
@@ -2082,7 +1838,6 @@ class Manager extends MY_Controller {
         $objPHPExcel->getActiveSheet()->getStyle("A2:R200")->getFont()->setSize(15)->setName('Times New Roman');
         $objPHPExcel->getActiveSheet()->getRowDimension('1')->setRowHeight(40);
         $objPHPExcel->getActiveSheet()->getSheetView()->setZoomScale(73);
-
 
         //set tên các cột cần in
         $columnName = 'A';
@@ -3335,26 +3090,26 @@ class Manager extends MY_Controller {
 
         $body = '<table class="table table-bordered table-striped table-hover table-view-2">
 
-                    <thead>
-                        <tr>'; 
-                        	foreach ($sum_L as $key => $value) {
-                        		$body .= '<th>' . $value['head'] . '</th>'; 
-                    
-                        	}
+				<thead>
+					<tr>';
+						foreach ($sum_L as $key => $value) {
+							$body .= '<th>' . $value['head'] . '</th>';
 
-                        $body .= '</tr>
+						}
 
-                    </thead>
+					$body .= '</tr>
 
-                    <tbody>';
+				</thead>
 
-                    	foreach ($sum_L as $key => $value) {
-                    		$body .= '<td class="text-center"> <strong>'.$value['sum'].'</strong> - <i>'.(round($value['sum']/$post['total'], 4)*100).'% </i>'.'</td>';
-                    	}
-                       
-                   $body .= '</tbody>
+				<tbody>';
 
-                </table>';
+					foreach ($sum_L as $key => $value) {
+						$body .= '<td class="text-center"> <strong>'.$value['sum'].'</strong> - <i>'.(round($value['sum']/$post['total'], 4)*100).'% </i>'.'</td>';
+					}
+
+			   $body .= '</tbody>
+
+			</table>';
 
       	echo $body;
 

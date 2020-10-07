@@ -62,7 +62,7 @@ class Common extends MY_Controller {
             'language' => 'view',
             'class_study_id' => 'view',
             'fee' => 'view',
-            'paid' => 'view',
+//            'paid' => 'view',
             'sale' => 'view',
             'is_old' => 'view',
             'source' => 'view',
@@ -409,22 +409,11 @@ class Common extends MY_Controller {
             }
         }
 
-        $stop_care_call_order_id = array('L4', 'L4.1', 'L4.2', 'L4.3', 'L4.4', 'L4.5');
-        if (in_array($level_contact, $stop_care_call_order_id)) {
-			return false;
-		}
+//        $stop_care_call_order_id = array('L4', 'L4.1', 'L4.2', 'L4.3', 'L4.4', 'L4.5');
+//        if (in_array($level_contact, $stop_care_call_order_id)) {
+//			return false;
+//		}
 
-//        if (!empty($stop_care_call_order_id)) {
-//            foreach ($stop_care_call_order_id as $value) {
-//                if ($value == $level_contact) {
-//                    return false;
-//                }
-//            }
-//        }
-
-//        if ($ordering_stt == _DONG_Y_MUA_) {
-//            return false;
-//        }
         return true;
     }
 
@@ -620,25 +609,6 @@ class Common extends MY_Controller {
 						}
 					}
 				}
-				
-				/*
-				else if (!in_array($post['call_status_id'], array(_KHONG_NGHE_MAY_, _NHAM_MAY_, _SO_MAY_SAI_))){
-					if (isset($post['class_study_id']) && $post['class_study_id'] == '') {
-						$result['success'] = 0;
-						$result['message'] = 'Bạn phải chọn mã lớp học!';
-						echo json_encode($result);
-						die;
-					}
-					
-					if (isset($post['fee']) && $post['fee'] == 0) {
-						$result['success'] = 0;
-						$result['message'] = 'Bạn phải cập nhật giá tiền mua!';
-						echo json_encode($result);
-						die;
-					}
-			
-				}
-				*/
 			}
 
             $check_rule = $this->_check_rule($param['call_status_id'], $level_contact, $param['level_student_id'],  $param['date_recall']);
@@ -672,7 +642,7 @@ class Common extends MY_Controller {
 				$dataPush['message'] = 'Yeah Yeah !!';
                 $dataPush['success'] = '1';
 
-//				$acc = $this->create_new_account_student($id, $param['name'], $param['phone'], $param['level_language_id']);
+				$this->create_new_account_student($id, $param['name'], $param['phone'], $param['level_language_id']);
 			} else if (isset($post['date_rgt_study']) && $post['date_rgt_study'] != '') {
 				$result['success'] = 0;
 				$result['message'] = 'Học viên đã đăng ký thì mới có ngày đăng ký học';
@@ -771,10 +741,6 @@ class Common extends MY_Controller {
 				'useTLS' => true
             );
 
-//            $pusher = new Pusher(
-//                    '32b339fca68db27aa480', '32f6731ad5d48264c579', '490390', $options
-//            );
-
 			$pusher = new Pusher(
 				'f3c70a5a0960d7b811c9', '2fb574e3cce59e4659ac', '1042224', $options
 			);
@@ -788,8 +754,6 @@ class Common extends MY_Controller {
 
 	 //Tạo tài khoản học viên
     public function create_new_account_student($id, $name = '', $phone = '', $level_language_id = '') {
-//        $post = $this->input->post();
-//        print_arr($post);
         if ($phone != '' && $level_language_id != '') {
 			$this->load->model('level_language_model');
 			$contact_s = $this->level_language_model->find_course_combo($level_language_id);
@@ -1023,7 +987,7 @@ class Common extends MY_Controller {
         if (!empty($this->input->post())) {
 
             /*
-             * Thông báo số L6 gọi đc
+             * Thông báo số L5 gọi đc
              */
             $dataPush = [];
             $dataPush['title'] = 'Lịch sử trang web (beta)';
@@ -1063,17 +1027,10 @@ class Common extends MY_Controller {
                 $this->notes_model->insert($param2);
             }
             $this->_set_call_log($id, $post, $rows);
+
             $result['success'] = 1;
             $result['role'] = 10;
-
-//            if ($rows[0]['id_lakita'] != 0) {
-//                $result['hide'] = 1;
-//            } else {
-//                $result['hide'] = 0;
-//            }
-
 			$result['hide'] = 1;
-            
             $result['message'] = 'Chăm sóc thành công contact!';
             echo json_encode($result);
 
@@ -1082,10 +1039,6 @@ class Common extends MY_Controller {
                 'encrypted' => true,
 				'useTLS' => true
             );
-
-//            $pusher = new Pusher(
-//                    '32b339fca68db27aa480', '32f6731ad5d48264c579', '490390', $options
-//            );
 
 			$pusher = new Pusher(
 				'f3c70a5a0960d7b811c9', '2fb574e3cce59e4659ac', '1042224', $options
@@ -1145,21 +1098,10 @@ class Common extends MY_Controller {
             }
         }
 
-		$stop_care_call_level_id = array('L4', 'L4.1', 'L4.2', 'L4.3', 'L4.4', 'L4.5');
-		if (in_array($level_contact, $stop_care_call_level_id)) {
-			return false;
-		}
-
-//        $this->load->model("ordering_status_model");
-//        $stop_care_call_order_where = array();
-//        $stop_care_call_order_where['where'] = array('stop_care' => 1);
-//        $stop_care_call_order_id = $this->ordering_status_model->load_all($stop_care_call_order_where);
-//        if (!empty($stop_care_call_order_id)) {
-//            foreach ($stop_care_call_order_id as $value) {
-//                if ($value['id'] == $ordering_stt)
-//                    return false;
-//            }
-//        }
+//		$stop_care_call_level_id = array('L4', 'L4.1', 'L4.2', 'L4.3', 'L4.4', 'L4.5');
+//		if (in_array($level_contact, $stop_care_call_level_id)) {
+//			return false;
+//		}
 
         return true;
     }
@@ -1445,7 +1387,7 @@ class Common extends MY_Controller {
 //            '[Địa chỉ]: ' => 'address',
 //            '[Mã lớp học]: ' => 'class_study_id',
 //            '[Khóa học]: ' => 'level_language_id',
-            '[Giá học phí]: ' => 'fee',
+            '[Học phí]: ' => 'fee',
 //            '[Đã thanh toán]: ' => 'paid',
         );
         $strDiff = '';
@@ -1453,8 +1395,12 @@ class Common extends MY_Controller {
             if (isset($post[$value])) {
                 if (is_string($rows[0][$value])) {
                     $rows[0][$value] = trim($rows[0][$value]);
+					if ($value == 'fee') {
+						$rows[0][$value] = number_format($rows[0][$value]);
+					}
                     $post[$value] = trim($post[$value]);
                 }
+
                 if ($post[$value] !== $rows[0][$value]) {
                     $strDiff .= $key . $rows[0][$value] . ' ==> ' . $post[$value] . '<br>';
                 }
@@ -1535,7 +1481,6 @@ class Common extends MY_Controller {
         /*
          * Điều kiện lấy contact :
          * contact ở trang chủ là contact chưa được phân cho TVTS nào và chua gọi lần nào
-         *
          */
         $conditional['where'] = array('phone' => $contact_phone);
         $data_pagination = $this->_query_all_from_get($get, $conditional, $this->per_page, 0, 0);
@@ -1552,7 +1497,7 @@ class Common extends MY_Controller {
         /*
          * Các trường cần hiện của bảng contact (đã có default)
          */
-        $this->table .= 'date_rgt call_stt level_contact';
+        $this->table .= 'fee paid call_stt level_contact date_rgt';
         $data['table'] = explode(' ', $this->table);
         $data['controller'] = $this->input->post('controller', true);
         $result = array();

@@ -129,18 +129,7 @@ s
                 <span>Báo Cáo</span>
             </a>
             <ul class="collapse list-unstyled" id="homeSubmenu_2">
-            
-<!--               <li>-->
-<!---->
-<!--                    <a href="--><?php //echo base_url('marketing/view_report_operation'); ?><!--">-->
-<!---->
-<!--                        <img src="--><?php //echo base_url(); ?><!--public/images/report.png"> -->
-<!---->
-<!--                        <span> Xem báo cáo marketing  </span>-->
-<!---->
-<!--                    </a>-->
-<!---->
-<!--                </li>-->
+
                 <li>
 
                     <a href="<?php echo base_url('marketing/view_report_quality_contact'); ?>">
@@ -152,18 +141,18 @@ s
                     </a>
 
                 </li>
-                
-<!--                <li>-->
-<!---->
-<!--                    <a href="--><?php //echo base_url('marketing/view_report_courses'); ?><!--">-->
-<!---->
-<!--                        <img src="--><?php //echo base_url(); ?><!--public/images/course.png"> -->
-<!---->
-<!--                        <span> Xem báo cáo vòng đời khóa học  </span>-->
-<!---->
-<!--                    </a>-->
-<!---->
-<!--                </li>-->
+
+				<li>
+
+					<a href="<?php echo base_url('manager/view_report_revenue'); ?>">
+
+						<img src="<?php echo base_url(); ?>public/images/report.png">
+
+						<span> Báo cáo doanh thu </span>
+
+					</a>
+
+				</li>
 
             </ul>
         </li>

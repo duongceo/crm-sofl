@@ -145,7 +145,7 @@
 
 					<a href="<?php echo base_url('manager/view_report_revenue'); ?>">
 
-						<img src="<?php echo base_url(); ?>public/images/report.png">
+						<img src="<?php echo base_url(); ?>public/images/dollar.png">
 
 						<span> Báo cáo doanh thu </span>
 
@@ -153,29 +153,18 @@
 
 				</li>
 
-<!--                <li>-->
-<!---->
-<!--                    <a href="--><?php //echo base_url('quan-ly/xem-bao-cao-doanh-thu.html'); ?><!--">-->
-<!---->
-<!--                        <img src="--><?php //echo base_url(); ?><!--public/images/dollar.png"> -->
-<!---->
-<!--                        <span> Xem báo cáo doanh thu  </span>-->
-<!---->
-<!--                    </a>-->
-<!---->
-<!--                </li>-->
+                <li>
 
-<!--                <li>-->
-<!---->
-<!--                    <a href="--><?php //echo base_url('MANAGERS/ViewReport/ViewGeneralReport'); ?><!--">-->
-<!---->
-<!--                        <img src="--><?php //echo base_url(); ?><!--public/images/view-general-report.png"> -->
-<!---->
-<!--                        <span> Xem báo cáo tổng hợp  </span>-->
-<!---->
-<!--                    </a>-->
-<!---->
-<!--                </li>-->
+                    <a href="<?php echo base_url('manager/view_report_student_branch'); ?>">
+
+                        <img src="<?php echo base_url(); ?>public/images/view-general-report.png">
+
+                        <span> Xem báo học viên tại cơ sở  </span>
+
+                    </a>
+
+                </li>
+
 
 <!--                 <li>
 

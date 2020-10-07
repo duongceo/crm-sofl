@@ -1140,7 +1140,7 @@ class MY_Controller extends CI_Controller {
 
         /*Các trường cần hiện của bảng contact (đã có default)*/
 
-        $this->table .= 'call_stt level_contact';
+        $this->table .= 'fee paid call_stt level_contact';
 
         if ($this->role_id == 1) {
 
