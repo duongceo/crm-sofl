@@ -625,9 +625,6 @@ class Common extends MY_Controller {
 
 				$dataPush['message'] = 'Yeah Yeah !!';
                 $dataPush['success'] = '1';
-				
-				 //Tạo tài khoản tự động cho học viên
-//				$acc = $this->create_new_account_student(trim($id));
 
             }
 
@@ -642,7 +639,14 @@ class Common extends MY_Controller {
 				$dataPush['message'] = 'Yeah Yeah !!';
                 $dataPush['success'] = '1';
 
-				$this->create_new_account_student($id, $param['name'], $param['phone'], $param['level_language_id']);
+                if ($row[0]['sent_account_online'] == 0) {
+                	$student = $this->create_new_account_student($id, $param['name'], $param['phone'], $param['level_language_id']);
+                	if ($student->success != 0) {
+                		$param['sent_account_online'] = 1;
+                		$param['date_active'] = time();
+					}
+                }
+				
 			} else if (isset($post['date_rgt_study']) && $post['date_rgt_study'] != '') {
 				$result['success'] = 0;
 				$result['message'] = 'Học viên đã đăng ký thì mới có ngày đăng ký học';
@@ -762,18 +766,12 @@ class Common extends MY_Controller {
 			$contact = array(
 				'course_code' => $contact_s,
 				'name' => $name,
-				'phone' => $phone
+				'phone' => $phone,
+				'type' => 'offline'
 			);
 
 			$student = $this->_create_account_student_offline($contact);
 //			return json_encode($student); die();
-			if ($student->success != 0) {
-				$contact['password'] = $student->password;
-				$where = array('id' => $id);
-				$data = array('send_account_online' => 1, 'date_active' => time());
-				$this->contacts_model->update($where, $data);
-				// die();
-			}
 			return $student;
         }
     }
