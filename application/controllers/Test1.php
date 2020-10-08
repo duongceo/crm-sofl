@@ -403,6 +403,49 @@ class Test1 extends CI_Controller {
 		$objWriter->save('php://output');
 	}
 
+    public function create_account_student() {
+        $input['select'] = 'id, name, phone, level_language_id, sent_account_online';
+        $input['where'] = array(
+            'sent_account_online' => '0', 
+            'date_rgt_study >=' => 1601510400, 
+            'level_language_id !=' => '0', 
+        );
+        
+        $contact = $this->contacts_model->load_all($input);
+        print_arr($contact);
+
+        foreach ($contact as $value) {
+            $student = $this->create_new_account_student($value);
+            if ($student->success != 0) {
+                $where = array('id' => $value['id']);
+                $param['sent_account_online'] = 1;
+                $param['date_active'] = time();
+                $this->contacts_model->update($where, $param);
+                echo "OK"; die;
+            }
+        }
+    }
+
+    private function create_new_account_student($contact) {
+        $this->load->model('level_language_model');
+        $contact['course_code'] = $this->level_language_model->find_course_combo($contact['level_language_id']);
+        $contact['type'] = 'offline';
+        // echo "<pre>"; print_r($contact); die;
+
+        require_once APPPATH . "libraries/Rest_Client.php";
+        $config = array(
+            'server' => 'http://sofl.edu.vn',
+            'api_key' => 'RrF3rcmYdWQbviO5tuki3fdgfgr4',
+            'api_name' => 'sofl-key'
+        );
+        $restClient = new Rest_Client($config);
+        $uri = "account_api/create_new_account";
+        $student = $restClient->post($uri, $contact);
+        echo json_decode($student);
+        // return $student;
+    }
+
+
 }
 
 

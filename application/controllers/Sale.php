@@ -465,10 +465,20 @@ class Sale extends MY_Controller {
 					if(!isset($input['call_status_id']) || $input['call_status_id'] != 4) {
 						show_error_and_redirect('Contact bạn vừa thêm ko đúng logic trạng thái contact và trạng thái gọi', 0, $input['back_location']);
 					}
+					
+					if(!isset($input['level_language_id']) || $input['level_language_id'] == 0) {
+						show_error_and_redirect('Contact đã đăng ký thành công thì phải có trình độ ngoại ng', 0, $input['back_location']);
+					}
 				
 					if ($param['level_contact_id'] == 'L5') {
 						if (isset($input['date_rgt_study']) && $input['date_rgt_study'] != '') {
 							$param['date_rgt_study'] = strtotime($input['date_rgt_study']);
+							
+							$student = $this->create_new_account_student($input['name'], $input['phone'], $input['level_language_id']);
+							if ($student->success != 0) {
+								$param['sent_account_online'] = 1;
+								$param['date_active'] = time();
+							}
 						} else {
 							show_error_and_redirect('Contact đăng ký thành công thì phải có ngày đăng ký', 0, $input['back_location']);
 						}
@@ -661,6 +671,40 @@ class Sale extends MY_Controller {
             $this->load->view(_MAIN_LAYOUT_, $data);
         }
     }
+	
+	public function create_new_account_student($name = '', $phone = '', $level_language_id = '') {
+        if ($phone != '' && $level_language_id != '') {
+			$this->load->model('level_language_model');
+			$contact_s = $this->level_language_model->find_course_combo($level_language_id);
+//			echo $contact_s;die();
+			// $courseCode = explode(",", $contact_s);
+			$contact = array(
+				'course_code' => $contact_s,
+				'name' => $name,
+				'phone' => $phone,
+				'type' => 'offline'
+			);
+
+			$student = $this->_create_account_student_offline($contact);
+//			return json_encode($student); die();
+			return $student;
+        }
+    }
+	
+	 //api tạo tài khoản cho học viên
+    private function _create_account_student_offline($contact) {
+        require_once APPPATH . "libraries/Rest_Client.php";
+		$config = array(
+			'server' => 'http://sofl.edu.vn',
+			'api_key' => 'RrF3rcmYdWQbviO5tuki3fdgfgr4',
+			'api_name' => 'sofl-key'
+		);
+        $restClient = new Rest_Client($config);
+        $uri = "account_api/create_new_account";
+        $student = $restClient->post($uri, $contact);
+        return $student;
+    }
+    //end
 	
 	private function _set_call_log($id, $post, $rows) {
         $data = array();
