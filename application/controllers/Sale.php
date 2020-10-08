@@ -75,6 +75,9 @@ class Sale extends MY_Controller {
         $data['table'] = explode(' ', $this->table);
 		//echo '<pre>'; print_r($data['table']);die;
 
+		$data['progressType'] = 'Tiến độ ngày hôm nay';
+		$data['progress'] = $this->GetProccessToday();
+
 //		$data['sale_call_process'] = $this->sale_call_process();
         $data['titleListContact'] = 'Danh sách contact mới';
         $data['actionForm'] = 'sale/transfer_contact';
@@ -1019,64 +1022,57 @@ class Sale extends MY_Controller {
 	
 	 protected function GetProccessToday() {
        //L6,L8 tính theo ngày
-        $total = $this->GetProccessThisMonth();
-        $total_marketing_day = round($total['marketing']['kpi']/30);
-        $total_sale_day_L6 = round($total['sale']['kpi']/30);
-        $total_day_L8 = round($total_sale_day_L6*0.85);
+		 $total = $this->GetProccessThisMonth();
+		 $total_marketing_day = round($total['marketing']['kpi']/30);
+		 $total_sale_day_L5 = round($total['sale']['kpi']/30);
+		 $total_to_day_L8 = 0;
 
-        $progress = [];
-        $inputContact = array();
-        $inputContact['select'] = 'id';
-        $inputContact['where'] = array('date_rgt >' => strtotime(date('d-m-Y')), 'is_hide' => '0');
-        $today = $this->contacts_model->load_all($inputContact);
-  
-        $progress['marketing'] = array(
-            'count' => count($today),
-            'kpi' => $total_marketing_day,
-            'name' => 'Marketing',
-            'type' => 'C3'
-        );
-        $progress['marketing']['progress'] = round($progress['marketing']['count'] / $progress['marketing']['kpi'] * 100, 2);
+		 $progress = [];
+		 $inputContact = array();
+		 $inputContact['select'] = 'id';
+		 $inputContact['where'] = array('date_rgt >' => strtotime(date('d-m-Y')), 'is_hide' => '0');
+		 $today = $this->contacts_model->load_all($inputContact);
 
-        $inputContact = array();
-        $inputContact['select'] = 'id';
-        $inputContact['where'] = array('date_confirm >' => strtotime(date('d-m-Y')), 'is_hide' => '0');
-        $today = $this->contacts_model->load_all($inputContact);
-        $progress['sale'] = array(
-            'count' => count($today),
-            'kpi' => $total_sale_day_L6,
-            'name' => 'TVTS',
-            'type' => 'L6'
-		);
-        $progress['sale']['progress'] = round($progress['sale']['count'] / $progress['sale']['kpi'] * 100, 2);
-		
-		$progress['progressbar'] = $progress;
+		 $progress['marketing'] = array(
+			 'count' => count($today),
+			 'kpi' => $total_marketing_day,
+			 'name' => 'Marketing',
+			 'type' => 'C3'
+		 );
+		 $progress['marketing']['progress'] = round($progress['marketing']['count'] / $progress['marketing']['kpi'] * 100, 2);
 
-        // thêm hàng cod L8
-//        $inputContact = array();
-//        $inputContact['select'] = 'id';
-//        $inputContact['where'] = array('date_receive_lakita >' => strtotime(date('d-m-Y')), 'is_hide' => '0');
-//        $today = $this->contacts_model->load_all($inputContact);
-//        $progress['cod'] = array(
-//            'count' => count($today),
-//            'kpi' => $total_day_L8,
-//            'name' => 'COD',
-//            'type' => 'L8'
-//        );
-//        $progress['cod']['progress'] = round($progress['cod']['count'] / $progress['cod']['kpi'] * 100, 2);
+		 $inputContact['where'] = array('date_rgt_study >' => strtotime(date('d-m-Y')), 'is_hide' => '0', 'is_old' => '0');
+		 $today = $this->contacts_model->load_all($inputContact);
+		 $progress['sale'] = array(
+			 'count' => count($today),
+			 'kpi' => $total_sale_day_L5,
+			 'name' => 'Học viên mới',
+			 'type' => 'L5'
+		 );
+		 $progress['sale']['progress'] = round($progress['sale']['count'] / $progress['sale']['kpi'] * 100, 2);
 
-        return $progress;
+		 $inputContact['where'] = array('date_rgt_study >' => strtotime(date('d-m-Y')), 'is_hide' => '0', 'is_old' => '1');
+		 $today = $this->contacts_model->load_all($inputContact);
+		 $progress['branch'] = array(
+			 'count' => count($today),
+			 'kpi' => $total_to_day_L8,
+			 'name' => 'Học viên cũ',
+			 'type' => 'L8'
+		 );
+		 $progress['branch']['progress'] = round($progress['branch']['count'] / $progress['branch']['kpi'] * 100, 2);
+
+		 $progress['progressbar'] = $progress;
+
+		 return $progress;
     }
 	
 	//làm KPI động thì làm ở chỗ nãy
     protected function GetProccessThisMonth() {
-
 		// tính L6,L8 theo thang
-        $total = 0;
         $this->load->model('staffs_model');
         $qr = $this->staffs_model->SumTarget();
 		//echo $qr[0]['targets'];die;
-        $total_month_L6 = round($qr[0]['targets']*30*0.61);
+        $total_month_L6 = round($qr[0]['targets']*30*0.3);
         $total_month_L8 = round($total_month_L6*0.85);
 
         $progress = [];
@@ -1094,15 +1090,25 @@ class Sale extends MY_Controller {
 
         $inputContact = array();
         $inputContact['select'] = 'id';
-        $inputContact['where'] = array('date_confirm >' => strtotime(date('01-m-Y')), 'is_hide' => '0');
+        $inputContact['where'] = array('date_rgt_study >' => strtotime(date('01-m-Y')), 'is_hide' => '0', 'is_old' => '0');
         $today = $this->contacts_model->load_all($inputContact);
         $progress['sale'] = array(
             'count' => count($today),
             'kpi' => $total_month_L6,
-            'name' => 'TVTS',
-            'type' => 'L6'
+            'name' => 'Học viên mới',
+            'type' => 'L5'
 		);
         $progress['sale']['progress'] = round($progress['sale']['count'] / $progress['sale']['kpi'] * 100, 2);
+
+		$inputContact['where'] = array('date_rgt_study >' => strtotime(date('1-m-Y')), 'is_hide' => '0', 'is_old' => '1');
+		$today = $this->contacts_model->load_all($inputContact);
+		$progress['branch'] = array(
+			'count' => count($today),
+			'kpi' => $total_month_L8,
+			'name' => 'Học viên cũ',
+			'type' => 'L8'
+		);
+		$progress['branch']['progress'] = round($progress['branch']['count'] / $progress['branch']['kpi'] * 100, 2);
 		
 		$progress['progressbar'] = $progress;
 
