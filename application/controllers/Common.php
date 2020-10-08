@@ -640,7 +640,7 @@ class Common extends MY_Controller {
                 $dataPush['success'] = '1';
 
                 if ($row[0]['sent_account_online'] == 0) {
-                	$student = $this->create_new_account_student($id, $param['name'], $param['phone'], $param['level_language_id']);
+                	$student = $this->create_new_account_student($param['name'], $param['phone'], $param['level_language_id']);
                 	if ($student->success != 0) {
                 		$param['sent_account_online'] = 1;
                 		$param['date_active'] = time();
@@ -757,7 +757,7 @@ class Common extends MY_Controller {
     }
 
 	 //Tạo tài khoản học viên
-    public function create_new_account_student($id, $name = '', $phone = '', $level_language_id = '') {
+    public function create_new_account_student($name = '', $phone = '', $level_language_id = '') {
         if ($phone != '' && $level_language_id != '') {
 			$this->load->model('level_language_model');
 			$contact_s = $this->level_language_model->find_course_combo($level_language_id);
