@@ -1030,7 +1030,7 @@ class Sale extends MY_Controller {
 		 $progress = [];
 		 $inputContact = array();
 		 $inputContact['select'] = 'id';
-		 $inputContact['where'] = array('date_rgt >' => strtotime(date('d-m-Y')), 'is_hide' => '0');
+		 $inputContact['where'] = array('date_rgt >=' => strtotime(date('d-m-Y')), 'is_hide' => '0');
 		 $today = $this->contacts_model->load_all($inputContact);
 
 		 $progress['marketing'] = array(
@@ -1041,7 +1041,7 @@ class Sale extends MY_Controller {
 		 );
 		 $progress['marketing']['progress'] = round($progress['marketing']['count'] / $progress['marketing']['kpi'] * 100, 2);
 
-		 $inputContact['where'] = array('date_rgt_study >' => strtotime(date('d-m-Y')), 'is_hide' => '0', 'is_old' => '0');
+		 $inputContact['where'] = array('date_rgt_study >=' => strtotime(date('d-m-Y')), 'is_hide' => '0', 'is_old' => '0');
 		 $today = $this->contacts_model->load_all($inputContact);
 		 $progress['sale'] = array(
 			 'count' => count($today),
@@ -1051,7 +1051,7 @@ class Sale extends MY_Controller {
 		 );
 		 $progress['sale']['progress'] = round($progress['sale']['count'] / $progress['sale']['kpi'] * 100, 2);
 
-		 $inputContact['where'] = array('date_rgt_study >' => strtotime(date('d-m-Y')), 'is_hide' => '0', 'is_old' => '1');
+		 $inputContact['where'] = array('date_rgt_study >=' => strtotime(date('d-m-Y')), 'is_hide' => '0', 'is_old' => '1');
 		 $today = $this->contacts_model->load_all($inputContact);
 		 $progress['branch'] = array(
 			 'count' => count($today),
@@ -1078,7 +1078,7 @@ class Sale extends MY_Controller {
         $progress = [];
         $inputContact = array();
         $inputContact['select'] = 'id';
-        $inputContact['where'] = array('date_rgt >' => strtotime(date('01-m-Y')), 'is_hide' => '0');
+        $inputContact['where'] = array('date_rgt >=' => strtotime(date('01-m-Y')), 'is_hide' => '0');
         $today = $this->contacts_model->load_all($inputContact);
         $progress['marketing'] = array(
             'count' => count($today),
@@ -1090,7 +1090,7 @@ class Sale extends MY_Controller {
 
         $inputContact = array();
         $inputContact['select'] = 'id';
-        $inputContact['where'] = array('date_rgt_study >' => strtotime(date('01-m-Y')), 'is_hide' => '0', 'is_old' => '0');
+        $inputContact['where'] = array('date_rgt_study >=' => strtotime(date('01-m-Y')), 'is_hide' => '0', 'is_old' => '0');
         $today = $this->contacts_model->load_all($inputContact);
         $progress['sale'] = array(
             'count' => count($today),
@@ -1100,7 +1100,7 @@ class Sale extends MY_Controller {
 		);
         $progress['sale']['progress'] = round($progress['sale']['count'] / $progress['sale']['kpi'] * 100, 2);
 
-		$inputContact['where'] = array('date_rgt_study >' => strtotime(date('1-m-Y')), 'is_hide' => '0', 'is_old' => '1');
+		$inputContact['where'] = array('date_rgt_study >=' => strtotime(date('1-m-Y')), 'is_hide' => '0', 'is_old' => '1');
 		$today = $this->contacts_model->load_all($inputContact);
 		$progress['branch'] = array(
 			'count' => count($today),
