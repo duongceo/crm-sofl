@@ -17,48 +17,48 @@
 <table class="table table-bordered table-striped view_report">
 
 	<thead>
-		<tr>
-			<th style="background: none"></th>
-			<th colspan="5" style="background-color: #e94600">Hàn</th>
-			<th colspan="5" style="background-color: #E94600">Nhật</th>
-			<th colspan="5" style="background-color: #E94600">Trung</th>
-			<th style="background-color: #1e5f24" colspan="2">Tổng</th>
-		</tr>
+	<tr>
+		<th style="background: none"></th>
+		<th colspan="6" style="background-color: #e94600">Hàn</th>
+		<th colspan="6" style="background-color: #E94600">Nhật</th>
+		<th colspan="6" style="background-color: #E94600">Trung</th>
+		<th colspan="2" style="background-color: #1e5f24" >Tổng</th>
+	</tr>
 
-		<tr>
+	<tr>
 
-			<th style="background: none"></th>
+		<th style="background: none"></th>
 
-			<?php
+		<?php
 
-			$report = array('L1', 'L2', 'L3', 'L5', 'L8');
-			foreach ($language_study as $item) {
-				foreach ($report as $value) {
+		$report = array('L1', 'L2', 'L3', 'L5', 'L8', 'L5/L1');
+		foreach ($language_study as $item) {
+			foreach ($report as $value) {
 
-					?>
+				?>
 
-					<th style="background-color: #1b6d85">
+				<th style="background-color: #1b6d85; width: 4%;">
 
-						<?php echo $value; ?>
+					<?php echo $value; ?>
 
-					</th>
+				</th>
 
-					<?php
+				<?php
 
-				}
 			}
+		}
 
-			?>
+		?>
 
-			<th style="background-color: #2e6da4">
-				L5
-			</th>
+		<th style="background-color: #2e6da4; width: 4%">
+			L5
+		</th>
 
-			<th style="background-color: #2e6da4">
-				L8
-			</th>
+		<th style="background-color: #2e6da4; width: 4%">
+			L8
+		</th>
 
-		</tr>
+	</tr>
 
 	</thead>
 
@@ -98,6 +98,10 @@
 					<?php echo $value[$item['id']]['L8']; ?>
 				</td>
 
+				<td style="background-color: #41a85f">
+					<?php echo round(($value[$item['id']]['L5'] / $value[$item['id']]['L1']) * 100, 2) . '%'; ?>
+				</td>
+
 				<?php
 			} ?>
 
@@ -112,6 +116,7 @@
 	</tbody>
 
 </table>
+
 
 
 

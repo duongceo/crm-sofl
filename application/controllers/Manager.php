@@ -1430,7 +1430,7 @@ class Manager extends MY_Controller {
 		if (isset($get['tic_report']) && !empty($get['tic_report'])) {
 			$conditionArr = array(
 				'L1' => array(
-					'where' => array('date_handover !=' => '0', 'date_rgt >' => $startDate, 'date_rgt <' => $endDate, 'is_hide' => '0'),
+					'where' => array('date_handover !=' => '0', 'date_rgt >' => $startDate, 'date_rgt <' => $endDate, 'is_hide' => '0', 'is_old' => '0'),
 					'sum' => 0
 				),
 				'L2' => array(
@@ -1443,19 +1443,19 @@ class Manager extends MY_Controller {
 				),
 
 				'L5' => array(
-					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'date_rgt >' => $startDate, 'date_rgt <' => $endDate),
+					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => '0', 'date_rgt >' => $startDate, 'date_rgt <' => $endDate),
 					'sum' => 0
 				),
 
 				'L8' => array(
-					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_student_id' => 'L8', 'date_rgt >=' => $startDate, 'date_rgt <' => $endDate),
+					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_student_id' => 'L8', 'is_old' => 1, 'date_rgt >=' => $startDate, 'date_rgt <' => $endDate),
 					'sum' => 0
 				),
 			);
 		} else {
 			$conditionArr = array(
 				'L1' => array(
-					'where' => array('date_handover >' => $startDate, 'date_handover <' => $endDate, 'is_hide' => '0'),
+					'where' => array('date_handover >' => $startDate, 'date_handover <' => $endDate, 'is_hide' => '0', 'is_old' => '0'),
 					'sum' => 0
 				),
 				'L2' => array(
