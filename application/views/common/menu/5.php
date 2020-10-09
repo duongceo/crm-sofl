@@ -154,6 +154,18 @@ s
 
 				</li>
 
+				<li>
+
+					<a href="<?php echo base_url('manager/view_report_student_branch'); ?>">
+
+						<img src="<?php echo base_url(); ?>public/images/view-general-report.png">
+
+						<span> Báo cáo học viên tại cơ sở  </span>
+
+					</a>
+
+				</li>
+
             </ul>
         </li>
 
