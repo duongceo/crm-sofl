@@ -159,12 +159,11 @@
 
                         <img src="<?php echo base_url(); ?>public/images/view-general-report.png">
 
-                        <span> Xem báo học viên tại cơ sở  </span>
+                        <span> Báo cáo học viên tại cơ sở  </span>
 
                     </a>
 
                 </li>
-
 
 <!--                 <li>
 
