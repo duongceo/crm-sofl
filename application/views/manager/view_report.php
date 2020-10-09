@@ -64,7 +64,6 @@
 			array('Xử Lý', 'XU_LY', $XU_LY),
 			array('Nghe Máy', 'NGHE_MAY', $NGHE_MAY),
 			array('Ko Nghe Máy', 'KHONG_NGHE_MAY', $KHONG_NGHE_MAY),
-
             array('L1', 'L1', $L1),
             array('L2', 'L2', $L2),
             array('L3', 'L3', $L3),
@@ -83,7 +82,7 @@
 
             ?>
 
-            <tr <?php if (in_array($value2, array('RE', 'L5', 'L3'))) echo 'style="background-color: #5ba1cf"' ?>>
+            <tr <?php if (in_array($value2, array('RE', 'L5', 'L3'))) echo 'style="background-color: #6bc5e6"' ?>>
 
                 <td> <?php echo $name; ?> </td>
 
@@ -136,6 +135,7 @@
             array('Nghe Máy/Xử lý', 'NGHE_MAY', 'XU_LY', ($XU_LY != 0) ? round(($NGHE_MAY / $XU_LY) * 100, 2) : 'không thể chia cho 0', 70),
             array('Ko Nghe Máy/Xử lý', 'KHONG_NGHE_MAY', 'XU_LY', ($XU_LY != 0) ? round(($KO_NGHE_MAY / $XU_LY) * 100, 2) : 'không thể chia cho 0', 25),
             array('L2/Xử lý', 'L2', 'XU_LY', ($XU_LY != 0) ? round(($L2 / $XU_LY) * 100, 2) : 'không thể chia cho 0', 40),
+            array('L2/Nhận', 'L2', 'NHAN', ($NHAN != 0) ? round(($L2 / $NHAN) * 100, 2) : 'không thể chia cho 0', 40),
             array('L3/Nhận', 'L3', 'NHAN', ($NHAN != 0) ? round(($L3 / $NHAN) * 100, 2) : 'không thể chia cho 0', 35),
             array('L5/Nhận', 'L5', 'NHAN', ($NHAN != 0) ? round(($L5 / $NHAN) * 100, 2) : 'không thể chia cho 0', 20),
         );
@@ -224,7 +224,7 @@
 
 		<div class="col-md-10 col-md-offset-1">
 
-			<h3 class="text-center marginbottom20"> Báo cáo tổng quan ngày <?php echo date('d-m-Y', $startDate); ?> đến ngày <?php echo date('d-m-Y', $endDate); ?></h3>
+			<h3 class="text-center marginbottom20"> Báo cáo tỷ lệ sale theo ngoại ngữ ngày <?php echo date('d-m-Y', $startDate); ?> đến ngày <?php echo date('d-m-Y', $endDate); ?></h3>
 
 		</div>
 

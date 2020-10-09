@@ -1407,6 +1407,7 @@ class Manager extends MY_Controller {
 	function view_report_student_branch() {
 		$require_model = array(
 			'branch' => array(),
+			'language_study' => array(),
 		);
 		$data = $this->_get_require_data($require_model);
 
@@ -1467,50 +1468,63 @@ class Manager extends MY_Controller {
 				),
 
 				'L5' => array(
-					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'date_rgt_study >' => $startDate, 'date_rgt_study <' => $endDate),
+					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => '0', 'date_rgt_study >' => $startDate, 'date_rgt_study <' => $endDate),
 					'sum' => 0
 				),
 
 				'L8' => array(
-					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_student_id' => 'L8', 'date_rgt_study >=' => $startDate, 'date_rgt_study <' => $endDate),
+					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_student_id' => 'L8', 'is_old' => 1, 'date_rgt_study >=' => $startDate, 'date_rgt_study <' => $endDate),
 					'sum' => 0
 				),
 
 			);
 		}
 
-		$branch = $data['branch'];
-		unset($branch[0]);
+		unset($data['branch'][0]);
+		unset($get['filter_date_date_happen']);
 
+		$branch = array();
 		if ($this->role_id == 3) {
-			foreach ($branch as $key => $value) {
-				foreach ($conditionArr as $key2 => $value2) {
-					$conditional = array();
-					$conditional['where']['branch_id'] = $value['id'];
-					$conditional = array_merge_recursive($conditional, $value2);
-//					echo '<pre>'; print_r($conditional);
-					$branch[$key][$key2] = $this->_query_for_report($get, $conditional);
-					$data[$key2] += $branch[$key][$key2];
+			foreach ($data['branch'] as $key => $value) {
+				foreach ($data['language_study'] as $item) {
+					foreach ($conditionArr as $key2 => $value2) {
+						$conditional = array();
+						$conditional['where']['branch_id'] = $value['id'];
+						$conditional['where']['language_id'] = $item['id'];
+						$conditional = array_merge_recursive($conditional, $value2);
+//						echo '<pre>'; print_r($conditional);
+						$branch[$key]['name'] = $value['name'];
+						$branch[$key][$item['id']][$key2] = $this->_query_for_report($get, $conditional);
+						$data[$key2] += $branch[$key][$key2];
+					}
 				}
 			}
 		} else if ($this->role_id == 12) {
+			$this->load->model('branch_model');
 			$branch_id = $this->session->userdata('branch_id');
-			foreach ($conditionArr as $key2 => $value2) {
-				$conditional = array();
-				$conditional['where']['branch_id'] = $branch_id;
-				$conditional = array_merge_recursive($conditional, $value2);
-//				echo '<pre>'; print_r($conditional);
-				$branch[$branch_id][$key2] = $this->_query_for_report($get, $conditional);
-				$data[$branch_id] += $branch[$branch_id][$key2];
+			foreach ($data['language_study'] as $item) {
+				foreach ($conditionArr as $key2 => $value2) {
+					$conditional = array();
+					$conditional['where']['branch_id'] = $branch_id;
+					$conditional['where']['language_id'] = $item['id'];
+					$conditional = array_merge_recursive($conditional, $value2);
+//					echo '<pre>'; print_r($conditional);
+					$branch[$branch_id]['name'] = $this->branch_model->find_branch_name($branch_id);
+					$branch[$branch_id][$item['id']][$key2] = $this->_query_for_report($get, $conditional);
+					$data[$branch_id] += $branch[$branch_id][$key2];
+				}
 			}
 		}
 
+//		print_arr($branch);
+
+		$data['branch'] = $branch;
 		$data['startDate'] = $startDate;
 		$data['endDate'] = $endDate;
 		$data['left_col'] = array('date_happen_1', 'tic_report');
 		$data['right_col'] = array('is_old');
 		$data['load_js'] = array('m_view_report');
-		$data['content'] = 'manager/view_report';
+		$data['content'] = 'manager/view_report_student_branch';
 		if($this->role_id == 1){
 			$data['top_nav'] = 'sale/common/top-nav';
 		}
@@ -1684,7 +1698,7 @@ class Manager extends MY_Controller {
         $progress = [];
         $inputContact = array();
         $inputContact['select'] = 'id';
-        $inputContact['where'] = array('date_rgt >' => strtotime(date('d-m-Y')), 'is_hide' => '0');
+        $inputContact['where'] = array('date_rgt >=' => strtotime(date('d-m-Y')), 'is_hide' => '0');
         $today = $this->contacts_model->load_all($inputContact);
   
         $progress['marketing'] = array(
@@ -1695,7 +1709,7 @@ class Manager extends MY_Controller {
         );
         $progress['marketing']['progress'] = round($progress['marketing']['count'] / $progress['marketing']['kpi'] * 100, 2);
 
-        $inputContact['where'] = array('date_rgt_study >' => strtotime(date('d-m-Y')), 'is_hide' => '0', 'is_old' => '0');
+        $inputContact['where'] = array('date_rgt_study >=' => strtotime(date('d-m-Y')), 'is_hide' => '0', 'is_old' => '0');
         $today = $this->contacts_model->load_all($inputContact);
         $progress['sale'] = array(
             'count' => count($today),
@@ -1705,7 +1719,7 @@ class Manager extends MY_Controller {
 		);
         $progress['sale']['progress'] = round($progress['sale']['count'] / $progress['sale']['kpi'] * 100, 2);
 
-		$inputContact['where'] = array('date_rgt_study >' => strtotime(date('d-m-Y')), 'is_hide' => '0', 'is_old' => '1');
+		$inputContact['where'] = array('date_rgt_study >=' => strtotime(date('d-m-Y')), 'is_hide' => '0', 'is_old' => '1');
 		$today = $this->contacts_model->load_all($inputContact);
 		$progress['branch'] = array(
 			'count' => count($today),
@@ -1750,12 +1764,11 @@ class Manager extends MY_Controller {
 	//làm KPI động thì làm ở chỗ nãy
     protected function GetProccessThisMonth() {
 		// tính L6,L8 theo thang
-        $total = 0;
         $this->load->model('staffs_model');
         $qr = $this->staffs_model->SumTarget();
 		//echo $qr[0]['targets'];die;
         $total_month_L5 = round($qr[0]['targets']*30);
-//        $total_month_L8 = round($total_month_L5*0.85);
+		$total_month_L8 = 0;
 
         $progress = [];
         $inputContact = array();
@@ -1770,15 +1783,25 @@ class Manager extends MY_Controller {
 		);
         $progress['marketing']['progress'] = round($progress['marketing']['count'] / $progress['marketing']['kpi'] * 100, 2);
 
-        $inputContact['where'] = array('date_rgt >' => strtotime(date('01-m-Y')), 'level_contact_id' => 'L5', 'is_hide' => '0');
+        $inputContact['where'] = array('date_rgt_study >' => strtotime(date('01-m-Y')), 'is_hide' => '0', 'is_old' => '0');
         $today = $this->contacts_model->load_all($inputContact);
         $progress['sale'] = array(
             'count' => count($today),
             'kpi' => $total_month_L5,
-            'name' => 'TVTS',
+            'name' => 'Học viên mới',
             'type' => 'L5'
 		);
         $progress['sale']['progress'] = round($progress['sale']['count'] / $progress['sale']['kpi'] * 100, 2);
+
+		$inputContact['where'] = array('date_rgt_study >' => strtotime(date('1-m-Y')), 'is_hide' => '0', 'is_old' => '1');
+		$today = $this->contacts_model->load_all($inputContact);
+		$progress['branch'] = array(
+			'count' => count($today),
+			'kpi' => $total_month_L8,
+			'name' => 'Học viên cũ',
+			'type' => 'L8'
+		);
+		$progress['branch']['progress'] = round($progress['branch']['count'] / $progress['branch']['kpi'] * 100, 2);
 		
 		$progress['progressbar'] = $progress;
 		
@@ -1794,7 +1817,7 @@ class Manager extends MY_Controller {
 			$input_re['where'] = array(
 				'language_id' => $value['id'],
 				'paid !=' => 0,
-				'time_created >=' => strtotime(date('01-m-Y'))
+					'time_created >=' => strtotime(date('01-m-Y'))
 			);
 			$input_re_new = array_merge_recursive(array('where' => array('student_old' => '0')), $input_re);
 			$input_re_old = array_merge_recursive(array('where' => array('student_old' => 1)), $input_re);
