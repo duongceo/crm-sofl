@@ -1484,7 +1484,7 @@ class Manager extends MY_Controller {
 		unset($get['filter_date_date_happen']);
 
 		$branch = array();
-		if ($this->role_id == 3) {
+		if (in_array($this->role_id, array(3, 5))) {
 			foreach ($data['branch'] as $key => $value) {
 				foreach ($data['language_study'] as $item) {
 					foreach ($conditionArr as $key2 => $value2) {
