@@ -90,11 +90,11 @@
 					<?php echo $value[$item['id']]['L3']; ?>
 				</td>
 
-				<td>
+				<td style="background-color: #9cc2cb">
 					<?php echo $value[$item['id']]['L5']; ?>
 				</td>
 
-				<td>
+				<td style="background-color: #9cc2cb">
 					<?php echo $value[$item['id']]['L8']; ?>
 				</td>
 
