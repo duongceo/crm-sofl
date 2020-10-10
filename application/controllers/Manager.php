@@ -1448,7 +1448,7 @@ class Manager extends MY_Controller {
 				),
 
 				'L8' => array(
-					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_student_id' => 'L8', 'is_old' => 1, 'date_rgt >=' => $startDate, 'date_rgt <' => $endDate),
+					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => 1, 'date_rgt >=' => $startDate, 'date_rgt <' => $endDate),
 					'sum' => 0
 				),
 			);
@@ -1473,7 +1473,7 @@ class Manager extends MY_Controller {
 				),
 
 				'L8' => array(
-					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_student_id' => 'L8', 'is_old' => 1, 'date_rgt_study >=' => $startDate, 'date_rgt_study <' => $endDate),
+					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => 1, 'date_rgt_study >=' => $startDate, 'date_rgt_study <' => $endDate),
 					'sum' => 0
 				),
 

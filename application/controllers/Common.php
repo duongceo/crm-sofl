@@ -29,7 +29,7 @@ class Common extends MY_Controller {
 		$contact_id = $rows[0]['id'];
         $require_model = array(
             'staffs' => array(),
-            'class_study' => array(),
+            //'class_study' => array(),
             'notes' => array(
 				'where' => array('contact_id' => $contact_id),
                 'order' => array('time_created' => 'ASC')
@@ -60,7 +60,7 @@ class Common extends MY_Controller {
             'phone' => 'view',
             'branch' => 'view',
             'language' => 'view',
-            'class_study_id' => 'view',
+            //'class_study_id' => 'view',
             'fee' => 'view',
 //            'paid' => 'view',
             'sale' => 'view',
@@ -657,7 +657,7 @@ class Common extends MY_Controller {
 			if ($post['paid_today'] != 0) {
 				$post['paid_today'] = str_replace(',', '', $post['paid_today']);
 				$param['paid'] = $rows[0]['paid'] + $post['paid_today'];
-				if (strlen($post['paid_today']) < 6 || strlen($post['paid_today']) > 7 || ((int)$post['paid_today'] > (int)$param['fee'])) {
+				if (strlen($post['paid_today']) < 5 || strlen($post['paid_today']) > 7 || ((int)$post['paid_today'] > (int)$param['fee'])) {
 					$result['success'] = 0;
 					$result['message'] = 'Đóng học phí chuẩn giá tiền hoặc số tiền học phí phải đúng';
 					echo json_encode($result);
