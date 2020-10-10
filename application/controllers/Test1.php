@@ -407,7 +407,7 @@ class Test1 extends CI_Controller {
         $input['select'] = 'id, name, phone, level_language_id, sent_account_online';
         $input['where'] = array(
             'sent_account_online' => '0', 
-            'date_rgt_study >=' => 1601510400, 
+            'date_rgt_study >=' => 1598918400, 
             'level_language_id !=' => '0', 
         );
         
@@ -421,7 +421,7 @@ class Test1 extends CI_Controller {
                 $param['sent_account_online'] = 1;
                 $param['date_active'] = time();
                 $this->contacts_model->update($where, $param);
-                echo "OK"; die;
+                echo "OK";
             }
         }
     }
@@ -441,8 +441,8 @@ class Test1 extends CI_Controller {
         $restClient = new Rest_Client($config);
         $uri = "account_api/create_new_account";
         $student = $restClient->post($uri, $contact);
-        echo json_decode($student);
-        // return $student;
+        //echo json_decode($student);
+        return $student;
     }
 
 
