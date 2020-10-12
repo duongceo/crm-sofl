@@ -10,6 +10,8 @@
 !*/cache/.htaccess
 
 .idea
+.well-known
+desktop.ini
 license.txt
 log.txt
 contributing.md
