@@ -1,17 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="69eb84fb-ba45-4936-a9cb-c470d45988cb" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/application/views/manager/view_report_student_branch.php" afterDir="false" />
+    <list default="true" id="69eb84fb-ba45-4936-a9cb-c470d45988cb" name="Default Changelist" comment="local">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/controllers/Common.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/Common.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/controllers/Manager.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/controllers/Manager.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/core/MY_Controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/core/MY_Controller.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/common/menu/12.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/common/menu/12.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/common/menu/3.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/common/menu/3.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/common/menu/5.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/views/common/menu/5.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/manager/view_report_revenue_by_date_rgt.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/views/manager/view_report_revenue_transpose.php" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -40,47 +33,21 @@
     <favorites_list name="crm_sofl" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+    <leaf>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="442">
+              <caret line="36" lean-forward="true" selection-start-line="36" selection-end-line="36" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/application/controllers/Common.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="35592">
-              <caret line="1483" column="11" selection-start-line="1483" selection-start-column="11" selection-end-line="1483" selection-end-column="11" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/controllers/Manager.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="13008">
-              <caret line="1505" column="9" selection-start-line="1505" selection-start-column="9" selection-end-line="1505" selection-end-column="9" />
-              <folding>
-                <element signature="n#transfer_contact_sale#0;n#Manager#0;n#!!top" />
-                <element signature="e#40879#40953#0#PHP" expanded="true" />
-                <element signature="n#view_report_revenue#0;n#Manager#0;n#!!top" />
-                <element signature="n#show_report_operation#0;n#Manager#0;n#!!top" />
-                <element signature="n#view_report_operation#0;n#Manager#0;n#!!top" />
-                <element signature="n#view_report_sale_operation#0;n#Manager#0;n#!!top" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/views/common/menu/3.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3864">
-              <caret line="161" column="57" selection-start-line="161" selection-start-column="57" selection-end-line="161" selection-end-column="57" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/application/views/manager/view_report_student_branch.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="336">
-              <caret line="29" lean-forward="true" selection-start-line="29" selection-end-line="29" />
+            <state relative-caret-position="1019">
+              <caret line="665" lean-forward="true" selection-start-line="665" selection-end-line="665" />
             </state>
           </provider>
         </entry>
@@ -89,8 +56,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>_common_find_all</find>
-      <find>load_all</find>
       <find>is_hide</find>
       <find>_get_query_condition_arr</find>
       <find>m_count_all_result_from_get</find>
@@ -119,6 +84,8 @@
       <find>_can_edit_true</find>
       <find>giá học</find>
       <find>search(</find>
+      <find>date_happen</find>
+      <find>progress</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -148,7 +115,6 @@
         <option value="$PROJECT_DIR$/application/views/common/content/filter/care_number.php" />
         <option value="$PROJECT_DIR$/style/js3/built.js" />
         <option value="$PROJECT_DIR$/application/views/common/right_context_menu.php" />
-        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/application/views/sale/add_contact.php" />
         <option value="$PROJECT_DIR$/application/views/common/content/call_log.php" />
         <option value="$PROJECT_DIR$/application/models/Branch_model.php" />
@@ -162,9 +128,7 @@
         <option value="$PROJECT_DIR$/application/views/manager/view_report_sale_operation.php" />
         <option value="$PROJECT_DIR$/index.php" />
         <option value="$PROJECT_DIR$/application/views/sale/common/top-nav.php" />
-        <option value="$PROJECT_DIR$/application/views/manager/view_report_revenue.php" />
         <option value="$PROJECT_DIR$/application/views/common/content/edit_contact/date_paid.php" />
-        <option value="$PROJECT_DIR$/application/views/manager/view_report.php" />
         <option value="$PROJECT_DIR$/application/views/common/content/edit_contact/paid.php" />
         <option value="$PROJECT_DIR$/application/views/common/content/edit_contact/complete_fee.php" />
         <option value="$PROJECT_DIR$/application/views/common/content/edit_contact/paid_today.php" />
@@ -174,17 +138,20 @@
         <option value="$PROJECT_DIR$/application/models/Level_language_model.php" />
         <option value="$PROJECT_DIR$/application/controllers/Student.php" />
         <option value="$PROJECT_DIR$/application/controllers/staff_managers/Class_study.php" />
-        <option value="$PROJECT_DIR$/application/controllers/Sale.php" />
         <option value="$PROJECT_DIR$/application/views/common/content/filter/level_language.php" />
         <option value="$PROJECT_DIR$/application/views/common/content/edit_contact/class_study_id.php" />
         <option value="$PROJECT_DIR$/application/views/common/content/paid_log.php" />
         <option value="$PROJECT_DIR$/application/core/MY_Controller.php" />
+        <option value="$PROJECT_DIR$/application/views/manager/view_report.php" />
+        <option value="$PROJECT_DIR$/application/views/manager/view_report_revenue.php" />
+        <option value="$PROJECT_DIR$/application/controllers/Sale.php" />
+        <option value="$PROJECT_DIR$/application/views/common/menu/3.php" />
         <option value="$PROJECT_DIR$/application/views/common/menu/12.php" />
         <option value="$PROJECT_DIR$/application/views/common/menu/5.php" />
-        <option value="$PROJECT_DIR$/application/controllers/Common.php" />
-        <option value="$PROJECT_DIR$/application/views/manager/view_report_student_branch.php" />
-        <option value="$PROJECT_DIR$/application/views/common/menu/3.php" />
         <option value="$PROJECT_DIR$/application/controllers/Manager.php" />
+        <option value="$PROJECT_DIR$/application/views/manager/view_report_student_branch.php" />
+        <option value="$PROJECT_DIR$/application/controllers/Common.php" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -214,7 +181,7 @@
       <path value="$PROJECT_DIR$/vendor/phpdocumentor/reflection-common" />
     </include_path>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="width" value="640" />
     <option name="height" value="515" />
   </component>
@@ -230,45 +197,6 @@
             <path>
               <item name="crm_sofl" type="b2602c69:ProjectViewProjectNode" />
               <item name="crm_sofl" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="crm_sofl" type="b2602c69:ProjectViewProjectNode" />
-              <item name="crm_sofl" type="462c0819:PsiDirectoryNode" />
-              <item name="application" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="crm_sofl" type="b2602c69:ProjectViewProjectNode" />
-              <item name="crm_sofl" type="462c0819:PsiDirectoryNode" />
-              <item name="application" type="462c0819:PsiDirectoryNode" />
-              <item name="controllers" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="crm_sofl" type="b2602c69:ProjectViewProjectNode" />
-              <item name="crm_sofl" type="462c0819:PsiDirectoryNode" />
-              <item name="application" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="crm_sofl" type="b2602c69:ProjectViewProjectNode" />
-              <item name="crm_sofl" type="462c0819:PsiDirectoryNode" />
-              <item name="application" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="crm_sofl" type="b2602c69:ProjectViewProjectNode" />
-              <item name="crm_sofl" type="462c0819:PsiDirectoryNode" />
-              <item name="application" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
-              <item name="menu" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="crm_sofl" type="b2602c69:ProjectViewProjectNode" />
-              <item name="crm_sofl" type="462c0819:PsiDirectoryNode" />
-              <item name="application" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="manager" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -411,7 +339,10 @@
       <workItem from="1601687783405" duration="23476000" />
       <workItem from="1601861172242" duration="21080000" />
       <workItem from="1601946872857" duration="26101000" />
-      <workItem from="1602033333956" duration="457000" />
+      <workItem from="1602033333956" duration="15948000" />
+      <workItem from="1602120471710" duration="16614000" />
+      <workItem from="1602206230898" duration="17193000" />
+      <workItem from="1602465658483" duration="3965000" />
     </task>
     <task id="LOCAL-00001" summary="thay doi css form login">
       <created>1594867918855</created>
@@ -553,19 +484,82 @@
       <option name="project" value="LOCAL" />
       <updated>1601969187689</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="local">
+      <created>1602141539163</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1602141539163</updated>
+    </task>
+    <task id="LOCAL-00022" summary="local">
+      <created>1602141607634</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1602141607634</updated>
+    </task>
+    <task id="LOCAL-00023" summary="local">
+      <created>1602216827686</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1602216827686</updated>
+    </task>
+    <task id="LOCAL-00024" summary="local">
+      <created>1602216948351</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1602216948351</updated>
+    </task>
+    <task id="LOCAL-00025" summary="local">
+      <created>1602217438115</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1602217438115</updated>
+    </task>
+    <task id="LOCAL-00026" summary="local">
+      <created>1602217699776</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1602217699776</updated>
+    </task>
+    <task id="LOCAL-00027" summary="local">
+      <created>1602217784395</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1602217784395</updated>
+    </task>
+    <task id="LOCAL-00028" summary="local">
+      <created>1602218073227</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1602218073227</updated>
+    </task>
+    <task id="LOCAL-00029" summary="local">
+      <created>1602232205661</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1602232205661</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="826330000" />
+    <option name="totallyTimeSpent" value="879593000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="838" extended-state="7" />
+    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.43817204" visible="true" weight="0.22483222" />
-      <window_info id="Structure" order="1" sideWeight="0.56182796" side_tool="true" weight="0.22483222" />
-      <window_info id="Favorites" order="2" sideWeight="0.5577957" side_tool="true" weight="0.21543624" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4341398" visible="true" weight="0.23489933" />
+      <window_info id="Structure" order="1" sideWeight="0.5658602" side_tool="true" weight="0.23489933" />
+      <window_info id="Favorites" order="2" sideWeight="0.5645161" side_tool="true" weight="0.23154363" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3293011" />
       <window_info anchor="bottom" id="Run" order="2" />
@@ -639,28 +633,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="local" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/application/views/manager/view_report_sale_operation.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="312">
-          <caret line="100" lean-forward="true" selection-start-line="100" selection-end-line="100" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/manager/view_report_revenue_transpose.php" />
-    <entry file="file://$PROJECT_DIR$/application/views/manager/view_report_backup.php" />
-    <entry file="file://$PROJECT_DIR$/application/views/manager/show_report_operation.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1083">
-          <caret line="34" column="16" lean-forward="true" selection-start-line="34" selection-start-column="16" selection-end-line="34" selection-end-column="16" />
-          <folding>
-            <element signature="n#style#0;n#th#0;n#tr#0;n#thead#0;n#table#0;n#div#2;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#th#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#td#3;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/application/views/common/menu/6.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2269" />
@@ -771,13 +743,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/manager/view_report.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="66" selection-start-line="66" selection-end-line="66" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/application/views/common/content/table/body/level_language.php">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -792,16 +757,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="299">
           <caret line="126" column="13" selection-start-line="126" selection-start-column="13" selection-end-line="126" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/controllers/Sale.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="624">
-          <caret line="185" column="9" lean-forward="true" selection-start-line="185" selection-start-column="9" selection-end-line="185" selection-end-column="9" />
-          <folding>
-            <element signature="n#transfer_one_contact_to_manager#0;n#Sale#0;n#!!top" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -903,60 +858,120 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/common/menu/12.php">
+    <entry file="file://$PROJECT_DIR$/application/models/Branch_model.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="443">
-          <caret line="72" column="21" lean-forward="true" selection-start-line="62" selection-start-column="16" selection-end-line="72" selection-end-column="21" />
+        <state relative-caret-position="384">
+          <caret line="16" column="36" selection-start-line="16" selection-start-column="20" selection-end-line="16" selection-end-column="36" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/common/menu/5.php">
+    <entry file="file://$PROJECT_DIR$/application/controllers/Sale.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-229">
-          <caret line="143" lean-forward="true" selection-start-line="143" selection-end-line="143" />
+        <state relative-caret-position="323">
+          <caret line="1039" column="27" lean-forward="true" selection-start-line="1039" selection-start-column="27" selection-end-line="1039" selection-end-column="27" />
+          <folding>
+            <element signature="n#transfer_one_contact_to_manager#0;n#Sale#0;n#!!top" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/common/menu/12.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="731">
+          <caret line="79" lean-forward="true" selection-start-line="79" selection-end-line="79" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/application/views/manager/view_report_revenue.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="93" column="6" lean-forward="true" selection-end-line="206" />
+        <state relative-caret-position="227">
+          <caret line="70" column="75" lean-forward="true" selection-start-line="70" selection-start-column="75" selection-end-line="70" selection-end-column="75" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/controllers/Common.php">
+    <entry file="file://$PROJECT_DIR$/application/views/common/menu/3.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="35592">
-          <caret line="1483" column="11" selection-start-line="1483" selection-start-column="11" selection-end-line="1483" selection-end-column="11" />
+        <state relative-caret-position="347">
+          <caret line="155" column="16" selection-start-line="155" selection-start-column="16" selection-end-line="165" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/common/menu/5.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="587">
+          <caret line="155" lean-forward="true" selection-start-line="155" selection-end-line="155" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/manager/show_report_operation.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="54" column="74" lean-forward="true" selection-start-line="54" selection-start-column="65" selection-end-line="54" selection-end-column="74" />
+          <folding>
+            <element signature="n#style#0;n#table#0;n#div#3;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#3;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/manager/view_report_operation.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1275">
+          <folding>
+            <element signature="n#style#0;n#th#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#3;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/manager/view_report.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="504">
+          <caret line="346" column="123" lean-forward="true" selection-start-line="346" selection-start-column="60" selection-end-line="346" selection-end-column="123" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/views/manager/view_report_student_branch.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-274">
+          <caret line="48" column="9" lean-forward="true" selection-start-line="48" selection-start-column="9" selection-end-line="48" selection-end-column="9" />
+          <folding>
+            <element signature="n#style#0;n#th#0;n#tr#1;n#thead#0;n#table#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#1;n#tr#1;n#thead#0;n#table#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#2;n#tr#1;n#thead#0;n#table#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#3;n#tr#1;n#thead#0;n#table#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#5;n#tr#0;n#tbody#0;n#table#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/application/controllers/Manager.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="13008">
-          <caret line="1505" column="9" selection-start-line="1505" selection-start-column="9" selection-end-line="1505" selection-end-column="9" />
+        <state relative-caret-position="1667">
+          <caret line="2410" column="57" selection-start-line="2410" selection-start-column="36" selection-end-line="2410" selection-end-column="57" />
           <folding>
             <element signature="n#transfer_contact_sale#0;n#Manager#0;n#!!top" />
             <element signature="e#40879#40953#0#PHP" expanded="true" />
-            <element signature="n#view_report_revenue#0;n#Manager#0;n#!!top" />
-            <element signature="n#show_report_operation#0;n#Manager#0;n#!!top" />
             <element signature="n#view_report_operation#0;n#Manager#0;n#!!top" />
             <element signature="n#view_report_sale_operation#0;n#Manager#0;n#!!top" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/common/menu/3.php">
+    <entry file="file://$PROJECT_DIR$/application/controllers/Common.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3864">
-          <caret line="161" column="57" selection-start-line="161" selection-start-column="57" selection-end-line="161" selection-end-column="57" />
+        <state relative-caret-position="1019">
+          <caret line="665" lean-forward="true" selection-start-line="665" selection-end-line="665" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/manager/view_report_student_branch.php">
+    <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="336">
-          <caret line="29" lean-forward="true" selection-start-line="29" selection-end-line="29" />
+        <state relative-caret-position="442">
+          <caret line="36" lean-forward="true" selection-start-line="36" selection-end-line="36" />
         </state>
       </provider>
     </entry>

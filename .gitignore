@@ -9,7 +9,6 @@
 !*/cache/index.html
 !*/cache/.htaccess
 
-
 user_guide_src/build/*
 user_guide_src/cilexer/build/*
 user_guide_src/cilexer/dist/*
@@ -35,3 +34,8 @@ nbdist/
 # End of https://www.gitignore.io/api/netbeans,codeigniter
 
 style/node_modules
+
+.idea
+license.txt
+log.txt
+contributing.md
