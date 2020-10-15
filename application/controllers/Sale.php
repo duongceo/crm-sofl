@@ -1243,14 +1243,13 @@ class Sale extends MY_Controller {
 
         $data = $this->_get_all_require_data();
 
-
         $post = $this->input->post();
 
 		$this->load->model('call_log_model');
-		$input = array();
-		$input['select'] = 'distinct(contact_id)';
-		$input['where'] = array('staff_id' => $this->user_id);
-		$input['group_by'] = array('contact_id');
+		$input_call = array();
+		$input_call['select'] = 'distinct(contact_id)';
+		$input_call['where'] = array('staff_id' => $this->user_id);
+		$input_call['group_by'] = array('contact_id');
 
         switch ($post['type']) {
             case 'L1':
@@ -1260,7 +1259,7 @@ class Sale extends MY_Controller {
                 break;
             case 'KNM_LAN_1':
                 $input = array();
-				$input_called_1 = array_merge($input, array('having' => array('count(contact_id)' => 1)));
+				$input_called_1 = array_merge($input_call, array('having' => array('count(contact_id)' => 1)));
 				$called_1 = $this->call_log_model->load_all($input_called_1);
 				foreach ($called_1 as $value) {
 					$array_called_1[] = $value['contact_id'];
@@ -1277,7 +1276,7 @@ class Sale extends MY_Controller {
 
             case 'KNM_LAN_2':
 				$input = array();
-				$input_called_2 = array_merge($input, array('having' => array('count(contact_id)' => 2)));
+				$input_called_2 = array_merge($input_call, array('having' => array('count(contact_id)' => 2)));
 				$called_2 = $this->call_log_model->load_all($input_called_2);
 				foreach ($called_2 as $value) {
 					$array_called_2[] = $value['contact_id'];
@@ -1294,7 +1293,7 @@ class Sale extends MY_Controller {
 
             case 'KNM_LAN_3':
 				$input = array();
-				$input_called_3 = array_merge($input, array('having' => array('count(contact_id)' => 3)));
+				$input_called_3 = array_merge($input_call, array('having' => array('count(contact_id)' => 3)));
 				$called_3 = $this->call_log_model->load_all($input_called_3);
 				foreach ($called_3 as $value) {
 					$array_called_3[] = $value['contact_id'];
