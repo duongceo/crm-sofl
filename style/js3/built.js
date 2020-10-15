@@ -3560,10 +3560,9 @@ $(document).ready(function() {
 	});
 });
 
-/*
 $('.contact-sale-have-to-call').click(function(){
     var type = $(this).attr('type');
-    console.log
+    // console.log(type);return false;
     $.ajax({
             type: "POST",
             url: $("#base_url").val() + "sale/sale_have_to_call",
@@ -3572,7 +3571,7 @@ $('.contact-sale-have-to-call').click(function(){
             },
             beforeSend: function() {
                 $(".popup-wrapper").show();
-            }, 
+            },
             success: data => {
                 console.log(data);
                 $(".body-modal-sale-have-to-call").html("");
@@ -3586,10 +3585,8 @@ $('.contact-sale-have-to-call').click(function(){
             complete: function() {
                 $(".popup-wrapper").hide();
             },
-        });   
+        });
 });
-
- */
 
 $("a.note_contact").on('click', function (e) {
     e.preventDefault();

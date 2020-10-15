@@ -65,7 +65,7 @@ class Sale extends MY_Controller {
          */
 		 
         $data['left_col'] = array('date_rgt');
-        $data['right_col'] = array('class_study');
+        $data['right_col'] = array('language');
 
         /*
          * Các trường cần hiện của bảng contact (đã có default)
@@ -77,7 +77,9 @@ class Sale extends MY_Controller {
 
 		$data['progressType'] = 'Tiến độ ngày hôm nay';
 		$data['progress'] = $this->GetProccessToday();
+		$data['progress_sale'] = $data['progress']['progress_sale'];
 
+//		print_arr($data);
 //		$data['sale_call_process'] = $this->sale_call_process();
         $data['titleListContact'] = 'Danh sách contact mới';
         $data['actionForm'] = 'sale/transfer_contact';
@@ -1021,47 +1023,99 @@ class Sale extends MY_Controller {
     }
 	
 	 protected function GetProccessToday() {
-       //L6,L8 tính theo ngày
-		 $total = $this->GetProccessThisMonth();
-		 $total_marketing_day = round($total['marketing']['kpi']/30);
-		 $total_sale_day_L5 = round($total['sale']['kpi']/30);
+    	 //L6,L8 tính theo ngày
+//		 $total = $this->GetProccessThisMonth();
+		 $total_sale_day_L5 = 50;
 		 $total_to_day_L8 = 0;
 
-		 $progress = [];
+//		 $progress = [];
+		 $progress['progressbar'] = array();
 		 $inputContact = array();
 		 $inputContact['select'] = 'id';
-		 $inputContact['where'] = array('date_rgt >=' => strtotime(date('d-m-Y')), 'is_hide' => '0');
-		 $today = $this->contacts_model->load_all($inputContact);
-
-		 $progress['marketing'] = array(
-			 'count' => count($today),
-			 'kpi' => $total_marketing_day,
-			 'name' => 'Marketing',
-			 'type' => 'C3'
-		 );
-		 $progress['marketing']['progress'] = round($progress['marketing']['count'] / $progress['marketing']['kpi'] * 100, 2);
-
 		 $inputContact['where'] = array('date_rgt_study >=' => strtotime(date('d-m-Y')), 'is_hide' => '0', 'is_old' => '0');
 		 $today = $this->contacts_model->load_all($inputContact);
-		 $progress['sale'] = array(
+		 $progress['progressbar']['sale'] = array(
 			 'count' => count($today),
 			 'kpi' => $total_sale_day_L5,
 			 'name' => 'Học viên mới',
-			 'type' => 'L5'
+			 'type' => 'L5',
+			 'progress' => round(count($today) / $total_sale_day_L5 * 100, 2)
 		 );
-		 $progress['sale']['progress'] = round($progress['sale']['count'] / $progress['sale']['kpi'] * 100, 2);
+//		 $progress['sale']['progress'] = round($progress['sale']['count'] / $progress['sale']['kpi'] * 100, 2);
 
 		 $inputContact['where'] = array('date_rgt_study >=' => strtotime(date('d-m-Y')), 'is_hide' => '0', 'is_old' => '1');
 		 $today = $this->contacts_model->load_all($inputContact);
-		 $progress['branch'] = array(
+		 $progress['progressbar']['branch'] = array(
 			 'count' => count($today),
 			 'kpi' => $total_to_day_L8,
 			 'name' => 'Học viên cũ',
-			 'type' => 'L8'
+			 'type' => 'L8',
+			 'progress' => round(count($today) / $total_to_day_L8 * 100, 2)
 		 );
-		 $progress['branch']['progress'] = round($progress['branch']['count'] / $progress['branch']['kpi'] * 100, 2);
+//		 $progress['branch']['progress'] = round($progress['branch']['count'] / $progress['branch']['kpi'] * 100, 2);
 
-		 $progress['progressbar'] = $progress;
+		 $this->load->model('call_log_model');
+		 $input = array();
+		 $input['select'] = 'distinct(contact_id)';
+		 $input['where'] = array('staff_id' => $this->user_id);
+		 $input['group_by'] = array('contact_id');
+
+		 $input_called_1 = array_merge($input, array('having' => array('count(contact_id)' => 1)));
+		 $input_called_2 = array_merge($input, array('having' => array('count(contact_id)' => 2)));
+		 $input_called_3 = array_merge($input, array('having' => array('count(contact_id)' => 3)));
+
+		 $called_1 = $this->call_log_model->load_all($input_called_1);
+		 $called_2 = $this->call_log_model->load_all($input_called_2);
+		 $called_3 = $this->call_log_model->load_all($input_called_3);
+
+//		 $array = array();
+		 foreach ($called_1 as $value) {
+			 $array_called_1[] = $value['contact_id'];
+		 }
+
+		 foreach ($called_2 as $value) {
+			 $array_called_2[] = $value['contact_id'];
+		 }
+
+		 foreach ($called_3 as $value) {
+			 $array_called_3[] = $value['contact_id'];
+		 }
+
+		 $condition = array(
+		 	 'L1' => array(
+				 'where' => array('date_handover >=' => strtotime(date('d-m-Y')), 'is_hide' => '0')
+			  ),
+		 	 'L1_XULY' => array(
+				 'where' => array('call_status_id !=' => 0, 'date_handover >=' => strtotime(date('d-m-Y')), 'is_hide' => '0')
+			 ),
+		 	 'KNM_LAN_1' => array(
+		 		 'where' => array('call_status_id' => _KHONG_NGHE_MAY_, 'date_last_calling < ' => strtotime(date('d-m-Y'))),
+				 'where_in' => array('id' => $array_called_1)
+			 ),
+			 'KNM_LAN_2' => array(
+				 'where' => array('call_status_id' => _KHONG_NGHE_MAY_, 'date_last_calling < ' => strtotime(date('d-m-Y'))),
+				 'where_in' => array('id' => $array_called_2)
+			 ),
+			 'KNM_LAN_3' => array(
+				 'where' => array('call_status_id' => _KHONG_NGHE_MAY_, 'date_last_calling < ' => strtotime(date('d-m-Y'))),
+				 'where_in' => array('id' => $array_called_3)
+			 ),
+			 'L3' => array(
+			 	'where' => array('level_contact_id' => 'L3', 'date_last_calling < ' => strtotime(date('d-m-Y'))),
+			 ),
+			 'L2' => array(
+			 	'where' => array('level_contact_id' => 'L2', 'date_last_calling < ' => strtotime(date('d-m-Y'))),
+			 )
+		 );
+
+		 $get = array();
+		 foreach ($condition as $key => $item) {
+			 $conditional = array_merge_recursive($item, array('where' => array('sale_staff_id' => $this->user_id)));
+			 $result[$key] = $this->_query_for_report($get, $conditional);
+		 }
+//		 print_arr($result);
+
+		 $progress['progress_sale'] = $result;
 
 		 return $progress;
     }
@@ -1071,7 +1125,6 @@ class Sale extends MY_Controller {
 		// tính L6,L8 theo thang
         $this->load->model('staffs_model');
         $qr = $this->staffs_model->SumTarget();
-		//echo $qr[0]['targets'];die;
         $total_month_L6 = round($qr[0]['targets']*30*0.3);
         $total_month_L8 = round($total_month_L6*0.85);
 
@@ -1190,69 +1243,87 @@ class Sale extends MY_Controller {
 
         $data = $this->_get_all_require_data();
 
+
         $post = $this->input->post();
+
+		$this->load->model('call_log_model');
+		$input = array();
+		$input['select'] = 'distinct(contact_id)';
+		$input['where'] = array('staff_id' => $this->user_id);
+		$input['group_by'] = array('contact_id');
+
         switch ($post['type']) {
-            case 'new':
+            case 'L1':
                 $input = array();
                 $input['where'] = array('call_status_id' => '0', 'sale_staff_id' => $this->user_id, 'is_hide' => '0');
                 $input['order'] = array('date_handover' => 'DESC');
                 break;
-            case 'call_back':
+            case 'KNM_LAN_1':
                 $input = array();
+				$input_called_1 = array_merge($input, array('having' => array('count(contact_id)' => 1)));
+				$called_1 = $this->call_log_model->load_all($input_called_1);
+				foreach ($called_1 as $value) {
+					$array_called_1[] = $value['contact_id'];
+				}
+
                 $input['where'] = array(
-                    'date_recall >' => '0',
-                    'date_recall <' => strtotime('tomorrow'),
+                    'call_status_id' => _KHONG_NGHE_MAY_,
+                    'date_last_calling <' => strtotime(date('d-m-Y')),
                     'sale_staff_id' => $this->user_id,
                     'is_hide' => '0'
                 );
-                $input['where_not_in'] = array(
-                    'call_status_id' => $this->_get_stop_care_call_stt(),
-//                    'ordering_status_id' => $this->_get_stop_care_order_stt()
-					'level_contact_id' => array('L4', 'L4.1', 'L4.2', 'L4.3', 'L4.4', 'L4.5'),
-                );
+                $input['where_in']['id'] = $array_called_1;
                 break;
-            case 'less_3':
-                $this->load->model('call_log_model');
-                $input = array();
-                $input['select'] = 'distinct(contact_id)';
-                $input['where'] = array('staff_id' => $this->user_id);
-                $input['group_by'] = array('contact_id');
-                $input['having'] = array('count(contact_id) <=' => 3);
-                $called_less_3 = $this->call_log_model->load_all($input);
-
-                $array = array();
-                foreach ($called_less_3 as $value) {
-                    $array[] = $value['contact_id'];
-                }
-                $input = array();
-                $input['where']['sale_staff_id'] = $this->user_id;
-                $input['where']['is_hide'] = '0';
-                $input['where']['(`call_status_id` = ' . _KHONG_NGHE_MAY_ . ' OR `ordering_status_id` in (' . _BAN_GOI_LAI_SAU_ . ' , ' . _CHAM_SOC_SAU_MOT_THOI_GIAN_ . ',' . _LAT_NUA_GOI_LAI_ . '))'] = 'NO-VALUE';
-                if(!empty($array)){
-					$input['where_in']['id'] = $array;
+            case 'KNM_LAN_2':
+				$input = array();
+				$input_called_2 = array_merge($input, array('having' => array('count(contact_id)' => 2)));
+				$called_2 = $this->call_log_model->load_all($input_called_2);
+				foreach ($called_2 as $value) {
+					$array_called_2[] = $value['contact_id'];
 				}
-                break;
-            case 'more_3':
-                $this->load->model('call_log_model');
-                $input = array();
-                $input['select'] = 'distinct(contact_id)';
-                $input['where'] = array('staff_id' => $this->user_id);
-                $input['group_by'] = array('contact_id');
-                $input['having'] = array('count(contact_id) >' => 3);
-                $called_more_3 = $this->call_log_model->load_all($input);
 
-                $array = array();
-                foreach ($called_more_3 as $value) {
-                    $array[] = $value['contact_id'];
-                }
-                $input = array();
-                $input['where']['sale_staff_id'] = $this->user_id;
-                $input['where']['is_hide'] = '0';
-                $input['where']['(`call_status_id` = ' . _KHONG_NGHE_MAY_ . ' OR `ordering_status_id` in (' . _BAN_GOI_LAI_SAU_ . ' , ' . _CHAM_SOC_SAU_MOT_THOI_GIAN_ . ',' . _LAT_NUA_GOI_LAI_ . '))'] = 'NO-VALUE';
-                if(!empty($array)){
-					$input['where_in']['id'] = $array;
-				}
+				$input['where'] = array(
+					'call_status_id' => _KHONG_NGHE_MAY_,
+					'date_last_calling <' => strtotime(date('d-m-Y')),
+					'sale_staff_id' => $this->user_id,
+					'is_hide' => '0'
+				);
+				$input['where_in']['id'] = $array_called_2;
                 break;
+            case 'KNM_LAN_3':
+				$input = array();
+				$input_called_3 = array_merge($input, array('having' => array('count(contact_id)' => 2)));
+				$called_3 = $this->call_log_model->load_all($input_called_3);
+				foreach ($called_3 as $value) {
+					$array_called_3[] = $value['contact_id'];
+				}
+
+				$input['where'] = array(
+					'call_status_id' => _KHONG_NGHE_MAY_,
+					'date_last_calling <' => strtotime(date('d-m-Y')),
+					'sale_staff_id' => $this->user_id,
+					'is_hide' => '0'
+				);
+				$input['where_in']['id'] = $array_called_3;
+                break;
+
+			case 'L3':
+				$input = array();
+				$input['where'] = array(
+					'level_contact_id' => 'L3',
+					'date_last_calling <' => strtotime(date('d-m-Y')),
+					'sale_staff_id' => $this->user_id,
+				);
+				break;
+
+			case 'L2':
+				$input = array();
+				$input['where'] = array(
+					'level_contact_id' => 'L2',
+					'date_last_calling <' => strtotime(date('d-m-Y')),
+					'sale_staff_id' => $this->user_id,
+				);
+				break;
             default :
         }
 
@@ -1262,7 +1333,7 @@ class Sale extends MY_Controller {
         $data['contacts'] = $data_pagination['data'];
         $data['total_contact'] = $data_pagination['total_row'];
 
-        $this->table .= 'date_rgt date_handover link';
+        $this->table .= 'date_rgt date_handover';
         $data['table'] = explode(' ', $this->table);
         echo $this->load->view('common/content/tbl_contact', $data);
     }
