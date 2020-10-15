@@ -1086,7 +1086,7 @@ class Sale extends MY_Controller {
 				 'where' => array('date_handover >=' => strtotime(date('d-m-Y')), 'is_hide' => '0')
 			  ),
 		 	 'L1_XULY' => array(
-				 'where' => array('call_status_id !=' => 0, 'date_handover >=' => strtotime(date('d-m-Y')), 'is_hide' => '0')
+				 'where' => array('call_status_id !=' => 0, 'is_hide' => '0')
 			 ),
 		 	 'KNM_LAN_1' => array(
 		 		 'where' => array('call_status_id' => _KHONG_NGHE_MAY_, 'date_last_calling < ' => strtotime(date('d-m-Y'))),
@@ -1257,6 +1257,7 @@ class Sale extends MY_Controller {
                 $input['where'] = array('call_status_id' => '0', 'sale_staff_id' => $this->user_id, 'is_hide' => '0');
                 $input['order'] = array('date_handover' => 'DESC');
                 break;
+
             case 'KNM_LAN_1':
                 $input = array();
 				$input_called_1 = array_merge($input_call, array('having' => array('count(contact_id)' => 1)));
