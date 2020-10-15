@@ -135,7 +135,7 @@
 								<div class="panel panel-danger text-center">
 									<div class="panel-heading">Hoàn thành</div>
 									<div class="panel-body">
-										<button class="btn btn-warning btn-block"><?php echo round($progress_sale['L1_XULY'] / $progress_sale['L1'] * 100, 2);?></button>
+										<button class="btn btn-warning btn-block"><?php echo round($progress_sale['L1_XULY'] / $progress_sale['L1'] * 100, 2);?> %</button>
 									</div>
 								</div>
 							</div>

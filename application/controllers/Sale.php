@@ -1083,7 +1083,7 @@ class Sale extends MY_Controller {
 
 		 $condition = array(
 		 	 'L1' => array(
-				 'where' => array('call_status_id' => '0', 'date_handover >=' => strtotime(date('d-m-Y')), 'is_hide' => '0')
+				 'where' => array('date_handover >=' => strtotime(date('d-m-Y')), 'is_hide' => '0')
 			 ),
 		 	 'L1_XULY' => array(
 				 'where' => array('call_status_id !=' => 0, 'date_handover >=' => strtotime(date('d-m-Y')), 'is_hide' => '0')
@@ -1113,6 +1113,7 @@ class Sale extends MY_Controller {
 			 $conditional = array_merge_recursive($item, array('where' => array('sale_staff_id' => $this->user_id)));
 			 $result[$key] = $this->_query_for_report($get, $conditional);
 		 }
+
 //		 print_arr($result);
 
 		 $progress['progress_sale'] = $result;
@@ -1254,7 +1255,7 @@ class Sale extends MY_Controller {
         switch ($post['type']) {
             case 'L1':
                 $input = array();
-                $input['where'] = array('call_status_id' => '0', 'date_handover >=' => strtotime(date('d-m-Y')), 'sale_staff_id' => $this->user_id, 'is_hide' => '0');
+                $input['where'] = array('call_status_id' => '0', 'sale_staff_id' => $this->user_id, 'is_hide' => '0');
 //                $input['order'] = array('date_handover' => 'DESC');
                 break;
 
