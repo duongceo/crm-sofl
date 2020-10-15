@@ -1083,10 +1083,10 @@ class Sale extends MY_Controller {
 
 		 $condition = array(
 		 	 'L1' => array(
-				 'where' => array('date_handover >=' => strtotime(date('d-m-Y')), 'is_hide' => '0')
+				 'where' => array('call_status_id =' => 0, 'is_hide' => '0')
 			  ),
 		 	 'L1_XULY' => array(
-				 'where' => array('call_status_id !=' => 0, 'is_hide' => '0')
+				 'where' => array('call_status_id !=' => 0, 'date_handover >=' => strtotime(date('d-m-Y')), 'is_hide' => '0')
 			 ),
 		 	 'KNM_LAN_1' => array(
 		 		 'where' => array('call_status_id' => _KHONG_NGHE_MAY_, 'date_last_calling < ' => strtotime(date('d-m-Y'))),
