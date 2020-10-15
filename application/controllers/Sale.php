@@ -1274,6 +1274,7 @@ class Sale extends MY_Controller {
                 );
                 $input['where_in']['id'] = $array_called_1;
                 break;
+
             case 'KNM_LAN_2':
 				$input = array();
 				$input_called_2 = array_merge($input, array('having' => array('count(contact_id)' => 2)));
@@ -1290,9 +1291,10 @@ class Sale extends MY_Controller {
 				);
 				$input['where_in']['id'] = $array_called_2;
                 break;
+
             case 'KNM_LAN_3':
 				$input = array();
-				$input_called_3 = array_merge($input, array('having' => array('count(contact_id)' => 2)));
+				$input_called_3 = array_merge($input, array('having' => array('count(contact_id)' => 3)));
 				$called_3 = $this->call_log_model->load_all($input_called_3);
 				foreach ($called_3 as $value) {
 					$array_called_3[] = $value['contact_id'];
