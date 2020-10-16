@@ -105,8 +105,8 @@
 				<?php
 			} ?>
 
-			<td><?php echo $total_L5 ?></td>
-			<td><?php echo $total_L8 ?></td>
+			<td style="background-color: #e787548f;"><?php echo $total_L5 ?></td>
+			<td style="background-color: #e787548f;"><?php echo $total_L8 ?></td>
 		</tr>
 
 		<?php
