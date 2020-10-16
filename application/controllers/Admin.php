@@ -40,7 +40,6 @@ class Admin extends MY_Controller {
 
         $data_pagination = $this->_query_all_from_get($get, $conditional, $this->per_page, $offset);
 
-
         /*
 
          * Lấy link phân trang và danh sách contacts
@@ -53,8 +52,6 @@ class Admin extends MY_Controller {
 
         $data['total_contact'] = $data_pagination['total_row'];
 
-
-
         /*
 
          * Filter ở cột trái và cột phải
@@ -65,8 +62,6 @@ class Admin extends MY_Controller {
 
 //        $data['right_col'] = array('call_status', 'ordering_status', 'cod_status', 'provider');
 
-
-
         /*
 
          * Các trường cần hiện của bảng contact (đã có default)
@@ -76,8 +71,6 @@ class Admin extends MY_Controller {
         $this->table .= 'call_stt ordering_stt action';
 
         $data['table'] = explode(' ', $this->table);
-
-
 
         /*
 
@@ -92,8 +85,6 @@ class Admin extends MY_Controller {
             'a_delete_one_contact', 'a_retrieve_contact'
 
         );
-
-
 
         $data['titleListContact'] = 'Danh sách contact mới';
 
@@ -171,19 +162,19 @@ class Admin extends MY_Controller {
 	
 	function delete_forever_one_contact() {
 		$post = $this->input->post();
-		$post = array_reverse($post['contact_id']);
+//		$post = array_reverse($post['contact_id']);
 		// unset($post[0]);
 				
 		if (!empty($post)) {
-			foreach ($post as $value) {
+//			foreach ($post as $value) {
                 
-				$where = array('id' => $value);
+				$where = array('id' => $post['contact_id']);
 
 				$this->contacts_model->delete($where);
 
 			}
 			 echo '1';
-		}
+//		}
 	}
 	
 

@@ -56,7 +56,6 @@
 
               <li> <i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp; Chăm sóc contact này </li>
 
-			
             </a>
 
 			<!-- <a href="#" contact_id="0" contact_name="0" class="restore-infor one-item-selected" >
@@ -98,7 +97,7 @@
 
             <a href="#" class="transfer_contact multi-item-selected">
 
-                <li>  <i class="fa fa-exchange" aria-hidden="true"></i>  &nbsp; &nbsp; Chuyển nhượng các contact đã chọn </li>
+                <li><i class="fa fa-exchange" aria-hidden="true"></i>  &nbsp; &nbsp; Chuyển nhượng các contact đã chọn </li>
 
             </a>
 
@@ -335,6 +334,14 @@
 
 				</a>
 			<?php } ?>
+
+			<a href="#" class="action-contact-admin load-new-contact-id" data-answer="Xóa contact thành công (xóa hẳn)!" data-url="admin/delete_forever_one_contact">
+
+				<li> <i class="fa fa-trash" aria-hidden="true"></i> &nbsp; &nbsp; Xóa Contact
+
+				</li>
+
+			</a>
 
         <?php } ?>
         

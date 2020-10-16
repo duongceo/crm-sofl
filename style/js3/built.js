@@ -561,6 +561,7 @@ $(".action-contact-admin").confirm({
         confirm: {
             text: 'Có',
             action: function () {
+            	/*
 				var contactIdArray = [];
 				$('input[type="checkbox"]').each(
 					function () {
@@ -569,16 +570,17 @@ $(".action-contact-admin").confirm({
 						}
 					}
 				);
-				/*alert(contactIdArray);*/
+            	 */
                 var _this = this.$target;
-                /*var contactID = _this.attr("data-contact-id");*/
+                var contactID = _this.attr("data-contact-id");
                 var url = $("#base_url").val() + _this.attr("data-url");
+
                 $.ajax({
                     type: "POST",
                     url: url,
                     data: {
-                        /*contact_id: contactID*/
-						contact_id: contactIdArray
+                        contact_id: contactID
+						/*contact_id: contactIdArray */
                     },
                     success: data => {
                         if (data === '1') {
@@ -590,7 +592,7 @@ $(".action-contact-admin").confirm({
 									 confirm: {
 										 text: 'OK',
 										 action: function(){
-											  location.reload(); 
+											  location.reload();
 										 }
 									 }
                                  }
@@ -603,7 +605,7 @@ $(".action-contact-admin").confirm({
                 });
             }},
         cancel: {
-            text: 'Nope',
+            text: 'Hủy',
             action: function () {
             }}
     }
@@ -3264,9 +3266,9 @@ $(document).on('change', '[name="add_role_id"]', function () {
 			$(".ajax_kpi").html(data);
 		},
 
-		// complete: function () {
-		// 	$('.selectpicker').selectpicker({});
-		// }
+		complete: function () {
+			$('.selectpicker').selectpicker({});
+		}
 
 	});
 });
