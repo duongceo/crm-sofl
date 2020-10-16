@@ -92,7 +92,7 @@
 
 	?>
 
-	<tr>
+	<tr style="background-color: #61bcb4f0;">
 
 		<td> Tổng </td>
 
@@ -176,14 +176,14 @@
 				<?php
 			} ?>
 
-				<td><?php echo number_format($total_re, 0, ",", ".") . " VNĐ";?></td>
+				<td style="background-color: #b4cc46e6;"><?php echo number_format($total_re, 0, ",", ".") . " VNĐ";?></td>
 			</tr>
 		<?php
 		}
 
 		?>
 
-		<tr>
+		<tr style="background-color: #61bcb4f0;">
 			<td> Tổng </td>
 			<?php foreach ($total as $item) { ?>
 				<td> <h5> <?php echo number_format($item['total_re_old'], 0, ",", ".") . " VNĐ"; ?></h5></td>
