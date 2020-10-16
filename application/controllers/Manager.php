@@ -1140,7 +1140,7 @@ class Manager extends MY_Controller {
 
                 'LC' => array(
                     'where' => array('is_hide' => '0', 'date_rgt >' => $startDate, 'date_rgt <' => $endDate,
-                        '(`call_status_id` = ' . _SO_MAY_SAI_ . ' OR `call_status_id` = ' . _NHAM_MAY_ . ' OR `ordering_status_id` = ' . _CONTACT_CHET_ . ')' => 'NO-VALUE'),
+                        '(`call_status_id` = ' . _SO_MAY_SAI_ . ' OR `call_status_id` = ' . _NHAM_MAY_ . ')' => 'NO-VALUE'),
                     'sum' => 0
                 ),
                 /*
