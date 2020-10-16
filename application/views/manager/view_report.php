@@ -64,6 +64,7 @@
 			array('Xử Lý', 'XU_LY', $XU_LY),
 			array('Nghe Máy', 'NGHE_MAY', $NGHE_MAY),
 			array('Ko Nghe Máy', 'KHONG_NGHE_MAY', $KHONG_NGHE_MAY),
+			array('Contact chết', 'LC', $LC),
             array('L1', 'L1', $L1),
             array('L2', 'L2', $L2),
             array('L3', 'L3', $L3),
@@ -280,7 +281,7 @@
 			array('Xử Lý', 'XU_LY', $XU_LY_L),
 			array('Nghe Máy', 'NGHE_MAY', $NGHE_MAY_L),
 			array('Ko Nghe Máy', 'KHONG_NGHE_MAY', $KHONG_NGHE_MAY_L),
-
+			array('Contact chết', 'LC', $LC_L),
 			array('L1', 'L1', $L1_L),
 			array('L2', 'L2', $L2_L),
 			array('L3', 'L3', $L3_L),

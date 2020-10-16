@@ -1137,12 +1137,13 @@ class Manager extends MY_Controller {
                     'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_student_id' => 'L8', 'date_rgt >=' => $startDate, 'date_rgt <' => $endDate),
                     'sum' => 0
                 ),
-                /*
+
                 'LC' => array(
                     'where' => array('is_hide' => '0', 'date_rgt >' => $startDate, 'date_rgt <' => $endDate,
                         '(`call_status_id` = ' . _SO_MAY_SAI_ . ' OR `call_status_id` = ' . _NHAM_MAY_ . ' OR `ordering_status_id` = ' . _CONTACT_CHET_ . ')' => 'NO-VALUE'),
                     'sum' => 0
                 ),
+                /*
                 'CON_CUU_DUOC' => array(
                     'where' => array('is_hide' => '0', 'date_rgt >' => $startDate, 'date_rgt <' => $endDate,
                         '(`call_status_id` = ' . _KHONG_NGHE_MAY_ . ' OR `ordering_status_id` in (' . _BAN_GOI_LAI_SAU_ . ' , ' . _CHAM_SOC_SAU_MOT_THOI_GIAN_ . ',' . _LAT_NUA_GOI_LAI_ . '))' => 'NO-VALUE'),
@@ -1204,12 +1205,12 @@ class Manager extends MY_Controller {
 					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_student_id' => 'L8', 'date_rgt_study >=' => $startDate, 'date_rgt_study <' => $endDate),
 					'sum' => 0
 				),
-				/*
                 'LC' => array(
-                    'where' => array('is_hide' => '0', 'date_rgt >' => $startDate, 'date_rgt <' => $endDate,
-                        '(`call_status_id` = ' . _SO_MAY_SAI_ . ' OR `call_status_id` = ' . _NHAM_MAY_ . ' OR `ordering_status_id` = ' . _CONTACT_CHET_ . ')' => 'NO-VALUE'),
+                    'where' => array('is_hide' => '0', 'date_last_calling >' => $startDate, 'date_last_calling <' => $endDate,
+                        '(`call_status_id` = ' . _SO_MAY_SAI_ . ' OR `call_status_id` = ' . _NHAM_MAY_ . ')' => 'NO-VALUE'),
                     'sum' => 0
                 ),
+				/*
                 'CON_CUU_DUOC' => array(
                     'where' => array('is_hide' => '0', 'date_rgt >' => $startDate, 'date_rgt <' => $endDate,
                         '(`call_status_id` = ' . _KHONG_NGHE_MAY_ . ' OR `ordering_status_id` in (' . _BAN_GOI_LAI_SAU_ . ' , ' . _CHAM_SOC_SAU_MOT_THOI_GIAN_ . ',' . _LAT_NUA_GOI_LAI_ . '))' => 'NO-VALUE'),
