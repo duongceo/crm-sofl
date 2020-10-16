@@ -1408,6 +1408,7 @@ class Manager extends MY_Controller {
 		$require_model = array(
 			'branch' => array(),
 			'language_study' => array(),
+			'sources' => array()
 		);
 		$data = $this->_get_require_data($require_model);
 
@@ -1484,6 +1485,7 @@ class Manager extends MY_Controller {
 		unset($get['filter_date_date_happen']);
 
 		$branch = array();
+		$total = array();
 		if (in_array($this->role_id, array(3, 5))) {
 			foreach ($data['branch'] as $key => $value) {
 				foreach ($data['language_study'] as $item) {
@@ -1495,10 +1497,13 @@ class Manager extends MY_Controller {
 //						echo '<pre>'; print_r($conditional);
 						$branch[$key]['name'] = $value['name'];
 						$branch[$key][$item['id']][$key2] = $this->_query_for_report($get, $conditional);
-						$data[$key2] += $branch[$key][$key2];
+						$total[$item['id']][$key2] += $branch[$key][$item['id']][$key2];
 					}
 				}
 			}
+			$branch['total'] = $total;
+			$branch['total']['name'] = 'Tổng';
+//			print_arr($branch);
 		} else if ($this->role_id == 12) {
 			$this->load->model('branch_model');
 			$branch_id = $this->session->userdata('branch_id');
@@ -1511,7 +1516,7 @@ class Manager extends MY_Controller {
 //					echo '<pre>'; print_r($conditional);
 					$branch[$branch_id]['name'] = $this->branch_model->find_branch_name($branch_id);
 					$branch[$branch_id][$item['id']][$key2] = $this->_query_for_report($get, $conditional);
-					$data[$branch_id] += $branch[$branch_id][$key2];
+//					$data[$branch_id] += $branch[$branch_id][$key2];
 				}
 			}
 		}
@@ -1522,7 +1527,7 @@ class Manager extends MY_Controller {
 		$data['startDate'] = $startDate;
 		$data['endDate'] = $endDate;
 		$data['left_col'] = array('date_happen_1', 'tic_report');
-//		$data['right_col'] = array('is_old');
+		$data['right_col'] = array('source');
 		$data['load_js'] = array('m_view_report');
 		$data['content'] = 'manager/view_report_student_branch';
 		if($this->role_id == 1){

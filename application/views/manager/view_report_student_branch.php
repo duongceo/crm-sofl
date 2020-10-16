@@ -70,7 +70,7 @@
 		$total_L5 = 0;
 		$total_L8 = 0;
 		?>
-		<tr>
+		<tr <?php if ($key == 'total') echo 'style="background-color: #089bcebd"'?>>
 			<td style="background-color: #8aa6c1;"><h6><?php echo $value['name']?></h6></td>
 			<?php
 			foreach ($language_study as $item) {
@@ -90,11 +90,11 @@
 					<?php echo $value[$item['id']]['L3']; ?>
 				</td>
 
-				<td style="background-color: #9cc2cb">
+				<td <?php if ($key != 'total') echo 'style="background-color: #9cc2cb"'?>>
 					<?php echo $value[$item['id']]['L5']; ?>
 				</td>
 
-				<td style="background-color: #9cc2cb">
+				<td <?php if ($key != 'total') echo 'style="background-color: #9cc2cb"' ?>>
 					<?php echo $value[$item['id']]['L8']; ?>
 				</td>
 
@@ -108,10 +108,13 @@
 			<td><?php echo $total_L5 ?></td>
 			<td><?php echo $total_L8 ?></td>
 		</tr>
+
 		<?php
+
 	}
 
 	?>
+
 
 	</tbody>
 

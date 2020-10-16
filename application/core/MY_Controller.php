@@ -698,19 +698,8 @@ class MY_Controller extends CI_Controller {
         $input = array();
 
         $input['select'] = 'id';
-		
-		/*
-        $input['where'] = array(
 
-			'phone' => $phone,
-
-            //'level_language_id' => $level_language_id
-
-        );
-		*/
-		
-        
-        $input['like_before'] = array('phone' => $phone);
+        $input['like'] = array('phone' => $phone);
         
         $input['order'] = array('id', 'ASC');
 		

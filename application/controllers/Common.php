@@ -1880,9 +1880,12 @@ class Common extends MY_Controller {
 			echo $str;
 		} else {
     		echo '<td class="text-right">
-					
 				</td>';
 		}
 	}
+
+//	public function get_level_language(){
+//    	$post = $this->input->post();
+//	}
 
 }

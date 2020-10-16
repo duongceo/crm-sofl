@@ -371,7 +371,8 @@ class Sale extends MY_Controller {
         $this->form_validation->set_rules('date_rgt', 'Ngày contact về', 'required');
         $this->form_validation->set_rules('branch_id', 'Cơ sở', 'required');
         $this->form_validation->set_rules('is_old', 'Học viên cũ hay mới ?', 'required');
-//        $this->form_validation->set_rules('source_id', 'Nguồn contact', 'required|callback_check_source_id');
+        $this->form_validation->set_rules('source_id', 'Nguồn contact', 'required');
+
         if (!empty($input)) {
             if ($this->form_validation->run() == FALSE) {
                 $this->session->set_tempdata('message', 'Có lỗi xảy ra trong quá trình nhập liệu', 2);
