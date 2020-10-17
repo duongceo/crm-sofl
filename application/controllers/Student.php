@@ -34,7 +34,7 @@ class Student extends MY_Controller {
 		$data['contacts'] = $data_pagination['data'];
 		$data['total_contact'] = $data_pagination['total_row'];
 
-		$data['left_col'] = array('date_rgt', 'date_confirm', 'date_rgt_study');
+		$data['left_col'] = array('date_rgt', 'date_confirm', 'date_rgt_study', 'date_paid');
 		$data['right_col'] = array('language', 'is_old');
 
 		$this->table .= 'class_study_id fee paid level_contact level_student date_rgt date_rgt_study';
@@ -72,8 +72,8 @@ class Student extends MY_Controller {
 		$data['progress'] = $this->GetProccessThisMonth();
 		$data['progressType'] = 'Doanh thu tại cơ sở tháng này';
 
-        $data['left_col'] = array('language', 'is_old', 'date_rgt', 'date_handover', 'date_recall', 'date_confirm', 'date_rgt_study');
-        $data['right_col'] = array('call_status', 'level_contact', 'level_contact_detail', 'level_student', 'level_student_detail');
+        $data['left_col'] = array('is_old', 'date_rgt', 'date_handover', 'date_recall', 'date_confirm', 'date_rgt_study', 'date_paid');
+        $data['right_col'] = array('language', 'call_status', 'level_contact', 'level_contact_detail', 'level_student', 'level_student_detail');
 
         $this->table .= 'fee paid call_stt level_contact date_rgt date_last_calling';
         $data['table'] = explode(' ', $this->table);

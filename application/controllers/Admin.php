@@ -164,19 +164,25 @@ class Admin extends MY_Controller {
 		$post = $this->input->post();
 //		$post = array_reverse($post['contact_id']);
 		// unset($post[0]);
-				
+
 		if (!empty($post)) {
-//			foreach ($post as $value) {
-                
-				$where = array('id' => $post['contact_id']);
+			$this->load->model('paid_model');
+			$this->load->model('notes_model');
+			$this->load->model('transfer_logs_model');
 
-				$this->contacts_model->delete($where);
+			$where = array('id' => $post['contact_id']);
 
-			}
-			 echo '1';
-//		}
+			$this->contacts_model->delete($where);
+
+			$where_paid_note = array('contact_id' => $post['contact_id']);
+
+			$this->paid_model->delete($where_paid_note);
+			$this->notes_model->delete($where_paid_note);
+			$this->transfer_logs_model->delete($where_paid_note);
+
+			echo '1';
+		}
 	}
-	
 
     // function retrieve_contact() {
 
