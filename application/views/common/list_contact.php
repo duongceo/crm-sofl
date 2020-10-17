@@ -52,7 +52,7 @@
     <?php if (in_array($this->role_id, array(3, 12, 5, 7))) { ?>
 		<div class="row">
 			<div class="col-md-10 col-md-offset-1">
-				<h3 class="text-center marginbottom20">Doanh thu hôm nay</h3>
+				<h3 class="text-center marginbottom20">Doanh thu</h3>
 			</div>
 		</div>
 

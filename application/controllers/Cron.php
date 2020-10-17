@@ -1617,7 +1617,6 @@ class Cron extends CI_Controller {
 	}
 
     public function delete_contact_test() {
-		echo 'asads'; die;
         $this->contacts_model->call_pr();
     }
 	

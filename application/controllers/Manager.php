@@ -1774,7 +1774,7 @@ class Manager extends MY_Controller {
         $qr = $this->staffs_model->SumTarget();
 		//echo $qr[0]['targets'];die;
         $total_month_L5 = round($qr[0]['targets']*30);
-		$total_month_L8 = 0;
+		$total_month_L8 = 500;
 
         $progress = [];
         $inputContact = array();
@@ -1789,7 +1789,7 @@ class Manager extends MY_Controller {
 		);
         $progress['marketing']['progress'] = round($progress['marketing']['count'] / $progress['marketing']['kpi'] * 100, 2);
 
-        $inputContact['where'] = array('date_rgt_study >' => strtotime(date('01-m-Y')), 'is_hide' => '0', 'is_old' => '0');
+        $inputContact['where'] = array('date_rgt_study >=' => strtotime(date('01-m-Y')), 'is_hide' => '0', 'is_old' => '0');
         $today = $this->contacts_model->load_all($inputContact);
         $progress['sale'] = array(
             'count' => count($today),
@@ -1799,7 +1799,7 @@ class Manager extends MY_Controller {
 		);
         $progress['sale']['progress'] = round($progress['sale']['count'] / $progress['sale']['kpi'] * 100, 2);
 
-		$inputContact['where'] = array('date_rgt_study >' => strtotime(date('1-m-Y')), 'is_hide' => '0', 'is_old' => '1');
+		$inputContact['where'] = array('date_rgt_study >=' => strtotime(date('1-m-Y')), 'is_hide' => '0', 'is_old' => '1');
 		$today = $this->contacts_model->load_all($inputContact);
 		$progress['branch'] = array(
 			'count' => count($today),
