@@ -1,9 +1,13 @@
 <?php
 
 //namespace Google\AdsApi\Examples\AdWords\v201809\BasicOperations;
-require __DIR__ . '/../../vendor/autoload.php';
 
+/*
+require __DIR__ . '/../../vendor/autoload.php';
+*/
 //đống này là dùng chung khi gọi đến api google
+
+
 use Google\AdsApi\AdWords\AdWordsServices;
 use Google\AdsApi\AdWords\AdWordsSession;
 use Google\AdsApi\AdWords\AdWordsSessionBuilder;
@@ -12,6 +16,7 @@ use Google\AdsApi\AdWords\v201809\cm\Selector;
 use Google\AdsApi\AdWords\v201809\cm\SortOrder;
 use Google\AdsApi\AdWords\v201809\cm\OrderBy;
 use Google\AdsApi\AdWords\v201809\cm\Paging;
+
 //đống này để lấy danh sách tài khoản con trong tài khoản ads google chính
 use Google\AdsApi\AdWords\v201809\mcm\ManagedCustomer;
 use Google\AdsApi\AdWords\v201809\mcm\ManagedCustomerService;
@@ -25,23 +30,12 @@ use Google\AdsApi\AdWords\Reporting\v201809\ReportDefinitionDateRangeType;
 use Google\AdsApi\AdWords\Reporting\v201809\ReportDownloader;
 use Google\AdsApi\AdWords\ReportSettingsBuilder;
 use Google\AdsApi\AdWords\v201809\cm\ReportDefinitionReportType;
+
 //đống này để lấy thông tin ads(adgroup google gọi thế)
 use Google\AdsApi\AdWords\v201809\cm\AdGroupService;
 use Google\AdsApi\AdWords\v201809\cm\Predicate;
 use Google\AdsApi\AdWords\v201809\cm\PredicateOperator;
-
 use Google\AdsApi\AdWords\v201809\cm\AdType;
-
-/*
-
- * To change this license header, choose License Headers in Project Properties.
-
- * To change this template file, choose Tools | Templates
-
- * and open the template in the editor.
-
- */
-
 
 
 /**
@@ -73,7 +67,7 @@ class Cron extends CI_Controller {
             echo '1';
 
         }*/
-
+		
     }
 
 
@@ -1096,10 +1090,6 @@ class Cron extends CI_Controller {
     }
     //end
 	
-
-	function test(){
-		phpinfo();
-	}
 	
 	const PAGE_LIMIT = 500;
 
@@ -1990,119 +1980,6 @@ class Cron extends CI_Controller {
 		header('Content-Disposition: attachment;filename="Contact_' . date('d/m/Y') . '.xlsx"');
 		header('Cache-Control: max-age=0');
 		$objWriter->save('php://output');
-	}
-	
-	public function landingpage() {
-    	$this->load->model('landingpage_model');
-		$this->load->model('staffs_model');
-		
-    	$input['where'] = array('active' => 1);
-		//$input['or_where'] = array('active' => 1, 'group_course_code' => 'pha-che');
-    	$lp = $this->landingpage_model->load_all($input);
-    	//echo '<pre>';
-    	//print_r($lp);die();
-		$C = array();
-		$date_start = strtotime(date('2019-01-01 00:00:00'));
-		$date_end = strtotime(date('2019-06-01 00:00:00'));
-		$price = 0;
-		foreach ($lp as &$value) {
-
-			/*
-			 * Lấy số C3 & số tiền tiêu
-			 */
-			$total_c3 = array();
-			$total_c3['select'] = 'id, price_purchase';
-			$total_c3['where'] = array(
-				'landingpage_id' => $value['id'],
-				'date_rgt >=' => $date_start,
-				'date_rgt <=' => $date_end
-			);
-			$C3 = $this->contacts_model->load_all($total_c3);
-			foreach($C3 as $val) {
-				$price = $price + $val['price_purchase'];
-			}
-			//lấy c2
-			$this->load->model('c2_model');
-			$total_c2 = array();
-			$total_c2['select'] = 'id';
-			$total_c2['where'] = array(
-				'landingpage_id' => $value['id'],
-				'date_rgt >=' => $date_start,
-				'date_rgt <=' => $date_end
-			);
-			$C2 = count($this->c2_model->load_all($total_c2));
-
-			$C3pC2 = ($C2 > 0) ? round((count($C3) / $C2), 4)*100 : '__';
-
-			//$C['marketer_id'] = $this->staffs_model->find_staff_name($value['marketer_id']);
-			
-			if ($C2 >= 500) {
-				$C[] = array(
-					'landingpage_code' => $value['landingpage_code'],
-					'C2' => $C2,
-					'C3' => count($C3),
-					'C3/C2' => $C3pC2,
-					'price' => $price,
-					'marketer' => $this->staffs_model->find_staff_name($value['marketer_id']),
-					'link_landingpage' => $value['url']
-				);
-			}
-		}
-		
-		usort($C, function ($a, $b) {
-			return $b['C3/C2'] - $a['C3/C2'];
-		});
-		
-		//echo '<pre>';
-    	//print_r($C);die();
-
-		$this->load->library('PHPExcel');
-		$objPHPExcel = new PHPExcel();
-		/*$objPHPExcel = PHPExcel_IOFactory::createReader('Excel2007');
-		$template_file_print = $this->config->item('template_file_print');
-		$objPHPExcel = $objPHPExcel->load($template_file_print);*/
-		$objPHPExcel->setActiveSheetIndex(0);
-
-		$objPHPExcel->getActiveSheet()->SetCellValue('A1');
-		$objPHPExcel->getActiveSheet()->SetCellValue('B1', 'Mã Landingpage');
-		$objPHPExcel->getActiveSheet()->SetCellValue('C1', 'C2');
-		$objPHPExcel->getActiveSheet()->SetCellValue('D1', 'C3');
-		$objPHPExcel->getActiveSheet()->SetCellValue('E1', 'C3/C2');
-		$objPHPExcel->getActiveSheet()->SetCellValue('F1', 'Giá');
-		$objPHPExcel->getActiveSheet()->SetCellValue('G1', 'Marketer');
-		$objPHPExcel->getActiveSheet()->SetCellValue('H1', 'Link');
-
-		$rowCount = 2;
-		foreach ($C as $key => $value) {
-
-			$columnName = 'A';
-			$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $key + 1);
-			$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $value['landingpage_code']);
-			$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $value['C2']);
-			$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $value['C3']);
-			$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $value['C3/C2']);
-			$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $value['price']);
-			$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $value['marketer']);
-			$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $value['link_landingpage']);
-			$rowCount++;
-
-		}
-		$objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
-		header('Content-Type: application/vnd.ms-excel');
-		header('Content-Disposition: attachment;filename="C' . date('d/m/Y') . '.xlsx"');
-		header('Cache-Control: max-age=0');
-		$objWriter->save('php://output');
-	}
-	
-	function get_contact(){
-		echo 'sfsf'; die;
-		
-		$input['select'] = 'phone, level_contact_id, language_id';
-		$input['where'] = array(
-			'is_hide' => '0'
-		);
-		$cts = $this->contacts_model->load_all($input);
-		print_arr($cts);
 	}
 	
 }

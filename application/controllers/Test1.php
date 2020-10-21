@@ -123,6 +123,10 @@ class Test1 extends CI_Controller {
         echo "success";
 
     }
+	
+	function test(){
+		phpinfo();
+	}
     
 
     function test2(){
