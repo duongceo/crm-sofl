@@ -80,8 +80,7 @@
                         <div class="col-md-8">
                             <div class="radio">
                                 <label class="radio-inline">
-                                    <input type="radio" name="is_old" value="1"> Cũ
-
+                                    <input type="radio" name="is_old" value="1" <?php echo (isset($_GET['is_old']) && $_GET['is_old']) == 1 ? 'checked':''?>> Cũ
                                 </label>
                                 <label class="radio-inline">
                                     <input type="radio" name="is_old" value="0"> Mới
@@ -91,23 +90,6 @@
                     </div>
                 </div>
 
-<!--                <div class="form-group">-->
-<!--                    <div class="row">-->
-<!--                        <div class="col-md-4 text-right">-->
-<!--                            Địa chỉ-->
-<!--                        </div>-->
-<!--                        <div class="col-md-8">-->
-<!--                            <input type="text" class="form-control" placeholder="Địa chỉ" name="address" value="-->
-<!--                            --><?php //if (isset($_GET['address'])) {
-//								echo $_GET['address'];
-//							} else {
-//								echo set_value('address');
-//							} ?>
-<!--							"/>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-
 				<div class="form-group">
 					<div class="row">
 						<div class="col-md-4 text-right">
@@ -116,11 +98,15 @@
 						<div class="col-md-8">
 							<select class="form-control" name="branch_id">
 								<option value="0"> Chọn cơ sở </option>
-								<?php foreach ($branch as $key => $value) { ?>
-									<option value="<?php echo $value['id']; ?>">
-										<?php echo $value['name'] . ' - ' . $value['address']; ?>
+								<?php
+								foreach ($branch as $key => $value) {
+									?>
+									<option value="<?php echo $value['id']; ?>" <?php if ($value['id'] == $_GET['branch_id']) echo 'selected'; ?>>
+										<?php echo $value['name']; ?>
 									</option>
-								<?php } ?>
+									<?php
+								}
+								?>
 							</select>
 						</div>
 					</div>
@@ -134,11 +120,15 @@
 						<div class="col-md-8">
 							<select class="form-control" name="call_status_id">
 								<option value="0"> Trạng thái gọi</option>
-								<?php foreach ($call_status as $key => $value) { ?>
-									<option value="<?php echo $value['id']; ?>">
+								<?php
+								foreach ($call_status as $key => $value) {
+									?>
+									<option value="<?php echo $value['id']; ?>" <?php if ($value['id'] == $_GET['call_status_id']) echo 'selected'; ?>>
 										<?php echo $value['name']; ?>
 									</option>
-								<?php } ?>
+									<?php
+								}
+								?>
 							</select>
 						</div>
 					</div>
@@ -152,11 +142,11 @@
                         <div class="col-md-8">
                             <select class="form-control select_contact_status" name="level_contact_id">
                                 <option value="">Trạng thái contact</option>
-                                <?php foreach ($level_contact as $value) { ?>
-                                    <option value="<?php echo $value['level_id']; ?>">
-                                        <?php echo $value['level_id'] . ' -- ' . $value['name'] .''; ?>
-                                    </option>
-                                <?php } ?>
+								<?php foreach ($level_contact as $key => $value) { ?>
+									<option value="<?php echo $value['level_id']; ?>" <?php if ($value['level_id'] == $_GET['level_contact_id']) echo 'selected'; ?>>
+										<?php echo $value['level_id'] . ' -- ' . $value['name'] .''; ?>
+									</option>
+								<?php } ?>
                             </select>
                         </div>
                     </div>
@@ -170,11 +160,11 @@
                         <div class="col-md-8">
                             <select class="form-control select_contact_status" name="level_student_id">
                                 <option value="">Trạng thái học viên</option>
-                                <?php foreach ($level_student as $value) { ?>
-                                    <option value="<?php echo $value['level_id']; ?>">
-                                        <?php echo $value['level_id'] . ' -- ' . $value['name'] .''; ?>
-                                    </option>
-                                <?php } ?>
+								<?php foreach ($level_student as $key => $value) { ?>
+									<option value="<?php echo $value['level_id']; ?>" <?php if ($value['level_id'] == $_GET['level_student_id']) echo 'selected'; ?>>
+										<?php echo $value['level_id'] . ' -- ' . $value['name'] .''; ?>
+									</option>
+								<?php } ?>
                             </select>
                         </div>
                     </div>
@@ -207,8 +197,8 @@
 							<select class="form-control" name="language_id">
 								<option value=""> Ngoại ngữ </option>
 								<?php foreach ($language_study as $value) { ?>
-									<option value="<?php echo $value['id']; ?>">
-										<?php echo $value['name']?>
+									<option value="<?php echo $value['id']; ?>" <?php if ($value['id'] == $_GET['language_id']) echo 'selected'; ?>>
+										<?php echo $value['name']; ?>
 									</option>
 								<?php } ?>
 							</select>
@@ -263,7 +253,7 @@
                                 <option value="0"> Chọn nguồn kênh </option>
 									<?php foreach ($sources as $key => $value) { ?>
                                     <option value="<?php echo $value['id']; ?>"
-										<?php if (set_value('source_id') == $value['id']) echo "selected"; ?>>
+										<?php if ($_GET['source_id'] == $value['id']) echo "selected"; ?>>
 										<?php echo $value['name']; ?>
 									</option>
 									<?php } ?>

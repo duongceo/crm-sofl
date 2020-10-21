@@ -1131,7 +1131,7 @@ class MY_Controller extends CI_Controller {
 
         $this->table .= 'fee paid call_stt level_contact';
 
-        if ($this->role_id == 1) {
+        if ($this->role_id == 1 || $this->role_id == 12) {
 
             /*  nếu là nhân viên sale thì thêm nút thêm contact khi tìm kiếm */
 
