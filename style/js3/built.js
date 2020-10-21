@@ -2122,8 +2122,6 @@ $(document).on("click", "td.tbl_name, td.tbl_address", function () {
     show_number_selected_row();
 });
 
-
-
 $("html").on("click", function (e) {
     $(".menu").hide();
     $(".menu-item").hide();
@@ -2135,12 +2133,6 @@ $("html").on("click", function (e) {
 
     }
 });
-
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /*
  * Khi check vào 1 item nào đó sẽ đánh dấu item đó (hiện màu xanh)

@@ -62,7 +62,9 @@
 						<div class="col-md-8">
 							<div class="form-group">
 								<div class='input-group date date_rgt'>
-									<input type='text' class="form-control" name='date_rgt' value="" />
+									<input type='text' class="form-control" name='date_rgt' value="<?php if (isset($_GET['date_rgt'])) {
+										echo date('m-d-Y H:m', $_GET['date_rgt']);
+									}?>" />
 									<span class="input-group-addon">
                                         <span class="glyphicon glyphicon-calendar"></span>
                                     </span>

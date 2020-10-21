@@ -335,13 +335,13 @@
 				</a>
 			<?php } ?>
 
-			<a target="_blank" href="<?php echo base_url().'tu-van-tuyen-sinh/them-contact.html?name='.$value['name'].'&email='.$value['email'].'&phone='.$value['phone'].'&is_old=1'
-				.'&branch_id='.$value['branch_id'].'&language_id='.$value['language_id'].'&call_status_id=4&level_contact_id=L5&level_student_id=L8&source_id=6'; ?>">
-				<li>
-					<i class="fa fa-plus-square" aria-hidden="true"></i>
-					&nbsp; &nbsp; Tạo phiếu ghi mới
-				</li>
-			</a>
+<!--			<a target="_blank" href="--><?php //echo base_url().'tu-van-tuyen-sinh/them-contact.html?name='.$value['name'].'&email='.$value['email'].'&phone='.$value['phone'].'&is_old=1'
+//				.'&branch_id='.$value['branch_id'].'&language_id='.$value['language_id'].'&call_status_id=4&level_contact_id=L5&level_student_id=L8&source_id=6'; ?><!--">-->
+<!--				<li>-->
+<!--					<i class="fa fa-plus-square" aria-hidden="true"></i>-->
+<!--					&nbsp; &nbsp; Tạo phiếu ghi mới-->
+<!--				</li>-->
+<!--			</a>-->
 
 			<a href="#" class="action-contact-admin load-new-contact-id" data-answer="Xóa contact thành công (xóa hẳn)!" data-url="admin/delete_forever_one_contact">
 
