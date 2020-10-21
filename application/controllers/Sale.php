@@ -425,7 +425,7 @@ class Sale extends MY_Controller {
             } else {
 				//echo '<pre>';print_r($input);die;
 				if ($input['is_old'] == 0) {
-					$param['duplicate_id'] = $this->_find_dupliacte_contact($input['email'], $input['phone'], $input['level_language_id']);
+					$param['duplicate_id'] = $this->_find_dupliacte_contact($input['email'], trim($input['phone']), $input['level_language_id']);
 					if ($param['duplicate_id'] > 0) {
 						show_error_and_redirect('Contact bạn vừa thêm bị trùng, nên không thể thêm được nữa!', 0, $input['back_location']);
 					}
