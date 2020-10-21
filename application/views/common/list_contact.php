@@ -124,7 +124,7 @@
 
 							<div class="col-md-4">
 								<div class="panel panel-danger text-center">
-									<div class="panel-heading">Đã xủ lý</div>
+									<div class="panel-heading">Đã gọi</div>
 									<div class="panel-body">
 										<button class="btn btn-warning btn-block"><?php echo $progress_sale['L1_XULY'];?></button>
 									</div>
@@ -133,7 +133,7 @@
 
 							<div class="col-md-4">
 								<div class="panel panel-danger text-center">
-									<div class="panel-heading">Hoàn thành</div>
+									<div class="panel-heading">Tiến độ</div>
 									<div class="panel-body">
 										<button class="btn btn-warning btn-block"><?php echo round($progress_sale['L1_XULY'] / $progress_sale['L1'] * 100, 2);?> %</button>
 									</div>
