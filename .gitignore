@@ -12,6 +12,8 @@
 .idea
 .well-known
 desktop.ini
+log.txt
+license.txt
 
 user_guide_src/build/*
 user_guide_src/cilexer/build/*

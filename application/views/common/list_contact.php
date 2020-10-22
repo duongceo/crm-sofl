@@ -267,41 +267,39 @@
 <?php //} ?>
 
 <?php if (isset($progressType_mkt)) { ?>
-		<div class="container">
+	<div class="container">
 
-			<div class="row">
+		<div class="row">
 
-				<div class="col-md-10 col-md-offset-1">
+			<div class="col-md-10 col-md-offset-1">
 
-					<h1 class="text-center text-uppercase red margintop20"> <?php echo $progressType_mkt ?> <?php echo round(($C3Team / $C3Total) * 100, 1) ?>% (<?php echo $C3Team . '/' . $C3Total ?>)</h1>
+				<h1 class="text-center text-uppercase red margintop20"> <?php echo $progressType_mkt ?> <?php echo round(($C3Team / $C3Total) * 100, 1) ?>% (<?php echo $C3Team . '/' . $C3Total ?>)</h1>
 
-					<!-- Skill Bars -->
+				<!-- Skill Bars -->
 
-					<?php foreach ($marketers as $marketer) { ?>
+				<?php foreach ($marketers as $marketer) { ?>
 
-						<div class="row">
+					<div class="row">
 
-							<div class="col-md-4 text-right text-uppercase margintop5">
+						<div class="col-md-4 text-right text-uppercase margintop5">
 
-								<?php echo $marketer['name'] . ' (' . $marketer['totalC3'] . '/' . $marketer['targets'] . ')'; ?>
+							<?php echo $marketer['name'] . ' (' . $marketer['totalC3'] . '/' . $marketer['targets'] . ')'; ?>
 
-							</div>
+						</div>
 
-							<div class="col-md-6">
+						<div class="col-md-6">
 
-								<div class="progress skill-bar ">
+							<div class="progress skill-bar ">
 
-									<div class="progress-bar progress-bar-striped active <?php echo getProgressBarClass($marketer['progress']); ?>" role="progressbar" aria-valuenow="<?php echo $marketer['progress'] ?>" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $marketer['progress'].'%' ?>">
+								<div class="progress-bar progress-bar-striped active <?php echo getProgressBarClass($marketer['progress']); ?>" role="progressbar" aria-valuenow="<?php echo $marketer['progress'] ?>" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $marketer['progress'].'%' ?>">
 
-										<span class="skill text-uppercase">
+									<span class="skill text-uppercase">
 
-											<?php // echo $marketer['name'] . ' (' . $marketer['totalC3'] . '/' . $marketer['targets'] . ')'; ?>
+										<?php // echo $marketer['name'] . ' (' . $marketer['totalC3'] . '/' . $marketer['targets'] . ')'; ?>
 
-											<?php echo $marketer['progress'] ?>%
+										<?php echo $marketer['progress'] ?>%
 
-										</span>
-
-									</div>
+									</span>
 
 								</div>
 
@@ -309,31 +307,17 @@
 
 						</div>
 
-					<?php } ?>
+					</div>
 
-				</div>
+				<?php } ?>
 
 			</div>
 
 		</div>
 
-<!--		<div class="container">-->
-<!---->
-<!--			<div class="row">-->
-<!---->
-<!--				<h2 class="text-center"> Số L6 của bạn hôm nay: --><?php //echo isset($this->L['L6']) ? $this->L['L6'] : '__'; ?><!--</h2>-->
-<!---->
-<!--				<h2 class="text-center"> Số L7 của bạn hôm nay: --><?php //echo isset($this->L['L7']) ? $this->L['L7'] : '__';; ?><!-- </h2>-->
-<!---->
-<!--				<h2 class="text-center"> Số L6 của bạn tháng này: --><?php //echo isset($this->L['L6All']) ? $this->L['L6All'] : '__'; ?><!--</h2>-->
-<!---->
-<!--				<h2 class="text-center"> Số L7 của bạn tháng này: --><?php //echo isset($this->L['L7All']) ? $this->L['L7All'] : '__'; ?><!-- </h2>-->
-<!---->
-<!--			</div>-->
-<!---->
-<!--		</div>-->
-		
-	<?php }?>
+	</div>
+
+<?php } ?>
 
 <div class="row total">
 
@@ -370,12 +354,11 @@
 
     ?>
 	
-	<?php 
+	<?php
         $this->load->view('manager/modal/divide_contact_auto');
     ?>
 
 </form>
-
 
 <?php
 

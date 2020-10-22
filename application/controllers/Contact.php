@@ -42,15 +42,21 @@ class Contact extends CI_Controller {
 
             $param['email'] = isset($input['email']) ? $input['email'] : '';
 
-            $address = isset($input['dia_chi']) ? $input['dia_chi'] : '';
+//            $address = isset($input['dia_chi']) ? $input['dia_chi'] : '';
 
-            $param['address'] = str_replace('NO_PARAM', '', $address);
+//            $param['address'] = str_replace('NO_PARAM', '', $address);
 
            	$param['class_study_id'] = isset($input['class_study_id']) ? $input['class_study_id'] : '';
 
             $param['branch_id'] = isset($input['branch_id']) ? $input['branch_id'] : 0;
 
-            $param['language_id'] = $this->get_language_id($input['code_landingpage']);
+            if (isset($input['code_landingpage'])) {
+				$param['language_id'] = $this->get_language_id($input['code_landingpage']);
+				$param['source_id'] = 2;
+			} else {
+            	$param['language_id'] = $input['language_id'];
+				$param['source_id'] = 3;
+			}
 
             $param['level_language_id'] = isset($input['level_language_id']) ? $input['level_language_id'] : 0;
 
@@ -58,19 +64,12 @@ class Contact extends CI_Controller {
 
             $param['date_rgt'] = time();
 
-            if (isset($input['call_status_id'])) {
-                $param['call_status_id'] = $input['call_status_id'];
-                if($input['call_status_id'] == '4'){
-                    $param['date_last_calling'] = time();
-                }
-            }
-
-            if (isset($input['ordering_status_id'])) {
-                $param['ordering_status_id'] = $input['ordering_status_id'];
-                if($input['ordering_status_id'] == '4'){
-                    $param['date_confirm'] = time();
-                }
-            }
+//            if (isset($input['call_status_id'])) {
+//                $param['call_status_id'] = $input['call_status_id'];
+//                if($input['call_status_id'] == '4'){
+//                    $param['date_last_calling'] = time();
+//                }
+//            }
 
             if (isset($input['link_id'])) {
 
@@ -106,8 +105,6 @@ class Contact extends CI_Controller {
 
            	if (isset($input['source_id']) && strripos($input['source_id'], 'ib') != false) {
            		$param['source_id'] = 1;
-           	} else {
-           		$param['source_id'] = 2;
            	}
 
             // $param['source_id'] = (isset($input['source_id'])) ? $input['source_id'] : 1;

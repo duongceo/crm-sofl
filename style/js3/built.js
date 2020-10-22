@@ -386,12 +386,6 @@ $.fn.setFixTable = function (_tableID) {
     });
 };
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /*
  * loại bỏ phần tử trùng trong mảng
  */
@@ -400,6 +394,8 @@ Array.prototype.unique = function () {
         return index == self.indexOf(elem); // lấy chỉ số đầu tiên
     });
 };
+
+/*
 var url = $("#base_url").val() + "sale/noti_contact_recall";
 noti = () => {
     $.ajax({
@@ -440,19 +436,19 @@ noti = () => {
                 );
                 var append = ` <div style="position: fixed; right:10px; bottom: 10px; z-index: 999999999; 
                                     background-color: #fff; display: inline-block; width: 30%; border-radius: 5px" class="my-notify">
-                                        <div style="position:absolute; right: 5px; top:5px; cursor: pointer" class="close-notify"> 
-                                            <i class="fa fa-times-circle" style="font-size: 18px;" aria-hidden="true"></i> 
-                                        </div>    
-                                        <div style="float:left; width: 35%; padding: 2%">
-                                            <img src="https://crm2.lakita.vn/public/images/logo2.png" style="width: 70%"/>
-                                        </div>
-                                        <div style="float:left; width:65%; padding: 2%">
-                                            <h4> ${data.message} </h4>
-                                            <div>
-                                                <img src="${data.image}" style="width: 90%"/>
-                                            </div>
-                                        </div>
-                                   </div>`;
+							<div style="position:absolute; right: 5px; top:5px; cursor: pointer" class="close-notify"> 
+								<i class="fa fa-times-circle" style="font-size: 18px;" aria-hidden="true"></i> 
+							</div>    
+							<div style="float:left; width: 35%; padding: 2%">
+								<img src="https://crm2.lakita.vn/public/images/logo2.png" style="width: 70%"/>
+							</div>
+							<div style="float:left; width:65%; padding: 2%">
+								<h4> ${data.message} </h4>
+								<div>
+									<img src="${data.image}" style="width: 90%"/>
+								</div>
+							</div>
+					   </div>`;
 
                 $('body').append(append);
                 setTimeout(function () {
@@ -466,6 +462,9 @@ var notiContactRecall = '';
 if($("#input_controller").val() == 'cod' || $("#input_controller").val() == 'sale') {
     notiContactRecall = setInterval(noti, 10000);
 }
+
+*/
+
 /*
 $(document).on('click', 'a.delete_one_contact_admin', e => {
     var r = confirm("Bạn có chắc chắn muốn xóa contact này không?");
