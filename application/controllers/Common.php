@@ -635,11 +635,19 @@ class Common extends MY_Controller {
 					echo json_encode($result);
 					die;
 				}
+
+				if ($param['branch_id'] == 0) {
+					$result['success'] = 0;
+					$result['message'] = 'Học viên đồng ý đăng ký nhưng chưa có cơ sở';
+					echo json_encode($result);
+					die;
+				}
+
 				$param['date_rgt_study'] = (isset($post['date_rgt_study']) && $post['date_rgt_study'] != '') ? strtotime($post['date_rgt_study']) : time();
 				$dataPush['message'] = 'Yeah Yeah !!';
                 $dataPush['success'] = '1';
 
-                if ($row[0]['sent_account_online'] == 0) {
+                if ($rows[0]['sent_account_online'] == 0) {
                 	$student = $this->create_new_account_student($param['name'], $param['phone'], $param['level_language_id']);
                 	if ($student->success != 0) {
                 		$param['sent_account_online'] = 1;
