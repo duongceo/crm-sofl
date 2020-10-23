@@ -1428,6 +1428,8 @@ class Manager extends MY_Controller {
 		$endDate = trim($dateArr[1]);
 		$endDate = strtotime(str_replace("/", "-", $endDate)) + 3600 * 24 - 1;
 
+//		echo $startDate . ' - ' . $endDate;die;
+
 		if (isset($get['tic_report']) && !empty($get['tic_report'])) {
 			$conditionArr = array(
 				'L1' => array(
@@ -1474,7 +1476,7 @@ class Manager extends MY_Controller {
 				),
 
 				'L8' => array(
-					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => 1, 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
+					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => '1', 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
 					'sum' => 0
 				),
 
