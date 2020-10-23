@@ -743,8 +743,6 @@ class MY_Controller extends CI_Controller {
 
     }
 
-
-
     /*
 
      * Hàm bắn contact L8 sang MOL khi đối soát COD
@@ -754,8 +752,6 @@ class MY_Controller extends CI_Controller {
      * @return: void
 
      */
-
-
 
     protected function _put_L8_to_MOL($receiveCOD) {
 

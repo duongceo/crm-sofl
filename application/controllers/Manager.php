@@ -50,7 +50,6 @@ class Manager extends MY_Controller {
         $data['contacts'] = $contacts;
         $data['progress'] = $this->GetProccessToday();
         $data['progressType'] = 'Tiến độ các team ngày hôm nay';
-
         $data['total_contact'] = $data_pagination['total_row'];
 		
 		//print_arr($data);
@@ -1432,50 +1431,50 @@ class Manager extends MY_Controller {
 		if (isset($get['tic_report']) && !empty($get['tic_report'])) {
 			$conditionArr = array(
 				'L1' => array(
-					'where' => array('date_handover !=' => '0', 'date_rgt >' => $startDate, 'date_rgt <' => $endDate, 'is_hide' => '0', 'is_old' => '0'),
+					'where' => array('date_handover !=' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate, 'is_hide' => '0', 'is_old' => '0'),
 					'sum' => 0
 				),
 				'L2' => array(
-					'where' => array('is_hide' => '0', 'level_contact_id' => 'L2', 'date_handover !=' => '0', 'date_rgt >' => $startDate, 'date_rgt <' => $endDate),
+					'where' => array('is_hide' => '0', 'level_contact_id' => 'L2', 'date_handover !=' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
 					'sum' => 0
 				),
 				'L3' => array(
-					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L3', 'date_rgt >' => $startDate, 'date_rgt <' => $endDate),
+					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L3', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
 					'sum' => 0
 				),
 
 				'L5' => array(
-					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => '0', 'date_rgt >' => $startDate, 'date_rgt <' => $endDate),
+					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
 					'sum' => 0
 				),
 
 				'L8' => array(
-					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => 1, 'date_rgt >=' => $startDate, 'date_rgt <' => $endDate),
+					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => 1, 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
 					'sum' => 0
 				),
 			);
 		} else {
 			$conditionArr = array(
 				'L1' => array(
-					'where' => array('date_handover >' => $startDate, 'date_handover <' => $endDate, 'is_hide' => '0', 'is_old' => '0'),
+					'where' => array('date_handover >=' => $startDate, 'date_handover <=' => $endDate, 'is_hide' => '0', 'is_old' => '0'),
 					'sum' => 0
 				),
 				'L2' => array(
-					'where' => array('is_hide' => '0', 'level_contact_id' => 'L2', 'date_last_calling >' => $startDate, 'date_last_calling <' => $endDate),
+					'where' => array('is_hide' => '0', 'level_contact_id' => 'L2', 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate),
 					'sum' => 0
 				),
 				'L3' => array(
-					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L3', 'date_confirm >' => $startDate, 'date_confirm <' => $endDate),
+					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L3', 'date_confirm >=' => $startDate, 'date_confirm <=' => $endDate),
 					'sum' => 0
 				),
 
 				'L5' => array(
-					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => '0', 'date_rgt_study >' => $startDate, 'date_rgt_study <' => $endDate),
+					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => '0', 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
 					'sum' => 0
 				),
 
 				'L8' => array(
-					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => 1, 'date_rgt_study >=' => $startDate, 'date_rgt_study <' => $endDate),
+					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => 1, 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
 					'sum' => 0
 				),
 
