@@ -252,7 +252,7 @@
                         </div>
                         <div class="col-md-8">
                             <select class="form-control" name="source_id">
-                                <option value="0"> Chọn nguồn kênh </option>
+                                <option value=""> Chọn nguồn kênh </option>
 									<?php foreach ($sources as $key => $value) { ?>
                                     <option value="<?php echo $value['id']; ?>"
 										<?php if ($_GET['source_id'] == $value['id']) echo "selected"; ?>>
