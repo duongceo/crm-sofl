@@ -21,6 +21,29 @@
                 <li><i class="fa fa-hand-paper-o" aria-hidden="true"></i> &nbsp; &nbsp; Phân đều contact </li>
 
             </a>
+
+			<a href="#" class="action-contact-admin load-new-contact-id" data-contact-id ="0" data-answer="Thu hồi thành công contact!"
+
+			   data-url="admin/retrieve_contact">
+
+				<li>
+
+					<i class="fa fa-retweet" aria-hidden="true"></i> &nbsp; &nbsp; Thu hồi
+
+				</li>
+
+			</a>
+
+			<a href="#" class="action-contact-admin load-new-contact-id" data-answer="Xóa contact thành công (xóa hẳn)!"
+			   data-url="admin/delete_forever_one_contact">
+
+				<li>
+
+					<i class="fa fa-trash" aria-hidden="true"></i> &nbsp; &nbsp; Xóa hẳn
+
+				</li>
+
+			</a>
 			
 			<!-- <a href="#" class="divide_contact_even divide_multi_contact multi-item-selected">
 

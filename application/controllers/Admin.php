@@ -142,24 +142,27 @@ class Admin extends MY_Controller {
 		}
 	}
 
-	/*
-    function delete_forever_one_contact() {
+//    function delete_forever_one_contact() {
+//
+//        $post = $this->input->post();
+//		$post = array_reverse($post['contact_id']);
+//
+//        if (!empty($post)) {
+//
+//			foreach ($post as $item) {
+//
+//				$where = array('id' => $item['contact_id']);
+//
+//				$this->contacts_model->delete($where);
+//			}
+//
+//            echo '1';
+//
+//        }
+//
+//    }
 
-        $post = $this->input->post();
 
-        if (!empty($post['contact_id'])) {
-
-            $where = array('id' => $post['contact_id']);
-
-            $this->contacts_model->delete($where);
-
-            echo '1';
-
-        }
-
-    }
-	*/
-	
 	function delete_forever_one_contact() {
 		$post = $this->input->post();
 //		$post = array_reverse($post['contact_id']);
@@ -184,71 +187,85 @@ class Admin extends MY_Controller {
 		}
 	}
 
-    // function retrieve_contact() {
+     function retrieve_contact() {
 
-    //     $post = $this->input->post();
+         $post = $this->input->post();
 
-    //     if (!empty($post['contact_id'])) {
+         if (!empty($post['contact_id'])) {
 
-    //         $where = array('id' => $post['contact_id']);
+             $where = array('id' => $post['contact_id']);
 
-    //         $data = array(
+			 $data = array(
 
-    //             'call_status_id' => 0,
+				 'call_status_id' => 0,
 
-    //             'ordering_status_id' => 0,
+				 'level_contact_id' => '',
 
-    //             'sale_staff_id' => 0,
+				 'level_contact_detail' => '',
 
-    //             'cod_status_id' => 0,
+				 'level_student_id' => '',
 
-    //             'date_handover' => 0,
+				 'level_student_detail' => '',
 
-    //             'date_confirm' => 0,
+				 'sale_staff_id' => 0,
 
-    //             'date_print_cod' => 0,
+				 'level_language_id' => 0,
 
-    //             'date_receive_cod' => 0,
+				 'class_study_id' => '',
 
-    //             'date_receive_cancel_cod' => 0,
+				 'date_handover' => 0,
 
-    //             'date_receive_lakita' => 0,
+				 'date_confirm' => 0,
 
-    //             'is_hide' => 0,
+				 'date_rgt_study' => 0,
 
-    //             'last_activity' => time()
-    //         );
+				 'date_paid' => 0,
 
-    //         $this->contacts_model->update($where, $data);
+				 'fee' => 0,
 
-    //         $data2 = array();
+				 'paid' => 0,
 
-    //         $data2['contact_id'] = $post['contact_id'];
+				 'complete_fee' => 0,
 
-    //         $data2['staff_id'] = $this->user_id;
+				 'is_old' => 0,
 
-    //         $data2['time'] = time();
+				 'is_hide' => 0,
 
-    //         $statusArr = array('call_status_id', 'ordering_status_id', 'cod_status_id', 'payment_method_rgt', 'provider_id');
+				 'last_activity' => time()
+			 );
 
-    //         foreach ($statusArr as $value) {
+			 $this->contacts_model->update($where, $data);
+			 // echo "<pre>";print_r($where);
 
-    //             $data2[$value] = "-1";
+			 $data2 = array();
 
-    //         }
+			 $data2['contact_id'] = $post['contact_id'];
 
-    //         $data2['content_change'] = 'Thu hồi contact';
+			 $data2['staff_id'] = $this->user_id;
 
-    //         $this->load->model('call_log_model');
+			 $data2['time_created'] = time();
 
-    //         $this->call_log_model->insert($data2);
+			 $statusArr = array('call_status_id', 'level_contact_id', 'level_student_id');
 
-    //         echo '1';
+			 foreach ($statusArr as $value1) {
 
-    //     }
+				 $data2[$value1] = "-1";
 
-    // }
+			 }
 
+			 $data2['content_change'] = 'Thu hồi contact';
+
+			 $this->load->model('call_log_model');
+
+             $this->call_log_model->insert($data2);
+
+             echo '1';
+
+         }
+
+     }
+
+	/*
     function retrieve_contact() {
 
         $post = $this->input->post();
@@ -263,23 +280,33 @@ class Admin extends MY_Controller {
 
                     'call_status_id' => 0,
 
-                    'ordering_status_id' => 0,
+                    'level_contact_id' => '',
+
+                    'level_contact_detail' => '',
+
+                    'level_student_id' => '',
+
+                    'level_student_detail' => '',
 
                     'sale_staff_id' => 0,
 
-                    'cod_status_id' => 0,
+                    'level_language_id' => 0,
 
                     'date_handover' => 0,
 
                     'date_confirm' => 0,
 
-                    'date_print_cod' => 0,
+                    'date_rgt_study' => 0,
 
-                    'date_receive_cod' => 0,
+                    'date_paid' => 0,
 
-                    'date_receive_cancel_cod' => 0,
+                    'fee' => 0,
 
-                    'date_receive_lakita' => 0,
+                    'paid' => 0,
+
+                    'complete_fee' => 0,
+
+                    'is_old' => 0,
 
                     'is_hide' => 0,
 
@@ -297,7 +324,7 @@ class Admin extends MY_Controller {
 
                 $data2['time'] = time();
 
-                $statusArr = array('call_status_id', 'ordering_status_id', 'cod_status_id', 'payment_method_rgt', 'provider_id');
+                $statusArr = array('call_status_id', 'level_contact_id', 'level_student_id');
 
                 foreach ($statusArr as $value1) {
 
@@ -314,7 +341,7 @@ class Admin extends MY_Controller {
 			echo '1';
 		}
 	}
-
+	*/
 
     private function get_all_require_data() {
 
@@ -357,8 +384,6 @@ class Admin extends MY_Controller {
         return array_merge($this->data, $this->_get_require_data($require_model));
 
     }
-
-
 
 }
 

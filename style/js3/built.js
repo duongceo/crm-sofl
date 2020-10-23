@@ -395,7 +395,7 @@ Array.prototype.unique = function () {
     });
 };
 
-/*
+
 var url = $("#base_url").val() + "sale/noti_contact_recall";
 noti = () => {
     $.ajax({
@@ -422,17 +422,19 @@ noti = () => {
                 var title = '(' + data.num_noti + ')  CONTACT CẦN GỌI LẠI';
                 $("title").text(title);
             }
+
+            /*
             if (typeof data.sound !== 'undefined') {
                 $("#notificate_sound")[0].play();
                 notify = new Notification(
-                        data.message,
-                        {
-                            body: 'Click vào đây để xem ngay!',
-                            icon: $("#base_url").val() + 'public/images/logo2.png',
-                            tag: 'https://crm2.lakita.vn/quan-ly/trang-chu.html',
-                            sound: $("#base_url").val() + 'public/mp3/new-contact.mp3',
-                            image: data.image
-                        }
+					data.message,
+					{
+						body: 'Click vào đây để xem ngay!',
+						icon: $("#base_url").val() + 'public/images/logo2.png',
+						tag: 'https://crm2.lakita.vn/quan-ly/trang-chu.html',
+						sound: $("#base_url").val() + 'public/mp3/new-contact.mp3',
+						image: data.image
+					}
                 );
                 var append = ` <div style="position: fixed; right:10px; bottom: 10px; z-index: 999999999; 
                                     background-color: #fff; display: inline-block; width: 30%; border-radius: 5px" class="my-notify">
@@ -455,6 +457,7 @@ noti = () => {
                     $(".my-notify").remove();
                 }, 10000);
             }
+            */
         }
     });
 };
@@ -462,8 +465,6 @@ var notiContactRecall = '';
 if($("#input_controller").val() == 'cod' || $("#input_controller").val() == 'sale') {
     notiContactRecall = setInterval(noti, 10000);
 }
-
-*/
 
 /*
 $(document).on('click', 'a.delete_one_contact_admin', e => {
@@ -524,32 +525,32 @@ $(document).on('click', 'a.delete_forever_one_contact_admin', function (e) {
  */
 
 /*
- $(document).on('click', 'a.retrieve-contact', function (e) {
- var r = confirm("Bạn có chắc chắn muốn thu hồi contact này không?");
- if (r == true) {
- var del = $(this);
- var contact_id = $(this).attr("contact_id");
- e.preventDefault();
- $.ajax({
- type: "POST",
- url: $("#base_url").val() + "admin/retrieve_contact",
- data: {
- contact_id: contact_id
- },
- success: data => {
- if (data === '1')
- {
- alert('Thu hồi thành công contact');
- //del.parent().parent().hide();
- location.reload();
- } else {
- alert(data);
- }
- },
- error: errorThrown => alert(errorThrown)
- });
- }
- });
+$(document).on('click', 'a.retrieve-contact', function (e) {
+	var r = confirm("Bạn có chắc chắn muốn thu hồi contact này không?");
+	if (r == true) {
+		e.preventDefault();
+		var del = $(this);
+		var contact_id = $(this).attr("data-contact-id");
+		$.ajax({
+			type: "POST",
+			url: $("#base_url").val() + "admin/retrieve_contact",
+			data: {
+				contact_id: contact_id
+			},
+			success: data => {
+				if (data === '1') {
+					alert('Thu hồi thành công contact');
+					//del.parent().parent().hide();
+					location.reload();
+				} else {
+					alert(data);
+				}
+			},
+			error: errorThrown => alert(errorThrown)
+		});
+	}
+});
+
  */
 
 $(".action-contact-admin").confirm({
@@ -581,25 +582,25 @@ $(".action-contact-admin").confirm({
                         contact_id: contactID
 						/*contact_id: contactIdArray */
                     },
-                    success: data => {
-                        if (data === '1') {
-                            $.alert({
-                                theme: 'modern',
-                                title: _this.attr("data-answer"),
-                                content: '',
-                                buttons: {
-									 confirm: {
-										 text: 'OK',
-										 action: function(){
-											  location.reload();
-										 }
-									 }
-                                 }
-                            });
-                        } else {
-                            alert(data);
-                        }
-                    },
+					success: data => {
+						if (data === '1') {
+							$.alert({
+								theme: 'modern',
+								title: _this.attr("data-answer"),
+								content: '',
+								buttons: {
+									confirm: {
+										text: 'OK',
+										action: function () {
+											location.reload();
+										}
+									}
+								}
+							});
+						} else {
+							alert(data);
+						}
+					},
                     error: errorThrown => alert(errorThrown)
                 });
             }},
@@ -609,33 +610,35 @@ $(".action-contact-admin").confirm({
             }}
     }
 });
+
 $(document).on('click', '.create-adset-from-fb', function (e) {
-    e.preventDefault();
-    $(".add-name-from-fb").val($(this).attr("adset-name"));
-    $(".add-adset-id-from-fb").val($(this).attr("id-fb"));
-    $campaignOption = ' <select class="form-control selectpicker" name="add_campaign_id" tabindex="-98"> ' +
-            '<option value="'+ $(this).attr("campaign-crm-id") +'" selected="selected"> '+ $(this).attr("campaign-name-facebook") +'</option>' +
-            '</select>';
-     $(".select-campaign-fetch").html("");
-    $(".select-campaign-fetch").append($campaignOption);
-    console.log($(this).attr("id-fb"));
-    $(".add_item_from_fb_modal").modal("show");
+	e.preventDefault();
+	$(".add-name-from-fb").val($(this).attr("adset-name"));
+	$(".add-adset-id-from-fb").val($(this).attr("id-fb"));
+	$campaignOption = ' <select class="form-control selectpicker" name="add_campaign_id" tabindex="-98"> ' +
+		'<option value="' + $(this).attr("campaign-crm-id") + '" selected="selected"> ' + $(this).attr("campaign-name-facebook") + '</option>' +
+		'</select>';
+	$(".select-campaign-fetch").html("");
+	$(".select-campaign-fetch").append($campaignOption);
+	console.log($(this).attr("id-fb"));
+	$(".add_item_from_fb_modal").modal("show");
 });
+
 $(document).on('click', 'a.add-item-fetch', function (e) {
-    e.preventDefault();
-    var url = $("#url-add-item-fetch").val();
-    $.ajax({
-        url: url,
-        type: "POST",
-        beforeSend: () => $(".popup-wrapper").show(),
-        success: function (data) {
-            $("div.replace_content_add_item_fetch_modal").html(data);
-        },
-        complete: function () {
-            $(".add_item_modal_fetch").modal({backdrop: 'static', keyboard: false});
-            $(".popup-wrapper").hide();
-        }
-    });
+	e.preventDefault();
+	var url = $("#url-add-item-fetch").val();
+	$.ajax({
+		url: url,
+		type: "POST",
+		beforeSend: () => $(".popup-wrapper").show(),
+		success: function (data) {
+			$("div.replace_content_add_item_fetch_modal").html(data);
+		},
+		complete: function () {
+			$(".add_item_modal_fetch").modal({backdrop: 'static', keyboard: false});
+			$(".popup-wrapper").hide();
+		}
+	});
 });
 
 $(document).on('click', '.create-campaign-from-fb', function (e) {
