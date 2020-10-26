@@ -61,25 +61,25 @@ class Contact_excel extends MY_Table {
 
 			),
 
-			'address' => array(
+//			'address' => array(
+//
+//				'name_display' => 'Địa chỉ'
+//
+//			),
 
-				'name_display' => 'Địa chỉ'
+//			'course_code' => array(
+//
+//				'name_display' => 'Khóa học'
+//
+//			),
 
-			),
-
-			'course_code' => array(
-
-				'name_display' => 'Khóa học'
-
-			),
-
-			'price_purchase' => array(
-
-				'type' => 'currency',
-
-				'name_display' => 'Giá mua',
-
-			),
+//			'price_purchase' => array(
+//
+//				'type' => 'currency',
+//
+//				'name_display' => 'Giá mua',
+//
+//			),
 
 		);
 
@@ -116,6 +116,7 @@ class Contact_excel extends MY_Table {
 			move_uploaded_file($tempFile, $targetFile);
 
 //			var_dump($targetFile);die();
+
 			$this->_import_contact($targetFile);
 
 		} else {
@@ -139,23 +140,22 @@ class Contact_excel extends MY_Table {
 
 		$sheet = $objPHPExcel->getActiveSheet();
 
-		$data1 = $sheet->rangeToArray('A1:F1000');
+		$data1 = $sheet->rangeToArray('A1:H700');
 //		echo '<pre>'; print_r($data1);die();
 		$receive_contact = array();
 
 		foreach ($data1 as $row) {
-
 			$stt = $row[0];
-
 			if ($stt != '') {
-
 				$receive_contact[] = array(
 					'name' => $row[0],
-					'email' => $row[1],
+//					'email' => $row[1],
 					'phone' => $row[2],
-					'address' => $row[3],
-					'course_code' => $row[4],
-					'price_purchase' => $row[5]
+					'branch_id' => $row[3],
+					'language_id' => $row[4],
+					'date_rgt' => strtotime($row[5]),
+					'note' => $row[6],
+					'source_id' => $row[7]
 				);
 			}
 		}
@@ -164,26 +164,39 @@ class Contact_excel extends MY_Table {
 //		echo '<pre>';print_r($receive_contact);die();
 
 		foreach ($receive_contact as $value) {
-
 			$data = array(
 				'name' => $value['name'],
-				'email' => $value['email'],
+//				'email' => $value['email'],
 				'phone' => $value['phone'],
-				'address' => $value['address'],
-				'course_code' => $value['course_code'],
-				'price_purchase' => $value['price_purchase'],
-				'date_rgt' => time(),
-				'last_activity' => time(),
-				'duplicate_id' => $this->_find_dupliacte_contact_excel($value['email'], $value['phone'], $value['course_code'])
+				'branch_id' => $value['branch_id'],
+				'language_id' => $value['language_id'],
+				'date_rgt' => $value['date_rgt'],
+				'duplicate_id' => $this->_find_dupliacte_contact_excel($value['phone']),
+				'source_id' => $value['source_id']
 			);
 
-			$this->contacts_model->insert_from_mol($data);
-			$this->contacts_backup_model->insert_from_mol($data);
+			$id = $this->contacts_model->insert_return_id($data, 'id');
+//			$id_backup = $this->contacts_backup_model->insert_return_id($data, 'id');
+
+			if ($value['note'] != '') {
+				$param2 = array(
+					'contact_id' => $id,
+					'content' => $value['note'],
+					'time_created' => time(),
+					'sale_id' => $this->user_id,
+					'contact_code' => $this->contacts_model->get_contact_code($id),
+					'class_study_id' => 0
+				);
+
+				//print_arr($param2);
+				$this->load->model('notes_model');
+				$this->notes_model->insert($param2);
+			}
 		}
 
 	}
 
-	private function _find_dupliacte_contact_excel($email = '', $phone = '', $course_code = '') {
+	private function _find_dupliacte_contact_excel($phone = '') {
 
 		$dulicate = 0;
 
@@ -191,14 +204,7 @@ class Contact_excel extends MY_Table {
 
 		$input['select'] = 'id';
 
-		$input['where'] = array(
-
-			'phone' => $phone,
-
-			'course_code' => $course_code,
-
-			 'is_hide' => '0'
-		);
+		$input['like'] = array('phone' => $phone);
 
 		$input['order'] = array('id', 'ASC');
 

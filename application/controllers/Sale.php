@@ -741,14 +741,6 @@ class Sale extends MY_Controller {
         $this->call_log_model->insert($data);
     }
 
-    function check_course_code($str) {
-        if ($str == 'empty') {
-            $this->form_validation->set_message('check_course_code', 'Vui lòng chọn {field}!');
-            return false;
-        }
-        return true;
-    }
-
     function check_source_id($str) {
         if ($str == 0) {
             $this->form_validation->set_message('check_source_id', 'Vui lòng chọn {field}!');
