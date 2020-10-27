@@ -117,10 +117,25 @@ class Contact extends CI_Controller {
 
             // print_arr($param);
 
-            $this->contacts_model->insert_from_mol($param);
-            $this->contacts_backup_model->insert_from_mol($param);
+//            $this->contacts_model->insert_from_mol($param);
+//            $this->contacts_backup_model->insert_from_mol($param);
 
-            //$this->load->view('landingpage/popup_dangky');
+			$id = $this->contacts_model->insert_return_id($param, 'id');
+//				$id_backup = $this->contacts_backup_model->insert_return_id($param, 'id');
+
+			if (isset($input['lop'])) {
+				$param2 = array(
+					'contact_id' => $id,
+					'content' => $input['lop'],
+					'time_created' => time(),
+					'sale_id' => 0,
+					'contact_code' => $this->contacts_model->get_contact_code($id),
+					'class_study_id' => 0
+				);
+				//print_arr($param2);
+				$this->load->model('notes_model');
+				$this->notes_model->insert($param2);
+			}
 
             $marketerId = isset($param['marketer_id']) ? $param['marketer_id'] : '0';
 
