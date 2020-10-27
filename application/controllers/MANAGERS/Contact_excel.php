@@ -95,6 +95,7 @@ class Contact_excel extends MY_Table {
 		$data = $this->data;
 
 		if (!empty($_FILES)) {
+			// print_arr($_FILES);
 
 			$tempFile = $_FILES['file']['tmp_name'];
 
@@ -111,13 +112,17 @@ class Contact_excel extends MY_Table {
 
 			}
 
-			$targetFile = APPPATH . '../public/upload/contact_excel/' . date('Y-m-d-H-i') . '.' . pathinfo($fileName, PATHINFO_EXTENSION);
+			// $targetFile = APPPATH . '../public/upload/contact_excel/' . date('Y-m-d-H-i') . '.' . pathinfo($fileName, PATHINFO_EXTENSION);
 
-			move_uploaded_file($tempFile, $targetFile);
+			$targetFile = APPPATH . '/public/upload/contact_excel/' . date('Y-m-d-H-i') . '.' . pathinfo($fileName, PATHINFO_EXTENSION);
 
-//			var_dump($targetFile);die();
-
-			$this->_import_contact($targetFile);
+			// print_arr($tempFile);
+			
+			if (move_uploaded_file($tempFile, $targetFile)) {
+				$this->_import_contact($targetFile);
+			} else {
+				echo "Tải tệp thất bại";
+			}
 
 		} else {
 
@@ -133,7 +138,8 @@ class Contact_excel extends MY_Table {
 	}
 
 	private function _import_contact($file_path) {
-//		var_dump($file_path);die();
+		// var_dump($file_path);die();
+
 		$this->load->library('PHPExcel');
 
 		$objPHPExcel = PHPExcel_IOFactory::load($file_path);
@@ -141,7 +147,8 @@ class Contact_excel extends MY_Table {
 		$sheet = $objPHPExcel->getActiveSheet();
 
 		$data1 = $sheet->rangeToArray('A1:J700');
-//		echo '<pre>'; print_r($data1);die();
+		// echo '<pre>'; print_r($data1);die();
+
 		$receive_contact = array();
 
 		foreach ($data1 as $row) {
