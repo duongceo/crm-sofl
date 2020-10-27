@@ -1234,7 +1234,7 @@ class Manager extends MY_Controller {
                 $staffs[$key][$key2] = $this->_query_for_report($get, $conditional);
                 //$conditionArr_staff[$key2]['sum'] += $staffs[$key][$key2];
 				$data[$key2] += $staffs[$key][$key2];
-				if ($value['id'] == 5) { // ko tính contact trùng vào tổng
+				if (in_array($value['id'], array(5, 53, 18))) { // ko tính contact trùng vào tổng
 					$data[$key2] = $data[$key2] - $staffs[$key][$key2];
 				}
             }
@@ -1277,6 +1277,7 @@ class Manager extends MY_Controller {
 				foreach ($conditionArr as $key2 => $value2) {
 					$conditional = array();
 					$conditional['where']['language_id'] = $value['id'];
+					$conditional['where_not_in']['sale_staff_id'] = array(2, 53, 18);
 
 					$conditional = array_merge_recursive($conditional, $value2);
 //				echo '<pre>'; print_r($conditional); die();
@@ -1305,8 +1306,8 @@ class Manager extends MY_Controller {
         $data['staffs'] = $staffs;
         $data['startDate'] = $startDate;
         $data['endDate'] = $endDate;
-        $data['left_col'] = array('date_happen_1', 'tic_report');
-        $data['right_col'] = array('branch', 'is_old');
+        $data['left_col'] = array('branch', 'date_happen_1', 'tic_report');
+        $data['right_col'] = array('is_old');
         $data['load_js'] = array('m_view_report');
         $data['content'] = 'manager/view_report';
         if($this->role_id == 1){
