@@ -50,6 +50,8 @@ class Contact extends CI_Controller {
 
             $param['branch_id'] = isset($input['branch_id']) ? $input['branch_id'] : 0;
 
+            $param['fee'] = isset($input['fee']) ? $input['fee'] : 0;
+
             if (isset($input['code_landingpage'])) {
 				$param['language_id'] = $this->get_language_id($input['code_landingpage']);
 				$param['source_id'] = 2;
@@ -221,7 +223,15 @@ class Contact extends CI_Controller {
 
         }
 
-        $this->load->view('landingpage/popup_dangky');
+        if (isset($input['url'])) {
+        	
+			header("Location: " . $input['url']);
+			die();
+			
+        } else {
+	        $this->load->view('landingpage/popup_dangky');
+	    }
+
 
     }
 
