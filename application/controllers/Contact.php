@@ -123,10 +123,10 @@ class Contact extends CI_Controller {
 			$id = $this->contacts_model->insert_return_id($param, 'id');
 			// $id_backup = $this->contacts_backup_model->insert_return_id($param, 'id');
 
-			if (isset($input['lop'])) {
+			if (isset($input['lop']) || $input['note']) {
 				$param2 = array(
 					'contact_id' => $id,
-					'content' => $input['lop'],
+					'content' => $input['lop'] . ' - ' . $input['note'],
 					'time_created' => time(),
 					'sale_id' => 0,
 					'contact_code' => $this->contacts_model->get_contact_code($id),

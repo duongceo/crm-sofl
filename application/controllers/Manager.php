@@ -1733,7 +1733,7 @@ class Manager extends MY_Controller {
 			'count' => count($today),
 			'kpi' => $total_to_day_L8,
 			'name' => 'Học viên cũ',
-			'type' => 'L5'
+			'type' => 'L8'
 		);
 		$progress['branch']['progress'] = round($progress['branch']['count'] / $progress['branch']['kpi'] * 100, 2);
 
