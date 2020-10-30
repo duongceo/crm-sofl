@@ -1282,6 +1282,7 @@ class Manager extends MY_Controller {
 				foreach ($source as $key_source => $value_source) {
 					$conditional = array();
 					$conditional['where']['source_id'] = $value_source['id'];
+					$conditional['where_not_in']['sale_staff_id'] = array(5, 53, 18);
 					$conditional = array_merge_recursive($conditional, $value2);
 					$source[$key_source][$key2] = $this->_query_for_report($get, $conditional);
 					$data[$key2 . '_S'] += $source[$key_source][$key2];
