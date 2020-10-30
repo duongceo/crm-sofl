@@ -68,4 +68,13 @@ class Contacts_model extends MY_Model {
         $query = $this->db->query("CALL pr_delete_contact_test()");
     }
 
+    function get_array_id_contact($input) {
+    	$contact = $this->load_all($input_contact);
+		$contact_id = array();
+		foreach ($contact as $item) {
+			$contact_id[] = $item['id'];
+		}
+		return $contact_id;
+	}
+
 }

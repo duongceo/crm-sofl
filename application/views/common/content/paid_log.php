@@ -28,6 +28,18 @@
 
 			</th>
 
+			<th>
+
+				Ngôn ngữ
+
+			</th>
+
+			<th>
+
+				Cũ X Mới
+
+			</th>
+
 		</tr>
 
 	</thead>
@@ -65,6 +77,18 @@
 				<td class="text-center">
 
 					<?php echo $value_paid_log['branch_name']; ?>
+
+				</td>
+
+				<td class="text-center">
+
+					<?php echo $value_paid_log['language_name']; ?>
+
+				</td>
+
+				<td class="text-center">
+
+					<?php echo ($value_paid_log['student_old'] == 1) ? 'Cũ' : 'Mới';?>
 
 				</td>
 

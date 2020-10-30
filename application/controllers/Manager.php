@@ -1055,9 +1055,12 @@ class Manager extends MY_Controller {
     function view_report_sale() {
 
 		$require_model = array(
-			'branch' => array(),
+			'language_study' => array(),
+			'sources' => array()
 		);
 		$data = array_merge($this->data, $this->_get_require_data($require_model));
+		$language = $data['language_study'];
+		$source = $data['sources'];
 
 		$this->load->model('paid_model');
 
@@ -1218,38 +1221,38 @@ class Manager extends MY_Controller {
                 */
             );
         }
-//		echo '<pre>'; print_r($conditionArr);die();
 
 		unset($get['filter_date_date_happen']);
-//        $get = array();
-//		print_arr($get);
 
-//		$conditionArr_staff = array();
-        foreach ($staffs as $key => $value) {
-            foreach ($conditionArr as $key2 => $value2) {
+//		$time_start = microtime(true);
+
+		$input_contact = array();
+		$input_contact['select'] = 'id';
+		$input_contact['where']['level_contact_id'] = 'L5';
+		$input_contact['where']['date_last_calling >='] = $startDate;
+		$input_contact['where']['date_last_calling <='] = $endDate;
+
+		foreach ($conditionArr as $key2 => $value2) {
+        	foreach ($staffs as $key_staff => $value_staff) {
                 $conditional = array();
-                $conditional['where']['sale_staff_id'] = $value['id'];
+                $conditional['where']['sale_staff_id'] = $value_staff['id'];
 				$conditional = array_merge_recursive($conditional, $value2);
-//				echo '<pre>'; print_r($conditional);
-                $staffs[$key][$key2] = $this->_query_for_report($get, $conditional);
+
+                $staffs[$key_staff][$key2] = $this->_query_for_report($get, $conditional);
                 //$conditionArr_staff[$key2]['sum'] += $staffs[$key][$key2];
-				$data[$key2] += $staffs[$key][$key2];
-				if (in_array($value['id'], array(5, 53, 18))) { // ko tính contact trùng vào tổng
-					$data[$key2] = $data[$key2] - $staffs[$key][$key2];
+				$data[$key2] += $staffs[$key_staff][$key2];
+
+				if (in_array($value_staff['id'], array(5, 53, 18))) { // ko tính contact này vào tổng
+					$data[$key2] = $data[$key2] - $staffs[$key_staff][$key2];
 				}
             }
 
-			$input_contact = array();
-			$input_contact['select'] = 'id';
-			$input_contact['where']['sale_staff_id'] = $value['id'];
-			$input_contact['where']['level_contact_id'] = 'L5';
-			$input_contact['where']['date_last_calling >='] = $startDate;
-			$input_contact['where']['date_last_calling <='] = $endDate;
-			$contact = $this->contacts_model->load_all($input_contact);
-			$contact_id = array();
-			foreach ($contact as $item) {
-				$contact_id[] = $item['id'];
-			}
+			$input_contact['where']['sale_staff_id'] = $value_staff['id'];
+			$contact_id = $this->contacts_model->get_array_id_contact($input_contact);
+//			$contact_id = array();
+//			foreach ($contact as $item) {
+//				$contact_id[] = $item['id'];
+//			}
 
 			if (!empty($contact_id)) {
 				$input_re['select'] = 'SUM(paid) as paiding';
@@ -1263,31 +1266,36 @@ class Manager extends MY_Controller {
 				$re_sale = 0;
 			}
 
-			$staffs[$key]['RE'] = $re_sale;
-			$data['RE'] += $staffs[$key]['RE'];
+			$staffs[$key_staff]['RE'] = $re_sale;
+			$data['RE'] += $staffs[$key_staff]['RE'];
+
+			if ($this->role_id == 3) {
+				foreach ($language as $key_language => $value_language) {
+					$conditional = array();
+					$conditional['where']['language_id'] = $value_language['id'];
+					$conditional['where_not_in']['sale_staff_id'] = array(5, 53, 18);
+					$conditional = array_merge_recursive($conditional, $value2);
+					$language[$key_language][$key2] = $this->_query_for_report($get, $conditional);
+					$data[$key2 . '_L'] += $language[$key_language][$key2];
+				}
+
+				foreach ($source as $key_source => $value_source) {
+					$conditional = array();
+					$conditional['where']['source_id'] = $value_source['id'];
+					$conditional = array_merge_recursive($conditional, $value2);
+					$source[$key_source][$key2] = $this->_query_for_report($get, $conditional);
+					$data[$key2 . '_S'] += $source[$key_source][$key2];
+				}
+				$data['language'] = $language;
+				$data['source'] = $source;
+			}
+
         }
 
-        if ($this->role_id == 3) {
-			$this->load->model('language_study_model');
-			$input_language['where'] = array('active' => 1);
-			$language = $this->language_study_model->load_all($input_language);
-
-//			$conditionArr_language = array();
-			foreach ($language as $key => $value) {
-				foreach ($conditionArr as $key2 => $value2) {
-					$conditional = array();
-					$conditional['where']['language_id'] = $value['id'];
-					$conditional['where_not_in']['sale_staff_id'] = array(2, 53, 18);
-
-					$conditional = array_merge_recursive($conditional, $value2);
-//				echo '<pre>'; print_r($conditional); die();
-					$language[$key][$key2] = $this->_query_for_report($get, $conditional);
-					//$conditionArr_language[$key2]['sum'] += $language[$key][$key2];
-					$data[$key2 . '_L'] += $language[$key][$key2];
-				}
-			}
-			$data['language'] = $language;
-		}
+//		Tính thời gian thực hiện của khối lệnh trên
+//		$time_end = microtime(true);
+//		$execution_time = ($time_end - $time_start)/60;
+//		echo '<b>Total Execution Time:</b> '.$execution_time.' Mins';die();
 
 //		foreach ($staffs as $key => $value) {
 //            $input = array();
@@ -1301,8 +1309,6 @@ class Manager extends MY_Controller {
 //            }
 //        }
 
-		//echo '<pre>';print_r($conditionArr);die;
-
         $data['staffs'] = $staffs;
         $data['startDate'] = $startDate;
         $data['endDate'] = $endDate;
@@ -1314,7 +1320,7 @@ class Manager extends MY_Controller {
             $data['top_nav'] = 'sale/common/top-nav';
         }
 //        print_arr($data);
-        $this->load->view(_MAIN_LAYOUT_, $data);
+        $this->	load->view(_MAIN_LAYOUT_, $data);
     }
 
     // </editor-fold>
