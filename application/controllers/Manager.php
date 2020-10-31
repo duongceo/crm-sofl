@@ -1248,11 +1248,11 @@ class Manager extends MY_Controller {
             }
 
 			$input_contact['where']['sale_staff_id'] = $value_staff['id'];
-			$contact_id = $this->contacts_model->get_array_id_contact($input_contact);
-//			$contact_id = array();
-//			foreach ($contact as $item) {
-//				$contact_id[] = $item['id'];
-//			}
+			$contact = $this->contacts_model->load_all($input_contact);
+			$contact_id = array();
+			foreach ($contact as $item) {
+				$contact_id[] = $item['id'];
+			}
 
 			if (!empty($contact_id)) {
 				$input_re['select'] = 'SUM(paid) as paiding';
@@ -1287,8 +1287,6 @@ class Manager extends MY_Controller {
 					$source[$key_source][$key2] = $this->_query_for_report($get, $conditional);
 					$data[$key2 . '_S'] += $source[$key_source][$key2];
 				}
-				$data['language'] = $language;
-				$data['source'] = $source;
 			}
 
         }
@@ -1310,6 +1308,8 @@ class Manager extends MY_Controller {
 //            }
 //        }
 
+		$data['language'] = $language;
+		$data['source'] = $source;
         $data['staffs'] = $staffs;
         $data['startDate'] = $startDate;
         $data['endDate'] = $endDate;
