@@ -303,7 +303,7 @@
 				'C3' => $total_mkt_C3,
 				'L5' => $total_mkt_L5,
 				'Ma_mkt' => str_replace(',', '.', number_format($total_spend_mkt)),
-				'Gia_So' => ($total_mkt_C3 == 0) ? '0' : round($total_spend_mkt / $total_mkt_C3, 2) * 100,
+				'Gia_So' => ($total_mkt_C3 == 0) ? '0' : str_replace(',', '.', number_format(round($total_spend_mkt / $total_mkt_C3, 2) * 100)),
 				'mkt_name' => 'Tổng'
 			);
 

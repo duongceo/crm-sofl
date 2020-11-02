@@ -73,15 +73,15 @@ class Class_study extends MY_Table {
 			),
 			'time_start' => array(
 				'type' => 'datetime',
-				'name_display' => 'Thời gian bắt đầu',
+				'name_display' => 'Ngày khai giảng',
 			),
 			'time_end_expected' => array(
 				'type' => 'datetime',
-				'name_display' => 'Thời gian dự kiến kết thúc',
+				'name_display' => 'Ngày dự kiến kết thúc',
 			),
 			'time_end_real' => array(
 				'type' => 'datetime',
-				'name_display' => 'Thời gian kết thúc thật',
+				'name_display' => 'Ngày kết thúc thực',
 			),
 			'teacher_id' => array(
 				'type' => 'custom',
@@ -118,7 +118,6 @@ class Class_study extends MY_Table {
 		// }
 
 		$this->list_filter = array(
-
 			'left_filter' => array(
 //				'time_created' => array(
 //					'type' => 'datetime',
@@ -132,7 +131,6 @@ class Class_study extends MY_Table {
 				'level_language' => array(
 					'type' => 'arr_multi'
 				),
-
 			),
 		);
 

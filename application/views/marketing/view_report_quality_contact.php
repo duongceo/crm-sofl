@@ -55,20 +55,11 @@
                     <td style="background-color: #0EA3EF ;color: #FFF;font-weight: bold"><?php echo $value['language_name'] ?></td>
                     <td><?php echo $value['C3'] ?></td>
                     <td><?php echo $value['L5'] ?></td>
-<!--                    <td>--><?php //echo $value['L1'] ?><!--</td>-->
-<!--                    <td>--><?php //echo $value['L2'] ?><!--</td>-->
-<!--                    <td>--><?php //echo $value['L6'] ?><!--</td>-->
-<!--                    <td>--><?php //echo $value['L8'] ?><!--</td>-->
-<!--					<td>--><?php //echo $value['L1/C3'].'%' ?><!--</td>-->
-<!--                    <td>--><?php //echo $value['L2/L1'].'%' ?><!--</td>-->
-<!--                    <td --><?php //if ($value['L6/L1'] < 40) {echo 'style="background-color: #a71717;color: #fff;"';}?><!-->--><?php //echo $value['L6/L1'].'%' ?><!--</td>-->
-<!--                    <td --><?php //if ($value['L6/L2'] < 45) {echo 'style="background-color: #a71717;color: #fff;"';}?><!-->--><?php //echo $value['L6/L2'].'%' ?><!--</td>-->
-<!--                    <td --><?php //if ($value['L8/L6'] < 55) {echo 'style="background-color: #a71717;color: #fff;"';}?><!-->--><?php //echo $value['L8/L6'].'%'?><!--</td>-->
 <!--                    <td --><?php //if ($value['L8/L1'] < 35) {echo 'style="background-color: #a71717;color: #fff;"';}?><!-->--><?php //echo $value['L8/L1'].'%'?><!--</td>-->
-					<td><?php echo $value['Ma_mkt']?></td>
-					<td><?php echo $value['Gia_So']?></td>
+					<td><?php echo $value['Ma_mkt']?> VNĐ</td>
+					<td><?php echo $value['Gia_So']?> VNĐ</td>
 <!--                    <td>--><?php //echo $value['Re_du_kien']?><!--</td>-->
-                    <td><?php echo $value['Re_thuc_te']?></td>
+                    <td><?php echo $value['Re_thuc_te']?> VNĐ</td>
 <!--                    <td>--><?php //echo $value['Ma_Re_du_kien'].'%' ?><!--</td>-->
                     <td><?php echo $value['Ma_Re_thuc_te'].'%' ?></td>
 <!--                    <td>--><?php //echo $value['Gia_L8'] ?><!--</td>-->
@@ -115,8 +106,8 @@
 					<td style="background-color: #0c6681 ;color: #FFF;font-weight: bold"><?php echo $value['mkt_name'] ?></td>
 					<td><?php echo $value['C3'] ?></td>
 					<td><?php echo $value['L5'] ?></td>
-					<td><?php echo $value['Ma_mkt']?></td>
-					<td><?php echo $value['Gia_So']?></td>
+					<td><?php echo $value['Ma_mkt']?> VNĐ</td>
+					<td><?php echo $value['Gia_So']?> VNĐ</td>
 <!--					<td>--><?php //echo $value['Re_thuc_te']?><!--</td>-->
 <!--					<td>--><?php //echo $value['Ma_Re_thuc_te'].'%' ?><!--</td>-->
 				</tr>
