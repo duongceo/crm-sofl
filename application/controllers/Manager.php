@@ -1228,9 +1228,9 @@ class Manager extends MY_Controller {
 
 		$input_contact = array();
 		$input_contact['select'] = 'id';
+		$input_contact['where']['date_paid >='] = $startDate;
+		$input_contact['where']['date_paid <='] = $endDate;
 		$input_contact['where']['level_contact_id'] = 'L5';
-		$input_contact['where']['date_last_calling >='] = $startDate;
-		$input_contact['where']['date_last_calling <='] = $endDate;
 
 		foreach ($conditionArr as $key2 => $value2) {
         	foreach ($staffs as $key_staff => $value_staff) {
@@ -1245,30 +1245,32 @@ class Manager extends MY_Controller {
 				if (in_array($value_staff['id'], array(5, 53, 18))) { // ko tính contact này vào tổng
 					$data[$key2] = $data[$key2] - $staffs[$key_staff][$key2];
 				}
+				
+				$input_contact['where']['sale_staff_id'] = $value_staff['id'];
+				$contact = $this->contacts_model->load_all($input_contact);
+				
+				$contact_id = array();
+				foreach ($contact as $item) {
+					$contact_id[] = $item['id'];
+				}
+				
+				if (!empty($contact_id)) {
+					$input_re['select'] = 'SUM(paid) as paiding';
+					$input_re['where'] = array(
+						'time_created >=' => $startDate,
+						'time_created <=' => $endDate,
+					);
+					$input_re['where_in']['contact_id'] = $contact_id;
+					$re_sale = (int) $this->paid_model->load_all($input_re)[0]['paiding'];
+				} else {
+					$re_sale = 0;
+				}
+
+				$staffs[$key_staff]['RE'] = $re_sale;
+				//$data['RE'] += $staffs[$key_staff]['RE'];
+				
             }
-
-			$input_contact['where']['sale_staff_id'] = $value_staff['id'];
-			$contact = $this->contacts_model->load_all($input_contact);
-			$contact_id = array();
-			foreach ($contact as $item) {
-				$contact_id[] = $item['id'];
-			}
-
-			if (!empty($contact_id)) {
-				$input_re['select'] = 'SUM(paid) as paiding';
-				$input_re['where'] = array(
-					'time_created >=' => $startDate,
-					'time_created <=' => $endDate,
-				);
-				$input_re['where_in']['contact_id'] = $contact_id;
-				$re_sale = (int) $this->paid_model->load_all($input_re)[0]['paiding'];
-			} else {
-				$re_sale = 0;
-			}
-
-			$staffs[$key_staff]['RE'] = $re_sale;
-			$data['RE'] += $staffs[$key_staff]['RE'];
-
+			
 			if ($this->role_id == 3) {
 				foreach ($language as $key_language => $value_language) {
 					$conditional = array();
@@ -1290,6 +1292,10 @@ class Manager extends MY_Controller {
 			}
 
         }
+		
+		foreach ($staffs as $value) {
+			$data['RE'] += $value['RE'];
+		}
 
 //		Tính thời gian thực hiện của khối lệnh trên
 //		$time_end = microtime(true);
@@ -1445,11 +1451,11 @@ class Manager extends MY_Controller {
 					'sum' => 0
 				),
 				'L2' => array(
-					'where' => array('is_hide' => '0', 'level_contact_id' => 'L2', 'date_handover !=' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
+					'where' => array('is_hide' => '0', 'level_contact_id' => 'L2', 'date_handover !=' => '0', 'is_old' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
 					'sum' => 0
 				),
 				'L3' => array(
-					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L3', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
+					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L3', 'is_old' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
 					'sum' => 0
 				),
 
@@ -1470,11 +1476,11 @@ class Manager extends MY_Controller {
 					'sum' => 0
 				),
 				'L2' => array(
-					'where' => array('is_hide' => '0', 'level_contact_id' => 'L2', 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate),
+					'where' => array('is_hide' => '0', 'level_contact_id' => 'L2', 'is_old' => '0', 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate),
 					'sum' => 0
 				),
 				'L3' => array(
-					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L3', 'date_confirm >=' => $startDate, 'date_confirm <=' => $endDate),
+					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L3', 'is_old' => '0', 'date_confirm >=' => $startDate, 'date_confirm <=' => $endDate),
 					'sum' => 0
 				),
 
@@ -1484,7 +1490,7 @@ class Manager extends MY_Controller {
 				),
 
 				'L8' => array(
-					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => '1', 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
+					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => 1, 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
 					'sum' => 0
 				),
 
@@ -1503,6 +1509,7 @@ class Manager extends MY_Controller {
 						$conditional = array();
 						$conditional['where']['branch_id'] = $value['id'];
 						$conditional['where']['language_id'] = $item['id'];
+						$conditional['where_not_in']['sale_staff_id'] = array(5, 53, 18);
 						$conditional = array_merge_recursive($conditional, $value2);
 //						echo '<pre>'; print_r($conditional);
 						$branch[$key]['name'] = $value['name'];
@@ -1522,6 +1529,7 @@ class Manager extends MY_Controller {
 					$conditional = array();
 					$conditional['where']['branch_id'] = $branch_id;
 					$conditional['where']['language_id'] = $item['id'];
+					$conditional['where_not_in']['sale_staff_id'] = array(5, 53, 18);
 					$conditional = array_merge_recursive($conditional, $value2);
 //					echo '<pre>'; print_r($conditional);
 					$branch[$branch_id]['name'] = $this->branch_model->find_branch_name($branch_id);
