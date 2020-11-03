@@ -268,8 +268,8 @@
 				// lấy chi phí
 				$input = array();
 				$input['select'] = 'SUM(spend) as spending';
-				$input['where']['time_created >='] = $date_from;
-				$input['where']['time_created <='] = $date_end;
+				$input['where']['day_spend >='] = $date_from;
+				$input['where']['day_spend <='] = $date_end;
 				$input['where']['marketer_id'] = $key;
 
 				if (isset($get['filter_channel_id'])) {
@@ -322,8 +322,8 @@
 				// lấy chi phí
 				$input = array();
 				$input['select'] = 'SUM(spend) as spending';
-				$input['where']['time_created >='] = $date_from;
-				$input['where']['time_created <='] = $date_end;
+				$input['where']['day_spend >='] = $date_from;
+				$input['where']['day_spend <='] = $date_end;
 				$input['where']['language_id'] = $key;
 
 				if (isset($get['filter_channel_id'])) {
@@ -387,24 +387,9 @@
 			$Report['Tổng'] = array(
 				'C3' => $total_C3,
 				'L5' => $total_L5,
-//				'L1' => $total_L1,
-//				'L2' => $total_L2,
-//				'L6' => $total_L6,
-//				'L8' => $total_L8,
-				// 'RE' => str_replace(',', '.', number_format($total_RE)),
-//				'Gia_L8' => str_replace(',', '.', number_format(round($total_spend / $total_L8))),
-//				'L1/C3' => round(($total_L1 / $total_C3), 4) * 100,
-//				'L2/L1' => round(($total_L2 / $total_L1), 4) * 100,
-//				'L6/L1' => round(($total_L6 / $total_L1), 4) * 100,
-//				'L6/L2' => round(($total_L6 / $total_L2), 4) * 100,
-//				'L8/L6' => round(($total_L8 / $total_L6), 4) * 100,
-//				'L8/L1' => round(($total_L8 / $total_L1), 4) * 100,
 				'Ma_mkt' => str_replace(',', '.', number_format($total_spend)),
-				'Gia_So' => ($total_C3 == 0) ? '0' : round($total_spend / $total_C3, 2) * 100,
-//				'Ma_Re_du_kien' => ($total_L6 == 0) ? '0' : round($total_spend / ($total_L6 * $ty_le_brand * 395000), 4) * 100,
+				'Gia_So' => ($total_C3 == 0) ? '0' : str_replace(',', '.', number_format(round($total_spend / $total_C3, 2) * 100)),
 				'Ma_Re_thuc_te' => ($total_RE == 0) ? '0' : round($total_spend / $total_RE, 2) * 100,
-				// 'Ma_Re_thuc_te' => str_replace(',', '.', number_format($total_RE)),
-//				'Re_du_kien' => str_replace(',', '.', number_format($total_L6 * 395000 * $ty_le_brand)),
 				'Re_thuc_te' => str_replace(',', '.', number_format($total_RE)),
 				'language_name' => 'Tổng'
 			);
