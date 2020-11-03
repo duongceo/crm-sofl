@@ -674,7 +674,7 @@ class Common extends MY_Controller {
 			if ($post['paid_today'] != 0) {
 				$post['paid_today'] = str_replace(',', '', $post['paid_today']);
 				$param['paid'] = $rows[0]['paid'] + $post['paid_today'];
-				if (strlen($post['paid_today']) < 5 || strlen($post['paid_today']) > 7 || ((int)$post['paid_today'] > (int)$param['fee'])) {
+				if (strlen($post['paid_today']) < 5 || strlen($post['paid_today']) > 8 || ((int)$post['paid_today'] > (int)$param['fee'])) {
 					$result['success'] = 0;
 					$result['message'] = 'Đóng học phí chuẩn giá tiền hoặc số tiền học phí phải đúng';
 					echo json_encode($result);
