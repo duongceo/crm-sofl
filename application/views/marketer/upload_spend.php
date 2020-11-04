@@ -3,7 +3,7 @@
 
 <div class="row">
 	<h3 class="text-center">Nhật ký đã nhập từ ngày <?php echo date('d-m-Y', $startDate); ?> đến ngày <?php echo date('d-m-Y', $endDate); ?></h3>
-	<h3 class="text-center marginbottom35"> Tổng chi phí MKT : <?php echo $total_spend; ?> $</h3>
+	<h3 class="text-center marginbottom35"> Tổng chi phí MKT : <?php echo $total_spend; ?> VNĐ</h3>
 	
 	<div class="row">
 		<div class="col-md-10">
@@ -45,7 +45,7 @@
 						<td class="text-center">
 							<?php echo date('d-m-Y', $item['day_spend']); ?>
 						</td>
-						<td class="text-center"><?php echo $item['spend']; ?></td>
+						<td class="text-center"><?php echo $item['spend']; ?> VNĐ</td>
 						<td class="text-center"><?php echo date('d-m-Y H:m:s', $item['time_created']); ?></td>
 
 					</tr>
