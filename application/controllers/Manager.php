@@ -1242,7 +1242,7 @@ class Manager extends MY_Controller {
                 //$conditionArr_staff[$key2]['sum'] += $staffs[$key][$key2];
 				$data[$key2] += $staffs[$key_staff][$key2];
 
-				if (in_array($value_staff['id'], array(5, 53, 18))) { // ko tính contact này vào tổng
+				if ($value_staff['out_report'] == 1) { // ko tính contact này vào tổng
 					$data[$key2] = $data[$key2] - $staffs[$key_staff][$key2];
 				}
 				
@@ -1275,7 +1275,7 @@ class Manager extends MY_Controller {
 				foreach ($language as $key_language => $value_language) {
 					$conditional = array();
 					$conditional['where']['language_id'] = $value_language['id'];
-					$conditional['where_not_in']['sale_staff_id'] = array(5, 53, 18);
+					$conditional['where_not_in']['source_id'] = array(9, 10);
 					$conditional = array_merge_recursive($conditional, $value2);
 					$language[$key_language][$key2] = $this->_query_for_report($get, $conditional);
 					$data[$key2 . '_L'] += $language[$key_language][$key2];
@@ -1284,7 +1284,7 @@ class Manager extends MY_Controller {
 				foreach ($source as $key_source => $value_source) {
 					$conditional = array();
 					$conditional['where']['source_id'] = $value_source['id'];
-					$conditional['where_not_in']['sale_staff_id'] = array(5, 53, 18);
+					$conditional['where_not_in']['source_id'] = array(9, 10);
 					$conditional = array_merge_recursive($conditional, $value2);
 					$source[$key_source][$key2] = $this->_query_for_report($get, $conditional);
 					$data[$key2 . '_S'] += $source[$key_source][$key2];
