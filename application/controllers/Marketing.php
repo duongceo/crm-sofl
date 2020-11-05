@@ -155,11 +155,11 @@
 			if (isset($get['tic_report'])) {
 				$typeReport = array(
 					'C3' => array(
-						'where' => array(),
+						'where' => array('is_old' => '0', 'source_id IN (1, 2, 8)'),
 						'time' => 'filter_date_date_rgt'
 					),
 					'L5' => array(
-						'where' => array('is_hide' => '0', 'level_contact_id' => 'L5'),
+						'where' => array('is_hide' => '0', 'is_old' => '0', 'level_contact_id' => 'L5'),
 						'time' => 'filter_date_date_rgt'
 					),
 					/*
@@ -184,11 +184,11 @@
 			} else {
 				$typeReport = array(
 					'C3' => array(
-						'where' => array(),
+						'where' => array('is_old' => '0', 'source_id IN (1, 2, 8)'),
 						'time' => 'filter_date_date_rgt'
 					),
 					'L5' => array(
-						'where' => array('is_hide' => '0', 'level_contact_id' => 'L5'),
+						'where' => array('is_hide' => '0', 'is_old' => '0', 'level_contact_id' => 'L5'),
 						'time' => 'filter_date_date_rgt_study'
 					),
 					/*
@@ -339,6 +339,7 @@
 				
 				$input_re['select'] = 'SUM(paid) as paiding';
 				$input_re['where'] = array(
+					'student_old' => '0',
 					'time_created >=' => $date_from,
 					'time_created <=' => $date_end,
 					'language_id' => $key
