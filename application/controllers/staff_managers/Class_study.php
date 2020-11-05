@@ -32,8 +32,10 @@ class Class_study extends MY_Table {
 				'name_display' => 'Mã lớp học',
 			),
 			'branch' => array(
+				'type' => 'custom',
+				'value' => $this->get_data_from_model('branch'),
 				'name_display' => 'Cơ sở',
-				'display' => 'none'
+//				'display' => 'none'
 			),
 			'classroom_id' => array(
 				'name_display' => 'Phòng học',
