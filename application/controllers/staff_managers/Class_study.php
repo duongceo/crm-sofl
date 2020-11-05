@@ -431,8 +431,7 @@ class Class_study extends MY_Table {
 		$input['where'] = array(
 			'class_study_id' => $class_study_code[0]['class_study_id'],
 		);
-		$input['where_in']['level_contact_id'] = array('L5', 'L5.1', 'L5.2', 'L5.3');
-
+		$input['where']['level_contact_id'] = 'L5';
 //		$student = $this->contacts_model->load_all($input);
 
 		$require_model = array(
@@ -450,7 +449,7 @@ class Class_study extends MY_Table {
         $data['contacts'] = $data_pagination['data'];
         $data['total_contact'] = $data_pagination['total_row'];
 
-		$this->table .= 'level_contact date_rgt date_rgt_study';
+		$this->table .= 'fee paid level_contact date_rgt date_rgt_study';
 		$data['table'] = explode(' ', $this->table);
 		$this->load->view('common/content/tbl_contact', $data);
 	}
