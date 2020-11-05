@@ -292,6 +292,14 @@ class MY_Table extends MY_Controller {
         }
 
         $this->data['rows'] = $this->{$this->model}->load_all($this->conditional);
+//        print_arr($this->data['rows']);
+
+        if ($this->controller == 'class_study') {
+        	foreach ($this->data['rows'] as &$value) {
+				$value['number_student'] = $this->get_student_current($value['class_study_id']);
+			}
+		}
+        unset($value);
 
         // echoQuery();
 
@@ -1055,6 +1063,14 @@ class MY_Table extends MY_Controller {
 		$table = $this->{$model}->load_all($input);
 
 		return $table;
+	}
+
+	private function get_student_current($class_id) {
+    	$input['where'] = array(
+    		'class_study_id' => $class_id,
+			'level_contact_id' => 'L5'
+		);
+    	return count($this->contacts_model->load_all($input));
 	}
 
 //	public function search($offset = 0) {
