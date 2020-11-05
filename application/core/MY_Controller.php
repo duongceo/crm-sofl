@@ -14,8 +14,6 @@ class MY_Controller extends CI_Controller {
     var $data = array();
 
     var $user_id = '';
-	
-	var $out_of_lakita = '';
 
     var $per_page = 0;
 
@@ -34,6 +32,8 @@ class MY_Controller extends CI_Controller {
     protected $table = '';
 
     public $role_id = 0;
+
+    public $branch_id = 0;
 
     public $can_view_contact = 0;
 
@@ -146,6 +146,8 @@ class MY_Controller extends CI_Controller {
         $this->user_id = $this->session->userdata('user_id');
 
         $this->role_id = $this->session->userdata('role_id');
+
+        $this->branch_id = $this->session->userdata('branch_id');
 
         /* Lấy controller và action */
 

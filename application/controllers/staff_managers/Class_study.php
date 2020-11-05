@@ -112,19 +112,12 @@ class Class_study extends MY_Table {
 //	}
 
 	public function index($offset = 0) {
-//		$get = $this->input->get();
-//		print_arr($get);
 
 		$this->data['branch'] = $this->get_data_from_model('branch');
 		$this->data['language'] = $this->get_data_from_model('language_study');
 		$this->data['level_language'] = $this->get_data_from_model('level_language');
 
 		$conditional = array();
-		// if ($this->role_id == 12) {
-		// 	$branh_id = $this->session->userdata('branch_id');
-		// 	$conditional['where']['classroom_id'] = $branh_id;
-		// 	unset($this->data['branch']);
-		// }
 
 		$this->list_filter = array(
 			'left_filter' => array(
