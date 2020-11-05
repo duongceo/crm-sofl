@@ -222,7 +222,7 @@ class MY_Table extends MY_Controller {
 
         $input_get_arr = $this->_get_query_condition_arr($get);
 
-        // print_arr($get);
+//         print_arr($get);
 
         /* Lấy điều kiện query từ các thao tác lọc, sắp xếp, tìm kiếm */
 
@@ -831,6 +831,14 @@ class MY_Table extends MY_Controller {
             }
 
         }
+
+//        print_arr(array(
+//
+//			'input_get' => $input_get,
+//
+//			'has_user_order' => $has_user_order
+//
+//		));
 
         return array(
 

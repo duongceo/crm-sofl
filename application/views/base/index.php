@@ -26,6 +26,10 @@
 
     -->
 
+	<?php if ($this->controller == 'class_study') {
+		$this->load->view('base/filter_item/show_to_do_list');
+	} ?>
+
     <?php $this->load->view('base/show_table/base_header'); ?>
 
     <!-- Phần hiển thị bảng : chi tiết xem ở file show_table/index.php

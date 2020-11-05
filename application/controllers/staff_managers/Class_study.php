@@ -1,6 +1,6 @@
 <?php
 
-require_once("application/core/MY_Table.php");
+//require_once("application/core/MY_Table.php");
 
 /**
  * Description of Course
@@ -31,45 +31,45 @@ class Class_study extends MY_Table {
 			'class_study_id' => array(
 				'name_display' => 'Mã lớp học',
 			),
-
 			'branch' => array(
 				'name_display' => 'Cơ sở',
 				'display' => 'none'
 			),
-
 			'classroom_id' => array(
 				'name_display' => 'Phòng học',
 			),
-
 			'day_id' => array(
 				'type' => 'custom',
 				'value' => $this->get_data_from_model('day'),
 				'name_display' => 'Ngày học',
 			),
-
 			'time_id' => array(
 				'type' => 'custom',
 				'value' => $this->get_data_from_model('time'),
 				'name_display' => 'Giờ học',
 			),
-
 			'language' => array(
 				'type' => 'custom',
 				'value' => $this->get_data_from_model('language_study'),
 				'name_display' => 'Ngoại ngữ',
 			),
-
 			'level_language' => array(
 				'type' => 'custom',
 				'value' => $this->get_data_from_model('level_language'),
 				'name_display' => 'Trình độ',
 			),
-
 			'number_student_max' => array(
-				'name_display' => 'Số lượng học viên tối đa',
+				'name_display' => 'Sĩ số',
 			),
 			'number_student' => array(
-				'name_display' => 'Số lượng học viên hiện tại',
+				'name_display' => 'Sĩ số hiện tại',
+			),
+			'total_lesson' => array(
+				'name_display' => 'Tổng số buổi',
+			),
+			'salary_per_hour' => array(
+				'type' => 'custom',
+				'name_display' => 'Lương/Giờ',
 			),
 			'time_start' => array(
 				'type' => 'datetime',
@@ -87,6 +87,15 @@ class Class_study extends MY_Table {
 				'type' => 'custom',
 				'value' => $this->get_data_from_model('teacher'),
 				'name_display' => 'Giảng viên'
+			),
+			'character_class_id' => array(
+				'type' => 'custom',
+				'value' => $this->get_data_from_model('character_class'),
+				'name_display' => 'Đặc điểm lớp',
+			),
+			'status' => array(
+				'type' => 'custom',
+				'name_display' => 'Trạng thái'
 			),
 			'active' => array(
 				'type' => 'active',
@@ -119,9 +128,6 @@ class Class_study extends MY_Table {
 
 		$this->list_filter = array(
 			'left_filter' => array(
-//				'time_created' => array(
-//					'type' => 'datetime',
-//				),
 				'branch' => array(
 					'type' => 'arr_multi'
 				),
@@ -146,7 +152,6 @@ class Class_study extends MY_Table {
 //			$data['slide_menu'] = 'sale/common/slide-menu';
 //		}
 
-//		$data['left_col'] = array('branch');
 		$data['list_title'] = 'Lớp học';
 		$data['edit_title'] = 'Sửa thông tin lớp học';
 		$data['content'] = 'base/index';
@@ -189,9 +194,15 @@ class Class_study extends MY_Table {
 				),
 				'number_student_max' => array(),
 				'number_student' => array(),
+				'total_lesson' => array(),
+				'salary_per_hour' => array(),
 			),
 
 			'right_table' => array(
+				'character_class_id' => array(
+					'type' => 'array',
+					'value' => $this->get_data_from_model('character_class')
+				),
 				'teacher_id' => array(
 					'type' => 'array',
 					'value' => $this->get_data_from_model('teacher')
@@ -204,6 +215,9 @@ class Class_study extends MY_Table {
 				),
 				'time_end_real' => array(
 					'type' => 'datetime'
+				),
+				'status' => array(
+					'type' => 'custom'
 				),
 				'active' => array(
 					'type' => 'active'
@@ -232,7 +246,7 @@ class Class_study extends MY_Table {
 //			}
 
 			$paramArr = array('class_study_id', 'classroom_id', 'branch_id', 'level_language_id', 'language_id', 'day_id', 'time_id',
-				'number_student', 'number_student_max', 'teacher_id', 'active');
+				'number_student', 'number_student_max', 'total_lesson', 'salary_per_hour', 'teacher_id', 'active');
 
 			foreach ($paramArr as $value) {
 
@@ -302,9 +316,15 @@ class Class_study extends MY_Table {
 				),
 				'number_student_max' => array(),
 				'number_student' => array(),
+				'total_lesson' => array(),
+				'salary_per_hour' => array(),
 			),
 
 			'right_table' => array(
+				'character_class_id' => array(
+					'type' => 'array',
+					'value' => $this->get_data_from_model('character_class')
+				),
 				'teacher_id' => array(
 					'type' => 'array',
 					'value' => $this->get_data_from_model('teacher')
@@ -319,6 +339,9 @@ class Class_study extends MY_Table {
 					'type' => 'datetime'
 				),
 				'notes' => array(
+					'type' => 'custom'
+				),
+				'status' => array(
 					'type' => 'custom'
 				),
 				'active' => array(
@@ -350,7 +373,7 @@ class Class_study extends MY_Table {
 			}
 
 			$paramArr = array('class_study_id', 'branch_id', 'classroom_id', 'level_language_id', 'language_id', 'day_id', 'time_id',
-				'number_student', 'number_student_max', 'teacher_id', 'active');
+				'number_student', 'number_student_max', 'total_lesson', 'salary_per_hour', 'teacher_id', 'active', 'status');
 
 			foreach ($paramArr as $value) {
 
@@ -378,6 +401,10 @@ class Class_study extends MY_Table {
 
 			if (!isset($post['edit_active']) && empty($post['edit_active'])) {
 				$param['active'] = 0;
+			}
+
+			if (!isset($post['edit_status']) && empty($post['edit_status'])) {
+				$param['status'] = 0;
 			}
 
 			if (isset($post['note']) && $post['note'] != '') {
