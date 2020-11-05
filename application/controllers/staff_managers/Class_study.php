@@ -439,6 +439,7 @@ class Class_study extends MY_Table {
             'branch' => array(),
 			'level_contact' => array(),
             'level_language' => array(),
+            'language_study' => array(),
         );
 
         $data = $this->_get_require_data($require_model);
