@@ -317,6 +317,7 @@ class Marketer extends MY_Controller {
 		$require_model = array(
 			'language_study' => array(),
 			'channel' => array(),
+			'location' => array(),
 		);
 		
 		$data = $this->_get_require_data($require_model);
@@ -346,7 +347,7 @@ class Marketer extends MY_Controller {
 		if (isset($get['filter_number_records'])) {
 			$input['limit'] = array($get['filter_number_records']);
 		} else {
-			$input['limit'] = array(40);
+			$input['limit'] = array(31);
 		}
 		$input['order']['day_spend'] = 'desc';
 	
@@ -355,12 +356,14 @@ class Marketer extends MY_Controller {
 		$spend_fb = 0;
 		$this->load->model('language_study_model');
 		$this->load->model('channel_model');
-		
+		$this->load->model('location_model');
+
 		if (isset($spend)) {
 			foreach ($spend as $value) {
 				$data['spend'][] = array(
 					'channel_name' => $this->channel_model->find_channel_name($value['channel_id']),
 					'language_name' => $this->language_study_model->find_language_name($value['language_id']),
+					'location' => $this->location_model->find_location_name($value['location_id']),
 					'spend' => str_replace(',', '.', number_format($value['spend'])),
 					'day_spend' => $value['day_spend'],
 					'time_created' => $value['time_created'],
@@ -370,11 +373,12 @@ class Marketer extends MY_Controller {
 		}
 
 		$post = $this->input->post();
-		//print_arr($post);
+//		print_arr($post);
 		
 		if (isset($post) && !empty($post)) {
 			$param['channel_id'] = $post['channel_id'];
 			$param['language_id'] = $post['language_id'];
+			$param['location_id'] = $post['location_id'];
 			$param['spend'] = $post['spend'];
 			$param['day_spend'] = strtotime(str_replace("/", "-", $post['day_spend']));
 			$param['time_created'] = time();
