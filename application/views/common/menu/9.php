@@ -10,20 +10,17 @@
 
     <ul class="list-unstyled components">
 
-<!--        <li>-->
-<!---->
-<!--            <a href="--><?php //echo base_url('quan-ly/xem-tat-ca-contact.html'); ?><!--">-->
-<!---->
-<!--                <img src="--><?php //echo base_url(); ?><!--public/images/view-all.png"> -->
-<!---->
-<!--                <span> Danh sách toàn bộ contact (--><?php //echo $this->L['all'];?><!--)-->
-<!--		-->
-<!--                </span>-->
-<!---->
-<!--            </a>-->
-<!---->
-<!--        </li>-->
+		<li>
 
+			<a href="<?php echo base_url(); ?>">
+
+				<img src="<?php echo base_url(); ?>public/images/new.png">
+
+				<span> Học viên và Doanh thu hôm nay </span>
+
+			</a>
+
+		</li>
 		<li>
 
 			<a href="<?php echo base_url('manager/view_report_revenue'); ?>">
