@@ -106,7 +106,7 @@ class Home extends CI_Controller {
 
                 case 9:
 
-                    redirect(base_url('quan-ly/xem-tat-ca-contact.html' . $this->initGetVariable));
+                    redirect(base_url('quan-ly/trang-chu.html' . $this->initGetVariable));
 
                     break;
 
@@ -118,7 +118,7 @@ class Home extends CI_Controller {
 
                 case 11:
 
-                    redirect(base_url('manager_customer_care/report' . $this->initGetVariable));
+                    redirect(base_url('' . $this->initGetVariable));
 
                     break;
 
