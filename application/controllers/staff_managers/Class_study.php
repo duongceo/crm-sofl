@@ -118,17 +118,28 @@ class Class_study extends MY_Table {
 		$conditional = array();
 
 		$this->list_filter = array(
-			'left_filter' => array(
+			'right_filter' => array(
 				'branch' => array(
 					'type' => 'arr_multi'
 				),
 				'language' => array(
 					'type' => 'arr_multi'
 				),
+			),
+			'left_filter' => array(
+				'time_start' => array(
+					'type' => 'datetime'
+				),
+				'time_end_expected' => array(
+					'type' => 'datetime'
+				),
+				'time_end_real' => array(
+					'type' => 'datetime'
+				),
 				'level_language' => array(
 					'type' => 'arr_multi'
 				),
-			),
+			)
 		);
 
 		$this->set_conditional($conditional);

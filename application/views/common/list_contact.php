@@ -49,7 +49,7 @@
 
     </div>
 
-    <?php if (in_array($this->role_id, array(3, 12, 5, 7))) { ?>
+    <?php if (in_array($this->role_id, array(3, 12, 5, 7, 9))) { ?>
 		<div class="row">
 			<div class="col-md-10 col-md-offset-1">
 				<h3 class="text-center marginbottom20">Doanh thu</h3>
