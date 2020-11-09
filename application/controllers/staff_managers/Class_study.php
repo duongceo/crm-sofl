@@ -148,7 +148,7 @@ class Class_study extends MY_Table {
 					'type' => 'arr_multi'
 				),
 				'class_id' => array(
-					'type' => 's'
+					'type' => 'custom'
 				)
 			)
 		);

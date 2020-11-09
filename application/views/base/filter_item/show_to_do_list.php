@@ -36,7 +36,7 @@
 												<div class="panel panel-warning text-center">
 													<div class="panel-heading">4 ngày</div>
 													<div class="panel-body">
-														<a class="btn btn-success btn-block" href="<?php echo base_url().'staff_managers/class_study?filter_arr_branch_id='.$this->branch_id.'&filter_date_time_start='.$before_4_day.'-'.$before_4_day.'&filter_arr_multi_language_id='.$value['id']?>">Lọc</a>
+														<a class="btn btn-success btn-block" href="<?php echo base_url().'staff_managers/class_study?filter_arr_branch_id='.$this->branch_id.'&filter_date_time_start='.$before_4_day.'-'.$before_4_day.'&filter_arr_language_id='.$value['id']?>">Lọc</a>
 													</div>
 												</div>
 											</div>
@@ -64,30 +64,55 @@
 				<div class="panel-heading">Các lớp đã khai giảng</div>
 				<div class="panel-body">
 					<div class="row">
-						<div class="col-md-4">
+						<div class="col-md-9">
 							<div class="panel panel-danger text-center">
-								<div class="panel-heading">Đang cập nhật</div>
+								<div class="panel-heading">Các lớp đã khai giảng</div>
 								<div class="panel-body">
+									<div class="row">
+										<div class="col-md-4">
+											<div class="panel panel-warning text-center">
+												<div class="panel-heading">Giai đoạn 1</div>
+												<div class="panel-body">
+													<a class="btn btn-success btn-block" href="<?php echo base_url().'staff_managers/class_study?filter_arr_branch_id='.$this->branch_id.'&filter_arr_character_class_id=3'?>">Lọc</a>
+												</div>
+											</div>
+										</div>
 
+										<div class="col-md-4">
+											<div class="panel panel-warning text-center">
+												<div class="panel-heading">Giai đoạn 2</div>
+												<div class="panel-body">
+													<a class="btn btn-success btn-block" href="<?php echo base_url().'staff_managers/class_study?filter_arr_branch_id='.$this->branch_id.'&filter_arr_character_class_id=3'?>">Lọc</a>
+												</div>
+											</div>
+										</div>
+
+										<div class="col-md-4">
+											<div class="panel panel-warning text-center">
+												<div class="panel-heading">Giai đoạn 3</div>
+												<div class="panel-body">
+													<a class="btn btn-success btn-block" href="<?php echo base_url().'staff_managers/class_study?filter_arr_branch_id='.$this->branch_id.'&filter_arr_character_class_id=3'?>">Lọc</a>
+												</div>
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
-						<div class="col-md-4">
+						<div class="col-md-3">
 							<div class="panel panel-danger text-center">
-								<div class="panel-heading">Đang cập nhật</div>
+								<div class="panel-heading">Các lớp đã kết thức</div>
 								<div class="panel-body">
-
+									<div class="panel panel-warning text-center">
+										<div class="panel-heading">Các lớp đã kết thức</div>
+										<div class="panel-body">
+											<a class="btn btn-success btn-block" href="<?php echo base_url().'staff_managers/class_study?filter_arr_branch_id='.$this->branch_id.'&filter_arr_character_class_id=3'?>">Lọc</a>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
-						<div class="col-md-4">
-							<div class="panel panel-danger text-center">
-								<div class="panel-heading">Đang cập nhật</div>
-								<div class="panel-body">
 
-								</div>
-							</div>
-						</div>
 					</div>
 				</div>
 			</div>

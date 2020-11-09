@@ -753,6 +753,12 @@ class MY_Table extends MY_Controller {
 
 				}
 
+                if (isset($get['filter_class_id']) && trim($get['filter_class_id']) != '') {
+                	$search_class = trim($get['filter_class_id']);
+                	$input_get['like']['class_study_id'] = $search_class;
+                	$input_get['or_like']['name_class'] = $search_class;
+				}
+
                 /*sắp xếp*/
 
                 if (strpos($key, "order_new_") !== FALSE && $value != '0' && $value != '') { //nếu tồn tại biến get order
