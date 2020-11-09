@@ -147,6 +147,9 @@ class Class_study extends MY_Table {
 				'level_language' => array(
 					'type' => 'arr_multi'
 				),
+				'class_id' => array(
+					'type' => 's'
+				)
 			)
 		);
 
@@ -362,6 +365,9 @@ class Class_study extends MY_Table {
 				),
 				'active' => array(
 					'type' => 'active'
+				),
+				'date_last_update' => array(
+					'type' => 'custom'
 				),
 			),
 		);
