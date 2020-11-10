@@ -1499,7 +1499,7 @@ $(document).on('click', '.btn-action-add-new-contact', function (e) {
         beforeSend: () => $(".popup-wrapper").show(),
         success: data => {
             if (data.success == 1) {
-                $("#send_email_sound")[0].play();
+                /*$("#send_email_sound")[0].play();*/
                 $.notify(data.message, {
                     position: "top left",
                     className: 'success',
@@ -1517,7 +1517,7 @@ $(document).on('click', '.btn-action-add-new-contact', function (e) {
                     $(".modal-append-to").append(newModal);
                     $(`.${modalName}`).html(data.content);
                     $(`.add-new-contact-modal-show .modal`).modal("show");
-                    $("#send_email_error")[0].play();
+                    /*$("#send_email_error")[0].play();*/
                     $.notify('Có lỗi xảy ra! Nội dung: ' + data.message, {
                         position: "top left",
                         className: 'error',
@@ -1571,7 +1571,7 @@ $(document).on('click', '.btn-edit-contact', function (e) {
         beforeSend: () => $(".popup-wrapper").show(),
         success: data => {
             if (data.success == 1) {
-                $("#send_email_sound")[0].play();
+                /*$("#send_email_sound")[0].play();*/
                 $.notify(data.message, {
                     position: "bottom left",
                     className: 'success',
@@ -1597,7 +1597,7 @@ $(document).on('click', '.btn-edit-contact', function (e) {
 					location.reload();
 				}
             } else {
-                $("#send_email_error")[0].play();
+                /*$("#send_email_error")[0].play();*/
                 $.notify('Có lỗi xảy ra! Nội dung: ' + data.message, {
                     position: "top left",
                     className: 'error',
@@ -1662,6 +1662,8 @@ $(function () {
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
+/*
 $(document).on('click', '.btn-send-banking-info', function (e) {
     e.preventDefault();
     var contact_id = $(this).attr("contact_id");
@@ -1708,6 +1710,8 @@ $(document).on('click', '.btn-send-banking-info', function (e) {
         }
     });
 });
+
+ */
 
 /*
 $(document).on('click', '.send-banking-info-multi-course', function (e) {
@@ -2514,7 +2518,7 @@ var pusher = new Pusher('f3c70a5a0960d7b811c9', {
 });
 var channel = pusher.subscribe('my-channel');
 channel.bind('notice', function (data) {
-    $("#notificate")[0].play();
+    /*$("#notificate")[0].play();*/
     n = new Notification(
 		data.title, {
 			body: data.message,
@@ -2537,7 +2541,7 @@ channel.bind('notice', function (data) {
 
 channel.bind('callLog', function (data) {
     if (data.success == '1') {
-        $("#call-log-L6-sound")[0].play();
+        /*$("#call-log-L6-sound")[0].play();*/
         n = new Notification(
 			data.title,
 			{
@@ -2547,7 +2551,7 @@ channel.bind('callLog', function (data) {
 				image: data.image
 			});
     } else {
-        $("#call-log-sound")[0].play();
+        /*$("#call-log-sound")[0].play();*/
     }
 });
 
@@ -2677,9 +2681,8 @@ $(document).on("click", ".ajax-request-modal", function (e) {
             },
             success: data => {
                 console.log(data);
-                
                 if (data.success == 0) {
-                    $("#send_email_error")[0].play();
+                    /*$("#send_email_error")[0].play();*/
                     $.notify(data.message, {
                         position: "top left",
                         className: 'error',
@@ -2752,7 +2755,7 @@ $(function () {
 $(".btn-navbar-search").click(function (e) {
     e.preventDefault();
     if ($(".input-navbar-search").val() == '') {
-        $("#send_email_error")[0].play();
+        /*$("#send_email_error")[0].play();*/
         $.notify('Vui lòng nhập nội dung tìm kiếm!', {
             position: "top left",
             className: 'error',
@@ -2986,7 +2989,7 @@ $(document).on('click', '.btn-divide-one-contact', function (e) {
         data: $('#divide_one_contact').serialize(),
         success: data => {
             if (data.success == 1) {
-                $("#send_email_sound")[0].play();
+                /*$("#send_email_sound")[0].play();*/
                 $.notify(data.message, {
                     position: "top left",
                     className: 'success',
@@ -2996,7 +2999,7 @@ $(document).on('click', '.btn-divide-one-contact', function (e) {
                 $(".divide_one_contact_modal").modal("hide");
                 $('tr[contact_id="' + contact_id + '"]').remove();
             } else {
-                $("#send_email_error")[0].play();
+                /*$("#send_email_error")[0].play();*/
                 $.notify('Có lỗi xảy ra! Nội dung: ' + data.message, {
                     position: "top left",
                     className: 'error',
@@ -3008,13 +3011,14 @@ $(document).on('click', '.btn-divide-one-contact', function (e) {
     });
 });
 
-
+/*
 $(document).on('click', '.btn-divide-multi-contact', function (e) {
     e.preventDefault();
     var url = $('#base_url').val() + "manager/divide_contact";
     /*
      * Lấy các contact chăm sóc để ẩn đi
      */
+/*
     var contactIdArray = [];
     $('input[type="checkbox"]').each(
             function () {
@@ -3052,6 +3056,7 @@ $(document).on('click', '.btn-divide-multi-contact', function (e) {
         }
     });
 });
+*/
 
 /* phân đều contact*/
 $(document).on('click', '.btn-divide-multi-contact-auto', function (e) {
@@ -3083,7 +3088,7 @@ $(document).on('click', '.btn-divide-multi-contact-auto', function (e) {
         data: data,
         success: data => {
             if (data.success == 1) {
-                $("#send_email_sound")[0].play();
+                /*$("#send_email_sound")[0].play();*/
                 $.notify(data.message, {
                     position: "top left",
                     className: 'success',
@@ -3096,7 +3101,7 @@ $(document).on('click', '.btn-divide-multi-contact-auto', function (e) {
                 });
 				location.reload();
             } else {
-                $("#send_email_error")[0].play();
+                /*$("#send_email_error")[0].play();*/
                 $.notify('Có lỗi xảy ra! Nội dung: ' + data.message, {
                     position: "top left",
                     className: 'error',
