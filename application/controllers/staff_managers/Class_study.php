@@ -133,6 +133,9 @@ class Class_study extends MY_Table {
 				'language' => array(
 					'type' => 'arr_multi'
 				),
+				'level_language' => array(
+					'type' => 'arr_multi'
+				),
 			),
 			'left_filter' => array(
 				'time_start' => array(
@@ -143,9 +146,6 @@ class Class_study extends MY_Table {
 				),
 				'time_end_real' => array(
 					'type' => 'datetime'
-				),
-				'level_language' => array(
-					'type' => 'arr_multi'
 				),
 				'class_id' => array(
 					'type' => 'custom'
