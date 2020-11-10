@@ -156,59 +156,19 @@
 				$typeReport = array(
 					'C3' => array(
 						'where' => array('is_old' => '0', 'source_id IN (1, 2, 8)' => 'NO-VALUE', 'date_rgt >=' => $date_from, 'date_rgt <=' => $date_end),
-						//'time' => 'filter_date_date_rgt'
 					),
 					'L5' => array(
 						'where' => array('is_hide' => '0', 'is_old' => '0', 'level_contact_id' => 'L5', 'date_rgt >=' => $date_from, 'date_rgt <=' => $date_end),
-						//'time' => 'filter_date_date_rgt'
 					),
-					/*
-					'L1' => array(
-						'where' => array('is_hide' => '0', 'duplicate_id' => '0'),
-						'time' => 'filter_date_date_rgt'
-					),
-					'L2' => array(
-						'where' => array('is_hide' => '0', 'duplicate_id' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_),
-						'time' => 'filter_date_date_rgt'
-					),
-					'L6' => array(
-						'where' => array('is_hide' => '0', 'ordering_status_id' => _DONG_Y_MUA_, 'call_status_id' => _DA_LIEN_LAC_DUOC_),
-						'time' => 'filter_date_date_rgt'
-					),
-					'L8' => array(
-						'where' => array('is_hide' => '0', 'ordering_status_id' => _DONG_Y_MUA_, 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'cod_status_id' => _DA_THU_LAKITA_),
-						'time' => 'filter_date_date_rgt'
-					),
-					*/
 				);
 			} else {
 				$typeReport = array(
 					'C3' => array(
 						'where' => array('is_old' => '0', 'source_id IN (1, 2, 8)' => 'NO-VALUE', 'date_rgt >=' => $date_from, 'date_rgt <=' => $date_end),
-						//'time' => 'filter_date_date_rgt'
 					),
 					'L5' => array(
 						'where' => array('is_hide' => '0', 'is_old' => '0', 'level_contact_id' => 'L5', 'date_rgt_study >=' => $date_from, 'date_rgt_study <=' => $date_end),
-						//'time' => 'filter_date_date_rgt_study'
 					),
-					/*
-					'L1' => array(
-						'where' => array('is_hide' => '0','duplicate_id' => '0'),
-						'time' => 'filter_date_date_handover'
-					),
-					'L2' => array(
-						'where' => array('is_hide' => '0', 'duplicate_id' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_),
-						'time' => 'filter_date_date_handover'
-					),
-					'L6' => array(
-						'where' => array('is_hide' => '0', 'ordering_status_id' => _DONG_Y_MUA_, 'call_status_id' => _DA_LIEN_LAC_DUOC_),
-						'time' => 'filter_date_date_confirm'
-					),
-					'L8' => array(
-						'where' => array('is_hide' => '0', 'ordering_status_id' => _DONG_Y_MUA_, 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'cod_status_id' => _DA_THU_LAKITA_),
-						'time' => 'filter_date_date_receive_lakita'
-					),
-					*/
 				);
 			}
 
@@ -219,10 +179,8 @@
 			unset($get['filter_date_date_happen']);
 
 			$Report = array();
-
 			foreach ($language as $v_language) {
 				foreach ($typeReport as $report_type => $value) {
-					//$typeTime = array($value['time'] => $time);
 					$condition = array('where' => array_merge($value['where'], array('language_id' => $v_language['id'])));
 					$Report[$v_language['id']][$report_type] = $this->_query_for_report($get, $condition);
 				}
@@ -231,20 +189,17 @@
 			$Report_mkt = array();
 			foreach ($marketer as $v_mkt) {
 				foreach ($typeReport as $report_type => $value) {
-					//$typeTime = array($value['time'] => $time);
 					if ($this->role_id == 6) {
 						$condition = array('where' => array_merge($value['where'], array('marketer_id' => $this->user_id)));
 					} else {
 						$condition = array('where' => array_merge($value['where'], array('marketer_id' => $v_mkt['id'])));
 					}
-
 					$Report_mkt[$v_mkt['id']][$report_type] = $this->_query_for_report($get, $condition);
 				}
 			}
 
 			$total_mkt_L5 = 0;
 			$total_mkt_C3 = 0;
-//			$total_mkt_RE = 0;
 			$total_spend_mkt = 0;
 
 			foreach ($Report_mkt as $key => $value) {
