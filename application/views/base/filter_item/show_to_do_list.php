@@ -73,7 +73,7 @@
 											<div class="panel panel-warning text-center">
 												<div class="panel-heading">Giai đoạn 1</div>
 												<div class="panel-body">
-													<a class="btn btn-success btn-block" href="<?php echo base_url().'staff_managers/class_study?filter_arr_branch_id='.$this->branch_id.'&filter_arr_character_class_id=3'?>">Lọc</a>
+													<a class="btn btn-success btn-block" href="<?php echo base_url().'staff_managers/class_study?filter_arr_branch_id='.$this->branch_id.'&filter_arr_lesson_learned=4'?>">Lọc</a>
 												</div>
 											</div>
 										</div>
@@ -82,7 +82,7 @@
 											<div class="panel panel-warning text-center">
 												<div class="panel-heading">Giai đoạn 2</div>
 												<div class="panel-body">
-													<a class="btn btn-success btn-block" href="<?php echo base_url().'staff_managers/class_study?filter_arr_branch_id='.$this->branch_id.'&filter_arr_character_class_id=3'?>">Lọc</a>
+													<a class="btn btn-success btn-block" href="<?php echo base_url().'staff_managers/class_study?filter_arr_branch_id='.$this->branch_id.'&filter_distance=gd2'?>">Lọc</a>
 												</div>
 											</div>
 										</div>
@@ -91,7 +91,7 @@
 											<div class="panel panel-warning text-center">
 												<div class="panel-heading">Giai đoạn 3</div>
 												<div class="panel-body">
-													<a class="btn btn-success btn-block" href="<?php echo base_url().'staff_managers/class_study?filter_arr_branch_id='.$this->branch_id.'&filter_arr_character_class_id=3'?>">Lọc</a>
+													<a class="btn btn-success btn-block" href="<?php echo base_url().'staff_managers/class_study?filter_arr_branch_id='.$this->branch_id.'&filter_distance=gd3'?>">Lọc</a>
 												</div>
 											</div>
 										</div>

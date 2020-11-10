@@ -292,6 +292,7 @@ class MY_Table extends MY_Controller {
         }
 
         $this->data['rows'] = $this->{$this->model}->load_all($this->conditional);
+//		echoQuery();die();
 //        print_arr($this->data['rows']);
 
         if ($this->controller == 'class_study') {
@@ -758,6 +759,19 @@ class MY_Table extends MY_Controller {
                 	$input_get['like']['class_study_id'] = $search_class;
                 	$input_get['or_like']['name_class'] = $search_class;
 				}
+                
+                if (isset($get['filter_distance']) && $get['filter_distance'] != '') {
+                	if ($get['filter_distance'] == 'gd2') {
+						$input_get['where'] = array(
+							'lesson_learned = FLOOR(total_lesson/2)' => 'NO-VALUE'
+						);
+					} else if ($get['filter_distance'] == 'gd3') {
+						$query = 'FLOOR((`time_end_expected` - ' . time() . ') / (60 * 60 * 24)) = 9';
+						$input_get['where'][$query] = 'NO-VALUE';
+					}
+				}
+
+//                print_arr($input_get);
 
                 /*sắp xếp*/
 
@@ -845,14 +859,6 @@ class MY_Table extends MY_Controller {
             }
 
         }
-
-//        print_arr(array(
-//
-//			'input_get' => $input_get,
-//
-//			'has_user_order' => $has_user_order
-//
-//		));
 
         return array(
 
