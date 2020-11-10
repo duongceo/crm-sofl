@@ -858,16 +858,6 @@ class MY_Table extends MY_Controller {
 
         }
 
-        print_arr(
-			array(
-
-				'input_get' => $input_get,
-
-				'has_user_order' => $has_user_order
-
-			)
-		);
-
         return array(
 
             'input_get' => $input_get,
