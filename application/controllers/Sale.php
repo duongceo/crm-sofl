@@ -476,7 +476,7 @@ class Sale extends MY_Controller {
 						show_error_and_redirect('Contact đã đăng ký thành công thì phải có trình độ ngoại ng', 0, $input['back_location']);
 					}
 				
-					if ($param['level_contact_id'] == 'L5') {
+					if ($input['level_contact_id'] == 'L5') {
 						if (isset($input['date_rgt_study']) && $input['date_rgt_study'] != '') {
 							$param['date_rgt_study'] = strtotime($input['date_rgt_study']);
 							
