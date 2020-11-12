@@ -39,7 +39,6 @@
 			<?php foreach ($HQ as $value) { ?>
 
 				<td>
-
 					<?php
 					if ($item == 'RE') {
 						echo h_number_format($value[$item]);
@@ -222,7 +221,6 @@
 				<?php foreach ($TQ as $value) { ?>
 
 					<td>
-
 						<?php
 						if ($item == 'RE') {
 							echo h_number_format($value[$item]);
@@ -307,14 +305,20 @@
 	<tbody>
 
 	<?php
-	$report = array('L1', 'L2', 'L3', 'L5', 'L8');
+	$report = array('L1', 'L2', 'L3', 'L5', 'L8', 'RE');
 	foreach ($report as $item) {
 		?>
 		<tr>
 			<td style="background-color: #43bcdf96"><?php echo $item ?></td>
 			<?php foreach ($sources as $value) { ?>
 				<td>
-					<?php echo $value[$item]; ?>
+					<?php
+					if ($item == 'RE') {
+						echo h_number_format($value[$item]);
+					} else {
+						echo $value[$item];
+					}
+					?>
 				</td>
 			<?php } ?>
 		</tr>

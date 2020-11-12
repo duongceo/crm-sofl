@@ -1051,8 +1051,6 @@ class Manager extends MY_Controller {
 		$data = array_merge($this->data, $this->_get_require_data($require_model));
 		$language = $data['language_study'];
 
-		$this->load->model('paid_model');
-
 //		$this->load->model('call_log_model');
         $get = $this->input->get();
 		//echo '<pre>'; print_r($get);die;
@@ -1382,7 +1380,6 @@ class Manager extends MY_Controller {
 		$require_model = array(
 			'branch' => array(),
 			'language_study' => array(),
-			'sources' => array()
 		);
 		$data = $this->_get_require_data($require_model);
 
@@ -1601,11 +1598,8 @@ class Manager extends MY_Controller {
 					$conditional_1['where']['language_id'] = $value_language['id'];
 					$conditional = array_merge_recursive($conditional_1, $value);
 
-//					$data[$value_language['language_id']]['name'] = $value_language['name'];
 					$data[$value_language['language_id']][$value_source['name']][$key_condition] = $this->_query_for_report($get, $conditional);
-//					$branch[$key][$value_language['id']][$key] = $this->_query_for_report($get, $conditional);
-
-//					$data[$value_language['language_id']][$value_source['name']]['RE'] = $this->get_re($conditional_1, $startDate, $endDate);
+					$data[$value_language['language_id']][$value_source['name']]['RE'] = $this->get_re($conditional_1, $startDate, $endDate);
 				}
 
 				$conditional = array();
