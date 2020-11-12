@@ -1223,9 +1223,9 @@ class Manager extends MY_Controller {
 
 		foreach ($conditionArr as $key2 => $value2) {
         	foreach ($staffs as $key_staff => $value_staff) {
-                $conditional = array();
-                $conditional['where']['sale_staff_id'] = $value_staff['id'];
-				$conditional = array_merge_recursive($conditional, $value2);
+				$conditional_1 = array();
+				$conditional_1['where']['sale_staff_id'] = $value_staff['id'];
+				$conditional = array_merge_recursive($conditional_1, $value2);
 
                 $staffs[$key_staff][$key2] = $this->_query_for_report($get, $conditional);
                 //$conditionArr_staff[$key2]['sum'] += $staffs[$key][$key2];
@@ -1234,28 +1234,8 @@ class Manager extends MY_Controller {
 				if ($value_staff['out_report'] == 1) { // ko tính contact này vào tổng
 					$data[$key2] = $data[$key2] - $staffs[$key_staff][$key2];
 				}
-				
-				$input_contact['where']['sale_staff_id'] = $value_staff['id'];
-				$contact = $this->contacts_model->load_all($input_contact);
-				
-				$contact_id = array();
-				foreach ($contact as $item) {
-					$contact_id[] = $item['id'];
-				}
-				
-				if (!empty($contact_id)) {
-					$input_re['select'] = 'SUM(paid) as paiding';
-					$input_re['where'] = array(
-						'time_created >=' => $startDate,
-						'time_created <=' => $endDate,
-					);
-					$input_re['where_in']['contact_id'] = $contact_id;
-					$re_sale = (int) $this->paid_model->load_all($input_re)[0]['paiding'];
-				} else {
-					$re_sale = 0;
-				}
 
-				$staffs[$key_staff]['RE'] = $re_sale;
+				$staffs[$key_staff]['RE'] = $this->get_re($conditional_1, $startDate, $endDate);
 				//$data['RE'] += $staffs[$key_staff]['RE'];
 				
             }
@@ -1534,7 +1514,11 @@ class Manager extends MY_Controller {
 	function view_report_source() {
 		$require_model = array(
 			'language_study' => array(),
-			'sources' => array()
+			'sources' => array(
+				'where' => array(
+					'active' => 1
+				)
+			)
 		);
 		$data = $this->_get_require_data($require_model);
 
@@ -1620,45 +1604,18 @@ class Manager extends MY_Controller {
 //					$data[$value_language['language_id']]['name'] = $value_language['name'];
 					$data[$value_language['language_id']][$value_source['name']][$key_condition] = $this->_query_for_report($get, $conditional);
 //					$branch[$key][$value_language['id']][$key] = $this->_query_for_report($get, $conditional);
-//					$total[$value_language['id']][$key] += $branch[$key][$value_language['id']][$key];
 
-
-					$input_contact = array();
-					$input_contact['select'] = 'id';
-					$input_contact['where']['date_paid >='] = $startDate;
-					$input_contact['where']['date_paid <='] = $endDate;
-					$input_contact['where']['level_contact_id'] = 'L5';
-					$input_contact = array_merge_recursive($conditional_1, $input_contact);
-//					print_arr($input_contact);
-					$contact = $this->contacts_model->load_all($input_contact);
-
-					$contact_id = array();
-					foreach ($contact as $item) {
-						$contact_id[] = $item['id'];
-					}
-
-					if (!empty($contact_id)) {
-						$input_re['select'] = 'SUM(paid) as paiding';
-						$input_re['where'] = array(
-							'time_created >=' => $startDate,
-							'time_created <=' => $endDate,
-						);
-						$input_re['where_in']['contact_id'] = $contact_id;
-						$re_sale = (int) $this->paid_model->load_all($input_re)[0]['paiding'];
-					} else {
-						$re_sale = 0;
-					}
-
-					$data[$value_language['language_id']][$value_source['name']]['RE'] = $re_sale;
+//					$data[$value_language['language_id']][$value_source['name']]['RE'] = $this->get_re($conditional_1, $startDate, $endDate);
 				}
 
 				$conditional = array();
 				$conditional['where']['source_id'] = $value_source['id'];
 				$conditional = array_merge_recursive($conditional, $value);
 				$data['sources'][$key_source][$key_condition] = $this->_query_for_report($get, $conditional);
-//				$data[$key2 . '_S'] += $source[$key_source][$key2];
 			}
-
+			$conditional_2 = array();
+			$conditional_2['where']['source_id'] = $value_source['id'];
+			$data['sources'][$key_source]['RE'] = $this->get_re($conditional_2, $startDate, $endDate);
 		}
 //		print_arr($data);
 
@@ -1670,6 +1627,36 @@ class Manager extends MY_Controller {
 		$data['content'] = 'manager/view_report_source';
 //        print_arr($data);
 		$this->load->view(_MAIN_LAYOUT_, $data);
+	}
+
+	private function get_re($condition_id=[], $startDate=0, $endDate=0) {
+		$input_contact = array();
+		$input_contact['select'] = 'id';
+		$input_contact['where']['date_paid >='] = $startDate;
+		$input_contact['where']['date_paid <='] = $endDate;
+		$input_contact['where']['level_contact_id'] = 'L5';
+		$input_contact = array_merge_recursive($condition_id, $input_contact);
+//		print_arr($input_contact);
+		$contact = $this->contacts_model->load_all($input_contact);
+
+		$contact_id = array();
+		foreach ($contact as $item) {
+			$contact_id[] = $item['id'];
+		}
+
+		if (!empty($contact_id)) {
+			$input_re['select'] = 'SUM(paid) as paiding';
+			$input_re['where'] = array(
+				'time_created >=' => $startDate,
+				'time_created <=' => $endDate,
+			);
+			$input_re['where_in']['contact_id'] = $contact_id;
+			$re = (int) $this->paid_model->load_all($input_re)[0]['paiding'];
+		} else {
+			$re = 0;
+		}
+
+		return $re;
 	}
 
     // <editor-fold defaultstate="collapsed" desc="get_all_require_data">
