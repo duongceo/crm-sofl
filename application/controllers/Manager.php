@@ -1585,9 +1585,7 @@ class Manager extends MY_Controller {
 		}
 
 		unset($get['filter_date_date_happen']);
-
-		$this->load->model('paid_model');
-
+		
 //		$language = array();
 //		$total = array();
 		foreach ($data['sources'] as $key_source => $value_source) {
@@ -1624,6 +1622,7 @@ class Manager extends MY_Controller {
 	}
 
 	private function get_re($condition_id=[], $startDate=0, $endDate=0) {
+		$this->load->model('paid_model');
 		$input_contact = array();
 		$input_contact['select'] = 'id';
 		$input_contact['where']['date_paid >='] = $startDate;
