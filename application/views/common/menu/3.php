@@ -165,17 +165,18 @@
 
                 </li>
 
-<!--                 <li>
+                 <li>
 
-                    <a href="<?php echo base_url('manager/show_report_operation'); ?>">
+                    <a href="<?php echo base_url('manager/view_report_source'); ?>">
 
-                        <img src="<?php echo base_url(); ?>public/images/report.png"> 
+                        <img src="<?php echo base_url(); ?>public/images/report.png">
 
-                        <span> Xem báo cáo vận hành  </span>
+                        <span> Xem báo cáo theo nguồn </span>
 
                     </a>
 
                 </li>
+				<!--
 
                 <li>
 

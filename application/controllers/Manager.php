@@ -318,16 +318,7 @@ class Manager extends MY_Controller {
                     'role_id' => 1
                 )
             ),
-			/*
-            'courses' => array(
-                'where' => array(
-                    'active' => 1
-                )
-            ),
-			*/
             'call_status' => array(),
-            //'ordering_status' => array(),
-            //'cod_status' => array(),
             'providers' => array(),
             'payment_method_rgt' => array()
         );
@@ -1056,11 +1047,9 @@ class Manager extends MY_Controller {
 
 		$require_model = array(
 			'language_study' => array(),
-			'sources' => array()
 		);
 		$data = array_merge($this->data, $this->_get_require_data($require_model));
 		$language = $data['language_study'];
-		$source = $data['sources'];
 
 		$this->load->model('paid_model');
 
@@ -1280,14 +1269,6 @@ class Manager extends MY_Controller {
 					$language[$key_language][$key2] = $this->_query_for_report($get, $conditional);
 					$data[$key2 . '_L'] += $language[$key_language][$key2];
 				}
-
-				foreach ($source as $key_source => $value_source) {
-					$conditional = array();
-					$conditional['where']['source_id'] = $value_source['id'];
-					$conditional = array_merge_recursive($conditional, $value2);
-					$source[$key_source][$key2] = $this->_query_for_report($get, $conditional);
-					$data[$key2 . '_S'] += $source[$key_source][$key2];
-				}
 			}
 
         }
@@ -1314,7 +1295,7 @@ class Manager extends MY_Controller {
 //        }
 
 		$data['language'] = $language;
-		$data['source'] = $source;
+//		$data['source'] = $source;
         $data['staffs'] = $staffs;
         $data['startDate'] = $startDate;
         $data['endDate'] = $endDate;
@@ -1426,7 +1407,6 @@ class Manager extends MY_Controller {
 		$data = $this->_get_require_data($require_model);
 
 		$get = $this->input->get();
-//		echo '<pre>'; print_r($data);die;
 
 		/* Mảng chứa các ngày lẻ */
 		if (isset($get['filter_date_date_happen']) && $get['filter_date_date_happen'] != '') {
@@ -1457,12 +1437,10 @@ class Manager extends MY_Controller {
 					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L3', 'is_old' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
 					'sum' => 0
 				),
-
 				'L5' => array(
 					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
 					'sum' => 0
 				),
-
 				'L8' => array(
 					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => 1, 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
 					'sum' => 0
@@ -1482,12 +1460,10 @@ class Manager extends MY_Controller {
 					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L3', 'is_old' => '0', 'date_confirm >=' => $startDate, 'date_confirm <=' => $endDate),
 					'sum' => 0
 				),
-
 				'L5' => array(
 					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => '0', 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
 					'sum' => 0
 				),
-
 				'L8' => array(
 					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => 1, 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
 					'sum' => 0
@@ -1508,7 +1484,7 @@ class Manager extends MY_Controller {
 						$conditional = array();
 						$conditional['where']['branch_id'] = $value['id'];
 						$conditional['where']['language_id'] = $item['id'];
-						$conditional['where_not_in']['sale_staff_id'] = array(5, 53, 18);
+						$conditional['where_not_in']['source_id'] = array(9, 10);
 						$conditional = array_merge_recursive($conditional, $value2);
 //						echo '<pre>'; print_r($conditional);
 						$branch[$key]['name'] = $value['name'];
@@ -1528,7 +1504,7 @@ class Manager extends MY_Controller {
 					$conditional = array();
 					$conditional['where']['branch_id'] = $branch_id;
 					$conditional['where']['language_id'] = $item['id'];
-					$conditional['where_not_in']['sale_staff_id'] = array(5, 53, 18);
+					$conditional['where_not_in']['source_id'] = array(9, 10);
 					$conditional = array_merge_recursive($conditional, $value2);
 //					echo '<pre>'; print_r($conditional);
 					$branch[$branch_id]['name'] = $this->branch_model->find_branch_name($branch_id);
@@ -1553,6 +1529,147 @@ class Manager extends MY_Controller {
 //        print_arr($data);
 		$this->load->view(_MAIN_LAYOUT_, $data);
 
+	}
+
+	function view_report_source() {
+		$require_model = array(
+			'language_study' => array(),
+			'sources' => array()
+		);
+		$data = $this->_get_require_data($require_model);
+
+		$get = $this->input->get();
+
+		/* Mảng chứa các ngày lẻ */
+		if (isset($get['filter_date_date_happen']) && $get['filter_date_date_happen'] != '') {
+			$time = $get['filter_date_date_happen'];
+		} else {
+			$time = '01' . '/' . date('m') . '/' . date('Y') . ' - ' . date('d') . '/' . date('m') . '/' . date('Y');
+		}
+
+		$dateArr = explode('-', $time);
+		$startDate = trim($dateArr[0]);
+		$startDate = strtotime(str_replace("/", "-", $startDate));
+		$endDate = trim($dateArr[1]);
+		$endDate = strtotime(str_replace("/", "-", $endDate)) + 3600 * 24 - 1;
+
+//		echo $startDate . ' - ' . $endDate;die;
+
+		if (isset($get['tic_report']) && !empty($get['tic_report'])) {
+			$conditionArr = array(
+				'L1' => array(
+					'where' => array('date_handover !=' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate, 'is_hide' => '0'),
+					'sum' => 0
+				),
+				'L2' => array(
+					'where' => array('is_hide' => '0', 'level_contact_id' => 'L2', 'date_handover !=' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
+					'sum' => 0
+				),
+				'L3' => array(
+					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L3', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
+					'sum' => 0
+				),
+				'L5' => array(
+					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
+					'sum' => 0
+				),
+				'L8' => array(
+					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => 1, 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
+					'sum' => 0
+				),
+			);
+		} else {
+			$conditionArr = array(
+				'L1' => array(
+					'where' => array('date_handover >=' => $startDate, 'date_handover <=' => $endDate, 'is_hide' => '0'),
+					'sum' => 0
+				),
+				'L2' => array(
+					'where' => array('is_hide' => '0', 'level_contact_id' => 'L2', 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate),
+					'sum' => 0
+				),
+				'L3' => array(
+					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L3', 'date_confirm >=' => $startDate, 'date_confirm <=' => $endDate),
+					'sum' => 0
+				),
+				'L5' => array(
+					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => '0', 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
+					'sum' => 0
+				),
+				'L8' => array(
+					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => 1, 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
+					'sum' => 0
+				),
+			);
+		}
+
+		unset($get['filter_date_date_happen']);
+
+		$this->load->model('paid_model');
+
+//		$language = array();
+//		$total = array();
+		foreach ($data['sources'] as $key_source => $value_source) {
+			foreach ($conditionArr as $key_condition => $value) {
+				foreach ($data['language_study'] as $value_language) {
+					$conditional_1 = array();
+					$conditional_1['where']['source_id'] = $value_source['id'];
+					$conditional_1['where']['language_id'] = $value_language['id'];
+					$conditional = array_merge_recursive($conditional_1, $value);
+
+//					$data[$value_language['language_id']]['name'] = $value_language['name'];
+					$data[$value_language['language_id']][$value_source['name']][$key_condition] = $this->_query_for_report($get, $conditional);
+//					$branch[$key][$value_language['id']][$key] = $this->_query_for_report($get, $conditional);
+//					$total[$value_language['id']][$key] += $branch[$key][$value_language['id']][$key];
+
+
+					$input_contact = array();
+					$input_contact['select'] = 'id';
+					$input_contact['where']['date_paid >='] = $startDate;
+					$input_contact['where']['date_paid <='] = $endDate;
+					$input_contact['where']['level_contact_id'] = 'L5';
+					$input_contact = array_merge_recursive($conditional_1, $input_contact);
+//					print_arr($input_contact);
+					$contact = $this->contacts_model->load_all($input_contact);
+
+					$contact_id = array();
+					foreach ($contact as $item) {
+						$contact_id[] = $item['id'];
+					}
+
+					if (!empty($contact_id)) {
+						$input_re['select'] = 'SUM(paid) as paiding';
+						$input_re['where'] = array(
+							'time_created >=' => $startDate,
+							'time_created <=' => $endDate,
+						);
+						$input_re['where_in']['contact_id'] = $contact_id;
+						$re_sale = (int) $this->paid_model->load_all($input_re)[0]['paiding'];
+					} else {
+						$re_sale = 0;
+					}
+
+					$data[$value_language['language_id']][$value_source['name']]['RE'] = $re_sale;
+				}
+
+				$conditional = array();
+				$conditional['where']['source_id'] = $value_source['id'];
+				$conditional = array_merge_recursive($conditional, $value);
+				$data['sources'][$key_source][$key_condition] = $this->_query_for_report($get, $conditional);
+//				$data[$key2 . '_S'] += $source[$key_source][$key2];
+			}
+
+		}
+//		print_arr($data);
+
+		$data['startDate'] = $startDate;
+		$data['endDate'] = $endDate;
+		$data['left_col'] = array('date_happen_1', 'tic_report');
+//		$data['right_col'] = array('source');
+		$data['load_js'] = array('m_view_report');
+		$data['content'] = 'manager/view_report_source';
+//        print_arr($data);
+		$this->load->view(_MAIN_LAYOUT_, $data);
 	}
 
     // <editor-fold defaultstate="collapsed" desc="get_all_require_data">
@@ -2943,7 +3060,6 @@ class Manager extends MY_Controller {
                 }
             }
         }
-
 
         $L1 = $Report['L1'];
         $L8 = $Report['L8_revenue']['count'];
