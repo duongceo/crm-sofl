@@ -1592,12 +1592,13 @@ class Manager extends MY_Controller {
 		foreach ($data['sources'] as $key_source => $value_source) {
 			$conditional_source = array();
 			$conditional_source['where']['source_id'] = $value_source['id'];
+			$conditional_source['where_not_in']['sale_staff_id'] = array(5, 18);
+
 			foreach ($conditionArr as $key_condition => $value) {
 				foreach ($data['language_study'] as $value_language) {
 					$conditional_1 = array();
-					$conditional_1['where']['source_id'] = $value_source['id'];
 					$conditional_1['where']['language_id'] = $value_language['id'];
-					$conditional = array_merge_recursive($conditional_1, $value);
+					$conditional = array_merge_recursive($conditional_1, $conditional_source, $value);
 
 					$data[$value_language['language_id']][$value_source['name']][$key_condition] = $this->_query_for_report($get, $conditional);
 					$data[$value_language['language_id']][$value_source['name']]['RE'] = $this->get_re($conditional_1, $startDate, $endDate);
