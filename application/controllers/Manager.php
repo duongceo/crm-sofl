@@ -1243,6 +1243,7 @@ class Manager extends MY_Controller {
 					$conditional = array();
 					$conditional['where']['language_id'] = $value_language['id'];
 					$conditional['where_not_in']['source_id'] = array(9, 10);
+					$conditional['where_not_in']['sale_staff_id'] = array(5, 18);
 					$conditional = array_merge_recursive($conditional, $value2);
 					$language[$key_language][$key2] = $this->_query_for_report($get, $conditional);
 					$data[$key2 . '_L'] += $language[$key_language][$key2];
@@ -1539,7 +1540,7 @@ class Manager extends MY_Controller {
 		if (isset($get['tic_report']) && !empty($get['tic_report'])) {
 			$conditionArr = array(
 				'L1' => array(
-					'where' => array('date_handover !=' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate, 'is_hide' => '0'),
+					'where' => array('date_handover !=' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate, 'is_hide' => '0', 'is_old' => '0'),
 					'sum' => 0
 				),
 				'L2' => array(
@@ -1562,7 +1563,7 @@ class Manager extends MY_Controller {
 		} else {
 			$conditionArr = array(
 				'L1' => array(
-					'where' => array('date_handover >=' => $startDate, 'date_handover <=' => $endDate, 'is_hide' => '0'),
+					'where' => array('date_handover >=' => $startDate, 'date_handover <=' => $endDate, 'is_hide' => '0', 'is_old' => '0'),
 					'sum' => 0
 				),
 				'L2' => array(
@@ -1589,6 +1590,8 @@ class Manager extends MY_Controller {
 //		$language = array();
 //		$total = array();
 		foreach ($data['sources'] as $key_source => $value_source) {
+			$conditional_source = array();
+			$conditional_source['where']['source_id'] = $value_source['id'];
 			foreach ($conditionArr as $key_condition => $value) {
 				foreach ($data['language_study'] as $value_language) {
 					$conditional_1 = array();
@@ -1600,14 +1603,11 @@ class Manager extends MY_Controller {
 					$data[$value_language['language_id']][$value_source['name']]['RE'] = $this->get_re($conditional_1, $startDate, $endDate);
 				}
 
-				$conditional = array();
-				$conditional['where']['source_id'] = $value_source['id'];
-				$conditional = array_merge_recursive($conditional, $value);
-				$data['sources'][$key_source][$key_condition] = $this->_query_for_report($get, $conditional);
+				$conditional_2 = array_merge_recursive($conditional_source, $value);
+				$data['sources'][$key_source][$key_condition] = $this->_query_for_report($get, $conditional_2);
 			}
-			$conditional_2 = array();
-			$conditional_2['where']['source_id'] = $value_source['id'];
-			$data['sources'][$key_source]['RE'] = $this->get_re($conditional_2, $startDate, $endDate);
+
+			$data['sources'][$key_source]['RE'] = $this->get_re($conditional_source, $startDate, $endDate);
 		}
 //		print_arr($data);
 
