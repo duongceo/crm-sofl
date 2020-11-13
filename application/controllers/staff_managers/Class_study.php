@@ -421,7 +421,7 @@ class Class_study extends MY_Table {
 				}
 			}
 
-			if (!isset($post['edit_active']) && empty($post['edit_active'])) {
+			if ((!isset($post['edit_active']) && empty($post['edit_active'])) || $post['edit_character_class_id'] == 3) {
 				$param['active'] = 0;
 			}
 
