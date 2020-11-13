@@ -1601,7 +1601,7 @@ class Manager extends MY_Controller {
 					$conditional = array_merge_recursive($conditional_1, $conditional_source, $value);
 
 					$data[$value_language['language_id']][$value_source['name']][$key_condition] = $this->_query_for_report($get, $conditional);
-					$data[$value_language['language_id']][$value_source['name']]['RE'] = $this->get_re($conditional_1, $startDate, $endDate);
+					$data[$value_language['language_id']][$value_source['name']]['RE'] = $this->get_re(array_merge_recursive($conditional_1, $conditional_source), $startDate, $endDate);
 				}
 
 				$conditional_2 = array_merge_recursive($conditional_source, $value);
