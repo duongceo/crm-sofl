@@ -1467,7 +1467,23 @@ class Manager extends MY_Controller {
 
 		$branch = array();
 		$total = array();
-		if (in_array($this->role_id, array(3, 5))) {
+		if ($this->role_id == 12) {
+			$this->load->model('branch_model');
+			$branch_id = $this->session->userdata('branch_id');
+			foreach ($data['language_study'] as $item) {
+				foreach ($conditionArr as $key2 => $value2) {
+					$conditional = array();
+					$conditional['where']['branch_id'] = $branch_id;
+					$conditional['where']['language_id'] = $item['id'];
+					//$conditional['where_not_in']['source_id'] = array(9, 10);
+					$conditional = array_merge_recursive($conditional, $value2);
+//					echo '<pre>'; print_r($conditional);
+					$branch[$branch_id]['name'] = $this->branch_model->find_branch_name($branch_id);
+					$branch[$branch_id][$item['id']][$key2] = $this->_query_for_report($get, $conditional);
+//					$data[$branch_id] += $branch[$branch_id][$key2];
+				}
+			}
+		} else {
 			foreach ($data['branch'] as $key => $value) {
 				foreach ($data['language_study'] as $item) {
 					foreach ($conditionArr as $key2 => $value2) {
@@ -1486,22 +1502,6 @@ class Manager extends MY_Controller {
 			$branch['total'] = $total;
 			$branch['total']['name'] = 'Tổng';
 //			print_arr($branch);
-		} else if ($this->role_id == 12) {
-			$this->load->model('branch_model');
-			$branch_id = $this->session->userdata('branch_id');
-			foreach ($data['language_study'] as $item) {
-				foreach ($conditionArr as $key2 => $value2) {
-					$conditional = array();
-					$conditional['where']['branch_id'] = $branch_id;
-					$conditional['where']['language_id'] = $item['id'];
-					//$conditional['where_not_in']['source_id'] = array(9, 10);
-					$conditional = array_merge_recursive($conditional, $value2);
-//					echo '<pre>'; print_r($conditional);
-					$branch[$branch_id]['name'] = $this->branch_model->find_branch_name($branch_id);
-					$branch[$branch_id][$item['id']][$key2] = $this->_query_for_report($get, $conditional);
-//					$data[$branch_id] += $branch[$branch_id][$key2];
-				}
-			}
 		}
 
 //		print_arr($branch);
