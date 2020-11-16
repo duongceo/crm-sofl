@@ -1462,7 +1462,7 @@ class Manager extends MY_Controller {
 						$conditional = array();
 						$conditional['where']['branch_id'] = $value['id'];
 						$conditional['where']['language_id'] = $item['id'];
-						$conditional['where_not_in']['source_id'] = array(9, 10);
+						//$conditional['where_not_in']['source_id'] = array(9, 10);
 						$conditional = array_merge_recursive($conditional, $value2);
 //						echo '<pre>'; print_r($conditional);
 						$branch[$key]['name'] = $value['name'];
