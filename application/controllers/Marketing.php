@@ -349,10 +349,10 @@
 
 			if ($this->role_id == 6) {
 				$data['left_col'] = array('date_happen_1', 'tic_report');
-				$data['right_col'] = array('channel');
+//				$data['right_col'] = array('channel');
 			} else {
 				$data['left_col'] = array('branch', 'date_happen_1', 'tic_report');
-				$data['right_col'] = array('channel', 'is_old');
+//				$data['right_col'] = array('channel', 'is_old');
 			}
 
 			$data['content'] = 'marketing/view_report_quality_contact';
