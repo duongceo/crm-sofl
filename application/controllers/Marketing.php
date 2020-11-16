@@ -186,6 +186,83 @@
 				}
 			}
 
+			$total_C3 = 0;
+			$total_L5 = 0;
+			$total_spend_fb = 0;
+			$total_spend_gg = 0;
+			$total_spend = 0;
+			$total_RE = 0;
+
+			foreach ($Report as $key => $value) {
+				// lấy chi phí
+				$input = array();
+				$input['select'] = 'SUM(spend) as spending';
+				$input['where']['day_spend >='] = $date_from;
+				$input['where']['day_spend <='] = $date_end;
+				$input['where']['language_id'] = $key;
+				if ($this->role_id == 6) {
+					$input['where']['marketer_id'] = $this->user_id;
+				}
+//				chi phí fb
+				$input_fb = array_merge_recursive($input, array('where' => array('channel_id' => 2)));
+				$spend_fb = (int) $this->spending_model->load_all($input_fb)[0]['spending'];
+
+//				chi phí gg
+				$input_gg = array_merge_recursive($input, array('where' => array('channel_id' => 3)));
+				$spend_gg = (int) $this->spending_model->load_all($input_gg)[0]['spending'];
+//				print_arr($input_gg);
+
+				$spend = (int) $this->spending_model->load_all($input)[0]['spending'];
+
+				$input_re['select'] = 'SUM(paid) as paiding';
+				$input_re['where'] = array(
+					'student_old' => '0',
+					'time_created >=' => $date_from,
+					'time_created <=' => $date_end,
+					'language_id' => $key
+				);
+
+				if (isset($get['filter_branch_id'])) {
+					$input_re['where_in']['branch_id'] = $get['filter_branch_id'];
+				}
+
+				if (isset($get['filter_is_old'])) {
+					$input_re['where']['student_old'] = $get['filter_is_old'];
+				}
+
+				$re = (int) $this->paid_model->load_all($input_re)[0]['paiding'];
+
+				$Report[$key]['RE'] = $re;
+				$Report[$key]['Ma_Re_thuc_te'] = ($Report[$key]['RE'] == 0) ? '0' : round($spend / ($Report[$key]['RE']), 2) * 100;
+				$Report[$key]['Re_thuc_te'] = str_replace(',', '.', number_format($Report[$key]['RE']));
+				$Report[$key]['Ma_FB'] = str_replace(',', '.', number_format($spend_fb));
+				$Report[$key]['Ma_GG'] = str_replace(',', '.', number_format($spend_gg));
+				$Report[$key]['Ma_mkt'] = str_replace(',', '.', number_format($spend));
+				$Report[$key]['Gia_So'] = ($Report[$key]['C3'] == 0) ? '0' : str_replace(',', '.', number_format(round($spend / $Report[$key]['C3'])));
+
+				$total_C3 += $Report[$key]['C3'];
+				$total_L5 += $Report[$key]['L5'];
+				$total_RE += $Report[$key]['RE'];
+				$total_spend_fb += $spend_fb;
+				$total_spend_gg += $spend_gg;
+				$total_spend += $spend;
+
+				$Report[$key]['language_name'] = $this->language_study_model->find_language_name($key);;
+
+			}
+
+			$Report['Tổng'] = array(
+				'C3' => $total_C3,
+				'L5' => $total_L5,
+				'Ma_FB' => str_replace(',', '.', number_format($total_spend_fb)),
+				'Ma_GG' => str_replace(',', '.', number_format($total_spend_gg)),
+				'Ma_mkt' => str_replace(',', '.', number_format($total_spend)),
+				'Gia_So' => ($total_C3 == 0) ? '0' : str_replace(',', '.', number_format(round($total_spend / $total_C3, 2) * 100)),
+				'Ma_Re_thuc_te' => ($total_RE == 0) ? '0' : round($total_spend / $total_RE, 2) * 100,
+				'Re_thuc_te' => str_replace(',', '.', number_format($total_RE)),
+				'language_name' => 'Tổng'
+			);
+
 			$Report_mkt = array();
 			foreach ($marketer as $v_mkt) {
 				foreach ($typeReport as $report_type => $value) {
@@ -200,6 +277,8 @@
 
 			$total_mkt_L5 = 0;
 			$total_mkt_C3 = 0;
+			$total_mkt_spend_fb = 0;
+			$total_mkt_spend_gg = 0;
 			$total_spend_mkt = 0;
 
 			foreach ($Report_mkt as $key => $value) {
@@ -210,22 +289,31 @@
 				$input['where']['day_spend <='] = $date_end;
 				$input['where']['marketer_id'] = $key;
 
-				if (isset($get['filter_channel_id'])) {
-					$input['where_in']['channel_id'] = $get['filter_channel_id'];
-				}
-
 				if ($this->role_id == 6) {
 					$input['where']['marketer_id'] = $this->user_id;
 				}
+
+				//				chi phí fb
+				$input_fb = array_merge_recursive($input, array('where' => array('channel_id' => 2)));
+				$spend_mkt_fb = (int) $this->spending_model->load_all($input_fb)[0]['spending'];
+
+//				chi phí gg
+				$input_gg = array_merge_recursive($input, array('where' => array('channel_id' => 3)));
+				$spend_mkt_gg = (int) $this->spending_model->load_all($input_gg)[0]['spending'];
+//				print_arr($input_gg);
 
 				$spend_mkt = (int) $this->spending_model->load_all($input)[0]['spending'];
 //				 echo '<pre>'; print_r($spend); die;
 
 				$Report_mkt[$key]['Gia_So'] = ($Report_mkt[$key]['C3'] == 0) ? '0' : str_replace(',', '.', number_format(round($spend_mkt / $Report_mkt[$key]['C3'])));
 				$Report_mkt[$key]['Ma_mkt'] = str_replace(',', '.', number_format($spend_mkt));
+				$Report_mkt[$key]['Ma_mkt_FB'] = str_replace(',', '.', number_format($spend_mkt_fb));
+				$Report_mkt[$key]['Ma_mkt_GG'] = str_replace(',', '.', number_format($spend_mkt_gg));
 
 				$total_mkt_C3 += $Report_mkt[$key]['C3'];
 				$total_mkt_L5 += $Report_mkt[$key]['L5'];
+				$total_mkt_spend_fb += $spend_mkt_fb;
+				$total_mkt_spend_gg += $spend_mkt_gg;
 				$total_spend_mkt += $spend_mkt;
 
 				$Report_mkt[$key]['mkt_name'] = $this->staffs_model->find_staff_name($key);;
@@ -238,80 +326,14 @@
 			$Report_mkt['Tổng'] = array(
 				'C3' => $total_mkt_C3,
 				'L5' => $total_mkt_L5,
+				'Ma_mkt_FB' => str_replace(',', '.', number_format($total_mkt_spend_fb)),
+				'Ma_mkt_GG' => str_replace(',', '.', number_format($total_mkt_spend_gg)),
 				'Ma_mkt' => str_replace(',', '.', number_format($total_spend_mkt)),
 				'Gia_So' => ($total_mkt_C3 == 0) ? '0' : str_replace(',', '.', number_format(round($total_spend_mkt / $total_mkt_C3, 2) * 100)),
 				'mkt_name' => 'Tổng'
 			);
 
 			//echo '<pre>'; print_r($Report_mkt); die;
-
-			$total_C3 = 0;
-			$total_L5 = 0;
-			$total_spend = 0;
-			$total_RE = 0;
-
-			foreach ($Report as $key => $value) {
-				// lấy chi phí
-				$input = array();
-				$input['select'] = 'SUM(spend) as spending';
-				$input['where']['day_spend >='] = $date_from;
-				$input['where']['day_spend <='] = $date_end;
-				$input['where']['language_id'] = $key;
-
-				if (isset($get['filter_channel_id'])) {
-					$input['where_in']['channel_id'] = $get['filter_channel_id'];
-				}
-
-				if ($this->role_id == 6) {
-					$input['where']['marketer_id'] = $this->user_id;
-				}
-
-				$spend = (int) $this->spending_model->load_all($input)[0]['spending'];
-				
-				$input_re['select'] = 'SUM(paid) as paiding';
-				$input_re['where'] = array(
-					'student_old' => '0',
-					'time_created >=' => $date_from,
-					'time_created <=' => $date_end,
-					'language_id' => $key
-				);
-
-				if (isset($get['filter_branch_id'])) {
-					$input_re['where_in']['branch_id'] = $get['filter_branch_id'];
-				}
-				
-				if (isset($get['filter_is_old'])) {
-					$input_re['where']['student_old'] = $get['filter_is_old'];
-				}
-				
-				$re = (int) $this->paid_model->load_all($input_re)[0]['paiding'];
-				
-				$Report[$key]['RE'] = $re;
-				$Report[$key]['Gia_So'] = ($Report[$key]['C3'] == 0) ? '0' : str_replace(',', '.', number_format(round($spend / $Report[$key]['C3'])));
-				$Report[$key]['Ma_Re_thuc_te'] = ($Report[$key]['RE'] == 0) ? '0' : round($spend / ($Report[$key]['RE']), 2) * 100;
-			 	$Report[$key]['Re_thuc_te'] = str_replace(',', '.', number_format($Report[$key]['RE']));
-				$Report[$key]['Ma_mkt'] = str_replace(',', '.', number_format($spend));
-
-				$total_C3 += $Report[$key]['C3'];
-				$total_L5 += $Report[$key]['L5'];
-				$total_RE += $Report[$key]['RE'];
-				$total_spend += $spend;
-
-				$Report[$key]['language_name'] = $this->language_study_model->find_language_name($key);;
-
-			}
-
-			$Report['Tổng'] = array(
-				'C3' => $total_C3,
-				'L5' => $total_L5,
-				'Ma_mkt' => str_replace(',', '.', number_format($total_spend)),
-				'Gia_So' => ($total_C3 == 0) ? '0' : str_replace(',', '.', number_format(round($total_spend / $total_C3, 2) * 100)),
-				'Ma_Re_thuc_te' => ($total_RE == 0) ? '0' : round($total_spend / $total_RE, 2) * 100,
-				'Re_thuc_te' => str_replace(',', '.', number_format($total_RE)),
-				'language_name' => 'Tổng'
-			);
-
-			// echo '<pre>'; print_r($Report); die;
 
 			$this->load->model('channel_model');
 			$data['channel'] = $this->channel_model->load_all(array('where' => array('active' => 1)));

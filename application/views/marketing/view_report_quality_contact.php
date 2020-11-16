@@ -21,31 +21,20 @@
      <table class="table table-bordered table-striped view_report gr4-table"> 
         <thead class="table-head-pos">
             <tr>
-					<th rowspan = "2" style="font-weight: bold">Ngôn ngữ</th>
-                <!--<th style="font-weight: bold">C3</th>-->
-					<th colspan = "2" style="font-weight: bold"> Số Lượng</th>
-<!--					<th colspan = "6" style="font-weight: bold; background-color: blue"> Tỷ Lệ</th>-->
-					<th colspan = "6" style="font-weight: bold; background-color: purple"> Hiệu quả</th>
+				<th rowspan = "2" style="font-weight: bold">Ngôn ngữ</th>
+				<th colspan = "2" style="font-weight: bold"> Số Lượng</th>
+				<th colspan = "10" style="font-weight: bold; background-color: purple"> Chi Phí và Giá</th>
 				<tr>
 					<th style="font-weight: bold">Contact (C3)</th>
                     <th style="font-weight: bold">Đăng ký thành công (L5)</th>
-<!--					<th style="font-weight: bold">L1</th>-->
-<!--					<th style="font-weight: bold">L2</th>-->
-<!--					<th style="font-weight: bold">L6</th>-->
-<!--					<th style="font-weight: bold">L8</th>-->
-<!--					<th style="font-weight: bold; background-color: blue">L1/C3</th>-->
-<!--					<th style="font-weight: bold; background-color: blue">L2/L1</th>-->
-<!--					<th style="font-weight: bold; background-color: blue">L6/L1</th>-->
-<!--					<th style="font-weight: bold; background-color: blue">L6/L2</th>-->
-<!--					<th style="font-weight: bold; background-color: blue">L8/L6</th>-->
-<!--					<th style="font-weight: bold; background-color: blue">L8/L1</th>-->
-					<th style="font-weight: bold; background-color: purple">Chi phí MKT</th>
-					<th style="font-weight: bold; background-color: purple">Giá Contact</th>
-<!--					<th style="font-weight: bold; background-color: purple">Re Dự Kiến</th>-->
+					<th style="font-weight: bold; background-color: purple">Chi phí FB</th>
+<!--					<th style="font-weight: bold; background-color: purple">Giá Contact FB</th>-->
+					<th style="font-weight: bold; background-color: purple">Chi phí GG</th>
+<!--					<th style="font-weight: bold; background-color: purple">Giá Contact GG</th>-->
+					<th style="font-weight: bold; background-color: purple">Tổng chi phí</th>
+					<th style="font-weight: bold; background-color: purple">Giá tổng</th>
 					<th style="font-weight: bold; background-color: purple">Doanh thu</th>
-<!--					<th style="font-weight: bold; background-color: purple">Ma/Re Dự Kiến</th>-->
-					<th style="font-weight: bold; background-color: purple">Chí Phí / Doanh thu</th>
-<!--					<th style="font-weight: bold; background-color: purple">Ma/L8</th>-->
+					<th style="font-weight: bold; background-color: purple">Tổng chi phí / Doanh thu</th>
 				</tr>
             </tr>
         </thead>
@@ -55,14 +44,12 @@
                     <td style="background-color: #0EA3EF ;color: #FFF;font-weight: bold"><?php echo $value['language_name'] ?></td>
                     <td><?php echo $value['C3'] ?></td>
                     <td><?php echo $value['L5'] ?></td>
-<!--                    <td --><?php //if ($value['L8/L1'] < 35) {echo 'style="background-color: #a71717;color: #fff;"';}?><!-->--><?php //echo $value['L8/L1'].'%'?><!--</td>-->
+                    <td><?php echo $value['Ma_FB']?> VNĐ</td>
+                    <td><?php echo $value['Ma_GG']?> VNĐ</td>
 					<td><?php echo $value['Ma_mkt']?> VNĐ</td>
 					<td><?php echo $value['Gia_So']?> VNĐ</td>
-<!--                    <td>--><?php //echo $value['Re_du_kien']?><!--</td>-->
                     <td><?php echo $value['Re_thuc_te']?> VNĐ</td>
-<!--                    <td>--><?php //echo $value['Ma_Re_du_kien'].'%' ?><!--</td>-->
                     <td><?php echo $value['Ma_Re_thuc_te'].'%' ?></td>
-<!--                    <td>--><?php //echo $value['Gia_L8'] ?><!--</td>-->
                 </tr>
             <?php } ?>
         </tbody>
@@ -93,7 +80,9 @@
 				<tr>
 					<th style="font-weight: bold">Contact (C3)</th>
 					<th style="font-weight: bold">Đăng ký thành công (L5)</th>
-					<th style="font-weight: bold; background-color: #1b6d85">Chi phí MKT</th>
+					<th style="font-weight: bold; background-color: #1b6d85">Chi Phí FB</th>
+					<th style="font-weight: bold; background-color: #1b6d85">Chi Phí GG</th>
+					<th style="font-weight: bold; background-color: #1b6d85">Tổng Chi Phí</th>
 					<th style="font-weight: bold; background-color: #1b6d85">Giá Contact</th>
 <!--					<th style="font-weight: bold; background-color: #1b6d85">Doanh thu</th>-->
 <!--					<th style="font-weight: bold; background-color: #1b6d85">Chí Phí / Doanh thu</th>-->
@@ -104,8 +93,10 @@
 			<?php foreach ($report_mkt as $value) { ?>
 				<tr>
 					<td style="background-color: #0c6681 ;color: #FFF;font-weight: bold"><?php echo $value['mkt_name'] ?></td>
-					<td><?php echo $value['C3'] ?></td>
-					<td><?php echo $value['L5'] ?></td>
+					<td><?php echo $value['C3']?></td>
+					<td><?php echo $value['L5']?></td>
+					<td><?php echo $value['Ma_mkt_FB']?> VNĐ</td>
+					<td><?php echo $value['Ma_mkt_GG']?> VNĐ</td>
 					<td><?php echo $value['Ma_mkt']?> VNĐ</td>
 					<td><?php echo $value['Gia_So']?> VNĐ</td>
 <!--					<td>--><?php //echo $value['Re_thuc_te']?><!--</td>-->
