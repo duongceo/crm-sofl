@@ -1046,7 +1046,11 @@ class Manager extends MY_Controller {
     function view_report_sale() {
 
 		$require_model = array(
-			'language_study' => array(),
+			'language_study' => array(
+				'where' => array(
+					'no_report' => '0'
+				)
+			),
 		);
 		$data = array_merge($this->data, $this->_get_require_data($require_model));
 		$language = $data['language_study'];
@@ -1297,7 +1301,11 @@ class Manager extends MY_Controller {
 		$this->load->model('paid_model');
 		$require_model = array(
 			'branch' => array(),
-			'language_study' => array(),
+			'language_study' => array(
+				'where' => array(
+					'no_report' => '0'
+				)
+			),
 		);
 		$data = array_merge($this->data, $this->_get_require_data($require_model));
 
@@ -1380,7 +1388,11 @@ class Manager extends MY_Controller {
 	function view_report_student_branch() {
 		$require_model = array(
 			'branch' => array(),
-			'language_study' => array(),
+			'language_study' => array(
+				'where' => array(
+					'no_report' => '0'
+				)
+			),
 		);
 		$data = $this->_get_require_data($require_model);
 
@@ -1511,7 +1523,11 @@ class Manager extends MY_Controller {
 
 	function view_report_source() {
 		$require_model = array(
-			'language_study' => array(),
+			'language_study' => array(
+				'where' => array(
+					'no_report' => '0'
+				)
+			),
 			'sources' => array(
 				'where' => array(
 					'active' => 1
@@ -1853,7 +1869,7 @@ class Manager extends MY_Controller {
 		
 		$this->load->model('language_study_model');
 		$this->load->model('paid_model');
-        $input = array();
+		$input['where']['no_report'] = '0';
 		$language = $this->language_study_model->load_all($input);
 		
 		$total_new = 0;
@@ -1868,11 +1884,11 @@ class Manager extends MY_Controller {
 			$input_re_new = array_merge_recursive(array('where' => array('student_old' => '0')), $input_re);
 			$input_re_old = array_merge_recursive(array('where' => array('student_old' => 1)), $input_re);
 			
-			$progress['old'][$value['language_id']] = $this->paid_model->load_all($input_re_old);
-			$progress['new'][$value['language_id']] = $this->paid_model->load_all($input_re_new);
+			$progress['old'][$value['name']] = $this->paid_model->load_all($input_re_old);
+			$progress['new'][$value['name']] = $this->paid_model->load_all($input_re_new);
 			
-			$total_new += $progress['new'][$value['language_id']][0]['RE'];
-			$total_old += $progress['old'][$value['language_id']][0]['RE'];
+			$total_new += $progress['new'][$value['name']][0]['RE'];
+			$total_old += $progress['old'][$value['name']][0]['RE'];
 		}
 		$progress['total_new'] = $total_new;
 		$progress['total_old'] = $total_old;
@@ -1891,7 +1907,7 @@ class Manager extends MY_Controller {
 		$total_month_L8 = 500;
 
         $progress = [];
-        $inputContact = array();
+		$input['where']['no_report'] = '0';
         $inputContact['select'] = 'id';
         $inputContact['where'] = array('date_rgt >' => strtotime(date('01-m-Y')), 'is_hide' => '0');
         $today = $this->contacts_model->load_all($inputContact);
@@ -1927,7 +1943,7 @@ class Manager extends MY_Controller {
 		
 		$this->load->model('language_study_model');
 		$this->load->model('paid_model');
-        $input = array();
+		$input['where']['no_report'] = '0';
 		$language = $this->language_study_model->load_all($input);
 		
 		$total_new = 0;
@@ -1942,11 +1958,11 @@ class Manager extends MY_Controller {
 			$input_re_new = array_merge_recursive(array('where' => array('student_old' => '0')), $input_re);
 			$input_re_old = array_merge_recursive(array('where' => array('student_old' => 1)), $input_re);
 			
-			$progress['old'][$value['language_id']] = $this->paid_model->load_all($input_re_old);
-			$progress['new'][$value['language_id']] = $this->paid_model->load_all($input_re_new);
+			$progress['old'][$value['name']] = $this->paid_model->load_all($input_re_old);
+			$progress['new'][$value['name']] = $this->paid_model->load_all($input_re_new);
 			
-			$total_new += $progress['new'][$value['language_id']][0]['RE'];
-			$total_old += $progress['old'][$value['language_id']][0]['RE'];
+			$total_new += $progress['new'][$value['name']][0]['RE'];
+			$total_old += $progress['old'][$value['name']][0]['RE'];
 		}
 		$progress['total_new'] = $total_new;
 		$progress['total_old'] = $total_old;

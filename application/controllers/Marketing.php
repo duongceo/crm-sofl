@@ -474,7 +474,7 @@
 					)
 				),
 				'call_status' => array(),
-				'ordering_status' => array(),
+//				'ordering_status' => array(),
 				'payment_method_rgt' => array(),
 				'sources' => array(),
 				'channel' => array(),
