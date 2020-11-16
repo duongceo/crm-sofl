@@ -352,7 +352,7 @@
 //				$data['right_col'] = array('channel');
 			} else {
 				$data['left_col'] = array('date_happen_1', 'tic_report');
-				$data['right_col'] = array('branch', 'is_old');
+				$data['right_col'] = array('branch');
 			}
 
 			$data['content'] = 'marketing/view_report_quality_contact';
