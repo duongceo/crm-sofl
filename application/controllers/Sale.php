@@ -332,11 +332,11 @@ class Sale extends MY_Controller {
 		$data['left_col'] = array('care_number', 'language', 'date_rgt', 'date_handover', 'date_confirm', 'date_rgt_study', 'date_last_calling');
         $data['right_col'] = array('call_status', 'level_contact', 'level_contact_detail', 'level_student', 'level_student_detail');
 		
-		if ($this->user_id == 18) {
-			unset($conditional['where']['sale_staff_id']);
-			$data['left_col'] = array('care_number','language', 'sale', 'marketer', 'date_rgt', 'date_handover', 'date_confirm', 'date_rgt_study', 'date_last_calling');
-			$data['right_col'] = array('branch', 'source', 'call_status', 'level_contact', 'level_contact_detail', 'level_student', 'level_student_detail');
-		}
+//		if ($this->user_id == 18) {
+//			unset($conditional['where']['sale_staff_id']);
+//			$data['left_col'] = array('care_number','language', 'sale', 'marketer', 'date_rgt', 'date_handover', 'date_confirm', 'date_rgt_study', 'date_last_calling');
+//			$data['right_col'] = array('branch', 'source', 'call_status', 'level_contact', 'level_contact_detail', 'level_student', 'level_student_detail');
+//		}
 		
         $data_pagination = $this->_query_all_from_get($get, $conditional, $this->per_page, $offset);
         $data['pagination'] = $this->_create_pagination_link($data_pagination['total_row']);
