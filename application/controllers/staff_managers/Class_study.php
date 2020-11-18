@@ -97,7 +97,7 @@ class Class_study extends MY_Table {
 				'value' => $this->get_data_from_model('teacher'),
 				'name_display' => 'Giảng viên'
 			),
-			'character_class_id' => array(
+			'character_class' => array(
 				'type' => 'custom',
 				'value' => $this->get_data_from_model('character_class'),
 				'name_display' => 'Đặc điểm lớp',
@@ -122,6 +122,7 @@ class Class_study extends MY_Table {
 		$this->data['branch'] = $this->get_data_from_model('branch');
 		$this->data['language'] = $this->get_data_from_model('language_study');
 		$this->data['level_language'] = $this->get_data_from_model('level_language');
+		$this->data['character_class'] = $this->get_data_from_model('character_class');
 
 		$conditional = array();
 
@@ -138,6 +139,9 @@ class Class_study extends MY_Table {
 				),
 			),
 			'left_filter' => array(
+				'character_class' => array(
+					'type' => 'arr_multi'
+				),
 				'time_start' => array(
 					'type' => 'datetime'
 				),

@@ -1,5 +1,4 @@
 <td class="text-center">
-	<!--	--><?php //echo '<pre>';print_r($value[0]);die();?>
 	<?php
 	if (isset($row['language_id']) && !empty($row['language_id'])) {
 		foreach ($value as $key2 => $value2) {
