@@ -106,14 +106,14 @@ class Contact extends CI_Controller {
             }
 
             if (isset($input['link'])) {
-				$this->load->model('link_site_model');
-				$input_link = array();
-				$input_link['where'] = array('url' => $input['link_id']);
-				$links = $this->link_site_model->load_all($input_link);
-				if (!empty($links)) {
-					$param['link_id'] = $links[0]['id'];
-				}
-			}
+      				$this->load->model('link_site_model');
+      				$input_link = array();
+      				$input_link['like'] = array('url' => $input['link']);
+      				$links = $this->link_site_model->load_all($input_link);
+      				if (isset($links)) {
+      					$param['link_id'] = $links[0]['id'];
+      				}
+      			}
 
            	if (isset($input['source_id']) && strripos($input['source_id'], 'ib') != false) {
            		$param['source_id'] = 1;
