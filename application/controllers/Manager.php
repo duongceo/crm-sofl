@@ -1687,7 +1687,6 @@ class Manager extends MY_Controller {
                 )
             ),
             'call_status' => array(),
-//            'ordering_status' => array(),
             'payment_method_rgt' => array(),
             'sources' => array(),
             'channel' => array(),
@@ -1970,1352 +1969,1308 @@ class Manager extends MY_Controller {
         return $progress;
     }
 
-    protected function ExportToExcel($post) {
-        /* ====================xuất file excel============================== */
-        //$post = $this->input->post();
-
-        $this->load->library('PHPExcel');
-        $objPHPExcel = new PHPExcel();
-        $objPHPExcel->setActiveSheetIndex(0);
-        // $objPHPExcel->getActiveSheet()->getStyle("A1:H1")->getFont()->setSize(11)->setBold(true)->setName('Times New Roman');
-        //     ->getColor()->setRGB('FFFFFF')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $styleArray = array(
-            'font' => array(
-                'bold' => true,
-                'color' => array('rgb' => 'FFFFFF'),
-                'size' => 15,
-                'name' => 'Times New Roman'
-            ),
-            'alignment' => array(
-                'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-                'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER
-            )
-        );
-        $objPHPExcel->getActiveSheet()->getStyle("A1:R1")->applyFromArray($styleArray);
-        $objPHPExcel->getActiveSheet()->getStyle("A1:R1")->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setARGB('548235');
-        $objPHPExcel->getActiveSheet()->getStyle("A1:R1")->getBorders()->getAllBorders()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
-        $objPHPExcel->getActiveSheet()->getStyle("A2:R200")->getFont()->setSize(15)->setName('Times New Roman');
-        $objPHPExcel->getActiveSheet()->getRowDimension('1')->setRowHeight(40);
-        $objPHPExcel->getActiveSheet()->getSheetView()->setZoomScale(73);
-
-        //set tên các cột cần in
-        $columnName = 'A';
-        $rowCount = 1;
-        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'STT');
-        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Họ tên');
-        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Email');
-        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Số điện thoại');
-//        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Địa chỉ');
-        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Mã khóa học');
-        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Ngày đăng ký');
-//        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'TVTS');
-        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Giá tiền mua');
-        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Nguồn contact');
-        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Marketer');
-//        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Trạng thái gọi');
-//        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Trạng thái đơn hàng');
-//        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Trạng thái giao hàng');
-//        $objPHPExcel->getActiveSheet()->SetCellValue($columnName . $rowCount, 'Ghi chú cuộc gọi');
-        $rowCount++;
-
-        //đổ dữ liệu ra file excel
-        $i = 1;
-        $this->load->model('sources_model');
-        $this->load->model('call_status_model');
-        $this->load->model('ordering_status_model');
-        $this->load->model('cod_status_model');
-        foreach ($post['contact_id'] as $value) {
-            $input = array();
-//            $input['select'] = 'id, name, email, phone, address, course_code, date_rgt, sale_staff_id, '
-//                    . 'price_purchase, source_id, call_status_id, ordering_status_id, cod_status_id';
-            $input['select'] = 'id, name, email, phone, course_code, date_rgt, price_purchase, source_id, marketer_id';
-            $input['where'] = array('id' => $value);
-            $contact = $this->contacts_model->load_all($input);
-
-//            $this->load->model('notes_model');
-//            $input2 = array();
-//            $input2['where'] = array('contact_id' => $value);
-//            $input2['order'] = array('id' => 'DESC');
-//            $last_note = $this->notes_model->load_all($input2);
-//            $notes = '';
-//            if (!empty($last_note)) {
-//                foreach ($last_note as $value2) {
-//                    $notes .= date('d/m/Y', $value2['time']) . ' ==> ' . $value2['content'] . ' ------ ';
-//                }
-//            }
-//            $notes = html_entity_decode($notes);
-
-            $columnName = 'A';
-
-            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $i++);
-            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['name']);
-            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['email']);
-            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['phone']);
-//            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['address']);
-            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['course_code']);
-            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, date('d/m/Y', $contact[0]['date_rgt']));
-//            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $this->staffs_model->find_staff_name($contact[0]['sale_staff_id']));
-            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['price_purchase']);
-            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $this->sources_model->find_source_name($contact[0]['source_id']));
-            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $this->staffs_model->find_staff_name($contact[0]['marketer_id']));
-//            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $this->call_status_model->find_call_status_desc($contact[0]['call_status_id']));
-//            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $this->ordering_status_model->find_ordering_status_desc($contact[0]['ordering_status_id']));
-//            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $this->cod_status_model->find_cod_status_desc($contact[0]['cod_status_id']));
-//            $objPHPExcel->getActiveSheet()->SetCellValue($columnName . $rowCount, $notes);
-            $objPHPExcel->getActiveSheet()->getRowDimension($rowCount)->setRowHeight(35);
-            $BStyle = array(
-                'borders' => array(
-                    'allborders' => array(
-                        'style' => PHPExcel_Style_Border::BORDER_THICK,
-                        'color' => array('rgb' => '151313')
-                    )
-                )
-            );
-            $objPHPExcel->getActiveSheet()->getStyle('A' . $rowCount . ':' . $columnName . $rowCount)->applyFromArray($BStyle);
-            $rowCount++;
-        }
-        foreach (range('A', $columnName) as $columnID) {
-            $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)
-                    ->setAutoSize(true);
-        }
-        $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
-        header('Content-Type: application/vnd.ms-excel');
-        header('Content-Disposition: attachment;filename="Danh_sach_khach_hang v' . date('Y.m.d') . '.xlsx"');
-        header('Cache-Control: max-age=0');
-        $objWriter->save('php://output');
-        die;
-        /* ====================xuất file excel (end)============================== */
-    }
+//    protected function ExportToExcel($post) {
+//        /* ====================xuất file excel============================== */
+//        //$post = $this->input->post();
+//
+//        $this->load->library('PHPExcel');
+//        $objPHPExcel = new PHPExcel();
+//        $objPHPExcel->setActiveSheetIndex(0);
+//        // $objPHPExcel->getActiveSheet()->getStyle("A1:H1")->getFont()->setSize(11)->setBold(true)->setName('Times New Roman');
+//        //     ->getColor()->setRGB('FFFFFF')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+//        $styleArray = array(
+//            'font' => array(
+//                'bold' => true,
+//                'color' => array('rgb' => 'FFFFFF'),
+//                'size' => 15,
+//                'name' => 'Times New Roman'
+//            ),
+//            'alignment' => array(
+//                'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+//                'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER
+//            )
+//        );
+//        $objPHPExcel->getActiveSheet()->getStyle("A1:R1")->applyFromArray($styleArray);
+//        $objPHPExcel->getActiveSheet()->getStyle("A1:R1")->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setARGB('548235');
+//        $objPHPExcel->getActiveSheet()->getStyle("A1:R1")->getBorders()->getAllBorders()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
+//        $objPHPExcel->getActiveSheet()->getStyle("A2:R200")->getFont()->setSize(15)->setName('Times New Roman');
+//        $objPHPExcel->getActiveSheet()->getRowDimension('1')->setRowHeight(40);
+//        $objPHPExcel->getActiveSheet()->getSheetView()->setZoomScale(73);
+//
+//        //set tên các cột cần in
+//        $columnName = 'A';
+//        $rowCount = 1;
+//        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'STT');
+//        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Họ tên');
+//        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Email');
+//        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Số điện thoại');
+////        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Địa chỉ');
+//        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Mã khóa học');
+//        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Ngày đăng ký');
+////        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'TVTS');
+//        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Giá tiền mua');
+//        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Nguồn contact');
+//        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Marketer');
+////        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Trạng thái gọi');
+////        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Trạng thái đơn hàng');
+////        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Trạng thái giao hàng');
+////        $objPHPExcel->getActiveSheet()->SetCellValue($columnName . $rowCount, 'Ghi chú cuộc gọi');
+//        $rowCount++;
+//
+//        //đổ dữ liệu ra file excel
+//        $i = 1;
+//        $this->load->model('sources_model');
+//        $this->load->model('call_status_model');
+//        $this->load->model('ordering_status_model');
+//        $this->load->model('cod_status_model');
+//        foreach ($post['contact_id'] as $value) {
+//            $input = array();
+////            $input['select'] = 'id, name, email, phone, address, course_code, date_rgt, sale_staff_id, '
+////                    . 'price_purchase, source_id, call_status_id, ordering_status_id, cod_status_id';
+//            $input['select'] = 'id, name, email, phone, course_code, date_rgt, price_purchase, source_id, marketer_id';
+//            $input['where'] = array('id' => $value);
+//            $contact = $this->contacts_model->load_all($input);
+//
+////            $this->load->model('notes_model');
+////            $input2 = array();
+////            $input2['where'] = array('contact_id' => $value);
+////            $input2['order'] = array('id' => 'DESC');
+////            $last_note = $this->notes_model->load_all($input2);
+////            $notes = '';
+////            if (!empty($last_note)) {
+////                foreach ($last_note as $value2) {
+////                    $notes .= date('d/m/Y', $value2['time']) . ' ==> ' . $value2['content'] . ' ------ ';
+////                }
+////            }
+////            $notes = html_entity_decode($notes);
+//
+//            $columnName = 'A';
+//
+//            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $i++);
+//            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['name']);
+//            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['email']);
+//            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['phone']);
+////            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['address']);
+//            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['course_code']);
+//            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, date('d/m/Y', $contact[0]['date_rgt']));
+////            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $this->staffs_model->find_staff_name($contact[0]['sale_staff_id']));
+//            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['price_purchase']);
+//            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $this->sources_model->find_source_name($contact[0]['source_id']));
+//            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $this->staffs_model->find_staff_name($contact[0]['marketer_id']));
+////            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $this->call_status_model->find_call_status_desc($contact[0]['call_status_id']));
+////            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $this->ordering_status_model->find_ordering_status_desc($contact[0]['ordering_status_id']));
+////            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $this->cod_status_model->find_cod_status_desc($contact[0]['cod_status_id']));
+////            $objPHPExcel->getActiveSheet()->SetCellValue($columnName . $rowCount, $notes);
+//            $objPHPExcel->getActiveSheet()->getRowDimension($rowCount)->setRowHeight(35);
+//            $BStyle = array(
+//                'borders' => array(
+//                    'allborders' => array(
+//                        'style' => PHPExcel_Style_Border::BORDER_THICK,
+//                        'color' => array('rgb' => '151313')
+//                    )
+//                )
+//            );
+//            $objPHPExcel->getActiveSheet()->getStyle('A' . $rowCount . ':' . $columnName . $rowCount)->applyFromArray($BStyle);
+//            $rowCount++;
+//        }
+//        foreach (range('A', $columnName) as $columnID) {
+//            $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)
+//                    ->setAutoSize(true);
+//        }
+//        $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
+//        header('Content-Type: application/vnd.ms-excel');
+//        header('Content-Disposition: attachment;filename="Danh_sach_khach_hang v' . date('Y.m.d') . '.xlsx"');
+//        header('Cache-Control: max-age=0');
+//        $objWriter->save('php://output');
+//        die;
+//        /* ====================xuất file excel (end)============================== */
+//    }
 
     // HuyNV Fix report operation
-    function show_report_operation() {
-        $this->load->helper('manager_helper');
-        $this->load->helper('common_helper');
-        $this->load->model('campaign_cost_model');
-        $this->load->model('cost_warehouse_model');
-        $this->load->model('Cost_GA_campaign_model');
-        $this->load->model('campaign_model');
-        $get = $this->input->get();
-
-        $data = '';
-
-        $typeKPI = array(
-            'L7+L8' => 10000000,
-            'marketing' => 2000000,
-            'priceC3' => 50000,
-            'C1' => 15400,
-            'C2' => 530,
-            'C3' => 60,
-            'L1' => 30,
-            'L2' => 30,
-            'L6' => 30,
-            'L8' => 30,
-            'Hủy đơn / L6' => 5
-        );
-
-        if (isset($get['tic_report'])) {
-            /* các loại báo cáo */
-            $typeReport = array(
-                'user' => 'date_rgt',
-                'marketing' => 'time',
-                'C3' => 'date_rgt',
-                'L1' => 'date_rgt',
-                'L2' => 'date_rgt',
-                'L6' => 'date_rgt',
-                'L7_revenue' => 'date_rgt',
-                'L8_revenue' => 'date_rgt',
-                're_buy' => 'date_rgt',
-                'active' => 'date_rgt',
-                'no_active' => 'date_rgt',
-                'huydon' => 'date_rgt'
-            );
-        } else {
-            /* các loại báo cáo */
-            $typeReport = array(
-                'user' => 'date_rgt',
-                'marketing' => 'time',
-                'C3' => 'date_rgt',
-                'L1' => 'date_rgt',
-                'L2' => 'date_rgt',
-                'L6' => 'date_confirm',
-                'L7_revenue' => 'date_receive_cod',
-                'L8_revenue' => 'date_receive_lakita',
-                're_buy' => 'date_rgt',
-                'active' => 'date_active',
-                'no_active' => 'date_rgt',
-                'huydon' => 'date_receive_cancel_cod'
-            );
-        }
-
-        /* Mảng chứa các ngày lẻ */
-        if (isset($get['filter_date_happen_from']) && $get['filter_date_happen_from'] != '' && isset($get['filter_date_happen_end']) && $get['filter_date_happen_end'] != '') {
-            $startDate = strtotime($get['filter_date_happen_from']);
-            $endDate = strtotime($get['filter_date_happen_end']);
-        } else {
-            $startDate = strtotime(date('01-m-Y'));
-            $endDate = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
-        }
-        $dateArray = h_get_time_range($startDate, $endDate);
-
-        /* danh sách campaign dùng để tính chi phí marketing */
-        $input_campaign = array();
-        $input_campaign['select'] = 'id';
-
-        if (isset($get['filter_marketer_id'])) {
-            $input_campaign['where_in']['marketer_id'] = $get['filter_marketer_id'];
-        }
-        
-        //campaign FB
-        $input_campaign['where']['channel_id'] = 2;
-        $campaign_fb = $this->campaign_model->load_all($input_campaign);
-        $campaign_fb_list = array();
-        foreach ($campaign_fb as $value){
-            $campaign_fb_list[] = $value['id'];
-        }
-        
-        //campaign GA
-        $input_campaign['where']['channel_id'] = 3;
-        $campaign_ga = $this->campaign_model->load_all($input_campaign);
-        $campaign_ga_list = array();
-        foreach ($campaign_ga as $value){
-            $campaign_ga_list[] = $value['id'];
-        }
-        
-        $Report = array();
-
-        foreach ($typeReport as $report_type => $typeDate) {
-            $total = 0;
-            $total2 = 0;
-            foreach ($dateArray as $key => $time) {
-                $week = $key;
-
-                $input = array();
-
-                $input['where'][$typeDate . ' >='] = $time;
-                $input['where'][$typeDate . ' <='] = $time + 86400 - 1;
-
-                // Số người đồng ý mua theo từng ngày
-                if ($report_type == 'user') {
-                    $input['select'] = 'phone';
-                    $input['where']['ordering_status_id'] = _DONG_Y_MUA_;
-                    $input['where']['duplicate_id'] = '';
-                    $contact = '';
-                    $contact_new = array();
-                    $contact = $this->contacts_model->load_all($input);
-                    foreach ($contact as $key => $value) {
-                        $contact_new[] = $value['phone'];
-                    }
-                    $contact_new = array_unique($contact_new);
-
-                    $array = array();
-                    $array['value'] = count($contact_new);
-                    $total += $array['value'];
-                    $array['Lũy kế'] = $total;
-                    $Report[$report_type][$week] = $array;
-                }
-
-                // Số lượng C3 theo ngày
-                if ($report_type == 'C3') {
-                    $input['select'] = 'id';
-                    $input['where']['is_hide'] = '0';
-                    $array = array();
-                    $array['value'] = count($this->contacts_model->load_all($input));
-                    $array['value/kpi'] = round($array['value'] / $typeKPI['C3'], 2) * 100 . '%';
-                    $total += $array['value'];
-                    $array['Lũy kế'] = $total;
-                    $array['Lũy kế /kpi'] = round($array['Lũy kế'] / ($typeKPI['C3'] * date('t')), 2) * 100 . '%';
-                    $Report[$report_type][$week] = $array;
-                }
-
-                // Số lượng L1 theo ngày
-                if ($report_type == 'L1') {
-                    $contact = '';
-                    $input['select'] = 'id';
-                    $input['where']['duplicate_id'] = '';
-
-                    $array = array();
-                    $array['value'] = count($this->contacts_model->load_all($input));
-                    $total += $array['value'];
-                    $array['Lũy kế'] = $total;
-                    $Report[$report_type][$week] = $array;
-                }
-
-                // Số lượng L2 theo ngày
-                if ($report_type == 'L2') {
-                    $input['select'] = 'id';
-                    $input['where']['duplicate_id'] = '';
-                    $input['where']['call_status_id'] = _DA_LIEN_LAC_DUOC_;
-
-                    $array = array();
-                    $array['value'] = count($this->contacts_model->load_all($input));
-                    $total += $array['value'];
-                    $array['Lũy kế'] = $total;
-                    $Report[$report_type][$week] = $array;
-                }
-
-                // Số lượng L6 theo ngày
-                if ($report_type == 'L6') {
-                    $input['select'] = 'id';
-                    $input['where']['ordering_status_id'] = _DONG_Y_MUA_;
-
-                    $array = array();
-                    $array['value'] = count($this->contacts_model->load_all($input));
-                    $total += $array['value'];
-                    $array['Lũy kế'] = $total;
-                    $Report[$report_type][$week] = $array;
-                }
-
-                // Số lượng hủy đơn
-                if ($report_type == 'huydon') {
-                    $input['select'] = 'id';
-                    $input['where']['cod_status_id'] = _HUY_DON_;
-
-                    $array = array();
-                    $array['value'] = count($this->contacts_model->load_all($input));
-                    $total += $array['value'];
-                    $array['Lũy kế'] = $total;
-                    $Report[$report_type][$week] = $array;
-                }
-
-                // Doanh thu L7 & L8
-                if ($report_type == 'L7_revenue' || $report_type == 'L8_revenue') {
-                    $input['select'] = 'id,price_purchase';
-                    if ($report_type == 'L7_revenue') {
-                        $input['where']['cod_status_id'] = _DA_THU_COD_;
-                    }
-
-                    if ($report_type == 'L8_revenue') {
-                        $input['where']['cod_status_id'] = _DA_THU_LAKITA_;
-                    }
-                    $contact = '';
-                    $contact = $this->contacts_model->load_all($input);
-
-                    $array1 = array();
-                    $array1['value'] = sum_L8($contact);
-                    $total += $array1['value'];
-                    $array1['Lũy kế'] = $total;
-                    $Report[$report_type]['revenue'][$week] = $array1;
-
-                    $array2 = array();
-                    $array2['value'] = count($contact);
-                    $array2['value/kpi'] = round(count($contact) / $typeKPI['L8'], 2);
-                    $total2 += $array2['value'];
-                    $array2['Lũy kế'] = $total2;
-                    $array2['Lũy kế /kpi'] = round($array2['Lũy kế'] / ($typeKPI['L8'] * date('t')), 2) * 100 . '%';
-                    $Report[$report_type]['count'][$week] = $array2;
-                }
-
-                // Chi phi Marketing
-                if ($report_type == 'marketing') {
-
-                    // lấy chi fb
-                    $input_fb = array();
-                    $input_fb['select'] = 'SUM(spend) as spend';
-                    $input_fb['where']['time >='] = $time;
-                    $input_fb['where']['time <='] = $time + 24 * 3600 - 1;
-                    $input_fb['where_in']['campaign_id'] = $campaign_fb_list;
-                    $sum_spend_fb = $this->campaign_cost_model->load_all($input_fb);
-                    $spend_fb = (empty($sum_spend_fb))?0:(int)$sum_spend_fb [0]['spend']; 
-                    
-                    //lấy chi ga
-                    $input_ga = array();
-                    $input_ga['select'] = 'SUM(spend) as spend';
-                    $input_ga['where']['time >='] = $time;
-                    $input_ga['where']['time <='] = $time + 24 * 3600 - 1;
-                    $input_ga['where_in']['campaign_id'] = $campaign_ga_list;
-                    $sum_spend_ga = $this->Cost_GA_campaign_model->load_all($input_ga);
-                    $spend_ga = (empty($sum_spend_ga))?0:(int)$sum_spend_ga [0]['spend']; 
-
-                    //lấy chi email
-                    $input_em = array();
-                    $input_em['select'] = 'spend';
-                    $input_em['where']['time >='] = $time;
-                    $input_em['where']['time <='] = $time + 24 * 3600 - 1;
-                    $sum_spend_email = $this->cost_warehouse_model->load_all($input_em);
-                    $spend_em = (empty($sum_spend_email))?0:(int)$sum_spend_email [0]['spend']; 
-
-                    //Tổng chi marketing
-                    $sum_perday_spend = $spend_fb+$spend_ga+$spend_em;   
-                    
-                    $total += round($sum_perday_spend);
-                    $array = array();
-                    $array['value'] = round($sum_perday_spend);
-                    $array['value/kpi'] = round($array['value'] / $typeKPI['marketing'], 2) * 100 . '%';
-                    $array['Lũy kế'] = $total;
-                    $array['Lũy kế /kpi'] = round($array['Lũy kế'] / ($typeKPI['marketing'] * date('t')), 2) * 100 . '%';
-                    $Report[$report_type][$week] = $array;
-                    // $total += $Report[$report_type][$week];
-                }
-
-                if ($report_type == 're_buy') {
-                    $input['select'] = 'distinct(phone), date_rgt';
-
-                    $input['where']['is_hide'] = '0';
-//                    $input['where']['affiliate_id'] = '0';
-                    $input['where']['duplicate_id'] = '';
-                    $input['where']['ordering_status_id'] = 4;
-                    $input['order'] = array('id' => 'desc');
-                    $contact_list_buy = $this->contacts_model->load_all($input);
-
-                    $contact_re_buy = array();
-
-                    foreach ($contact_list_buy as $value) {
-                        $input = '';
-                        $input['select'] = 'phone,email,course_code,date_rgt';
-                        $input['where']['phone'] = $value['phone'];
-                        $input['where']['is_hide'] = '0';
-//                        $input['where']['affiliate_id'] = '0';
-                        $input['where']['duplicate_id'] = '0';
-                        $input['where']['ordering_status_id'] = 4;
-                        $input['where']['date_rgt <'] = $value['date_rgt'] - 172800;
-                        $input['order'] = array('id' => 'desc');
-
-                        $contact = $this->contacts_model->load_all($input);
-
-                        if (!empty($contact)) {
-                            $contact_re_buy[] = $value;
-                        }
-                    }
-                    $array = array();
-                    $array['value'] = count($contact_re_buy);
-                    // $array['value'] = $contact_re_buy;
-                    $total += $array['value'];
-                    $array['Lũy kế'] = $total;
-                    $Report[$report_type][$week] = $array;
-                }
-
-                if ($report_type == 'active') {
-                    $input['select'] = 'id';
-                    $input['where']['id_lakita !='] = '';
-//                    $input['where']['affiliate_id'] = '0';
-                    $input['where']['cod_status_id >'] = 1;
-                    $input['where']['cod_status_id <'] = 4;
-                    $array = array();
-                    $array['value'] = count($this->contacts_model->load_all($input));
-                    $total += $array['value'];
-                    $array['Lũy kế'] = $total;
-                    $Report[$report_type][$week] = $array;
-                }
-				
-                if ($report_type == 'no_active') {
-                    $input['select'] = 'id';
-                    $input['where']['id_lakita'] = '';
-//                    $input['where']['affiliate_id'] = '0';
-                    $input['where']['cod_status_id >'] = 1;
-                    $input['where']['cod_status_id <'] = 4;
-                    $array = array();
-                    $array['value'] = count($this->contacts_model->load_all($input));
-                    $total += $array['value'];
-                    $array['Lũy kế'] = $total;
-                    $Report[$report_type][$week] = $array;
-                }
-            }
-        }
-
-        /* tầng doanh thu */
-        $L7L8 = array();
-        foreach ($Report['L7_revenue']['revenue'] as $key => $value) {
-            $L7L8[$key]['value'] = $Report['L8_revenue']['revenue'][$key]['value'] + $value['value'];
-            $L7L8[$key]['value/kpi'] = round($L7L8[$key]['value'] / $typeKPI['L7+L8'], 2) * 100 . '%';
-            $L7L8[$key]['Lũy kế'] = $Report['L8_revenue']['revenue'][$key]['Lũy kế'] + $value['Lũy kế'];
-            $L7L8[$key]['Lũy kế /kpi'] = round($L7L8[$key]['Lũy kế'] / ($typeKPI['L7+L8'] * date('t')), 2) * 100 . '%';
-        }
-
-        /* tầng maketing */
-        /* chi marketing */
-        $marketing_fee = $Report['marketing'];
-        /* số C3 */
-        $C3 = $Report['C3'];
-        /* Giá C3 */
-        $priceC3 = array();
-        foreach ($Report['marketing'] as $key => $value) {
-            $priceC3[$key]['value'] = ($Report['C3'][$key]['value'] > 0) ? round($value['value'] / $Report['C3'][$key]['value']) : 'N/A';
-            $priceC3[$key]['value/kpi'] = round(str_replace('%', '', $priceC3[$key]['value']) / str_replace('%', '', h_get_progress($typeKPI['priceC3'], $typeKPI['C3'])), 2) * 100 . '%';
-            $priceC3[$key]['Lũy kế'] = ($Report['C3'][$key]['Lũy kế'] > 0) ? round($value['Lũy kế'] / $Report['C3'][$key]['Lũy kế']) : 'N/A';
-            $priceC3[$key]['Lũy kế /kpi'] = round(str_replace('%', '', $priceC3[$key]['Lũy kế']) / str_replace('%', '', h_get_progress($typeKPI['priceC3'] * date('t'), $typeKPI['C3'] * date('t'))), 2) * 100 . '%';
-        }
-        /* chất lượng C3 */
-        $L8_C3 = array();
-        foreach ($Report['L8_revenue']['count'] as $key => $value) {
-            $L8_C3[$key]['value'] = h_get_progress($value['value'], $Report['C3'][$key]['value']);
-            $L8_C3[$key]['value/kpi'] = round(str_replace('%', '', $L8_C3[$key]['value']) / str_replace('%', '', h_get_progress($typeKPI['L8'], $typeKPI['C3'])), 2) * 100 . '%';
-            $L8_C3[$key]['Lũy kế'] = h_get_progress($value['Lũy kế'], $Report['C3'][$key]['Lũy kế']);
-            $L8_C3[$key]['Lũy kế /kpi'] = round(str_replace('%', '', $L8_C3[$key]['Lũy kế']) / str_replace('%', '', h_get_progress($typeKPI['L8'] * date('t'), $typeKPI['C3'] * date('t'))), 2) * 100 . '%';
-        }
-
-        /* tầng sale */
-        /* chất lượng tổng L8/L1 */
-        $L8_L1 = array();
-        foreach ($Report['L8_revenue']['count'] as $key => $value) {
-            $L8_L1[$key]['value'] = h_get_progress($value['value'], $Report['L1'][$key]['value']);
-            $L8_L1[$key]['value/kpi'] = round(str_replace('%', '', $L8_L1[$key]['value']) / str_replace('%', '', h_get_progress($typeKPI['L8'], $typeKPI['L1'])), 2) * 100 . '%';
-            $L8_L1[$key]['Lũy kế'] = h_get_progress($value['Lũy kế'], $Report['L1'][$key]['Lũy kế']);
-            $L8_L1[$key]['Lũy kế /kpi'] = round(str_replace('%', '', $L8_L1[$key]['Lũy kế']) / str_replace('%', '', h_get_progress($typeKPI['L8'] * date('t'), $typeKPI['L1'] * date('t'))), 2) * 100 . '%';
-        }
-        /* Chất lượng contact L2/L1 */
-        $L2_L1 = array();
-        foreach ($Report['L2']as $key => $value) {
-            $L2_L1[$key]['value'] = h_get_progress($value['value'], $Report['L1'][$key]['value']);
-            $L2_L1[$key]['value/kpi'] = round(str_replace('%', '', $L2_L1[$key]['value']) / str_replace('%', '', h_get_progress($typeKPI['L2'], $typeKPI['L1'])), 2) * 100 . '%';
-            '__';
-            $L2_L1[$key]['Lũy kế'] = h_get_progress($value['Lũy kế'], $Report['L1'][$key]['Lũy kế']);
-            $L2_L1[$key]['Lũy kế /kpi'] = round(str_replace('%', '', $L2_L1[$key]['Lũy kế']) / str_replace('%', '', h_get_progress($typeKPI['L2'] * date('t'), $typeKPI['L1'] * date('t'))), 2) * 100 . '%';
-        }
-        /* Chất lượng sale L6/L2 */
-        $L6_L2 = array();
-        foreach ($Report['L6'] as $key => $value) {
-            $L6_L2[$key]['value'] = h_get_progress($value['value'], $Report['L2'][$key]['value']);
-            $L6_L2[$key]['value/kpi'] = round(str_replace('%', '', $L6_L2[$key]['value']) / str_replace('%', '', h_get_progress($typeKPI['L6'], $typeKPI['L2'])), 2) * 100 . '%';
-            $L6_L2[$key]['Lũy kế'] = h_get_progress($value['Lũy kế'], $Report['L2'][$key]['Lũy kế']);
-            $L6_L2[$key]['Lũy kế /kpi'] = round(str_replace('%', '', $L6_L2[$key]['Lũy kế']) / str_replace('%', '', h_get_progress($typeKPI['L6'] * date('t'), $typeKPI['L2'] * date('t'))), 2) * 100 . '%';
-        }
-
-        // Chất lượng COD Hủy đơn / L6
-        $fail_L6 = array();
-        foreach ($Report['huydon'] as $key => $value) {
-            $fail_L6[$key]['value'] = h_get_progress($value['value'], $Report['L6'][$key]['value']);
-            $fail_L6[$key]['value/kpi'] = round(str_replace('%', '', $fail_L6[$key]['value']) / $typeKPI['Hủy đơn / L6'], 2) * 100 . '%';
-            $fail_L6[$key]['Lũy kế'] = h_get_progress($value['Lũy kế'], $Report['L6'][$key]['Lũy kế']);
-            $fail_L6[$key]['Lũy kế /kpi'] = round(str_replace('%', '', $fail_L6[$key]['Lũy kế']) / ($typeKPI['Hủy đơn / L6'] * date('t')), 2) * 100 . '%';
-        }
-        /* chỉ số arpu = doanh thu( L7 +l8) / số (L1) */
-        /* nếu 1 khách hàng mua 3 lần bình thường tính là 3 L1 nhưng ở đây chỉ tính là 1 L1 */
-        $arpu = array();
-        foreach ($L7L8 as $key => $value) {
-            if ($Report['user'][$key]['value'] != 0) {
-                $arpu[$key]['value'] = round($value['value'] / $Report['user'][$key]['value'], 0);
-            } else {
-                $arpu[$key]['value'] = 'N/A';
-            }
-            $arpu[$key]['value/kpi'] = '__';
-            if ($Report['user'][$key]['Lũy kế'] != 0) {
-                $arpu[$key]['Lũy kế'] = round($value['Lũy kế'] / $Report['user'][$key]['Lũy kế'], 0);
-            } else {
-                $arpu[$key]['Lũy kế'] = 'N/A';
-            }
-            $arpu[$key]['Lũy kế /kpi'] = '__';
-        }
-
-        //Tầng chăm sóc khách hàng;
-        $S1_S0 = array();
-        foreach ($Report['active'] as $key => $value) {
-            $S1_S0[$key]['value'] = $value['value'] . ' - ' . h_get_progress($value['value'], $Report['L7_revenue']['count'][$key]['value'] + $Report['L8_revenue']['count'][$key]['value']);
-            $S1_S0[$key]['value/kpi'] = '__';
-            $S1_S0[$key]['Lũy kế'] = $value['Lũy kế'] . ' - ' . h_get_progress($value['Lũy kế'], $Report['L7_revenue']['count'][$key]['Lũy kế'] + $Report['L8_revenue']['count'][$key]['Lũy kế']);
-            $S1_S0[$key]['Lũy kế /kpi'] = '__';
-        }
-        //chưa kích hoạt
-        $S1_S00 = array();
-        foreach ($Report['no_active'] as $key => $value) {
-            $S1_S00[$key]['value'] = $value['value'] . ' - ' . h_get_progress($value['value'], $Report['L7_revenue']['count'][$key]['value'] + $Report['L8_revenue']['count'][$key]['value']);
-            $S1_S00[$key]['value/kpi'] = '__';
-            $S1_S00[$key]['Lũy kế'] = $value['Lũy kế'] . ' - ' . h_get_progress($value['Lũy kế'], $Report['L7_revenue']['count'][$key]['Lũy kế'] + $Report['L8_revenue']['count'][$key]['Lũy kế']);
-            $S1_S00[$key]['Lũy kế /kpi'] = '__';
-        }
-
-        $S5_S0 = array();
-        foreach ($Report['re_buy'] as $key => $value) {
-            $S5_S0[$key]['value'] = $value['value'] . ' - ' . h_get_progress($value['value'], $Report['L7_revenue']['count'][$key]['value'] + $Report['L8_revenue']['count'][$key]['value']);
-            $S5_S0[$key]['value/kpi'] = '__';
-            $S5_S0[$key]['Lũy kế'] = $value['Lũy kế'] . ' - ' . h_get_progress($value['Lũy kế'], $Report['L7_revenue']['count'][$key]['Lũy kế'] + $Report['L8_revenue']['count'][$key]['Lũy kế']);
-            $S5_S0[$key]['Lũy kế /kpi'] = '__';
-        }
-
-        $Report3 = array(
-            'Doanh thu (L7+L8)' => array_reverse($L7L8),
-            'Chi phí marketing' => array_reverse($marketing_fee),
-            'Số C3' => array_reverse($Report['C3']),
-            'Giá C3' => array_reverse($priceC3),
-            'Chất lượng C3 L8/C3' => array_reverse($L8_C3),
-            'Chất lượng tổng L8/L1' => array_reverse($L8_L1),
-            'Chất lượng contact L2/L1' => array_reverse($L2_L1),
-            'Chất lượng sale L6/L2' => array_reverse($L6_L2),
-            'Chất lượng COD (Hủy đơn)/L6' => array_reverse($fail_L6),
-            'ARPU' => array_reverse($arpu),
-            'Kích hoạt' => array_reverse($S1_S0),
-            'Chưa kích hoạt' => array_reverse($S1_S00),
-            'Mua lại' => array_reverse($S5_S0)
-        );
-
-        $data['left_col'] = array('date_happen', 'tic_report');
-        $data['kpi'] = $typeKPI;
-        $data['date'] = array_reverse($dateArray);
-        $data['Report'] = $Report3;
-        $data['startDate'] = isset($startDate) ? $startDate : '0';
-        $data['endDate'] = isset($endDate) ? $endDate : '0';
-
-        $data['content'] = 'manager/show_report_operation';
-        $this->load->view(_MAIN_LAYOUT_, $data);
-    }
-
-    function view_report_operation() {
-        $this->load->helper('manager_helper');
-        $this->load->helper('common_helper');
-        $get = $this->input->get();
-
-        $data = '';
-
-        $typeKPI = array(
-            'L7+L8' => 10000000,
-            'marketing' => 2000000,
-            'priceC3' => 50000,
-            'C1' => 15400,
-            'C2' => 530,
-            'C3' => 60,
-            'L1' => 30,
-            'L2' => 30,
-            'L6' => 30,
-            'L8' => 30
-        );
-
-        if (isset($get['tic_report'])) {
-            /* các loại báo cáo */
-            $typeReport = array(
-                'user' => 'date_rgt',
-                'marketing' => 'time',
-                'C3' => 'date_rgt',
-                'L1' => 'date_rgt',
-                'L2' => 'date_rgt',
-                'L6' => 'date_rgt',
-                'L7_revenue' => 'date_rgt',
-                'L8_revenue' => 'date_rgt',
-                're_buy' => 'date_rgt',
-                'active' => 'date_rgt'
-            );
-        } else {
-            /* các loại báo cáo */
-            $typeReport = array(
-                'user' => 'date_rgt',
-                'marketing' => 'time',
-                'C3' => 'date_rgt',
-                'L1' => 'date_rgt',
-                'L2' => 'date_rgt',
-                'L6' => 'date_confirm',
-                'L7_revenue' => 'date_receive_cod',
-                'L8_revenue' => 'date_receive_lakita',
-                're_buy' => 'date_rgt',
-                'active' => 'date_active'
-            );
-        }
-
-        /* Mảng chứa các ngày lẻ */
-        if (isset($get['filter_date_happen_from']) && $get['filter_date_happen_from'] != '' && isset($get['filter_date_happen_end']) && $get['filter_date_happen_end'] != '') {
-            $startDate = strtotime($get['filter_date_happen_from']);
-            $endDate = strtotime($get['filter_date_happen_end']);
-        } else {
-            $startDate = strtotime(date('01-m-Y'));
-            $endDate = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
-        }
-        $dateArray = h_get_time_range($startDate, $endDate);
-
-//         echo '<pre>';
-//        print_r($dateArray);die;
-        /* lấy mảng các loại contact */
-        $Report = array();
-        foreach ($typeReport as $report_type => $typeDate) {
-            $total = 0;
-            $total2 = 0;
-            $kpix = 1;
-            foreach ($dateArray as $key => $time) {
-                $week = $key;
-
-                $input = array();
-
-                $input['where'][$typeDate . ' >='] = $time;
-                $input['where'][$typeDate . ' <='] = $time + 86400 - 1;
-                if ($report_type == 'user') {
-                    $input['select'] = 'phone';
-                    $input['where']['ordering_status_id'] = _DONG_Y_MUA_;
-                    $input['where']['duplicate_id'] = '';
-//                    $input['where']['affiliate_id'] = '0';
-                    $contact = '';
-                    $contact_new = array();
-                    $contact = $this->contacts_model->load_all($input);
-                    foreach ($contact as $key => $value) {
-                        $contact_new[] = $value['phone'];
-                    }
-                    $contact_new = array_unique($contact_new);
-
-                    $array = array();
-                    $array['value'] = count($contact_new);
-                    $total += $array['value'];
-                    $array['Lũy kế'] = $total;
-                    $Report[$report_type][$week] = $array;
-                }
-
-                if ($report_type == 'C3') {
-                    $input['select'] = 'id';
-                    $input['where']['is_hide'] = '0';
-//                    $input['where']['affiliate_id'] = '0';
-
-                    $array = array();
-                    $array['value'] = count($this->contacts_model->load_all($input));
-                    $array['value/kpi'] = round($array['value'] / $typeKPI['C3'], 2) * 100 . '%';
-                    $total += $array['value'];
-                    $array['Lũy kế'] = $total;
-                    $array['Lũy kế /kpi'] = round($array['Lũy kế'] / ($typeKPI['C3'] * date('t')), 2) * 100 . '%';
-                    $kpix++;
-                    $Report[$report_type][$week] = $array;
-                }
-                if ($report_type == 'L1') {
-                    $contact = '';
-                    $input['select'] = 'id';
-                    $input['where']['duplicate_id'] = '';
-//                    $input['where']['affiliate_id'] = '0';
-
-                    $array = array();
-                    $array['value'] = count($this->contacts_model->load_all($input));
-                    $total += $array['value'];
-                    $array['Lũy kế'] = $total;
-                    $Report[$report_type][$week] = $array;
-                }
-                if ($report_type == 'L2') {
-                    $input['select'] = 'id';
-                    $input['where']['duplicate_id'] = '';
-                    $input['where']['duplicate_id'] = '0';
-                    $input['where']['call_status_id'] = _DA_LIEN_LAC_DUOC_;
-
-                    $array = array();
-                    $array['value'] = count($this->contacts_model->load_all($input));
-                    $total += $array['value'];
-                    $array['Lũy kế'] = $total;
-                    $Report[$report_type][$week] = $array;
-                }
-
-                if ($report_type == 'L6') {
-                    $input['select'] = 'id';
-                    $input['where']['ordering_status_id'] = _DONG_Y_MUA_;
-//                    $input['where']['affiliate_id'] = '0';
-
-                    $array = array();
-                    $array['value'] = count($this->contacts_model->load_all($input));
-                    $total += $array['value'];
-                    $array['Lũy kế'] = $total;
-                    $Report[$report_type][$week] = $array;
-                }        // HuyNV add huydon				//if ($report_type == 'huydon') {                //   $input['select'] = 'id';                //    $input['where']['cod_status_id'] = _HUY_DON_;                //    $array = array();                //    $array['value'] = count($this->contacts_model->load_all($input));                //    $total += $array['value'];                //    $array['Lũy kế'] = $total;                //    $Report[$report_type][$week] = $array;                //}				// HuyNV end huydon
-
-                if ($report_type == 'L7_revenue' || $report_type == 'L8_revenue') {
-                    $input['select'] = 'id,price_purchase';
-                    if ($report_type == 'L7_revenue') {
-                        $input['where']['cod_status_id'] = _DA_THU_COD_;
-//                        $input['where']['affiliate_id'] = '0';
-                    }
-
-                    if ($report_type == 'L8_revenue') {
-                        $input['where']['cod_status_id'] = _DA_THU_LAKITA_;
-//                        $input['where']['affiliate_id'] = '0';
-                    }
-                    $contact = '';
-                    $contact = $this->contacts_model->load_all($input);
-
-                    $array1 = array();
-                    $array1['value'] = sum_L8($contact);
-                    $total += $array1['value'];
-                    $array1['Lũy kế'] = $total;
-                    $Report[$report_type]['revenue'][$week] = $array1;
-
-                    $array2 = array();
-                    $array2['value'] = count($contact);
-                    $array2['value/kpi'] = round(count($contact) / $typeKPI['L8'], 2);
-                    $total2 += $array2['value'];
-                    $array2['Lũy kế'] = $total2;
-                    $array2['Lũy kế /kpi'] = round($array2['Lũy kế'] / ($typeKPI['L8'] * $kpix), 2) * 100 . '%';
-                    $kpix++;
-                    $Report[$report_type]['count'][$week] = $array2;
-                }
-                if ($report_type == 'marketing') {
-                    $this->load->model('campaign_cost_model');
-                    $input['select'] = 'id,spend';
-                    $marketing_fee = $this->campaign_cost_model->load_all($input);
-                    $sum = 0;
-                    foreach ($marketing_fee as $value) {
-                        $sum += $value['spend'];
-                    }
-                    $total += $sum;
-                    $array = array();
-                    $array['value'] = $sum;
-                    $array['value/kpi'] = round($array['value'] / $typeKPI['marketing'], 2) * 100 . '%';
-                    $array['Lũy kế'] = $total;
-                    $array['Lũy kế /kpi'] = round($array['Lũy kế'] / ($typeKPI['marketing'] * $kpix), 2) * 100 . '%';
-                    $kpix++;
-                    $Report[$report_type][$week] = $array;
-                    // $total += $Report[$report_type][$week];
-                }
-                if ($report_type == 're_buy') {
-                    $input['select'] = 'distinct(phone)';
-
-                    $input['where']['is_hide'] = '0';
-//                    $input['where']['affiliate_id'] = '0';
-                    $input['where']['duplicate_id'] = '';
-                    $input['where']['ordering_status_id'] = 4;
-                    $input['order'] = array('id' => 'desc');
-                    $contact_list_buy = $this->contacts_model->load_all($input);
-
-                    $contact_re_buy = array();
-                    foreach ($contact_list_buy as $value) {
-                        $input = '';
-                        $input['select'] = 'phone,email,course_code,date_rgt';
-                        $input['where']['phone'] = $value['phone'];
-                        $input['where']['is_hide'] = '0';
-//                        $input['where']['affiliate_id'] = '0';
-                        $input['where']['duplicate_id'] = '';
-                        $input['where']['ordering_status_id'] = 4;
-                        $input['order'] = array('id' => 'desc');
-                        $contact = '';
-                        $contact = $this->contacts_model->load_all($input);
-                        $count = count($contact);
-                        if ($count > 1) {
-                            for ($i = 0; $i < $count - 1; $i++) {
-                                if (($contact[0]['date_rgt'] - $contact[$i + 1]['date_rgt']) > 172800) {
-                                    $contact_re_buy[] = $contact[$i];
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    $array = array();
-                    $array['value'] = count($contact_re_buy);
-                    // $array['value'] = $contact_re_buy;
-                    $total += $array['value'];
-                    $array['Lũy kế'] = $total;
-                    $Report[$report_type][$week] = $array;
-                }
-
-                if ($report_type == 'active') {
-                    $input['select'] = 'id';
-                    $input['where']['id_lakita !='] = '';
-                    $array = array();
-                    $array['value'] = count($this->contacts_model->load_all($input));
-                    $total += $array['value'];
-                    $array['Lũy kế'] = $total;
-                    $Report[$report_type][$week] = $array;
-                }
-            }
-            //   $Report[$report_type]['Lũy kế'] = $total;
-//            if ($report_type == 'L8_revenue') {
-//                $Report[$report_type]['count']['Lũy kế'] = $total2;
+//    function show_report_operation() {
+//        $this->load->helper('manager_helper');
+//        $this->load->helper('common_helper');
+//        $this->load->model('campaign_cost_model');
+//        $this->load->model('cost_warehouse_model');
+//        $this->load->model('Cost_GA_campaign_model');
+//        $this->load->model('campaign_model');
+//        $get = $this->input->get();
+//
+//        $data = '';
+//
+//        $typeKPI = array(
+//            'L7+L8' => 10000000,
+//            'marketing' => 2000000,
+//            'priceC3' => 50000,
+//            'C1' => 15400,
+//            'C2' => 530,
+//            'C3' => 60,
+//            'L1' => 30,
+//            'L2' => 30,
+//            'L6' => 30,
+//            'L8' => 30,
+//            'Hủy đơn / L6' => 5
+//        );
+//
+//        if (isset($get['tic_report'])) {
+//            /* các loại báo cáo */
+//            $typeReport = array(
+//                'user' => 'date_rgt',
+//                'marketing' => 'time',
+//                'C3' => 'date_rgt',
+//                'L1' => 'date_rgt',
+//                'L2' => 'date_rgt',
+//                'L6' => 'date_rgt',
+//                'L7_revenue' => 'date_rgt',
+//                'L8_revenue' => 'date_rgt',
+//                're_buy' => 'date_rgt',
+//                'active' => 'date_rgt',
+//                'no_active' => 'date_rgt',
+//                'huydon' => 'date_rgt'
+//            );
+//        } else {
+//            /* các loại báo cáo */
+//            $typeReport = array(
+//                'user' => 'date_rgt',
+//                'marketing' => 'time',
+//                'C3' => 'date_rgt',
+//                'L1' => 'date_rgt',
+//                'L2' => 'date_rgt',
+//                'L6' => 'date_confirm',
+//                'L7_revenue' => 'date_receive_cod',
+//                'L8_revenue' => 'date_receive_lakita',
+//                're_buy' => 'date_rgt',
+//                'active' => 'date_active',
+//                'no_active' => 'date_rgt',
+//                'huydon' => 'date_receive_cancel_cod'
+//            );
+//        }
+//
+//        /* Mảng chứa các ngày lẻ */
+//        if (isset($get['filter_date_happen_from']) && $get['filter_date_happen_from'] != '' && isset($get['filter_date_happen_end']) && $get['filter_date_happen_end'] != '') {
+//            $startDate = strtotime($get['filter_date_happen_from']);
+//            $endDate = strtotime($get['filter_date_happen_end']);
+//        } else {
+//            $startDate = strtotime(date('01-m-Y'));
+//            $endDate = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
+//        }
+//        $dateArray = h_get_time_range($startDate, $endDate);
+//
+//        /* danh sách campaign dùng để tính chi phí marketing */
+//        $input_campaign = array();
+//        $input_campaign['select'] = 'id';
+//
+//        if (isset($get['filter_marketer_id'])) {
+//            $input_campaign['where_in']['marketer_id'] = $get['filter_marketer_id'];
+//        }
+//
+//        //campaign FB
+//        $input_campaign['where']['channel_id'] = 2;
+//        $campaign_fb = $this->campaign_model->load_all($input_campaign);
+//        $campaign_fb_list = array();
+//        foreach ($campaign_fb as $value){
+//            $campaign_fb_list[] = $value['id'];
+//        }
+//
+//        //campaign GA
+//        $input_campaign['where']['channel_id'] = 3;
+//        $campaign_ga = $this->campaign_model->load_all($input_campaign);
+//        $campaign_ga_list = array();
+//        foreach ($campaign_ga as $value){
+//            $campaign_ga_list[] = $value['id'];
+//        }
+//
+//        $Report = array();
+//
+//        foreach ($typeReport as $report_type => $typeDate) {
+//            $total = 0;
+//            $total2 = 0;
+//            foreach ($dateArray as $key => $time) {
+//                $week = $key;
+//
+//                $input = array();
+//
+//                $input['where'][$typeDate . ' >='] = $time;
+//                $input['where'][$typeDate . ' <='] = $time + 86400 - 1;
+//
+//                // Số người đồng ý mua theo từng ngày
+//                if ($report_type == 'user') {
+//                    $input['select'] = 'phone';
+//                    $input['where']['ordering_status_id'] = _DONG_Y_MUA_;
+//                    $input['where']['duplicate_id'] = '';
+//                    $contact = '';
+//                    $contact_new = array();
+//                    $contact = $this->contacts_model->load_all($input);
+//                    foreach ($contact as $key => $value) {
+//                        $contact_new[] = $value['phone'];
+//                    }
+//                    $contact_new = array_unique($contact_new);
+//
+//                    $array = array();
+//                    $array['value'] = count($contact_new);
+//                    $total += $array['value'];
+//                    $array['Lũy kế'] = $total;
+//                    $Report[$report_type][$week] = $array;
+//                }
+//
+//                // Số lượng C3 theo ngày
+//                if ($report_type == 'C3') {
+//                    $input['select'] = 'id';
+//                    $input['where']['is_hide'] = '0';
+//                    $array = array();
+//                    $array['value'] = count($this->contacts_model->load_all($input));
+//                    $array['value/kpi'] = round($array['value'] / $typeKPI['C3'], 2) * 100 . '%';
+//                    $total += $array['value'];
+//                    $array['Lũy kế'] = $total;
+//                    $array['Lũy kế /kpi'] = round($array['Lũy kế'] / ($typeKPI['C3'] * date('t')), 2) * 100 . '%';
+//                    $Report[$report_type][$week] = $array;
+//                }
+//
+//                // Số lượng L1 theo ngày
+//                if ($report_type == 'L1') {
+//                    $contact = '';
+//                    $input['select'] = 'id';
+//                    $input['where']['duplicate_id'] = '';
+//
+//                    $array = array();
+//                    $array['value'] = count($this->contacts_model->load_all($input));
+//                    $total += $array['value'];
+//                    $array['Lũy kế'] = $total;
+//                    $Report[$report_type][$week] = $array;
+//                }
+//
+//                // Số lượng L2 theo ngày
+//                if ($report_type == 'L2') {
+//                    $input['select'] = 'id';
+//                    $input['where']['duplicate_id'] = '';
+//                    $input['where']['call_status_id'] = _DA_LIEN_LAC_DUOC_;
+//
+//                    $array = array();
+//                    $array['value'] = count($this->contacts_model->load_all($input));
+//                    $total += $array['value'];
+//                    $array['Lũy kế'] = $total;
+//                    $Report[$report_type][$week] = $array;
+//                }
+//
+//                // Số lượng L6 theo ngày
+//                if ($report_type == 'L6') {
+//                    $input['select'] = 'id';
+//                    $input['where']['ordering_status_id'] = _DONG_Y_MUA_;
+//
+//                    $array = array();
+//                    $array['value'] = count($this->contacts_model->load_all($input));
+//                    $total += $array['value'];
+//                    $array['Lũy kế'] = $total;
+//                    $Report[$report_type][$week] = $array;
+//                }
+//
+//                // Số lượng hủy đơn
+//                if ($report_type == 'huydon') {
+//                    $input['select'] = 'id';
+//                    $input['where']['cod_status_id'] = _HUY_DON_;
+//
+//                    $array = array();
+//                    $array['value'] = count($this->contacts_model->load_all($input));
+//                    $total += $array['value'];
+//                    $array['Lũy kế'] = $total;
+//                    $Report[$report_type][$week] = $array;
+//                }
+//
+//                // Doanh thu L7 & L8
+//                if ($report_type == 'L7_revenue' || $report_type == 'L8_revenue') {
+//                    $input['select'] = 'id,price_purchase';
+//                    if ($report_type == 'L7_revenue') {
+//                        $input['where']['cod_status_id'] = _DA_THU_COD_;
+//                    }
+//
+//                    if ($report_type == 'L8_revenue') {
+//                        $input['where']['cod_status_id'] = _DA_THU_LAKITA_;
+//                    }
+//                    $contact = '';
+//                    $contact = $this->contacts_model->load_all($input);
+//
+//                    $array1 = array();
+//                    $array1['value'] = sum_L8($contact);
+//                    $total += $array1['value'];
+//                    $array1['Lũy kế'] = $total;
+//                    $Report[$report_type]['revenue'][$week] = $array1;
+//
+//                    $array2 = array();
+//                    $array2['value'] = count($contact);
+//                    $array2['value/kpi'] = round(count($contact) / $typeKPI['L8'], 2);
+//                    $total2 += $array2['value'];
+//                    $array2['Lũy kế'] = $total2;
+//                    $array2['Lũy kế /kpi'] = round($array2['Lũy kế'] / ($typeKPI['L8'] * date('t')), 2) * 100 . '%';
+//                    $Report[$report_type]['count'][$week] = $array2;
+//                }
+//
+//                // Chi phi Marketing
+//                if ($report_type == 'marketing') {
+//
+//                    // lấy chi fb
+//                    $input_fb = array();
+//                    $input_fb['select'] = 'SUM(spend) as spend';
+//                    $input_fb['where']['time >='] = $time;
+//                    $input_fb['where']['time <='] = $time + 24 * 3600 - 1;
+//                    $input_fb['where_in']['campaign_id'] = $campaign_fb_list;
+//                    $sum_spend_fb = $this->campaign_cost_model->load_all($input_fb);
+//                    $spend_fb = (empty($sum_spend_fb))?0:(int)$sum_spend_fb [0]['spend'];
+//
+//                    //lấy chi ga
+//                    $input_ga = array();
+//                    $input_ga['select'] = 'SUM(spend) as spend';
+//                    $input_ga['where']['time >='] = $time;
+//                    $input_ga['where']['time <='] = $time + 24 * 3600 - 1;
+//                    $input_ga['where_in']['campaign_id'] = $campaign_ga_list;
+//                    $sum_spend_ga = $this->Cost_GA_campaign_model->load_all($input_ga);
+//                    $spend_ga = (empty($sum_spend_ga))?0:(int)$sum_spend_ga [0]['spend'];
+//
+//                    //lấy chi email
+//                    $input_em = array();
+//                    $input_em['select'] = 'spend';
+//                    $input_em['where']['time >='] = $time;
+//                    $input_em['where']['time <='] = $time + 24 * 3600 - 1;
+//                    $sum_spend_email = $this->cost_warehouse_model->load_all($input_em);
+//                    $spend_em = (empty($sum_spend_email))?0:(int)$sum_spend_email [0]['spend'];
+//
+//                    //Tổng chi marketing
+//                    $sum_perday_spend = $spend_fb+$spend_ga+$spend_em;
+//
+//                    $total += round($sum_perday_spend);
+//                    $array = array();
+//                    $array['value'] = round($sum_perday_spend);
+//                    $array['value/kpi'] = round($array['value'] / $typeKPI['marketing'], 2) * 100 . '%';
+//                    $array['Lũy kế'] = $total;
+//                    $array['Lũy kế /kpi'] = round($array['Lũy kế'] / ($typeKPI['marketing'] * date('t')), 2) * 100 . '%';
+//                    $Report[$report_type][$week] = $array;
+//                    // $total += $Report[$report_type][$week];
+//                }
+//
+//                if ($report_type == 're_buy') {
+//                    $input['select'] = 'distinct(phone), date_rgt';
+//
+//                    $input['where']['is_hide'] = '0';
+////                    $input['where']['affiliate_id'] = '0';
+//                    $input['where']['duplicate_id'] = '';
+//                    $input['where']['ordering_status_id'] = 4;
+//                    $input['order'] = array('id' => 'desc');
+//                    $contact_list_buy = $this->contacts_model->load_all($input);
+//
+//                    $contact_re_buy = array();
+//
+//                    foreach ($contact_list_buy as $value) {
+//                        $input = '';
+//                        $input['select'] = 'phone,email,course_code,date_rgt';
+//                        $input['where']['phone'] = $value['phone'];
+//                        $input['where']['is_hide'] = '0';
+////                        $input['where']['affiliate_id'] = '0';
+//                        $input['where']['duplicate_id'] = '0';
+//                        $input['where']['ordering_status_id'] = 4;
+//                        $input['where']['date_rgt <'] = $value['date_rgt'] - 172800;
+//                        $input['order'] = array('id' => 'desc');
+//
+//                        $contact = $this->contacts_model->load_all($input);
+//
+//                        if (!empty($contact)) {
+//                            $contact_re_buy[] = $value;
+//                        }
+//                    }
+//                    $array = array();
+//                    $array['value'] = count($contact_re_buy);
+//                    // $array['value'] = $contact_re_buy;
+//                    $total += $array['value'];
+//                    $array['Lũy kế'] = $total;
+//                    $Report[$report_type][$week] = $array;
+//                }
+//
+//                if ($report_type == 'active') {
+//                    $input['select'] = 'id';
+//                    $input['where']['id_lakita !='] = '';
+////                    $input['where']['affiliate_id'] = '0';
+//                    $input['where']['cod_status_id >'] = 1;
+//                    $input['where']['cod_status_id <'] = 4;
+//                    $array = array();
+//                    $array['value'] = count($this->contacts_model->load_all($input));
+//                    $total += $array['value'];
+//                    $array['Lũy kế'] = $total;
+//                    $Report[$report_type][$week] = $array;
+//                }
+//
+//                if ($report_type == 'no_active') {
+//                    $input['select'] = 'id';
+//                    $input['where']['id_lakita'] = '';
+////                    $input['where']['affiliate_id'] = '0';
+//                    $input['where']['cod_status_id >'] = 1;
+//                    $input['where']['cod_status_id <'] = 4;
+//                    $array = array();
+//                    $array['value'] = count($this->contacts_model->load_all($input));
+//                    $total += $array['value'];
+//                    $array['Lũy kế'] = $total;
+//                    $Report[$report_type][$week] = $array;
+//                }
 //            }
-        }
+//        }
+//
+//        /* tầng doanh thu */
+//        $L7L8 = array();
+//        foreach ($Report['L7_revenue']['revenue'] as $key => $value) {
+//            $L7L8[$key]['value'] = $Report['L8_revenue']['revenue'][$key]['value'] + $value['value'];
+//            $L7L8[$key]['value/kpi'] = round($L7L8[$key]['value'] / $typeKPI['L7+L8'], 2) * 100 . '%';
+//            $L7L8[$key]['Lũy kế'] = $Report['L8_revenue']['revenue'][$key]['Lũy kế'] + $value['Lũy kế'];
+//            $L7L8[$key]['Lũy kế /kpi'] = round($L7L8[$key]['Lũy kế'] / ($typeKPI['L7+L8'] * date('t')), 2) * 100 . '%';
+//        }
+//
+//        /* tầng maketing */
+//        /* chi marketing */
+//        $marketing_fee = $Report['marketing'];
+//        /* số C3 */
+//        $C3 = $Report['C3'];
+//        /* Giá C3 */
+//        $priceC3 = array();
+//        foreach ($Report['marketing'] as $key => $value) {
+//            $priceC3[$key]['value'] = ($Report['C3'][$key]['value'] > 0) ? round($value['value'] / $Report['C3'][$key]['value']) : 'N/A';
+//            $priceC3[$key]['value/kpi'] = round(str_replace('%', '', $priceC3[$key]['value']) / str_replace('%', '', h_get_progress($typeKPI['priceC3'], $typeKPI['C3'])), 2) * 100 . '%';
+//            $priceC3[$key]['Lũy kế'] = ($Report['C3'][$key]['Lũy kế'] > 0) ? round($value['Lũy kế'] / $Report['C3'][$key]['Lũy kế']) : 'N/A';
+//            $priceC3[$key]['Lũy kế /kpi'] = round(str_replace('%', '', $priceC3[$key]['Lũy kế']) / str_replace('%', '', h_get_progress($typeKPI['priceC3'] * date('t'), $typeKPI['C3'] * date('t'))), 2) * 100 . '%';
+//        }
+//        /* chất lượng C3 */
+//        $L8_C3 = array();
+//        foreach ($Report['L8_revenue']['count'] as $key => $value) {
+//            $L8_C3[$key]['value'] = h_get_progress($value['value'], $Report['C3'][$key]['value']);
+//            $L8_C3[$key]['value/kpi'] = round(str_replace('%', '', $L8_C3[$key]['value']) / str_replace('%', '', h_get_progress($typeKPI['L8'], $typeKPI['C3'])), 2) * 100 . '%';
+//            $L8_C3[$key]['Lũy kế'] = h_get_progress($value['Lũy kế'], $Report['C3'][$key]['Lũy kế']);
+//            $L8_C3[$key]['Lũy kế /kpi'] = round(str_replace('%', '', $L8_C3[$key]['Lũy kế']) / str_replace('%', '', h_get_progress($typeKPI['L8'] * date('t'), $typeKPI['C3'] * date('t'))), 2) * 100 . '%';
+//        }
+//
+//        /* tầng sale */
+//        /* chất lượng tổng L8/L1 */
+//        $L8_L1 = array();
+//        foreach ($Report['L8_revenue']['count'] as $key => $value) {
+//            $L8_L1[$key]['value'] = h_get_progress($value['value'], $Report['L1'][$key]['value']);
+//            $L8_L1[$key]['value/kpi'] = round(str_replace('%', '', $L8_L1[$key]['value']) / str_replace('%', '', h_get_progress($typeKPI['L8'], $typeKPI['L1'])), 2) * 100 . '%';
+//            $L8_L1[$key]['Lũy kế'] = h_get_progress($value['Lũy kế'], $Report['L1'][$key]['Lũy kế']);
+//            $L8_L1[$key]['Lũy kế /kpi'] = round(str_replace('%', '', $L8_L1[$key]['Lũy kế']) / str_replace('%', '', h_get_progress($typeKPI['L8'] * date('t'), $typeKPI['L1'] * date('t'))), 2) * 100 . '%';
+//        }
+//        /* Chất lượng contact L2/L1 */
+//        $L2_L1 = array();
+//        foreach ($Report['L2']as $key => $value) {
+//            $L2_L1[$key]['value'] = h_get_progress($value['value'], $Report['L1'][$key]['value']);
+//            $L2_L1[$key]['value/kpi'] = round(str_replace('%', '', $L2_L1[$key]['value']) / str_replace('%', '', h_get_progress($typeKPI['L2'], $typeKPI['L1'])), 2) * 100 . '%';
+//            '__';
+//            $L2_L1[$key]['Lũy kế'] = h_get_progress($value['Lũy kế'], $Report['L1'][$key]['Lũy kế']);
+//            $L2_L1[$key]['Lũy kế /kpi'] = round(str_replace('%', '', $L2_L1[$key]['Lũy kế']) / str_replace('%', '', h_get_progress($typeKPI['L2'] * date('t'), $typeKPI['L1'] * date('t'))), 2) * 100 . '%';
+//        }
+//        /* Chất lượng sale L6/L2 */
+//        $L6_L2 = array();
+//        foreach ($Report['L6'] as $key => $value) {
+//            $L6_L2[$key]['value'] = h_get_progress($value['value'], $Report['L2'][$key]['value']);
+//            $L6_L2[$key]['value/kpi'] = round(str_replace('%', '', $L6_L2[$key]['value']) / str_replace('%', '', h_get_progress($typeKPI['L6'], $typeKPI['L2'])), 2) * 100 . '%';
+//            $L6_L2[$key]['Lũy kế'] = h_get_progress($value['Lũy kế'], $Report['L2'][$key]['Lũy kế']);
+//            $L6_L2[$key]['Lũy kế /kpi'] = round(str_replace('%', '', $L6_L2[$key]['Lũy kế']) / str_replace('%', '', h_get_progress($typeKPI['L6'] * date('t'), $typeKPI['L2'] * date('t'))), 2) * 100 . '%';
+//        }
+//
+//        // Chất lượng COD Hủy đơn / L6
+//        $fail_L6 = array();
+//        foreach ($Report['huydon'] as $key => $value) {
+//            $fail_L6[$key]['value'] = h_get_progress($value['value'], $Report['L6'][$key]['value']);
+//            $fail_L6[$key]['value/kpi'] = round(str_replace('%', '', $fail_L6[$key]['value']) / $typeKPI['Hủy đơn / L6'], 2) * 100 . '%';
+//            $fail_L6[$key]['Lũy kế'] = h_get_progress($value['Lũy kế'], $Report['L6'][$key]['Lũy kế']);
+//            $fail_L6[$key]['Lũy kế /kpi'] = round(str_replace('%', '', $fail_L6[$key]['Lũy kế']) / ($typeKPI['Hủy đơn / L6'] * date('t')), 2) * 100 . '%';
+//        }
+//        /* chỉ số arpu = doanh thu( L7 +l8) / số (L1) */
+//        /* nếu 1 khách hàng mua 3 lần bình thường tính là 3 L1 nhưng ở đây chỉ tính là 1 L1 */
+//        $arpu = array();
+//        foreach ($L7L8 as $key => $value) {
+//            if ($Report['user'][$key]['value'] != 0) {
+//                $arpu[$key]['value'] = round($value['value'] / $Report['user'][$key]['value'], 0);
+//            } else {
+//                $arpu[$key]['value'] = 'N/A';
+//            }
+//            $arpu[$key]['value/kpi'] = '__';
+//            if ($Report['user'][$key]['Lũy kế'] != 0) {
+//                $arpu[$key]['Lũy kế'] = round($value['Lũy kế'] / $Report['user'][$key]['Lũy kế'], 0);
+//            } else {
+//                $arpu[$key]['Lũy kế'] = 'N/A';
+//            }
+//            $arpu[$key]['Lũy kế /kpi'] = '__';
+//        }
+//
+//        //Tầng chăm sóc khách hàng;
+//        $S1_S0 = array();
+//        foreach ($Report['active'] as $key => $value) {
+//            $S1_S0[$key]['value'] = $value['value'] . ' - ' . h_get_progress($value['value'], $Report['L7_revenue']['count'][$key]['value'] + $Report['L8_revenue']['count'][$key]['value']);
+//            $S1_S0[$key]['value/kpi'] = '__';
+//            $S1_S0[$key]['Lũy kế'] = $value['Lũy kế'] . ' - ' . h_get_progress($value['Lũy kế'], $Report['L7_revenue']['count'][$key]['Lũy kế'] + $Report['L8_revenue']['count'][$key]['Lũy kế']);
+//            $S1_S0[$key]['Lũy kế /kpi'] = '__';
+//        }
+//        //chưa kích hoạt
+//        $S1_S00 = array();
+//        foreach ($Report['no_active'] as $key => $value) {
+//            $S1_S00[$key]['value'] = $value['value'] . ' - ' . h_get_progress($value['value'], $Report['L7_revenue']['count'][$key]['value'] + $Report['L8_revenue']['count'][$key]['value']);
+//            $S1_S00[$key]['value/kpi'] = '__';
+//            $S1_S00[$key]['Lũy kế'] = $value['Lũy kế'] . ' - ' . h_get_progress($value['Lũy kế'], $Report['L7_revenue']['count'][$key]['Lũy kế'] + $Report['L8_revenue']['count'][$key]['Lũy kế']);
+//            $S1_S00[$key]['Lũy kế /kpi'] = '__';
+//        }
+//
+//        $S5_S0 = array();
+//        foreach ($Report['re_buy'] as $key => $value) {
+//            $S5_S0[$key]['value'] = $value['value'] . ' - ' . h_get_progress($value['value'], $Report['L7_revenue']['count'][$key]['value'] + $Report['L8_revenue']['count'][$key]['value']);
+//            $S5_S0[$key]['value/kpi'] = '__';
+//            $S5_S0[$key]['Lũy kế'] = $value['Lũy kế'] . ' - ' . h_get_progress($value['Lũy kế'], $Report['L7_revenue']['count'][$key]['Lũy kế'] + $Report['L8_revenue']['count'][$key]['Lũy kế']);
+//            $S5_S0[$key]['Lũy kế /kpi'] = '__';
+//        }
+//
+//        $Report3 = array(
+//            'Doanh thu (L7+L8)' => array_reverse($L7L8),
+//            'Chi phí marketing' => array_reverse($marketing_fee),
+//            'Số C3' => array_reverse($Report['C3']),
+//            'Giá C3' => array_reverse($priceC3),
+//            'Chất lượng C3 L8/C3' => array_reverse($L8_C3),
+//            'Chất lượng tổng L8/L1' => array_reverse($L8_L1),
+//            'Chất lượng contact L2/L1' => array_reverse($L2_L1),
+//            'Chất lượng sale L6/L2' => array_reverse($L6_L2),
+//            'Chất lượng COD (Hủy đơn)/L6' => array_reverse($fail_L6),
+//            'ARPU' => array_reverse($arpu),
+//            'Kích hoạt' => array_reverse($S1_S0),
+//            'Chưa kích hoạt' => array_reverse($S1_S00),
+//            'Mua lại' => array_reverse($S5_S0)
+//        );
+//
+//        $data['left_col'] = array('date_happen', 'tic_report');
+//        $data['kpi'] = $typeKPI;
+//        $data['date'] = array_reverse($dateArray);
+//        $data['Report'] = $Report3;
+//        $data['startDate'] = isset($startDate) ? $startDate : '0';
+//        $data['endDate'] = isset($endDate) ? $endDate : '0';
+//
+//        $data['content'] = 'manager/show_report_operation';
+//        $this->load->view(_MAIN_LAYOUT_, $data);
+//    }
 
-        /* tầng doanh thu */
-        $L7L8 = array();
-        $kpix = 1;
-        foreach ($Report['L7_revenue']['revenue'] as $key => $value) {
-            $L7L8[$key]['value'] = $Report['L8_revenue']['revenue'][$key]['value'] + $value['value'];
-            $L7L8[$key]['value/kpi'] = round($L7L8[$key]['value'] / $typeKPI['L7+L8'], 2) * 100 . '%';
-            $L7L8[$key]['Lũy kế'] = $Report['L8_revenue']['revenue'][$key]['Lũy kế'] + $value['Lũy kế'];
-            $L7L8[$key]['Lũy kế /kpi'] = round($L7L8[$key]['Lũy kế'] / ($typeKPI['L7+L8'] * date('t')), 2) * 100 . '%';
-            $kpix++;
-        }
-
-        /* tầng maketing */
-        /* chi marketing */
-        $marketing_fee = $Report['marketing'];
-        /* số C3 */
-        $C3 = $Report['C3'];
-        /* Giá C3 */
-        $priceC3 = array();
-        $kpix = 1;
-        foreach ($Report['marketing'] as $key => $value) {
-            $priceC3[$key]['value'] = ($Report['C3'][$key]['value'] > 0) ? round($value['value'] / $Report['C3'][$key]['value']) : 'N/A';
-            $priceC3[$key]['value/kpi'] = round(str_replace('%', '', $priceC3[$key]['value']) / str_replace('%', '', h_get_progress($typeKPI['priceC3'], $typeKPI['C3'])), 2) * 100 . '%';
-            $priceC3[$key]['Lũy kế'] = ($Report['C3'][$key]['Lũy kế'] > 0) ? round($value['Lũy kế'] / $Report['C3'][$key]['Lũy kế']) : 'N/A';
-            $priceC3[$key]['Lũy kế /kpi'] = round(str_replace('%', '', $priceC3[$key]['Lũy kế']) / str_replace('%', '', h_get_progress($typeKPI['priceC3'] * $kpix, $typeKPI['C3'] * $kpix)), 2) * 100 . '%';
-            $kpix++;
-        }
-        /* chất lượng C3 */
-        $L8_C3 = array();
-        $kpix = 1;
-        foreach ($Report['L8_revenue']['count'] as $key => $value) {
-            $L8_C3[$key]['value'] = h_get_progress($value['value'], $Report['C3'][$key]['value']);
-            $L8_C3[$key]['value/kpi'] = round(str_replace('%', '', $L8_C3[$key]['value']) / str_replace('%', '', h_get_progress($typeKPI['L8'], $typeKPI['C3'])), 2) * 100 . '%';
-            $L8_C3[$key]['Lũy kế'] = h_get_progress($value['Lũy kế'], $Report['C3'][$key]['Lũy kế']);
-            $L8_C3[$key]['Lũy kế /kpi'] = round(str_replace('%', '', $L8_C3[$key]['Lũy kế']) / str_replace('%', '', h_get_progress($typeKPI['L8'] * $kpix, $typeKPI['C3'] * $kpix)), 2) * 100 . '%';
-            $kpix++;
-        }
-
-        /* tầng sale */
-        /* chất lượng tổng L8/L1 */
-        $L8_L1 = array();
-        $kpix = 1;
-        foreach ($Report['L8_revenue']['count'] as $key => $value) {
-            $L8_L1[$key]['value'] = h_get_progress($value['value'], $Report['L1'][$key]['value']);
-            $L8_L1[$key]['value/kpi'] = round(str_replace('%', '', $L8_L1[$key]['value']) / str_replace('%', '', h_get_progress($typeKPI['L8'], $typeKPI['L1'])), 2) * 100 . '%';
-            $L8_L1[$key]['Lũy kế'] = h_get_progress($value['Lũy kế'], $Report['L1'][$key]['Lũy kế']);
-            $L8_L1[$key]['Lũy kế /kpi'] = round(str_replace('%', '', $L8_L1[$key]['Lũy kế']) / str_replace('%', '', h_get_progress($typeKPI['L8'] * $kpix, $typeKPI['L1'] * $kpix)), 2) * 100 . '%';
-            $kpix++;
-        }
-        /* Chất lượng contact L2/L1 */
-        $L2_L1 = array();
-        $kpix = 1;
-        foreach ($Report['L2']as $key => $value) {
-            $L2_L1[$key]['value'] = h_get_progress($value['value'], $Report['L1'][$key]['value']);
-            $L2_L1[$key]['value/kpi'] = round(str_replace('%', '', $L2_L1[$key]['value']) / str_replace('%', '', h_get_progress($typeKPI['L2'], $typeKPI['L1'])), 2) * 100 . '%';
-            '__';
-            $L2_L1[$key]['Lũy kế'] = h_get_progress($value['Lũy kế'], $Report['L1'][$key]['Lũy kế']);
-            $L2_L1[$key]['Lũy kế /kpi'] = round(str_replace('%', '', $L2_L1[$key]['Lũy kế']) / str_replace('%', '', h_get_progress($typeKPI['L2'] * $kpix, $typeKPI['L1'] * $kpix)), 2) * 100 . '%';
-            $kpix++;
-        }
-        /* Chất lượng sale L6/L2 */
-        $L6_L2 = array();
-        $kpix = 1;
-        foreach ($Report['L6'] as $key => $value) {
-            $L6_L2[$key]['value'] = h_get_progress($value['value'], $Report['L2'][$key]['value']);
-            $L6_L2[$key]['value/kpi'] = round(str_replace('%', '', $L6_L2[$key]['value']) / str_replace('%', '', h_get_progress($typeKPI['L6'], $typeKPI['L2'])), 2) * 100 . '%';
-            $L6_L2[$key]['Lũy kế'] = h_get_progress($value['Lũy kế'], $Report['L2'][$key]['Lũy kế']);
-            $L6_L2[$key]['Lũy kế /kpi'] = round(str_replace('%', '', $L6_L2[$key]['Lũy kế']) / str_replace('%', '', h_get_progress($typeKPI['L6'] * $kpix, $typeKPI['L2'] * $kpix)), 2) * 100 . '%';
-            $kpix++;
-        }  // HuyNV edit report
-        /* Chất lượng cod L8/L6 */
-        $L8_L6 = array();
-        $kpix = 1;
-        foreach ($Report['L8_revenue']['count'] as $key => $value) {
-            $L8_L6[$key]['value'] = h_get_progress($value['value'], $Report['L6'][$key]['value']);
-            $L8_L6[$key]['value/kpi'] = round(str_replace('%', '', $L8_L6[$key]['value']) / str_replace('%', '', h_get_progress($typeKPI['L8'], $typeKPI['L6'])), 2) * 100 . '%';
-            $L8_L6[$key]['Lũy kế'] = h_get_progress($value['Lũy kế'], $Report['L6'][$key]['Lũy kế']);
-            $L8_L6[$key]['Lũy kế /kpi'] = round(str_replace('%', '', $L8_L6[$key]['Lũy kế']) / str_replace('%', '', h_get_progress($typeKPI['L8'] * $kpix, $typeKPI['L6'] * $kpix)), 2) * 100 . '%';
-            $kpix++;
-        }    // Hủy đơn (Hủy đơn / L6)		//foreach ($Report['huydon'] as $key => $value) {        //    $L8_L6[$key]['value'] = h_get_progress($value['value'], $Report['L6'][$key]['value']);        //    $L8_L6[$key]['value/kpi'] = round(str_replace('%', '', $L8_L6[$key]['value']) / $typeKPI['huydon'] , 2) * 100 . '%';        //    $L8_L6[$key]['Lũy kế'] = h_get_progress($value['Lũy kế'], $Report['L6'][$key]['Lũy kế']);        //    $L8_L6[$key]['Lũy kế /kpi'] = round(str_replace('%', '', $L8_L6[$key]['Lũy kế']) / ($typeKPI['huydon'] * date('t')), 2) * 100 . '%';        //}				// HuyNV edit report end
-
-        /* chỉ số arpu = doanh thu( L7 +l8) / số (L1) */
-        /* nếu 1 khách hàng mua 3 lần bình thường tính là 3 L1 nhưng ở đây chỉ tính là 1 L1 */
-        $arpu = array();
-        $kpix = 1;
-        foreach ($L7L8 as $key => $value) {
-            if ($Report['user'][$key]['value'] != 0) {
-                $arpu[$key]['value'] = round($value['value'] / $Report['user'][$key]['value'], 0);
-            } else {
-                $arpu[$key]['value'] = 'N/A';
-            }
-            $arpu[$key]['value/kpi'] = '__';
-            if ($Report['user'][$key]['Lũy kế'] != 0) {
-                $arpu[$key]['Lũy kế'] = round($value['Lũy kế'] / $Report['user'][$key]['Lũy kế'], 0);
-            } else {
-                $arpu[$key]['Lũy kế'] = 'N/A';
-            }
-            $arpu[$key]['Lũy kế /kpi'] = '__';
-        }
-
-        //Tầng chăm sóc khách hàng;
-        $S1_S0 = array();
-        $kpix = 1;
-        foreach ($Report['active'] as $key => $value) {
-            $S1_S0[$key]['value'] = h_get_progress($value['value'], $Report['L7_revenue']['count'][$key]['value'] + $Report['L8_revenue']['count'][$key]['value']);
-            $S1_S0[$key]['value/kpi'] = '__';
-            $S1_S0[$key]['Lũy kế'] = h_get_progress($value['Lũy kế'], $Report['L7_revenue']['count'][$key]['Lũy kế'] + $Report['L8_revenue']['count'][$key]['Lũy kế']);
-            $S1_S0[$key]['Lũy kế /kpi'] = '__';
-        }
-
-        $S5_S0 = array();
-        $kpix = 1;
-        foreach ($Report['re_buy'] as $key => $value) {
-            $S5_S0[$key]['value'] = h_get_progress($value['value'], $Report['L7_revenue']['count'][$key]['value'] + $Report['L8_revenue']['count'][$key]['value']);
-            $S5_S0[$key]['value/kpi'] = '__';
-            $S5_S0[$key]['Lũy kế'] = h_get_progress($value['Lũy kế'], $Report['L7_revenue']['count'][$key]['Lũy kế'] + $Report['L8_revenue']['count'][$key]['Lũy kế']);
-            $S5_S0[$key]['Lũy kế /kpi'] = '__';
-        }
-        $Report3['Doanh thu (L7+L8)'] = $L7L8;
-
-        $Report3['Chi phí marketing'] = $marketing_fee;
-        $Report3['Số C3'] = $Report['C3'];
-        $Report3['Giá C3'] = $priceC3;
-        $Report3['Chất lượng C3 L8/C3'] = $L8_C3;
-
-        $Report3['Chất lượng tổng L8/L1'] = $L8_L1;
-        $Report3['Chất lượng contact L2/L1'] = $L2_L1;
-        $Report3['Chất lượng sale L6/L2'] = $L6_L2;
-        $Report3['Chất lượng COD L8/L6'] = $L8_L6;
-
-
-        $Report3['ARPU'] = $arpu;
-        $Report3['Kích hoạt'] = $S1_S0;
-        $Report3['Mua lại'] = $S5_S0;
-//        echo '<pre>';
-//        print_r($Report['re_buy']);
-//         print_r($Report['L7_revenue']['count']);
-//          print_r($Report['L8_revenue']['count']);die;
-////        print_r($Report3);
-//        //  print_r($dateArray);
-//    //    die;
-        $data['left_col'] = array('date_happen', 'tic_report');
-        $data['kpi'] = $typeKPI;
-        $data['date'] = $dateArray;
-        $data['Report'] = $Report3;
-        $data['startDate'] = isset($startDate) ? $startDate : '0';
-        $data['endDate'] = isset($endDate) ? $endDate : '0';
-        $data['content'] = 'manager/view_report_operation';
-        $this->load->view(_MAIN_LAYOUT_, $data);
-    }
-
-    function view_report_sale_operation() {
-        $this->load->helper('manager_helper');
-        $this->load->helper('common_helper');
-        $get = $this->input->get();
-
-        $data = '';
-
-        if (isset($get['tic_report'])) {
-            $typeReport = array(
-                'L1' => 'date_rgt',
-                'L2' => 'date_rgt',
-                'L6' => 'date_rgt',
-                'L7_revenue' => 'date_rgt',
-                'L8_revenue' => 'date_rgt',
-            );
-        } else {
-            /* các loại báo cáo */
-            $typeReport = array(
-                'L1' => 'date_rgt',
-                'L2' => 'date_rgt',
-                'L6' => 'date_confirm',
-                'L7_revenue' => 'date_receive_cod',
-                'L8_revenue' => 'date_receive_lakita',
-            );
-        }
-
-        /* Mảng chứa các ngày lẻ */
-        if (isset($get['filter_date_happen_from']) && $get['filter_date_happen_from'] != '' && isset($get['filter_date_happen_end']) && $get['filter_date_happen_end'] != '') {
-            $startDate = strtotime($get['filter_date_happen_from']);
-            $endDate = strtotime($get['filter_date_happen_end']) + 86399;
-        } else {
-            $startDate = strtotime(date('01-m-Y'));
-            $endDate = mktime(23, 59, 59, date('m'), date('d'), date('Y'));
-        }
-        $dateArray = h_get_time_range($startDate, $endDate);
-
-        /* lấy mảng các loại contact */
-        $Report = array();
-        foreach ($typeReport as $report_type => $typeDate) {
-            $total = 0;
-            $total2 = 0;
-            $kpix = 1;
-            foreach ($dateArray as $key => $time) {
-                $week = $key;
-
-                $input = array();
-
-                $input['where'][$typeDate . ' >='] = $time;
-                $input['where'][$typeDate . ' <='] = $time + 86400 - 1;
-                if ($report_type == 'L1') {
-                    $contact = '';
-                    $input['select'] = 'id';
-                    $input['where']['duplicate_id'] = '';
-
-                    $array = array();
-                    $array['value'] = count($this->contacts_model->load_all($input));
-                    $total += $array['value'];
-                    $array['Lũy kế'] = $total;
-                    $Report[$report_type][$week] = $array;
-                }
-                if ($report_type == 'L2') {
-                    $input['select'] = 'id';
-                    $input['where']['duplicate_id'] = '';
-                    $input['where']['call_status_id'] = _DA_LIEN_LAC_DUOC_;
-
-                    $array = array();
-                    $array['value'] = count($this->contacts_model->load_all($input));
-                    $total += $array['value'];
-                    $array['Lũy kế'] = $total;
-                    $Report[$report_type][$week] = $array;
-                }
-
-                if ($report_type == 'L6') {
-                    $input['select'] = 'id';
-                    $input['where']['ordering_status_id'] = _DONG_Y_MUA_;
-
-                    $array = array();
-                    $array['value'] = count($this->contacts_model->load_all($input));
-                    $total += $array['value'];
-                    $array['Lũy kế'] = $total;
-                    $Report[$report_type][$week] = $array;
-                }
-
-                if ($report_type == 'L7_revenue' || $report_type == 'L8_revenue') {
-                    $input['select'] = 'id,price_purchase';
-                    if ($report_type == 'L7_revenue') {
-                        $input['where']['cod_status_id'] = _DA_THU_COD_;
-                    }
-
-                    if ($report_type == 'L8_revenue') {
-                        $input['where']['cod_status_id'] = _DA_THU_LAKITA_;
-                    }
-                    $contact = '';
-                    $contact = $this->contacts_model->load_all($input);
-
-                    $array1 = array();
-                    $array1['value'] = sum_L8($contact);
-                    $total += $array1['value'];
-                    $array1['Lũy kế'] = $total;
-                    $Report[$report_type]['revenue'][$week] = $array1;
-
-                    $array2 = array();
-                    $array2['value'] = count($contact);
-                    $total2 += $array2['value'];
-                    $array2['Lũy kế'] = $total2;
-                    $kpix++;
-                    $Report[$report_type]['count'][$week] = $array2;
-                }
-            }
-        }
-
-        $L1 = $Report['L1'];
-        $L8 = $Report['L8_revenue']['count'];
-
-        /* tầng doanh thu */
-        $L7L8 = array();
-
-        foreach ($Report['L7_revenue']['revenue'] as $key => $value) {
-            $L7L8[$key]['value'] = $Report['L8_revenue']['revenue'][$key]['value'] + $value['value'];
-        }
-
-        /* tầng sale */
-        /* chất lượng tổng L8/L1 */
-        $L8_L1 = array();
-        foreach ($Report['L8_revenue']['count'] as $key => $value) {
-            $L8_L1[$key]['value'] = str_replace("N/A", "0", str_replace("%", "", h_get_progress($value['value'], $Report['L1'][$key]['value'])));
-        }
-        /* Chất lượng sale L6/L2 */
-        $L6_L2 = array();
-        foreach ($Report['L6'] as $key => $value) {
-            $L6_L2[$key]['value'] = str_replace("N/A", "0", str_replace("%", "", h_get_progress($value['value'], $Report['L2'][$key]['value'])));
-        }
-
-        /* Chất lượng contact L2/L1 */
-        $L2_L1 = array();
-        foreach ($Report['L2']as $key => $value) {
-            $L2_L1[$key]['value'] = str_replace("N/A", "0", str_replace("%", "", h_get_progress($value['value'], $Report['L1'][$key]['value'])));
-        }
-
-        /* Chất lượng cod L8/L6 */
-        $L8_L6 = array();
-        foreach ($Report['L8_revenue']['count'] as $key => $value) {
-            $L8_L6[$key]['value'] = str_replace("N/A", "0", str_replace("%", "", h_get_progress($value['value'], $Report['L6'][$key]['value'])));
-        }
-
-        $priceL8 = array();
-        foreach ($L7L8 as $key => $value) {
-            $priceL8[$key]['value'] = 0;
-        }
-
-        $Report3['L1'] = $L1;
-        $Report3['L8'] = $L8;
-        $Report3['L7L8'] = $L7L8;
-        $Report3['L8/L1'] = $L8_L1;
-        $Report3['L2/L1'] = $L2_L1;
-        $Report3['L6/L2'] = $L6_L2;
-        $Report3['L8/L6'] = $L8_L6;
-        $Report3['priceL8'] = $priceL8;
-
-        $a = array_keys($dateArray);
-
-        $last_day = array_pop($a);
-
-        $total = array();
-        $total['L1'] = $Report['L1'][$last_day]['Lũy kế'];
-        $total['L2'] = $Report['L2'][$last_day]['Lũy kế'];
-        $total['L6'] = $Report['L6'][$last_day]['Lũy kế'];
-        $total['L7'] = $Report['L7_revenue']['count'][$last_day]['Lũy kế'];
-        $total['L8'] = $Report['L8_revenue']['count'][$last_day]['Lũy kế'];
-        $total['revenue'] = $Report['L7_revenue']['revenue'][$last_day]['Lũy kế'] + $Report['L8_revenue']['revenue'][$last_day]['Lũy kế'];
-        $total['priceL8'] = 0;
-        $total['L2/L1'] = h_get_progress($total['L2'], $total['L1']);
-        $total['L6/L2'] = h_get_progress($total['L6'], $total['L2']);
-        $total['L8/L6'] = h_get_progress($total['L8'], $total['L6']);
-        $total['L8/L1'] = h_get_progress($total['L8'], $total['L1']);
-
-//         echo '<pre>';
-//         print_r($total);
-//         print_r($Report3);
-//        print_r($Report);
-//        print_r($dateArray);
-//        die;
-
-        $data['left_col'] = array('date_happen', 'marketer', 'tic_report');
-        $data['report3'] = $Report3;
-        $data['total'] = $total;
-        $data['per_day'] = $dateArray;
-        $data['slide_menu'] = 'manager/common/menu';
-        $data['top_nav'] = 'manager/common/top-nav';
-        $data['content'] = 'manager/view_report_sale_operation';
-        $this->load->view(_MAIN_LAYOUT_, $data);
-    }
+//    function view_report_operation() {
+//        $this->load->helper('manager_helper');
+//        $this->load->helper('common_helper');
+//        $get = $this->input->get();
+//
+//        $data = '';
+//
+//        $typeKPI = array(
+//            'L7+L8' => 10000000,
+//            'marketing' => 2000000,
+//            'priceC3' => 50000,
+//            'C1' => 15400,
+//            'C2' => 530,
+//            'C3' => 60,
+//            'L1' => 30,
+//            'L2' => 30,
+//            'L6' => 30,
+//            'L8' => 30
+//        );
+//
+//        if (isset($get['tic_report'])) {
+//            /* các loại báo cáo */
+//            $typeReport = array(
+//                'user' => 'date_rgt',
+//                'marketing' => 'time',
+//                'C3' => 'date_rgt',
+//                'L1' => 'date_rgt',
+//                'L2' => 'date_rgt',
+//                'L6' => 'date_rgt',
+//                'L7_revenue' => 'date_rgt',
+//                'L8_revenue' => 'date_rgt',
+//                're_buy' => 'date_rgt',
+//                'active' => 'date_rgt'
+//            );
+//        } else {
+//            /* các loại báo cáo */
+//            $typeReport = array(
+//                'user' => 'date_rgt',
+//                'marketing' => 'time',
+//                'C3' => 'date_rgt',
+//                'L1' => 'date_rgt',
+//                'L2' => 'date_rgt',
+//                'L6' => 'date_confirm',
+//                'L7_revenue' => 'date_receive_cod',
+//                'L8_revenue' => 'date_receive_lakita',
+//                're_buy' => 'date_rgt',
+//                'active' => 'date_active'
+//            );
+//        }
+//
+//        /* Mảng chứa các ngày lẻ */
+//        if (isset($get['filter_date_happen_from']) && $get['filter_date_happen_from'] != '' && isset($get['filter_date_happen_end']) && $get['filter_date_happen_end'] != '') {
+//            $startDate = strtotime($get['filter_date_happen_from']);
+//            $endDate = strtotime($get['filter_date_happen_end']);
+//        } else {
+//            $startDate = strtotime(date('01-m-Y'));
+//            $endDate = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
+//        }
+//        $dateArray = h_get_time_range($startDate, $endDate);
+//
+////         echo '<pre>';
+////        print_r($dateArray);die;
+//        /* lấy mảng các loại contact */
+//        $Report = array();
+//        foreach ($typeReport as $report_type => $typeDate) {
+//            $total = 0;
+//            $total2 = 0;
+//            $kpix = 1;
+//            foreach ($dateArray as $key => $time) {
+//                $week = $key;
+//
+//                $input = array();
+//
+//                $input['where'][$typeDate . ' >='] = $time;
+//                $input['where'][$typeDate . ' <='] = $time + 86400 - 1;
+//                if ($report_type == 'user') {
+//                    $input['select'] = 'phone';
+//                    $input['where']['ordering_status_id'] = _DONG_Y_MUA_;
+//                    $input['where']['duplicate_id'] = '';
+////                    $input['where']['affiliate_id'] = '0';
+//                    $contact = '';
+//                    $contact_new = array();
+//                    $contact = $this->contacts_model->load_all($input);
+//                    foreach ($contact as $key => $value) {
+//                        $contact_new[] = $value['phone'];
+//                    }
+//                    $contact_new = array_unique($contact_new);
+//
+//                    $array = array();
+//                    $array['value'] = count($contact_new);
+//                    $total += $array['value'];
+//                    $array['Lũy kế'] = $total;
+//                    $Report[$report_type][$week] = $array;
+//                }
+//
+//                if ($report_type == 'C3') {
+//                    $input['select'] = 'id';
+//                    $input['where']['is_hide'] = '0';
+////                    $input['where']['affiliate_id'] = '0';
+//
+//                    $array = array();
+//                    $array['value'] = count($this->contacts_model->load_all($input));
+//                    $array['value/kpi'] = round($array['value'] / $typeKPI['C3'], 2) * 100 . '%';
+//                    $total += $array['value'];
+//                    $array['Lũy kế'] = $total;
+//                    $array['Lũy kế /kpi'] = round($array['Lũy kế'] / ($typeKPI['C3'] * date('t')), 2) * 100 . '%';
+//                    $kpix++;
+//                    $Report[$report_type][$week] = $array;
+//                }
+//                if ($report_type == 'L1') {
+//                    $contact = '';
+//                    $input['select'] = 'id';
+//                    $input['where']['duplicate_id'] = '';
+////                    $input['where']['affiliate_id'] = '0';
+//
+//                    $array = array();
+//                    $array['value'] = count($this->contacts_model->load_all($input));
+//                    $total += $array['value'];
+//                    $array['Lũy kế'] = $total;
+//                    $Report[$report_type][$week] = $array;
+//                }
+//                if ($report_type == 'L2') {
+//                    $input['select'] = 'id';
+//                    $input['where']['duplicate_id'] = '';
+//                    $input['where']['duplicate_id'] = '0';
+//                    $input['where']['call_status_id'] = _DA_LIEN_LAC_DUOC_;
+//
+//                    $array = array();
+//                    $array['value'] = count($this->contacts_model->load_all($input));
+//                    $total += $array['value'];
+//                    $array['Lũy kế'] = $total;
+//                    $Report[$report_type][$week] = $array;
+//                }
+//
+//                if ($report_type == 'L6') {
+//                    $input['select'] = 'id';
+//                    $input['where']['ordering_status_id'] = _DONG_Y_MUA_;
+////                    $input['where']['affiliate_id'] = '0';
+//
+//                    $array = array();
+//                    $array['value'] = count($this->contacts_model->load_all($input));
+//                    $total += $array['value'];
+//                    $array['Lũy kế'] = $total;
+//                    $Report[$report_type][$week] = $array;
+//                }        // HuyNV add huydon				//if ($report_type == 'huydon') {                //   $input['select'] = 'id';                //    $input['where']['cod_status_id'] = _HUY_DON_;                //    $array = array();                //    $array['value'] = count($this->contacts_model->load_all($input));                //    $total += $array['value'];                //    $array['Lũy kế'] = $total;                //    $Report[$report_type][$week] = $array;                //}				// HuyNV end huydon
+//
+//                if ($report_type == 'L7_revenue' || $report_type == 'L8_revenue') {
+//                    $input['select'] = 'id,price_purchase';
+//                    if ($report_type == 'L7_revenue') {
+//                        $input['where']['cod_status_id'] = _DA_THU_COD_;
+////                        $input['where']['affiliate_id'] = '0';
+//                    }
+//
+//                    if ($report_type == 'L8_revenue') {
+//                        $input['where']['cod_status_id'] = _DA_THU_LAKITA_;
+////                        $input['where']['affiliate_id'] = '0';
+//                    }
+//                    $contact = '';
+//                    $contact = $this->contacts_model->load_all($input);
+//
+//                    $array1 = array();
+//                    $array1['value'] = sum_L8($contact);
+//                    $total += $array1['value'];
+//                    $array1['Lũy kế'] = $total;
+//                    $Report[$report_type]['revenue'][$week] = $array1;
+//
+//                    $array2 = array();
+//                    $array2['value'] = count($contact);
+//                    $array2['value/kpi'] = round(count($contact) / $typeKPI['L8'], 2);
+//                    $total2 += $array2['value'];
+//                    $array2['Lũy kế'] = $total2;
+//                    $array2['Lũy kế /kpi'] = round($array2['Lũy kế'] / ($typeKPI['L8'] * $kpix), 2) * 100 . '%';
+//                    $kpix++;
+//                    $Report[$report_type]['count'][$week] = $array2;
+//                }
+//                if ($report_type == 'marketing') {
+//                    $this->load->model('campaign_cost_model');
+//                    $input['select'] = 'id,spend';
+//                    $marketing_fee = $this->campaign_cost_model->load_all($input);
+//                    $sum = 0;
+//                    foreach ($marketing_fee as $value) {
+//                        $sum += $value['spend'];
+//                    }
+//                    $total += $sum;
+//                    $array = array();
+//                    $array['value'] = $sum;
+//                    $array['value/kpi'] = round($array['value'] / $typeKPI['marketing'], 2) * 100 . '%';
+//                    $array['Lũy kế'] = $total;
+//                    $array['Lũy kế /kpi'] = round($array['Lũy kế'] / ($typeKPI['marketing'] * $kpix), 2) * 100 . '%';
+//                    $kpix++;
+//                    $Report[$report_type][$week] = $array;
+//                    // $total += $Report[$report_type][$week];
+//                }
+//                if ($report_type == 're_buy') {
+//                    $input['select'] = 'distinct(phone)';
+//
+//                    $input['where']['is_hide'] = '0';
+////                    $input['where']['affiliate_id'] = '0';
+//                    $input['where']['duplicate_id'] = '';
+//                    $input['where']['ordering_status_id'] = 4;
+//                    $input['order'] = array('id' => 'desc');
+//                    $contact_list_buy = $this->contacts_model->load_all($input);
+//
+//                    $contact_re_buy = array();
+//                    foreach ($contact_list_buy as $value) {
+//                        $input = '';
+//                        $input['select'] = 'phone,email,course_code,date_rgt';
+//                        $input['where']['phone'] = $value['phone'];
+//                        $input['where']['is_hide'] = '0';
+////                        $input['where']['affiliate_id'] = '0';
+//                        $input['where']['duplicate_id'] = '';
+//                        $input['where']['ordering_status_id'] = 4;
+//                        $input['order'] = array('id' => 'desc');
+//                        $contact = '';
+//                        $contact = $this->contacts_model->load_all($input);
+//                        $count = count($contact);
+//                        if ($count > 1) {
+//                            for ($i = 0; $i < $count - 1; $i++) {
+//                                if (($contact[0]['date_rgt'] - $contact[$i + 1]['date_rgt']) > 172800) {
+//                                    $contact_re_buy[] = $contact[$i];
+//                                    break;
+//                                }
+//                            }
+//                        }
+//                    }
+//                    $array = array();
+//                    $array['value'] = count($contact_re_buy);
+//                    // $array['value'] = $contact_re_buy;
+//                    $total += $array['value'];
+//                    $array['Lũy kế'] = $total;
+//                    $Report[$report_type][$week] = $array;
+//                }
+//
+//                if ($report_type == 'active') {
+//                    $input['select'] = 'id';
+//                    $input['where']['id_lakita !='] = '';
+//                    $array = array();
+//                    $array['value'] = count($this->contacts_model->load_all($input));
+//                    $total += $array['value'];
+//                    $array['Lũy kế'] = $total;
+//                    $Report[$report_type][$week] = $array;
+//                }
+//            }
+//            //   $Report[$report_type]['Lũy kế'] = $total;
+////            if ($report_type == 'L8_revenue') {
+////                $Report[$report_type]['count']['Lũy kế'] = $total2;
+////            }
+//        }
+//
+//        /* tầng doanh thu */
+//        $L7L8 = array();
+//        $kpix = 1;
+//        foreach ($Report['L7_revenue']['revenue'] as $key => $value) {
+//            $L7L8[$key]['value'] = $Report['L8_revenue']['revenue'][$key]['value'] + $value['value'];
+//            $L7L8[$key]['value/kpi'] = round($L7L8[$key]['value'] / $typeKPI['L7+L8'], 2) * 100 . '%';
+//            $L7L8[$key]['Lũy kế'] = $Report['L8_revenue']['revenue'][$key]['Lũy kế'] + $value['Lũy kế'];
+//            $L7L8[$key]['Lũy kế /kpi'] = round($L7L8[$key]['Lũy kế'] / ($typeKPI['L7+L8'] * date('t')), 2) * 100 . '%';
+//            $kpix++;
+//        }
+//
+//        /* tầng maketing */
+//        /* chi marketing */
+//        $marketing_fee = $Report['marketing'];
+//        /* số C3 */
+//        $C3 = $Report['C3'];
+//        /* Giá C3 */
+//        $priceC3 = array();
+//        $kpix = 1;
+//        foreach ($Report['marketing'] as $key => $value) {
+//            $priceC3[$key]['value'] = ($Report['C3'][$key]['value'] > 0) ? round($value['value'] / $Report['C3'][$key]['value']) : 'N/A';
+//            $priceC3[$key]['value/kpi'] = round(str_replace('%', '', $priceC3[$key]['value']) / str_replace('%', '', h_get_progress($typeKPI['priceC3'], $typeKPI['C3'])), 2) * 100 . '%';
+//            $priceC3[$key]['Lũy kế'] = ($Report['C3'][$key]['Lũy kế'] > 0) ? round($value['Lũy kế'] / $Report['C3'][$key]['Lũy kế']) : 'N/A';
+//            $priceC3[$key]['Lũy kế /kpi'] = round(str_replace('%', '', $priceC3[$key]['Lũy kế']) / str_replace('%', '', h_get_progress($typeKPI['priceC3'] * $kpix, $typeKPI['C3'] * $kpix)), 2) * 100 . '%';
+//            $kpix++;
+//        }
+//        /* chất lượng C3 */
+//        $L8_C3 = array();
+//        $kpix = 1;
+//        foreach ($Report['L8_revenue']['count'] as $key => $value) {
+//            $L8_C3[$key]['value'] = h_get_progress($value['value'], $Report['C3'][$key]['value']);
+//            $L8_C3[$key]['value/kpi'] = round(str_replace('%', '', $L8_C3[$key]['value']) / str_replace('%', '', h_get_progress($typeKPI['L8'], $typeKPI['C3'])), 2) * 100 . '%';
+//            $L8_C3[$key]['Lũy kế'] = h_get_progress($value['Lũy kế'], $Report['C3'][$key]['Lũy kế']);
+//            $L8_C3[$key]['Lũy kế /kpi'] = round(str_replace('%', '', $L8_C3[$key]['Lũy kế']) / str_replace('%', '', h_get_progress($typeKPI['L8'] * $kpix, $typeKPI['C3'] * $kpix)), 2) * 100 . '%';
+//            $kpix++;
+//        }
+//
+//        /* tầng sale */
+//        /* chất lượng tổng L8/L1 */
+//        $L8_L1 = array();
+//        $kpix = 1;
+//        foreach ($Report['L8_revenue']['count'] as $key => $value) {
+//            $L8_L1[$key]['value'] = h_get_progress($value['value'], $Report['L1'][$key]['value']);
+//            $L8_L1[$key]['value/kpi'] = round(str_replace('%', '', $L8_L1[$key]['value']) / str_replace('%', '', h_get_progress($typeKPI['L8'], $typeKPI['L1'])), 2) * 100 . '%';
+//            $L8_L1[$key]['Lũy kế'] = h_get_progress($value['Lũy kế'], $Report['L1'][$key]['Lũy kế']);
+//            $L8_L1[$key]['Lũy kế /kpi'] = round(str_replace('%', '', $L8_L1[$key]['Lũy kế']) / str_replace('%', '', h_get_progress($typeKPI['L8'] * $kpix, $typeKPI['L1'] * $kpix)), 2) * 100 . '%';
+//            $kpix++;
+//        }
+//        /* Chất lượng contact L2/L1 */
+//        $L2_L1 = array();
+//        $kpix = 1;
+//        foreach ($Report['L2']as $key => $value) {
+//            $L2_L1[$key]['value'] = h_get_progress($value['value'], $Report['L1'][$key]['value']);
+//            $L2_L1[$key]['value/kpi'] = round(str_replace('%', '', $L2_L1[$key]['value']) / str_replace('%', '', h_get_progress($typeKPI['L2'], $typeKPI['L1'])), 2) * 100 . '%';
+//            '__';
+//            $L2_L1[$key]['Lũy kế'] = h_get_progress($value['Lũy kế'], $Report['L1'][$key]['Lũy kế']);
+//            $L2_L1[$key]['Lũy kế /kpi'] = round(str_replace('%', '', $L2_L1[$key]['Lũy kế']) / str_replace('%', '', h_get_progress($typeKPI['L2'] * $kpix, $typeKPI['L1'] * $kpix)), 2) * 100 . '%';
+//            $kpix++;
+//        }
+//        /* Chất lượng sale L6/L2 */
+//        $L6_L2 = array();
+//        $kpix = 1;
+//        foreach ($Report['L6'] as $key => $value) {
+//            $L6_L2[$key]['value'] = h_get_progress($value['value'], $Report['L2'][$key]['value']);
+//            $L6_L2[$key]['value/kpi'] = round(str_replace('%', '', $L6_L2[$key]['value']) / str_replace('%', '', h_get_progress($typeKPI['L6'], $typeKPI['L2'])), 2) * 100 . '%';
+//            $L6_L2[$key]['Lũy kế'] = h_get_progress($value['Lũy kế'], $Report['L2'][$key]['Lũy kế']);
+//            $L6_L2[$key]['Lũy kế /kpi'] = round(str_replace('%', '', $L6_L2[$key]['Lũy kế']) / str_replace('%', '', h_get_progress($typeKPI['L6'] * $kpix, $typeKPI['L2'] * $kpix)), 2) * 100 . '%';
+//            $kpix++;
+//        }  // HuyNV edit report
+//        /* Chất lượng cod L8/L6 */
+//        $L8_L6 = array();
+//        $kpix = 1;
+//        foreach ($Report['L8_revenue']['count'] as $key => $value) {
+//            $L8_L6[$key]['value'] = h_get_progress($value['value'], $Report['L6'][$key]['value']);
+//            $L8_L6[$key]['value/kpi'] = round(str_replace('%', '', $L8_L6[$key]['value']) / str_replace('%', '', h_get_progress($typeKPI['L8'], $typeKPI['L6'])), 2) * 100 . '%';
+//            $L8_L6[$key]['Lũy kế'] = h_get_progress($value['Lũy kế'], $Report['L6'][$key]['Lũy kế']);
+//            $L8_L6[$key]['Lũy kế /kpi'] = round(str_replace('%', '', $L8_L6[$key]['Lũy kế']) / str_replace('%', '', h_get_progress($typeKPI['L8'] * $kpix, $typeKPI['L6'] * $kpix)), 2) * 100 . '%';
+//            $kpix++;
+//        }    // Hủy đơn (Hủy đơn / L6)		//foreach ($Report['huydon'] as $key => $value) {        //    $L8_L6[$key]['value'] = h_get_progress($value['value'], $Report['L6'][$key]['value']);        //    $L8_L6[$key]['value/kpi'] = round(str_replace('%', '', $L8_L6[$key]['value']) / $typeKPI['huydon'] , 2) * 100 . '%';        //    $L8_L6[$key]['Lũy kế'] = h_get_progress($value['Lũy kế'], $Report['L6'][$key]['Lũy kế']);        //    $L8_L6[$key]['Lũy kế /kpi'] = round(str_replace('%', '', $L8_L6[$key]['Lũy kế']) / ($typeKPI['huydon'] * date('t')), 2) * 100 . '%';        //}				// HuyNV edit report end
+//
+//        /* chỉ số arpu = doanh thu( L7 +l8) / số (L1) */
+//        /* nếu 1 khách hàng mua 3 lần bình thường tính là 3 L1 nhưng ở đây chỉ tính là 1 L1 */
+//        $arpu = array();
+//        $kpix = 1;
+//        foreach ($L7L8 as $key => $value) {
+//            if ($Report['user'][$key]['value'] != 0) {
+//                $arpu[$key]['value'] = round($value['value'] / $Report['user'][$key]['value'], 0);
+//            } else {
+//                $arpu[$key]['value'] = 'N/A';
+//            }
+//            $arpu[$key]['value/kpi'] = '__';
+//            if ($Report['user'][$key]['Lũy kế'] != 0) {
+//                $arpu[$key]['Lũy kế'] = round($value['Lũy kế'] / $Report['user'][$key]['Lũy kế'], 0);
+//            } else {
+//                $arpu[$key]['Lũy kế'] = 'N/A';
+//            }
+//            $arpu[$key]['Lũy kế /kpi'] = '__';
+//        }
+//
+//        //Tầng chăm sóc khách hàng;
+//        $S1_S0 = array();
+//        $kpix = 1;
+//        foreach ($Report['active'] as $key => $value) {
+//            $S1_S0[$key]['value'] = h_get_progress($value['value'], $Report['L7_revenue']['count'][$key]['value'] + $Report['L8_revenue']['count'][$key]['value']);
+//            $S1_S0[$key]['value/kpi'] = '__';
+//            $S1_S0[$key]['Lũy kế'] = h_get_progress($value['Lũy kế'], $Report['L7_revenue']['count'][$key]['Lũy kế'] + $Report['L8_revenue']['count'][$key]['Lũy kế']);
+//            $S1_S0[$key]['Lũy kế /kpi'] = '__';
+//        }
+//
+//        $S5_S0 = array();
+//        $kpix = 1;
+//        foreach ($Report['re_buy'] as $key => $value) {
+//            $S5_S0[$key]['value'] = h_get_progress($value['value'], $Report['L7_revenue']['count'][$key]['value'] + $Report['L8_revenue']['count'][$key]['value']);
+//            $S5_S0[$key]['value/kpi'] = '__';
+//            $S5_S0[$key]['Lũy kế'] = h_get_progress($value['Lũy kế'], $Report['L7_revenue']['count'][$key]['Lũy kế'] + $Report['L8_revenue']['count'][$key]['Lũy kế']);
+//            $S5_S0[$key]['Lũy kế /kpi'] = '__';
+//        }
+//        $Report3['Doanh thu (L7+L8)'] = $L7L8;
+//
+//        $Report3['Chi phí marketing'] = $marketing_fee;
+//        $Report3['Số C3'] = $Report['C3'];
+//        $Report3['Giá C3'] = $priceC3;
+//        $Report3['Chất lượng C3 L8/C3'] = $L8_C3;
+//
+//        $Report3['Chất lượng tổng L8/L1'] = $L8_L1;
+//        $Report3['Chất lượng contact L2/L1'] = $L2_L1;
+//        $Report3['Chất lượng sale L6/L2'] = $L6_L2;
+//        $Report3['Chất lượng COD L8/L6'] = $L8_L6;
+//
+//
+//        $Report3['ARPU'] = $arpu;
+//        $Report3['Kích hoạt'] = $S1_S0;
+//        $Report3['Mua lại'] = $S5_S0;
+////        echo '<pre>';
+////        print_r($Report['re_buy']);
+////         print_r($Report['L7_revenue']['count']);
+////          print_r($Report['L8_revenue']['count']);die;
+//////        print_r($Report3);
+////        //  print_r($dateArray);
+////    //    die;
+//        $data['left_col'] = array('date_happen', 'tic_report');
+//        $data['kpi'] = $typeKPI;
+//        $data['date'] = $dateArray;
+//        $data['Report'] = $Report3;
+//        $data['startDate'] = isset($startDate) ? $startDate : '0';
+//        $data['endDate'] = isset($endDate) ? $endDate : '0';
+//        $data['content'] = 'manager/view_report_operation';
+//        $this->load->view(_MAIN_LAYOUT_, $data);
+//    }
+//
+//    function view_report_sale_operation() {
+//        $this->load->helper('manager_helper');
+//        $this->load->helper('common_helper');
+//        $get = $this->input->get();
+//
+//        $data = '';
+//
+//        if (isset($get['tic_report'])) {
+//            $typeReport = array(
+//                'L1' => 'date_rgt',
+//                'L2' => 'date_rgt',
+//                'L6' => 'date_rgt',
+//                'L7_revenue' => 'date_rgt',
+//                'L8_revenue' => 'date_rgt',
+//            );
+//        } else {
+//            /* các loại báo cáo */
+//            $typeReport = array(
+//                'L1' => 'date_rgt',
+//                'L2' => 'date_rgt',
+//                'L6' => 'date_confirm',
+//                'L7_revenue' => 'date_receive_cod',
+//                'L8_revenue' => 'date_receive_lakita',
+//            );
+//        }
+//
+//        /* Mảng chứa các ngày lẻ */
+//        if (isset($get['filter_date_happen_from']) && $get['filter_date_happen_from'] != '' && isset($get['filter_date_happen_end']) && $get['filter_date_happen_end'] != '') {
+//            $startDate = strtotime($get['filter_date_happen_from']);
+//            $endDate = strtotime($get['filter_date_happen_end']) + 86399;
+//        } else {
+//            $startDate = strtotime(date('01-m-Y'));
+//            $endDate = mktime(23, 59, 59, date('m'), date('d'), date('Y'));
+//        }
+//        $dateArray = h_get_time_range($startDate, $endDate);
+//
+//        /* lấy mảng các loại contact */
+//        $Report = array();
+//        foreach ($typeReport as $report_type => $typeDate) {
+//            $total = 0;
+//            $total2 = 0;
+//            $kpix = 1;
+//            foreach ($dateArray as $key => $time) {
+//                $week = $key;
+//
+//                $input = array();
+//
+//                $input['where'][$typeDate . ' >='] = $time;
+//                $input['where'][$typeDate . ' <='] = $time + 86400 - 1;
+//                if ($report_type == 'L1') {
+//                    $contact = '';
+//                    $input['select'] = 'id';
+//                    $input['where']['duplicate_id'] = '';
+//
+//                    $array = array();
+//                    $array['value'] = count($this->contacts_model->load_all($input));
+//                    $total += $array['value'];
+//                    $array['Lũy kế'] = $total;
+//                    $Report[$report_type][$week] = $array;
+//                }
+//                if ($report_type == 'L2') {
+//                    $input['select'] = 'id';
+//                    $input['where']['duplicate_id'] = '';
+//                    $input['where']['call_status_id'] = _DA_LIEN_LAC_DUOC_;
+//
+//                    $array = array();
+//                    $array['value'] = count($this->contacts_model->load_all($input));
+//                    $total += $array['value'];
+//                    $array['Lũy kế'] = $total;
+//                    $Report[$report_type][$week] = $array;
+//                }
+//
+//                if ($report_type == 'L6') {
+//                    $input['select'] = 'id';
+//                    $input['where']['ordering_status_id'] = _DONG_Y_MUA_;
+//
+//                    $array = array();
+//                    $array['value'] = count($this->contacts_model->load_all($input));
+//                    $total += $array['value'];
+//                    $array['Lũy kế'] = $total;
+//                    $Report[$report_type][$week] = $array;
+//                }
+//
+//                if ($report_type == 'L7_revenue' || $report_type == 'L8_revenue') {
+//                    $input['select'] = 'id,price_purchase';
+//                    if ($report_type == 'L7_revenue') {
+//                        $input['where']['cod_status_id'] = _DA_THU_COD_;
+//                    }
+//
+//                    if ($report_type == 'L8_revenue') {
+//                        $input['where']['cod_status_id'] = _DA_THU_LAKITA_;
+//                    }
+//                    $contact = '';
+//                    $contact = $this->contacts_model->load_all($input);
+//
+//                    $array1 = array();
+//                    $array1['value'] = sum_L8($contact);
+//                    $total += $array1['value'];
+//                    $array1['Lũy kế'] = $total;
+//                    $Report[$report_type]['revenue'][$week] = $array1;
+//
+//                    $array2 = array();
+//                    $array2['value'] = count($contact);
+//                    $total2 += $array2['value'];
+//                    $array2['Lũy kế'] = $total2;
+//                    $kpix++;
+//                    $Report[$report_type]['count'][$week] = $array2;
+//                }
+//            }
+//        }
+//
+//        $L1 = $Report['L1'];
+//        $L8 = $Report['L8_revenue']['count'];
+//
+//        /* tầng doanh thu */
+//        $L7L8 = array();
+//
+//        foreach ($Report['L7_revenue']['revenue'] as $key => $value) {
+//            $L7L8[$key]['value'] = $Report['L8_revenue']['revenue'][$key]['value'] + $value['value'];
+//        }
+//
+//        /* tầng sale */
+//        /* chất lượng tổng L8/L1 */
+//        $L8_L1 = array();
+//        foreach ($Report['L8_revenue']['count'] as $key => $value) {
+//            $L8_L1[$key]['value'] = str_replace("N/A", "0", str_replace("%", "", h_get_progress($value['value'], $Report['L1'][$key]['value'])));
+//        }
+//        /* Chất lượng sale L6/L2 */
+//        $L6_L2 = array();
+//        foreach ($Report['L6'] as $key => $value) {
+//            $L6_L2[$key]['value'] = str_replace("N/A", "0", str_replace("%", "", h_get_progress($value['value'], $Report['L2'][$key]['value'])));
+//        }
+//
+//        /* Chất lượng contact L2/L1 */
+//        $L2_L1 = array();
+//        foreach ($Report['L2']as $key => $value) {
+//            $L2_L1[$key]['value'] = str_replace("N/A", "0", str_replace("%", "", h_get_progress($value['value'], $Report['L1'][$key]['value'])));
+//        }
+//
+//        /* Chất lượng cod L8/L6 */
+//        $L8_L6 = array();
+//        foreach ($Report['L8_revenue']['count'] as $key => $value) {
+//            $L8_L6[$key]['value'] = str_replace("N/A", "0", str_replace("%", "", h_get_progress($value['value'], $Report['L6'][$key]['value'])));
+//        }
+//
+//        $priceL8 = array();
+//        foreach ($L7L8 as $key => $value) {
+//            $priceL8[$key]['value'] = 0;
+//        }
+//
+//        $Report3['L1'] = $L1;
+//        $Report3['L8'] = $L8;
+//        $Report3['L7L8'] = $L7L8;
+//        $Report3['L8/L1'] = $L8_L1;
+//        $Report3['L2/L1'] = $L2_L1;
+//        $Report3['L6/L2'] = $L6_L2;
+//        $Report3['L8/L6'] = $L8_L6;
+//        $Report3['priceL8'] = $priceL8;
+//
+//        $a = array_keys($dateArray);
+//
+//        $last_day = array_pop($a);
+//
+//        $total = array();
+//        $total['L1'] = $Report['L1'][$last_day]['Lũy kế'];
+//        $total['L2'] = $Report['L2'][$last_day]['Lũy kế'];
+//        $total['L6'] = $Report['L6'][$last_day]['Lũy kế'];
+//        $total['L7'] = $Report['L7_revenue']['count'][$last_day]['Lũy kế'];
+//        $total['L8'] = $Report['L8_revenue']['count'][$last_day]['Lũy kế'];
+//        $total['revenue'] = $Report['L7_revenue']['revenue'][$last_day]['Lũy kế'] + $Report['L8_revenue']['revenue'][$last_day]['Lũy kế'];
+//        $total['priceL8'] = 0;
+//        $total['L2/L1'] = h_get_progress($total['L2'], $total['L1']);
+//        $total['L6/L2'] = h_get_progress($total['L6'], $total['L2']);
+//        $total['L8/L6'] = h_get_progress($total['L8'], $total['L6']);
+//        $total['L8/L1'] = h_get_progress($total['L8'], $total['L1']);
+//
+////         echo '<pre>';
+////         print_r($total);
+////         print_r($Report3);
+////        print_r($Report);
+////        print_r($dateArray);
+////        die;
+//
+//        $data['left_col'] = array('date_happen', 'marketer', 'tic_report');
+//        $data['report3'] = $Report3;
+//        $data['total'] = $total;
+//        $data['per_day'] = $dateArray;
+//        $data['slide_menu'] = 'manager/common/menu';
+//        $data['top_nav'] = 'manager/common/top-nav';
+//        $data['content'] = 'manager/view_report_sale_operation';
+//        $this->load->view(_MAIN_LAYOUT_, $data);
+//    }
 	
-	public function view_report_power_bi() {
-		//$data['bi'] = '<iframe width="100%" height="600" src="https://app.powerbi.com/view?r=eyJrIjoiMGI4ZTA3NjMtNmJmOS00MGIwLWE4NDUtZTBiOWQ4YTZiMzZhIiwidCI6Ijc3MWEwYTMzLTUxY2ItNGNiNS1hZGQ2LWVmNGIwNzJiYThkOSIsImMiOjEwfQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe>';
-		$data['bi'] = '<iframe width="100%" height="600" src="https://app.powerbi.com/view?r=eyJrIjoiMmI5NmE3OTgtNTFmZS00NjA1LTgxMjktZjgxNWJmZTQzZGY0IiwidCI6Ijc3MWEwYTMzLTUxY2ItNGNiNS1hZGQ2LWVmNGIwNzJiYThkOSIsImMiOjEwfQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe>';
-		$data['slide_menu'] = 'manager/common/menu';
-		$data['top_nav'] = 'manager/common/top-nav';
-		$data['content'] = 'manager/view_report_power_bi';
-		$this->load->view(_MAIN_LAYOUT_, $data);
-	}
+//	public function view_report_power_bi() {
+//		//$data['bi'] = '<iframe width="100%" height="600" src="https://app.powerbi.com/view?r=eyJrIjoiMGI4ZTA3NjMtNmJmOS00MGIwLWE4NDUtZTBiOWQ4YTZiMzZhIiwidCI6Ijc3MWEwYTMzLTUxY2ItNGNiNS1hZGQ2LWVmNGIwNzJiYThkOSIsImMiOjEwfQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe>';
+//		$data['bi'] = '<iframe width="100%" height="600" src="https://app.powerbi.com/view?r=eyJrIjoiMmI5NmE3OTgtNTFmZS00NjA1LTgxMjktZjgxNWJmZTQzZGY0IiwidCI6Ijc3MWEwYTMzLTUxY2ItNGNiNS1hZGQ2LWVmNGIwNzJiYThkOSIsImMiOjEwfQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe>';
+//		$data['slide_menu'] = 'manager/common/menu';
+//		$data['top_nav'] = 'manager/common/top-nav';
+//		$data['content'] = 'manager/view_report_power_bi';
+//		$this->load->view(_MAIN_LAYOUT_, $data);
+//	}
 
 
-    public function detail_contact() {
-        $post = $this->input->post();
-        // echo "<pre>"; print_r($post);die();
+//    public function detail_contact() {
+//        $post = $this->input->post();
+//        // echo "<pre>"; print_r($post);die();
+//
+//        $this->load->model('sources_model');
+//        $input_source['where'] = array();
+//        $source = $this->sources_model->load_all($input_source);
+//
+//        $this->load->model('call_status_model');
+//        $input_call_stt['where'] = array();
+//        $call_stt = $this->call_status_model->load_all($input_call_stt);
+//
+//        if (isset($post['time_start']) || isset($post['time_end'])) {
+//        	$date_start = $post['time_start'];
+//        	$date_end = $post['time_end'];
+//
+//        } else {
+//	        $date_start = strtotime(date('01-m-Y'));
+//	        // $date_start = 1561939200;
+//	        $date_end = mktime(23, 59, 59, date('m'), date('d'), date('Y'));
+//	        // $date_end = 1564531200;
+//        }
+//        //echo "<pre>"; print_r($call_stt);die();
+//
+//		switch ($post['type_contact']) {
+//            case 'L1':
+//                foreach ($source as $key => $value) {
+//					$input_L1['where'] = array(
+//						'source_id' => $value['id'],
+//						'sale_staff_id' => $post['staff_id'],
+//						'date_rgt >=' => $date_start,
+//						'date_rgt <=' => $date_end,
+//						// 'date_handover >=' => $date_start,
+//						// 'date_handover <=' => $date_end,
+//						'is_hide' => '0',
+//						'duplicate_id' => '0'
+//					);
+//					$L1 = $this->contacts_model->load_all($input_L1);
+//
+//					$sum_L[] = array(
+//						'head' => $this->sources_model->find_source_name($value['id']),
+//						'sum' => count($L1),
+//						'type_ct' => 'L1'
+//					);
+//				}
+//				break;
+//
+//            case 'L2':
+//				foreach ($call_stt as $key => $value) {
+//					$input_L2['where'] = array(
+//						'call_status_id' => $value['id'],
+//						'sale_staff_id' => $post['staff_id'],
+//						'date_rgt >=' => $date_start,
+//						'date_rgt <=' => $date_end,
+//						// 'date_handover >=' => $date_start,
+//						// 'date_handover <=' => $date_end,
+//						'is_hide' => '0',
+//						'duplicate_id' => '0'
+//					);
+//					$L2 = $this->contacts_model->load_all($input_L2);
+//
+//					$sum_L[] = array(
+//						'head' => $this->call_status_model->find_call_status_desc($value['id']),
+//						'sum' => count($L2),
+//						'type_ct' => 'L2'
+//					);
+//				}
+//				break;
+//
+//			case 'L6':
+//				foreach ($source as $key => $value) {
+//					$input_L6['where'] = array(
+//						'source_id' => $value['id'],
+//						'sale_staff_id' => $post['staff_id'],
+//						// 'date_rgt >=' => $date_start,
+//						// 'date_rgt <=' => $date_end,
+//						'date_rgt >=' => $date_start,
+//						'date_rgt <=' => $date_end,
+//						'is_hide' => '0',
+//						'duplicate_id' => '0',
+//						'call_status_id' => _DA_LIEN_LAC_DUOC_,
+//						'ordering_status_id' => _DONG_Y_MUA_
+//					);
+//					$L6 = $this->contacts_model->load_all($input_L6);
+//
+//					$sum_L[] = array(
+//						'head' => $this->sources_model->find_source_name($value['id']),
+//						'sum' => count($L6),
+//						'type_ct' => 'L6'
+//					);
+//				}
+//				break;
+//        }
+//
+//       // echo '<pre>';print_r($sum_L);die;
+//
+//        $body = '<table class="table table-bordered table-striped table-hover table-view-2">
+//
+//				<thead>
+//					<tr>';
+//						foreach ($sum_L as $key => $value) {
+//							$body .= '<th>' . $value['head'] . '</th>';
+//
+//						}
+//
+//					$body .= '</tr>
+//
+//				</thead>
+//
+//				<tbody>';
+//
+//					foreach ($sum_L as $key => $value) {
+//						$body .= '<td class="text-center"> <strong>'.$value['sum'].'</strong> - <i>'.(round($value['sum']/$post['total'], 4)*100).'% </i>'.'</td>';
+//					}
+//
+//			   $body .= '</tbody>
+//
+//			</table>';
+//
+//      	echo $body;
+//
+//    }
 
-        $this->load->model('sources_model');
-        $input_source['where'] = array();
-        $source = $this->sources_model->load_all($input_source);
-
-        $this->load->model('call_status_model');
-        $input_call_stt['where'] = array();
-        $call_stt = $this->call_status_model->load_all($input_call_stt);
-
-        if (isset($post['time_start']) || isset($post['time_end'])) {
-        	$date_start = $post['time_start'];
-        	$date_end = $post['time_end'];
-
-        } else {
-	        $date_start = strtotime(date('01-m-Y'));
-	        // $date_start = 1561939200;
-	        $date_end = mktime(23, 59, 59, date('m'), date('d'), date('Y'));
-	        // $date_end = 1564531200;
-        }
-        //echo "<pre>"; print_r($call_stt);die();
-		
-		switch ($post['type_contact']) {
-            case 'L1':
-                foreach ($source as $key => $value) {
-					$input_L1['where'] = array(
-						'source_id' => $value['id'],
-						'sale_staff_id' => $post['staff_id'],
-						'date_rgt >=' => $date_start,
-						'date_rgt <=' => $date_end,
-						// 'date_handover >=' => $date_start,
-						// 'date_handover <=' => $date_end,
-						'is_hide' => '0',
-						'duplicate_id' => '0'
-					);
-					$L1 = $this->contacts_model->load_all($input_L1);
-
-					$sum_L[] = array(
-						'head' => $this->sources_model->find_source_name($value['id']),
-						'sum' => count($L1),
-						'type_ct' => 'L1'
-					);
-				}
-				break;
-				
-            case 'L2':
-				foreach ($call_stt as $key => $value) {
-					$input_L2['where'] = array(
-						'call_status_id' => $value['id'],
-						'sale_staff_id' => $post['staff_id'],
-						'date_rgt >=' => $date_start,
-						'date_rgt <=' => $date_end,
-						// 'date_handover >=' => $date_start,
-						// 'date_handover <=' => $date_end,
-						'is_hide' => '0',
-						'duplicate_id' => '0'
-					);
-					$L2 = $this->contacts_model->load_all($input_L2);
-					
-					$sum_L[] = array(
-						'head' => $this->call_status_model->find_call_status_desc($value['id']),
-						'sum' => count($L2),
-						'type_ct' => 'L2'
-					);
-				}
-				break;
-			
-			case 'L6':
-				foreach ($source as $key => $value) {
-					$input_L6['where'] = array(
-						'source_id' => $value['id'],
-						'sale_staff_id' => $post['staff_id'],
-						// 'date_rgt >=' => $date_start,
-						// 'date_rgt <=' => $date_end,
-						'date_rgt >=' => $date_start,
-						'date_rgt <=' => $date_end,
-						'is_hide' => '0',
-						'duplicate_id' => '0',
-						'call_status_id' => _DA_LIEN_LAC_DUOC_,
-						'ordering_status_id' => _DONG_Y_MUA_
-					);
-					$L6 = $this->contacts_model->load_all($input_L6);
-
-					$sum_L[] = array(
-						'head' => $this->sources_model->find_source_name($value['id']),
-						'sum' => count($L6),
-						'type_ct' => 'L6'
-					);
-				}
-				break;
-        }
-
-       // echo '<pre>';print_r($sum_L);die;
-
-        $body = '<table class="table table-bordered table-striped table-hover table-view-2">
-
-				<thead>
-					<tr>';
-						foreach ($sum_L as $key => $value) {
-							$body .= '<th>' . $value['head'] . '</th>';
-
-						}
-
-					$body .= '</tr>
-
-				</thead>
-
-				<tbody>';
-
-					foreach ($sum_L as $key => $value) {
-						$body .= '<td class="text-center"> <strong>'.$value['sum'].'</strong> - <i>'.(round($value['sum']/$post['total'], 4)*100).'% </i>'.'</td>';
-					}
-
-			   $body .= '</tbody>
-
-			</table>';
-
-      	echo $body;
-
-    }
-
-    function test() {
-
-        $this->load->model('staffs_model');
-        //tìm contact mới nhất xem cskh là ai
-
-        $path = base_url('public/customer_care_id_index.txt');
-        chmod($path, 0755);
-        $fp = @fopen($path, "r");
-        if (!$fp) {
-            echo 0;
-        } else {
-            $customer_care_id_index = trim(file($path)[0]);
-            var_dump(file($path));
-            echo $path;
-            echo '<br>';
-            fclose($fh);
-            $input['select'] = 'id';
-            $input['where']['role_id'] = 10;
-            $input['where']['active'] = 1;
-            $input['order']['id'] = 'asc';
-            $list_customer_care = $this->staffs_model->load_all($input);
-            echo '<pre>';
-            print_r($list_customer_care);
-            $customer_care_id = 0;
-            for ($i = 0; $i < count($list_customer_care); $i++) {
-
-                if (($list_customer_care[$i]['id'] == $customer_care_id_index) && ($i < count($list_customer_care) - 1)) {
-                    $customer_care_id = $list_customer_care[$i + 1]['id'];
-                    break;
-                } elseif (($list_customer_care[$i]['id'] == $customer_care_id_index) && ($i == count($list_customer_care)) - 1) {
-                    $customer_care_id = $list_customer_care[0]['id'];
-                    break;
-                }
-            }
-
-
-            $myfile = fopen($path, "w") or die("Unable to open file!");
-            fwrite($myfile, $customer_care_id);
-            fclose($myfile);
-
-
-            echo $customer_care_id;
-        }
-    }
 
 }
