@@ -212,17 +212,17 @@
             </a>
             <ul class="collapse list-unstyled" id="homeSubmenu_4">
                 
-                <li>
-
-                    <a class="add-new-contact-modal" href="<?php echo base_url('quan-ly/them-contact.html'); ?>">
-
-                        <img src="<?php echo base_url(); ?>public/images/add-contact.png"> 
-
-                        <span> Thêm mới contact </span>
-    
-                    </a>
-
-                </li>
+<!--                <li>-->
+<!---->
+<!--                    <a class="add-new-contact-modal" href="--><?php //echo base_url('quan-ly/them-contact.html'); ?><!--">-->
+<!---->
+<!--                        <img src="--><?php //echo base_url(); ?><!--public/images/add-contact.png"> -->
+<!---->
+<!--                        <span> Thêm mới contact </span>-->
+<!--    -->
+<!--                    </a>-->
+<!---->
+<!--                </li>-->
 
                 <li>
                     <a href="<?php echo base_url('manager/them-contact-file-excel.html');?>">
