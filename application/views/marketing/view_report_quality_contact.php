@@ -25,7 +25,7 @@
 				<th colspan = "2" style="font-weight: bold"> Số Lượng</th>
 				<th colspan = "10" style="font-weight: bold; background-color: purple"> Chi Phí và Giá</th>
 				<tr>
-					<th style="font-weight: bold">Contact (C3)</th>
+					<th style="font-weight: bold">Contact (L1)</th>
                     <th style="font-weight: bold">Đăng ký thành công (L5)</th>
 					<th style="font-weight: bold; background-color: purple">Chi phí FB</th>
 <!--					<th style="font-weight: bold; background-color: purple">Giá Contact FB</th>-->
@@ -78,7 +78,7 @@
 				<th colspan = "2" style="font-weight: bold"> Số Lượng</th>
 				<th colspan = "6" style="font-weight: bold; background-color: #1b6d85 "> Hiệu quả</th>
 				<tr>
-					<th style="font-weight: bold">Contact (C3)</th>
+					<th style="font-weight: bold">Contact (L1)</th>
 					<th style="font-weight: bold">Đăng ký thành công (L5)</th>
 					<th style="font-weight: bold; background-color: #1b6d85">Chi Phí FB</th>
 					<th style="font-weight: bold; background-color: #1b6d85">Chi Phí GG</th>
