@@ -21,6 +21,19 @@
 			</a>
 
 		</li>
+
+		<li>
+
+			<a href="<?php echo base_url('marketing/view_table_compare'); ?>">
+
+				<img src="<?php echo base_url(); ?>public/images/report.png">
+
+				<span> Bảng đánh giá </span>
+
+			</a>
+
+		</li>
+
 		<li>
 
 			<a href="<?php echo base_url('manager/view_report_revenue'); ?>">

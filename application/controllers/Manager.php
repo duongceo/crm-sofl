@@ -1333,6 +1333,7 @@ class Manager extends MY_Controller {
 		$language_re = array();
 		foreach ($data['language_study'] as $value) {
 
+			$input_re['where_not_in']['source_id'] = array(9, 10, 11);
 			$language_input_re_new = array_merge_recursive(array('where' => array('student_old' => '0', 'language_id' => $value['id'])), $input_re);
 			$language_input_re_old = array_merge_recursive(array('where' => array('student_old' => '1', 'language_id' => $value['id'])), $input_re);
 			$language_input_re = array_merge_recursive(array('where' => array('language_id' => $value['id'])), $input_re);

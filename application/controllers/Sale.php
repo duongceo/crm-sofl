@@ -591,6 +591,7 @@ class Sale extends MY_Controller {
 						'branch_id' => $input['branch_id'],
 						'day' => date('Y-m-d', $param['date_paid']),
 						'student_old' => $input['is_old'],
+						'source_id' => $input['source_id'],
 					);
 					//print_arr($param2);
 					$this->load->model('paid_model');
@@ -749,56 +750,56 @@ class Sale extends MY_Controller {
         return true;
     }
 
-    function view_report() {
-        $require_model = array(
-            'courses' => array()
-        );
-        $data = array_merge($this->data, $this->_get_require_data($require_model));
-        $get = $this->input->get();
+//    function view_report() {
+//        $require_model = array(
+//            'courses' => array()
+//        );
+//        $data = array_merge($this->data, $this->_get_require_data($require_model));
+//        $get = $this->input->get();
+//
+//        $conditional = array();
+//        $conditional['where']['sale_staff_id'] = $this->user_id;
+//        $data['L1'] = $this->_query_for_report($get, $conditional);
+//
+//        $conditional = array();
+//        $conditional['where']['sale_staff_id'] = $this->user_id;
+//        $conditional['where']['call_status_id'] = _DA_LIEN_LAC_DUOC_;
+//        $data['L2'] = $this->_query_for_report($get, $conditional);
+//
+//        $conditional = array();
+//        $conditional['where']['sale_staff_id'] = $this->user_id;
+//        $conditional['where']['call_status_id'] = _DA_LIEN_LAC_DUOC_;
+//        $conditional['where']['ordering_status_id'] = _DONG_Y_MUA_;
+//        $data['L6'] = $this->_query_for_report($get, $conditional);
+//
+//        $conditional = array();
+//        $conditional['where']['sale_staff_id'] = $this->user_id;
+//        $conditional['where']['call_status_id'] = _DA_LIEN_LAC_DUOC_;
+//        $conditional['where']['ordering_status_id'] = _DONG_Y_MUA_;
+////        $conditional['where']['(`cod_status_id` = ' . _DA_THU_COD_ . ' OR `cod_status_id` = ' . _DA_THU_LAKITA_ . ')'] = 'NO-VALUE';
+//        $data['L7L8'] = $this->_query_for_report($get, $conditional);
+//
+//        $data['left_col'] = array('course_code','tic_report');
+//        $data['right_col'] = array('date_handover');
+//
+//         /*
+//          * Các file js cần load
+//          */
+//        $data['load_js'] = array('common_real_filter_contact', 'm_view_report');
+//        $data['content'] = 'sale/view_report';
+//        $this->load->view(_MAIN_LAYOUT_, $data);
+//    }
 
-        $conditional = array();
-        $conditional['where']['sale_staff_id'] = $this->user_id;
-        $data['L1'] = $this->_query_for_report($get, $conditional);
-
-        $conditional = array();
-        $conditional['where']['sale_staff_id'] = $this->user_id;
-        $conditional['where']['call_status_id'] = _DA_LIEN_LAC_DUOC_;
-        $data['L2'] = $this->_query_for_report($get, $conditional);
-
-        $conditional = array();
-        $conditional['where']['sale_staff_id'] = $this->user_id;
-        $conditional['where']['call_status_id'] = _DA_LIEN_LAC_DUOC_;
-        $conditional['where']['ordering_status_id'] = _DONG_Y_MUA_;
-        $data['L6'] = $this->_query_for_report($get, $conditional);
-
-        $conditional = array();
-        $conditional['where']['sale_staff_id'] = $this->user_id;
-        $conditional['where']['call_status_id'] = _DA_LIEN_LAC_DUOC_;
-        $conditional['where']['ordering_status_id'] = _DONG_Y_MUA_;
-//        $conditional['where']['(`cod_status_id` = ' . _DA_THU_COD_ . ' OR `cod_status_id` = ' . _DA_THU_LAKITA_ . ')'] = 'NO-VALUE';
-        $data['L7L8'] = $this->_query_for_report($get, $conditional);
-
-        $data['left_col'] = array('course_code','tic_report');
-        $data['right_col'] = array('date_handover');
-
-         /*
-          * Các file js cần load
-          */
-        $data['load_js'] = array('common_real_filter_contact', 'm_view_report');
-        $data['content'] = 'sale/view_report';
-        $this->load->view(_MAIN_LAYOUT_, $data);
-    }
-
-    function show_script_modal() {
-        $post = $this->input->post();
-        $script_id = $post['script_id'];
-        $input = array();
-        $input['where'] = array('id' => $script_id);
-        $this->load->model('scripts_model');
-        $content = $this->scripts_model->load_all($input);
-        echo html_entity_decode($content[0]['content']);
-        //$this->load->view('sale/show_script');
-    }
+//    function show_script_modal() {
+//        $post = $this->input->post();
+//        $script_id = $post['script_id'];
+//        $input = array();
+//        $input['where'] = array('id' => $script_id);
+//        $this->load->model('scripts_model');
+//        $content = $this->scripts_model->load_all($input);
+//        echo html_entity_decode($content[0]['content']);
+//        //$this->load->view('sale/show_script');
+//    }
 
     function noti_contact_recall() {
         $input['select'] = 'id, name, phone, date_recall, sale_staff_id';
@@ -973,7 +974,6 @@ class Sale extends MY_Controller {
             'level_language' => array(),
             'language_study' => array(),
             'call_status' => array('order' => array('sort' => 'ASC')),
-            'ordering_status' => array('order' => array('sort' => 'ASC')),
             'payment_method_rgt' => array(),
 			'link' => array(),
 			'channel' => array(),
