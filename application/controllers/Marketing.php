@@ -156,7 +156,7 @@ class Marketing extends MY_Controller {
 		if (isset($get['tic_report'])) {
 			$typeReport = array(
 				'C3' => array(
-					'where' => array('is_old' => '0', 'source_id IN (1, 2, 6, 8)' => 'NO-VALUE', 'date_rgt >=' => $date_from, 'date_rgt <=' => $date_end),
+					'where' => array('is_old' => '0', 'duplicate_id' => '0', 'source_id IN (1, 2, 6, 8)' => 'NO-VALUE', 'date_rgt >=' => $date_from, 'date_rgt <=' => $date_end),
 				),
 				'L5' => array(
 					'where' => array('is_hide' => '0', 'is_old' => '0', 'source_id IN (1, 2, 6, 8)', 'level_contact_id' => 'L5', 'date_rgt >=' => $date_from, 'date_rgt <=' => $date_end),
@@ -165,7 +165,7 @@ class Marketing extends MY_Controller {
 		} else {
 			$typeReport = array(
 				'C3' => array(
-					'where' => array('is_old' => '0', 'source_id IN (1, 2, 6, 8)' => 'NO-VALUE', 'date_rgt >=' => $date_from, 'date_rgt <=' => $date_end),
+					'where' => array('is_old' => '0', 'duplicate_id' => '0', 'source_id IN (1, 2, 6, 8)' => 'NO-VALUE', 'date_rgt >=' => $date_from, 'date_rgt <=' => $date_end),
 				),
 				'L5' => array(
 					'where' => array('is_hide' => '0', 'is_old' => '0', 'source_id IN (1, 2, 6, 8)', 'level_contact_id' => 'L5', 'date_rgt_study >=' => $date_from, 'date_rgt_study <=' => $date_end),
