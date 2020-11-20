@@ -533,9 +533,8 @@ class MY_Controller extends CI_Controller {
         }
 
         $input_get_arr = $this->_get_query_condition_arr($get);
-
+		
         $input = array_merge_recursive($input, $input_get_arr['input_get']);
-		//echo '<pre>'; print_r($input);die;
 
         $total_row = count($this->contacts_model->load_all($input));
         return $total_row;

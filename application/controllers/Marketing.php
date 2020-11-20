@@ -3,13 +3,11 @@
 /**
  *
  */
-class Marketing extends MY_Controller
-{
+class Marketing extends MY_Controller {
 
 	public $L = array();
 
-	function __construct()
-	{
+	function __construct() {
 		parent::__construct();
 
 		$input = array();
@@ -21,8 +19,7 @@ class Marketing extends MY_Controller
 		$this->L['all'] = count($this->contacts_model->load_all($input));
 	}
 
-	function index($offset = 0)
-	{
+	function index($offset = 0) {
 		//echo "string"; die;
 		$data = $this->get_all_require_data();
 
@@ -79,8 +76,7 @@ class Marketing extends MY_Controller
 		$this->load->view(_MAIN_LAYOUT_, $data);
 	}
 
-	function view_all($offset = 0)
-	{
+	function view_all($offset = 0) {
 		$data = $this->get_all_require_data();
 		$get = $this->input->get();
 		$conditional['where'] = array('is_hide' => '0');
@@ -107,8 +103,9 @@ class Marketing extends MY_Controller
 
 		$data['contacts'] = $contact;
 
-		$data['left_col'] = array('language', 'sale', 'marketer', 'date_rgt', 'date_handover', 'date_confirm', 'date_rgt_study', 'date_last_calling');
-		$data['right_col'] = array('branch', 'source', 'call_status', 'level_contact', 'level_contact_detail', 'level_student', 'level_student_detail');
+		$data['left_col'] = array('care_number', 'language', 'level_language', 'sale', 'marketer', 'date_rgt', 'date_handover', 'date_confirm', 'date_rgt_study', 'date_last_calling');
+        $data['right_col'] = array('branch', 'is_old', 'source', 'call_status', 'level_contact', 'level_contact_detail', 'level_student', 'level_student_detail');
+
 		$this->table .= 'fee paid channel call_stt level_contact date_rgt';
 		$data['table'] = explode(' ', $this->table);
 
@@ -233,7 +230,7 @@ class Marketing extends MY_Controller
 			$re = (int)$this->paid_model->load_all($input_re)[0]['paiding'];
 
 			$Report[$key]['RE'] = $re;
-			$Report[$key]['Ma_Re_thuc_te'] = ($Report[$key]['RE'] == 0) ? '0' : round($spend / ($Report[$key]['RE']), 2) * 100;
+			$Report[$key]['Ma_Re_thuc_te'] = ($Report[$key]['RE'] == 0) ? '0' : round($spend / ($Report[$key]['RE']), 4) * 100;
 			$Report[$key]['Re_thuc_te'] = str_replace(',', '.', number_format($Report[$key]['RE']));
 			$Report[$key]['Ma_FB'] = str_replace(',', '.', number_format($spend_fb));
 			$Report[$key]['Ma_GG'] = str_replace(',', '.', number_format($spend_gg));
@@ -389,12 +386,12 @@ class Marketing extends MY_Controller
 
 		$typeReport = array(
 			'L1' => array(
-				'where' => array('is_old' => '0', 'source_id IN (1, 2, 6, 8)' => 'NO-VALUE'),
+				'where' => array('is_old' => '0', 'duplicate_id' => '0', 'source_id IN (1, 2, 6, 8)' => 'NO-VALUE'),
 				'time' => 'filter_date_date_rgt'
 			),
 			'L5' => array(
-				'where' => array('is_hide' => '0', 'is_old' => '0', 'source_id IN (1, 2, 6, 8)', 'level_contact_id' => 'L5'),
-				'time' => 'filter_date_date_rgt'
+				'where' => array('is_hide' => '0', 'duplicate_id' => '0', 'is_old' => '0', 'source_id IN (1, 2, 6, 8)' => 'NO-VALUE'),
+				'time' => 'filter_date_date_rgt_study'
 			),
 		);
 
@@ -403,12 +400,6 @@ class Marketing extends MY_Controller
 		$language = $this->language_study_model->load_all($input);
 
 		$Report = array();
-		$total_L1 = 0;
-		$total_L5 = 0;
-//		$total_spend_fb = 0;
-//		$total_spend_gg = 0;
-		$total_spend = 0;
-		$total_RE = 0;
 
 		foreach ($language as $v_language) {
 			foreach ($date_array as $value_date) {
@@ -422,6 +413,7 @@ class Marketing extends MY_Controller
 					$condition = array('where' => array_merge($value['where'], array('language_id' => $v_language['id'])));
 					$Report[$v_language['name']][$value_date][$report_type] = $this->_query_for_report($get_time, $condition);
 				}
+				
 
 				$input = array();
 				$input['select'] = 'SUM(spend) as spending';
@@ -449,37 +441,18 @@ class Marketing extends MY_Controller
 
 				$re = (int)$this->paid_model->load_all($input_re)[0]['paiding'];
 
-				$Report[$v_language['name']][$value_date]['RE'] = $re;
-				$Report[$v_language['name']][$value_date]['Ma_Re_thuc_te'] = ($Report[$v_language['id']][$value_date]['RE'] == 0) ? '0' : round($spend / ($Report[$v_language['id']][$value_date]['RE']), 2) * 100;
-				$Report[$v_language['name']][$value_date]['Re_thuc_te'] = str_replace(',', '.', number_format($Report[$v_language['id']][$value_date]['RE']));
+				//$Report[$v_language['name']][$value_date]['RE'] = $re;
+				$Report[$v_language['name']][$value_date]['Re_thuc_te'] = str_replace(',', '.', number_format($re));
 //				$Report[$v_language['id']][$value_date]['Ma_FB'] = str_replace(',', '.', number_format($spend_fb));
 //				$Report[$v_language['id']][$value_date]['Ma_GG'] = str_replace(',', '.', number_format($spend_gg));
 				$Report[$v_language['name']][$value_date]['Ma_mkt'] = str_replace(',', '.', number_format($spend));
-				$Report[$v_language['name']][$value_date]['Gia_So'] = ($Report[$v_language['id']][$value_date]['L1'] == 0) ? '0' : str_replace(',', '.', number_format(round($spend / $Report[$v_language['id']][$value_date]['L1'])));
-				$Report[$v_language['name']][$value_date]['Chot'] = ($Report[$v_language['id']][$value_date]['L1'] == 0) ? '0' : str_replace(',', '.', number_format(round($Report[$v_language['id']][$value_date]['L5'] / $Report[$v_language['id']][$value_date]['L1'])));
+				$Report[$v_language['name']][$value_date]['Gia_So'] = ($Report[$v_language['name']][$value_date]['L1'] == 0) ? '0' : str_replace(',', '.', number_format(round($spend / $Report[$v_language['name']][$value_date]['L1'])));
+				$Report[$v_language['name']][$value_date]['Chot'] = ($Report[$v_language['name']][$value_date]['L1'] == 0) ? '0' : round($Report[$v_language['name']][$value_date]['L5'] / $Report[$v_language['name']][$value_date]['L1'], 4) * 100;
 
-				$total_L1 += $Report[$v_language['name']][$value_date]['L1'];
-				$total_L5 += $Report[$v_language['name']][$value_date]['L5'];
-				$total_RE += $Report[$v_language['name']][$value_date]['RE'];
-//				$total_spend_fb += $spend_fb;
-//				$total_spend_gg += $spend_gg;
-				$total_spend += $spend;
 			}
 		}
 
-//		print_arr($Report);
-
-//		$Report['Tổng'] = array(
-//			'L1' => $total_L1,
-//			'L5' => $total_L5,
-////			'Ma_FB' => str_replace(',', '.', number_format($total_spend_fb)),
-////			'Ma_GG' => str_replace(',', '.', number_format($total_spend_gg)),
-//			'Ma_mkt' => str_replace(',', '.', number_format($total_spend)),
-//			'Gia_So' => ($total_L1 == 0) ? '0' : str_replace(',', '.', number_format(round($total_spend / $total_L1, 2) * 100)),
-//			'Ma_Re_thuc_te' => ($total_RE == 0) ? '0' : round($total_spend / $total_RE, 2) * 100,
-//			'Re_thuc_te' => str_replace(',', '.', number_format($total_RE)),
-//			'language_name' => 'Tổng'
-//		);
+		//print_arr($Report);
 
 		$data['report'] = $Report;
 		$data['left_col'] = array('date_happen_1');
@@ -488,8 +461,7 @@ class Marketing extends MY_Controller
 		$this->load->view(_MAIN_LAYOUT_, $data);
 	}
 
-	protected function GetProccessMarketerToday()
-	{
+	protected function GetProccessMarketerToday(){
 
 		$marketers = $this->staffs_model->GetActiveMarketers();
 
