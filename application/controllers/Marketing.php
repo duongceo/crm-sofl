@@ -127,8 +127,7 @@ class Marketing extends MY_Controller {
 		$this->load->view(_MAIN_LAYOUT_, $data);
 	}
 
-	public function view_report_quality_contact()
-	{
+	public function view_report_quality_contact() {
 		//echo $this->role_id;die;
 		$this->load->model('language_study_model');
 		$this->load->model('spending_model');
@@ -156,7 +155,7 @@ class Marketing extends MY_Controller {
 		if (isset($get['tic_report'])) {
 			$typeReport = array(
 				'C3' => array(
-					'where' => array('is_old' => '0', 'duplicate_id' => '0', 'source_id IN (1, 2, 6, 8)' => 'NO-VALUE', 'date_rgt >=' => $date_from, 'date_rgt <=' => $date_end),
+					'where' => array('is_old' => '0', 'source_id IN (1, 2, 6, 8)' => 'NO-VALUE', 'date_rgt >=' => $date_from, 'date_rgt <=' => $date_end),
 				),
 				'L5' => array(
 					'where' => array('is_hide' => '0', 'is_old' => '0', 'source_id IN (1, 2, 6, 8)', 'level_contact_id' => 'L5', 'date_rgt >=' => $date_from, 'date_rgt <=' => $date_end),
@@ -165,7 +164,7 @@ class Marketing extends MY_Controller {
 		} else {
 			$typeReport = array(
 				'C3' => array(
-					'where' => array('is_old' => '0', 'duplicate_id' => '0', 'source_id IN (1, 2, 6, 8)' => 'NO-VALUE', 'date_rgt >=' => $date_from, 'date_rgt <=' => $date_end),
+					'where' => array('is_old' => '0', 'source_id IN (1, 2, 6, 8)' => 'NO-VALUE', 'date_rgt >=' => $date_from, 'date_rgt <=' => $date_end),
 				),
 				'L5' => array(
 					'where' => array('is_hide' => '0', 'is_old' => '0', 'source_id IN (1, 2, 6, 8)', 'level_contact_id' => 'L5', 'date_rgt_study >=' => $date_from, 'date_rgt_study <=' => $date_end),
@@ -382,7 +381,7 @@ class Marketing extends MY_Controller {
 		$time_before_1_month = str_replace("-", "/", date("d-m-Y", strtotime("-1 month", strtotime(str_replace("/", "-", trim($dateArr[0])))))) . ' - ' . str_replace("-", "/", date("d-m-Y", strtotime("-1 month", strtotime(str_replace("/", "-", trim($dateArr[1]))))));
 		$time_before_2_month = str_replace("-", "/", date("d-m-Y", strtotime("-2 month", strtotime(str_replace("/", "-", trim($dateArr[0])))))) . ' - ' . str_replace("-", "/", date("d-m-Y", strtotime("-2 month", strtotime(str_replace("/", "-", trim($dateArr[1]))))));
 
-		$date_array = array($time, $time_before_1_month, $time_before_2_month);
+		$date_array = array($time_before_2_month, $time_before_1_month, $time);
 
 		$typeReport = array(
 			'L1' => array(
