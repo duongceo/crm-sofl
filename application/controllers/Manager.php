@@ -340,127 +340,119 @@ class Manager extends MY_Controller {
     // <editor-fold defaultstate="collapsed" desc="hàm add contact và các hàm phụ trợ">
     /* ========================  hàm add contact và các hàm phụ trợ =========================== */
 
-    public function add_contact() {
-        $input = $this->input->post();
-//        print_arr($input);
-        $this->load->library('form_validation');
-        $this->form_validation->set_rules('name', 'Họ tên', 'trim|required|min_length[2]');
-        $this->form_validation->set_rules('address', 'Địa chỉ', 'trim|required|min_length[3]');
-        $this->form_validation->set_rules('phone', 'Số điện thoại', 'required|min_length[2]|integer');
-//        $this->form_validation->set_rules('class_study_id', 'Mã khóa học', 'required|callback_check_course_code');
-//        $this->form_validation->set_rules('source_id', 'Nguồn contact', 'required|callback_check_source_id');
-        if (!empty($input)) {
-            $result = array();
-            if ($this->form_validation->run() == FALSE) {
-                $result['success'] = 0;
-                $result['message'] = 'Có lỗi xảy ra trong quá trình nhập liệu!';
-                $require_model = array(
-                    'class_study' => array(
-                        'where' => array('active' => '1'),
-                    ),
-                    'sources' => array()
-                );
-                $data = array_merge($this->data, $this->_get_require_data($require_model));
-                //  $data['content'] = 'manager/add_contact';
-                $data['content'] = 'common/modal/add_new_contact';
-                $this->load->view('common/modal/add_new_contact', $data);
-                $result['content'] = $this->load->view('common/modal/add_new_contact', $data, true);
-                echo json_encode($result);
-                die;
-//                $this->session->set_tempdata('message', 'Có lỗi xảy ra trong quá trình nhập liệu', 2);
-//                $this->session->set_tempdata('msg_success', 0, 2);
-//                $this->_view_add_contact();
-            } else {
-                $param['name'] = $input['name'];
-                $param['email'] = $input['email'];
-                $param['address'] = $input['address'];
-
-				$t = stripos($param['address'], 'mh');
-				if ($t === false) {
-					$param['is_consultant'] = 0;
-				} else {
-					$param['is_consultant'] = 1;
-				}
-
-                $param['phone'] = trim($input['phone']);
-                $param['class_study_id'] = $input['class_study_id'];
-                $param['source_id'] = $input['source_id'];
-                $param['payment_method_rgt'] = $input['payment_method_rgt'];
-                $param['fee'] = $input['fee'];
-                $param['paid'] = $input['paid'];
-                $param['date_rgt'] = time();
-                $param['duplicate_id'] = $this->_find_dupliacte_contact($input['email'], $input['phone'], $input['class_study_id']);
-                $param['last_activity'] = time();
-//                $param['source_sale_id'] = $input['source_sale_id'];
-                $id = $this->contacts_model->insert_return_id($param, 'id');
-				$a = $this->contacts_backup_model->insert_return_id($param, 'id');
-                if ($input['note'] != '') {
-                    $param2 = array(
-                        'contact_id' => $id,
-                        'content' => $input['note'],
-                        'time' => time(),
-                        'sale_id' => $this->user_id,
-                        'contact_code' => $this->contacts_model->get_contact_code($id)
-                    );
-                    $this->load->model('notes_model');
-                    $this->notes_model->insert($param2);
-                }
-                $data2 = [];
-
-                $data2['title'] = 'Có 1 contact mới đăng ký';
-                $data2['message'] = 'Click để xem ngay';
-
-                require_once APPPATH . 'libraries/Pusher.php';
-                $options = array(
-                    'cluster' => 'ap1',
-                    'encrypted' => true
-                );
-//                $pusher = new Pusher(
-//                        '32b339fca68db27aa480', '32f6731ad5d48264c579', '490390', $options
+//    public function add_contact() {
+//        $input = $this->input->post();
+////        print_arr($input);
+//        $this->load->library('form_validation');
+//        $this->form_validation->set_rules('name', 'Họ tên', 'trim|required|min_length[2]');
+//        $this->form_validation->set_rules('address', 'Địa chỉ', 'trim|required|min_length[3]');
+//        $this->form_validation->set_rules('phone', 'Số điện thoại', 'required|min_length[2]|integer');
+////        $this->form_validation->set_rules('class_study_id', 'Mã khóa học', 'required|callback_check_course_code');
+////        $this->form_validation->set_rules('source_id', 'Nguồn contact', 'required|callback_check_source_id');
+//        if (!empty($input)) {
+//            $result = array();
+//            if ($this->form_validation->run() == FALSE) {
+//                $result['success'] = 0;
+//                $result['message'] = 'Có lỗi xảy ra trong quá trình nhập liệu!';
+//                $require_model = array(
+//                    'class_study' => array(
+//                        'where' => array('active' => '1'),
+//                    ),
+//                    'sources' => array()
 //                );
-				$pusher = new Pusher(
-					'f3c70a5a0960d7b811c9', '2fb574e3cce59e4659ac', '1042224', $options
-				);
+//                $data = array_merge($this->data, $this->_get_require_data($require_model));
+//                //  $data['content'] = 'manager/add_contact';
+//                $data['content'] = 'common/modal/add_new_contact';
+//                $this->load->view('common/modal/add_new_contact', $data);
+//                $result['content'] = $this->load->view('common/modal/add_new_contact', $data, true);
+//                echo json_encode($result);
+//                die;
+////                $this->session->set_tempdata('message', 'Có lỗi xảy ra trong quá trình nhập liệu', 2);
+////                $this->session->set_tempdata('msg_success', 0, 2);
+////                $this->_view_add_contact();
+//            } else {
+//                $param['name'] = $input['name'];
+//                $param['email'] = $input['email'];
+//                $param['address'] = $input['address'];
+//
+//				$t = stripos($param['address'], 'mh');
+//				if ($t === false) {
+//					$param['is_consultant'] = 0;
+//				} else {
+//					$param['is_consultant'] = 1;
+//				}
+//
+//                $param['phone'] = trim($input['phone']);
+//                $param['class_study_id'] = $input['class_study_id'];
+//                $param['source_id'] = $input['source_id'];
+//                $param['payment_method_rgt'] = $input['payment_method_rgt'];
+//                $param['fee'] = $input['fee'];
+//                $param['paid'] = $input['paid'];
+//                $param['date_rgt'] = time();
+//                $param['duplicate_id'] = $this->_find_dupliacte_contact($input['email'], $input['phone'], $input['class_study_id']);
+//                $param['last_activity'] = time();
+////                $param['source_sale_id'] = $input['source_sale_id'];
+//                $id = $this->contacts_model->insert_return_id($param, 'id');
+//				$a = $this->contacts_backup_model->insert_return_id($param, 'id');
+//                if ($input['note'] != '') {
+//                    $param2 = array(
+//                        'contact_id' => $id,
+//                        'content' => $input['note'],
+//                        'time' => time(),
+//                        'sale_id' => $this->user_id,
+//                        'contact_code' => $this->contacts_model->get_contact_code($id)
+//                    );
+//                    $this->load->model('notes_model');
+//                    $this->notes_model->insert($param2);
+//                }
+//                $data2 = [];
+//
+//                $data2['title'] = 'Có 1 contact mới đăng ký';
+//                $data2['message'] = 'Click để xem ngay';
+//
+//                require_once APPPATH . 'libraries/Pusher.php';
+//                $options = array(
+//                    'cluster' => 'ap1',
+//                    'encrypted' => true
+//                );
+////                $pusher = new Pusher(
+////                        '32b339fca68db27aa480', '32f6731ad5d48264c579', '490390', $options
+////                );
+//				$pusher = new Pusher(
+//					'f3c70a5a0960d7b811c9', '2fb574e3cce59e4659ac', '1042224', $options
+//				);
+//
+//                $pusher->trigger('my-channel', 'notice', $data2);
+//                $result['success'] = 1;
+//                $result['message'] = 'Thêm thành công contact!';
+//                echo json_encode($result);
+//                die;
+//            }
+//        } else {
+//            $this->_view_add_contact();
+//        }
+//    }
 
-                $pusher->trigger('my-channel', 'notice', $data2);
-                $result['success'] = 1;
-                $result['message'] = 'Thêm thành công contact!';
-                echo json_encode($result);
-                die;
-            }
-        } else {
-            $this->_view_add_contact();
-        }
-    }
+//    private function _view_add_contact() {
+//        $require_model = array(
+//            'class_study' => array(
+//                'where' => ['active' => '1'],
+//            ),
+//            'sources' => array()
+//        );
+//        $data = array_merge($this->data, $this->_get_require_data($require_model));
+//        //  $data['content'] = 'manager/add_contact';
+//        $data['content'] = 'common/modal/add_new_contact';
+//        $this->load->view('common/modal/add_new_contact', $data);
+//    }
 
-    private function _view_add_contact() {
-        $require_model = array(
-            'class_study' => array(
-                'where' => ['active' => '1'],
-            ),
-            'sources' => array()
-        );
-        $data = array_merge($this->data, $this->_get_require_data($require_model));
-        //  $data['content'] = 'manager/add_contact';
-        $data['content'] = 'common/modal/add_new_contact';
-        $this->load->view('common/modal/add_new_contact', $data);
-    }
-
-    function check_course_code($str) {
-        if ($str == 'empty') {
-            $this->form_validation->set_message('check_course_code', 'Vui lòng chọn {field}!');
-            return false;
-        }
-        return true;
-    }
-
-    function check_source_id($str) {
-        if ($str == 0) {
-            $this->form_validation->set_message('check_source_id', 'Vui lòng chọn {field}!');
-            return false;
-        }
-        return true;
-    }
+//    function check_source_id($str) {
+//        if ($str == 0) {
+//            $this->form_validation->set_message('check_source_id', 'Vui lòng chọn {field}!');
+//            return false;
+//        }
+//        return true;
+//    }
 
     /* ========================  hàm add contact và các hàm phụ trợ (hết) =========================== */
 
@@ -1030,15 +1022,15 @@ class Manager extends MY_Controller {
 
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="Tìm kiếm contact">
-    function find_contact() {
-        $get = $this->input->get();
-        $data = $this->_common_find_all($get);
-        $this->table .= 'date_rgt date_last_calling call_stt ordering_stt action';
-        $data['table'] = explode(' ', $this->table);
-        $data['content'] = 'manager/find_contact';
-        $data['load_js'] = array('common_real_search');
-        $this->load->view(_MAIN_LAYOUT_, $data);
-    }
+//    function find_contact() {
+//        $get = $this->input->get();
+//        $data = $this->_common_find_all($get);
+//        $this->table .= 'date_rgt date_last_calling call_stt ordering_stt action';
+//        $data['table'] = explode(' ', $this->table);
+//        $data['content'] = 'manager/find_contact';
+//        $data['load_js'] = array('common_real_search');
+//        $this->load->view(_MAIN_LAYOUT_, $data);
+//    }
 
     // </editor-fold>
 
@@ -1604,7 +1596,7 @@ class Manager extends MY_Controller {
 
 		unset($get['filter_date_date_happen']);
 		
-//		$language = array();
+		$report = array();
 //		$total = array();
 		foreach ($data['sources'] as $key_source => $value_source) {
 			$conditional_source = array();
@@ -1617,8 +1609,8 @@ class Manager extends MY_Controller {
 					$conditional_1['where']['language_id'] = $value_language['id'];
 					$conditional = array_merge_recursive($conditional_1, $conditional_source, $value);
 
-					$data[$value_language['language_id']][$value_source['name']][$key_condition] = $this->_query_for_report($get, $conditional);
-					$data[$value_language['language_id']][$value_source['name']]['RE'] = $this->get_re(array_merge_recursive($conditional_1, $conditional_source), $startDate, $endDate);
+					$report[$value_language['name']][$value_source['name']]['RE'] = $this->get_re(array_merge_recursive($conditional_1, $conditional_source), $startDate, $endDate);
+					$report[$value_language['name']][$value_source['name']][$key_condition] = $this->_query_for_report($get, $conditional);
 				}
 
 				$conditional_2 = array_merge_recursive($conditional_source, $value);
@@ -1627,8 +1619,10 @@ class Manager extends MY_Controller {
 
 			$data['sources'][$key_source]['RE'] = $this->get_re($conditional_source, $startDate, $endDate);
 		}
-//		print_arr($data);
 
+//		print_arr($report);
+
+		$data['report'] = $report;
 		$data['startDate'] = $startDate;
 		$data['endDate'] = $endDate;
 		$data['left_col'] = array('date_happen_1', 'tic_report');

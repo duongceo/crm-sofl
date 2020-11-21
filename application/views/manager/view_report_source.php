@@ -14,218 +14,37 @@
 
 </form>
 
-<table class="table table-bordered table-striped view_report">
+<?php foreach ($report as $key => $item) { ?>
+	<table class="table table-bordered table-striped view_report">
 
-	<thead>
-	<tr>
-		<th style="background-color: #2b669a">HÀN</th>
+		<thead>
+		<tr>
+			<th style="background-color: #2b669a"><?php echo $key?></th>
 
-		<?php foreach ($HQ as $key => $item) { ?>
-			<th style="background-color: #1e5f24"><?php echo $key?></th>
-		<?php } ?>
-	</tr>
-
-	</thead>
-
-	<tbody>
-
-		<?php
-		$report = array('L1', 'L2', 'L3', 'L5', 'L8', 'RE');
-		foreach ($report as $item) { ?>
-
-			<tr>
-			<td style="background-color: #43bcdf96"><?php echo $item ?></td>
-
-			<?php foreach ($HQ as $value) { ?>
-
-				<td>
-					<?php
-					if ($item == 'RE') {
-						echo h_number_format($value[$item]);
-					} else {
-						echo $value[$item];
-					}
-					?>
-
-				</td>
-
+			<?php foreach ($item as $key_1 => $value_1) { ?>
+				<th style="background-color: #1e5f24"><?php echo $key_1?></th>
 			<?php } ?>
-			</tr>
-		<?php }	?>
+		</tr>
+
+		</thead>
+
+		<tbody>
 
 		<?php
-
-		$report2 = array(
-			array('L5/L1', 'L5', 'L1', 30),
-		);
-
-		foreach ($report2 as $values) {
-
-			list($name, $tu_so, $mau_so, $limit) = $values;
-
-			?>
+		$report_2 = array('L1', 'L2', 'L3', 'L5', 'L8', 'RE');
+		foreach ($report_2 as $item_2) { ?>
 
 			<tr>
+				<td style="background-color: #43bcdf96"><?php echo $item_2 ?></td>
 
-				<td style="background-color: #279a9d;"> <?php echo $name; ?> </td>
-
-				<?php foreach ($HQ as $value) { ?>
-
-					<td <?php
-
-					if ($value[$mau_so] != 0 && round(($value[$tu_so] / $value[$mau_so]) * 100) < $limit && $limit > 0) {
-
-						echo 'style="background-color: #a71717;color: #fff;"';
-
-					} else if ($value[$mau_so] != 0 && round(($value[$tu_so] / $value[$mau_so]) * 100) >= $limit && $limit > 0) {
-
-						echo 'style="background-color: #0C812D;color: #fff;"';
-
-					}
-
-					?>>
-
-						<?php
-
-						echo ($value[$mau_so] != 0) ? round(($value[$tu_so] / $value[$mau_so]) * 100, 2) . '%' : 'không thể chia cho 0';
-
-						?>
-
-					</td>
-
-					<?php } ?>
-
-			</tr>
-
-			<?php
-
-		}
-
-		?>
-
-	</tbody>
-
-</table>
-
-<table class="table table-bordered table-striped view_report">
-
-	<thead>
-	<tr>
-		<th style="background-color: #2b9a74">NHẬT</th>
-
-		<?php foreach ($NB as $key => $item) { ?>
-			<th style="background-color: #1e5f24"><?php echo $key?></th>
-		<?php } ?>
-	</tr>
-
-	</thead>
-
-	<tbody>
-
-		<?php
-		$report = array('L1', 'L2', 'L3', 'L5', 'L8', 'RE');
-		foreach ($report as $item) {
-			?>
-			<tr>
-				<td style="background-color: #43bcdf96"><?php echo $item ?></td>
-				<?php foreach ($NB as $value) { ?>
-					<td>
-						<?php
-						if ($item == 'RE') {
-							echo h_number_format($value[$item]);
-						} else {
-							echo $value[$item];
-						}
-						?>
-					</td>
-				<?php } ?>
-			</tr>
-		<?php }	?>
-
-		<?php
-
-		$report2 = array(
-			array('L5/L1', 'L5', 'L1', 30),
-		);
-
-		foreach ($report2 as $values) {
-
-			list($name, $tu_so, $mau_so, $limit) = $values;
-
-			?>
-
-			<tr>
-
-				<td style="background-color: #279a9d;"> <?php echo $name; ?> </td>
-
-				<?php foreach ($NB as $value) { ?>
-
-					<td <?php
-
-					if ($value[$mau_so] != 0 && round(($value[$tu_so] / $value[$mau_so]) * 100) < $limit && $limit > 0) {
-
-						echo 'style="background-color: #a71717;color: #fff;"';
-
-					} else if ($value[$mau_so] != 0 && round(($value[$tu_so] / $value[$mau_so]) * 100) >= $limit && $limit > 0) {
-
-						echo 'style="background-color: #0C812D;color: #fff;"';
-
-					}
-
-					?>>
-
-						<?php
-
-						echo ($value[$mau_so] != 0) ? round(($value[$tu_so] / $value[$mau_so]) * 100, 2) . '%' : 'không thể chia cho 0';
-
-						?>
-
-					</td>
-
-				<?php } ?>
-
-			</tr>
-
-			<?php
-
-		}
-
-		?>
-
-	</tbody>
-
-</table>
-
-<table class="table table-bordered table-striped view_report">
-
-	<thead>
-	<tr>
-		<th style="background-color: #9a612b">TRUNG</th>
-
-		<?php foreach ($TQ as $key => $item) { ?>
-			<th style="background-color: #1e5f24"><?php echo $key?></th>
-		<?php } ?>
-	</tr>
-
-	</thead>
-
-	<tbody>
-
-		<?php
-		$report = array('L1', 'L2', 'L3', 'L5', 'L8', 'RE');
-		foreach ($report as $item) { ?>
-
-			<tr>
-				<td style="background-color: #43bcdf96"><?php echo $item ?></td>
-
-				<?php foreach ($TQ as $value) { ?>
+				<?php foreach ($item as $value_2) { ?>
 
 					<td>
 						<?php
 						if ($item == 'RE') {
-							echo h_number_format($value[$item]);
+							echo h_number_format($value_2[$item_2]);
 						} else {
-							echo $value[$item];
+							echo $value_2[$item_2];
 						}
 						?>
 
@@ -237,11 +56,11 @@
 
 		<?php
 
-		$report2 = array(
+		$report_3 = array(
 			array('L5/L1', 'L5', 'L1', 30),
 		);
 
-		foreach ($report2 as $values) {
+		foreach ($report_3 as $values) {
 
 			list($name, $tu_so, $mau_so, $limit) = $values;
 
@@ -251,15 +70,15 @@
 
 				<td style="background-color: #279a9d;"> <?php echo $name; ?> </td>
 
-				<?php foreach ($TQ as $value) { ?>
+				<?php foreach ($item as $value_3) { ?>
 
 					<td <?php
 
-					if ($value[$mau_so] != 0 && round(($value[$tu_so] / $value[$mau_so]) * 100) < $limit && $limit > 0) {
+					if ($value_3[$mau_so] != 0 && round(($value_3[$tu_so] / $value_3[$mau_so]) * 100) < $limit && $limit > 0) {
 
 						echo 'style="background-color: #a71717;color: #fff;"';
 
-					} else if ($value[$mau_so] != 0 && round(($value[$tu_so] / $value[$mau_so]) * 100) >= $limit && $limit > 0) {
+					} else if ($value_3[$mau_so] != 0 && round(($value_3[$tu_so] / $value_3[$mau_so]) * 100) >= $limit && $limit > 0) {
 
 						echo 'style="background-color: #0C812D;color: #fff;"';
 
@@ -269,7 +88,7 @@
 
 						<?php
 
-						echo ($value[$mau_so] != 0) ? round(($value[$tu_so] / $value[$mau_so]) * 100, 2) . '%' : 'không thể chia cho 0';
+						echo ($value_3[$mau_so] != 0) ? round(($value_3[$tu_so] / $value_3[$mau_so]) * 100, 2) . '%' : 'không thể chia cho 0';
 
 						?>
 
@@ -279,15 +98,288 @@
 
 			</tr>
 
-			<?php
+		<?php } ?>
 
-		}
+		</tbody>
+	</table>
 
-		?>
+<?php } ?>
 
-	</tbody>
-
-</table>
+<!--<table class="table table-bordered table-striped view_report">-->
+<!---->
+<!--	<thead>-->
+<!--	<tr>-->
+<!--		<th style="background-color: #2b669a">HÀN</th>-->
+<!---->
+<!--		--><?php //foreach ($HQ as $key => $item) { ?>
+<!--			<th style="background-color: #1e5f24">--><?php //echo $key?><!--</th>-->
+<!--		--><?php //} ?>
+<!--	</tr>-->
+<!---->
+<!--	</thead>-->
+<!---->
+<!--	<tbody>-->
+<!---->
+<!--		--><?php
+//		$report = array('L1', 'L2', 'L3', 'L5', 'L8', 'RE');
+//		foreach ($report as $item) { ?>
+<!---->
+<!--			<tr>-->
+<!--			<td style="background-color: #43bcdf96">--><?php //echo $item ?><!--</td>-->
+<!---->
+<!--			--><?php //foreach ($HQ as $value) { ?>
+<!---->
+<!--				<td>-->
+<!--					--><?php
+//					if ($item == 'RE') {
+//						echo h_number_format($value[$item]);
+//					} else {
+//						echo $value[$item];
+//					}
+//					?>
+<!---->
+<!--				</td>-->
+<!---->
+<!--			--><?php //} ?>
+<!--			</tr>-->
+<!--		--><?php //}	?>
+<!---->
+<!--		--><?php
+//
+//		$report2 = array(
+//			array('L5/L1', 'L5', 'L1', 30),
+//		);
+//
+//		foreach ($report2 as $values) {
+//
+//			list($name, $tu_so, $mau_so, $limit) = $values;
+//
+//			?>
+<!---->
+<!--			<tr>-->
+<!---->
+<!--				<td style="background-color: #279a9d;"> --><?php //echo $name; ?><!-- </td>-->
+<!---->
+<!--				--><?php //foreach ($HQ as $value) { ?>
+<!---->
+<!--					<td --><?php
+//
+//					if ($value[$mau_so] != 0 && round(($value[$tu_so] / $value[$mau_so]) * 100) < $limit && $limit > 0) {
+//
+//						echo 'style="background-color: #a71717;color: #fff;"';
+//
+//					} else if ($value[$mau_so] != 0 && round(($value[$tu_so] / $value[$mau_so]) * 100) >= $limit && $limit > 0) {
+//
+//						echo 'style="background-color: #0C812D;color: #fff;"';
+//
+//					}
+//
+//					?><!-->-->
+<!---->
+<!--						--><?php
+//
+//						echo ($value[$mau_so] != 0) ? round(($value[$tu_so] / $value[$mau_so]) * 100, 2) . '%' : 'không thể chia cho 0';
+//
+//						?>
+<!---->
+<!--					</td>-->
+<!---->
+<!--					--><?php //} ?>
+<!---->
+<!--			</tr>-->
+<!---->
+<!--			--><?php
+//
+//		}
+//
+//		?>
+<!---->
+<!--	</tbody>-->
+<!---->
+<!--</table>-->
+<!---->
+<!--<table class="table table-bordered table-striped view_report">-->
+<!---->
+<!--	<thead>-->
+<!--	<tr>-->
+<!--		<th style="background-color: #2b9a74">NHẬT</th>-->
+<!---->
+<!--		--><?php //foreach ($NB as $key => $item) { ?>
+<!--			<th style="background-color: #1e5f24">--><?php //echo $key?><!--</th>-->
+<!--		--><?php //} ?>
+<!--	</tr>-->
+<!---->
+<!--	</thead>-->
+<!---->
+<!--	<tbody>-->
+<!---->
+<!--		--><?php
+//		$report = array('L1', 'L2', 'L3', 'L5', 'L8', 'RE');
+//		foreach ($report as $item) {
+//			?>
+<!--			<tr>-->
+<!--				<td style="background-color: #43bcdf96">--><?php //echo $item ?><!--</td>-->
+<!--				--><?php //foreach ($NB as $value) { ?>
+<!--					<td>-->
+<!--						--><?php
+//						if ($item == 'RE') {
+//							echo h_number_format($value[$item]);
+//						} else {
+//							echo $value[$item];
+//						}
+//						?>
+<!--					</td>-->
+<!--				--><?php //} ?>
+<!--			</tr>-->
+<!--		--><?php //}	?>
+<!---->
+<!--		--><?php
+//
+//		$report2 = array(
+//			array('L5/L1', 'L5', 'L1', 30),
+//		);
+//
+//		foreach ($report2 as $values) {
+//
+//			list($name, $tu_so, $mau_so, $limit) = $values;
+//
+//			?>
+<!---->
+<!--			<tr>-->
+<!---->
+<!--				<td style="background-color: #279a9d;"> --><?php //echo $name; ?><!-- </td>-->
+<!---->
+<!--				--><?php //foreach ($NB as $value) { ?>
+<!---->
+<!--					<td --><?php
+//
+//					if ($value[$mau_so] != 0 && round(($value[$tu_so] / $value[$mau_so]) * 100) < $limit && $limit > 0) {
+//
+//						echo 'style="background-color: #a71717;color: #fff;"';
+//
+//					} else if ($value[$mau_so] != 0 && round(($value[$tu_so] / $value[$mau_so]) * 100) >= $limit && $limit > 0) {
+//
+//						echo 'style="background-color: #0C812D;color: #fff;"';
+//
+//					}
+//
+//					?><!-->-->
+<!---->
+<!--						--><?php
+//
+//						echo ($value[$mau_so] != 0) ? round(($value[$tu_so] / $value[$mau_so]) * 100, 2) . '%' : 'không thể chia cho 0';
+//
+//						?>
+<!---->
+<!--					</td>-->
+<!---->
+<!--				--><?php //} ?>
+<!---->
+<!--			</tr>-->
+<!---->
+<!--			--><?php
+//
+//		}
+//
+//		?>
+<!---->
+<!--	</tbody>-->
+<!---->
+<!--</table>-->
+<!---->
+<!--<table class="table table-bordered table-striped view_report">-->
+<!---->
+<!--	<thead>-->
+<!--	<tr>-->
+<!--		<th style="background-color: #9a612b">TRUNG</th>-->
+<!---->
+<!--		--><?php //foreach ($TQ as $key => $item) { ?>
+<!--			<th style="background-color: #1e5f24">--><?php //echo $key?><!--</th>-->
+<!--		--><?php //} ?>
+<!--	</tr>-->
+<!---->
+<!--	</thead>-->
+<!---->
+<!--	<tbody>-->
+<!---->
+<!--		--><?php
+//		$report = array('L1', 'L2', 'L3', 'L5', 'L8', 'RE');
+//		foreach ($report as $item) { ?>
+<!---->
+<!--			<tr>-->
+<!--				<td style="background-color: #43bcdf96">--><?php //echo $item ?><!--</td>-->
+<!---->
+<!--				--><?php //foreach ($TQ as $value) { ?>
+<!---->
+<!--					<td>-->
+<!--						--><?php
+//						if ($item == 'RE') {
+//							echo h_number_format($value[$item]);
+//						} else {
+//							echo $value[$item];
+//						}
+//						?>
+<!---->
+<!--					</td>-->
+<!---->
+<!--				--><?php //} ?>
+<!--			</tr>-->
+<!--		--><?php //}	?>
+<!---->
+<!--		--><?php
+//
+//		$report2 = array(
+//			array('L5/L1', 'L5', 'L1', 30),
+//		);
+//
+//		foreach ($report2 as $values) {
+//
+//			list($name, $tu_so, $mau_so, $limit) = $values;
+//
+//			?>
+<!---->
+<!--			<tr>-->
+<!---->
+<!--				<td style="background-color: #279a9d;"> --><?php //echo $name; ?><!-- </td>-->
+<!---->
+<!--				--><?php //foreach ($TQ as $value) { ?>
+<!---->
+<!--					<td --><?php
+//
+//					if ($value[$mau_so] != 0 && round(($value[$tu_so] / $value[$mau_so]) * 100) < $limit && $limit > 0) {
+//
+//						echo 'style="background-color: #a71717;color: #fff;"';
+//
+//					} else if ($value[$mau_so] != 0 && round(($value[$tu_so] / $value[$mau_so]) * 100) >= $limit && $limit > 0) {
+//
+//						echo 'style="background-color: #0C812D;color: #fff;"';
+//
+//					}
+//
+//					?><!-->-->
+<!---->
+<!--						--><?php
+//
+//						echo ($value[$mau_so] != 0) ? round(($value[$tu_so] / $value[$mau_so]) * 100, 2) . '%' : 'không thể chia cho 0';
+//
+//						?>
+<!---->
+<!--					</td>-->
+<!---->
+<!--				--><?php //} ?>
+<!---->
+<!--			</tr>-->
+<!---->
+<!--			--><?php
+//
+//		}
+//
+//		?>
+<!---->
+<!--	</tbody>-->
+<!---->
+<!--</table>-->
+<!---->
 
 <table class="table table-bordered table-striped view_report">
 
@@ -295,8 +387,8 @@
 	<tr>
 		<th style="background-color: #4c28c6b3">TỔNG</th>
 
-		<?php foreach ($sources as $item) { ?>
-			<th style="background-color: #1e5f24"><?php echo $item['name']?></th>
+		<?php foreach ($sources as $item_1) { ?>
+			<th style="background-color: #1e5f24"><?php echo $item_1['name']?></th>
 		<?php } ?>
 	</tr>
 
@@ -305,18 +397,18 @@
 	<tbody>
 
 	<?php
-	$report = array('L1', 'L2', 'L3', 'L5', 'L8', 'RE');
-	foreach ($report as $item) {
+	$report_2 = array('L1', 'L2', 'L3', 'L5', 'L8', 'RE');
+	foreach ($report_2 as $item_2) {
 		?>
 		<tr>
-			<td style="background-color: #43bcdf96"><?php echo $item ?></td>
-			<?php foreach ($sources as $value) { ?>
+			<td style="background-color: #43bcdf96"><?php echo $item_2 ?></td>
+			<?php foreach ($sources as $value_source) { ?>
 				<td>
 					<?php
 					if ($item == 'RE') {
-						echo h_number_format($value[$item]);
+						echo h_number_format($value_source[$item_2]);
 					} else {
-						echo $value[$item];
+						echo $value_source[$item_2];
 					}
 					?>
 				</td>
@@ -326,11 +418,11 @@
 
 	<?php
 
-	$report2 = array(
+	$report_3 = array(
 		array('L5/L1', 'L5', 'L1', 30),
 	);
 
-	foreach ($report2 as $values) {
+	foreach ($report_3 as $values) {
 
 		list($name, $tu_so, $mau_so, $limit) = $values;
 
@@ -368,11 +460,7 @@
 
 		</tr>
 
-		<?php
-
-	}
-
-	?>
+	<?php }	?>
 
 	</tbody>
 
