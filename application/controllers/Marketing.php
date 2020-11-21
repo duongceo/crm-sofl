@@ -389,7 +389,11 @@ class Marketing extends MY_Controller {
 				'time' => 'filter_date_date_rgt'
 			),
 			'L5' => array(
-				'where' => array('is_hide' => '0', 'duplicate_id' => '0', 'is_old' => '0', 'source_id IN (1, 2, 6, 8)' => 'NO-VALUE'),
+				'where' => array('is_hide' => '0', 'duplicate_id' => '0', 'level_contact_id' => 'L5', 'is_old' => '0', 'source_id IN (1, 2, 6, 8)' => 'NO-VALUE'),
+				'time' => 'filter_date_date_rgt_study'
+			),
+			'L8' => array(
+				'where' => array('is_hide' => '0', 'duplicate_id' => '0', 'level_contact_id' => 'L5', 'is_old' => 1),
 				'time' => 'filter_date_date_rgt_study'
 			),
 		);
@@ -412,7 +416,6 @@ class Marketing extends MY_Controller {
 					$condition = array('where' => array_merge($value['where'], array('language_id' => $v_language['id'])));
 					$Report[$v_language['name']][$value_date][$report_type] = $this->_query_for_report($get_time, $condition);
 				}
-				
 
 				$input = array();
 				$input['select'] = 'SUM(spend) as spending';
@@ -432,16 +435,20 @@ class Marketing extends MY_Controller {
 
 				$input_re['select'] = 'SUM(paid) as paiding';
 				$input_re['where'] = array(
-					'student_old' => '0',
 					'time_created >=' => $date_from,
 					'time_created <=' => $date_end,
 					'language_id' => $v_language['id']
 				);
 
-				$re = (int)$this->paid_model->load_all($input_re)[0]['paiding'];
+				$input_re_new = array_merge_recursive($input_re, array('where' => array('student_old' => '0')));
+				$input_re_old = array_merge_recursive($input_re, array('where' => array('student_old' => 1)));
+
+				$re_new = (int)$this->paid_model->load_all($input_re_new)[0]['paiding'];
+				$re_old = (int)$this->paid_model->load_all($input_re_old)[0]['paiding'];
 
 				//$Report[$v_language['name']][$value_date]['RE'] = $re;
-				$Report[$v_language['name']][$value_date]['Re_thuc_te'] = str_replace(',', '.', number_format($re));
+				$Report[$v_language['name']][$value_date]['Re_thuc_te'] = str_replace(',', '.', number_format($re_new));
+				$Report[$v_language['name']][$value_date]['Re_cu'] = str_replace(',', '.', number_format($re_old));
 //				$Report[$v_language['id']][$value_date]['Ma_FB'] = str_replace(',', '.', number_format($spend_fb));
 //				$Report[$v_language['id']][$value_date]['Ma_GG'] = str_replace(',', '.', number_format($spend_gg));
 				$Report[$v_language['name']][$value_date]['Ma_mkt'] = str_replace(',', '.', number_format($spend));
@@ -451,7 +458,7 @@ class Marketing extends MY_Controller {
 			}
 		}
 
-		//print_arr($Report);
+//		print_arr($Report);
 
 		$data['report'] = $Report;
 		$data['left_col'] = array('date_happen_1');
