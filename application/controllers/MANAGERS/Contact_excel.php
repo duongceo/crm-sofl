@@ -154,6 +154,10 @@ class Contact_excel extends MY_Table {
 		foreach ($data1 as $row) {
 			$stt = $row[0];
 			if ($stt != '') {
+				if (in_array($row[7], array(9, 10))) {
+					$is_old = 1;
+				} else $is_old = 0;
+
 				$receive_contact[] = array(
 					'name' => $row[0],
 //					'email' => $row[1],
@@ -162,7 +166,8 @@ class Contact_excel extends MY_Table {
 					'language_id' => $row[4],
 					'date_rgt' => strtotime($row[5]),
 					'note' => $row[6],
-					'source_id' => $row[7]
+					'source_id' => $row[7],
+					'is_old' => $is_old,
 				);
 			}
 		}
