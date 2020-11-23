@@ -31,7 +31,7 @@
 
 		<?php
 
-		$report = array('L1', 'L2', 'L3', 'L5_1', 'L5_2', 'L8', 'L5/L1');
+		$report = array('L1', 'L2', 'L3', 'L5_1', 'L5_2', 'L8', 'L5_1/L1');
 		foreach ($language_study as $item) {
 			foreach ($report as $value) {
 
@@ -103,7 +103,7 @@
 				</td>
 
 				<td style="background-color: #41a85f">
-					<?php echo round(($value[$item['id']]['L5'] / $value[$item['id']]['L1']) * 100, 2) . '%'; ?>
+					<?php echo round(($value[$item['id']]['L5_1'] / $value[$item['id']]['L1']) * 100, 2) . '%'; ?>
 				</td>
 
 				<?php
