@@ -1420,8 +1420,12 @@ class Manager extends MY_Controller {
 					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L3', 'is_old' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
 					'sum' => 0
 				),
-				'L5' => array(
-					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
+				'L5_1' => array(
+					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'source_id NOT IN (9, 10, 11)' => 'NO-VALUE', 'is_old' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
+					'sum' => 0
+				),
+				'L5_2' => array(
+					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'source_id IN (9, 10, 11)' => 'NO-VALUE', 'is_old' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
 					'sum' => 0
 				),
 				'L8' => array(
@@ -1443,8 +1447,12 @@ class Manager extends MY_Controller {
 					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L3', 'is_old' => '0', 'date_confirm >=' => $startDate, 'date_confirm <=' => $endDate),
 					'sum' => 0
 				),
-				'L5' => array(
-					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => '0', 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
+				'L5_1' => array(
+					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'source_id NOT IN (9, 10, 11)' => 'NO-VALUE', 'is_old' => '0', 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
+					'sum' => 0
+				),
+				'L5_2' => array(
+					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'source_id IN (9, 10, 11)' => 'NO-VALUE', 'is_old' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
 					'sum' => 0
 				),
 				'L8' => array(
@@ -1468,7 +1476,7 @@ class Manager extends MY_Controller {
 					$conditional = array();
 					$conditional['where']['branch_id'] = $branch_id;
 					$conditional['where']['language_id'] = $item['id'];
-					$conditional['where_not_in']['source_id'] = array(9, 10, 11);
+//					$conditional['where_not_in']['source_id'] = array(9, 10, 11);
 					$conditional = array_merge_recursive($conditional, $value2);
 //					echo '<pre>'; print_r($conditional);
 					$branch[$branch_id]['name'] = $this->branch_model->find_branch_name($branch_id);
@@ -1483,7 +1491,7 @@ class Manager extends MY_Controller {
 						$conditional = array();
 						$conditional['where']['branch_id'] = $value['id'];
 						$conditional['where']['language_id'] = $item['id'];
-						$conditional['where_not_in']['source_id'] = array(9, 10, 11);
+//						$conditional['where_not_in']['source_id'] = array(9, 10, 11);
 						$conditional = array_merge_recursive($conditional, $value2);
 //						echo '<pre>'; print_r($conditional);
 						$branch[$key]['name'] = $value['name'];

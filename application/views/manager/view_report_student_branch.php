@@ -19,9 +19,9 @@
 	<thead>
 	<tr>
 		<th style="background: none"></th>
-		<th colspan="6" style="background-color: #e94600">Hàn</th>
-		<th colspan="6" style="background-color: #E94600">Nhật</th>
-		<th colspan="6" style="background-color: #E94600">Trung</th>
+		<th colspan="7" style="background-color: #e94600">Hàn</th>
+		<th colspan="7" style="background-color: #E94600">Nhật</th>
+		<th colspan="7" style="background-color: #E94600">Trung</th>
 		<th colspan="2" style="background-color: #1e5f24" >Tổng</th>
 	</tr>
 
@@ -31,7 +31,7 @@
 
 		<?php
 
-		$report = array('L1', 'L2', 'L3', 'L5', 'L8', 'L5/L1');
+		$report = array('L1', 'L2', 'L3', 'L5_1', 'L5_2', 'L8', 'L5/L1');
 		foreach ($language_study as $item) {
 			foreach ($report as $value) {
 
@@ -75,7 +75,7 @@
 			<?php
 			foreach ($language_study as $item) {
 
-				$total_L5 += $value[$item['id']]['L5'];
+				$total_L5 += $value[$item['id']]['L5_1'] + $value[$item['id']]['L5_2'];
 				$total_L8 += $value[$item['id']]['L8'];
 				?>
 				<td>
@@ -91,7 +91,11 @@
 				</td>
 
 				<td <?php if ($key != 'total') echo 'style="background-color: #9cc2cb"'?>>
-					<?php echo $value[$item['id']]['L5']; ?>
+					<?php echo $value[$item['id']]['L5_1']; ?>
+				</td>
+
+				<td <?php if ($key != 'total') echo 'style="background-color: #9cc2cb"'?>>
+					<?php echo $value[$item['id']]['L5_2']; ?>
 				</td>
 
 				<td <?php if ($key != 'total') echo 'style="background-color: #9cc2cb"' ?>>
