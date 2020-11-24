@@ -118,6 +118,8 @@
 
 </table>
 
+<h5>L5_1 : Các học viên đăng ký mà contact có nguồn từ FB, Landingpge, Zalo, trực tiếp, ....</h5>
+<h5>L5_2 : Các học viên đăng ký mà contact có nguồn từ Contact cũ, Học viên cũ trước đây</h5>
 
 
 
