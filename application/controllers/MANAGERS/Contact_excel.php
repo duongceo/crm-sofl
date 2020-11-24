@@ -154,7 +154,7 @@ class Contact_excel extends MY_Table {
 		foreach ($data1 as $row) {
 			$stt = $row[0];
 			if ($stt != '') {
-				if (in_array($row[7], array(9, 10))) {
+				if (in_array($row[7], array(10))) {
 					$is_old = 1;
 				} else $is_old = 0;
 
