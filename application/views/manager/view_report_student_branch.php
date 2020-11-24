@@ -106,19 +106,13 @@
 					<?php echo round(($value[$item['id']]['L5_1'] / $value[$item['id']]['L1']) * 100, 2) . '%'; ?>
 				</td>
 
-				<?php
-			} ?>
+			<?php } ?>
 
 			<td style="background-color: #e787548f;"><?php echo $total_L5 ?></td>
 			<td style="background-color: #e787548f;"><?php echo $total_L8 ?></td>
 		</tr>
 
-		<?php
-
-	}
-
-	?>
-
+	<?php } ?>
 
 	</tbody>
 
