@@ -3529,6 +3529,7 @@ $(document).on("click", ".copy_link_tracking", function () {
 
 $.fn.modal.Constructor.prototype.enforceFocus = function() {};
 
+/*
 $(document).ready(function() {
 	$(document).on("click", ".show_detail", function(e) {
 		e.preventDefault();
@@ -3561,34 +3562,37 @@ $(document).ready(function() {
 	});
 });
 
+ */
+
 $('.contact-sale-have-to-call').click(function(){
     var type = $(this).attr('type');
     // console.log(type);return false;
     $.ajax({
-            type: "POST",
-            url: $("#base_url").val() + "sale/sale_have_to_call",
-            data: {
-                type: type
-            },
-            beforeSend: function() {
-                $(".popup-wrapper").show();
-            },
-            success: data => {
-                console.log(data);
-                $(".body-modal-sale-have-to-call").html("");
-                $(".body-modal-sale-have-to-call").append(data);
-                $('.navbar-sale-have-to-call-modal').modal('show');
-            },
-            error: errorThrown => {
-                alert(errorThrown);
-                $(".popup-wrapper").hide();
-            },
-            complete: function() {
-                $(".popup-wrapper").hide();
-            },
-        });
+		type: "POST",
+		url: $("#base_url").val() + "sale/sale_have_to_call",
+		data: {
+			type: type
+		},
+		beforeSend: function() {
+			$(".popup-wrapper").show();
+		},
+		success: data => {
+			console.log(data);
+			$(".body-modal-sale-have-to-call").html("");
+			$(".body-modal-sale-have-to-call").append(data);
+			$('.navbar-sale-have-to-call-modal').modal('show');
+		},
+		error: errorThrown => {
+			alert(errorThrown);
+			$(".popup-wrapper").hide();
+		},
+		complete: function() {
+			$(".popup-wrapper").hide();
+		},
+	});
 });
 
+/*
 $("a.note_contact").on('click', function (e) {
     e.preventDefault();
     var contact_name = $(this).attr('contact_name');
@@ -3599,6 +3603,9 @@ $("a.note_contact").on('click', function (e) {
     $(".note_contact_modal").modal("show");
 });
 
+ */
+
+/*
 $('.btn-note-contact').on('click', function(e) {
 	e.preventDefault();
 	url = $('#base_url').val() + "marketer/note_contact";
@@ -3629,6 +3636,8 @@ $('.btn-note-contact').on('click', function(e) {
     });
 });
 
+ */
+
 $('.view_student').on('click', function (e) {
 	e.preventDefault();
 	var class_study_id = $(this).attr('item_id');
@@ -3658,4 +3667,9 @@ $('.view_student').on('click', function (e) {
 	});
 });
 
+$(".btn-export-excel-manager").on('click', function (e) {
+	e.preventDefault();
+	$("#action_contact").attr("action", $("#base_url").val() + "common/ExportToExcel");
+	$("#action_contact").submit();
+});
 

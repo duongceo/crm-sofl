@@ -1971,15 +1971,18 @@ class Manager extends MY_Controller {
         return $progress;
     }
 
-//    protected function ExportToExcel($post) {
-//        /* ====================xuất file excel============================== */
-//        //$post = $this->input->post();
-//
-//        $this->load->library('PHPExcel');
-//        $objPHPExcel = new PHPExcel();
-//        $objPHPExcel->setActiveSheetIndex(0);
-//        // $objPHPExcel->getActiveSheet()->getStyle("A1:H1")->getFont()->setSize(11)->setBold(true)->setName('Times New Roman');
-//        //     ->getColor()->setRGB('FFFFFF')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+	/* ====================xuất file excel============================== */
+    public function ExportToExcel($post=array()) {
+
+    	if (empty($post)) {
+			$post = $this->input->post();
+		}
+
+		$this->load->library('PHPExcel');
+        $objPHPExcel = new PHPExcel();
+        $objPHPExcel->setActiveSheetIndex(0);
+        // $objPHPExcel->getActiveSheet()->getStyle("A1:H1")->getFont()->setSize(11)->setBold(true)->setName('Times New Roman');
+        //     ->getColor()->setRGB('FFFFFF')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 //        $styleArray = array(
 //            'font' => array(
 //                'bold' => true,
@@ -1998,72 +2001,41 @@ class Manager extends MY_Controller {
 //        $objPHPExcel->getActiveSheet()->getStyle("A2:R200")->getFont()->setSize(15)->setName('Times New Roman');
 //        $objPHPExcel->getActiveSheet()->getRowDimension('1')->setRowHeight(40);
 //        $objPHPExcel->getActiveSheet()->getSheetView()->setZoomScale(73);
-//
-//        //set tên các cột cần in
-//        $columnName = 'A';
-//        $rowCount = 1;
-//        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'STT');
-//        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Họ tên');
-//        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Email');
-//        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Số điện thoại');
-////        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Địa chỉ');
-//        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Mã khóa học');
-//        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Ngày đăng ký');
-////        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'TVTS');
-//        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Giá tiền mua');
-//        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Nguồn contact');
-//        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Marketer');
-////        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Trạng thái gọi');
-////        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Trạng thái đơn hàng');
-////        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Trạng thái giao hàng');
-////        $objPHPExcel->getActiveSheet()->SetCellValue($columnName . $rowCount, 'Ghi chú cuộc gọi');
-//        $rowCount++;
-//
-//        //đổ dữ liệu ra file excel
-//        $i = 1;
-//        $this->load->model('sources_model');
-//        $this->load->model('call_status_model');
-//        $this->load->model('ordering_status_model');
-//        $this->load->model('cod_status_model');
-//        foreach ($post['contact_id'] as $value) {
-//            $input = array();
-////            $input['select'] = 'id, name, email, phone, address, course_code, date_rgt, sale_staff_id, '
-////                    . 'price_purchase, source_id, call_status_id, ordering_status_id, cod_status_id';
-//            $input['select'] = 'id, name, email, phone, course_code, date_rgt, price_purchase, source_id, marketer_id';
-//            $input['where'] = array('id' => $value);
-//            $contact = $this->contacts_model->load_all($input);
-//
-////            $this->load->model('notes_model');
-////            $input2 = array();
-////            $input2['where'] = array('contact_id' => $value);
-////            $input2['order'] = array('id' => 'DESC');
-////            $last_note = $this->notes_model->load_all($input2);
-////            $notes = '';
-////            if (!empty($last_note)) {
-////                foreach ($last_note as $value2) {
-////                    $notes .= date('d/m/Y', $value2['time']) . ' ==> ' . $value2['content'] . ' ------ ';
-////                }
-////            }
-////            $notes = html_entity_decode($notes);
-//
-//            $columnName = 'A';
-//
-//            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $i++);
-//            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['name']);
-//            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['email']);
-//            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['phone']);
-////            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['address']);
-//            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['course_code']);
-//            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, date('d/m/Y', $contact[0]['date_rgt']));
-////            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $this->staffs_model->find_staff_name($contact[0]['sale_staff_id']));
-//            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['price_purchase']);
-//            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $this->sources_model->find_source_name($contact[0]['source_id']));
-//            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $this->staffs_model->find_staff_name($contact[0]['marketer_id']));
-////            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $this->call_status_model->find_call_status_desc($contact[0]['call_status_id']));
-////            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $this->ordering_status_model->find_ordering_status_desc($contact[0]['ordering_status_id']));
-////            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $this->cod_status_model->find_cod_status_desc($contact[0]['cod_status_id']));
-////            $objPHPExcel->getActiveSheet()->SetCellValue($columnName . $rowCount, $notes);
-//            $objPHPExcel->getActiveSheet()->getRowDimension($rowCount)->setRowHeight(35);
+
+        //set tên các cột cần in
+		$columnName = 'A';
+		$rowCount = 1;
+		$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'STT');
+		$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Họ tên');
+		$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Email');
+		$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Số điện thoại');
+		$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'ID cơ sở');
+		$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'ID ngoại ngữ');
+		$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Ghi chú');
+		$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Ngày đăng ký');
+
+		$rowCount++;
+
+        //đổ dữ liệu ra file excel
+        $i = 1;
+//		$rowCount = 2;
+        foreach ($post['contact_id'] as $value) {
+            $input = array();
+            $input['select'] = 'name, branch_id, language_id, email, phone, date_rgt';
+            $input['where'] = array('id' => $value);
+            $contact = $this->contacts_model->load_all($input);
+//            print_arr($value);
+
+            $columnName = 'A';
+            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $i++);
+            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['name']);
+            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['email']);
+            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['phone']);
+            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['branch_id']);
+            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['language_id']);
+            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['email']);
+            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, date('d/m/Y', $contact[0]['date_rgt']));
+            $objPHPExcel->getActiveSheet()->getRowDimension($rowCount)->setRowHeight(35);
 //            $BStyle = array(
 //                'borders' => array(
 //                    'allborders' => array(
@@ -2073,20 +2045,21 @@ class Manager extends MY_Controller {
 //                )
 //            );
 //            $objPHPExcel->getActiveSheet()->getStyle('A' . $rowCount . ':' . $columnName . $rowCount)->applyFromArray($BStyle);
-//            $rowCount++;
-//        }
+            $rowCount++;
+        }
+
 //        foreach (range('A', $columnName) as $columnID) {
-//            $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)
-//                    ->setAutoSize(true);
+//            $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
 //        }
-//        $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
-//        header('Content-Type: application/vnd.ms-excel');
-//        header('Content-Disposition: attachment;filename="Danh_sach_khach_hang v' . date('Y.m.d') . '.xlsx"');
-//        header('Cache-Control: max-age=0');
-//        $objWriter->save('php://output');
-//        die;
-//        /* ====================xuất file excel (end)============================== */
-//    }
+
+		$objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
+		header('Content-Type: application/vnd.ms-excel;charset=utf-8');
+		header('Content-Disposition: attachment;filename="Contact_' . date('d/m/Y') . '.xlsx"');
+		header('Cache-Control: max-age=0');
+		$objWriter->save('php://output');
+        die;
+    }
+	/* ====================xuất file excel (end)============================== */
 
     // HuyNV Fix report operation
 //    function show_report_operation() {

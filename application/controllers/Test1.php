@@ -26,7 +26,6 @@
 
 class Test1 extends CI_Controller {
 
-
     function index($day = '0') {
 
         if ($day == '0') {
@@ -49,7 +48,7 @@ class Test1 extends CI_Controller {
 		$url = 'https://graph.facebook.com/v4.0/act_2580696332214816/insights?fields=spend,campaign_id,campaign_name,reach,outbound_clicks&level=campaign&limit=5000&time_range={"since":"' . $today_fb_format . '","until":"' . $today_fb_format . '"}&access_token=' . ACCESS_TOKEN;
 		$acc = get_fb_request($url);
 		$spend = json_decode(json_encode($acc->data), true);
-        echo "<pre>";print_r($spend);die();
+//        echo "<pre>";print_r($spend);die();
 
 		foreach ($spend as $key => $value1) {
             	$input['where'] = $where = array(
@@ -127,7 +126,6 @@ class Test1 extends CI_Controller {
 	function test(){
 		phpinfo();
 	}
-    
 
     function test2(){
 
@@ -163,7 +161,6 @@ class Test1 extends CI_Controller {
 
     }
 
-            
 
     function get_mkt() {
 
@@ -182,8 +179,7 @@ class Test1 extends CI_Controller {
     }
 
 
-
-    function test() {
+    function test_3() {
 
         $input['select'] = 'phone,email,course_code';
 
@@ -208,7 +204,6 @@ class Test1 extends CI_Controller {
         $input['order'] = array('id' => 'desc');
 
         $contact_list_buy = $this->contacts_model->load_all($input);
-
 
         $contact_re_buy = array();
 
@@ -257,10 +252,8 @@ class Test1 extends CI_Controller {
 
     function test_url($day = '0') {
         if ($day == '0') {
-
             $day = "-1 days";
         }
-
 
         $today = strtotime(date('d-m-Y', strtotime($day))); //tính theo giờ Mỹ
 
@@ -371,9 +364,10 @@ class Test1 extends CI_Controller {
 	
 	function get_contact() {
 		
-		$input['select'] = 'phone, level_contact_id, language_id';
+		$input['select'] = 'name, phone, level_contact_id, language_id';
 		$input['where'] = array(
-			'is_hide' => '0'
+			'is_hide' => '0',
+			'level_contact_id' => 'L5'
 		);
 		$cts = $this->contacts_model->load_all($input);
 		//print_arr($cts);
@@ -387,18 +381,18 @@ class Test1 extends CI_Controller {
 //		$contact_export = $this->_contact_export($post['contact_id']);
 
 		$objPHPExcel->getActiveSheet()->SetCellValue('A1', 'SDT');
-		$objPHPExcel->getActiveSheet()->SetCellValue('B1', 'TT');
-		$objPHPExcel->getActiveSheet()->SetCellValue('C1', 'Mã ngoại ngữ');
-	
-		
+		$objPHPExcel->getActiveSheet()->SetCellValue('B1', 'name');
+		$objPHPExcel->getActiveSheet()->SetCellValue('C1', 'TT');
+		$objPHPExcel->getActiveSheet()->SetCellValue('D1', 'Mã ngoại ngữ');
+
 		$rowCount = 2;
 		foreach ($cts as $key => $val) {
-			$columnName = 'A';	
+			$columnName = 'A';
 			$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $val['phone']);
+			$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $val['name']);
 			$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $val['level_contact_id']);
 			$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $val['language_id']);
 			$rowCount++;
-
 		}
 		$objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
 		header('Content-Type: application/vnd.ms-excel');
@@ -449,6 +443,63 @@ class Test1 extends CI_Controller {
         return $student;
     }
 
+	public function call_ipphone(){
+		$url = 'https://public-v1-stg.omicall.com/api/auth?apiKey=B3B818D0-6902-45BF-A999-697CA91D85F5-XFOLXW4S';
+		$data = $this->request_api_call($url);
+		$access_token = $data->payload->access_token;
+
+		$url_2 = 'https://public-v1-stg.omicall.com/api/call_transaction/list?from_date=1602460800000&to_date=1602720000000&disposition=cancelled&direction=inbound';
+		$call_detail = $this->request_api_call($url_2, $access_token);
+		print_arr($call_detail);
+	}
+
+	function request_api_call($url, $token='') {
+
+		$options = array(
+
+			CURLOPT_URL => $url,
+
+			CURLOPT_CUSTOMREQUEST => "GET",
+
+			CURLOPT_RETURNTRANSFER => TRUE,
+
+			CURLOPT_HEADER => FALSE,
+
+			CURLOPT_FOLLOWLOCATION => TRUE,
+
+			CURLOPT_ENCODING => '',
+
+			CURLOPT_USERAGENT => 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.87 Safari/537.36',
+
+			CURLOPT_AUTOREFERER => TRUE,
+
+			CURLOPT_CONNECTTIMEOUT => 150,
+
+			CURLOPT_TIMEOUT => 150,
+
+			CURLOPT_MAXREDIRS => 5,
+
+			CURLOPT_SSL_VERIFYHOST => 2,
+
+			CURLOPT_SSL_VERIFYPEER => 0
+
+		);
+
+		$ch = curl_init();
+
+		curl_setopt_array($ch, $options);
+
+		$response = curl_exec($ch);
+
+		$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+		curl_close($ch);
+
+			unset($options);
+
+		return $http_code === 200 ? json_decode($response) : FALSE;
+
+	}
 
 }
 

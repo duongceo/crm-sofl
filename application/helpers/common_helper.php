@@ -1,29 +1,5 @@
 <?php
 
-
-
-/*
-
- * To change this license header, choose License Headers in Project Properties.
-
- * To change this template file, choose Tools | Templates
-
- * and open the template in the editor.
-
- */
-
-
-
-/**
-
- * Description of common
-
- *
-
- * @author CHUYEN
-
- */
-
 function redirect_and_die($message = 'có lỗi xảy ra') {
 
     echo '<script> alert("' . $message . '");</script>';
@@ -46,15 +22,11 @@ function find_source_sale_id($staff_id,$chanel_id){
 
     $staff = $this->staffs_model->load_all($input);
 
-    
-
     $input = array();
 
     $input['where']['id'] = $chanel_id;
 
     $channel = $this->channel_model->load_all($input);
-
-    
 
     if(!empty($staff) && !empty($channel)){
 
@@ -73,8 +45,6 @@ function find_source_sale_id($staff_id,$chanel_id){
         return 1;
 
     }
-
-    
 
 }
 
@@ -104,8 +74,6 @@ function show_error_and_redirect($msg = '', $redirect = '', $msg_success = true)
 
 }
 
-
-
 function print_arr($myArr) {
 
     echo '<pre>';
@@ -116,8 +84,6 @@ function print_arr($myArr) {
 
 }
 
-
-
 function echoQuery() {
 
     $ci = & get_instance();
@@ -125,8 +91,6 @@ function echoQuery() {
     echo $ci->db->last_query() . '<br>';
 
 }
-
-
 
 function h_caculate_money($contact) {
 
@@ -146,7 +110,6 @@ function h_caculate_money($contact) {
 
 }
 
-
 function display_money($money) {
 
     return number_format($money, 0, ",", ".");
@@ -158,8 +121,6 @@ function h_number_format($money) {
     return number_format($money, 0, ",", ".");
 
 }
-
-
 
 function found_position_in_array($phone, $contacts) {
 
@@ -185,8 +146,6 @@ function found_position_in_array($phone, $contacts) {
 
 }
 
-
-
 function h_sum_money($contacts) {
 
     $sum = 0;
@@ -201,8 +160,6 @@ function h_sum_money($contacts) {
 
 }
 
-
-
 function h_sum_money_1($contacts) {
 
     $sum = 0;
@@ -216,8 +173,6 @@ function h_sum_money_1($contacts) {
     return $sum;
 
 }
-
-
 
 function h_find_name_display($column_name, $list_view) {
 
@@ -238,8 +193,6 @@ function h_find_name_display($column_name, $list_view) {
     return $name;
 
 }
-
-
 
 function get_total_campaign_info($rows) {
 
@@ -280,8 +233,6 @@ function h_get_progress($tu_so, $mau_so) {
             round(($tu_so / $mau_so) * 100, 2) . '%' : 'N/A';
 
 }
-
-
 
 function get_fb_request($url) {
 

@@ -1555,8 +1555,9 @@ class Common extends MY_Controller {
 //        echo json_encode($rs[0]);
 //    }
 
-    public function ExportToExcel() {
-        /* ====================xuất file excel============================== */
+/*
+    public function ExportToExcel_2() {
+
         $post = $this->input->post();
         if (empty($post['contact_id'])) {
             show_error_and_redirect('Vui lòng chọn contact cần xuất file excel', '', 0);
@@ -1584,7 +1585,6 @@ class Common extends MY_Controller {
         $objPHPExcel->getActiveSheet()->getStyle("A2:R200")->getFont()->setSize(15)->setName('Times New Roman');
         $objPHPExcel->getActiveSheet()->getRowDimension('1')->setRowHeight(40);
         $objPHPExcel->getActiveSheet()->getSheetView()->setZoomScale(73);
-
 
         //set tên các cột cần in
         $columnName = 'A';
@@ -1669,11 +1669,64 @@ class Common extends MY_Controller {
         header('Cache-Control: max-age=0');
         $objWriter->save('php://output');
         die;
-        /* ====================xuất file excel (end)============================== */
-    }
 
+    }
+*/
+
+	public function ExportToExcel() {
+		$post = $this->input->post();
+
+		$this->load->library('PHPExcel');
+		$objPHPExcel = new PHPExcel();
+		$objPHPExcel->setActiveSheetIndex(0);
+
+		//set tên các cột cần in
+        $columnName = 'A';
+        $rowCount = 1;
+        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'STT');
+        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Họ tên');
+		$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Email');
+		$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Số điện thoại');
+        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'ID cơ sở');
+        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'ID ngoại ngữ');
+        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Ghi chú');
+        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Ngày đăng ký');
+
+        $rowCount++;
+
+		//đổ dữ liệu ra file excel
+        $i = 1;
+//		$rowCount = 2;
+		foreach ($post['contact_id'] as $value) {
+            $input = array();
+            $input['select'] = 'name, branch_id, language_id, email, phone, date_rgt';
+            $input['where'] = array('id' => $value);
+            $contact = $this->contacts_model->load_all($input);
+
+			$columnName = 'A';
+            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $i++);
+            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['name']);
+			$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['email']);
+			$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['phone']);
+            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['branch_id']);
+            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['language_id']);
+            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['email']);
+            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, date('d/m/Y H:m', $contact[0]['date_rgt']));
+            $objPHPExcel->getActiveSheet()->getRowDimension($rowCount)->setRowHeight(35);
+			$rowCount++;
+		}
+
+		$objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
+		header('Content-Type: application/vnd.ms-excel');
+		header('Content-Disposition: attachment;filename="Contact_' . date('d/m/Y') . '.xlsx"');
+		header('Cache-Control: max-age=0');
+		$objWriter->save('php://output');
+		die;
+	}
+
+    /*
     public function ExportL7ToExcel() {
-        /* ====================xuất file excel============================== */
+
         $post = $this->input->post();
         if (empty($post['contact_id'])) {
             show_error_and_redirect('Vui lòng chọn contact cần xuất file excel', '', 0);
@@ -1780,15 +1833,14 @@ class Common extends MY_Controller {
                     ->setAutoSize(true);
         }
 
-//die;
         $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
         header('Content-Type: application/vnd.ms-excel');
         header('Content-Disposition: attachment;filename="Danh_sach_khach_hang v' . date('Y.m.d') . '.xlsx"');
         header('Cache-Control: max-age=0');
         $objWriter->save('php://output');
         die;
-        /* ====================xuất file excel (end)============================== */
     }
+    */
 
     // </editor-fold>
     

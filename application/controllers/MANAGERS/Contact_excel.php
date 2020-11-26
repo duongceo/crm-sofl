@@ -154,9 +154,6 @@ class Contact_excel extends MY_Table {
 		foreach ($data1 as $row) {
 			$stt = $row[0];
 			if ($stt != '') {
-				if (in_array($row[7], array(10))) {
-					$is_old = 1;
-				} else $is_old = 0;
 
 				$receive_contact[] = array(
 					'name' => $row[0],
@@ -167,7 +164,6 @@ class Contact_excel extends MY_Table {
 					'date_rgt' => strtotime($row[5]),
 					'note' => $row[6],
 					'source_id' => $row[7],
-					'is_old' => $is_old,
 				);
 			}
 		}
@@ -176,6 +172,14 @@ class Contact_excel extends MY_Table {
 //		echo '<pre>';print_r($receive_contact);die();
 
 		foreach ($receive_contact as $value) {
+			if (in_array($value['source_id'], array(9, 10))) {
+				$is_old = 1;
+				$dupliacte = 0;
+			} else {
+				$is_old = 0;
+				$dupliacte = $this->_find_dupliacte_contact_excel($value['phone']);
+			}
+
 			$data = array(
 				'name' => $value['name'],
 //				'email' => $value['email'],
@@ -183,8 +187,9 @@ class Contact_excel extends MY_Table {
 				'branch_id' => $value['branch_id'],
 				'language_id' => $value['language_id'],
 				'date_rgt' => $value['date_rgt'],
-				'duplicate_id' => $this->_find_dupliacte_contact_excel($value['phone']),
-				'source_id' => $value['source_id']
+				'duplicate_id' => $dupliacte,
+				'source_id' => $value['source_id'],
+				'is_old' => $is_old
 			);
 
 			$id = $this->contacts_model->insert_return_id($data, 'id');

@@ -51,17 +51,17 @@
 
             </a> -->
 
-            <!-- <a href="#" class="btn-export-all-contact-to-excel one-item-selected" data-form-id="action_contact">
+<!--             <a href="#" class="btn-export-all-contact-to-excel one-item-selected" data-form-id="action_contact">-->
+<!---->
+<!--                <li>-->
+<!---->
+<!--                    <i class="fa fa-file-excel-o" aria-hidden="true"></i> &nbsp; &nbsp; Xuất toàn bộ dữ liệu-->
+<!---->
+<!--                </li>-->
+<!---->
+<!--            </a>-->
 
-                <li>
-
-                    <i class="fa fa-file-excel-o" aria-hidden="true"></i> &nbsp; &nbsp; Xuất toàn bộ dữ liệu
-
-                </li>
-
-            </a> -->
-
-            <a href="#" class="btn-export-all-contact-to-excel multi-item-selected">
+            <a href="#" class="btn-export-excel-manager multi-item-selected">
 
                 <li>
 
