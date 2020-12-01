@@ -186,6 +186,8 @@ class Marketing extends MY_Controller {
 		$total_L5 = 0;
 		$total_spend_fb = 0;
 		$total_spend_gg = 0;
+		$total_spend_hn = 0;
+		$total_spend_hcm = 0;
 		$total_spend = 0;
 		$total_RE = 0;
 
@@ -197,7 +199,7 @@ class Marketing extends MY_Controller {
 			$input['where']['day_spend <='] = $date_end;
 			$input['where']['language_id'] = $key;
 			if ($this->role_id == 6) {
-				$input['where']['marketer_id'] = $this->user_id;
+					$input['where']['marketer_id'] = $this->user_id;
 			}
 //				chi phí fb
 			$input_fb = array_merge_recursive($input, array('where' => array('channel_id' => 2)));
@@ -207,6 +209,14 @@ class Marketing extends MY_Controller {
 			$input_gg = array_merge_recursive($input, array('where' => array('channel_id' => 3)));
 			$spend_gg = (int)$this->spending_model->load_all($input_gg)[0]['spending'];
 //				print_arr($input_gg);
+
+			//				Chi phi tại Hà Nội
+			$input_hn = array_merge_recursive($input, array('where' => array('location_id' => 1)));
+			$spend_hn = (int)$this->spending_model->load_all($input_hn)[0]['spending'];
+
+//				Chi phí tại HCM
+			$input_hcm = array_merge_recursive($input, array('where' => array('location_id' => 2)));
+			$spend_hcm = (int)$this->spending_model->load_all($input_hcm)[0]['spending'];
 
 			$spend = (int)$this->spending_model->load_all($input)[0]['spending'];
 
@@ -233,6 +243,8 @@ class Marketing extends MY_Controller {
 			$Report[$key]['Re_thuc_te'] = str_replace(',', '.', number_format($Report[$key]['RE']));
 			$Report[$key]['Ma_FB'] = str_replace(',', '.', number_format($spend_fb));
 			$Report[$key]['Ma_GG'] = str_replace(',', '.', number_format($spend_gg));
+			$Report[$key]['Ma_HN'] = str_replace(',', '.', number_format($spend_hn));
+			$Report[$key]['Ma_HCM'] = str_replace(',', '.', number_format($spend_hcm));
 			$Report[$key]['Ma_mkt'] = str_replace(',', '.', number_format($spend));
 			$Report[$key]['Gia_So'] = ($Report[$key]['C3'] == 0) ? '0' : str_replace(',', '.', number_format(round($spend / $Report[$key]['C3'])));
 
@@ -241,6 +253,8 @@ class Marketing extends MY_Controller {
 			$total_RE += $Report[$key]['RE'];
 			$total_spend_fb += $spend_fb;
 			$total_spend_gg += $spend_gg;
+			$total_spend_hn += $spend_hn;
+			$total_spend_hcm += $spend_hcm;
 			$total_spend += $spend;
 
 			$Report[$key]['language_name'] = $this->language_study_model->find_language_name($key);
@@ -278,6 +292,8 @@ class Marketing extends MY_Controller {
 		$total_mkt_C3 = 0;
 		$total_mkt_spend_fb = 0;
 		$total_mkt_spend_gg = 0;
+		$total_mkt_spend_hn = 0;
+		$total_mkt_spend_hcm = 0;
 		$total_spend_mkt = 0;
 
 		foreach ($Report_mkt as $key => $value) {
@@ -301,6 +317,14 @@ class Marketing extends MY_Controller {
 			$spend_mkt_gg = (int)$this->spending_model->load_all($input_gg)[0]['spending'];
 //				print_arr($input_gg);
 
+			//				Chi phi tại Hà Nội
+			$input_hn = array_merge_recursive($input, array('where' => array('location_id' => 1)));
+			$spend_mkt_hn = (int)$this->spending_model->load_all($input_hn)[0]['spending'];
+
+//				Chi phí tại HCM
+			$input_hcm = array_merge_recursive($input, array('where' => array('location_id' => 2)));
+			$spend_mkt_hcm = (int)$this->spending_model->load_all($input_hcm)[0]['spending'];
+
 			$spend_mkt = (int)$this->spending_model->load_all($input)[0]['spending'];
 //				 echo '<pre>'; print_r($spend); die;
 
@@ -308,11 +332,15 @@ class Marketing extends MY_Controller {
 			$Report_mkt[$key]['Ma_mkt'] = str_replace(',', '.', number_format($spend_mkt));
 			$Report_mkt[$key]['Ma_mkt_FB'] = str_replace(',', '.', number_format($spend_mkt_fb));
 			$Report_mkt[$key]['Ma_mkt_GG'] = str_replace(',', '.', number_format($spend_mkt_gg));
+			$Report_mkt[$key]['Ma_mkt_HN'] = str_replace(',', '.', number_format($spend_mkt_hn));
+			$Report_mkt[$key]['Ma_mkt_HCM'] = str_replace(',', '.', number_format($spend_mkt_hcm));
 
 			$total_mkt_C3 += $Report_mkt[$key]['C3'];
 			$total_mkt_L5 += $Report_mkt[$key]['L5'];
 			$total_mkt_spend_fb += $spend_mkt_fb;
 			$total_mkt_spend_gg += $spend_mkt_gg;
+			$total_mkt_spend_hn += $spend_mkt_hn;
+			$total_mkt_spend_hcm += $spend_mkt_hcm;
 			$total_spend_mkt += $spend_mkt;
 
 			$Report_mkt[$key]['mkt_name'] = $this->staffs_model->find_staff_name($key);
@@ -327,6 +355,8 @@ class Marketing extends MY_Controller {
 			'L5' => $total_mkt_L5,
 			'Ma_mkt_FB' => str_replace(',', '.', number_format($total_mkt_spend_fb)),
 			'Ma_mkt_GG' => str_replace(',', '.', number_format($total_mkt_spend_gg)),
+			'Ma_mkt_HN' => str_replace(',', '.', number_format($total_mkt_spend_hn)),
+			'Ma_mkt_HCM' => str_replace(',', '.', number_format($total_mkt_spend_hcm)),
 			'Ma_mkt' => str_replace(',', '.', number_format($total_spend_mkt)),
 			'Gia_So' => ($total_mkt_C3 == 0) ? '0' : str_replace(',', '.', number_format(round($total_spend_mkt / $total_mkt_C3, 2) * 100)),
 			'mkt_name' => 'Tổng'
@@ -340,6 +370,8 @@ class Marketing extends MY_Controller {
 		$this->load->model('branch_model');
 		$data['branch'] = $this->branch_model->load_all();
 
+		$data['marketers'] = $this->staffs_model->load_all(array('where' => array('role_id' => 6, 'active' => 1)));
+
 		$data['report'] = $Report;
 		$data['report_mkt'] = $Report_mkt;
 		//print_arr($data['report_mkt']);
@@ -350,7 +382,7 @@ class Marketing extends MY_Controller {
 			$data['left_col'] = array('date_happen_1', 'tic_report');
 //				$data['right_col'] = array('channel');
 		} else {
-			$data['left_col'] = array('date_happen_1', 'tic_report');
+			$data['left_col'] = array('date_happen_1', 'tic_report', 'marketer');
 			$data['right_col'] = array('branch');
 		}
 

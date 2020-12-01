@@ -30,6 +30,8 @@
 					<th style="font-weight: bold; background-color: purple">Chi phí FB</th>
 <!--					<th style="font-weight: bold; background-color: purple">Giá Contact FB</th>-->
 					<th style="font-weight: bold; background-color: purple">Chi phí GG</th>
+					<th style="font-weight: bold; background-color: purple">Chi phí Hà Nội</th>
+					<th style="font-weight: bold; background-color: purple">Chi phí Hồ Chí Minh</th>
 <!--					<th style="font-weight: bold; background-color: purple">Giá Contact GG</th>-->
 					<th style="font-weight: bold; background-color: purple">Tổng chi phí</th>
 					<th style="font-weight: bold; background-color: purple">Giá tổng</th>
@@ -46,6 +48,8 @@
                     <td><?php echo $value['L5'] ?></td>
                     <td><?php echo $value['Ma_FB']?> VNĐ</td>
                     <td><?php echo $value['Ma_GG']?> VNĐ</td>
+                    <td><?php echo $value['Ma_HN']?> VNĐ</td>
+                    <td><?php echo $value['Ma_HCM']?> VNĐ</td>
 					<td><?php echo $value['Ma_mkt']?> VNĐ</td>
 					<td><?php echo $value['Gia_So']?> VNĐ</td>
                     <td><?php echo $value['Re_thuc_te']?> VNĐ</td>
@@ -82,6 +86,8 @@
 					<th style="font-weight: bold">Đăng ký thành công (L5)</th>
 					<th style="font-weight: bold; background-color: #1b6d85">Chi Phí FB</th>
 					<th style="font-weight: bold; background-color: #1b6d85">Chi Phí GG</th>
+					<th style="font-weight: bold; background-color: #1b6d85">Chi Phí KV Hà Nội</th>
+					<th style="font-weight: bold; background-color: #1b6d85">Chi Phí KV HCM</th>
 					<th style="font-weight: bold; background-color: #1b6d85">Tổng Chi Phí</th>
 					<th style="font-weight: bold; background-color: #1b6d85">Giá Contact</th>
 <!--					<th style="font-weight: bold; background-color: #1b6d85">Doanh thu</th>-->
@@ -97,6 +103,8 @@
 					<td><?php echo $value['L5']?></td>
 					<td><?php echo $value['Ma_mkt_FB']?> VNĐ</td>
 					<td><?php echo $value['Ma_mkt_GG']?> VNĐ</td>
+					<td><?php echo $value['Ma_mkt_HN']?> VNĐ</td>
+					<td><?php echo $value['Ma_mkt_HCM']?> VNĐ</td>
 					<td><?php echo $value['Ma_mkt']?> VNĐ</td>
 					<td><?php echo $value['Gia_So']?> VNĐ</td>
 <!--					<td>--><?php //echo $value['Re_thuc_te']?><!--</td>-->
