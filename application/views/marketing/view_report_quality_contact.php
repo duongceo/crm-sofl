@@ -47,7 +47,7 @@
                     <td style="background-color: #0EA3EF ;color: #FFF;font-weight: bold"><?php echo $value['language_name'] ?></td>
                     <td><?php echo $value['C3'] ?></td>
                     <td><?php echo $value['L5'] ?></td>
-                    <td><?php echo $value['L5/C3'] ?></td>
+                    <td><?php echo $value['L5/C3'] . '%'?></td>
                     <td><?php echo $value['Ma_FB']?> VNĐ</td>
                     <td><?php echo $value['Ma_GG']?> VNĐ</td>
                     <td><?php echo $value['Ma_HN']?> VNĐ</td>
@@ -104,7 +104,7 @@
 					<td style="background-color: #0c6681 ;color: #FFF;font-weight: bold"><?php echo $value['mkt_name'] ?></td>
 					<td><?php echo $value['C3']?></td>
 					<td><?php echo $value['L5']?></td>
-					<td><?php echo $value['L5/C3']?></td>
+					<td><?php echo $value['L5/C3'] . '%'?></td>
 					<td><?php echo $value['Ma_mkt_FB']?> VNĐ</td>
 					<td><?php echo $value['Ma_mkt_GG']?> VNĐ</td>
 					<td><?php echo $value['Ma_mkt_HN']?> VNĐ</td>
