@@ -22,11 +22,12 @@
         <thead class="table-head-pos">
             <tr>
 				<th rowspan = "2" style="font-weight: bold">Ngôn ngữ</th>
-				<th colspan = "2" style="font-weight: bold"> Số Lượng</th>
+				<th colspan = "3" style="font-weight: bold"> Số Lượng</th>
 				<th colspan = "10" style="font-weight: bold; background-color: purple"> Chi Phí và Giá</th>
 				<tr>
-					<th style="font-weight: bold">Contact (L1)</th>
-                    <th style="font-weight: bold">Đăng ký thành công (L5)</th>
+					<th style="font-weight: bold">L1</th>
+                    <th style="font-weight: bold">L5</th>
+                    <th style="font-weight: bold">Tỷ lệ</th>
 					<th style="font-weight: bold; background-color: purple">Chi phí FB</th>
 <!--					<th style="font-weight: bold; background-color: purple">Giá Contact FB</th>-->
 					<th style="font-weight: bold; background-color: purple">Chi phí GG</th>
@@ -46,6 +47,7 @@
                     <td style="background-color: #0EA3EF ;color: #FFF;font-weight: bold"><?php echo $value['language_name'] ?></td>
                     <td><?php echo $value['C3'] ?></td>
                     <td><?php echo $value['L5'] ?></td>
+                    <td><?php echo $value['L5/C3'] ?></td>
                     <td><?php echo $value['Ma_FB']?> VNĐ</td>
                     <td><?php echo $value['Ma_GG']?> VNĐ</td>
                     <td><?php echo $value['Ma_HN']?> VNĐ</td>
@@ -79,11 +81,12 @@
 		<thead class="table-head-pos">
 			<tr>
 				<th rowspan = "2" style="font-weight: bold">Nhân viên</th>
-				<th colspan = "2" style="font-weight: bold"> Số Lượng</th>
+				<th colspan = "3" style="font-weight: bold"> Số Lượng</th>
 				<th colspan = "6" style="font-weight: bold; background-color: #1b6d85 "> Hiệu quả</th>
 				<tr>
-					<th style="font-weight: bold">Contact (L1)</th>
-					<th style="font-weight: bold">Đăng ký thành công (L5)</th>
+					<th style="font-weight: bold">L1</th>
+					<th style="font-weight: bold">L5</th>
+					<th style="font-weight: bold">Tỷ lệ</th>
 					<th style="font-weight: bold; background-color: #1b6d85">Chi Phí FB</th>
 					<th style="font-weight: bold; background-color: #1b6d85">Chi Phí GG</th>
 					<th style="font-weight: bold; background-color: #1b6d85">Chi Phí KV Hà Nội</th>
@@ -101,6 +104,7 @@
 					<td style="background-color: #0c6681 ;color: #FFF;font-weight: bold"><?php echo $value['mkt_name'] ?></td>
 					<td><?php echo $value['C3']?></td>
 					<td><?php echo $value['L5']?></td>
+					<td><?php echo $value['L5/C3']?></td>
 					<td><?php echo $value['Ma_mkt_FB']?> VNĐ</td>
 					<td><?php echo $value['Ma_mkt_GG']?> VNĐ</td>
 					<td><?php echo $value['Ma_mkt_HN']?> VNĐ</td>
