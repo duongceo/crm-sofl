@@ -249,7 +249,7 @@ class Marketing extends MY_Controller {
 			$Report[$key]['Ma_HCM'] = str_replace(',', '.', number_format($spend_hcm));
 			$Report[$key]['Ma_mkt'] = str_replace(',', '.', number_format($spend));
 			$Report[$key]['Gia_So'] = ($Report[$key]['C3'] == 0) ? '0' : str_replace(',', '.', number_format(round($spend / $Report[$key]['C3'])));
-			$Report[$key]['L5/C3'] = ($Report[$key]['C3'] == 0) ? '0' : str_replace(',', '.', number_format(round($Report[$key]['L5'] / $Report[$key]['C3'], 4)) * 100);
+			$Report[$key]['L5/C3'] = ($Report[$key]['C3'] == 0) ? '0' : round($Report[$key]['L5'] / $Report[$key]['C3'], 4) * 100;
 
 			$total_C3 += $Report[$key]['C3'];
 			$total_L5 += $Report[$key]['L5'];
@@ -267,7 +267,7 @@ class Marketing extends MY_Controller {
 		$Report['Tổng'] = array(
 			'C3' => $total_C3,
 			'L5' => $total_L5,
-			'L5/C3' => ($total_C3 == 0) ? '0' : str_replace(',', '.', number_format(round($total_L5 / $total_C3, 4) * 100)),
+			'L5/C3' => ($total_C3 == 0) ? '0' : round($total_L5 / $total_C3, 4) * 100,
 			'Ma_FB' => str_replace(',', '.', number_format($total_spend_fb)),
 			'Ma_GG' => str_replace(',', '.', number_format($total_spend_gg)),
 			'Ma_mkt' => str_replace(',', '.', number_format($total_spend)),
@@ -332,7 +332,7 @@ class Marketing extends MY_Controller {
 			$spend_mkt = (int)$this->spending_model->load_all($input)[0]['spending'];
 //				 echo '<pre>'; print_r($spend); die;
 
-			$Report_mkt[$key]['L5/C3'] = ($Report_mkt[$key]['C3'] == 0) ? '0' : str_replace(',', '.', number_format(round($Report_mkt[$key]['L5'] / $Report_mkt[$key]['C3'], 4) * 100));
+			$Report_mkt[$key]['L5/C3'] = ($Report_mkt[$key]['C3'] == 0) ? '0' :round($Report_mkt[$key]['L5'] / $Report_mkt[$key]['C3'], 4) * 100;
 			$Report_mkt[$key]['Gia_So'] = ($Report_mkt[$key]['C3'] == 0) ? '0' : str_replace(',', '.', number_format(round($spend_mkt / $Report_mkt[$key]['C3'])));
 			$Report_mkt[$key]['Ma_mkt'] = str_replace(',', '.', number_format($spend_mkt));
 			$Report_mkt[$key]['Ma_mkt_FB'] = str_replace(',', '.', number_format($spend_mkt_fb));
@@ -358,7 +358,7 @@ class Marketing extends MY_Controller {
 		$Report_mkt['Tổng'] = array(
 			'C3' => $total_mkt_C3,
 			'L5' => $total_mkt_L5,
-			'L5/C3' => ($total_mkt_C3 == 0) ? '0' : str_replace(',', '.', number_format(round($total_mkt_L5/ $total_mkt_C3, 4) * 100)),
+			'L5/C3' => ($total_mkt_C3 == 0) ? '0' : round($total_mkt_L5/ $total_mkt_C3, 4) * 100,
 			'Ma_mkt_FB' => str_replace(',', '.', number_format($total_mkt_spend_fb)),
 			'Ma_mkt_GG' => str_replace(',', '.', number_format($total_mkt_spend_gg)),
 			'Ma_mkt_HN' => str_replace(',', '.', number_format($total_mkt_spend_hn)),
