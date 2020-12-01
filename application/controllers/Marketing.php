@@ -422,7 +422,6 @@ class Marketing extends MY_Controller {
 				$input['where']['day_spend >='] = $date_from;
 				$input['where']['day_spend <='] = $date_end;
 				$input['where']['language_id'] = $v_language['id'];
-				$input['where_not_in']['source_id'] = array(9, 10);
 
 //				chi phí fb
 //				$input_fb = array_merge_recursive($input, array('where' => array('channel_id' => 2)));
@@ -440,6 +439,7 @@ class Marketing extends MY_Controller {
 					'time_created <=' => $date_end,
 					'language_id' => $v_language['id']
 				);
+				$input_re['where_not_in']['source_id'] = array(9, 10);
 
 				$input_re_new = array_merge_recursive($input_re, array('where' => array('student_old' => '0')));
 				$input_re_old = array_merge_recursive($input_re, array('where' => array('student_old' => 1)));
