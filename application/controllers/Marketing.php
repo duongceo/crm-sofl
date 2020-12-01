@@ -199,7 +199,9 @@ class Marketing extends MY_Controller {
 			$input['where']['day_spend <='] = $date_end;
 			$input['where']['language_id'] = $key;
 			if ($this->role_id == 6) {
-					$input['where']['marketer_id'] = $this->user_id;
+				$input['where']['marketer_id'] = $this->user_id;
+			} elseif (isset($get['filter_marketer_id'])) {
+				$input['where_in']['marketer_id'] = $get['filter_marketer_id'];
 			}
 //				chi phí fb
 			$input_fb = array_merge_recursive($input, array('where' => array('channel_id' => 2)));
