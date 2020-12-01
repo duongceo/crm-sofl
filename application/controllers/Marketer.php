@@ -321,7 +321,7 @@ class Marketer extends MY_Controller {
 		);
 		
 		$data = $this->_get_require_data($require_model);
-		//echo '<pre>'; print_r($data); die();
+//		echo '<pre>'; print_r($data); die();
 
 		$get = $this->input->get();
 		
@@ -343,6 +343,10 @@ class Marketer extends MY_Controller {
 			'day_spend <' => $date_end,
 			'marketer_id' => $this->user_id
 		);
+
+		if (isset($get['filter_language_id'])) {
+			$input['where_in']['language_id'] = $get['filter_language_id'];
+		}
 
 		if (isset($get['filter_number_records'])) {
 			$input['limit'] = array($get['filter_number_records']);
@@ -389,10 +393,11 @@ class Marketer extends MY_Controller {
 			redirect(base_url('marketer/get_ma_mkt'));
 		}
 
+		$data['marketers'] = $data['staffs'];
 		$data['total_spend'] = str_replace(',', '.', number_format($spend_fb));
 		$data['startDate'] = isset($date_from) ? $date_from : '0';
 		$data['endDate'] = isset($date_end) ? $date_end : '0';
-		$data['left_col'] = array('date_happen_1');
+		$data['left_col'] = array('date_happen_1', 'language');
 		$data['content'] = 'marketer/upload_spend';
 		//echo '<pre>';print_r($data);die();
 
