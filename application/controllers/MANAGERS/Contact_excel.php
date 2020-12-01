@@ -146,7 +146,7 @@ class Contact_excel extends MY_Table {
 
 		$sheet = $objPHPExcel->getActiveSheet();
 
-		$data1 = $sheet->rangeToArray('A1:J700');
+		$data1 = $sheet->rangeToArray('A1:J1000');
 		// echo '<pre>'; print_r($data1);die();
 
 		$receive_contact = array();
