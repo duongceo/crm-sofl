@@ -1,10 +1,10 @@
 <div class="row">
 
-<div class="col-md-10 col-md-offset-1">
+	<div class="col-md-10 col-md-offset-1">
 
-	<h3 class="text-center marginbottom20"> Báo cáo doanh thu từ ngày <?php echo date('d-m-Y', $startDate); ?> đến hết ngày <?php echo date('d-m-Y', $endDate); ?></h3>
+		<h3 class="text-center marginbottom20"> Báo cáo doanh thu từ ngày <?php echo date('d-m-Y', $startDate); ?> đến hết ngày <?php echo date('d-m-Y', $endDate); ?></h3>
 
-</div>
+	</div>
 
 </div>
 
@@ -15,139 +15,81 @@
 </form>
 
 <table class="table table-bordered table-striped view_report">
-
 	<thead>
-
-	<tr>
-
-		<th style="background: none"></th>
-
-		<?php
-
-		$report = array('Học Viên Cũ', 'Học Viên Mới', 'Tổng');
-
-		foreach ($report as $value) {
-
-			?>
-
-			<th <?php if ($value == 'Tổng') echo 'style="background-color: #1e5f24"'?>>
-
-				<?php echo $value; ?>
-
-			</th>
-
+		<tr>
+			<th style="background: none"></th>
 			<?php
-
-		}
-
-		?>
-
-	</tr>
-
+			$report = array('Học Viên Cũ', 'Học Viên Mới', 'Tổng');
+			foreach ($report as $value) {
+				?>
+				<th <?php if ($value == 'Tổng') echo 'style="background-color: #1e5f24"'?>>
+					<?php echo $value; ?>
+				</th>
+			<?php } ?>
+		</tr>
 	</thead>
 
 	<tbody>
-
-	<?php
-
-	foreach ($language_re as $value) {
-
-		$total_re += $value['re_total'];
-		$total_re_new += $value['re_new'];
-		$total_re_old += $value['re_old'];
-
-		?>
-
-		<tr>
-
-			<td style="background-color: #8aa6c1">
-
-				<?php echo $value['language_name']; ?>
-
-			</td>
-
-			<td>
-
-				<?php echo number_format($value['re_old'], 0, ",", "."); ?>
-
-			</td>
-
-			<td>
-
-				<?php echo number_format($value['re_new'], 0, ",", "."); ?>
-
-			</td>
-
-			<td>
-
-				<?php echo number_format($value['re_total'], 0, ",", "."); ?>
-
-			</td>
-
-		</tr>
-
 		<?php
+		foreach ($language_re as $value) {
+			$total_re += $value['re_total'];
+			$total_re_new += $value['re_new'];
+			$total_re_old += $value['re_old'];
+			?>
 
-	}
+			<tr>
+				<td style="background-color: #8aa6c1">
+					<?php echo $value['language_name']; ?>
+				</td>
 
-	?>
+				<td>
+					<?php echo number_format($value['re_old'], 0, ",", "."); ?>
+				</td>
 
-	<tr style="background-color: #61bcb4f0;">
+				<td>
+					<?php echo number_format($value['re_new'], 0, ",", "."); ?>
+				</td>
 
-		<td> Tổng </td>
+				<td>
+					<?php echo number_format($value['re_total'], 0, ",", "."); ?>
+				</td>
+			</tr>
+		<?php } ?>
 
-		<td> <h4> <?php echo number_format($total_re_old, 0, ",", ".") . " VNĐ"; ?></h4></td>
-
-		<td> <h4> <?php echo number_format($total_re_new, 0, ",", ".") . " VNĐ"; ?></h4></td>
-
-		<td colspan="3"> <h4> <?php echo number_format($total_re, 0, ",", ".") . " VNĐ"; ?></h4></td>
-
-	</tr>
-
+		<tr style="background-color: #61bcb4f0;">
+			<td> Tổng </td>
+			<td> <h4> <?php echo number_format($total_re_old, 0, ",", ".") . " VNĐ"; ?></h4></td>
+			<td> <h4> <?php echo number_format($total_re_new, 0, ",", ".") . " VNĐ"; ?></h4></td>
+			<td colspan="3"> <h4> <?php echo number_format($total_re, 0, ",", ".") . " VNĐ"; ?></h4></td>
+		</tr>
 	</tbody>
-
 </table>
 
 <table class="table table-bordered table-striped view_report">
-
 	<thead>
-
 		<tr>
 			<th style="background: none"></th>
 			<th colspan="2">Hàn</th>
 			<th colspan="2">Nhật</th>
 			<th colspan="2">Trung</th>
-			<th style="background-color: #1e5f24" rowspan="2">Tổng</th>
+			<th style="background-color: #1e5f24" colspan="3">Tổng</th>
 		</tr>
 
 		<tr>
-
 			<th style="background: none"></th>
-
 			<?php
-
-			$report = array('Học Viên Cũ', 'Học Viên Mới', 'Học Viên Cũ', 'Học Viên Mới', 'Học Viên Cũ', 'Học Viên Mới');
-
+			$report = array('Học Viên Cũ', 'Học Viên Mới', 'Học Viên Cũ', 'Học Viên Mới', 'Học Viên Cũ', 'Học Viên Mới', 'Học Viên Cũ', 'Học Viên Mới');
 			foreach ($report as $value) {
-
-				?>
-
+			?>
 				<th style="background-color: #1b6d85">
 					<?php echo $value; ?>
 				</th>
-
-				<?php
-
-			}
-
-			?>
-
+			<?php } ?>
+			<th style="background-color: #1e5f24"> Tổng </th>
 		</tr>
-
 	</thead>
 
 	<tbody>
-
 		<?php
 		$total_all = 0;
 		foreach ($re as $key => $value) {
@@ -156,45 +98,47 @@
 				<td style="background-color: #8aa6c1"><?php echo $value['branch_name']?></td>
 		<?php
 			$total_re = 0;
+			$total_re_new = 0;
+			$total_re_old = 0;
 			foreach ($language_study as $item) {
+				$total_re_new += $value[$item['id']]['re_new'];
+				$total_re_old += $value[$item['id']]['re_old'];
 				$total_re += $value[$item['id']]['re_new'] + $value[$item['id']]['re_old'];
 				$total_all += $value[$item['id']]['re_new'] + $value[$item['id']]['re_old'];
 				?>
-
 					<td>
-
 						<?php echo number_format($value[$item['id']]['re_old'], 0, ",", "."); ?>
-
 					</td>
 
 					<td>
-
 						<?php echo number_format($value[$item['id']]['re_new'], 0, ",", "."); ?>
-
 					</td>
+			<?php } ?>
 
-				<?php
-			} ?>
-
+				<td style="background-color: #b4cc46e6;"><?php echo number_format($total_re_old, 0, ",", ".") . " VNĐ";?></td>
+				<td style="background-color: #b4cc46e6;"><?php echo number_format($total_re_new, 0, ",", ".") . " VNĐ";?></td>
 				<td style="background-color: #b4cc46e6;"><?php echo number_format($total_re, 0, ",", ".") . " VNĐ";?></td>
 			</tr>
-		<?php
-		}
-
-		?>
+		<?php } ?>
 
 		<tr style="background-color: #61bcb4f0;">
 			<td> Tổng </td>
-			<?php foreach ($total as $item) { ?>
+			<?php
+			$total_re_old = 0;
+			$total_re_new = 0;
+			foreach ($total as $item) {
+				$total_re_old += $item['total_re_old'];
+				$total_re_new += $item['total_re_new'];
+			?>
 				<td> <h5> <?php echo number_format($item['total_re_old'], 0, ",", ".") . " VNĐ"; ?></h5></td>
 				<td> <h5> <?php echo number_format($item['total_re_new'], 0, ",", ".") . " VNĐ"; ?></h5></td>
 			<?php } ?>
 
+			<td> <h5> <?php echo number_format($total_re_old, 0, ",", ".") . " VNĐ"; ?></h5></td>
+			<td> <h5> <?php echo number_format($total_re_new, 0, ",", ".") . " VNĐ"; ?></h5></td>
 			<td> <h5> <?php echo number_format($total_all, 0, ",", ".") . " VNĐ"; ?></h5></td>
 		</tr>
-
 	</tbody>
-
 </table>
 
 
