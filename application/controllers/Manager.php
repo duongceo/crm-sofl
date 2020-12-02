@@ -1219,6 +1219,7 @@ class Manager extends MY_Controller {
         	foreach ($staffs as $key_staff => $value_staff) {
 				$conditional_1 = array();
 				$conditional_1['where']['sale_staff_id'] = $value_staff['id'];
+				$conditional_1['where_not_in']['source_id'] = array(11);
 				$conditional = array_merge_recursive($conditional_1, $value2);
 
                 $staffs[$key_staff][$key2] = $this->_query_for_report($get, $conditional);
@@ -1409,7 +1410,7 @@ class Manager extends MY_Controller {
 		if (isset($get['tic_report']) && !empty($get['tic_report'])) {
 			$conditionArr = array(
 				'L1' => array(
-					'where' => array('date_handover !=' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate, 'is_hide' => '0', 'is_old' => '0'),
+					'where' => array('date_handover !=' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate, 'source_id NOT IN (9, 10, 11)' => 'NO-VALUE', 'is_hide' => '0', 'is_old' => '0'),
 					'sum' => 0
 				),
 				'L2' => array(
@@ -1436,7 +1437,7 @@ class Manager extends MY_Controller {
 		} else {
 			$conditionArr = array(
 				'L1' => array(
-					'where' => array('date_handover >=' => $startDate, 'date_handover <=' => $endDate, 'is_hide' => '0', 'is_old' => '0'),
+					'where' => array('date_handover >=' => $startDate, 'date_handover <=' => $endDate, 'source_id NOT IN (9, 10, 11)' => 'NO-VALUE', 'is_hide' => '0', 'is_old' => '0'),
 					'sum' => 0
 				),
 				'L2' => array(
