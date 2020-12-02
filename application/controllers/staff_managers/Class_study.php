@@ -124,8 +124,6 @@ class Class_study extends MY_Table {
 		$this->data['level_language'] = $this->get_data_from_model('level_language');
 		$this->data['character_class'] = $this->get_data_from_model('character_class');
 
-		$conditional = array();
-
 		$this->list_filter = array(
 			'right_filter' => array(
 				'branch' => array(
@@ -156,6 +154,11 @@ class Class_study extends MY_Table {
 				)
 			)
 		);
+
+		$conditional = array();
+		if ($this->session->userdata('role_id') == 12) {
+			$conditional['where']['branch_id'] = $this->branch_id;
+		}
 
 		$this->set_conditional($conditional);
 		$this->set_offset($offset);
