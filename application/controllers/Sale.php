@@ -209,16 +209,16 @@ class Sale extends MY_Controller {
         $this->load->view(_MAIN_LAYOUT_, $data);
     }
 
-    function find_contact() {
-        $get = $this->input->get();
-        $conditional = ''; //' AND `sale_staff_id` = ' . $this->user_id;
-        $data = $this->_common_find_all($get, $conditional);
-        $table = 'selection contact_id name phone address ';
-        $table .= 'date_rgt date_last_calling call_stt action';
-        $data['table'] = explode(' ', $table);
-        $data['content'] = 'sale/find_contact';
-        $this->load->view(_MAIN_LAYOUT_, $data);
-    }
+//    function find_contact() {
+//        $get = $this->input->get();
+//        $conditional = ''; //' AND `sale_staff_id` = ' . $this->user_id;
+//        $data = $this->_common_find_all($get, $conditional);
+//        $table = 'selection contact_id name phone address ';
+//        $table .= 'date_rgt date_last_calling call_stt action';
+//        $data['table'] = explode(' ', $table);
+//        $data['content'] = 'sale/find_contact';
+//        $this->load->view(_MAIN_LAYOUT_, $data);
+//    }
 
     public function transfer_contact() {
         $post = $this->input->post();
@@ -272,12 +272,12 @@ class Sale extends MY_Controller {
 			}
 		} else {
 			$this->transfer_logs_model->insert(array(
-					'contact_id' => $post['contact_id'],
-					'sale_id_1' => $this->user_id,
-					'sale_id_2' => $post['sale_id'],
-					'time' => time(),
-					'is_transfered' => '0'
-				));
+				'contact_id' => $post['contact_id'],
+				'sale_id_1' => $this->user_id,
+				'sale_id_2' => $post['sale_id'],
+				'time' => time(),
+				'is_transfered' => '0'
+			));
 		}
 
         if ($post['note'] != '') {
@@ -742,13 +742,13 @@ class Sale extends MY_Controller {
         $this->call_log_model->insert($data);
     }
 
-    function check_source_id($str) {
-        if ($str == 0) {
-            $this->form_validation->set_message('check_source_id', 'Vui lòng chọn {field}!');
-            return false;
-        }
-        return true;
-    }
+//    function check_source_id($str) {
+//        if ($str == 0) {
+//            $this->form_validation->set_message('check_source_id', 'Vui lòng chọn {field}!');
+//            return false;
+//        }
+//        return true;
+//    }
 
 //    function view_report() {
 //        $require_model = array(
@@ -955,7 +955,8 @@ class Sale extends MY_Controller {
             'staffs' => array(
                 'where' => array(
                     'role_id' => 1,
-                    'active' => 1
+                    'active' => 1,
+					'transfer_contact' => 1
                 )
             ),
             'class_study' => array(
