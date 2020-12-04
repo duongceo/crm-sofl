@@ -1,3 +1,0 @@
-<th>
-    ID TVTS
-</th>

@@ -140,6 +140,7 @@ class Manager extends MY_Controller {
         $this->load->view(_MAIN_LAYOUT_, $data);
     }
 
+    /*
     function transfer_contact_sale($offset = 0) {
         $data = $this->get_all_require_data();
         // echo "<pre>"; print_r($data);
@@ -189,9 +190,7 @@ class Manager extends MY_Controller {
         $data['contacts'] = $contacts;
 
         $data['total_contact'] = $data_pagination['total_row'];
-        /*
-         * Lấy link phân trang
-         */
+
         $data['pagination'] = $this->_create_pagination_link($data_pagination['total_row']);
 
         $data['left_col'] = array('tu_van', 'date_handover', 'date_last_calling','call_status');
@@ -199,10 +198,6 @@ class Manager extends MY_Controller {
 
         $this->table = 'selection name phone last_note call_stt course_code price_purchase date_last_calling date_rgt date_handover';
         $data['table'] = explode(' ', $this->table);
-
-        /*
-         * Các trường cần hiện của bảng contact (đã có default)
-         */
 
         $data['titleListContact'] = 'Danh sách contact chờ chuyển';
         $data['actionForm'] = 'manager/divide_contact';
@@ -220,6 +215,7 @@ class Manager extends MY_Controller {
         $this->load->view(_MAIN_LAYOUT_, $data);
        
     }
+    */
 
     function view_all_contact($offset = 0) {
         $data = $this->get_all_require_data();
@@ -303,13 +299,13 @@ class Manager extends MY_Controller {
         $this->load->view(_MAIN_LAYOUT_, $data);
     }
 
-    function view_pivot_table() {
-        $data = $this->data;
-        $data['left_col'] = array('date_rgt');
-        $data['load_js'] = array('m_pivot_table');
-        $data['content'] = 'manager/pivot_table';
-        $this->load->view(_MAIN_LAYOUT_, $data);
-    }
+//    function view_pivot_table() {
+//        $data = $this->data;
+//        $data['left_col'] = array('date_rgt');
+//        $data['load_js'] = array('m_pivot_table');
+//        $data['content'] = 'manager/pivot_table';
+//        $this->load->view(_MAIN_LAYOUT_, $data);
+//    }
 
     function view_duplicate() {
         $require_model = array(
@@ -319,7 +315,6 @@ class Manager extends MY_Controller {
                 )
             ),
             'call_status' => array(),
-            'providers' => array(),
             'payment_method_rgt' => array()
         );
         $data = array_merge($this->data, $this->_get_require_data($require_model));
@@ -795,228 +790,228 @@ class Manager extends MY_Controller {
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="hàm chia contact (chia đều contact) và các hàm phụ trợ">
     /* ========================  hàm chia contact (chia đều contact) và các hàm phụ trợ =========================== */
-    function divide_contact_even() {
-        $post = $this->input->post();
-        if (empty($post)) {
-            die('Có lỗi xảy ra! Mã lỗi : 30401');
-        }
-        $contact_ids = $post['contact_id'];
+//    function divide_contact_even() {
+//        $post = $this->input->post();
+//        if (empty($post)) {
+//            die('Có lỗi xảy ra! Mã lỗi : 30401');
+//        }
+//        $contact_ids = $post['contact_id'];
+//
+//        if (count($contact_ids) == 0) {
+//            $msg = 'Không có contact nào được chọn';
+//            show_error_and_redirect($msg, base_url('manager'), false);
+//        }
+//
+//        $this->_check_contact_can_be_divide($contact_ids);
+//
+//        /* reset toàn bộ contact phân nháp trước đó mà người dùng chưa hủy nháp */
+//        $data1 = array('has_draft_divide' => '0');
+//        $this->contacts_model->update(array(), $data1);
+//
+//        /* Lưu nháp các contact đã chọn */
+//        foreach ($contact_ids as $value) {
+//            $where = array('id' => $value);
+//            $data2 = array('has_draft_divide' => 1);
+//            $this->contacts_model->update($where, $data2);
+//        }
+//
+//        $require_model = array(
+//            'contacts' => array(
+//                'where' => array('has_draft_divide' => 1),
+//                'order' => array('id' => 'DESC')
+//            ),
+//            'staffs' => array(
+//                'where' => array('role_id' => 1, 'active' => 1),
+//            ),
+//            'courses' => array()
+//        );
+//        $data = array_merge($this->data, $this->_get_require_data($require_model));
+//
+//        $this->table .= 'date_rgt matrix';
+//        $data['table'] = explode(' ', $this->table);
+//        $data['content'] = 'manager/divide_contact_even';
+//        $this->load->view(_MAIN_LAYOUT_, $data);
+//    }
 
-        if (count($contact_ids) == 0) {
-            $msg = 'Không có contact nào được chọn';
-            show_error_and_redirect($msg, base_url('manager'), false);
-        }
+//    function draft_divide_contact_even3() {
+//        $this->load->model('Staffs_model');
+//        $input = array();
+//        $input['where'] = array(
+//            'has_draft_divide' => 1
+//        );
+//        $input['order'] = array('id' => 'DESC');
+//        $contacts = $this->contacts_model->load_all($input);
+//        shuffle($contacts); //trộn đều các contact
+//
+//        $post = $this->input->post();
+//        if (!empty($post['max_contact'])) {
+//            /* ================cập nhật contact max cho mỗi nhân viên ======================== */
+//            foreach ($post['max_contact'] as $key => $value) {
+//                if ($value == '' || intval($value) < 0) {
+//                    $name = $this->Staffs_model->find_staff_name($key);
+//                    $msg = 'Vui lòng điền số lượng contact tối đa cho nhân viên "' . $name . '". Tối thiểu là 0 contact.';
+//                    die($msg);
+//                }
+//                $data1 = array('max_contact' => $value);
+//                $where = array('id' => $key);
+//                $this->staffs_model->update($where, $data1);
+//            }
+//            $this->_common_load_view_draft_divide($contacts);
+//        } else {
+//            $this->_common_load_view_draft_divide($contacts);
+//        }
+//    }
 
-        $this->_check_contact_can_be_divide($contact_ids);
+//    private function _common_load_view_draft_divide($contacts) {
+//        $require_model = array(
+//            'staffs' => array(
+//                'where' => array('role_id' => 1, 'active' => 1)
+//            ),
+//            'courses' => array()
+//        );
+//        $data = array_merge($this->data, $this->_get_require_data($require_model));
+//
+//        foreach ($data['staffs'] as $key => $value) {
+//            $data['staffs'][$key]['count'] = 0;
+//        }
+//
+//        $this->draft_divide_contact_even1($data['staffs'], $contacts, 0);
+//
+//        foreach ($data['staffs'] as $key => $value) {
+//            $input = array();
+//            $input['where'] = array('draft_sale_staff_id' => $value['id']);
+//            $input['order'] = array('id' => 'DESC');
+//            $data['staffs'][$key]['contacts'] = $this->contacts_model->load_all($input);
+//            $data['staffs'][$key]['cancel_contact'] = 1;
+//        }
+//        $data['total_contact'] = count($contacts);
+//        $table = 'selection contact_id name phone address course_code price_purchase ';
+//        $table .= 'date_rgt matrix action';
+//        $data['table'] = explode(' ', $table);
+//        $data['load_js'] = array('m_cancel_contact');
+//        $data['content'] = 'manager/draft_divide_contact_even';
+//        $this->load->view(_MAIN_LAYOUT_, $data);
+//    }
 
-        /* reset toàn bộ contact phân nháp trước đó mà người dùng chưa hủy nháp */
-        $data1 = array('has_draft_divide' => '0');
-        $this->contacts_model->update(array(), $data1);
+//    function draft_divide_contact_even1($staffs, $contacts, $i) {
+//        /*
+//         * Hàm đệ quy chia đều contact
+//         * Chia từng contact 1 cho các TVTS với số lượng max của từng TVTS
+//         * $i: số thứ tự của contact
+//         */
+//        $stop = true; // cờ kiểm tra dừng chia
+//        foreach ($staffs as $key => $value) {
+//            if (!isset($contacts[$i]))
+//                return false;
+//            if ($value['count'] < $value['max_contact']) {
+//                $where = array('id' => $contacts[$i]['id']);
+//                $data = array(
+//                    'draft_sale_staff_id' => $value['id']
+//                );
+//                $this->contacts_model->update($where, $data);
+//                $staffs[$key]['count'] ++;
+//                $i++;
+//                $stop = false;
+//            }
+//        }
+//        if (!$stop) {
+//            $this->draft_divide_contact_even1($staffs, $contacts, $i);
+//        }
+//    }
 
-        /* Lưu nháp các contact đã chọn */
-        foreach ($contact_ids as $value) {
-            $where = array('id' => $value);
-            $data2 = array('has_draft_divide' => 1);
-            $this->contacts_model->update($where, $data2);
-        }
+//    function cancel_multi_contact() {
+//        $post = $this->input->post();
+//        if (empty($post['contact_id'])) {
+//            redirect_and_die('Vui lòng chọn Contact!');
+//        }
+//        foreach ($post['contact_id'] as $value) {
+//            $where = array('id' => $value);
+//            $data = array('has_draft_divide' => '0', 'draft_sale_staff_id' => '0');
+//            $this->contacts_model->update($where, $data);
+//        }
+//        $msg = 'Bỏ chọn contact thành công!';
+//        show_error_and_redirect($msg);
+//    }
 
-        $require_model = array(
-            'contacts' => array(
-                'where' => array('has_draft_divide' => 1),
-                'order' => array('id' => 'DESC')
-            ),
-            'staffs' => array(
-                'where' => array('role_id' => 1, 'active' => 1),
-            ),
-            'courses' => array()
-        );
-        $data = array_merge($this->data, $this->_get_require_data($require_model));
+//    function cancel_one_contact() {
+////        $post = $this->input->post();
+////        $post['contact_id'];
+////        if ($post['contact_id'] > 0) {
+////            $where = array('id' => $post['contact_id']);
+////            $data = array('has_draft_divide' => '0', 'draft_sale_staff_id' => '0');
+////            if ($this->contacts_model->update($where, $data)) {
+////                echo 1;
+////            }
+////        }
+////    }
 
-        $this->table .= 'date_rgt matrix';
-        $data['table'] = explode(' ', $this->table);
-        $data['content'] = 'manager/divide_contact_even';
-        $this->load->view(_MAIN_LAYOUT_, $data);
-    }
-
-    function draft_divide_contact_even3() {
-        $this->load->model('Staffs_model');
-        $input = array();
-        $input['where'] = array(
-            'has_draft_divide' => 1
-        );
-        $input['order'] = array('id' => 'DESC');
-        $contacts = $this->contacts_model->load_all($input);
-        shuffle($contacts); //trộn đều các contact
-
-        $post = $this->input->post();
-        if (!empty($post['max_contact'])) {
-            /* ================cập nhật contact max cho mỗi nhân viên ======================== */
-            foreach ($post['max_contact'] as $key => $value) {
-                if ($value == '' || intval($value) < 0) {
-                    $name = $this->Staffs_model->find_staff_name($key);
-                    $msg = 'Vui lòng điền số lượng contact tối đa cho nhân viên "' . $name . '". Tối thiểu là 0 contact.';
-                    die($msg);
-                }
-                $data1 = array('max_contact' => $value);
-                $where = array('id' => $key);
-                $this->staffs_model->update($where, $data1);
-            }
-            $this->_common_load_view_draft_divide($contacts);
-        } else {
-            $this->_common_load_view_draft_divide($contacts);
-        }
-    }
-
-    private function _common_load_view_draft_divide($contacts) {
-        $require_model = array(
-            'staffs' => array(
-                'where' => array('role_id' => 1, 'active' => 1)
-            ),
-            'courses' => array()
-        );
-        $data = array_merge($this->data, $this->_get_require_data($require_model));
-
-        foreach ($data['staffs'] as $key => $value) {
-            $data['staffs'][$key]['count'] = 0;
-        }
-
-        $this->draft_divide_contact_even1($data['staffs'], $contacts, 0);
-
-        foreach ($data['staffs'] as $key => $value) {
-            $input = array();
-            $input['where'] = array('draft_sale_staff_id' => $value['id']);
-            $input['order'] = array('id' => 'DESC');
-            $data['staffs'][$key]['contacts'] = $this->contacts_model->load_all($input);
-            $data['staffs'][$key]['cancel_contact'] = 1;
-        }
-        $data['total_contact'] = count($contacts);
-        $table = 'selection contact_id name phone address course_code price_purchase ';
-        $table .= 'date_rgt matrix action';
-        $data['table'] = explode(' ', $table);
-        $data['load_js'] = array('m_cancel_contact');
-        $data['content'] = 'manager/draft_divide_contact_even';
-        $this->load->view(_MAIN_LAYOUT_, $data);
-    }
-
-    function draft_divide_contact_even1($staffs, $contacts, $i) {
-        /*
-         * Hàm đệ quy chia đều contact
-         * Chia từng contact 1 cho các TVTS với số lượng max của từng TVTS
-         * $i: số thứ tự của contact
-         */
-        $stop = true; // cờ kiểm tra dừng chia
-        foreach ($staffs as $key => $value) {
-            if (!isset($contacts[$i]))
-                return false;
-            if ($value['count'] < $value['max_contact']) {
-                $where = array('id' => $contacts[$i]['id']);
-                $data = array(
-                    'draft_sale_staff_id' => $value['id']
-                );
-                $this->contacts_model->update($where, $data);
-                $staffs[$key]['count'] ++;
-                $i++;
-                $stop = false;
-            }
-        }
-        if (!$stop) {
-            $this->draft_divide_contact_even1($staffs, $contacts, $i);
-        }
-    }
-
-    function cancel_multi_contact() {
-        $post = $this->input->post();
-        if (empty($post['contact_id'])) {
-            redirect_and_die('Vui lòng chọn Contact!');
-        }
-        foreach ($post['contact_id'] as $value) {
-            $where = array('id' => $value);
-            $data = array('has_draft_divide' => '0', 'draft_sale_staff_id' => '0');
-            $this->contacts_model->update($where, $data);
-        }
-        $msg = 'Bỏ chọn contact thành công!';
-        show_error_and_redirect($msg);
-    }
-
-    function cancel_one_contact() {
-        $post = $this->input->post();
-        $post['contact_id'];
-        if ($post['contact_id'] > 0) {
-            $where = array('id' => $post['contact_id']);
-            $data = array('has_draft_divide' => '0', 'draft_sale_staff_id' => '0');
-            if ($this->contacts_model->update($where, $data)) {
-                echo 1;
-            }
-        }
-    }
-
-    function confirm_divide_contact_even() {
-        $post = $this->input->post();
-        if (isset($post['submit_ok']) && $post['submit_ok'] == 'OK') {
-            $query1 = 'UPDATE `tbl_contact` set `sale_staff_id` = `draft_sale_staff_id`, `date_handover`=' . time()
-                    . ', `last_activity` = ' . time() . ' WHERE `draft_sale_staff_id` > 0';
-            $query2 = 'UPDATE `tbl_contact` set `draft_sale_staff_id` = 0, `has_draft_divide` = 0 WHERE `draft_sale_staff_id` > 0';
-            $total = $this->contacts_model->query($query1);
-            $this->contacts_model->query($query2);
-            $msg = 'Phân thành công ' . $total . ' contact!';
-            show_error_and_redirect($msg, base_url('manager'));
-        }
-        if (isset($post['submit_cancel']) && $post['submit_cancel'] == 'Cancel') {
-            $query = 'UPDATE `tbl_contact` set `draft_sale_staff_id` = 0, `has_draft_divide` = 0 WHERE `draft_sale_staff_id` > 0';
-            $this->contacts_model->query($query);
-            $msg = 'Hủy bỏ thành công nghiệp vụ phân đều contact';
-            show_error_and_redirect($msg, base_url('manager'));
-        }
-    }
+//    function confirm_divide_contact_even() {
+//        $post = $this->input->post();
+//        if (isset($post['submit_ok']) && $post['submit_ok'] == 'OK') {
+//            $query1 = 'UPDATE `tbl_contact` set `sale_staff_id` = `draft_sale_staff_id`, `date_handover`=' . time()
+//                    . ', `last_activity` = ' . time() . ' WHERE `draft_sale_staff_id` > 0';
+//            $query2 = 'UPDATE `tbl_contact` set `draft_sale_staff_id` = 0, `has_draft_divide` = 0 WHERE `draft_sale_staff_id` > 0';
+//            $total = $this->contacts_model->query($query1);
+//            $this->contacts_model->query($query2);
+//            $msg = 'Phân thành công ' . $total . ' contact!';
+//            show_error_and_redirect($msg, base_url('manager'));
+//        }
+//        if (isset($post['submit_cancel']) && $post['submit_cancel'] == 'Cancel') {
+//            $query = 'UPDATE `tbl_contact` set `draft_sale_staff_id` = 0, `has_draft_divide` = 0 WHERE `draft_sale_staff_id` > 0';
+//            $this->contacts_model->query($query);
+//            $msg = 'Hủy bỏ thành công nghiệp vụ phân đều contact';
+//            show_error_and_redirect($msg, base_url('manager'));
+//        }
+//    }
 
     /* ========================  hàm chia contact (chia đều contact) và các hàm phụ trợ (hết) =========================== */
 
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="hàm xóa contact và các hàm phụ trợ">
     /* ========================  hàm xóa contact và các hàm phụ trợ =========================== */
-    function delete_contact() {
-        $post = $this->input->post();
-        if (empty($post['contact_id'])) {
-            redirect_and_die('Vui lòng chọn contact!');
-        }
-        $this->_check_contact_can_be_delete($post['contact_id']);
-        foreach ($post['contact_id'] as $value) {
-            $where = array('id' => $value);
-            $data = array('is_hide' => 1, 'last_activity' => time());
-            $this->contacts_model->update($where, $data);
-        }
-        $msg = 'Xóa thành công các contact vừa chọn!';
-        show_error_and_redirect($msg);
-    }
+//    function delete_contact() {
+//        $post = $this->input->post();
+//        if (empty($post['contact_id'])) {
+//            redirect_and_die('Vui lòng chọn contact!');
+//        }
+//        $this->_check_contact_can_be_delete($post['contact_id']);
+//        foreach ($post['contact_id'] as $value) {
+//            $where = array('id' => $value);
+//            $data = array('is_hide' => 1, 'last_activity' => time());
+//            $this->contacts_model->update($where, $data);
+//        }
+//        $msg = 'Xóa thành công các contact vừa chọn!';
+//        show_error_and_redirect($msg);
+//    }
 
-    function delete_one_contact() {
-        $post = $this->input->post();
-        if (!empty($post['contact_id'])) {
-            $this->_check_contact_can_be_delete(array($post['contact_id']));
-            $where = array('id' => $post['contact_id']);
-            $data = array('is_hide' => 1, 'last_activity' => time());
-            $this->contacts_model->update($where, $data);
-            echo '1';
-        }
-    }
+//    function delete_one_contact() {
+//        $post = $this->input->post();
+//        if (!empty($post['contact_id'])) {
+//            $this->_check_contact_can_be_delete(array($post['contact_id']));
+//            $where = array('id' => $post['contact_id']);
+//            $data = array('is_hide' => 1, 'last_activity' => time());
+//            $this->contacts_model->update($where, $data);
+//            echo '1';
+//        }
+//    }
 
-    private function _check_contact_can_be_delete($list) {
-        $this->load->model('Staffs_model');
-        foreach ($list as $value) {
-            $input = array();
-            $input['select'] = 'duplicate_id, sale_staff_id';
-            $input['where'] = array('id' => $value);
-            $rows = $this->contacts_model->load_all($input);
-            if ($rows[0]['duplicate_id'] == 0) {
-                redirect_and_die('Contact ' . $rows[0]['name'] . ' không bị trùng, vì vậy không thể xóa contact này!');
-            }
-            if ($rows[0]['sale_staff_id'] > 0) {
-                $name = $this->Staffs_model->find_staff_name($rows[0]['sale_staff_id']);
-                $msg = 'Contact này đã được bàn giao cho TVST: "' . $name . '", vì vậy không thể xóa contact này!';
-                redirect_and_die($msg);
-            }
-        }
-    }
+//    private function _check_contact_can_be_delete($list) {
+//        $this->load->model('Staffs_model');
+//        foreach ($list as $value) {
+//            $input = array();
+//            $input['select'] = 'duplicate_id, sale_staff_id';
+//            $input['where'] = array('id' => $value);
+//            $rows = $this->contacts_model->load_all($input);
+//            if ($rows[0]['duplicate_id'] == 0) {
+//                redirect_and_die('Contact ' . $rows[0]['name'] . ' không bị trùng, vì vậy không thể xóa contact này!');
+//            }
+//            if ($rows[0]['sale_staff_id'] > 0) {
+//                $name = $this->Staffs_model->find_staff_name($rows[0]['sale_staff_id']);
+//                $msg = 'Contact này đã được bàn giao cho TVST: "' . $name . '", vì vậy không thể xóa contact này!';
+//                redirect_and_die($msg);
+//            }
+//        }
+//    }
 
     /* ========================  hàm xóa contact và các hàm phụ trợ (hết) =========================== */
 
@@ -1641,6 +1636,128 @@ class Manager extends MY_Controller {
 		$this->load->view(_MAIN_LAYOUT_, $data);
 	}
 
+	public function view_report_sale_source() {
+		$require_model = array(
+			'staffs' => array(
+				'where' => array(
+					'role_id' => 1,
+					'active' => 1
+				)
+			),
+			'sources' => array(
+				'where' => array(
+					'active' => 1,
+					'out_report' => 1
+				)
+			)
+		);
+
+		$data = $this->_get_require_data($require_model);
+
+		$get = $this->input->get();
+
+		/* Mảng chứa các ngày lẻ */
+		if (isset($get['filter_date_date_happen']) && $get['filter_date_date_happen'] != '') {
+			$time = $get['filter_date_date_happen'];
+		} else {
+			$time = '01' . '/' . date('m') . '/' . date('Y') . ' - ' . date('d') . '/' . date('m') . '/' . date('Y');
+		}
+
+		$dateArr = explode('-', $time);
+		$startDate = trim($dateArr[0]);
+		$startDate = strtotime(str_replace("/", "-", $startDate));
+		$endDate = trim($dateArr[1]);
+		$endDate = strtotime(str_replace("/", "-", $endDate)) + 3600 * 24 - 1;
+
+//		echo $startDate . ' - ' . $endDate;die;
+
+		if (isset($get['tic_report']) && !empty($get['tic_report'])) {
+			$conditionArr = array(
+				'L1' => array(
+					'where' => array('date_handover !=' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate, 'is_hide' => '0', 'is_old' => '0'),
+					'sum' => 0
+				),
+				'L2' => array(
+					'where' => array('is_hide' => '0', 'level_contact_id' => 'L2', 'date_handover !=' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
+					'sum' => 0
+				),
+				'L3' => array(
+					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L3', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
+					'sum' => 0
+				),
+				'L5' => array(
+					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
+					'sum' => 0
+				),
+				'L8' => array(
+					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => 1, 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
+					'sum' => 0
+				),
+			);
+		} else {
+			$conditionArr = array(
+				'L1' => array(
+					'where' => array('date_handover >=' => $startDate, 'date_handover <=' => $endDate, 'is_hide' => '0', 'is_old' => '0'),
+					'sum' => 0
+				),
+				'L2' => array(
+					'where' => array('is_hide' => '0', 'level_contact_id' => 'L2', 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate),
+					'sum' => 0
+				),
+				'L3' => array(
+					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L3', 'date_confirm >=' => $startDate, 'date_confirm <=' => $endDate),
+					'sum' => 0
+				),
+				'L5' => array(
+					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => '0', 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
+					'sum' => 0
+				),
+				'L8' => array(
+					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => 1, 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
+					'sum' => 0
+				),
+			);
+		}
+
+		unset($get['filter_date_date_happen']);
+
+		$report = array();
+//		$total = array();
+		foreach ($data['sources'] as $key_source => $value_source) {
+			$conditional_source = array();
+			$conditional_source['where']['source_id'] = $value_source['id'];
+//			$conditional_source['where_not_in']['sale_staff_id'] = array(5);
+
+			foreach ($conditionArr as $key_condition => $value) {
+				foreach ($data['staffs'] as $value_sale) {
+					$conditional_1 = array();
+					$conditional_1['where']['sale_staff_id'] = $value_sale['id'];
+					$conditional = array_merge_recursive($conditional_1, $conditional_source, $value);
+
+					$report[$value_source['name']][$value_sale['name']]['RE'] = $this->get_re(array_merge_recursive($conditional_1, $conditional_source), $startDate, $endDate);
+					$report[$value_source['name']][$value_sale['name']][$key_condition] = $this->_query_for_report($get, $conditional);
+				}
+
+				$conditional_2 = array_merge_recursive($conditional_source, $value);
+				$data['sources'][$key_source][$key_condition] = $this->_query_for_report($get, $conditional_2);
+			}
+
+			$data['sources'][$key_source]['RE'] = $this->get_re($conditional_source, $startDate, $endDate);
+		}
+
+//		print_arr($report);
+
+		$data['report'] = $report;
+		$data['startDate'] = $startDate;
+		$data['endDate'] = $endDate;
+		$data['left_col'] = array('date_happen_1', 'tic_report');
+//		$data['right_col'] = array('source');
+		$data['load_js'] = array('m_view_report');
+		$data['content'] = 'manager/view_report_sale_source';
+//        print_arr($data);
+		$this->load->view(_MAIN_LAYOUT_, $data);
+	}
+
 	private function get_re($condition_id=[], $startDate=0, $endDate=0) {
 		$this->load->model('paid_model');
 		$input_contact = array();
@@ -1710,8 +1827,11 @@ class Manager extends MY_Controller {
         return array_merge($this->data, $this->_get_require_data($require_model));
     }
 
+
+     /* ====================xuất file excel============================== */
+     /*
     function export_for_send_provider() {
-        /* ====================xuất file excel============================== */
+
         $post = $this->input->post();
         if (empty($post['contact_id'])) {
             show_error_and_redirect('Vui lòng chọn contact cần xuất file excel', '', 0);
@@ -1821,8 +1941,10 @@ class Manager extends MY_Controller {
         header('Cache-Control: max-age=0');
         $objWriter->save('php://output');
         die;
-        /* ====================xuất file excel (end)============================== */
+
     }
+     */
+     /* ====================xuất file excel (end)============================== */
 
     // </editor-fold>
 
