@@ -18,4 +18,16 @@ class Level_language_model extends MY_Model {
 		}
 		return $combo;
 	}
+
+	public function get_name_level_language($id) {
+		$name = '';
+		$input2 = array();
+		$input2['where'] = array('id' => $id);
+		$names = $this->load_all($input2);
+		if (!empty($names)) {
+			$name = $names[0]['name'];
+		}
+		return $name;
+	}
+
 }

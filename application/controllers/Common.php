@@ -122,8 +122,8 @@ class Common extends MY_Controller {
                 'phone' => 'edit',
 				'branch' => 'edit',
 				'language' => 'edit',
-				'level_language' => 'edit',
-                'class_study_id' => 'edit',
+//				'level_language' => 'edit',
+//                'class_study_id' => 'edit',
                 'fee' => 'edit',
                 'paid' => 'view',
                 'paid_log' => 'view',
@@ -298,26 +298,20 @@ class Common extends MY_Controller {
 				'where' => array('contact_id' => $id),
 				'order' => array('time_created' => 'ASC')
 			),
-
 			'level_contact' => array(
 				'order' => array('level_id' => 'ASC'),
 				'where' => array('parent_id' => ''),
 			),
-
 			'level_student' => array(
 				'order' => array('level_id' => 'ASC'),
 				'where' => array('parent_id' => ''),
 			),
-
             'level_language' => array(
             	'where' => array('language_id' => $rows[0]['language_id'])
 			),
             'call_status' => array(
                 'order' => array('sort' => 'ASC')
             ),
-//            'ordering_status' => array(
-//                'order' => array('sort' => 'ASC')
-//            ),
             'payment_method_rgt' => array(),
 			'language_study' => array(),
         );
@@ -1429,6 +1423,7 @@ class Common extends MY_Controller {
         $this->call_log_model->insert($data);
     }
 
+    /*
     function real_search() {
         $require_model = array(
             'staffs' => array(
@@ -1466,6 +1461,7 @@ class Common extends MY_Controller {
         $data['table'] = explode(' ', $this->table);
         $this->load->view('common/real_search', $data);
     }
+    */
 
     function ViewAllContactCourse() {
         $require_model = array(
@@ -1954,8 +1950,61 @@ class Common extends MY_Controller {
 		}
 	}
 
-//	public function get_level_language(){
-//    	$post = $this->input->post();
-//	}
+	public function get_data_ajax(){
+    	$post = $this->input->post();
+    	if ($post['type'] == 'language') {
+			$input['where']['language_id'] = $post['level_id'];
+			$this->load->model('level_language_model');
+			$level_language = $this->level_language_model->load_all($input);
+//			print_arr($level_language);
+
+			if (isset($level_language) && !empty($level_language)) {
+				$str = '<td class="text-right">
+					Khóa học
+				</td>
+				<td>
+					<select class="form-control selectpicker" name="level_language_id">
+						<option value=""> Chọn khóa học </option>';
+				foreach ($level_language as $value) {
+					$str .= "<option value='{$value['id']}'> {$value['name']} </option>";
+				}
+				$str .= '</select>
+				</td>';
+				echo $str;
+			} else {
+				echo '<td class="text-right"></td>';
+			}
+
+		} elseif ($post['type'] == 'branch') {
+			$input['where']['branch_id'] = $post['level_id'];
+			$this->load->model('class_study_model');
+			$class = $this->class_study_model->load_all($input);
+
+			if (isset($class) && !empty($class)) {
+				$str = '<td class="text-right">
+					Mã lớp
+				</td>
+				
+				<td>
+					<div class="input-group">
+						<select class="form-control selectpicker" name="class_study_id">
+							<option value=""> Chọn lớp học </option>';
+							foreach ($class as $value) {
+								$str .= "<option value='{$value['class_study_id']}'> {$value['class_study_id']} </option>";
+							}
+						$str .= '</select>
+						<div class="input-group-btn">
+							<a style="margin-top: 3px;" target="_blank" href="'.base_url('staff_managers/class_study').'" class="btn btn-success">Tạo mã lớp</a>
+						</div>
+					</div>
+				</td>';
+				echo $str;
+			} else {
+				echo '<td class="text-right"></td>';
+			}
+		}
+
+
+	}
 
 }

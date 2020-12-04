@@ -128,9 +128,9 @@ check_edit_contact = () => {
     var call_status_id = $("select[name='call_status_id']").val();
     // var ordering_status_id = $("select[name='ordering_status_id']").val();
     var date_recall = $(".date_recall").val();
-    var class_study_id = $('select[name="class_study_id"]').val();
-    var fee = $('[name="fee"]').val();
-    var paid = $('[name="paid"]').val();
+    // var class_study_id = $('select[name="class_study_id"]').val();
+    // var fee = $('[name="fee"]').val();
+    // var paid = $('[name="paid"]').val();
     var customer_care_call_id = $("select[name='customer_care_call_id']").val();
     var level_contact = $("select[name='level_contact_id']").val();
 	//alert(call_status_id);return false;
@@ -281,7 +281,6 @@ check_logic_call_stt_level = (call_status_id, level_contact) => {
 			return false;
 		}
 	}
-
 	return true;
 };
 
@@ -624,6 +623,7 @@ $(document).on('click', '.create-adset-from-fb', function (e) {
 	$(".add_item_from_fb_modal").modal("show");
 });
 
+/*
 $(document).on('click', 'a.add-item-fetch', function (e) {
 	e.preventDefault();
 	var url = $("#url-add-item-fetch").val();
@@ -641,6 +641,8 @@ $(document).on('click', 'a.add-item-fetch', function (e) {
 	});
 });
 
+ */
+/*
 $(document).on('click', '.create-campaign-from-fb', function (e) {
     e.preventDefault();
     $(".add-name-from-fb").val($(this).attr("campaign-name"));
@@ -648,6 +650,9 @@ $(document).on('click', '.create-campaign-from-fb', function (e) {
     $(".add_item_from_fb_modal").modal("show");
 });
 
+ */
+
+/*
 $(document).on('click', '.create-campaign-from-fb-2', function (e) {
     e.preventDefault();
     var _this = $(this);
@@ -723,6 +728,8 @@ $(document).on('click', '.create-campaign-from-fb-2', function (e) {
         }
     });
 });
+
+ */
 
 $(document).on('click', 'a.add_item', function (e) {
     e.preventDefault();
@@ -1357,7 +1364,6 @@ $(document).on('click', '.send-lakita-account-combo-course', function (e) {
                         }
                     });
                 }
-
             },
             complete: () => {
                 notiContactRecall = setInterval(noti, 10000);
@@ -1470,7 +1476,6 @@ $(".send-email-to-vnpost").confirm({
 });
 */
 
-
 //add-new-contact-modal
 $(document).on("click", ".add-new-contact-modal", function (e) {
     e.preventDefault();
@@ -1527,7 +1532,6 @@ $(document).on('click', '.btn-action-add-new-contact', function (e) {
                     $(".popup-wrapper").hide();
                 }, 1000);
             }
-
         }
     });
 });
@@ -1943,7 +1947,6 @@ function e_call_status(call_status_id, call_status_arr) {
    result += `</select></td></tr>`;
    return result;
 }
-
 
 function digits(number){
    return number.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") ;
@@ -2869,6 +2872,7 @@ shortcut.add("Ctrl+i", function () {
     $(".add_item_modal_fetch").modal('hide');
 });
 
+/*
 $("a.cancel_one_contact").on('click', function (e) {
     var del = $(this);
     var sale_id = $(this).attr("sale_id");
@@ -2901,11 +2905,17 @@ $("a.cancel_one_contact").on('click', function (e) {
     });
 });
 
+ */
+
+/*
 $(".cancel_multi_contact").on('click', function (e) {
     $("#action_contact").attr("action", $("#base_url").val() + "manager/cancel_multi_contact");
     $("#action_contact").submit();
 });
 
+ */
+
+/*
 $("#delete_contact").on('click', function (e) {
     e.preventDefault();
     var r = confirm("Are you sure?");
@@ -2915,6 +2925,9 @@ $("#delete_contact").on('click', function (e) {
     }
 });
 
+ */
+
+/*
 $(document).on('click', 'a.delete_one_contact', function (e) {
 	var del = $(this);
 	var contact_id = $(this).attr("contact_id");
@@ -2940,6 +2953,8 @@ $(document).on('click', 'a.delete_one_contact', function (e) {
 		}
 	});
 });
+
+ */
 
 /*=================================== chia contact đã chọn (form modal)================================================*/
 $("a.divide_contact").on('click', function (e) {
@@ -3123,7 +3138,7 @@ $("input.reset_form").on('click', function (e) {
     $('.selectpicker').selectpicker('deselectAll');
 });
 
-
+/*
 $(document).on('change', 'select.select_script', function () {
     //console.log($(this));
     var url = $("#base_url").val() + "sale/show_script_modal";
@@ -3140,7 +3155,10 @@ $(document).on('change', 'select.select_script', function () {
     }
 });
 
+ */
+
 /* cod chuyển nhượng nhiều contact */
+/*
 var action_old = $("#action_contact").attr('action');
 $(document).on('click', 'a.cod_transfer_multi_contact',function (e){
     e.preventDefault();
@@ -3151,10 +3169,11 @@ $(document).on('click', 'a.cod_transfer_multi_contact',function (e){
 });
 $(document).on('click', '.btn-cod-transfer-multi-contact-submit',function (e){
         e.preventDefault();
-        /*$("#action_contact").submit();*/
+        // $("#action_contact").submit();
         $("#action_contact").submit();
         $("#action_contact").attr('action',action_old);
 });
+*/
 
 
 $(document).on('click', 'a.transfer_contact, a.transfer_one_contact', function (e) {
@@ -3322,16 +3341,37 @@ $(document).on('change', '[name="level_contact_id"], [name="level_student_id"]',
 		data: {
 			level_id: level_id
 		},
-
 		success: function (data) {
-
 			if (level_contact_array.indexOf(level_id) != -1) {
 				$(".ajax_level_contact_id").html(data);
 			} else {
 				$(".ajax_level_student_id").html(data);
 			}
 		},
+		complete: function () {
+			$('.selectpicker').selectpicker({});
+		}
+	});
+});
 
+$(document).on('change', '[name="language_id"], [name="branch_id"]', function () {
+	var level_id = $(this).val();
+	var type = $(this).attr("type");
+	// console.log(type);return false;
+	$.ajax({
+		url: $('#base_url').val() + 'common/get_data_ajax',
+		type: "POST",
+		data: {
+			level_id: level_id,
+			type: type
+		},
+		success: function (data) {
+			if (type == 'language') {
+				$(".ajax_level_language_id").html(data);
+			} else if (type == 'branch') {
+				$(".ajax_class_id").html(data);
+			}
+		},
 		complete: function () {
 			$('.selectpicker').selectpicker({});
 		}
@@ -3339,6 +3379,7 @@ $(document).on('change', '[name="level_contact_id"], [name="level_student_id"]',
 });
 
 /* xóa giảng viên */
+/*
 $(document).ready(function () {
     $(document).on('click', '.btn_delete_teacher', function (e) {
         var r = confirm("Bạn có chắc chắn muốn xóa Giảng viên này không?");
@@ -3370,7 +3411,10 @@ $(document).ready(function () {
     });
 });
 
+ */
+
  /* thêm giảng viên mới */
+/*
 $(function () {
     $(document).on('click', '.btn_manage_teacher', function (e) {
         e.preventDefault();
@@ -3401,6 +3445,8 @@ $(function () {
         }
     });
 });
+
+ */
 
 /* check khi thêm khóa học có phải combo không */
 /*

@@ -33,7 +33,6 @@ class Test1 extends CI_Controller {
             $day = "-1 days";
         }
 
-
         $today = strtotime(date('d-m-Y', strtotime($day))); //tính theo giờ Mỹ
 
         $today_fb_format = date('Y-m-d', strtotime($day));
@@ -160,7 +159,6 @@ class Test1 extends CI_Controller {
                 var_dump($param);die;
 
     }
-
 
     function get_mkt() {
 
@@ -448,9 +446,11 @@ class Test1 extends CI_Controller {
 		$data = $this->request_api_call($url);
 		$access_token = $data->payload->access_token;
 
-		$url_2 = 'https://public-v1-stg.omicall.com/api/call_transaction/list?from_date=1602460800000&to_date=1602720000000&disposition=cancelled&direction=inbound';
-		$call_detail = $this->request_api_call($url_2, $access_token);
-		print_arr($call_detail);
+		if ($access_token != '') {
+			$url_2 = 'https://public-v1-stg.omicall.com/api/call_transaction/list?from_date=1602460800000&to_date=1602720000000&disposition=cancelled&direction=inbound';
+			$call_detail = $this->request_api_call($url_2, $access_token);
+			print_arr($call_detail->payload);
+		}
 	}
 
 	function request_api_call($url, $token='') {
@@ -481,8 +481,11 @@ class Test1 extends CI_Controller {
 
 			CURLOPT_SSL_VERIFYHOST => 2,
 
-			CURLOPT_SSL_VERIFYPEER => 0
+			CURLOPT_SSL_VERIFYPEER => 0,
 
+			CURLOPT_HTTPHEADER => array(
+				"Authorization: Bearer {$token}"
+			)
 		);
 
 		$ch = curl_init();
