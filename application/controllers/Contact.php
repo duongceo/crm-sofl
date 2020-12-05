@@ -34,11 +34,15 @@ class Contact extends CI_Controller {
 
             $param['phone'] = isset($input['phone']) ? trim($input['phone']) : '';
 
-            if ($param['name'] == '' || trim($param['phone']) == '') {
+			if ($param['name'] == '' || trim($param['phone']) == '') {
 
-                echo 'không có tên hoặc số điện thoại';die;
+				echo 'không có tên hoặc số điện thoại';die;
 
-            }
+			}
+
+			if (strpos($param['phone'], "0") == 0) {
+				echo 'Số điện thoại ko đúng định dạng';die;
+			}
 
             $param['email'] = isset($input['email']) ? $input['email'] : '';
 
