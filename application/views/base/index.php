@@ -27,7 +27,7 @@
     -->
 
 	<?php if ($this->controller == 'class_study') {
-		$this->load->view('base/filter_item/show_to_do_list');
+		$this->load->view('staff_managers/class_study/filter_item/show_to_do_list');
 	} ?>
 
     <?php $this->load->view('base/show_table/base_header'); ?>
