@@ -1674,7 +1674,7 @@ class Manager extends MY_Controller {
 		if (isset($get['tic_report']) && !empty($get['tic_report'])) {
 			$conditionArr = array(
 				'L1' => array(
-					'where' => array('date_handover !=' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate, 'is_hide' => '0', 'is_old' => '0'),
+					'where' => array('date_handover !=' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate, 'is_hide' => '0'),
 					'sum' => 0
 				),
 				'L2' => array(
@@ -1697,7 +1697,7 @@ class Manager extends MY_Controller {
 		} else {
 			$conditionArr = array(
 				'L1' => array(
-					'where' => array('date_handover >=' => $startDate, 'date_handover <=' => $endDate, 'is_hide' => '0', 'is_old' => '0'),
+					'where' => array('date_handover >=' => $startDate, 'date_handover <=' => $endDate, 'is_hide' => '0'),
 					'sum' => 0
 				),
 				'L2' => array(
@@ -1736,10 +1736,19 @@ class Manager extends MY_Controller {
 
 					$report[$value_source['name']][$value_sale['name']]['RE'] = $this->get_re(array_merge_recursive($conditional_1, $conditional_source), $startDate, $endDate);
 					$report[$value_source['name']][$value_sale['name']][$key_condition] = $this->_query_for_report($get, $conditional);
+					
+					if ($report[$value_source['name']][$value_sale['name']]['L1'] == 0 && $report[$value_source['name']][$value_sale['name']]['L2'] == 0 
+					&& $report[$value_source['name']][$value_sale['name']]['L3'] == 0 &&$report[$value_source['name']][$value_sale['name']]['L5'] == 0) {
+						unset($report[$value_source['name']][$value_sale['name']]);
+					}
 				}
 
-				$conditional_2 = array_merge_recursive($conditional_source, $value);
-				$data['sources'][$key_source][$key_condition] = $this->_query_for_report($get, $conditional_2);
+				//$conditional_2 = array_merge_recursive($conditional_source, $value);
+				//$data['sources'][$key_source][$key_condition] = $this->_query_for_report($get, $conditional_2);
+			}
+			
+			if (empty($report[$value_source['name']])) {
+				unset($report[$value_source['name']]);
 			}
 
 			$data['sources'][$key_source]['RE'] = $this->get_re($conditional_source, $startDate, $endDate);
