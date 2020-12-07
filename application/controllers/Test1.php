@@ -126,210 +126,148 @@ class Test1 extends CI_Controller {
 		phpinfo();
 	}
 
-    function test2(){
-
-        $day = '01-03-2018';
-
-        $today = strtotime(date('d-m-Y', strtotime($day))); //tính theo giờ Mỹ
-
-        $today_fb_format = date('Y-m-d', strtotime($day));
-
-        $url = 'https://graph.facebook.com/v2.11/23842872586490362' .
-
-                        '/insights?fields=spend,reach,outbound_clicks&level=account'
-
-                        . '&time_range={"since":"' . $today_fb_format . '","until":"' . $today_fb_format . '"}&access_token=' . ACCESS_TOKEN;
-
-                $spend = get_fb_request($url);
-
-                 $param['time'] = $today;
-
-              //  $param['campaign_id'] = $value['id'];
-
-                $param['spend'] = isset($spend->data[0]->spend) ? $spend->data[0]->spend : 0;
-
-                $param['total_C1'] = isset($spend->data[0]->reach) ? $spend->data[0]->reach : 0;
-
-                $param['total_C2'] = isset($spend->data[0]->outbound_clicks[0]->value) ? $spend->data[0]->outbound_clicks[0]->value : 0;
-
-                echo '<pre>';
-
-                print_r($spend);
-
-                var_dump($param);die;
-
-    }
-
-    function get_mkt() {
-
-        $this->load->model('staffs_model');
-
-        $input['select'] = 'id,name';
-
-        $input['where'] = array('role_id' => 6, 'active' => 1);
-
-        $input['order'] = array('id' => 'asc');
-
-        $mkt = $this->staffs_model->load_all($input);
-
-        echo json_encode($mkt);
-
-    }
-
-
-    function test_3() {
-
-        $input['select'] = 'phone,email,course_code';
-
-        $input['where'] = array(
-
-            'date_rgt >' => 1519862400,
-
-            'date_rgt <' => 1522454400,
-
-            'is_hide' => '0',
-
-            'duplicate_id' => '',
-
-            'ordering_status_id' => 4
-
-        );
-
-        $input['group_by'] = array('phone');
-
-        $input['having'] = array('count(id) >' => 1);
-
-        $input['order'] = array('id' => 'desc');
-
-        $contact_list_buy = $this->contacts_model->load_all($input);
-
-        $contact_re_buy = array();
-
-        foreach ($contact_list_buy as $value) {
-
-            $input = '';
-
-            $input['select'] = 'phone,email,course_code,date_rgt';
-
-            $input['where']['phone'] = $value['phone'];
-
-            $input['where']['is_hide'] = '0';
-
-            $input['where']['duplicate_id'] = '';
-
-            $input['where']['ordering_status_id'] = 4;
-
-            $input['order'] = array('id' => 'desc');
-
-            $contact = '';
-
-            $contact = $this->contacts_model->load_all($input);
-
-            $count = count($contact);
-
-            if ($count > 1) {
-
-                for ($i = 0; $i < $count - 1; $i++) {
-
-                    if ($contact[$i]['date_rgt'] - $contact[$i + 1]['date_rgt'] < 172800) {
-
-                        $contact_re_buy[] = $contact[$i];
-
-                    }
-
-                }
-
-            }
-
-        }
-
-        echo '<pre>';
-        print_r($contact_re_buy);
-
-    }
-
-    function test_url($day = '0') {
-        if ($day == '0') {
-            $day = "-1 days";
-        }
-
-        $today = strtotime(date('d-m-Y', strtotime($day))); //tính theo giờ Mỹ
-
-        $today_fb_format = date('Y-m-d', strtotime($day));
-
-        // $url = 'https://graph.facebook.com/v4.0/act_2341952402735054/insights?fields=spend,campaign_id,campaign_name,reach,outbound_clicks&level=account&limit=5000&date_preset=yesterday&access_token=' . ACCESS_TOKEN;
-
-        $url = 'https://graph.facebook.com/v4.0/23843563207830758/insights?fields=spend,reach,outbound_clicks&level=account'.'&time_range={"since":"' . $today_fb_format . '","until":"' . $today_fb_format . '"}&access_token=' . ACCESS_TOKEN;
-
-        $acc = get_fb_request($url);
-        echo "<pre>";print_r($acc);
-    }
-
-    function find_campaign_id($campaign_id) {
-    	$this->load->model('campaign_model');
-    	$input['select'] = 'id, name';
-		$input['where']['campaign_id_facebook'] = $campaign_id;
-		$c = $this->campaign_model->load_all($input);
-		return $c[0]['id'];
-		// echo'<pre>';print_r($c);die();
-	}
-
-    public function test_spend_fb() {
-        $this->load->model('staffs_model');
-        $this->load->model('campaign_model');
-        $this->load->model('campaign_spend_model');
-        $this->load->model('courses_model');
-
-        $input_staff['select'] = 'id, name';
-        $input_staff['where'] = array('role_id' => 6, 'active' => 1);
-        $staff = $this->staffs_model->load_all($input_staff);
-        // echo "<pre>";print_r($staff);
-
-        foreach ($staff as $value) {
-            //echo $value['id'].'--';
-            $input_camp['select'] = 'id, name';
-            $input_camp['where'] = array('marketer_id' => $value['id'], 'channel_id' => 2);
-            $camp = $this->campaign_model->load_all($input_camp);
-            $campaign_fb_list = array();
-            foreach ($camp as $value1) {
-                $campaign_fb_list[] = $value1['id'];
-            }
-
-            $input_spend['select'] = 'SUM(spend) as spend';
-            $input_spend['where'] = array(
-                'time >=' => 1569862800,
-                'time <' => 1572566400
-                // 'date_spend >=' => '2019-10-01',
-                // 'date_spend <=' => '2019-10-31'
-            );
-            // 1568592000 - 7*3600
-            $input_spend['where_in'] = array('campaign_id' => $campaign_fb_list);
-
-            if (empty($campaign_fb_list)) {
-                $spend_fb = 0;
-            } else {
-                $spend_fb = (int) $this->campaign_spend_model->load_all($input_spend)[0]['spend'];
-            }
-			if ($spend_fb > 0) {
-				echo $value['name'].' -- '.number_format($spend_fb).'<hr>';
-			}
-
-            // echo "<pre>";print_r($spend_fb);
-            
-        }
-
-    }
-	
-	public function delete_cod() {
-		$this->load->model('L8_check_model');
-		$input['where'] = array('L8_check' => '0');
-		$cod = $this->L8_check_model->load_all($input);
-		// echo "<pre>";print_r($cod);die();
-		foreach ($cod as $value) {
-			//echo $value['id'];
-			$this->L8_check_model->delete(array('id' => $value['id']));
-		}
-	}
+//    function test_3() {
+//
+//        $input['select'] = 'phone,email,course_code';
+//
+//        $input['where'] = array(
+//
+//            'date_rgt >' => 1519862400,
+//
+//            'date_rgt <' => 1522454400,
+//
+//            'is_hide' => '0',
+//
+//            'duplicate_id' => '',
+//
+//            'ordering_status_id' => 4
+//
+//        );
+//
+//        $input['group_by'] = array('phone');
+//
+//        $input['having'] = array('count(id) >' => 1);
+//
+//        $input['order'] = array('id' => 'desc');
+//
+//        $contact_list_buy = $this->contacts_model->load_all($input);
+//
+//        $contact_re_buy = array();
+//
+//        foreach ($contact_list_buy as $value) {
+//
+//            $input = '';
+//
+//            $input['select'] = 'phone,email,course_code,date_rgt';
+//
+//            $input['where']['phone'] = $value['phone'];
+//
+//            $input['where']['is_hide'] = '0';
+//
+//            $input['where']['duplicate_id'] = '';
+//
+//            $input['where']['ordering_status_id'] = 4;
+//
+//            $input['order'] = array('id' => 'desc');
+//
+//            $contact = '';
+//
+//            $contact = $this->contacts_model->load_all($input);
+//
+//            $count = count($contact);
+//
+//            if ($count > 1) {
+//
+//                for ($i = 0; $i < $count - 1; $i++) {
+//
+//                    if ($contact[$i]['date_rgt'] - $contact[$i + 1]['date_rgt'] < 172800) {
+//
+//                        $contact_re_buy[] = $contact[$i];
+//
+//                    }
+//
+//                }
+//
+//            }
+//
+//        }
+//
+//        echo '<pre>';
+//        print_r($contact_re_buy);
+//
+//    }
+
+//    function test_url($day = '0') {
+//        if ($day == '0') {
+//            $day = "-1 days";
+//        }
+//
+//        $today = strtotime(date('d-m-Y', strtotime($day))); //tính theo giờ Mỹ
+//
+//        $today_fb_format = date('Y-m-d', strtotime($day));
+//
+//        // $url = 'https://graph.facebook.com/v4.0/act_2341952402735054/insights?fields=spend,campaign_id,campaign_name,reach,outbound_clicks&level=account&limit=5000&date_preset=yesterday&access_token=' . ACCESS_TOKEN;
+//
+//        $url = 'https://graph.facebook.com/v4.0/23843563207830758/insights?fields=spend,reach,outbound_clicks&level=account'.'&time_range={"since":"' . $today_fb_format . '","until":"' . $today_fb_format . '"}&access_token=' . ACCESS_TOKEN;
+//
+//        $acc = get_fb_request($url);
+//        echo "<pre>";print_r($acc);
+//    }
+
+//    function find_campaign_id($campaign_id) {
+//    	$this->load->model('campaign_model');
+//    	$input['select'] = 'id, name';
+//		$input['where']['campaign_id_facebook'] = $campaign_id;
+//		$c = $this->campaign_model->load_all($input);
+//		return $c[0]['id'];
+//		// echo'<pre>';print_r($c);die();
+//	}
+
+//    public function test_spend_fb() {
+//        $this->load->model('staffs_model');
+//        $this->load->model('campaign_model');
+//        $this->load->model('campaign_spend_model');
+//        $this->load->model('courses_model');
+//
+//        $input_staff['select'] = 'id, name';
+//        $input_staff['where'] = array('role_id' => 6, 'active' => 1);
+//        $staff = $this->staffs_model->load_all($input_staff);
+//        // echo "<pre>";print_r($staff);
+//
+//        foreach ($staff as $value) {
+//            //echo $value['id'].'--';
+//            $input_camp['select'] = 'id, name';
+//            $input_camp['where'] = array('marketer_id' => $value['id'], 'channel_id' => 2);
+//            $camp = $this->campaign_model->load_all($input_camp);
+//            $campaign_fb_list = array();
+//            foreach ($camp as $value1) {
+//                $campaign_fb_list[] = $value1['id'];
+//            }
+//
+//            $input_spend['select'] = 'SUM(spend) as spend';
+//            $input_spend['where'] = array(
+//                'time >=' => 1569862800,
+//                'time <' => 1572566400
+//                // 'date_spend >=' => '2019-10-01',
+//                // 'date_spend <=' => '2019-10-31'
+//            );
+//            // 1568592000 - 7*3600
+//            $input_spend['where_in'] = array('campaign_id' => $campaign_fb_list);
+//
+//            if (empty($campaign_fb_list)) {
+//                $spend_fb = 0;
+//            } else {
+//                $spend_fb = (int) $this->campaign_spend_model->load_all($input_spend)[0]['spend'];
+//            }
+//			if ($spend_fb > 0) {
+//				echo $value['name'].' -- '.number_format($spend_fb).'<hr>';
+//			}
+//
+//            // echo "<pre>";print_r($spend_fb);
+//
+//        }
+//
+//    }
 
     /*
     function update_active_account_post() {
@@ -399,47 +337,51 @@ class Test1 extends CI_Controller {
 		$objWriter->save('php://output');
 	}
 
-    public function create_account_student() {
-        $input['select'] = 'id, name, phone, level_language_id, sent_account_online';
-        $input['where'] = array(
-            'sent_account_online' => '0', 
-            'date_rgt_study >=' => 1598918400, 
-            'level_language_id !=' => '0', 
-        );
-        
-        $contact = $this->contacts_model->load_all($input);
-        print_arr($contact);
+//    public function create_account_student() {
+//        $input['select'] = 'id, name, phone, level_language_id, sent_account_online';
+//        $input['where'] = array(
+//            'sent_account_online' => '0',
+//            'date_rgt_study >=' => 1598918400,
+//            'level_language_id !=' => '0',
+//        );
+//
+//        $contact = $this->contacts_model->load_all($input);
+//        print_arr($contact);
+//
+//        foreach ($contact as $value) {
+//            $student = $this->create_new_account_student($value);
+//            if ($student->success != 0) {
+//                $where = array('id' => $value['id']);
+//                $param['sent_account_online'] = 1;
+//                $param['date_active'] = time();
+//                $this->contacts_model->update($where, $param);
+//                echo "OK";
+//            }
+//        }
+//    }
+//
+//    private function create_new_account_student($contact) {
+//        $this->load->model('level_language_model');
+//        $contact['course_code'] = $this->level_language_model->find_course_combo($contact['level_language_id']);
+//        $contact['type'] = 'offline';
+//        // echo "<pre>"; print_r($contact); die;
+//
+//        require_once APPPATH . "libraries/Rest_Client.php";
+//        $config = array(
+//            'server' => 'http://sofl.edu.vn',
+//            'api_key' => 'RrF3rcmYdWQbviO5tuki3fdgfgr4',
+//            'api_name' => 'sofl-key'
+//        );
+//        $restClient = new Rest_Client($config);
+//        $uri = "account_api/create_new_account";
+//        $student = $restClient->post($uri, $contact);
+//        //echo json_decode($student);
+//        return $student;
+//    }
 
-        foreach ($contact as $value) {
-            $student = $this->create_new_account_student($value);
-            if ($student->success != 0) {
-                $where = array('id' => $value['id']);
-                $param['sent_account_online'] = 1;
-                $param['date_active'] = time();
-                $this->contacts_model->update($where, $param);
-                echo "OK";
-            }
-        }
-    }
-
-    private function create_new_account_student($contact) {
-        $this->load->model('level_language_model');
-        $contact['course_code'] = $this->level_language_model->find_course_combo($contact['level_language_id']);
-        $contact['type'] = 'offline';
-        // echo "<pre>"; print_r($contact); die;
-
-        require_once APPPATH . "libraries/Rest_Client.php";
-        $config = array(
-            'server' => 'http://sofl.edu.vn',
-            'api_key' => 'RrF3rcmYdWQbviO5tuki3fdgfgr4',
-            'api_name' => 'sofl-key'
-        );
-        $restClient = new Rest_Client($config);
-        $uri = "account_api/create_new_account";
-        $student = $restClient->post($uri, $contact);
-        //echo json_decode($student);
-        return $student;
-    }
+	public function delete_contact_test(){
+		$this->contacts_model->call_pr();
+	}
 
 	public function call_ipphone(){
 		$url = 'https://public-v1-stg.omicall.com/api/auth?apiKey=B3B818D0-6902-45BF-A999-697CA91D85F5-XFOLXW4S';
@@ -447,9 +389,47 @@ class Test1 extends CI_Controller {
 		$access_token = $data->payload->access_token;
 
 		if ($access_token != '') {
-			$url_2 = 'https://public-v1-stg.omicall.com/api/call_transaction/list?from_date=1602460800000&to_date=1602720000000&disposition=cancelled&direction=inbound';
-			$call_detail = $this->request_api_call($url_2, $access_token);
-			print_arr($call_detail->payload);
+//			$url_2 = 'https://public-v1-stg.omicall.com/api/call_transaction/list?from_date=1602460800000&to_date=1602720000000&disposition=cancelled&direction=inbound';
+
+			$page = 1	;
+//			$page_size = 50;
+			while(true){
+				//05/12/2020 -> 06/12/220
+				$url_2 = 'https://public-v1-stg.omicall.com/api/call_transaction/list?from_date=1607126400000&to_date=1607212800000&size=50&page='.$page;
+				$call_detail = $this->request_api_call($url_2, $access_token);
+				$data_call = $call_detail->payload->items;
+//				print_arr($data_call);
+
+				if (isset($data_call) && !empty($data_call)) {
+					$this->load->model('missed_call_model');
+					foreach ($data_call as $item) {
+						if ($item->disposition == 'cancelled' && $item->direction == 'inbound') {
+							$missed_call = 1;
+						} else {
+							$missed_call = 0;
+						}
+
+						$param = array(
+							'phone' => $item->source_number,
+							'transaction_id' => $item->transaction_id,
+							'missed_call' => $missed_call,
+							'sale_called' => 0,
+							'time_created' => $item->time_start_to_answer + 7*60*60,
+							'link_conversation' => $item->recording_file,
+							'sale' => $item->user[0]->full_name
+						);
+						$this->missed_call_model->insert($param);
+//						echo '<pre>'; print_r($item->source_number);
+					}
+				} else {
+					break;
+				}
+
+				if ($call_detail->payload->has_next != 1) {
+					break;
+				}
+				++$page;
+			}
 		}
 	}
 
