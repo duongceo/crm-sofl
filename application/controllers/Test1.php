@@ -379,7 +379,7 @@ class Test1 extends CI_Controller {
 //        return $student;
 //    }
 
-	public function delete_contact_test(){
+	function delete_contact_test(){
 		$this->contacts_model->call_pr();
 	}
 
