@@ -40,10 +40,6 @@ class Contact extends CI_Controller {
 
 			}
 
-			if (strpos($param['phone'], "0") == 0) {
-				echo 'Số điện thoại ko đúng định dạng';die;
-			}
-
             $param['email'] = isset($input['email']) ? $input['email'] : '';
 
            // $address = isset($input['dia_chi']) ? $input['dia_chi'] : '';
