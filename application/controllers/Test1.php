@@ -1,29 +1,5 @@
 <?php
 
-
-
-/*
-
- * To change this license header, choose License Headers in Project Properties.
-
- * To change this template file, choose Tools | Templates
-
- * and open the template in the editor.
-
- */
-
-
-
-/**
-
- * Description of Test
-
- *
-
- * @author Beto
-
- */
-
 class Test1 extends CI_Controller {
 
     function index($day = '0') {
@@ -384,18 +360,18 @@ class Test1 extends CI_Controller {
 	}
 
 	public function call_ipphone(){
+		$from_date = strtotime(date('d-m-Y')) * 1000;
+		$to_date = (strtotime(date('d-m-Y')) + 24*60*60 - 1) * 1000;
+
 		$url = 'https://public-v1-stg.omicall.com/api/auth?apiKey=B3B818D0-6902-45BF-A999-697CA91D85F5-XFOLXW4S';
 		$data = $this->request_api_call($url);
 		$access_token = $data->payload->access_token;
 
 		if ($access_token != '') {
-//			$url_2 = 'https://public-v1-stg.omicall.com/api/call_transaction/list?from_date=1602460800000&to_date=1602720000000&disposition=cancelled&direction=inbound';
-
-			$page = 1	;
+			$page = 1;
 //			$page_size = 50;
 			while(true){
-				//05/12/2020 -> 06/12/220
-				$url_2 = 'https://public-v1-stg.omicall.com/api/call_transaction/list?from_date=1607126400000&to_date=1607212800000&size=50&page='.$page;
+				$url_2 = 'https://public-v1-stg.omicall.com/api/call_transaction/list?from_date='.$from_date.'&to_date='.$to_date.'&size=50&page='.$page;
 				$call_detail = $this->request_api_call($url_2, $access_token);
 				$data_call = $call_detail->payload->items;
 //				print_arr($data_call);
@@ -410,14 +386,19 @@ class Test1 extends CI_Controller {
 						}
 
 						$param = array(
-							'phone' => $item->source_number,
+							'source_number' => $item->source_number,
+							'destination_number' => $item->destination_number,
 							'transaction_id' => $item->transaction_id,
 							'missed_call' => $missed_call,
-							'sale_called' => 0,
+							'sale_recall' => 0,
 							'time_created' => $item->time_start_to_answer + 7*60*60,
 							'link_conversation' => $item->recording_file,
-							'sale' => $item->user[0]->full_name
+							'sale' => $item->user[0]->full_name,
+							'fee_call' => (int)$item->call_out_price,
+							'time_call' => $item->bill_sec,
+							'day' => date('Y-m-d', ($item->time_start_to_answer + 7*60*60))
 						);
+
 						$this->missed_call_model->insert($param);
 //						echo '<pre>'; print_r($item->source_number);
 					}
