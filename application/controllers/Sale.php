@@ -360,6 +360,75 @@ class Sale extends MY_Controller {
         $this->load->view(_MAIN_LAYOUT_, $data);
     }
 
+    function view_history_call() {
+		$this->load->model('missed_call_model');
+
+		$require_model = array(
+			'staffs' => array(
+				'where' => array(
+					'role_id' => 1,
+					'active' => 1
+				)
+			),
+		);
+
+		$data = $this->_get_require_data($require_model);
+
+//		echo '<pre>'; print_r($data); die();
+
+		$get = $this->input->get();
+
+		if (isset($get['filter_date_date_happen']) && $get['filter_date_date_happen'] != '') {
+			$time = $get['filter_date_date_happen'];
+		} else {
+			$time = '01' . '/' . date('m') . '/' . date('Y') . ' - ' . date('d') . '/' . date('m') . '/' . date('Y');
+		}
+
+		$dateArr = explode('-', $time);
+		$date_from = trim($dateArr[0]);
+		$date_from = strtotime(str_replace("/", "-", $date_from));
+		$date_end = trim($dateArr[1]);
+		$date_end = strtotime(str_replace("/", "-", $date_end)) + 3600 * 24;
+
+		$input = array();
+		$input['where'] = array(
+			'time_created >=' => $date_from,
+			'time_created <' => $date_end,
+		);
+
+		if ($get['filter_sale_id']) {
+			$input['where']['sale_id'] = $get['filter_sale_id'][0];
+		}
+
+		if (isset($get['filter_number_records'])) {
+			$input['limit'] = array($get['filter_number_records'], '0');
+		} else {
+			$input['limit'] = array('40', '0');
+		}
+		$input['order']['time_created'] = 'desc';
+
+		$data['history_call'] = $this->missed_call_model->load_all($input);
+
+		$total_fee_call = 0;
+		if (isset($data['history_call'])) {
+			foreach ($data['history_call'] as &$value) {
+				$value['sale_name'] = $this->staffs_model->find_staff_name($value['sale_id']);
+				$total_fee_call += $value['fee_call'];
+			}
+		}
+		unset($value);
+
+		$data['sale'] = $data['staffs'];
+		$data['total_fee_call'] = $total_fee_call;
+		$data['startDate'] = isset($date_from) ? $date_from : '0';
+		$data['endDate'] = isset($date_end) ? $date_end : '0';
+		$data['left_col'] = array('date_happen_1', 'sale');
+		$data['content'] = 'sale/view_history_call';
+		//echo '<pre>';print_r($data);die();
+
+		$this->load->view(_MAIN_LAYOUT_, $data);
+	}
+
     public function add_contact() {
         $input = $this->input->post();
 //		echo '<pre>';print_r($input);die;
@@ -930,20 +999,6 @@ class Sale extends MY_Controller {
         $stop_care_call_stt_id = $this->call_status_model->load_all($stop_care_call_stt_where);
         if (!empty($stop_care_call_stt_id)) {
             foreach ($stop_care_call_stt_id as $value) {
-                $arr[] = $value['id'];
-            }
-        }
-        return $arr;
-    }
-
-    private function _get_stop_care_order_stt() {
-        $arr = array();
-        $this->load->model("ordering_status_model");
-        $stop_care_order_stt_where = array();
-        $stop_care_order_stt_where['where'] = array('stop_care' => 1);
-        $stop_care_order_stt_id = $this->ordering_status_model->load_all($stop_care_order_stt_where);
-        if (!empty($stop_care_order_stt_id)) {
-            foreach ($stop_care_order_stt_id as $value) {
                 $arr[] = $value['id'];
             }
         }

@@ -77,6 +77,17 @@
             </ul>
         </li>
 
+		<li>
+
+			<a href="<?php echo base_url('sale/view_history_call'); ?>">
+
+				<img src="<?php echo base_url(); ?>public/images/view-all.png">
+
+				<span> Lịch sử cuộc gọi </span>
+
+			</a>
+
+		</li>
 
 <!--        <li>-->
 <!--            <a href="#homeSubmenu_1" data-toggle="collapse" aria-expanded="false">-->

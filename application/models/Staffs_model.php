@@ -76,6 +76,27 @@ class Staffs_model extends MY_Model {
 
     }
 
+    public function get_sale_id($ipphone_id) {
+    	$id = 0;
+    	if ($ipphone_id == '') {
+    		return $id;
+		} else {
+			$input2 = array();
+
+			$input2['where'] = array('ipphone_user_name' => $ipphone_id);
+
+			$staffs = $this->load_all($input2);
+
+			if (!empty($staffs)) {
+
+				$id = $staffs[0]['id'];
+
+			}
+
+			return $id;
+		}
+	}
+
     public function GetStaffImage($id) {
 
         $name = '';

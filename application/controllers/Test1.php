@@ -391,12 +391,12 @@ class Test1 extends CI_Controller {
 							'transaction_id' => $item->transaction_id,
 							'missed_call' => $missed_call,
 							'sale_recall' => 0,
-							'time_created' => $item->time_start_to_answer + 7*60*60,
+							'time_created' => $item->time_start_to_answer,
 							'link_conversation' => $item->recording_file,
-							'sale' => $item->user[0]->full_name,
+							'sale_id' => $this->staffs_model->get_sale_id($item->sip_user),
 							'fee_call' => (int)$item->call_out_price,
 							'time_call' => $item->bill_sec,
-							'day' => date('Y-m-d', ($item->time_start_to_answer + 7*60*60))
+							'day' => date('Y-m-d', ($item->time_start_to_answer))
 						);
 
 						$this->missed_call_model->insert($param);
