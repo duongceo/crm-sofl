@@ -3719,3 +3719,32 @@ $(".btn-export-excel-manager").on('click', function (e) {
 	$("#action_contact").submit();
 });
 
+$(".search_phone").on('click', function (e) {
+	e.preventDefault();
+	var phone_number = $(this).attr('type').trim();
+	var url =  $('#base_url').val() + 'sale/get_contact_from_phone';
+	$.ajax({
+		url: url,
+		type: 'POST',
+		data: {
+			phone_number : phone_number
+		},
+		beforeSend: function() {
+			$(".popup-wrapper").show();
+		},
+		success: function (data) {
+			console.log(data);
+			$('.body-modal-show-infor-contact').html('');
+			$('.body-modal-show-infor-contact').append(data);
+			$('.view_contact_from_ipphone').modal('show');
+		},
+		error: function(errorThrown) {
+			alert(errorThrown);
+			$(".popup-wrapper").hide();
+		},
+		complete: function() {
+			$(".popup-wrapper").hide();
+		},
+	});
+
+});

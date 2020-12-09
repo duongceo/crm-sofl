@@ -360,14 +360,15 @@ class Test1 extends CI_Controller {
 	}
 
 	public function call_ipphone(){
-		$from_date = strtotime(date('d-m-Y')) * 1000;
-		$to_date = (strtotime(date('d-m-Y')) + 24*60*60 - 1) * 1000;
+		$from_date = strtotime(date('8-m-Y')) * 1000;
+		$to_date = (strtotime(date('8-m-Y')) + 24*60*60 - 1) * 1000;
 
 		$url = 'https://public-v1-stg.omicall.com/api/auth?apiKey=B3B818D0-6902-45BF-A999-697CA91D85F5-XFOLXW4S';
 		$data = $this->request_api_call($url);
 		$access_token = $data->payload->access_token;
 
 		if ($access_token != '') {
+			$this->load->model('missed_call_model');
 			$page = 1;
 //			$page_size = 50;
 			while(true){
@@ -377,29 +378,30 @@ class Test1 extends CI_Controller {
 //				print_arr($data_call);
 
 				if (isset($data_call) && !empty($data_call)) {
-					$this->load->model('missed_call_model');
 					foreach ($data_call as $item) {
-						if ($item->disposition == 'cancelled' && $item->direction == 'inbound') {
-							$missed_call = 1;
-						} else {
-							$missed_call = 0;
+						if (!$this->missed_call_model->check_exists(array('source_number' => $item->source_number, 'missed_call' => 1))) {
+							if ($item->disposition == 'cancelled' && $item->direction == 'inbound') {
+								$missed_call = 1;
+							} else {
+								$missed_call = 0;
+							}
+
+							$param = array(
+								'source_number' => $item->source_number,
+								'destination_number' => $item->destination_number,
+								'transaction_id' => $item->transaction_id,
+								'missed_call' => $missed_call,
+								'sale_recall' => 0,
+								'time_created' => $item->time_start_to_answer,
+								'link_conversation' => $item->recording_file,
+								'sale_id' => $this->staffs_model->get_sale_id($item->sip_user),
+								'fee_call' => (int)$item->call_out_price,
+								'time_call' => $item->bill_sec,
+								'day' => date('Y-m-d', ($item->time_start_to_answer))
+							);
+
+							$this->missed_call_model->insert($param);
 						}
-
-						$param = array(
-							'source_number' => $item->source_number,
-							'destination_number' => $item->destination_number,
-							'transaction_id' => $item->transaction_id,
-							'missed_call' => $missed_call,
-							'sale_recall' => 0,
-							'time_created' => $item->time_start_to_answer,
-							'link_conversation' => $item->recording_file,
-							'sale_id' => $this->staffs_model->get_sale_id($item->sip_user),
-							'fee_call' => (int)$item->call_out_price,
-							'time_call' => $item->bill_sec,
-							'day' => date('Y-m-d', ($item->time_start_to_answer))
-						);
-
-						$this->missed_call_model->insert($param);
 //						echo '<pre>'; print_r($item->source_number);
 					}
 				} else {

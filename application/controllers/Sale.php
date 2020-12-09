@@ -372,7 +372,7 @@ class Sale extends MY_Controller {
 			),
 		);
 
-		$data = $this->_get_require_data($require_model);
+		$data = array_merge($this->data, $this->_get_require_data($require_model));
 
 //		echo '<pre>'; print_r($data); die();
 
@@ -400,6 +400,11 @@ class Sale extends MY_Controller {
 			$input['where']['sale_id'] = $get['filter_sale_id'][0];
 		}
 
+		if ($get['filter_missed_call']) {
+			$input['where']['missed_call'] = $get['filter_missed_call'];
+		}
+//		print_arr($input);
+
 		if (isset($get['filter_number_records'])) {
 			$input['limit'] = array($get['filter_number_records'], '0');
 		} else {
@@ -422,7 +427,7 @@ class Sale extends MY_Controller {
 		$data['total_fee_call'] = $total_fee_call;
 		$data['startDate'] = isset($date_from) ? $date_from : '0';
 		$data['endDate'] = isset($date_end) ? $date_end : '0';
-		$data['left_col'] = array('date_happen_1', 'sale');
+		$data['left_col'] = array('date_happen_1', 'sale', 'missed_call');
 		$data['content'] = 'sale/view_history_call';
 		//echo '<pre>';print_r($data);die();
 
@@ -1389,4 +1394,23 @@ class Sale extends MY_Controller {
         $data['table'] = explode(' ', $this->table);
         echo $this->load->view('common/content/tbl_contact', $data);
     }
+
+    public function get_contact_from_phone() {
+		$data = $this->_get_all_require_data();
+
+		$post = $this->input->post();
+
+		$input = array();
+		$input['where'] = array('phone' => $post['phone_number']);
+
+		$data_pagination = $this->_query_all_from_get(array(), $input, 40, 0);
+
+		$data['pagination'] = $this->_create_pagination_link($data_pagination['total_row']);
+		$data['contacts'] = $data_pagination['data'];
+		$data['total_contact'] = $data_pagination['total_row'];
+
+		$this->table .= 'date_rgt date_handover';
+		$data['table'] = explode(' ', $this->table);
+		echo $this->load->view('common/content/tbl_contact', $data);
+	}
 }
