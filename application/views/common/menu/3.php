@@ -77,18 +77,6 @@
             </ul>
         </li>
 
-		<li>
-
-			<a href="<?php echo base_url('sale/view_history_call'); ?>">
-
-				<img src="<?php echo base_url(); ?>public/images/view-all.png">
-
-				<span> Lịch sử cuộc gọi </span>
-
-			</a>
-
-		</li>
-
 <!--        <li>-->
 <!--            <a href="#homeSubmenu_1" data-toggle="collapse" aria-expanded="false">-->
 <!--                <img src="--><?php //echo base_url(); ?><!--public/images/view-all.png">-->
@@ -199,32 +187,6 @@
 					</a>
 
 				</li>
-
-				<!--
-
-                <li>
-
-                    <a href="<?php echo base_url('manager/view_report_sale_operation'); ?>">
-
-                        <img src="<?php echo base_url(); ?>public/images/L8.jpg"> 
-
-                        <span> Xem báo cáo vận hành TVTS  </span>
-
-                    </a>
-
-                </li>
-
-                <li>
-
-                    <a href="<?php echo base_url('manager/view_report_power_bi'); ?>">
-
-                        <img src="<?php echo base_url(); ?>public/images/power_bi.png">
-
-                        <span> Xem báo cáo Power BI </span>
-
-                    </a>
-
-                </li> -->
                 
             </ul>
         </li>
@@ -257,6 +219,18 @@
 
             </ul>
         </li>
+
+		<li>
+
+			<a href="<?php echo base_url('sale/view_history_call'); ?>">
+
+				<img src="<?php echo base_url(); ?>public/images/view-all.png">
+
+				<span> Lịch sử cuộc gọi </span>
+
+			</a>
+
+		</li>
 
         <li>
             <a href="<?php echo base_url('home/logout'); ?>">
