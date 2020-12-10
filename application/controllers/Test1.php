@@ -360,8 +360,8 @@ class Test1 extends CI_Controller {
 	}
 
 	public function call_ipphone(){
-		$from_date = strtotime(date('8-m-Y')) * 1000;
-		$to_date = (strtotime(date('8-m-Y')) + 24*60*60 - 1) * 1000;
+		$from_date = strtotime(date('d-m-Y')) * 1000;
+		$to_date = (strtotime(date('d-m-Y')) + 24*60*60 - 1) * 1000;
 
 		$url = 'https://public-v1-stg.omicall.com/api/auth?apiKey=B3B818D0-6902-45BF-A999-697CA91D85F5-XFOLXW4S';
 		$data = $this->request_api_call($url);
