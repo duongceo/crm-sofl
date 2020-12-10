@@ -3719,7 +3719,7 @@ $(".btn-export-excel-manager").on('click', function (e) {
 	$("#action_contact").submit();
 });
 
-$(".search_phone").on('click', function (e) {
+$(".search_phone").on('dblclick', function (e) {
 	e.preventDefault();
 	var phone_number = $(this).attr('type').trim();
 	var url =  $('#base_url').val() + 'sale/get_contact_from_phone';
@@ -3729,9 +3729,9 @@ $(".search_phone").on('click', function (e) {
 		data: {
 			phone_number : phone_number
 		},
-		beforeSend: function() {
-			$(".popup-wrapper").show();
-		},
+		// beforeSend: function() {
+		// 	$(".popup-wrapper").show();
+		// },
 		success: function (data) {
 			console.log(data);
 			$('.body-modal-show-infor-contact').html('');

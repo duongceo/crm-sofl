@@ -101,7 +101,7 @@
 
 <?php if (isset($progress_sale)) {
 	 $this->load->view('sale/view_process');
-	 $this->load->view('common/modal/sale_have_to_call');
+	 $this->load->view('sale/sale_have_to_call');
  } ?>
 
 <?php //if (isset($sale_call_process)) { ?>

@@ -35,6 +35,13 @@ class Sale extends MY_Controller {
     }
 
     function index($offset = 0) {
+//		$this->load->helper('cookie');
+//		$get_cookie = get_cookie('sale_first_login_day');
+////		print_arr($_COOKIE);
+//		if (!isset($get_cookie)) {
+//			redirect(base_url('sale/get_phone_missed_call'));
+//		}
+
         $data = $this->_get_all_require_data();
         $get = $this->input->get();
 
@@ -1394,6 +1401,19 @@ class Sale extends MY_Controller {
         $data['table'] = explode(' ', $this->table);
         echo $this->load->view('common/content/tbl_contact', $data);
     }
+
+//    public function get_phone_missed_call() {
+//		$this->load->helper('cookie');
+//		$expire = (int) strtotime('tomorrow');
+//		setcookie("sale_first_login_day", time(), $expire);
+//
+//		$post = $this->input->post();
+////		print_arr($post);
+//		$data = $this->data;
+//		$data['content'] = 'sale/get_phone_missed_call';
+//
+//		$this->load->view(_MAIN_LAYOUT_, $data);
+//	}
 
     public function get_contact_from_phone() {
 		$data = $this->_get_all_require_data();
