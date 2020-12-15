@@ -2,7 +2,7 @@
 
 class Test1 extends CI_Controller {
 
-    function index($day = '0') {
+	function index($day = '0') {
 
         if ($day == '0') {
 
@@ -382,8 +382,10 @@ class Test1 extends CI_Controller {
 						if (!$this->missed_call_model->check_exists(array('source_number' => $item->source_number, 'missed_call' => 1))) {
 							if ($item->disposition == 'cancelled' && $item->direction == 'inbound') {
 								$missed_call = 1;
+								$sale_id = $this->find_sale_staff_id($item->source_number);
 							} else {
 								$missed_call = 0;
+								$sale_id = $this->staffs_model->get_sale_id($item->sip_user);
 							}
 
 							$param = array(
@@ -394,7 +396,7 @@ class Test1 extends CI_Controller {
 								'sale_recall' => 0,
 								'time_created' => $item->time_start_to_answer,
 								'link_conversation' => $item->recording_file,
-								'sale_id' => $this->staffs_model->get_sale_id($item->sip_user),
+								'sale_id' => $sale_id,
 								'fee_call' => (int)$item->call_out_price,
 								'time_call' => $item->bill_sec,
 								'day' => date('Y-m-d', ($item->time_start_to_answer))
@@ -461,9 +463,37 @@ class Test1 extends CI_Controller {
 
 		curl_close($ch);
 
-			unset($options);
+		unset($options);
 
 		return $http_code === 200 ? json_decode($response) : FALSE;
+
+	}
+
+	protected function find_sale_staff_id($phone = '') {
+
+		$phone = substr($phone, -9, 9);
+
+		$sale_id = 0;
+
+		$input = array();
+
+		$input['select'] = 'id';
+
+		$input['like'] = array('phone' => $phone);
+
+		$input['order'] = array('id', 'ASC');
+
+		//print_arr($input);
+
+		$rs = $this->contacts_model->load_all($input);
+
+		if (count($rs) > 0) {
+
+			$sale_id = $rs[0]['sale_staff_id'];
+
+		}
+
+		return $sale_id;
 
 	}
 

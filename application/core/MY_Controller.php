@@ -934,7 +934,6 @@ class MY_Controller extends CI_Controller {
 
         }
 
-
         /* search every where */
 
         if (isset($get['search_all']) && trim($get['search_all']) != '') {
@@ -1036,52 +1035,32 @@ class MY_Controller extends CI_Controller {
     }
 
     public function search($offset = 0) {
-
         $require_model = array(
-
             'staffs' => array(
-
                 'where' => array(
-
                     'role_id' => 1,
-
                     'active' => 1
-
                 )
-
             ),
 
             'class_study' => array(
-
                 'where' => array(
-
                     'active' => 1
-
                 )
-
             ),
 
             'call_status' => array(),
-
 //            'providers' => array(),
-
 //            'payment_method_rgt' => array(),
-
             'sources' => array(),
-			
 			'channel' => array(),
-			
 			'campaign' => array(),
-			
 			'branch' => array(),
-			
 			'level_language' => array(),
 			'language_study' => array()
-
         );
 
         $data = array_merge($this->data, $this->_get_require_data($require_model));
-
         $get = $this->input->get();
 
         /*
@@ -1090,83 +1069,48 @@ class MY_Controller extends CI_Controller {
          */
 
         $conditional['order'] = ['last_activity' => 'DESC'];
-
         $data_pagination = $this->_query_all_from_get($get, $conditional, $this->per_page, $offset);
 
         /*Lấy danh sách contacts*/
 
         $contacts = $data_pagination['data'];
 		if ($this->role_id == 1) {
-
             $value['marketer_name'] = "";
-
-        }else{
-
+        } else {
 			foreach ($contacts as &$value) {
-
 				$value['marketer_name'] = $this->staffs_model->find_staff_name($value['marketer_id']);
-
 			}
 		}
         unset($value);
-
         $data['contacts'] = $contacts;
-
         $data['total_contact'] = $data_pagination['total_row'];
-
         /*Lấy link phân trang*/
-
         $data['pagination'] = $this->_create_pagination_link($this->controller . '/' . $this->method, $data_pagination['total_row']);
-
         /*Filter ở cột trái và cột phải*/
-
         $data['left_col'] = array('duplicate', 'date_rgt');
-
 //        $data['right_col'] = array('course_code');
-
         /*Các trường cần hiện của bảng contact (đã có default)*/
-
         $this->table .= 'fee paid call_stt level_contact';
-
         if ($this->role_id == 1 || $this->role_id == 12) {
-
             /*  nếu là nhân viên sale thì thêm nút thêm contact khi tìm kiếm */
-
             $this->table .= ' add_contact';
-
         }
-		
+
 //		if($this->role_id == 3){
 //			$this->table .= ' matrix';
 //		}
 		
-        if($this->role_id == 10){
-
+        if ($this->role_id == 10) {
             $this->table = 'selection name phone email';
-
         }
 
         $data['table'] = explode(' ', $this->table);
-
-        /*Các file js cần load*/
-
-//        $data['load_js'] = array(
-//
-//            'common_view_detail_contact', 'common_real_filter_contact',
-//
-//            'm_delete_one_contact', 'm_divide_contact', 'm_view_duplicate', 'm_delete_multi_contact'
-//
-//        );
-
         $data['search_all'] = $get['search_all'];
-
         $this->load->view('common/modal/search_all', $data);
-
     }
 
 
     private function _slogan() {
-
         $slogan = array(
 
             'Không có gì là không thể với một người luôn biết cố gắng',
@@ -1221,68 +1165,67 @@ class MY_Controller extends CI_Controller {
 
     }
 
-    function _get_customer_care_id_auto() {
-
-        $this->load->model('staffs_model');
-
-        $this->load->model('index_model');
-
-        //tìm contact mới nhất xem cskh là ai
-
-        $input = array();
-
-        $input['where']['name'] = 'customer_care_id';
-
-        $customer_care_id_index = $this->index_model->load_all($input);
-
-        $customer_care_id_index = $customer_care_id_index[0]['value'];
-
-        $input = array();
-
-        $input['select'] = 'id';
-
-        $input['where']['role_id'] = 10;
-
-        $input['where']['active'] = 1;
-
-        $input['order']['id'] = 'asc';
-
-        $list_customer_care = $this->staffs_model->load_all($input);
-
-
-        $customer_care_id = 0;
-
-        for ($i = 0; $i < count($list_customer_care); $i++) {
-
-            if (($list_customer_care[$i]['id'] == $customer_care_id_index) && ($i < count($list_customer_care) - 1)) {
-
-                $customer_care_id = $list_customer_care[$i + 1]['id'];
-
-                break;
-
-            } elseif (($list_customer_care[$i]['id'] == $customer_care_id_index) && ($i == count($list_customer_care)) - 1) {
-
-                $customer_care_id = $list_customer_care[0]['id'];
-
-                break;
-
-            } else {
-
-                $customer_care_id = $list_customer_care[0]['id'];
-
-            }
-
-        }
-
-        $data = array('value' => $customer_care_id);
-
-        $where = array('name' => 'customer_care_id');
-
-        $this->index_model->update($where, $data);
-
-        return $customer_care_id;
-
-    }
+//    function _get_customer_care_id_auto() {
+//
+//        $this->load->model('staffs_model');
+//
+//        $this->load->model('index_model');
+//
+//        //tìm contact mới nhất xem cskh là ai
+//
+//        $input = array();
+//
+//        $input['where']['name'] = 'customer_care_id';
+//
+//        $customer_care_id_index = $this->index_model->load_all($input);
+//
+//        $customer_care_id_index = $customer_care_id_index[0]['value'];
+//
+//        $input = array();
+//
+//        $input['select'] = 'id';
+//
+//        $input['where']['role_id'] = 10;
+//
+//        $input['where']['active'] = 1;
+//
+//        $input['order']['id'] = 'asc';
+//
+//        $list_customer_care = $this->staffs_model->load_all($input);
+//
+//        $customer_care_id = 0;
+//
+//        for ($i = 0; $i < count($list_customer_care); $i++) {
+//
+//            if (($list_customer_care[$i]['id'] == $customer_care_id_index) && ($i < count($list_customer_care) - 1)) {
+//
+//                $customer_care_id = $list_customer_care[$i + 1]['id'];
+//
+//                break;
+//
+//            } elseif (($list_customer_care[$i]['id'] == $customer_care_id_index) && ($i == count($list_customer_care)) - 1) {
+//
+//                $customer_care_id = $list_customer_care[0]['id'];
+//
+//                break;
+//
+//            } else {
+//
+//                $customer_care_id = $list_customer_care[0]['id'];
+//
+//            }
+//
+//        }
+//
+//        $data = array('value' => $customer_care_id);
+//
+//        $where = array('name' => 'customer_care_id');
+//
+//        $this->index_model->update($where, $data);
+//
+//        return $customer_care_id;
+//
+//    }
 
 	function replace_str_to_url($str){
         $str = trim(strtoupper(str_replace('  ',' ', $str)));
