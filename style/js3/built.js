@@ -3746,5 +3746,41 @@ $(".search_phone").on('dblclick', function (e) {
 			$(".popup-wrapper").hide();
 		},
 	});
-
 });
+
+$(".recall_missed").confirm({
+	theme: 'supervan', // 'material', 'bootstrap',
+	title: "Bạn có chắc chắn đã gọi số lại không?",
+	content: '',
+	buttons: {
+		confirm: {
+			text: 'Có',
+			action: function () {
+				var phone_number = $('.search_phone').attr("type").trim();
+				var url = $("#base_url").val() + 'sale/update_missed_call';
+				// alert(url); return false;
+				$.ajax({
+					type: "POST",
+					url: url,
+					data: {
+						phone_number: phone_number
+						/*contact_id: contactIdArray */
+					},
+					success: data => {
+						// console.log(data); return false;
+						if (data === '1') {
+							window.location.reload();
+						} else {
+							alert(data);
+						}
+					},
+					error: errorThrown => alert(errorThrown)
+				});
+			}},
+		cancel: {
+			text: 'Hủy',
+			action: function () {
+			}}
+	}
+});
+

@@ -21,6 +21,7 @@
 				<th>Thời lượng gọi</th>
 				<th>Cước phí</th>
 				<th>File ghi âm</th>
+				<th>Thao tác</th>
 			</tr>
 		</thead>
 		<tbody id="log-body">
@@ -50,6 +51,11 @@
 					<td class="text-center">
 						<?php if ($item['link_conversation'] != '') { ?>
 							<a target="_blank" href="<?php echo $item['link_conversation']?>">File ghi âm <span class="glyphicon glyphicon-earphone"></span></a>
+						<?php } ?>
+					</td>
+					<td class="text-center">
+						<?php if ($item['missed_call'] == 1) { ?>
+							<a style="margin: 0px;" class="btn btn-primary btn-sm recall_missed">Xử lý</a>
 						<?php } ?>
 					</td>
 				</tr>

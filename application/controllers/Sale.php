@@ -379,7 +379,7 @@ class Sale extends MY_Controller {
 			),
 		);
 
-		$data = array_merge($this->data, $this->_get_require_data($require_model));
+		$data = $this->_get_require_data($require_model);
 
 //		echo '<pre>'; print_r($data); die();
 
@@ -439,6 +439,24 @@ class Sale extends MY_Controller {
 		//echo '<pre>';print_r($data);die();
 
 		$this->load->view(_MAIN_LAYOUT_, $data);
+	}
+
+	public function update_missed_call() {
+		$this->load->model('missed_call_model');
+
+    	$post = $this->input->post();
+//    	print_arr($post);
+    	$where = array('source_number' => $post['phone_number']);
+		$data = array(
+			'date_recall' => time(),
+			'sale_recall' => 1,
+			'missed_call' => 0,
+			'sale_id' => $this->user_id
+		);
+
+		$this->missed_call_model->update($where, $data);
+
+		echo '1';
 	}
 
     public function add_contact() {
