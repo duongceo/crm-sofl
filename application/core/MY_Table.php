@@ -366,6 +366,7 @@ class MY_Table extends MY_Controller {
 					'class_study_id' => $rows[0]['id']
 				);
 				$rows[0]['notes'] = $this->notes_model->load_all($input);
+
 			}
 
 		}

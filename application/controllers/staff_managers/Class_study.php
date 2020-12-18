@@ -35,7 +35,7 @@ class Class_study extends MY_Table {
 				'type' => 'custom',
 				'value' => $this->get_data_from_model('branch'),
 				'name_display' => 'Cơ sở',
-//				'display' => 'none'
+				'display' => 'none'
 			),
 			'classroom_id' => array(
 				'name_display' => 'Phòng học',
@@ -60,6 +60,7 @@ class Class_study extends MY_Table {
 				'type' => 'custom',
 				'value' => $this->get_data_from_model('level_language'),
 				'name_display' => 'Trình độ',
+				'display' => 'none'
 			),
 			'number_student_max' => array(
 				'name_display' => 'Sĩ số',
@@ -79,6 +80,7 @@ class Class_study extends MY_Table {
 			'salary_per_hour' => array(
 				'type' => 'custom',
 				'name_display' => 'Lương/Giờ',
+				'display' => 'none'
 			),
 			'time_start' => array(
 				'type' => 'datetime',
@@ -95,7 +97,8 @@ class Class_study extends MY_Table {
 			'teacher_id' => array(
 				'type' => 'custom',
 				'value' => $this->get_data_from_model('teacher'),
-				'name_display' => 'Giảng viên'
+				'name_display' => 'Giảng viên',
+				'display' => 'none'
 			),
 			'character_class' => array(
 				'type' => 'custom',
@@ -110,6 +113,10 @@ class Class_study extends MY_Table {
 				'type' => 'active',
 				'name_display' => 'Hoạt động ?',
 				'display' => 'none'
+			),
+			'notes' => array(
+				'type' => 'custom',
+				'name_display' => 'Ghi chú'
 			)
 		);
 		$this->set_list_view($list_view);
