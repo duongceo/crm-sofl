@@ -191,12 +191,33 @@
             </ul>
         </li>
 
+		<li>
+			<a href="#homeSubmenu_4" data-toggle="collapse" aria-expanded="false">
+				<img src="<?php echo base_url(); ?>public/images/report.png">
+				<span>Báo Cáo Lớp Học</span>
+			</a>
+			<ul class="collapse list-unstyled" id="homeSubmenu_4">
+				<li>
+
+					<a href="<?php echo base_url('manager/view_report_class_study'); ?>">
+
+						<img src="<?php echo base_url(); ?>public/images/tvts.png">
+
+						<span> Xem báo cáo lớp học </span>
+
+					</a>
+
+				</li>
+
+			</ul>
+		</li>
+
         <li>
-            <a href="#homeSubmenu_4" data-toggle="collapse" aria-expanded="false">
+            <a href="#homeSubmenu_5" data-toggle="collapse" aria-expanded="false">
                 <img src="<?php echo base_url(); ?>public/images/report.png">
                 <span>Thêm contact</span>
             </a>
-            <ul class="collapse list-unstyled" id="homeSubmenu_4">
+            <ul class="collapse list-unstyled" id="homeSubmenu_5">
                 
 <!--                <li>-->
 <!---->

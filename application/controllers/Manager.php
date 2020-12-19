@@ -1517,7 +1517,7 @@ class Manager extends MY_Controller {
 
 	}
 
-	function view_report_source() {
+	public function view_report_source() {
 		$require_model = array(
 			'language_study' => array(
 				'where' => array(
@@ -1736,8 +1736,8 @@ class Manager extends MY_Controller {
 
 					$report[$value_source['name']][$value_sale['name']]['RE'] = $this->get_re(array_merge_recursive($conditional_1, $conditional_source), $startDate, $endDate);
 					$report[$value_source['name']][$value_sale['name']][$key_condition] = $this->_query_for_report($get, $conditional);
-					
-					if ($report[$value_source['name']][$value_sale['name']]['L1'] == 0 && $report[$value_source['name']][$value_sale['name']]['L2'] == 0 
+
+					if ($report[$value_source['name']][$value_sale['name']]['L1'] == 0 && $report[$value_source['name']][$value_sale['name']]['L2'] == 0
 					&& $report[$value_source['name']][$value_sale['name']]['L3'] == 0 &&$report[$value_source['name']][$value_sale['name']]['L5'] == 0) {
 						unset($report[$value_source['name']][$value_sale['name']]);
 					}
@@ -1746,7 +1746,7 @@ class Manager extends MY_Controller {
 				//$conditional_2 = array_merge_recursive($conditional_source, $value);
 				//$data['sources'][$key_source][$key_condition] = $this->_query_for_report($get, $conditional_2);
 			}
-			
+
 			if (empty($report[$value_source['name']])) {
 				unset($report[$value_source['name']]);
 			}
@@ -1796,6 +1796,83 @@ class Manager extends MY_Controller {
 		}
 
 		return $re;
+	}
+
+	public function view_report_class_study() {
+
+    	$this->load->model('class_study_model');
+		$require_model = array(
+			'character_class' => array(),
+			'branch' => array(),
+			'language_study' => array(
+				'where' => array(
+					'no_report' => '0'
+				)
+			),
+		);
+
+		$data = $this->_get_require_data($require_model);
+
+		$get = $this->input->get();
+
+		/* Mảng chứa các ngày lẻ */
+		if (isset($get['filter_date_date_happen']) && $get['filter_date_date_happen'] != '') {
+			$time = $get['filter_date_date_happen'];
+		} else {
+			$time = '01' . '/' . date('m') . '/' . date('Y') . ' - ' . date('d') . '/' . date('m') . '/' . date('Y');
+		}
+
+		$dateArr = explode('-', $time);
+		$startDate = trim($dateArr[0]);
+		$startDate = strtotime(str_replace("/", "-", $startDate));
+		$endDate = trim($dateArr[1]);
+		$endDate = strtotime(str_replace("/", "-", $endDate)) + 3600 * 24 - 1;
+
+//		echo $startDate . ' - ' . $endDate;die;
+
+		$conditionArr = array(
+			'ĐA_KG' => array(
+				'where' => array('time_start >=' => $startDate, 'time_start <=' => $endDate, 'character_class_id' => 2),
+				'sum' => 0
+			),
+			'ĐA_KT' => array(
+				'where' => array('time_end_real >=' => $startDate, 'time_end_real <=' => $endDate, 'character_class_id' => 3),
+				'sum' => 0
+			),
+		);
+
+		unset($data['branch'][0]);
+		unset($get['filter_date_date_happen']);
+
+		$branch = array();
+//		$total = array();
+
+		foreach ($data['branch'] as $key => $value) {
+			foreach ($data['language_study'] as $item) {
+				foreach ($conditionArr as $key2 => $value2) {
+					$conditional = array();
+					$conditional['where']['branch_id'] = $value['id'];
+					$conditional['where']['language_id'] = $item['id'];
+//						$conditional['where_not_in']['source_id'] = array(9, 10, 11);
+					$conditional = array_merge_recursive($conditional, $value2);
+//					echo '<pre>'; print_r($conditional);
+//					$branch[$key]['name'] = $value['name'];
+					$branch[$value['name']][$item['name']][$key2] = count($this->class_study_model->load_all($conditional));
+//					$total[$item['id']][$key2] += $branch[$key][$item['id']][$key2];
+				}
+			}
+		}
+//		$branch['total'] = $total;
+//		$branch['total']['name'] = 'Tổng';
+
+		$data['branch'] = $branch;
+		$data['startDate'] = $startDate;
+		$data['endDate'] = $endDate;
+		$data['left_col'] = array('date_happen_1');
+//		$data['right_col'] = array('source');
+//		$data['load_js'] = array('m_view_report');
+		$data['content'] = 'manager/view_report_class_study';
+		$this->load->view(_MAIN_LAYOUT_, $data);
 	}
 
     // <editor-fold defaultstate="collapsed" desc="get_all_require_data">
