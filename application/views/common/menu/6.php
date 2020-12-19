@@ -35,7 +35,7 @@
 		<li>
             <a href="<?php echo base_url('marketer/get_ma_mkt'); ?>">
                 <img src="<?php echo base_url(); ?>public/images/add-contact.png"> 
-                <span> Nhập chi phí FB </span>
+                <span> Nhập chi phí quảng cáo </span>
             </a>
         </li>
 

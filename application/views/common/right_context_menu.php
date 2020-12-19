@@ -366,13 +366,13 @@
 <!--				</li>-->
 <!--			</a>-->
 
-			<a href="#" class="action-contact-admin load-new-contact-id" data-answer="Xóa contact thành công (xóa hẳn)!" data-url="admin/delete_forever_one_contact">
-
-				<li> <i class="fa fa-trash" aria-hidden="true"></i> &nbsp; &nbsp;  Xóa Contact
-
-				</li>
-
-			</a>
+<!--			<a href="#" class="action-contact-admin load-new-contact-id" data-answer="Xóa contact thành công (xóa hẳn)!" data-url="admin/delete_forever_one_contact">-->
+<!---->
+<!--				<li> <i class="fa fa-trash" aria-hidden="true"></i> &nbsp; &nbsp;  Xóa Contact-->
+<!---->
+<!--				</li>-->
+<!---->
+<!--			</a>-->
 
         <?php } ?>
         
