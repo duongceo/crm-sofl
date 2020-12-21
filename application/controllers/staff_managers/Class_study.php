@@ -346,7 +346,7 @@ class Class_study extends MY_Table {
 					'value' => $this->get_data_from_model('level_language')
 				),
 				'number_student_max' => array(),
-				'number_student' => array(),
+//				'number_student' => array(),
 				'total_lesson' => array(),
 				'lesson_learned' => array(),
 				'lecture' => array(),
@@ -409,7 +409,7 @@ class Class_study extends MY_Table {
 			}
 
 			$paramArr = array('class_study_id', 'branch_id', 'classroom_id', 'level_language_id', 'language_id', 'day_id', 'time_id',
-				'number_student', 'number_student_max', 'total_lesson', 'lesson_learned', 'lecture', 'salary_per_hour', 'teacher_id', 'character_class_id', 'active', 'status');
+				'number_student_max', 'total_lesson', 'lesson_learned', 'lecture', 'salary_per_hour', 'teacher_id', 'character_class_id', 'active', 'status');
 
 			foreach ($paramArr as $value) {
 
