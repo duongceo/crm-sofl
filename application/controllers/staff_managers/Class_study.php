@@ -63,7 +63,7 @@ class Class_study extends MY_Table {
 				'display' => 'none'
 			),
 			'number_student_max' => array(
-				'name_display' => 'Sĩ số',
+				'name_display' => 'Sĩ số tối đa',
 			),
 			'number_student' => array(
 				'name_display' => 'Sĩ số hiện tại',
