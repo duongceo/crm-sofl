@@ -31,19 +31,21 @@ class Teacher extends MY_Table {
 			'name' => array(
 				'name_display' => 'Tên',
 			),
-
 			'phone' => array(
 				'name_display' => 'Số ĐT',
 //				'order' => '1'
 			),
-
 			'email' => array(
 				'name_display' => 'Email',
+			),
+			'language' => array(
+				'type' => 'custom',
+				'value' => $this->get_data_from_model('language_study'),
+				'name_display' => 'Ngoại ngữ',
 			),
 //			'profit' => array(
 //				'name_display' => 'Lợi nhuận',
 //			),
-
 			'active' => array(
 				'type' => 'active',
 				'name_display' => 'Hoạt động'
@@ -81,7 +83,11 @@ class Teacher extends MY_Table {
 		$this->list_add = array(
 			'left_table' => array(
 				'name' => array(),
-				'phone' => array()
+				'phone' => array(),
+				'language_id' => array(
+					'type' => 'array',
+					'value' => $this->get_data_from_model('language_study')
+				),
 			),
 			'right_table' => array(
 				'email' => array(),
@@ -108,7 +114,7 @@ class Teacher extends MY_Table {
 				redirect_and_die('Trạng thái hoạt động là 0 hoặc 1!');
 			}
 
-			$paramArr = array('phone', 'email', 'name', 'active');
+			$paramArr = array('phone', 'language_id', 'email', 'name', 'active');
 
 			foreach ($paramArr as $value) {
 
@@ -131,7 +137,11 @@ class Teacher extends MY_Table {
 		$this->list_edit = array(
 			'left_table' => array(
 				'name' => array(),
-				'phone' => array()
+				'phone' => array(),
+				'language_id' => array(
+					'type' => 'array',
+					'value' => $this->get_data_from_model('language_study')
+				),
 			),
 			'right_table' => array(
 				'email' => array(),
@@ -163,7 +173,7 @@ class Teacher extends MY_Table {
 //				redirect_and_die('Mã ngôn ngữ này đã tồn tại!');
 //			}
 
-			$paramArr = array('phone', 'email', 'name', 'active');
+			$paramArr = array('phone', 'email', 'language_id', 'name', 'active');
 
 			foreach ($paramArr as $value) {
 

@@ -91,6 +91,19 @@
 
 				</li>
 
+				<li>
+
+					<a href="<?php echo base_url('manager/view_report_class_study'); ?>">
+
+						<img src="<?php echo base_url(); ?>public/images/tvts.png">
+
+						<span> Xem báo cáo lớp học </span>
+
+					</a>
+
+				</li>
+
+
 			</ul>
 		</li>
 

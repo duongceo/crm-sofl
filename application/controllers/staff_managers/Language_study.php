@@ -32,11 +32,9 @@ class Language_study extends MY_Table {
 				'name_display' => 'Mã ngôn ngữ',
 //				'order' => '1'
 			),
-
 			'name' => array(
 				'name_display' => 'Tên',
 			),
-
 			'active' => array(
 				'type' => 'active',
 				'name_display' => 'Hoạt động'
