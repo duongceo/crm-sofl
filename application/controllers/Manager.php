@@ -1117,7 +1117,6 @@ class Manager extends MY_Controller {
                     'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_student_id' => 'L8', 'date_rgt >=' => $startDate, 'date_rgt <' => $endDate),
                     'sum' => 0
                 ),
-
                 'LC' => array(
                     'where' => array('is_hide' => '0', 'date_rgt >' => $startDate, 'date_rgt <' => $endDate,
                         '(`call_status_id` = ' . _SO_MAY_SAI_ . ' OR `call_status_id` = ' . _NHAM_MAY_ . ')' => 'NO-VALUE'),
@@ -1836,7 +1835,18 @@ class Manager extends MY_Controller {
 				'sum' => 0
 			),
 			'ĐA_KT' => array(
-				'where' => array('time_end_real >=' => $startDate, 'time_end_real <=' => $endDate, 'character_class_id' => 3),
+				'where' => array('time_end_expected >=' => $startDate, 'time_end_expected <=' => $endDate, 'character_class_id' => 3),
+				'sum' => 0
+			),
+		);
+
+		$conditionalArr_contact = array(
+			'L7' => array(
+				'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_student_id' => 'L7', 'date_last_calling >' => $startDate, 'date_last_calling <' => $endDate),
+				'sum' => 0
+			),
+			'L8' => array(
+				'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_student_id' => 'L8', 'date_rgt_study >=' => $startDate, 'date_rgt_study <' => $endDate),
 				'sum' => 0
 			),
 		);
@@ -1845,25 +1855,38 @@ class Manager extends MY_Controller {
 		unset($get['filter_date_date_happen']);
 
 		$branch = array();
-//		$total = array();
 
-		foreach ($data['branch'] as $key => $value) {
-			foreach ($data['language_study'] as $item) {
-				foreach ($conditionArr as $key2 => $value2) {
+		foreach ($data['branch'] as $key => $value_branch) {
+			foreach ($data['language_study'] as $value_language) {
+				foreach ($conditionArr as $key_class => $value_class) {
 					$conditional = array();
-					$conditional['where']['branch_id'] = $value['id'];
-					$conditional['where']['language_id'] = $item['id'];
-//						$conditional['where_not_in']['source_id'] = array(9, 10, 11);
-					$conditional = array_merge_recursive($conditional, $value2);
-//					echo '<pre>'; print_r($conditional);
-//					$branch[$key]['name'] = $value['name'];
-					$branch[$value['name']][$item['name']][$key2] = count($this->class_study_model->load_all($conditional));
-//					$total[$item['id']][$key2] += $branch[$key][$item['id']][$key2];
+					$conditional['where']['branch_id'] = $value_branch['id'];
+					$conditional['where']['language_id'] = $value_language['id'];
+					$conditional = array_merge_recursive($conditional, $value_class);
+
+					$class = $this->class_study_model->load_all($conditional);
+					$branch[$value_branch['name']][$value_language['name']][$key_class] = count($class);
+
+					$class_study_array = $this->get_class_id($class);
+					if (!empty($class_study_array)) {
+						$input_contact = array();
+						$input_contact['where_in']['class_study_id'] = $class_study_array;
+						$branch[$value_branch['name']][$value_language['name']]['HV_'.$key_class] = count($this->contacts_model->load_all($input_contact));
+					} else {
+						$branch[$value_branch['name']][$value_language['name']]['HV_'.$key_class] = 0;
+					}
+				}
+
+				foreach ($conditionalArr_contact as $key_contact => $value_contact) {
+					$conditional_contact = array();
+					$conditional_contact['where']['branch_id'] = $value_branch['id'];
+					$conditional_contact['where']['language_id'] = $value_language['id'];
+					$conditional_contact = array_merge_recursive($conditional_contact, $value_contact);
+
+					$branch[$value_branch['name']][$value_language['name']][$key_contact] = $this->_query_for_report($get, $conditional_contact);
 				}
 			}
 		}
-//		$branch['total'] = $total;
-//		$branch['total']['name'] = 'Tổng';
 
 		$data['branch'] = $branch;
 		$data['startDate'] = $startDate;
@@ -1873,6 +1896,18 @@ class Manager extends MY_Controller {
 //		$data['load_js'] = array('m_view_report');
 		$data['content'] = 'manager/view_report_class_study';
 		$this->load->view(_MAIN_LAYOUT_, $data);
+	}
+
+	private function get_class_id($class_arr) {
+    	$class_id_arr = array();
+    	if (empty($class_arr)) {
+    		return $class_id_arr;
+		} else {
+			foreach ($class_arr as $item) {
+				$class_id_arr[] = $item['class_study_id'];
+    		}
+			return $class_id_arr;
+		}
 	}
 
     // <editor-fold defaultstate="collapsed" desc="get_all_require_data">

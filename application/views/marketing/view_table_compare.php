@@ -3,7 +3,7 @@
 
 	<div class="col-md-10 col-md-offset-1">
 
-		<h3 class="text-center marginbottom20"> Bảng so sánh với trong 3 tháng</h3>
+		<h3 class="text-center marginbottom20"> Bảng so sánh cùng kỳ trong 3 tháng gần đây</h3>
 
 	</div>
 
