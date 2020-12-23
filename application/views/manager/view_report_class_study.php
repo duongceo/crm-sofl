@@ -93,8 +93,8 @@
 			<tr>
 				<td style="background-color: #8aa6c1"><?php echo $key_branch; ?></td>
 				<?php foreach ($value_branch as $item) { ?>
-					<td><?php echo $item['HV_KG']; ?></td>
-					<td><?php echo $item['HV_KT']; ?></td>
+					<td><?php echo $item['HV_DA_KG']; ?></td>
+					<td><?php echo $item['HV_DA_KT']; ?></td>
 					<td><?php echo $item['L7']; ?></td>
 					<td><?php echo $item['L8']; ?></td>
 					<td><?php echo round(($value[$item['L7']] / $value[$item['HV_KT']]) * 100, 2) . '%'; ?></td>
