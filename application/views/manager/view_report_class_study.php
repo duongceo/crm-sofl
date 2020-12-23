@@ -74,7 +74,7 @@
 			<?php
 			foreach ($language_study as $item_1) {
 				$report = array();
-				$report = array('HV Khai Giảng', 'HV Kết Thúc', 'L7', 'L8', 'L7/KG', 'L8/KT');
+				$report = array('HV Khai Giảng', 'HV Kết Thúc', 'L7', 'L8', 'L7/KT', 'L8/KT');
 				foreach ($report as $value) {
 					?>
 					<th style="background-color: #1b6d85">
@@ -93,12 +93,12 @@
 			<tr>
 				<td style="background-color: #8aa6c1"><?php echo $key_branch; ?></td>
 				<?php foreach ($value_branch as $item) { ?>
-					<td><?php echo $item['HV_DA_KG']; ?></td>
-					<td><?php echo $item['HV_DA_KT']; ?></td>
+					<td><?php echo $item['HV_ĐA_KG']; ?></td>
+					<td><?php echo $item['HV_ĐA_KT']; ?></td>
 					<td><?php echo $item['L7']; ?></td>
 					<td><?php echo $item['L8']; ?></td>
-					<td><?php echo round(($value[$item['L7']] / $value[$item['HV_KT']]) * 100, 2) . '%'; ?></td>
-					<td><?php echo round(($value[$item['L8']] / $value[$item['HV_KT']]) * 100, 2) . '%'; ?></td>
+					<td><?php echo round(($value[$item['L7']] / $value[$item['HV_DA_KT']]) * 100, 2) . '%'; ?></td>
+					<td><?php echo round(($value[$item['L8']] / $value[$item['HV_DA_KT']]) * 100, 2) . '%'; ?></td>
 				<?php } ?>
 			</tr>
 			<?php } ?>
