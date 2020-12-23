@@ -87,7 +87,6 @@
 	</thead>
 
 	<tbody>
-
 		<?php
 			foreach ($branch as $key_branch => $value_branch) { ?>
 			<tr>
@@ -97,8 +96,8 @@
 					<td><?php echo $item['HV_ĐA_KT']; ?></td>
 					<td><?php echo $item['L7']; ?></td>
 					<td><?php echo $item['L8']; ?></td>
-					<td style="background-color: #9cc2cb"><?php echo round(($value[$item['L7']] / $value[$item['HV_DA_KT']]) * 100, 2) . '%'; ?></td>
-					<td style="background-color: #9cc2cb"><?php echo round(($value[$item['L8']] / $value[$item['HV_DA_KT']]) * 100, 2) . '%'; ?></td>
+					<td style="background-color: #9cc2cb"><?php echo round(($value[$item['L7']] / $value[$item['HV_ĐA_KT']]) * 100, 2) . '%'; ?></td>
+					<td style="background-color: #9cc2cb"><?php echo round(($value[$item['L8']] / $value[$item['HV_ĐA_KT']]) * 100, 2) . '%'; ?></td>
 				<?php } ?>
 			</tr>
 			<?php } ?>
