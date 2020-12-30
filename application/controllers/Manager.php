@@ -1866,6 +1866,7 @@ class Manager extends MY_Controller {
 			foreach ($data['language_study'] as $value_language) {
 				foreach ($conditionArr as $key_class => $value_class) {
 					$conditional = array();
+					$conditional['select'] = 'id';
 					$conditional['where']['branch_id'] = $value_branch['id'];
 					$conditional['where']['language_id'] = $value_language['id'];
 					$conditional = array_merge_recursive($conditional, $value_class);
@@ -1876,6 +1877,7 @@ class Manager extends MY_Controller {
 					$class_study_array = $this->get_class_id($class);
 					if (!empty($class_study_array)) {
 						$input_contact = array();
+						$input_contact['select'] = 'id';
 						$input_contact['where_in']['class_study_id'] = $class_study_array;
 						$branch[$value_branch['name']][$value_language['name']]['HV_'.$key_class] = count($this->contacts_model->load_all($input_contact));
 					} else {
