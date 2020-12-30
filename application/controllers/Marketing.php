@@ -104,7 +104,7 @@ class Marketing extends MY_Controller {
 		$data['contacts'] = $contact;
 
 		$data['left_col'] = array('care_number', 'language', 'level_language', 'sale', 'marketer', 'date_rgt', 'date_handover', 'date_confirm', 'date_rgt_study', 'date_last_calling');
-        $data['right_col'] = array('branch', 'is_old', 'source', 'call_status', 'level_contact', 'level_contact_detail', 'level_student', 'level_student_detail');
+        $data['right_col'] = array('branch', 'is_old', 'complete_fee', 'source', 'call_status', 'level_contact', 'level_contact_detail', 'level_student', 'level_student_detail');
 
 		$this->table .= 'fee paid channel call_stt level_contact date_rgt';
 		$data['table'] = explode(' ', $this->table);
