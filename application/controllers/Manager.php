@@ -1466,12 +1466,14 @@ class Manager extends MY_Controller {
 		unset($data['branch'][0]);
 		unset($get['filter_date_date_happen']);
 
+		$language = $this->language_study_model->load_all(array());
+
 		$branch = array();
 		$total = array();
 		if ($this->role_id == 12) {
 			$this->load->model('branch_model');
 			$branch_id = $this->session->userdata('branch_id');
-			foreach ($data['language_study'] as $item) {
+			foreach ($language as $item) {
 				foreach ($conditionArr as $key2 => $value2) {
 					$conditional = array();
 					$conditional['where']['branch_id'] = $branch_id;
