@@ -1292,6 +1292,7 @@ class Manager extends MY_Controller {
     function view_report_revenue() {
         $this->load->helper('manager_helper');
 		$this->load->model('paid_model');
+		$this->load->model('language_study_model');
 		$require_model = array(
 			'branch' => array(),
 			'language_study' => array(
@@ -1323,8 +1324,10 @@ class Manager extends MY_Controller {
 			'time_created <=' => $date_end,
 		);
 
+		$language = $this->language_study_model->load_all(array());
+
 		$language_re = array();
-		foreach ($data['language_study'] as $value) {
+		foreach ($language as $value) {
 
 			$input_re['where_not_in']['source_id'] = array(9, 10, 11);
 			$language_input_re_new = array_merge_recursive(array('where' => array('student_old' => '0', 'language_id' => $value['id'])), $input_re);
@@ -1466,14 +1469,12 @@ class Manager extends MY_Controller {
 		unset($data['branch'][0]);
 		unset($get['filter_date_date_happen']);
 
-		$language = $this->language_study_model->load_all(array());
-
 		$branch = array();
 		$total = array();
 		if ($this->role_id == 12) {
 			$this->load->model('branch_model');
 			$branch_id = $this->session->userdata('branch_id');
-			foreach ($language as $item) {
+			foreach ($data['language_study'] as $item) {
 				foreach ($conditionArr as $key2 => $value2) {
 					$conditional = array();
 					$conditional['where']['branch_id'] = $branch_id;
