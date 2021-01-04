@@ -258,7 +258,9 @@ class Marketing extends MY_Controller {
 			$total_spend_gg += $spend_gg;
 			$total_spend_hn += $spend_hn;
 			$total_spend_hcm += $spend_hcm;
-			$total_spend += $spend;
+			if (in_array($key, array(1,2,3))) {
+				$total_spend += $spend;
+			}
 
 			$Report[$key]['language_name'] = $this->language_study_model->find_language_name($key);
 

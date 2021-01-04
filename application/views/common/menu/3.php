@@ -164,7 +164,7 @@
 
                 </li>
 
-                 <li>
+                <li>
 
                     <a href="<?php echo base_url('manager/view_report_source'); ?>">
 
