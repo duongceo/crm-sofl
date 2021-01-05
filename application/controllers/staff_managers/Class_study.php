@@ -486,37 +486,15 @@ class Class_study extends MY_Table {
 //		$student = $this->contacts_model->load_all($input);
 
 		$require_model = array(
-			'staffs' => array(
-				'where' => array(
-					'role_id' => 1,
-					'active' => 1
-				)
-			),
 			'class_study' => array(
-				'where' => array(
-					'active' => 1
-				),
+				'branch_id' => $this->branch_id,
 				'order' => array(
 					'class_study_id' => 'ASC'
 				)
 			),
-			'call_status' => array(),
-			'payment_method_rgt' => array(),
-			'sources' => array(),
-			'channel' => array(),
 			'branch' => array(),
 			'level_language' => array(),
 			'language_study' => array(),
-			'level_contact' => array(
-				'where' => array(
-					'parent_id' => ''
-				)
-			),
-			'level_student' => array(
-				'where' => array(
-					'parent_id' => ''
-				)
-			),
 		);
 
         $data = $this->_get_require_data($require_model);

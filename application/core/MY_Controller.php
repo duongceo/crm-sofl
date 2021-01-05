@@ -1050,8 +1050,6 @@ class MY_Controller extends CI_Controller {
             ),
 
             'call_status' => array(),
-//            'providers' => array(),
-//            'payment_method_rgt' => array(),
             'sources' => array(),
 			'channel' => array(),
 			'campaign' => array(),
