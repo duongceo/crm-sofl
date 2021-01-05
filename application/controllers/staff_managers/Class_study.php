@@ -126,10 +126,23 @@ class Class_study extends MY_Table {
 
 	public function index($offset = 0) {
 
-		$this->data['branch'] = $this->get_data_from_model('branch');
-		$this->data['language'] = $this->get_data_from_model('language_study');
-		$this->data['level_language'] = $this->get_data_from_model('level_language');
-		$this->data['character_class'] = $this->get_data_from_model('character_class');
+		$require_model = array(
+			'branch' => array(),
+			'level_language' => array(),
+			'language_study' => array(
+				'where' => array(
+					'no_report' => '0'
+				)
+			),
+			'character_class' => array(),
+		);
+
+		$this->data = $this->_get_require_data($require_model);
+
+//		$this->data['branch'] = $this->get_data_from_model('branch');
+//		$this->data['language'] = $this->get_data_from_model('language_study');
+//		$this->data['level_language'] = $this->get_data_from_model('level_language');
+//		$this->data['character_class'] = $this->get_data_from_model('character_class');
 
 		$this->list_filter = array(
 			'right_filter' => array(

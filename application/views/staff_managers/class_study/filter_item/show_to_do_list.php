@@ -12,7 +12,6 @@
 				<div class="panel-body">
 					<div class="row">
 						<?php
-						unset($language[3]);
 						$tomorrow = date("d/m/Y", strtotime('tomorrow'));
 						$before_4_day = date("d/m/Y", strtotime("+4 day"));
 //						echo $before_4_day; die();
