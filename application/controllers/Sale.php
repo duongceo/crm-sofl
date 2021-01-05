@@ -654,7 +654,7 @@ class Sale extends MY_Controller {
 
 				if ($this->role_id == 10) {
 					$param['care_page_staff_id'] = $this->user_id;
-					if (isset($input['sale_staff_id'])) {
+					if (isset($input['sale_staff_id']) && $input['sale_staff_id'] != 0) {
 						$param['sale_staff_id'] = $input['sale_staff_id'];
 					}
 				}
