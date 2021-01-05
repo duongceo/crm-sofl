@@ -15,7 +15,7 @@
 						$tomorrow = date("d/m/Y", strtotime('tomorrow'));
 						$before_4_day = date("d/m/Y", strtotime("+4 day"));
 //						echo $before_4_day; die();
-						foreach ($language as $value) { ?>
+						foreach ($language_study as $value) { ?>
 							<div class="col-md-4">
 								<div class="panel panel-danger text-center">
 									<div class="panel-heading"><?php echo $value['name']?></div>
