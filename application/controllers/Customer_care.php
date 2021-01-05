@@ -11,38 +11,10 @@ class Customer_care extends MY_Controller {
     function index($offset = 0) {
         $data = $this->_get_all_require_data();
         $get = $this->input->get();
-		
-		//echo '<pre>';
-		//print_r($get);
-		//die;
-        /*
-         * Điều kiện lấy contact :
-         * contact ở trang chủ là contact chưa gọi lần nào và contact là của riêng TVTS, sắp xếp theo ngày nhận contact
-         *
-         */
 
-        $conditional['where']['customer_care_staff_id'] = $this->user_id;
-        //$conditional['where']['cod_status_id >'] = '1';
-        /*$conditional['where']['cod_status_id'] = '3';
-		$conditional['where']['account_active'] = '0';
-		$conditional['where']['date_rgt >='] = '1551398400';
-        $conditional['where']['is_hide'] = '0';
-		$conditional['where']['id_lakita !='] = '0';*/
-		$conditional['where'] = array(
-			'id_lakita !=' => '0', 
-			'date_rgt >=' => '1551398400', 
-			//'account_active' => '0', 
-			'cod_status_id' => '3', 
-			'is_hide' => '0',
-			'affiliate_id' => '0'
-		);
-        if (isset($get['active'])) {
-            $conditional['where']['account_active ='] = '1';
-        } else {
-            $conditional['where']['account_active'] = '0';
-        }
+        $conditional['where']['care_page_staff_id !='] = '0';
+        $conditional['order'] = array('date_handover' => 'DESC');
 
-        $conditional['order'] = array('date_rgt' => 'asc');
         $data_pagination = $this->_query_all_from_get($get, $conditional, $this->per_page, $offset);
 
         /*
@@ -55,26 +27,25 @@ class Customer_care extends MY_Controller {
         /*
          * Filter ở cột trái và cột phải
          */
-        $data['left_col'] = array('date_rgt', 'active', 'course_code');
-        $data['right_col'] = array('customer_care_call_stt');
+        $data['left_col'] = array('date_rgt');
+//        $data['right_col'] = array('');
 
         /*
          * Các trường cần hiện của bảng contact (đã có default)
          */
-        $this->table = 'selection name phone email course_code date_rgt account_lakita';
+        $this->table = 'selection name phone date_rgt date_handover';
         $data['table'] = explode(' ', $this->table);
 
         /*
          * Các file js cần load
          */
 
-
-        $data['titleListContact'] = 'Danh sách contact đã nhận cod';
-        $data['actionForm'] = 'customer_care/transfer_contact';
-        $informModal = 'customer_care/modal/transfer_multi_contact';
-        $data['informModal'] = explode(' ', $informModal);
-        $outformModal = 'customer_care/modal/transfer_one_contact sale/modal/show_script';
-        $data['outformModal'] = explode(' ', $outformModal);
+        $data['titleListContact'] = 'Danh sách contact đã nhập vào hôm nay';
+//        $data['actionForm'] = 'customer_care/transfer_contact';
+//        $informModal = 'customer_care/modal/transfer_multi_contact';
+//        $data['informModal'] = explode(' ', $informModal);
+//        $outformModal = 'customer_care/modal/transfer_one_contact sale/modal/show_script';
+//        $data['outformModal'] = explode(' ', $outformModal);
 
         $data['content'] = 'common/list_contact';
         $this->load->view(_MAIN_LAYOUT_, $data);
@@ -88,17 +59,9 @@ class Customer_care extends MY_Controller {
                     'active' => 1
                 )
             ),
-            'courses' => array(
-                'where' => array('active' => '1'),
-                'order' => array(
-                    'course_code' => 'ASC'
-                )
-            ),
-            'customer_care_call_stt' => array(),
+
             'transfer_logs' => array(),
             'call_status' => array('order' => array('sort' => 'ASC')),
-            'ordering_status' => array('order' => array('sort' => 'ASC')),
-            'cod_status' => array(),
             'payment_method_rgt' => array(),
         );
         return array_merge($this->data, $this->_get_require_data($require_model));

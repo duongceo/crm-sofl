@@ -244,6 +244,30 @@
                         </div>
                     </div>
                 </div>
+
+				<?php if ($this->role_id == 10) { ?>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-4 text-right">
+								Nhân viên sale
+							</div>
+							<div class="col-md-8">
+								<select class="form-control" name="sale_staff_id">
+									<option value="0"> Chọn nhân viên sale </option>
+									<?php
+									foreach ($staffs as $key => $value) {
+										?>
+										<option value="<?php echo $value['id']; ?>" <?php if ($value['id'] == $_GET['sale_staff_id']) echo 'selected'; ?>>
+											<?php echo $value['name']; ?>
+										</option>
+										<?php
+									}
+									?>
+								</select>
+							</div>
+						</div>
+					</div>
+				<?php } ?>
 				
                 <div class="form-group">
                     <div class="row">

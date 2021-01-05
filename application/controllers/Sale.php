@@ -515,10 +515,16 @@ class Sale extends MY_Controller {
 					'channel' => array(
 						'where' => array('active' => '1'),
 						'order' => array('name' => 'ASC')
-					)
+					),
+					'staffs' => array(
+						'where' => array(
+							'role_id' => 1,
+							'active' => 1
+						)
+					),
 				);
                 $data = array_merge($this->data, $this->_get_require_data($require_model));
-                //print_arr($data);
+//                print_arr($data);
                 $data['content'] = 'sale/add_contact';
                 $this->load->view(_MAIN_LAYOUT_, $data);
             } else {
@@ -646,6 +652,13 @@ class Sale extends MY_Controller {
 					}
 				}
 
+				if ($this->role_id == 10) {
+					$param['care_page_staff_id'] = $this->user_id;
+					if (isset($input['sale_staff_id'])) {
+						$param['sale_staff_id'] = $input['sale_staff_id'];
+					}
+				}
+
 				//$param['date_rgt'] = time();
                 $param['date_handover'] = time();
                 
@@ -764,7 +777,13 @@ class Sale extends MY_Controller {
 				'channel' => array(
 					'where' => array('active' => '1'),
 					'order' => array('name' => 'ASC')
-				)
+				),
+				'staffs' => array(
+					'where' => array(
+						'role_id' => 1,
+						'active' => 1
+					)
+				),
             );
             $data = array_merge($this->data, $this->_get_require_data($require_model));
 			
