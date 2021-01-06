@@ -33,7 +33,7 @@ class Customer_care extends MY_Controller {
         /*
          * Các trường cần hiện của bảng contact (đã có default)
          */
-        $this->table = 'selection name phone date_rgt date_handover';
+        $this->table = 'selection name phone branch language level_language date_rgt date_handover';
         $data['table'] = explode(' ', $this->table);
 
         /*

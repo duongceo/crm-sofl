@@ -126,31 +126,31 @@
 
         <?php } else if ($controller == 'customer_care') { ?>
 
-            <a href="#" class="ajax-request-modal load-new-contact-id edit-one-contact one-item-selected" data-contact-id ="0" data-modal-name="edit-contact-div"
-
-               data-url="common/show_edit_contact_modal">
-
-                <li> <i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp; Chăm sóc contact này </li>
-
-            </a>
-
-            <a href="#" contact_id="0" contact_name="0" class="transfer_one_contact one-item-selected" >
-
-                <li> <i class="fa fa-exchange" aria-hidden="true"></i>  &nbsp; &nbsp; Chuyển nhượng contact này</li>
-
-            </a>
-
-            <a href="#" class="transfer_contact multi-item-selected">
-
-                <li>  <i class="fa fa-exchange" aria-hidden="true"></i>  &nbsp; &nbsp; Chuyển nhượng các contact đã chọn </li>
-
-            </a>
-
-            <a href="#" contact_name="0" contact_phone="0" class="send_to_mobile one-item-selected" >
-
-                <li> <i class="fa fa-phone-square" aria-hidden="true"></i> &nbsp; &nbsp;  Gửi số điện thoại vào mobile </li>
-
-            </a>
+<!--            <a href="#" class="ajax-request-modal load-new-contact-id edit-one-contact one-item-selected" data-contact-id ="0" data-modal-name="edit-contact-div"-->
+<!---->
+<!--               data-url="common/show_edit_contact_modal">-->
+<!---->
+<!--                <li> <i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp; Chăm sóc contact này </li>-->
+<!---->
+<!--            </a>-->
+<!---->
+<!--            <a href="#" contact_id="0" contact_name="0" class="transfer_one_contact one-item-selected" >-->
+<!---->
+<!--                <li> <i class="fa fa-exchange" aria-hidden="true"></i>  &nbsp; &nbsp; Chuyển nhượng contact này</li>-->
+<!---->
+<!--            </a>-->
+<!---->
+<!--            <a href="#" class="transfer_contact multi-item-selected">-->
+<!---->
+<!--                <li>  <i class="fa fa-exchange" aria-hidden="true"></i>  &nbsp; &nbsp; Chuyển nhượng các contact đã chọn </li>-->
+<!---->
+<!--            </a>-->
+<!---->
+<!--            <a href="#" contact_name="0" contact_phone="0" class="send_to_mobile one-item-selected" >-->
+<!---->
+<!--                <li> <i class="fa fa-phone-square" aria-hidden="true"></i> &nbsp; &nbsp;  Gửi số điện thoại vào mobile </li>-->
+<!---->
+<!--            </a>-->
 
         <?php } else if ($controller == 'cod') { ?>
 
