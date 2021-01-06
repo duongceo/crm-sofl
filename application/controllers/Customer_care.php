@@ -59,10 +59,9 @@ class Customer_care extends MY_Controller {
                     'active' => 1
                 )
             ),
-
-            'transfer_logs' => array(),
-            'call_status' => array('order' => array('sort' => 'ASC')),
-            'payment_method_rgt' => array(),
+			'branch' => array(),
+            'language_study' => array(),
+			'level_language' => array(),
         );
         return array_merge($this->data, $this->_get_require_data($require_model));
     }
