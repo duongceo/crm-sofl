@@ -478,7 +478,6 @@ class MY_Table extends MY_Controller {
 
             $this->load->model('level_language_model');
             $input_level['where'] = array(
-            	'active' => 1,
 				'language_id' => $rows[0]['language_id'],
 				'use_in_ladipage' => 1
 			);
