@@ -468,8 +468,13 @@ class MY_Table extends MY_Controller {
 					</script>
 				</div>";
 
-            $branch = $this->get_data_from_model('branch');
-			unset($branch[0]);
+            $this->load->model('branch_model');
+			$input = array();
+            $input['where'] = array(
+            	'active' => 1,
+				'location_id !=' => '0'
+			);
+            $branch = $this->branch_model->load_all($input);
 
             $this->load->model('level_language_model');
             $input_level['where'] = array(
@@ -483,7 +488,7 @@ class MY_Table extends MY_Controller {
             $rows[0]['form_plugin'] = '<div class="widget-content">
 				<form class="form-border-white e_submit e_form_submit" role="form" id="dang-ky-2" method="POST"  name="fr_register" action="'.$action.'">
 					<div class="form-input"><input type="text" required="required" name="name" placeholder="Họ tên *"></div>
-					<div class="form-input"><input type="text" name="email" placeholder="Email *"></div>
+					<!--<div class="form-input"><input type="text" name="email" placeholder="Email *"></div>-->
 					<div class="form-input"><input type="text" required="required" name="phone" placeholder="Số điện thoại *"></div>
 					<div class="form-input">
 						<select name="branch_id">
