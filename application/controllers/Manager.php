@@ -1240,6 +1240,8 @@ class Manager extends MY_Controller {
 						$value2['where']['date_rgt >='] = $startDate;
 						$value2['where']['date_rgt <='] = $endDate;
 						$value2['where']['duplicate_id'] = '0';
+						$value2['where']['call_status_id NOT IN (1, 3)'] = 'NO-VALUE';
+						$value2['where']['level_contact_detail NOT IN ("L1.1", "L1.2")'] = 'NO-VALUE';
 					}
 					$conditional = array_merge_recursive($conditional, $value2);
 					$language[$key_language][$key2] = $this->_query_for_report($get, $conditional);
