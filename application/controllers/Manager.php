@@ -1119,7 +1119,7 @@ class Manager extends MY_Controller {
                 ),
                 'LC' => array(
                     'where' => array('is_hide' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate,
-                        '(`call_status_id` = ' . _SO_MAY_SAI_ . ' OR `call_status_id` = ' . _NHAM_MAY_ . ' OR level_contact_detail IN ("L1.1", "L1.2"))' => 'NO-VALUE'),
+                        '(`call_status_id` = ' . _SO_MAY_SAI_ . ' OR `call_status_id` = ' . _NHAM_MAY_ . ' OR `call_status_id` = 5 OR `level_contact_detail IN` ("L1.1", "L1.2"))' => 'NO-VALUE'),
                     'sum' => 0
                 ),
                 /*
@@ -1186,7 +1186,7 @@ class Manager extends MY_Controller {
 				),
                 'LC' => array(
                     'where' => array('is_hide' => '0', 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate,
-                        '(`call_status_id` = ' . _SO_MAY_SAI_ . ' OR `call_status_id` = ' . _NHAM_MAY_ . ' OR level_contact_detail IN ("L1.1", "L1.2"))' => 'NO-VALUE'),
+                        '(`call_status_id` = ' . _SO_MAY_SAI_ . ' OR `call_status_id` = ' . _NHAM_MAY_ . ' OR `call_status_id` = 5 OR `level_contact_detail` IN ("L1.1", "L1.2"))' => 'NO-VALUE'),
                     'sum' => 0
                 ),
 				/*
