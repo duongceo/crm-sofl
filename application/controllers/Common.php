@@ -46,6 +46,9 @@ class Common extends MY_Controller {
 			'level_student' => array(
 				'order' => array('level_id' => 'ASC')
 			),
+			'level_study' => array(
+				'order' => array('level_id' => 'ASC')
+			),
             'payment_method_rgt' => array(),
             'sources' => array(),
 			'branch' => array(),
@@ -74,7 +77,8 @@ class Common extends MY_Controller {
             'call_stt' => 'view',
 			'level_contact' => 'view',
 			'level_student' => 'view',
-            'payment_method_rgt' => 'view',
+			'level_study' => 'view',
+            //'payment_method_rgt' => 'view',
             'note' => 'view',
 			'date_last_calling' => 'view',
 			'date_confirm' => 'view',
@@ -136,6 +140,7 @@ class Common extends MY_Controller {
                 'call_stt' => 'edit',
                 'level_contact' => 'edit',
 				'level_student' => 'edit',
+				'level_study' => 'edit',
 				'date_rgt_study' => 'edit',
 				'is_old' => 'edit',
                 'date_recall' => 'edit',
@@ -300,11 +305,24 @@ class Common extends MY_Controller {
 			),
 			'level_contact' => array(
 				'order' => array('level_id' => 'ASC'),
-				'where' => array('parent_id' => ''),
+				'where' => array(
+					'parent_id' => '',
+					'active' => 1
+				),
 			),
 			'level_student' => array(
 				'order' => array('level_id' => 'ASC'),
-				'where' => array('parent_id' => ''),
+				'where' => array(
+					'parent_id' => '',
+					'active' => 1
+				),
+			),
+			'level_study' => array(
+				'order' => array('level_id' => 'ASC'),
+				'where' => array(
+					'parent_id' => '',
+					'active' => 1
+				),
 			),
             'level_language' => array(
             	'where' => array('language_id' => $rows[0]['language_id'])
@@ -328,6 +346,13 @@ class Common extends MY_Controller {
 			$rows[0]['level_student_name'] = $this->level_student_model->get_name_from_level($rows[0]['level_student_detail']);
 		} else {
 			$rows[0]['level_student_name'] = $this->level_student_model->get_name_from_level($rows[0]['level_student_id']);
+		}
+
+		$this->load->model('level_study_model');
+		if ($rows[0]['level_study_detail'] != '') {
+			$rows[0]['level_study_name'] = $this->level_student_model->get_name_from_level($rows[0]['level_study_detail']);
+		} else {
+			$rows[0]['level_study_name'] = $this->level_student_model->get_name_from_level($rows[0]['level_study_id']);
 		}
 
         $data = $this->_get_require_data($require_model);
@@ -568,8 +593,16 @@ class Common extends MY_Controller {
 				$param['level_student_id'] = $post['level_student_id'];
 			}
 
-			if (isset($post['level_student_detail']) && !empty($post['level_student_detail']) && $post['level_student_detail'] != '') {
-				$param['level_student_detail'] = $post['level_student_detail'];
+//			if (isset($post['level_student_detail']) && !empty($post['level_student_detail']) && $post['level_student_detail'] != '') {
+//				$param['level_student_detail'] = $post['level_student_detail'];
+//			}
+
+			if (isset($post['level_study_id']) && !empty($post['level_study_id']) && $post['level_study_id'] != '') {
+				$param['level_study_id'] = $post['level_study_id'];
+			}
+
+			if (isset($post['level_study_detail']) && !empty($post['level_study_detail']) && $post['level_study_detail'] != '') {
+				$param['level_study_detail'] = $post['level_study_detail'];
 			}
 			
 			if ($post['level_contact_detail'] == 'L5.2' || $post['level_student_id'] == 'L8') {
@@ -1925,11 +1958,16 @@ class Common extends MY_Controller {
 			$this->load->model('level_contact_model');
 			$chil_level = $this->level_contact_model->load_all($input);
 			$name = "level_contact_detail";
-		} else if (in_array($post['level_id'], array('L6', 'L7', 'L8'))) {
-			$this->load->model('level_student_model');
-			$chil_level = $this->level_student_model->load_all($input);
-			$name = "level_student_detail";
+		}  else if ($post['level_id'] == 'L7') {
+			$this->load->model('level_study_model');
+			$chil_level = $this->level_study_model->load_all($input);
+			$name = "level_study_detail";
 		}
+//    	else if (in_array($post['level_id'], array('L6', 'L8'))) {
+//			$this->load->model('level_student_model');
+//			$chil_level = $this->level_student_model->load_all($input);
+//			$name = "level_student_detail";
+//		}
 //		print_arr($chil_level);
     	if (isset($chil_level) && !empty($chil_level)) {
 			 $str = '<td class="text-right">
@@ -2003,8 +2041,6 @@ class Common extends MY_Controller {
 				echo '<td class="text-right"></td>';
 			}
 		}
-
-
 	}
 
 }

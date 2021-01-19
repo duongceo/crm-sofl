@@ -1,7 +1,7 @@
 <tr>
 	<td class="text-right"> Hoàn thành học phí ? </td>
 	<td>
-		<div>
+		<div class="radio" style="margin-top: 0px;">
 			<label class="radio-inline">
 				<input type="radio" name="complete_fee" value="0" <?php if($rows['complete_fee'] == 0){echo 'checked="checked"';} ?>> Chưa
 			</label>

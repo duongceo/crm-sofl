@@ -3331,9 +3331,10 @@ $(document).on('change', '[name="add_language_id"]',  function () {
 	});
 });
 
-$(document).on('change', '[name="level_contact_id"], [name="level_student_id"]', function () {
+$(document).on('change', '[name="level_contact_id"], [name="level_student_id"], [name="level_study_id"]', function () {
 	var level_id = $(this).val();
 	var level_contact_array = ['L1', 'L2', 'L3', 'L4', 'L5'];
+	// var level_student_array = ['L6', 'L8'];
 	//console.log(level_id);return false;
 	$.ajax({
 		url: $('#base_url').val() + 'common/get_level_contact',
@@ -3344,8 +3345,8 @@ $(document).on('change', '[name="level_contact_id"], [name="level_student_id"]',
 		success: function (data) {
 			if (level_contact_array.indexOf(level_id) != -1) {
 				$(".ajax_level_contact_id").html(data);
-			} else {
-				$(".ajax_level_student_id").html(data);
+			} else if (level_id == 'L7') {
+				$(".ajax_level_study_id").html(data);
 			}
 		},
 		complete: function () {
