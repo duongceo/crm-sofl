@@ -1262,6 +1262,7 @@ class MY_Controller extends CI_Controller {
 			if ($this->role_id == 12) {
 				$input_re['where']['branch_id'] = $this->session->userdata('branch_id');
 			}
+			//print_arr($input_re);
 			
 			$input_re_new = array_merge_recursive(array('where' => array('student_old' => '0')), $input_re);
 			$input_re_old = array_merge_recursive(array('where' => array('student_old' => 1)), $input_re);
