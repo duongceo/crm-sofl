@@ -497,6 +497,33 @@ class Test1 extends CI_Controller {
 
 	}
 
+	public function update_opening_class() {
+		$from_date = strtotime(date('d-m-Y'));
+		$to_date = strtotime(date('d-m-Y')) + 24*60*60 - 1;
+
+		$input['where'] = array(
+			'time_start' >= $from_date,
+			'time_start' <= $to_date,
+			'character_class_id' => 1
+		);
+
+		$data = array(
+			'character_class_id' => 2
+		);
+
+		$this->load->model('class_study_model');
+		$class = $this->class_study_model->load_all($input);
+		print_arr($class);
+
+		foreach ($class as $item) {
+			$where_contact = array('class_study_id' => $item['class_study_id']);
+			$data_contact = array('level_study_id' => 'L7');
+			$this->contacts_model->update($where_contact, $data_contact);
+		}
+
+		$this->class_study_model->update($input['where'], $data);
+	}
+
 }
 
 

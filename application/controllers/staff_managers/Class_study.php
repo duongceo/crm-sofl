@@ -422,7 +422,7 @@ class Class_study extends MY_Table {
 			}
 
 			$paramArr = array('class_study_id', 'branch_id', 'classroom_id', 'level_language_id', 'language_id', 'day_id', 'time_id',
-				'number_student_max', 'total_lesson', 'lesson_learned', 'lecture', 'salary_per_hour', 'teacher_id', 'character_class_id', 'active', 'status');
+				'number_student_max', 'total_lesson', 'lesson_learned', 'lecture', 'salary_per_hour', 'teacher_id', 'active', 'status');
 
 			foreach ($paramArr as $value) {
 
@@ -467,6 +467,14 @@ class Class_study extends MY_Table {
 				);
 				$this->notes_model->insert($notes);
 			}
+
+//			update trạng thái tham gia học cho các học viên tham gia lớp học này
+			if ($post['edit_character_class_id'] == 2) {
+				$where_contact = array('class_study_id' => $class_study[0]['class_study_id']);
+				$data_contact = array('level_study_id' => 'L7');
+				$this->contacts_model->update($where_contact, $data_contact);
+			}
+			//echoQuery(); die();
 
 			$param['date_last_update'] = time();
 
