@@ -753,8 +753,6 @@ class MY_Table extends MY_Controller {
 
 					$input_get['or_like']['email'] = $searchStr;
 
-					$input_get['or_like']['address'] = $searchStr;
-
 //					$input_get['or_like']['matrix'] = $searchStr;
 
 					$input_get['group_end_or_like']['id'] = $searchStr;
