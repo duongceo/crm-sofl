@@ -944,11 +944,7 @@ class MY_Controller extends CI_Controller {
 
             $input_get['or_like']['name'] = $searchStr;
 
-//            $input_get['or_like']['code_cross_check'] = $searchStr;
-
             $input_get['or_like']['email'] = $searchStr;
-
-            $input_get['or_like']['address'] = $searchStr;
 
 //            $input_get['or_like']['matrix'] = $searchStr;
 

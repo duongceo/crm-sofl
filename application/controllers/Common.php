@@ -341,12 +341,12 @@ class Common extends MY_Controller {
 			$rows[0]['level_contact_name'] = $this->level_contact_model->get_name_from_level($rows[0]['level_contact_id']);
 		}
 
-		$this->load->model('level_student_model');
-		if ($rows[0]['level_student_detail'] != '') {
-			$rows[0]['level_student_name'] = $this->level_student_model->get_name_from_level($rows[0]['level_student_detail']);
-		} else {
-			$rows[0]['level_student_name'] = $this->level_student_model->get_name_from_level($rows[0]['level_student_id']);
-		}
+//		$this->load->model('level_student_model');
+//		if ($rows[0]['level_student_detail'] != '') {
+//			$rows[0]['level_student_name'] = $this->level_student_model->get_name_from_level($rows[0]['level_student_detail']);
+//		} else {
+//			$rows[0]['level_student_name'] = $this->level_student_model->get_name_from_level($rows[0]['level_student_id']);
+//		}
 
 		$this->load->model('level_study_model');
 		if ($rows[0]['level_study_detail'] != '') {
