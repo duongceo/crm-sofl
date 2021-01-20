@@ -346,9 +346,9 @@ class Common extends MY_Controller {
 
 		$this->load->model('level_study_model');
 		if ($rows[0]['level_study_detail'] != '') {
-			$rows[0]['level_study_name'] = $this->level_student_model->get_name_from_level($rows[0]['level_study_detail']);
+			$rows[0]['level_study_name'] = $this->level_study_model->get_name_from_level($rows[0]['level_study_detail']);
 		} else {
-			$rows[0]['level_study_name'] = $this->level_student_model->get_name_from_level($rows[0]['level_study_id']);
+			$rows[0]['level_study_name'] = $this->level_study_model->get_name_from_level($rows[0]['level_study_id']);
 		}
 
         $data = $this->_get_require_data($require_model);
