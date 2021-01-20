@@ -144,7 +144,6 @@ class Common extends MY_Controller {
 				'date_rgt_study' => 'edit',
 				'is_old' => 'edit',
                 'date_recall' => 'edit',
-//                'send_banking_info' => 'edit',
                 'note' => 'edit',
 				'date_rgt' => 'view',
 				'date_handover' => 'view',
@@ -192,7 +191,6 @@ class Common extends MY_Controller {
                 'name' => 'view',
                 'email' => 'view',
                 'phone' => 'view',
-                'address' => 'view',
                 'class_study_id' => 'edit',
                 'fee' => 'view',
                 'paid' => 'view',
@@ -200,10 +198,8 @@ class Common extends MY_Controller {
             );
             $right_edit = array(
                 'payment_method_rgt' => 'view',
-                'customer_care_call_stt' => 'edit',
                 'note' => 'edit',
 				'date_customer_care_handover' => 'view',
-				'date_customer_care_call' => 'view',
 //				'date_last_calling' => 'view',
             );
         }
