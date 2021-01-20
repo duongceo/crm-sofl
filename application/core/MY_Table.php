@@ -1013,14 +1013,6 @@ class MY_Table extends MY_Controller {
 
         foreach ($marketers as $key => &$marketer) {
 
-            if ($marketer['username'] == 'trinhnv2' || $marketer['username'] == 'congnn2') {
-
-                unset($marketers[$key]);
-
-                continue;
-
-            }
-
             $inputContact = array();
 
             $inputContact['select'] = 'id';

@@ -176,7 +176,7 @@ class Class_study extends MY_Table {
 		);
 
 		$conditional = array();
-		if ($this->session->userdata('role_id') == 12) {
+		if ($this->session->userdata('role_id') == 12 && $_GET['filter_class_id'] == '') {
 			$conditional['where']['branch_id'] = $this->branch_id;
 		}
 
