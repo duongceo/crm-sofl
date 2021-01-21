@@ -749,7 +749,7 @@ class MY_Table extends MY_Controller {
 
 					$input_get['group_start_like']['phone'] = $searchStr;
 
-					$input_get['group_start_like']['phone_foreign'] = $searchStr;
+					$input_get['or_like']['phone_foreign'] = $searchStr;
 
 					$input_get['or_like']['name'] = $searchStr;
 
