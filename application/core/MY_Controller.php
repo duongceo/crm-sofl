@@ -942,6 +942,8 @@ class MY_Controller extends CI_Controller {
 
             $input_get['group_start_like']['phone'] = $searchStr;
 
+            $input_get['group_start_like']['phone_foreign'] = $searchStr;
+
             $input_get['or_like']['name'] = $searchStr;
 
             $input_get['or_like']['email'] = $searchStr;

@@ -61,6 +61,7 @@ class Common extends MY_Controller {
             'name' => 'view',
 //            'email' => 'view',
             'phone' => 'view',
+            'phone_foreign' => 'view',
             'branch' => 'view',
             'language' => 'view',
             //'class_study_id' => 'view',
@@ -124,6 +125,7 @@ class Common extends MY_Controller {
                 'name' => 'edit',
                 'email' => 'edit',
                 'phone' => 'edit',
+                'phone_foreign' => 'edit',
 				'branch' => 'edit',
 				'language' => 'edit',
 //				'level_language' => 'edit',
@@ -549,7 +551,7 @@ class Common extends MY_Controller {
             $post = $this->input->post();
 //			print_arr($post);
             $param = array();
-            $post_arr = array('name', 'email', 'phone', 'branch_id', 'language_id', 'class_study_id', 'level_language_id', 'payment_method_rgt', 'call_status_id', 'is_old', 'complete_fee');
+            $post_arr = array('name', 'email', 'phone', 'phone_foreign', 'branch_id', 'language_id', 'class_study_id', 'level_language_id', 'payment_method_rgt', 'call_status_id', 'is_old', 'complete_fee');
 
             foreach ($post_arr as $value) {
                 if (isset($post[$value])) {
