@@ -1,6 +1,6 @@
 <tr>
 
-	<td class="text-right"> Email </td>
+	<td class="text-right"> Số điện thoại khác </td>
 
 	<td>
 
