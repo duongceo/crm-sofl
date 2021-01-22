@@ -422,7 +422,7 @@ class Class_study extends MY_Table {
 			}
 
 			$paramArr = array('class_study_id', 'branch_id', 'classroom_id', 'level_language_id', 'language_id', 'day_id', 'time_id',
-				'number_student_max', 'total_lesson', 'lesson_learned', 'lecture', 'salary_per_hour', 'teacher_id', 'active', 'status');
+				'number_student_max', 'total_lesson', 'lesson_learned', 'lecture', 'salary_per_hour', 'teacher_id', 'active', 'character_class_id', 'status');
 
 			foreach ($paramArr as $value) {
 
