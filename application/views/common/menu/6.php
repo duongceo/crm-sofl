@@ -128,6 +128,15 @@
             </ul>
         </li>
 
+		<?php if ($this->user_id == 15) { ?>
+			<li>
+				<a href="<?php echo base_url('sale/view_history_call'); ?>">
+					<img src="<?php echo base_url(); ?>public/images/view-all.png">
+					<span> Lịch sử cuộc gọi </span>
+				</a>
+			</li>
+		<?php } ?>
+
         <li>
             <a href="<?php echo base_url('home/logout'); ?>">
                 <img src="<?php echo base_url(); ?>public/images/logout.png"> 

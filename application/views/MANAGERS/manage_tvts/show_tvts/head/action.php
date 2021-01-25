@@ -1,3 +1,0 @@
-<th>
-    Thao tác
-</th>

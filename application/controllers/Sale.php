@@ -398,10 +398,10 @@ class Sale extends MY_Controller {
 		$date_end = strtotime(str_replace("/", "-", $date_end)) + 3600 * 24;
 
 		$input = array();
-		$input['where'] = array(
-			'time_created >=' => $date_from,
-			'time_created <' => $date_end,
-		);
+//		$input['where'] = array(
+//			'time_created >=' => $date_from,
+//			'time_created <' => $date_end,
+//		);
 
 		if ($get['filter_sale_id']) {
 			$input['where']['sale_id'] = $get['filter_sale_id'][0];
@@ -409,6 +409,12 @@ class Sale extends MY_Controller {
 
 		if ($get['filter_missed_call']) {
 			$input['where']['missed_call'] = $get['filter_missed_call'];
+		}
+
+		if (isset($get['filter_search_phone_number'])) {
+			$input = array();
+			$input['like'] = array('source_number' => trim($get['filter_search_phone_number']));
+			$input['or_like'] = array('destination_number' => trim($get['filter_search_phone_number']));
 		}
 //		print_arr($input);
 
@@ -426,6 +432,9 @@ class Sale extends MY_Controller {
 			foreach ($data['history_call'] as &$value) {
 				$value['sale_name'] = $this->staffs_model->find_staff_name($value['sale_id']);
 				$total_fee_call += $value['fee_call'];
+				if ($value['link_conversation'] != '') {
+					$value['link_conversation'] = explode('&', $value['link_conversation'])[0] . '&amp';
+				}
 			}
 		}
 		unset($value);
@@ -435,6 +444,7 @@ class Sale extends MY_Controller {
 		$data['startDate'] = isset($date_from) ? $date_from : '0';
 		$data['endDate'] = isset($date_end) ? $date_end : '0';
 		$data['left_col'] = array('date_happen_1', 'sale', 'missed_call');
+		$data['right_col'] = array('search_phone_number');
 		$data['content'] = 'sale/view_history_call';
 		//echo '<pre>';print_r($data);die();
 

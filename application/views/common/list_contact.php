@@ -104,56 +104,6 @@
 	 $this->load->view('sale/sale_have_to_call');
  } ?>
 
-<?php //if (isset($sale_call_process)) { ?>
-<!--    <div class="container">-->
-<!--        <div class="row">-->
-<!--            <div class="col-md-8 col-md-offset-2">-->
-<!--                <div class="table-responsive">-->
-<!--                    <table class="table table-bordered table-expandable table-striped">-->
-<!--                        <thead>-->
-<!--                            <tr>-->
-<!--                                <th>Tổng contact cần gọi</th>-->
-<!--                                <th>Contact mới</th>-->
-<!--                                <th>Contact cần gọi lại</th>-->
-<!--                            </tr>-->
-<!--                        </thead>-->
-<!--                        <tbody>-->
-<!--                            <tr>-->
-<!--                                <td style="text-align: center" class="center" type="total">--><?php //echo $sale_call_process['have_call']['total_have_call_contact'] ?><!--</td>-->
-<!--                                <td style="cursor:pointer; text-align: center" class="center contact-sale-have-to-call" type="new">--><?php //echo $sale_call_process['have_call']['new_contact'] ?><!--</td>-->
-<!--                                <td style="cursor:pointer; text-align: center" class="center contact-sale-have-to-call" type="call_back">--><?php //echo $sale_call_process['have_call']['recall_contact'] ?><!--</td>-->
-<!--                            </tr>-->
-<!--                        <tbody>-->
-<!--                    </table>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        <div class="row">-->
-<!--            <div class="col-md-8 col-md-offset-2">-->
-<!--                <div class="table-responsive">-->
-<!--                    <table class="table table-bordered table-expandable table-striped">-->
-<!--                        <thead>-->
-<!--                            <tr>-->
-<!--                                <th colspan="2">Contact còn cứu được</th>-->
-<!--                            </tr>-->
-<!--                            <tr>-->
-<!--                                <th>Đã gọi dưới 3 lần</th>-->
-<!--                                <th>Đã gọi trên 3 lần</th>-->
-<!--                            </tr>-->
-<!--                        </thead>-->
-<!--                        <tbody>-->
-<!--                            <tr>-->
-<!--                                <td style="cursor:pointer; text-align: center" class="center contact-sale-have-to-call" type="less_3">--><?php //echo $sale_call_process['can_save']['call_less_3'] ?><!--</td>-->
-<!--                                <td style="cursor:pointer; text-align: center" class="center contact-sale-have-to-call" type="more_3">--><?php //echo $sale_call_process['can_save']['call_more_3'] ?><!--</td>-->
-<!--                            </tr>-->
-<!--                        <tbody>-->
-<!--                    </table>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<?php //} ?>
-
 <?php if (isset($progressType_mkt)) { ?>
 	<div class="container">
 
@@ -250,20 +200,20 @@
 
 <?php
 
-if (isset($outformModal)) {
+	if (isset($outformModal)) {
 
-    foreach ($outformModal as $modal) {
+		foreach ($outformModal as $modal) {
 
-        //  $this->load->view('manager/modal/divide_contact');
+			//  $this->load->view('manager/modal/divide_contact');
 
-        $this->load->view($modal);
+			$this->load->view($modal);
 
-    }
+		}
 
-}
+	}
+
+	if ($this->controller == 'student') {
+		$this->load->view('student/modal/merge_contact_modal');
+	}
 
 ?>
-
-<?php
-
-//$this->load->view('manager/modal/divide_one_contact');

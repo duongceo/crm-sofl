@@ -1,3 +1,0 @@
-<th>
-    Slogan
-</th>

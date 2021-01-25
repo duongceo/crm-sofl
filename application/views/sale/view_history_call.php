@@ -50,8 +50,8 @@
 					</td>
 					<td class="text-center">
 						<?php if ($item['link_conversation'] != '') { ?>
-							<?php echo $item['link_conversation']; ?>
-<!--							<a target="_blank" href="--><?php //echo $item['link_conversation']?><!--">File ghi âm <span class="glyphicon glyphicon-earphone"></span></a>-->
+<!--							--><?php //echo $item['link_conversation']; ?>
+							<a target="_blank" href="<?php echo $item['link_conversation']?>">File ghi âm <span class="glyphicon glyphicon-earphone"></span></a>
 						<?php } ?>
 					</td>
 					<td class="text-center">

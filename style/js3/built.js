@@ -102,7 +102,9 @@ right_context_menu_display = (controller, contact_id, contact_name, duplicate_id
         $(".transfer_one_contact").attr('contact_id', contact_id);
         $(".transfer_one_contact").attr('contact_name', contact_name);
 		$(".transfer_one_contact_to_manager").attr('contact_id', contact_id);
-		$(".transfer_one_contact_to_manager").attr('contact_name', contact_name);
+		$(".transfer_one_contact_to_manager").attr('contact_name', contact_name)
+		$(".merge_contact").attr('contact_id', contact_id);
+		$(".merge_contact").attr('contact_name', contact_name);
     }
 };
 
@@ -3193,6 +3195,7 @@ $(document).on('click', 'a.transfer_contact, a.transfer_one_contact', function (
     }
 });
 
+/*
 $(document).on('click', 'a.transfer_one_contact_to_manager', function(e) {
 	e.preventDefault();
 	//var action = $(this).attr("class").split(" ");
@@ -3206,6 +3209,7 @@ $(document).on('click', 'a.transfer_one_contact_to_manager', function(e) {
 	//alert(action[0]);
 	//console.log(contact_id);
 });
+ */
 
 $(document).on('change', '[name="add_channel_id"], [name="edit_channel_id"]', function () {
     var channel_id = $(this).val();
@@ -3783,5 +3787,16 @@ $(".recall_missed").confirm({
 			action: function () {
 			}}
 	}
+});
+
+$(document).on('click', 'a.merge_contact', function (e) {
+	e.preventDefault();
+	$(".checked").removeClass("checked");
+	$(this).parent().parent().addClass("checked");
+	var contact_id = $(this).attr("contact_id");
+	var contact_name = $(this).attr("contact_name");
+	$("#contact_id_input").val(contact_id);
+	$(".contact_name_replacement").text(contact_name);
+	$(".merge_contact_modal").modal("show");
 });
 

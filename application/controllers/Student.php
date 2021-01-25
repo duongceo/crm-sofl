@@ -84,12 +84,47 @@ class Student extends MY_Controller {
         $this->load->view(_MAIN_LAYOUT_, $data);
     }
 
+    public function merge_contact() {
+		$post = $this->input->post();
+
+		$input = array();
+		$input['select'] = 'id';
+		$input['where'] = array('phone' => trim($post['phone_merger']));
+		$contact_merger = $this->contacts_model->load_all($input);
+
+		if (!empty($contact_merger)) {
+			$where_infor = array('contact_id' => $contact_merger[0]['id']);
+			$data = array('contact_id' => $post['contact_id']);
+
+			$this->load->model('paid_model');
+			$this->paid_model->update($where_infor, $data);
+			$this->load->model('notes_model');
+			$this->notes_model->update($where_infor, $data);
+
+			$this->contacts_model->update(array('id' => $post['contact_id']), array('phone_foreign' => $post['phone_merger']));
+
+			$param = array();
+			$param['contact_id'] = $post['contact_id'];
+			$param['staff_id'] = $this->user_id;
+			$param['content_change'] = 'Ghép contact';
+			$param['time_created'] = time();
+			$this->load->model('call_log_model');
+			$this->call_log_model->insert($param);
+
+			$this->contacts_model->delete(array('id' => $contact_merger[0]['id']));
+
+			$msg = 'Đã ghép contact thành công contact với sđt - ' . $post['phone_merger'];
+			show_error_and_redirect($msg, $_SERVER['HTTP_REFERER'], true);
+		}
+	}
+
 	private function get_all_require_data() {
         $require_model = array(
             'staffs' => array(
                 'where' => array(
                     'role_id' => 1,
-                    'active' => 1
+                    'active' => 1,
+					'transfer_contact' => 1
                 )
             ),
             'class_study' => array(
