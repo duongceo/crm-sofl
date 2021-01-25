@@ -114,8 +114,11 @@ class Student extends MY_Controller {
 			$this->contacts_model->delete(array('id' => $contact_merger[0]['id']));
 
 			$msg = 'Đã ghép contact thành công contact với sđt - ' . $post['phone_merger'];
-			show_error_and_redirect($msg, $_SERVER['HTTP_REFERER'], true);
+		} else {
+			$msg = 'SĐT được ghép ko tồn tại thông tin nào';
 		}
+
+		show_error_and_redirect($msg, $_SERVER['HTTP_REFERER'], false);
 	}
 
 	private function get_all_require_data() {
