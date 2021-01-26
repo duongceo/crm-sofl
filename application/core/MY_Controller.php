@@ -698,7 +698,7 @@ class MY_Controller extends CI_Controller {
 
         $input = array();
 
-        $input['select'] = 'id';
+        $input['select'] = 'id, date_rgt';
 
         $input['like'] = array('phone' => $phone);
         
@@ -710,9 +710,11 @@ class MY_Controller extends CI_Controller {
         
         if (count($rs) > 0) {
 
-            $dulicate = $rs[0]['id'];
+        	if (time() - $rs[0]['date_rgt'] < 3*30*24*60*60) {
+				$dulicate = $rs[0]['id'];
+			}
 
-        }
+		}
 
         return $dulicate;
 
