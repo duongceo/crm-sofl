@@ -145,15 +145,9 @@ class Marketer extends MY_Controller {
 					'active' => 1
 				)
 			),
-//			'courses' => array(
-//				'where' => array('active' => '1'),
-//				'order' => array(
-//					'course_code' => 'ASC'
-//				)
-//			),
-//			'transfer_logs' => array(),
 			'call_status' => array('order' => array('sort' => 'ASC')),
 			'level_language' => array(),
+			'language_study' => array(),
 			'branch' => array(),
 			'payment_method_rgt' => array(),
 			'channel' => array(),
