@@ -1801,6 +1801,7 @@ class Manager extends MY_Controller {
 			$input_re['where'] = array(
 				'time_created >=' => $startDate,
 				'time_created <=' => $endDate,
+				'student_old' => '0'
 			);
 			$input_re['where_in']['contact_id'] = $contact_id;
 			$re = (int) $this->paid_model->load_all($input_re)[0]['paiding'];
