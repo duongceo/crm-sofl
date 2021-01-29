@@ -236,7 +236,7 @@ class Sale extends MY_Controller {
 
     public function transfer_one_contact() {
         $post = $this->input->post();
-		echo '<pre>'; print_r($post);die;
+//		echo '<pre>'; print_r($post);die;
         $this->_action_transfer_contact($post['sale_id'], array($post['contact_id']), $post['note']);
     }
 	
