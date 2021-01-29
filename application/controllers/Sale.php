@@ -236,89 +236,89 @@ class Sale extends MY_Controller {
 
     public function transfer_one_contact() {
         $post = $this->input->post();
-		//echo '<pre>'; print_r($post);die;
+		echo '<pre>'; print_r($post);die;
         $this->_action_transfer_contact($post['sale_id'], array($post['contact_id']), $post['note']);
     }
 	
-	public function transfer_one_contact_to_manager() {
-		$post = $this->input->post();
-		//echo $this->user_id;die;
-		//echo '<pre>'; print_r($post);
-		
-		if (empty($post['sale_id'])) {
-            redirect_and_die('Vui lòng chọn nhân viên TVTS!');
-        }
-        if (empty($post['contact_id'])) {
-            redirect_and_die('Vui lòng chọn contact!');
-        }
-        $this->_check_contact_can_be_transfer($post['contact_id']);
-        $this->load->model('transfer_logs_model');
-		/*
-        $data = array(
-            'sale_staff_id' => $sale_transfer_id,
-            'date_transfer' => time(),
-            'last_activity' => time()
-        ); */
-		$where = array('id' => $post['contact_id']);
-		$data =  array(
-			'is_transfer' => '1',
-		);
-		$this->contacts_model->update($where, $data);
-
-		if (is_array($post['contact_id']) == true) {
-			foreach ($post['contact_id'] as $value) {
-				$where1 = array('id' => $value);
-				$this->contacts_model->update($where1, $data);
-				$this->transfer_logs_model->insert(array(
-					'contact_id' => $value,
-					'sale_id_1' => $this->user_id,
-					'sale_id_2' => $post['sale_id'],
-					'time' => time(),
-					'is_transfered' => '0'
-				));
-			}
-		} else {
-			$this->transfer_logs_model->insert(array(
-				'contact_id' => $post['contact_id'],
-				'sale_id_1' => $this->user_id,
-				'sale_id_2' => $post['sale_id'],
-				'time' => time(),
-				'is_transfered' => '0'
-			));
-		}
-
-        if ($post['note'] != '') {
-            $this->load->model('notes_model');
-			if (is_array($post['contact_id']) == true) {
-				foreach ($post['contact_id'] as $value) {
-					$param2 = array();
-					$param2 = array(
-						'contact_id' => $value,
-						'content' => $post['note'],
-						'time' => time(),
-						'sale_id' => $this->user_id,
-						'contact_code' => $this->contacts_model->get_contact_code($value)
-					);
-					$this->notes_model->insert($param2);
-				}
-			} else {
-				$param2 = array();
-				$param2 = array(
-					'contact_id' => $post['contact_id'],
-					'content' => $post['note'],
-					'time' => time(),
-					'sale_id' => $this->user_id,
-					'contact_code' => $this->contacts_model->get_contact_code($post['contact_id'])
-				);
-				$this->notes_model->insert($param2);
-			}
-        }
-		
-        //$this->load->model('Staffs_model');
-        //$staff_name = $this->Staffs_model->find_staff_name($sale_transfer_id);
-        $msg = 'Chuyển nhượng thành công và đợi quản lý xét duyệt';
-        show_error_and_redirect($msg, $_SERVER['HTTP_REFERER'], true);
-	}
+//	public function transfer_one_contact_to_manager() {
+//		$post = $this->input->post();
+//		//echo $this->user_id;die;
+//		//echo '<pre>'; print_r($post);
+//
+//		if (empty($post['sale_id'])) {
+//            redirect_and_die('Vui lòng chọn nhân viên TVTS!');
+//        }
+//        if (empty($post['contact_id'])) {
+//            redirect_and_die('Vui lòng chọn contact!');
+//        }
+//        $this->_check_contact_can_be_transfer($post['contact_id']);
+//        $this->load->model('transfer_logs_model');
+//		/*
+//        $data = array(
+//            'sale_staff_id' => $sale_transfer_id,
+//            'date_transfer' => time(),
+//            'last_activity' => time()
+//        ); */
+//		$where = array('id' => $post['contact_id']);
+//		$data =  array(
+//			'is_transfer' => '1',
+//		);
+//		$this->contacts_model->update($where, $data);
+//
+//		if (is_array($post['contact_id']) == true) {
+//			foreach ($post['contact_id'] as $value) {
+//				$where1 = array('id' => $value);
+//				$this->contacts_model->update($where1, $data);
+//				$this->transfer_logs_model->insert(array(
+//					'contact_id' => $value,
+//					'sale_id_1' => $this->user_id,
+//					'sale_id_2' => $post['sale_id'],
+//					'time' => time(),
+//					'is_transfered' => '0'
+//				));
+//			}
+//		} else {
+//			$this->transfer_logs_model->insert(array(
+//				'contact_id' => $post['contact_id'],
+//				'sale_id_1' => $this->user_id,
+//				'sale_id_2' => $post['sale_id'],
+//				'time' => time(),
+//				'is_transfered' => '0'
+//			));
+//		}
+//
+//        if ($post['note'] != '') {
+//            $this->load->model('notes_model');
+//			if (is_array($post['contact_id']) == true) {
+//				foreach ($post['contact_id'] as $value) {
+//					$param2 = array();
+//					$param2 = array(
+//						'contact_id' => $value,
+//						'content' => $post['note'],
+//						'time' => time(),
+//						'sale_id' => $this->user_id,
+//						'contact_code' => $this->contacts_model->get_contact_code($value)
+//					);
+//					$this->notes_model->insert($param2);
+//				}
+//			} else {
+//				$param2 = array();
+//				$param2 = array(
+//					'contact_id' => $post['contact_id'],
+//					'content' => $post['note'],
+//					'time' => time(),
+//					'sale_id' => $this->user_id,
+//					'contact_code' => $this->contacts_model->get_contact_code($post['contact_id'])
+//				);
+//				$this->notes_model->insert($param2);
+//			}
+//        }
+//
+//        //$this->load->model('Staffs_model');
+//        //$staff_name = $this->Staffs_model->find_staff_name($sale_transfer_id);
+//        $msg = 'Chuyển nhượng thành công và đợi quản lý xét duyệt';
+//        show_error_and_redirect($msg, $_SERVER['HTTP_REFERER'], true);
+//	}
 
     function view_all_contact($offset = 0) {
         $data = $this->_get_all_require_data();

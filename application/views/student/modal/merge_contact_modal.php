@@ -7,7 +7,7 @@
 			</div>
 			<div class="modal-body">
 				<form action="<?php echo base_url(); ?>student/merge_contact" method="POST" id="merge_contact">
-					<input type="hidden" name="contact_id" id="contact_id_input" />
+					<input type="hidden" name="contact_id" id="contact_id_input_merger" />
 					<div class="form-group">
 						<h5><b>Nhập SĐT cần ghép</b></h5>
 						<input type="text" class="form-control" name="phone_merger" />

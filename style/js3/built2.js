@@ -981,11 +981,8 @@ $(".btn-modal_edit-multi-contact").on('click', function (e) {
         //$("#action_contact").submit();
     }
 });
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
+/*
 $(document).on('click', '.btn-send-account-lakita', function (e) {
     e.preventDefault();
     if ($("select.cod_status_id").val() != 3) {
@@ -1047,6 +1044,9 @@ $(document).on('click', '.btn-send-account-lakita', function (e) {
     });
 });
 
+ */
+
+/*
 $(document).on('click', '.send-lakita-account-combo-course', function (e) {
     e.preventDefault();
     var url = $('#base_url').val() + "send_email/SendLakitaAccountComboCourse";
@@ -1058,10 +1058,6 @@ $(document).on('click', '.send-lakita-account-combo-course', function (e) {
             content: 'Vui lòng chọn contact cần gửi email!'
         });
     } else {
-        /*
-         * 
-         * Lấy số tiền
-         */
         var numberOfChecked = $('input.tbl-item-checkbox:checked').length;
         var emailArr = [];
         var contactName = '';
@@ -1152,36 +1148,11 @@ $(document).on('click', '.send-lakita-account-combo-course', function (e) {
             });
         }
         console.log(emailArr.unique());
-        //show-more-table-info
-        /*
-         $.ajax({
-         url: url,
-         type: "POST",
-         dataType: 'json',
-         data: $('#action_contact').serialize(),
-         success: data => {
-         if (data.success == 1) {
-         $("#send_email_sound")[0].play();
-         $.notify(data.message, {
-         position: "top left",
-         className: 'success',
-         showDuration: 200,
-         autoHideDelay: 5000
-         });
-         } else {
-         $("#send_email_error")[0].play();
-         $.notify('Có lỗi xảy ra! Nội dung: ' + data.message, {
-         position: "top left",
-         className: 'error',
-         showDuration: 200,
-         autoHideDelay: 7000
-         });
-         }
-         }
-         });
-         */
     }
 });
+*/
+
+/*
 $(".send-email-to-viettel").confirm({
     theme: 'supervan', // 'material', 'bootstrap',
     title: 'Bạn có chắc chắn muốn gửi email cho Viettel không?',
@@ -1225,11 +1196,9 @@ $(".send-email-to-viettel").confirm({
             action: function action() {}
         }
     }
-}); /* 
-    * To change this license header, choose License Headers in Project Properties.
-    * To change this template file, choose Tools | Templates
-    * and open the template in the editor.
-    */
+});
+
+ */
 
 //add-new-contact-modal
 $(document).on("click", ".add-new-contact-modal", function (e) {
@@ -1294,29 +1263,6 @@ $(document).on('click', '.btn-action-add-new-contact', function (e) {
     });
 });
 
-/*
- $(document).on('click', 'a.edit_contact', function (e) {
- e.preventDefault();
- $(".checked").removeClass("checked");
- $(this).parent().parent().addClass("checked");
- var contact_id = $(this).attr("contact_id");
- var url = $("#base_url").val() + "common/show_edit_contact_modal";
- $.ajax({
- url: url,
- type: "POST",
- data: {
- contact_id: contact_id
- },
- success: data => {
- $(".modal-view-contact").remove();
- var modalViewContactDetail = "<div class='modal-view-contact'></div>";
- $(".modal-append-to").append(modalViewContactDetail);
- $(".modal-view-contact").html(data);
- },
- complete: () => $(".edit_contact_modal").modal("show")
- });
- }); 
- */
 $(document).on('click', '.btn-edit-contact', function (e) {
     e.preventDefault();
     if (check_edit_contact() == false) {
@@ -2879,7 +2825,6 @@ $(".divide_contact_even").on('click', function (e) {
 });
 
 /*===================================== phân contact bằng ajax ==============*/
-
 $(document).on('click', '.btn-divide-one-contact', function (e) {
     e.preventDefault();
     var url = $(this).parents('#divide_one_contact').attr("action");

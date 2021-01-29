@@ -108,12 +108,6 @@ right_context_menu_display = (controller, contact_id, contact_name, duplicate_id
     }
 };
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 const _SO_MAY_SAI_ = 1;
 const _KHONG_NGHE_MAY_ = 2;
 const _NHAM_MAY_ = 3;
@@ -612,6 +606,7 @@ $(".action-contact-admin").confirm({
     }
 });
 
+/*
 $(document).on('click', '.create-adset-from-fb', function (e) {
 	e.preventDefault();
 	$(".add-name-from-fb").val($(this).attr("adset-name"));
@@ -624,6 +619,8 @@ $(document).on('click', '.create-adset-from-fb', function (e) {
 	console.log($(this).attr("id-fb"));
 	$(".add_item_from_fb_modal").modal("show");
 });
+
+ */
 
 /*
 $(document).on('click', 'a.add-item-fetch', function (e) {
@@ -1663,11 +1660,6 @@ $(function () {
         }
     }, 300);
 });
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /*
 $(document).on('click', '.btn-send-banking-info', function (e) {
@@ -3795,7 +3787,7 @@ $(document).on('click', 'a.merge_contact', function (e) {
 	$(this).parent().parent().addClass("checked");
 	var contact_id = $(this).attr("contact_id");
 	var contact_name = $(this).attr("contact_name");
-	$("#contact_id_input").val(contact_id);
+	$("#contact_id_input_merger").val(contact_id);
 	$(".contact_name_replacement").text(contact_name);
 	$(".merge_contact_modal").modal("show");
 });

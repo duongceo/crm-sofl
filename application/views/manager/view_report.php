@@ -99,11 +99,11 @@
 							total = "<?php echo $value[$value2]; ?>" >
 
 							<?php
-							if ($value2 == 'RE') {
-								echo h_number_format($value[$value2]);
-							} else {
-								echo $value[$value2];
-							}
+								if ($value2 == 'RE') {
+									echo h_number_format($value[$value2]);
+								} else {
+									echo $value[$value2];
+								}
 							?>
 
 						</td>
