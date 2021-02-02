@@ -1796,6 +1796,7 @@ class Manager extends MY_Controller {
 			$contact_id[] = $item['id'];
 		}
 
+		$re = 0;
 		if (!empty($contact_id)) {
 			$input_re['select'] = 'SUM(paid) as paiding';
 			$input_re['where'] = array(
@@ -1805,10 +1806,9 @@ class Manager extends MY_Controller {
 			if ($report != '') {
 				$input_re['where']['student_old'] = 0;
 			}
+
 			$input_re['where_in']['contact_id'] = $contact_id;
 			$re = (int) $this->paid_model->load_all($input_re)[0]['paiding'];
-		} else {
-			$re = 0;
 		}
 
 		return $re;
