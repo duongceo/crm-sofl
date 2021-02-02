@@ -212,7 +212,7 @@ class Marketing extends MY_Controller {
 			$spend_gg = (int)$this->spending_model->load_all($input_gg)[0]['spending'];
 //				print_arr($input_gg);
 
-			//				Chi phi tại Hà Nội
+			// Chi phi tại Hà Nội
 			$input_hn = array_merge_recursive($input, array('where' => array('location_id' => 1)));
 			$spend_hn = (int)$this->spending_model->load_all($input_hn)[0]['spending'];
 
@@ -229,6 +229,8 @@ class Marketing extends MY_Controller {
 				'time_created <=' => $date_end,
 				'language_id' => $key
 			);
+
+			$input_re['where_not_in']['source_id'] = array(11);
 
 			if (isset($get['filter_branch_id'])) {
 				$input_re['where_in']['branch_id'] = $get['filter_branch_id'];
