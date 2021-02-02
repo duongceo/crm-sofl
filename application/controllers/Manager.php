@@ -1804,10 +1804,12 @@ class Manager extends MY_Controller {
 				'time_created <=' => $endDate,
 			);
 			if ($report != '') {
-				$input_re['where']['student_old'] = 0;
+				$input_re['where']['student_old'] = '0';
 			}
+			//print_arr($input_re);
 
 			$input_re['where_in']['contact_id'] = $contact_id;
+			
 			$re = (int) $this->paid_model->load_all($input_re)[0]['paiding'];
 		}
 
