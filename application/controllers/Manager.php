@@ -1625,7 +1625,7 @@ class Manager extends MY_Controller {
 					$conditional_1['where']['language_id'] = $value_language['id'];
 					$conditional = array_merge_recursive($conditional_1, $conditional_source, $value);
 
-					$report[$value_language['name']][$value_source['name']]['RE'] = $this->get_re(array_merge_recursive($conditional_1, $conditional_source), $startDate, $endDate);
+					$report[$value_language['name']][$value_source['name']]['RE'] = $this->get_re(array_merge_recursive($conditional_1, $conditional_source), $startDate, $endDate, 'report');
 					$report[$value_language['name']][$value_source['name']][$key_condition] = $this->_query_for_report($get, $conditional);
 				}
 
@@ -1633,7 +1633,7 @@ class Manager extends MY_Controller {
 				$data['sources'][$key_source][$key_condition] = $this->_query_for_report($get, $conditional_2);
 			}
 
-			$data['sources'][$key_source]['RE'] = $this->get_re($conditional_source, $startDate, $endDate);
+			$data['sources'][$key_source]['RE'] = $this->get_re($conditional_source, $startDate, $endDate, 'report');
 		}
 
 //		print_arr($report);
@@ -1780,7 +1780,7 @@ class Manager extends MY_Controller {
 		$this->load->view(_MAIN_LAYOUT_, $data);
 	}
 
-	private function get_re($condition_id=[], $startDate=0, $endDate=0) {
+	private function get_re($condition_id=[], $startDate=0, $endDate=0, $report='') {
 		$this->load->model('paid_model');
 		$input_contact = array();
 		$input_contact['select'] = 'id';
@@ -1801,8 +1801,10 @@ class Manager extends MY_Controller {
 			$input_re['where'] = array(
 				'time_created >=' => $startDate,
 				'time_created <=' => $endDate,
-//				'student_old' => '0'
 			);
+			if ($report != '') {
+				$input_re['where']['student_old'] = 0;
+			}
 			$input_re['where_in']['contact_id'] = $contact_id;
 			$re = (int) $this->paid_model->load_all($input_re)[0]['paiding'];
 		} else {
