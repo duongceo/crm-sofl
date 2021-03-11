@@ -120,3 +120,5 @@ $route['cam-on-da-dang-ky.html'] = 'contact/add_contact';
 
 $route['danh-sach-hoc-vien.html'] = 'student/index';
 
+$route['thong-tin-lop-hoc.html'] = 'staff_managers/class_study/get_class_from_web';
+
