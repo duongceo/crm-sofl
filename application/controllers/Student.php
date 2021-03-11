@@ -35,7 +35,7 @@ class Student extends MY_Controller {
 		$data['total_contact'] = $data_pagination['total_row'];
 
 		$data['left_col'] = array('date_rgt', 'date_confirm', 'date_rgt_study', 'date_paid');
-		$data['right_col'] = array('language', 'is_old');
+		$data['right_col'] = array('language', 'is_old', 'complete_fee');
 
 		$this->table .= 'class_study_id fee paid level_contact level_student date_rgt date_rgt_study';
 		$data['table'] = explode(' ', $this->table);
