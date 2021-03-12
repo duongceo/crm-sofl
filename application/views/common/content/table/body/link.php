@@ -14,11 +14,15 @@
 <!--</td>-->
 
 <td class="text-center tbl_link">
-	<?php if (isset($value['link_id']) && $value['link_id'] != '0') {
-		echo $value['link_id'];
-	} else {
-		echo 'UNKNOWN';
-	}
+	<?php
+	if (isset($value['link_id']) && !empty($value['link_id'])) {
+		foreach ($link_site as $key2 => $value2) {
+			if ($value2['id'] == $value['link_id']) {
+				echo $value2['name'];
+				break;
+			}
+		}
+	} else echo 'UNKNOWN';
 	?>
 </td>
 
