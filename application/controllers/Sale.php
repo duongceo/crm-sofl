@@ -398,10 +398,10 @@ class Sale extends MY_Controller {
 		$date_end = strtotime(str_replace("/", "-", $date_end)) + 3600 * 24;
 
 		$input = array();
-//		$input['where'] = array(
-//			'time_created >=' => $date_from,
-//			'time_created <' => $date_end,
-//		);
+		$input['where'] = array(
+			'time_created >=' => $date_from,
+			'time_created <' => $date_end,
+		);
 
 		if ($get['filter_sale_id']) {
 			$input['where']['sale_id'] = $get['filter_sale_id'][0];
@@ -411,7 +411,7 @@ class Sale extends MY_Controller {
 			$input['where']['missed_call'] = $get['filter_missed_call'];
 		}
 
-		if (isset($get['filter_search_phone_number'])) {
+		if (isset($get['filter_search_phone_number']) && $get['filter_search_phone_number'] != '') {
 			$input = array();
 			$input['like'] = array('source_number' => trim($get['filter_search_phone_number']));
 			$input['or_like'] = array('destination_number' => trim($get['filter_search_phone_number']));
