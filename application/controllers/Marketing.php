@@ -67,7 +67,7 @@ class Marketing extends MY_Controller {
 		/*
          * Các trường cần hiện của bảng contact (đã có default)
          */
-		$this->table .= 'class_study_id date_rgt matrix';
+		$this->table .= 'class_study_id date_rgt link matrix';
 		$data['table'] = explode(' ', $this->table);
 
 		$data['titleListContact'] = 'Danh sách contact mới hôm nay';
@@ -106,7 +106,7 @@ class Marketing extends MY_Controller {
 		$data['left_col'] = array('care_number', 'language', 'level_language', 'sale', 'marketer', 'date_rgt', 'date_handover', 'date_confirm', 'date_rgt_study', 'date_last_calling');
         $data['right_col'] = array('branch', 'is_old', 'complete_fee', 'source', 'call_status', 'level_contact', 'level_contact_detail', 'level_student', 'level_student_detail');
 
-		$this->table .= 'fee paid channel call_stt level_contact date_rgt';
+		$this->table .= 'fee paid link call_stt level_contact date_rgt';
 		$data['table'] = explode(' ', $this->table);
 
 		$progress = $this->GetProccessMarketerThisMonth();
