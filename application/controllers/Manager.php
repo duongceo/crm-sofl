@@ -285,7 +285,7 @@ class Manager extends MY_Controller {
          * Các trường cần hiện của bảng contact (đã có default)
          */
 		 
-        $this->table .= 'fee paid call_stt level_contact level_student date_rgt date_handover date_last_calling';
+        $this->table .= 'fee paid call_stt level_contact level_student date_rgt date_handover date_last_calling number_care';
         $data['table'] = explode(' ', $this->table);
 
         $data['titleListContact'] = 'Danh sách toàn bộ contact';
