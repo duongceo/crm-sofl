@@ -51,6 +51,7 @@ class Common extends MY_Controller {
 			),
             'payment_method_rgt' => array(),
             'sources' => array(),
+            'link_site' => array(),
 			'branch' => array(),
 			'language_study' => array()
         );
@@ -70,6 +71,7 @@ class Common extends MY_Controller {
             'sale' => 'view',
             'is_old' => 'view',
             'source' => 'view',
+			'link_site' => 'view'
         );
         $right_view = array(
             'transfer_log' => 'view',
