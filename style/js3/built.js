@@ -12,8 +12,14 @@ show_number_selected_row = () => {
      */
     var sum = 0;
     for (i = 0; i < numberOfChecked; i++) {
+    	if ($($('input.tbl-item-checkbox:checked')[i]).parent().parent().find('.paid_real').text() == 0) {
+			sum += 0;
+		} else {
+			sum += parseInt($($('input.tbl-item-checkbox:checked')[i]).parent().parent().find('.paid_real').text());
+		}
+
         /*sum += parseInt($($('input.tbl-item-checkbox:checked')[i]).parent().parent().find('.tbl_paid').text());*/
-		sum += parseInt($($('input.tbl-item-checkbox:checked')[i]).parent().parent().find('.paid_real').text());
+		/*sum += parseInt($($('input.tbl-item-checkbox:checked')[i]).parent().parent().find('.paid_real').text());*/
     }
     /*sum *= 1000;*/
     $.notify(`Đã chọn: ${numberOfChecked} / ${totalCheckboxes}. tổng tiền = ${sum.toLocaleString()}`, {
