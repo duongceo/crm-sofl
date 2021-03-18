@@ -562,7 +562,7 @@ $(".action-contact-admin").confirm({
         confirm: {
             text: 'Có',
             action: function () {
-            	/*
+
 				var contactIdArray = [];
 				$('input[type="checkbox"]').each(
 					function () {
@@ -571,17 +571,17 @@ $(".action-contact-admin").confirm({
 						}
 					}
 				);
-            	 */
+
                 var _this = this.$target;
-                var contactID = _this.attr("data-contact-id");
+                // var contactID = _this.attr("data-contact-id");
                 var url = $("#base_url").val() + _this.attr("data-url");
 
                 $.ajax({
                     type: "POST",
                     url: url,
                     data: {
-                        contact_id: contactID
-						/*contact_id: contactIdArray */
+                        /*contact_id: contactID*/
+						contact_id: contactIdArray
                     },
 					success: data => {
 						if (data === '1') {

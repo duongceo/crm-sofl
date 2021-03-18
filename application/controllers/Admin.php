@@ -142,176 +142,189 @@ class Admin extends MY_Controller {
 		}
 	}
 
-//    function delete_forever_one_contact() {
+    function delete_forever_one_contact() {
+
+        $post = $this->input->post();
+		//$post = array_reverse($post['contact_id']);
+		//echo '<pre>'; print_arr($post); die();
+
+		$this->load->model('paid_model');
+		$this->load->model('notes_model');
+		$this->load->model('transfer_logs_model');
+
+        if (!empty($post)) {
+
+			foreach ($post['contact_id'] as $item) {
+
+				$where = array('id' => $item);
+//				echo '<pre>'; print_arr($item); die();
+
+				$this->contacts_model->delete($where);
+
+				$where_paid_note = array('contact_id' => $item);
+
+				$this->paid_model->delete($where_paid_note);
+				$this->notes_model->delete($where_paid_note);
+				$this->transfer_logs_model->delete($where_paid_note);
+			}
+
+            echo '1';
+
+        }
+
+    }
+
+//	function delete_forever_one_contact() {
+//		$post = $this->input->post();
+////		$post = array_reverse($post['contact_id']);
+//		// unset($post[0]);
 //
-//        $post = $this->input->post();
-//		$post = array_reverse($post['contact_id']);
+//		if (!empty($post)) {
+//			$this->load->model('paid_model');
+//			$this->load->model('notes_model');
+//			$this->load->model('transfer_logs_model');
 //
-//        if (!empty($post)) {
+//			$where = array('id' => $post['contact_id']);
 //
-//			foreach ($post as $item) {
+//			$this->contacts_model->delete($where);
 //
-//				$where = array('id' => $item['contact_id']);
+//			$where_paid_note = array('contact_id' => $post['contact_id']);
 //
-//				$this->contacts_model->delete($where);
-//			}
+//			$this->paid_model->delete($where_paid_note);
+//			$this->notes_model->delete($where_paid_note);
+//			$this->transfer_logs_model->delete($where_paid_note);
 //
-//            echo '1';
+//			echo '1';
+//		}
+//	}
+
+//     function retrieve_contact() {
 //
-//        }
+//         $post = $this->input->post();
 //
-//    }
+//         if (!empty($post['contact_id'])) {
+//
+//             $where = array('id' => $post['contact_id']);
+//
+//			 $data = array(
+//
+//				 'call_status_id' => 0,
+//
+//				 'level_contact_id' => '',
+//
+//				 'level_contact_detail' => '',
+//
+//				 'level_student_id' => '',
+//
+//				 'level_student_detail' => '',
+//
+//				 'sale_staff_id' => 0,
+//
+//				 'level_language_id' => 0,
+//
+//				 'class_study_id' => '',
+//
+//				 'date_handover' => 0,
+//
+//				 'date_confirm' => 0,
+//
+//				 'date_rgt_study' => 0,
+//
+//				 'date_paid' => 0,
+//
+//				 'fee' => 0,
+//
+//				 'paid' => 0,
+//
+//				 'complete_fee' => 0,
+//
+//				 'is_old' => 0,
+//
+//				 'is_hide' => 0,
+//
+//				 'last_activity' => time()
+//			 );
+//
+//			 $this->contacts_model->update($where, $data);
+//			 // echo "<pre>";print_r($where);
+//
+//			 $data2 = array();
+//
+//			 $data2['contact_id'] = $post['contact_id'];
+//
+//			 $data2['staff_id'] = $this->user_id;
+//
+//			 $data2['time_created'] = time();
+//
+//			 $statusArr = array('call_status_id', 'level_contact_id', 'level_student_id');
+//
+//			 foreach ($statusArr as $value1) {
+//
+//				 $data2[$value1] = "-1";
+//
+//			 }
+//
+//			 $data2['content_change'] = 'Thu hồi contact';
+//
+//			 $this->load->model('call_log_model');
+//
+//             $this->call_log_model->insert($data2);
+//
+//             echo '1';
+//
+//         }
+//
+//     }
 
 
-	function delete_forever_one_contact() {
-		$post = $this->input->post();
-//		$post = array_reverse($post['contact_id']);
-		// unset($post[0]);
-
-		if (!empty($post)) {
-			$this->load->model('paid_model');
-			$this->load->model('notes_model');
-			$this->load->model('transfer_logs_model');
-
-			$where = array('id' => $post['contact_id']);
-
-			$this->contacts_model->delete($where);
-
-			$where_paid_note = array('contact_id' => $post['contact_id']);
-
-			$this->paid_model->delete($where_paid_note);
-			$this->notes_model->delete($where_paid_note);
-			$this->transfer_logs_model->delete($where_paid_note);
-
-			echo '1';
-		}
-	}
-
-     function retrieve_contact() {
-
-         $post = $this->input->post();
-
-         if (!empty($post['contact_id'])) {
-
-             $where = array('id' => $post['contact_id']);
-
-			 $data = array(
-
-				 'call_status_id' => 0,
-
-				 'level_contact_id' => '',
-
-				 'level_contact_detail' => '',
-
-				 'level_student_id' => '',
-
-				 'level_student_detail' => '',
-
-				 'sale_staff_id' => 0,
-
-				 'level_language_id' => 0,
-
-				 'class_study_id' => '',
-
-				 'date_handover' => 0,
-
-				 'date_confirm' => 0,
-
-				 'date_rgt_study' => 0,
-
-				 'date_paid' => 0,
-
-				 'fee' => 0,
-
-				 'paid' => 0,
-
-				 'complete_fee' => 0,
-
-				 'is_old' => 0,
-
-				 'is_hide' => 0,
-
-				 'last_activity' => time()
-			 );
-
-			 $this->contacts_model->update($where, $data);
-			 // echo "<pre>";print_r($where);
-
-			 $data2 = array();
-
-			 $data2['contact_id'] = $post['contact_id'];
-
-			 $data2['staff_id'] = $this->user_id;
-
-			 $data2['time_created'] = time();
-
-			 $statusArr = array('call_status_id', 'level_contact_id', 'level_student_id');
-
-			 foreach ($statusArr as $value1) {
-
-				 $data2[$value1] = "-1";
-
-			 }
-
-			 $data2['content_change'] = 'Thu hồi contact';
-
-			 $this->load->model('call_log_model');
-
-             $this->call_log_model->insert($data2);
-
-             echo '1';
-
-         }
-
-     }
-
-	/*
     function retrieve_contact() {
 
         $post = $this->input->post();
-		$post = array_reverse($post['contact_id']);
+//		$post = array_reverse($post['contact_id']);
         // echo "<pre>";print_r($post);die();
 		// unset($post[0]);
 
         if (!empty($post)) {
-        	foreach ($post as $value) {
+        	foreach ($post['contact_id'] as $value) {
                 $where = array('id' => $value);
                 $data = array(
 
-                    'call_status_id' => 0,
+                	'call_status_id' => 0,
 
-                    'level_contact_id' => '',
+					'level_contact_id' => '',
 
-                    'level_contact_detail' => '',
+					'level_contact_detail' => '',
 
-                    'level_student_id' => '',
+					'level_student_id' => '',
 
-                    'level_student_detail' => '',
+					'level_student_detail' => '',
 
-                    'sale_staff_id' => 0,
+					'sale_staff_id' => 0,
 
-                    'level_language_id' => 0,
+					'level_language_id' => 0,
 
-                    'date_handover' => 0,
+					'class_study_id' => '',
 
-                    'date_confirm' => 0,
+					'date_handover' => 0,
 
-                    'date_rgt_study' => 0,
+					'date_confirm' => 0,
 
-                    'date_paid' => 0,
+					'date_rgt_study' => 0,
 
-                    'fee' => 0,
+					'date_paid' => 0,
 
-                    'paid' => 0,
+					'fee' => 0,
 
-                    'complete_fee' => 0,
+					'paid' => 0,
 
-                    'is_old' => 0,
+					'complete_fee' => 0,
 
-                    'is_hide' => 0,
+					'is_old' => 0,
 
-                    'last_activity' => time()
-                );
+					'is_hide' => 0,
+
+					'last_activity' => time()
+				);
 
                 $this->contacts_model->update($where, $data);
                 // echo "<pre>";print_r($where);
@@ -322,7 +335,7 @@ class Admin extends MY_Controller {
 
                 $data2['staff_id'] = $this->user_id;
 
-                $data2['time'] = time();
+                $data2['time_created'] = time();
 
                 $statusArr = array('call_status_id', 'level_contact_id', 'level_student_id');
 
@@ -341,7 +354,6 @@ class Admin extends MY_Controller {
 			echo '1';
 		}
 	}
-	*/
 
     private function get_all_require_data() {
 
