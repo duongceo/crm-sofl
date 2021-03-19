@@ -1508,18 +1508,17 @@ class Manager extends MY_Controller {
 				}
 			}
 		} else {
-			
-				foreach ($data['language_study'] as $item) {
-					foreach ($conditionArr as $key2 => $value2) {
-						$temp = 0;
-						foreach ($data['branch'] as $key => $value) {
+			foreach ($data['language_study'] as $item) {
+				foreach ($conditionArr as $key2 => $value2) {
+					$temp = 0;
+					foreach ($data['branch'] as $key => $value) {
 						$conditional = array();
 						$conditional['where']['branch_id'] = $value['id'];
 						$conditional['where']['language_id'] = $item['id'];
 						$conditional['where_not_in']['sale_staff_id'] = array(5);
-//						$conditional['where_not_in']['source_id'] = array(9, 10, 11);
+	//						$conditional['where_not_in']['source_id'] = array(9, 10, 11);
 						$conditional = array_merge_recursive($conditional, $value2);
-//						echo '<pre>'; print_r($conditional);
+	//						echo '<pre>'; print_r($conditional);
 						$branch[$key]['name'] = $value['name'];
 						$branch[$key][$item['id']][$key2] = $this->_query_for_report($get, $conditional);
 						$temp += $branch[$key][$item['id']][$key2];
@@ -1584,7 +1583,7 @@ class Manager extends MY_Controller {
 			$conditionArr = array(
 				'L1' => array(
 					'where' => array('duplicate_id' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate, 'is_hide' => '0', 'is_old' => '0',
-						'call_status_id NOT IN (1, 3)' => 'NO-VALUE', 'level_contact_detail NOT IN ("L1.1", "L1.2")' => 'NO-VALUE'),
+						'call_status_id NOT IN (1, 3)' => 'NO-VALUE', 'level_contact_detail NOT IN ("L1.1", "L1.2", "L1.3")' => 'NO-VALUE'),
 					'sum' => 0
 				),
 				'L2' => array(
@@ -1608,7 +1607,7 @@ class Manager extends MY_Controller {
 			$conditionArr = array(
 				'L1' => array(
 					'where' => array('duplicate_id' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate, 'is_hide' => '0', 'is_old' => '0',
-						'call_status_id NOT IN (1, 3)' => 'NO-VALUE', 'level_contact_detail NOT IN ("L1.1", "L1.2")' => 'NO-VALUE'),
+						'call_status_id NOT IN (1, 3)' => 'NO-VALUE', 'level_contact_detail NOT IN ("L1.1", "L1.2", "L1.3")' => 'NO-VALUE'),
 					'sum' => 0
 				),
 				'L2' => array(
@@ -1631,7 +1630,7 @@ class Manager extends MY_Controller {
 		}
 
 		unset($get['filter_date_date_happen']);
-		
+
 		$report = array();
 //		$total = array();
 		foreach ($data['sources'] as $key_source => $value_source) {
@@ -1662,7 +1661,7 @@ class Manager extends MY_Controller {
 		$data['startDate'] = $startDate;
 		$data['endDate'] = $endDate;
 		$data['left_col'] = array('date_happen_1', 'tic_report');
-		$data['right_col'] = array('is_old');
+//		$data['right_col'] = array('is_old');
 		$data['load_js'] = array('m_view_report');
 		$data['content'] = 'manager/view_report_source';
 //        print_arr($data);
