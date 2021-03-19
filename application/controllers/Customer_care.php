@@ -43,7 +43,7 @@ class Customer_care extends MY_Controller {
 //        $data['informModal'] = explode(' ', $informModal);
 //        $outformModal = 'customer_care/modal/transfer_one_contact sale/modal/show_script';
 //        $data['outformModal'] = explode(' ', $outformModal);
-
+		$data['actionForm'] = '';
         $data['content'] = 'common/list_contact';
         $this->load->view(_MAIN_LAYOUT_, $data);
     }
