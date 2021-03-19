@@ -1662,7 +1662,7 @@ class Manager extends MY_Controller {
 		$data['startDate'] = $startDate;
 		$data['endDate'] = $endDate;
 		$data['left_col'] = array('date_happen_1', 'tic_report');
-//		$data['right_col'] = array('source');
+		$data['right_col'] = array('is_old');
 		$data['load_js'] = array('m_view_report');
 		$data['content'] = 'manager/view_report_source';
 //        print_arr($data);

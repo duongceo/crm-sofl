@@ -394,7 +394,7 @@ class Marketing extends MY_Controller {
 
 		if ($this->role_id == 6) {
 			$data['left_col'] = array('date_happen_1', 'tic_report');
-			$data['right_col'] = array('is_old');
+//			$data['right_col'] = array('is_old');
 		} else {
 			$data['left_col'] = array('date_happen_1', 'tic_report', 'marketer');
 			$data['right_col'] = array('branch');
