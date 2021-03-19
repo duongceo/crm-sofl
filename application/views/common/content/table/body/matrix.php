@@ -2,7 +2,7 @@
 
     <?php
 
-    if ($value['matrix'] != '') {
+    if (isset($value['matrix']) && $value['matrix'] != '') {
 
         echo $value['matrix'];
 

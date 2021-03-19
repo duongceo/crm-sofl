@@ -48,7 +48,13 @@
 
                             $data['value'] = $value;
 
-                            $data['arr_data'] = $value['value'];
+                            if (isset($column_type['value'])) {
+                                $data['arr_data'] = $column_type['value'];
+                            } else {
+                                $data['arr_data'] = array();
+                            }
+
+                            //$data['arr_data'] = $value['value'];
 
                             $this->load->view($this->view_path . '/filter_item/' . $key, $data);
 

@@ -79,7 +79,13 @@ foreach ($rows as $row) {
 
                         $data['row'] = $row;
 
-                        $data['value'] = $column_type['value'];
+                        if (isset($column_type['value'])) {
+                            $data['value'] = $column_type['value'];
+                        } else {
+                            $data['value'] = array();
+                        }
+
+                        // $data['value'] = $column_type['value'];
 
                         $this->load->view($this->view_path . '/show_table/' . $columm_name, $data);
 

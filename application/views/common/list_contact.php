@@ -9,31 +9,33 @@
 
             <h1 class="text-center text-uppercase red margintop20 marginbottom20"> <?php echo $progressType?> </h1>
 
-        <?php //print_arr($progress)?>
+            <?php if (isset($progress['progressbar'])) { ?>
 
-            <?php foreach ($progress['progressbar'] as $team) { ?>
+                <?php foreach ($progress['progressbar'] as $team) { ?>
 
-                <div class="row">
+                    <div class="row">
 
-                    <div class="col-md-4 text-right text-uppercase margintop5">
+                        <div class="col-md-4 text-right text-uppercase margintop5">
 
-                        <?php echo $team['name'] . ' (' . $team['count'] . '/' . $team['kpi'] . ') (' . $team['type'] . ')'; ?>
+                            <?php echo $team['name'] . ' (' . $team['count'] . '/' . $team['kpi'] . ') (' . $team['type'] . ')'; ?>
 
-                    </div>
+                        </div>
 
-                    <div class="col-md-6">
+                        <div class="col-md-6">
 
-                        <div class="progress skill-bar">
+                            <div class="progress skill-bar">
 
-                            <div class="progress-bar progress-bar-striped active <?php echo getProgressBarClass($team['progress']); ?>" role="progressbar" aria-valuenow="<?php echo $team['progress'] ?>" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $team['progress'].'%' ?>">
+                                <div class="progress-bar progress-bar-striped active <?php echo getProgressBarClass($team['progress']); ?>" role="progressbar" aria-valuenow="<?php echo $team['progress'] ?>" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $team['progress'].'%' ?>">
 
-                                <span class="skill text-uppercase"> 
+                                    <span class="skill text-uppercase"> 
 
-                                    <?php// echo $marketer['name'] . ' (' . $marketer['totalC3'] . '/' . $marketer['targets'] . ')'; ?> 
+                                        <?php// echo $marketer['name'] . ' (' . $marketer['totalC3'] . '/' . $marketer['targets'] . ')'; ?> 
 
-                                    <?php echo $team['progress'] ?>% 
+                                        <?php echo $team['progress'] ?>% 
 
-                                </span>
+                                    </span>
+
+                                </div>
 
                             </div>
 
@@ -41,8 +43,7 @@
 
                     </div>
 
-                </div>
-
+                <?php } ?>
             <?php } ?>
 
         </div>
