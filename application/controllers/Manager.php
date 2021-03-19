@@ -1607,7 +1607,7 @@ class Manager extends MY_Controller {
 			$conditionArr = array(
 				'L1' => array(
 					'where' => array('duplicate_id' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate, 'is_hide' => '0', 'is_old' => '0',
-						'call_status_id NOT IN (1, 3)' => 'NO-VALUE', 'level_contact_detail NOT IN ("L1.1", "L1.2", "L1.3")' => 'NO-VALUE'),
+						'call_status_id NOT IN (1, 3)' => 'NO-VALUE', 'level_contact_detail NOT IN ("L1.1", "L1.2")' => 'NO-VALUE'),
 					'sum' => 0
 				),
 				'L2' => array(
