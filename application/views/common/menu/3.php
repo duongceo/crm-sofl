@@ -238,6 +238,13 @@
                     </a>
                 </li>
 
+				<li>
+					<a href="<?php echo base_url('tu-van-tuyen-sinh/them-contact.html'); ?>">
+						<img src="<?php echo base_url(); ?>public/images/add-contact.png">
+						<span> Thêm mới contact </span>
+					</a>
+				</li>
+
             </ul>
         </li>
 

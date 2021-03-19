@@ -245,7 +245,7 @@
                     </div>
                 </div>
 
-				<?php if ($this->role_id == 10) { ?>
+				<?php if ($this->role_id == 11 || $this->role_id == 3) { ?>
 					<div class="form-group">
 						<div class="row">
 							<div class="col-md-4 text-right">
