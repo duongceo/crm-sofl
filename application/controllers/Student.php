@@ -42,6 +42,7 @@ class Student extends MY_Controller {
 		//echo '<pre>'; print_r($data['table']);die;
 
 		$data['titleListContact'] = 'Danh sách học viên';
+		$data['actionForm'] = '';
 
 		$data['content'] = 'common/list_contact';
 		$this->load->view(_MAIN_LAYOUT_, $data);
@@ -79,6 +80,7 @@ class Student extends MY_Controller {
         $data['table'] = explode(' ', $this->table);
 		
         $data['titleListContact'] = 'Danh sách toàn bộ contact';
+		$data['actionForm'] = '';
 
         $data['content'] = 'common/list_contact';
         $this->load->view(_MAIN_LAYOUT_, $data);

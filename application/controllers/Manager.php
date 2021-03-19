@@ -285,7 +285,7 @@ class Manager extends MY_Controller {
          * Các trường cần hiện của bảng contact (đã có default)
          */
 		 
-        $this->table .= 'fee paid call_stt level_contact level_student date_rgt date_handover date_last_calling care_number';
+        $this->table .= 'fee paid call_stt level_contact level_student date_rgt date_handover date_last_calling';
         $data['table'] = explode(' ', $this->table);
 
         $data['titleListContact'] = 'Danh sách toàn bộ contact';
@@ -1209,6 +1209,7 @@ class Manager extends MY_Controller {
 		$input_contact['where']['date_paid <='] = $endDate;
 		$input_contact['where']['level_contact_id'] = 'L5';
 
+		$temp_sale = 0;
 		foreach ($conditionArr as $key2 => $value2) {
         	foreach ($staffs as $key_staff => $value_staff) {
 				$conditional_1 = array();
@@ -1218,7 +1219,8 @@ class Manager extends MY_Controller {
 
                 $staffs[$key_staff][$key2] = $this->_query_for_report($get, $conditional);
                 //$conditionArr_staff[$key2]['sum'] += $staffs[$key][$key2];
-				$data[$key2] += $staffs[$key_staff][$key2];
+				$temp_sale += $staffs[$key_staff][$key2]; 
+				$data[$key2] = $temp_sale;
 
 				if ($value_staff['out_report'] == 1) { // ko tính contact này vào tổng
 					$data[$key2] = $data[$key2] - $staffs[$key_staff][$key2];
@@ -1230,6 +1232,7 @@ class Manager extends MY_Controller {
             }
 			
 			if ($this->role_id == 3) {
+				$temp_language = 0;
 				foreach ($language as $key_language => $value_language) {
 					$conditional = array();
 					$conditional['where']['language_id'] = $value_language['id'];
@@ -1245,14 +1248,17 @@ class Manager extends MY_Controller {
 					}
 					$conditional = array_merge_recursive($conditional, $value2);
 					$language[$key_language][$key2] = $this->_query_for_report($get, $conditional);
-					$data[$key2 . '_L'] += $language[$key_language][$key2];
+					$temp_language += $language[$key_language][$key2];
+					$data[$key2 . '_L'] = $temp_language;
 				}
 			}
 
         }
 		
+		$total_re = 0;
 		foreach ($staffs as $value) {
-			$data['RE'] += $value['RE'];
+			$total_re += $value['RE'];
+			$data['RE'] = $total_re;
 		}
 
 //		Tính thời gian thực hiện của khối lệnh trên
@@ -1325,8 +1331,10 @@ class Manager extends MY_Controller {
 			'time_created >=' => $date_from,
 			'time_created <=' => $date_end,
 		);
+		
+		//$input_language['where'] = array('no_report' => '0');
 
-		$language = $this->language_study_model->load_all(array());
+		$language = $this->language_study_model->load_all();
 
 		$language_re = array();
 		foreach ($language as $value) {
@@ -1345,9 +1353,12 @@ class Manager extends MY_Controller {
 
 		$re = array();
 		$total = array();
+		
 		unset($data['branch'][0]);
-		foreach ($data['branch'] as $v_branch) {
-        	foreach ($data['language_study'] as $v_language) {
+		foreach ($data['language_study'] as $v_language) {
+			$re_new_temp = 0;
+			$re_old_temp = 0;
+			foreach ($data['branch'] as $v_branch) {
 				$input_re = array();
 				$input_re['select'] = 'SUM(paid) as paiding';
 				$input_re['where'] = array(
@@ -1364,13 +1375,16 @@ class Manager extends MY_Controller {
 //				$re[$v_branch['id']][$v_language['id']]['re_total'] = (int) $this->paid_model->load_all($input_re)[0]['paiding'];
 				$re[$v_branch['id']][$v_language['id']]['re_new'] = (int) $this->paid_model->load_all($input_re_new)[0]['paiding'];
 				$re[$v_branch['id']][$v_language['id']]['re_old'] = (int) $this->paid_model->load_all($input_re_old)[0]['paiding'];
-
-				$total[$v_language['id']]['total_re_new'] += $re[$v_branch['id']][$v_language['id']]['re_new'];
-				$total[$v_language['id']]['total_re_old'] += $re[$v_branch['id']][$v_language['id']]['re_old'];
+				
+				$re_new_temp += $re[$v_branch['id']][$v_language['id']]['re_new'];
+				$total[$v_language['id']]['total_re_new'] = $re_new_temp;
+				
+				$re_old_temp += $re[$v_branch['id']][$v_language['id']]['re_old'];
+				$total[$v_language['id']]['total_re_old'] = $re_old_temp;
         	}
 		}
 
-//		print_arr($total);
+		//print_arr($total);
 
 		$data['language_re'] = $language_re;
 		$data['re'] = $re;
@@ -1475,6 +1489,7 @@ class Manager extends MY_Controller {
 
 		$branch = array();
 		$total = array();
+		
 		if ($this->role_id == 12) {
 			$this->load->model('branch_model');
 			$branch_id = $this->session->userdata('branch_id');
@@ -1493,9 +1508,11 @@ class Manager extends MY_Controller {
 				}
 			}
 		} else {
-			foreach ($data['branch'] as $key => $value) {
+			
 				foreach ($data['language_study'] as $item) {
 					foreach ($conditionArr as $key2 => $value2) {
+						$temp = 0;
+						foreach ($data['branch'] as $key => $value) {
 						$conditional = array();
 						$conditional['where']['branch_id'] = $value['id'];
 						$conditional['where']['language_id'] = $item['id'];
@@ -1505,7 +1522,8 @@ class Manager extends MY_Controller {
 //						echo '<pre>'; print_r($conditional);
 						$branch[$key]['name'] = $value['name'];
 						$branch[$key][$item['id']][$key2] = $this->_query_for_report($get, $conditional);
-						$total[$item['id']][$key2] += $branch[$key][$item['id']][$key2];
+						$temp += $branch[$key][$item['id']][$key2];
+						$total[$item['id']][$key2] = $temp;
 					}
 				}
 			}
@@ -1751,11 +1769,11 @@ class Manager extends MY_Controller {
 
 					$report[$value_source['name']][$value_sale['name']]['RE'] = $this->get_re(array_merge_recursive($conditional_1, $conditional_source), $startDate, $endDate);
 					$report[$value_source['name']][$value_sale['name']][$key_condition] = $this->_query_for_report($get, $conditional);
-
-					if ($report[$value_source['name']][$value_sale['name']]['L1'] == 0 && $report[$value_source['name']][$value_sale['name']]['L2'] == 0
-					&& $report[$value_source['name']][$value_sale['name']]['L3'] == 0 &&$report[$value_source['name']][$value_sale['name']]['L5'] == 0) {
+					
+					if ($report[$value_source['name']][$value_sale['name']][$key_condition] == 0 && $report[$value_source['name']][$value_sale['name']]['RE'] == 0) {
 						unset($report[$value_source['name']][$value_sale['name']]);
 					}
+					
 				}
 
 				//$conditional_2 = array_merge_recursive($conditional_source, $value);

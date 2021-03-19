@@ -119,6 +119,7 @@ class Class_study extends MY_Table {
 				'name_display' => 'Ghi chú'
 			)
 		);
+		//print_arr($list_view);
 		$this->set_list_view($list_view);
 		$this->set_model('class_study_model');
 		$this->load->model('class_study_model');
@@ -128,21 +129,20 @@ class Class_study extends MY_Table {
 
 		$require_model = array(
 			'branch' => array(),
-			'level_language' => array(),
 			'language_study' => array(
 				'where' => array(
 					'no_report' => '0'
 				)
 			),
+			'level_language' => array(),
 			'character_class' => array(),
 		);
 
 		$this->data = $this->_get_require_data($require_model);
-		
+				
 //		$this->data['branch'] = $this->get_data_from_model('branch');
-//		$this->data['language'] = $this->get_data_from_model('language_study');
-//		$this->data['level_language'] = $this->get_data_from_model('level_language');
-//		$this->data['character_class'] = $this->get_data_from_model('character_class');
+
+		$this->data['language'] = $this->get_data_from_model('language_study');
 
 		$this->list_filter = array(
 			'right_filter' => array(

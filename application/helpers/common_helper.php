@@ -372,25 +372,25 @@ function h_get_row_class($value) {
 
     }
 
-    $dayDiff = floor((time() - $value['date_print_cod']) / (60 * 60 * 24));
+    // $dayDiff = floor((time() - $value['date_print_cod']) / (60 * 60 * 24));
 
-    if ($dayDiff > 3 && $dayDiff <= 5 && $value['cod_status_id'] == _DANG_GIAO_HANG_) {
+    // if ($dayDiff > 3 && $dayDiff <= 5 && $value['cod_status_id'] == _DANG_GIAO_HANG_) {
 
-        $class .= ' bgyellow';
+    //     $class .= ' bgyellow';
 
-    }
+    // }
 
-    if ($dayDiff > 5 && $dayDiff <= 30 && $value['cod_status_id'] == _DANG_GIAO_HANG_) {
+    // if ($dayDiff > 5 && $dayDiff <= 30 && $value['cod_status_id'] == _DANG_GIAO_HANG_) {
 
-        $class .= ' bgred';
+    //     $class .= ' bgred';
 
-    }
+    // }
 
-    if ($value['weight_envelope'] > 50) {
+    // if ($value['weight_envelope'] > 50) {
 
-        $class .= ' bgred';
+    //     $class .= ' bgred';
 
-    }
+    // }
 
     if ($value['is_hide'] == 1) {
 
@@ -398,23 +398,23 @@ function h_get_row_class($value) {
 
     }
 
-    if ($value['cod_status_id'] == _HUY_DON_ || $value['ordering_status_id'] == _TU_CHOI_MUA_ || $value['ordering_status_id'] == _CONTACT_CHET_ || $value['call_status_id'] == _SO_MAY_SAI_ || $value['call_status_id'] == _NHAM_MAY_) {
+    if ($value['call_status_id'] == _SO_MAY_SAI_ || $value['call_status_id'] == _NHAM_MAY_) {
 
         $class .= ' ban';
 
     }
 
-    if ($value['cod_status_id'] == _DA_THU_COD_) {
+    // if ($value['cod_status_id'] == _DA_THU_COD_) {
 
-        $class .= ' receive-cod';
+    //     $class .= ' receive-cod';
 
-    }
+    // }
 
-    if ($value['cod_status_id'] == _DA_THU_LAKITA_) {
+    // if ($value['cod_status_id'] == _DA_THU_LAKITA_) {
 
-        $class .= ' receive-lakita';
+    //     $class .= ' receive-lakita';
 
-    }
+    // }
 
     return $class;
 

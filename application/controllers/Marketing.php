@@ -20,7 +20,6 @@ class Marketing extends MY_Controller {
 	}
 
 	function index($offset = 0) {
-		//echo "string"; die;
 		$data = $this->get_all_require_data();
 
 		$get = $this->input->get();
@@ -63,6 +62,8 @@ class Marketing extends MY_Controller {
 
 		$data['progress'] = $this->GetProccessToday();
 		$data['progressType'] = 'Doanh thu ngày hôm nay';
+		
+		//print_arr($data['progress']);
 
 		/*
          * Các trường cần hiện của bảng contact (đã có default)
@@ -71,6 +72,7 @@ class Marketing extends MY_Controller {
 		$data['table'] = explode(' ', $this->table);
 
 		$data['titleListContact'] = 'Danh sách contact mới hôm nay';
+		$data['actionForm'] = '';
 
 		$data['content'] = 'common/list_contact';
 		$this->load->view(_MAIN_LAYOUT_, $data);
@@ -275,6 +277,8 @@ class Marketing extends MY_Controller {
 			'Ma_FB' => str_replace(',', '.', number_format($total_spend_fb)),
 			'Ma_GG' => str_replace(',', '.', number_format($total_spend_gg)),
 			'Ma_mkt' => str_replace(',', '.', number_format($total_spend)),
+			'Ma_HN' => str_replace(',', '.', number_format($total_spend_hn)),
+			'Ma_HCM' => str_replace(',', '.', number_format($total_spend_hcm)),
 			'Gia_So' => ($total_C3 == 0) ? '0' : str_replace(',', '.', number_format(round($total_spend / $total_C3, 2) * 100)),
 			'Ma_Re_thuc_te' => ($total_RE == 0) ? '0' : round($total_spend / $total_RE, 2) * 100,
 			'Re_thuc_te' => str_replace(',', '.', number_format($total_RE)),
@@ -384,7 +388,7 @@ class Marketing extends MY_Controller {
 
 		$data['report'] = $Report;
 		$data['report_mkt'] = $Report_mkt;
-		//print_arr($data['report_mkt']);
+//		print_arr($data['report']);
 		$data['startDate'] = isset($date_from) ? $date_from : '0';
 		$data['endDate'] = isset($date_end) ? $date_end : '0';
 

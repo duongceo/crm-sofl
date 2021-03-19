@@ -403,11 +403,11 @@ class Sale extends MY_Controller {
 			'time_created <' => $date_end,
 		);
 
-		if ($get['filter_sale_id']) {
+		if (isset($get['filter_sale_id'])) {
 			$input['where']['sale_id'] = $get['filter_sale_id'][0];
 		}
 
-		if ($get['filter_missed_call']) {
+		if (isset($get['filter_missed_call'])) {
 			$input['where']['missed_call'] = $get['filter_missed_call'];
 		}
 
@@ -1121,7 +1121,7 @@ class Sale extends MY_Controller {
         $input['select'] = 'id';
         $input['where']['sale_staff_id'] = $this->user_id;
         $input['where']['is_hide'] = '0';
-        $input['where']['(`call_status_id` = ' . _KHONG_NGHE_MAY_ . ' OR `ordering_status_id` in (' . _BAN_GOI_LAI_SAU_ . ' , ' . _CHAM_SOC_SAU_MOT_THOI_GIAN_ . ',' . _LAT_NUA_GOI_LAI_ . '))'] = 'NO-VALUE';
+        $input['where']['(`call_status_id` = ' . _KHONG_NGHE_MAY_ . ')'] = 'NO-VALUE';
         $this->L['can_save'] = count($this->contacts_model->load_all($input));
 
         $input = array();
@@ -1147,7 +1147,7 @@ class Sale extends MY_Controller {
 			 'kpi' => $total_sale_day_L5,
 			 'name' => 'Học viên mới',
 			 'type' => 'L5',
-			 'progress' => round(count($today) / $total_sale_day_L5 * 100, 2)
+			 'progress' => ($total_sale_day_L5 ==0) ? '0' : round(count($today) / $total_sale_day_L5 * 100, 2)
 		 );
 //		 $progress['sale']['progress'] = round($progress['sale']['count'] / $progress['sale']['kpi'] * 100, 2);
 
@@ -1158,7 +1158,7 @@ class Sale extends MY_Controller {
 			 'kpi' => $total_to_day_L8,
 			 'name' => 'Học viên cũ',
 			 'type' => 'L8',
-			 'progress' => round(count($today) / $total_to_day_L8 * 100, 2)
+			 'progress' => ($total_to_day_L8 ==0) ? '0' : round(count($today) / $total_to_day_L8 * 100, 2)
 		 );
 //		 $progress['branch']['progress'] = round($progress['branch']['count'] / $progress['branch']['kpi'] * 100, 2);
 
@@ -1177,6 +1177,8 @@ class Sale extends MY_Controller {
 		 $called_3 = $this->call_log_model->load_all($input_called_3);
 
 //		 $array = array();
+
+		$array_called_3 = array(0);
 		 foreach ($called_1 as $value) {
 			 $array_called_1[] = $value['contact_id'];
 		 }
@@ -1446,7 +1448,7 @@ class Sale extends MY_Controller {
 
         $this->table .= 'date_rgt date_handover';
         $data['table'] = explode(' ', $this->table);
-        echo $this->load->view('common/content/tbl_contact', $data);
+        echo $this->load->view('common/content/tbl_contact', $data, TRUE);
     }
 
 //    public function get_phone_missed_call() {
@@ -1478,6 +1480,6 @@ class Sale extends MY_Controller {
 
 		$this->table .= 'date_rgt date_handover';
 		$data['table'] = explode(' ', $this->table);
-		echo $this->load->view('common/content/tbl_contact', $data);
+		echo $this->load->view('common/content/tbl_contact', $data, TRUE);
 	}
 }

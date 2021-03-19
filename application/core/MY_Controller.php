@@ -454,6 +454,7 @@ class MY_Controller extends CI_Controller {
 
         $result['data'] = $this->contacts_model->load_all($input);
 
+/*
 		foreach ($result['data'] as &$item) {
 			$input_paid_log = array();
 			$input_paid_log['select'] = 'SUM(paid) as paiding';
@@ -462,6 +463,7 @@ class MY_Controller extends CI_Controller {
 			$item['paid'] = $this->paid_model->load_all_paid_log($input_paid_log)[0]['paiding'];
 		}
 		unset($item);
+		*/
 //		print_arr($result['data']);
         // echoQuery();
 
@@ -578,6 +580,7 @@ class MY_Controller extends CI_Controller {
 
      */
 
+	/*
     protected function _common_find_all($get, $conditional = '') {
 
         $data = array();
@@ -598,7 +601,7 @@ class MY_Controller extends CI_Controller {
 
             'call_status' => array(),
 
-            'ordering_status' => array(),
+          //  'ordering_status' => array(),
 
 //            'cod_status' => array()
 
@@ -625,6 +628,7 @@ class MY_Controller extends CI_Controller {
         return $data;
 
     }
+	*/
 
     /*
 
@@ -1134,7 +1138,7 @@ class MY_Controller extends CI_Controller {
         $input['select'] = 'id';
 
         $input['where'] = array(
-        	'ordering_status_id' => 'L5',
+        	'level_contact_id' => 'L5',
 			'payment_method_rgt' => '1',
 			'is_hide' => '0'
 		);
