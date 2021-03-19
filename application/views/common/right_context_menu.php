@@ -124,7 +124,7 @@
 
             </a>
 
-        <?php } else if ($controller == 'customer_care') { ?>
+        <?php } else if ($controller == 'Carepage') { ?>
 
 <!--            <a href="#" class="ajax-request-modal load-new-contact-id edit-one-contact one-item-selected" data-contact-id ="0" data-modal-name="edit-contact-div"-->
 <!---->

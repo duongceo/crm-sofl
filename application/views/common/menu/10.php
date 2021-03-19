@@ -17,6 +17,13 @@
         </li>
 
 		<li>
+			<a href="<?php echo base_url('customer_care/view_all_contact'); ?>">
+				<img src="<?php echo base_url(); ?>public/images/view-all.png">
+				<span> Danh sách tất cả contact đã nhập </span>
+			</a>
+		</li>
+
+		<li>
 			<a href="<?php echo base_url('tu-van-tuyen-sinh/them-contact.html'); ?>">
 
 				<img src="<?php echo base_url(); ?>public/images/add-contact.png">
@@ -27,7 +34,10 @@
 		</li>
 
         <li>
-            <a href="<?php echo base_url('home/logout'); ?>">Đăng Xuất</a>
+			<a href="<?php echo base_url('home/logout'); ?>">
+				<img src="<?php echo base_url(); ?>public/images/logout.png">
+				<span> Đăng Xuất </span>
+			</a>
         </li>
 
     </ul>

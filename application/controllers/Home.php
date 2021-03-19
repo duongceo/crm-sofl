@@ -118,19 +118,13 @@ class Home extends CI_Controller {
 
                 case 11:
 
-                    redirect(base_url('' . $this->initGetVariable));
+                    redirect(base_url('care_page' . $this->initGetVariable));
 
                     break;
 
 				case 12:
 
                     redirect(base_url('staff_managers/class_study' . $this->initGetVariable));
-
-                    break;
-
-				case 13:
-                        
-                    redirect(base_url('dai-ly/san-pham.html' . $this->initGetVariable));
 
                     break;
 
