@@ -33,7 +33,7 @@
 							<div class="panel panel-danger text-center">
 								<div class="panel-heading">Tiến độ</div>
 								<div class="panel-body">
-									<button class="btn btn-warning btn-block"><?php echo round($progress_sale['L1_XULY'] / $progress_sale['L1'] * 100, 2);?> %</button>
+									<button class="btn btn-warning btn-block"><?php echo ($progress_sale['L1'] == 0) ? '0' : round($progress_sale['L1_XULY'] / $progress_sale['L1'] * 100, 2);?> %</button>
 								</div>
 							</div>
 						</div>
@@ -116,7 +116,7 @@
 				<div class="panel-body">
 					<div class="col-md-8 col-md-offset-2">
 						<div class="panel panel-danger text-center">
-							<div class="panel-heading">Cuộc gọi nhớ</div>
+							<div class="panel-heading">Cuộc gọi nhỡ</div>
 							<div class="panel-body">
 								<?php $date = date('d/m/Y',strtotime("-1 days")) . ' - ' .date('d/m/Y',strtotime("-1 days")); ?>
 								<a href="<?php echo base_url().'sale/view_history_call?filter_date_date_happen='.$date.'&filter_missed_call=1'?>" class="btn btn-success show_popup">Xem luôn</a>

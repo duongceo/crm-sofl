@@ -103,7 +103,7 @@
 				</td>
 
 				<td style="background-color: #41a85f">
-					<?php echo round(($value[$item['id']]['L5_1'] / $value[$item['id']]['L1']) * 100, 2) . '%'; ?>
+					<?php echo ($value[$item['id']]['L1'] == 0) ? 'ko thể chia cho 0' : round(($value[$item['id']]['L5_1'] / $value[$item['id']]['L1']) * 100, 2) . '%'; ?>
 				</td>
 
 			<?php } ?>

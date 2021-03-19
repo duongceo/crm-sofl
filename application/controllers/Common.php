@@ -107,7 +107,7 @@ class Common extends MY_Controller {
         $input_paid_log['where'] = array('contact_id' => $id);
         $input_paid_log['order'] = array('time_created' => 'ASC');
         $this->load->model('paid_model');
-        $data['paid_log'] = $this->paid_model->load_all_paid_log($input_paid_log);
+        //$data['paid_log'] = $this->paid_model->load_all_paid_log($input_paid_log);
 //		print_arr($data);
 
         $data['rows'] = $rows[0];
@@ -405,7 +405,7 @@ class Common extends MY_Controller {
 		$input_paid_log['where'] = array('contact_id' => $id);
 //		$input_paid_log['order'] = array('time_created' => 'ASC');
 		$this->load->model('paid_model');
-		$rows[0]['paid'] = $this->paid_model->load_all_paid_log($input_paid_log)[0]['paiding'];
+		//$rows[0]['paid'] = $this->paid_model->load_all_paid_log($input_paid_log)[0]['paiding'];
 
         $data['rows'] = $rows[0];
 //		$data['action_url'] = 'common/action_edit_contact/' . $id;
@@ -591,6 +591,8 @@ class Common extends MY_Controller {
 
 			if (isset($post['level_student_id']) && !empty($post['level_student_id']) && $post['level_student_id'] != '') {
 				$param['level_student_id'] = $post['level_student_id'];
+			} else {
+				$param['level_student_id'] = '';
 			}
 
 //			if (isset($post['level_student_detail']) && !empty($post['level_student_detail']) && $post['level_student_detail'] != '') {
@@ -794,7 +796,7 @@ class Common extends MY_Controller {
 				'f3c70a5a0960d7b811c9', '2fb574e3cce59e4659ac', '1042224', $options
 			);
 
-            $dataPush['image'] = $this->staffs_model->GetStaffImage($this->user_id);
+            //$dataPush['image'] = $this->staffs_model->GetStaffImage($this->user_id);
             $pusher->trigger('my-channel', 'callLog', $dataPush);
 
             die;

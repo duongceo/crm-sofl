@@ -31,6 +31,9 @@
 
 	<tbody>
 		<?php
+		$total_re = 0;
+		$total_re_new = 0;
+		$total_re_old = 0;
 		foreach ($language_re as $value) {
 			$total_re += $value['re_total'];
 			$total_re_new += $value['re_new'];
