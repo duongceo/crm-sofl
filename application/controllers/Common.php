@@ -792,7 +792,7 @@ class Common extends MY_Controller {
 			$contact = array(
 				'course_code' => $contact_s,
 				'name' => $name,
-				'phone' => $phone,
+				'phone' => trim($phone),
 				'type' => 'offline'
 			);
 
