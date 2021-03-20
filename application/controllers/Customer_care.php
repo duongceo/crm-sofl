@@ -2,8 +2,6 @@
 
 class Customer_care extends MY_Controller {
 
-    public $L = array();
-
     public function __construct() {
         parent::__construct();
     }
@@ -12,9 +10,8 @@ class Customer_care extends MY_Controller {
         $data = $this->_get_all_require_data();
         $get = $this->input->get();
 
-        $conditional['where']['care_page_staff_id !='] = '0';
-        $conditional['where']['date_handover >='] = strtotime(date('d-m-Y'));
-        $conditional['order'] = array('date_handover' => 'DESC');
+        $conditional['where']['level_student_id'] = 'L6';
+        $conditional['order'] = array('date_rgt_study' => 'ASC');
 
         $data_pagination = $this->_query_all_from_get($get, $conditional, $this->per_page, $offset);
 
@@ -28,22 +25,16 @@ class Customer_care extends MY_Controller {
         /*
          * Filter ở cột trái và cột phải
          */
-        $data['left_col'] = array('date_rgt');
-//        $data['right_col'] = array('');
+        $data['left_col'] = array('branch', 'class_study', 'date_rgt_study');
+        $data['right_col'] = array('language');
 
         /*
          * Các trường cần hiện của bảng contact (đã có default)
          */
-        $this->table = 'selection name phone branch language level_language date_rgt date_handover';
+        $this->table = 'selection name phone branch language class_study_id level_language date_rgt_study';
         $data['table'] = explode(' ', $this->table);
 
         $data['titleListContact'] = 'Danh sách contact đã nhập vào hôm nay';
-//        $data['actionForm'] = 'customer_care/transfer_contact';
-//        $informModal = 'customer_care/modal/transfer_multi_contact';
-//        $data['informModal'] = explode(' ', $informModal);
-//        $outformModal = 'customer_care/modal/transfer_one_contact sale/modal/show_script';
-//        $data['outformModal'] = explode(' ', $outformModal);
-		$data['actionForm'] = '';
         $data['content'] = 'common/list_contact';
         $this->load->view(_MAIN_LAYOUT_, $data);
     }
@@ -73,7 +64,7 @@ class Customer_care extends MY_Controller {
 		/*
          * Các trường cần hiện của bảng contact (đã có default)
          */
-		$this->table = 'selection name phone branch language level_language date_rgt date_handover';
+		$this->table = 'selection name phone branch language level_language date_rgt_study';
 		$data['table'] = explode(' ', $this->table);
 
 		$data['titleListContact'] = 'Danh sách contact đã nhập vào';
@@ -89,12 +80,9 @@ class Customer_care extends MY_Controller {
 
     private function _get_all_require_data() {
         $require_model = array(
-            'staffs' => array(
-                'where' => array(
-                    'role_id' => 10,
-                    'active' => 1
-                )
-            ),
+        	'class_study' => array(
+        		'where' => array('active' => 1)
+			),
 			'branch' => array(),
             'language_study' => array(),
 			'level_language' => array(),

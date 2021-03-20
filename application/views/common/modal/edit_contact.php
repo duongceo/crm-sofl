@@ -34,13 +34,13 @@
 
                         <section id="content1-edit" class="tab-content">
 
-                            <?php
+							<?php
 
-                            if (!$edited_contact) {
+								if (!$edited_contact) {
 
-                                echo'<fieldset disabled>';
+									echo '<fieldset disabled>';
 
-                            }
+								}
 
                             ?>
 
@@ -124,7 +124,7 @@
 
                             if (!$edited_contact) {
 
-                                echo'</fieldset>';
+                                echo '</fieldset>';
 
                             }
 

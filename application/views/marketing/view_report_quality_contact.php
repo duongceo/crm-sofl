@@ -118,3 +118,5 @@
 		</tbody>
 	</table>
 </div>
+
+<h5> L1 chỉ được tính các nguồn : inbox, landingpage, zalo </h5>

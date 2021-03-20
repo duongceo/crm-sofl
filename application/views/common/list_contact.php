@@ -169,7 +169,7 @@
 
 </div>
 
-<form action="<?php echo base_url() . $actionForm; ?>" method="POST" id="action_contact" 
+<form action="<?php echo (isset($actionForm)) ? base_url() . $actionForm : ''; ?>" method="POST" id="action_contact"
 
       class="form-inline <?php echo ($total_contact > 0) ? '' : 'empty'; ?>">
 

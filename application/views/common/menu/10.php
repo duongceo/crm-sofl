@@ -12,24 +12,21 @@
         <li>
             <a href="<?php echo base_url('customer_care'); ?>">
 				<img src="<?php echo base_url(); ?>public/images/view-all.png">
-				<span> Danh sách Contact đã nhập vào hôm nay </span>
+				<span> Danh sách học viên đang học </span>
 			</a>
         </li>
 
 		<li>
 			<a href="<?php echo base_url('customer_care/view_all_contact'); ?>">
 				<img src="<?php echo base_url(); ?>public/images/view-all.png">
-				<span> Danh sách tất cả contact đã nhập </span>
+				<span> Danh sách tất cả học viên </span>
 			</a>
 		</li>
 
 		<li>
 			<a href="<?php echo base_url('tu-van-tuyen-sinh/them-contact.html'); ?>">
-
 				<img src="<?php echo base_url(); ?>public/images/add-contact.png">
-
 				<span> Thêm mới contact </span>
-
 			</a>
 		</li>
 
@@ -39,7 +36,5 @@
 				<span> Đăng Xuất </span>
 			</a>
         </li>
-
     </ul>
-
 </nav>
