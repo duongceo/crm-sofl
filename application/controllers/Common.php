@@ -107,7 +107,7 @@ class Common extends MY_Controller {
         $input_paid_log['where'] = array('contact_id' => $id);
         $input_paid_log['order'] = array('time_created' => 'ASC');
         $this->load->model('paid_model');
-        //$data['paid_log'] = $this->paid_model->load_all_paid_log($input_paid_log);
+        $data['paid_log'] = $this->paid_model->load_all_paid_log($input_paid_log);
 //		print_arr($data);
 
         $data['rows'] = $rows[0];
@@ -1395,7 +1395,7 @@ class Common extends MY_Controller {
         $data['time_created'] = time();
         $diffArr = array(
             '[Họ tên]: ' => 'name',
-            '[Email]: ' => 'email',
+//            '[Email]: ' => 'email',
             '[SĐT]: ' => 'phone',
 //            '[Địa chỉ]: ' => 'address',
 //            '[Mã lớp học]: ' => 'class_study_id',
