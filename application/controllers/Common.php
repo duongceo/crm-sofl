@@ -302,6 +302,8 @@ class Common extends MY_Controller {
 
 		if ($this->role_id == 10) {
 			$require_model = array(
+				'branch' => array(),
+				'language_study' => array(),
 				'customer_call_status' => array(),
 				'status_for_sale' => array(),
 				'status_for_lecture' => array(),
