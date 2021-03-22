@@ -378,7 +378,7 @@ class Common extends MY_Controller {
 		$input_paid_log['where'] = array('contact_id' => $id);
 //		$input_paid_log['order'] = array('time_created' => 'ASC');
 		$this->load->model('paid_model');
-		$rows[0]['paid'] = $this->paid_model->load_all_paid_log($input_paid_log)[0]['paiding'];
+//		$rows[0]['paid'] = $this->paid_model->load_all_paid_log($input_paid_log)[0]['paiding'];
 
         $data['rows'] = $rows[0];
 		$data['action_url'] = 'common/action_edit_contact/' . $id;
