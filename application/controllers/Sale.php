@@ -696,6 +696,7 @@ class Sale extends MY_Controller {
 						'content' => $input['note'],
 						'time_created' => time(),
 						'sale_id' => $this->user_id,
+						'role_id' => $this->role_id,
 						'contact_code' => $this->contacts_model->get_contact_code($id),
 						'class_study_id' => 0
 					);
@@ -714,6 +715,7 @@ class Sale extends MY_Controller {
 						'day' => date('Y-m-d', $param['date_paid']),
 						'student_old' => $input['is_old'],
 						'source_id' => $input['source_id'],
+						'payment_method_id' => $input['payment_method_rgt'],
 					);
 					//print_arr($param2);
 					$this->load->model('paid_model');

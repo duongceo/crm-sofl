@@ -741,6 +741,7 @@ class Common extends MY_Controller {
 					'day' => date('Y-m-d', $param['date_paid']),
 					'student_old' => $post['is_old'],
 					'source_id' => $rows[0]['source_id'],
+					'payment_method_id' => $post['payment_method_rgt'],
 				);
 
 				$this->load->model('paid_model');
