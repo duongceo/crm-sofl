@@ -227,7 +227,7 @@ class Contact extends CI_Controller {
 
             }
 
-            $data2['image'] = $this->staffs_model->GetStaffImage($marketerId);
+//            $data2['image'] = $this->staffs_model->GetStaffImage($marketerId);
 
             $pusher->trigger('my-channel', 'notice', $data2);
 
