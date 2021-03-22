@@ -341,13 +341,13 @@ class Common extends MY_Controller {
         $data['view_edit_left'] = $left_edit;
         $data['view_edit_right'] = $right_edit;
 
-        if ($this->role_id == 1) {
+        if ($this->role_id == 1 || $this->role_id == 12) {
             $edited_contact = $this->_can_edit_by_sale($rows[0]['call_status_id'], $rows[0]['level_contact_id']);
 //			$data['action_url'] = 'common/update_before_edit_contact/' . $id;
         }
-        if ($this->role_id == 12) {
-			$edited_contact = $this->_can_edit_by_branch($rows[0]['branch_id']);
-		}
+//        if ($this->role_id == 12) {
+//			$edited_contact = $this->_can_edit_by_branch($rows[0]['branch_id']);
+//		}
 
 //        if ($this->role_id == 2) {
 //            if ($rows[0]['call_status_id'] != _DA_LIEN_LAC_DUOC_ || $rows[0]['ordering_status_id'] != _DONG_Y_MUA_) {
