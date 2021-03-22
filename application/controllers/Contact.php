@@ -271,9 +271,9 @@ class Contact extends CI_Controller {
 
         if (count($rs) > 0) {
 
-			if (time() - $rs[0]['date_rgt'] < 3*30*24*60*60) {
-				$dulicate = $rs[0]['id'];
-			}
+    			if (time() - $rs[0]['date_rgt'] < 3*30*24*60*60) {
+    				$dulicate = $rs[0]['id'];
+    			}
 
         }
 
