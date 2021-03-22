@@ -309,6 +309,5 @@ class Contact extends CI_Controller {
 //		}
 //	}
 
-
 }
 
