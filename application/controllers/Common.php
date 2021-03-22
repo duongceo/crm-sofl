@@ -205,6 +205,7 @@ class Common extends MY_Controller {
                 'status_sale_id' => 'edit',
                 'status_lecture_id' => 'edit',
                 'status_teacher_id' => 'edit',
+                'status_end_student_id' => 'edit',
                 'date_recall_customer_care' => 'edit',
                 'note' => 'edit',
 				'date_customer_care_call' => 'view',
@@ -309,6 +310,7 @@ class Common extends MY_Controller {
 				'status_for_sale' => array(),
 				'status_for_lecture' => array(),
 				'status_for_teacher' => array(),
+				'status_end_student' => array(),
 				'notes' => array(
 					'where' => array('contact_id' => $contact_id, 'role_id' => $this->role_id),
 					'order' => array('time_created' => 'ASC')
@@ -1014,7 +1016,7 @@ class Common extends MY_Controller {
             $post = $this->input->post();
 //            print_arr($post);
             $param = array();
-            $post_arr = array('status_sale_id', 'customer_care_call_id', 'status_lecture_id', 'status_teacher_id');
+            $post_arr = array('status_sale_id', 'customer_care_call_id', 'status_lecture_id', 'status_teacher_id', 'status_end_student_id');
 
             foreach ($post_arr as $value) {
                 if (isset($post[$value])) {
