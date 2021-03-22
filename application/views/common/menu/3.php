@@ -152,6 +152,18 @@
 
 				</li>
 
+				<li>
+
+					<a href="<?php echo base_url('manager/view_report_payment_method'); ?>">
+
+						<img src="<?php echo base_url(); ?>public/images/dollar.png">
+
+						<span> Báo cáo doanh thu - HTTT </span>
+
+					</a>
+
+				</li>
+
                 <li>
 
                     <a href="<?php echo base_url('manager/view_report_student_branch'); ?>">

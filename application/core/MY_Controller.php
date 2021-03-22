@@ -1103,7 +1103,7 @@ class MY_Controller extends CI_Controller {
 //		}
 		
         if ($this->role_id == 10) {
-            $this->table = 'selection name phone email';
+            $this->table = 'selection name phone fee paid date_rgt_study';
         }
 
         $data['table'] = explode(' ', $this->table);

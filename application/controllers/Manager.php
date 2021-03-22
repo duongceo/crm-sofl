@@ -1375,10 +1375,10 @@ class Manager extends MY_Controller {
 //				$re[$v_branch['id']][$v_language['id']]['re_total'] = (int) $this->paid_model->load_all($input_re)[0]['paiding'];
 				$re[$v_branch['id']][$v_language['id']]['re_new'] = (int) $this->paid_model->load_all($input_re_new)[0]['paiding'];
 				$re[$v_branch['id']][$v_language['id']]['re_old'] = (int) $this->paid_model->load_all($input_re_old)[0]['paiding'];
-				
+
 				$re_new_temp += $re[$v_branch['id']][$v_language['id']]['re_new'];
 				$total[$v_language['id']]['total_re_new'] = $re_new_temp;
-				
+
 				$re_old_temp += $re[$v_branch['id']][$v_language['id']]['re_old'];
 				$total[$v_language['id']]['total_re_old'] = $re_old_temp;
         	}
@@ -1396,6 +1396,62 @@ class Manager extends MY_Controller {
         $data['content'] = 'manager/view_report_revenue';
         $this->load->view(_MAIN_LAYOUT_, $data);
     }
+
+    public function view_report_payment_method() {
+		$this->load->model('paid_model');
+		$this->load->model('language_study_model');
+		$require_model = array(
+			'branch' => array(),
+			'payment_method_rgt' => array(
+				'where' => array('active' => 1)
+			),
+			'language_study' => array(),
+		);
+		$data = array_merge($this->data, $this->_get_require_data($require_model));
+
+		$get = $this->input->get();
+
+		if (isset($get['filter_date_date_happen']) && $get['filter_date_date_happen'] != '') {
+			$time = $get['filter_date_date_happen'];
+		} else {
+			$time = '01' . '/' . date('m') . '/' . date('Y') . ' - ' . date('d') . '/' . date('m') . '/' . date('Y');
+		}
+
+		$dateArr = explode('-', $time);
+		$date_from = trim($dateArr[0]);
+		$date_from = strtotime(str_replace("/", "-", $date_from));
+		$date_end = trim($dateArr[1]);
+		$date_end = strtotime(str_replace("/", "-", $date_end)) + 3600 * 24 - 1;
+
+		unset($data['branch'][0]);
+		foreach ($data['branch'] as $v_branch) {
+			foreach ($data['payment_method_rgt'] as $v_payment) {
+				$input_re = array();
+				$input_re['select'] = 'SUM(paid) as paiding';
+				$input_re['where'] = array(
+					'time_created >=' => $date_from,
+					'time_created <=' => $date_end,
+					'payment_method_id' => $v_payment['id'],
+					'branch_id' => $v_branch['id']
+				);
+				if (isset($get['filter_language_id'])) {
+					$input_re['where_in']['language_id'] = $get['filter_language_id'];
+				}
+
+				$re[$v_branch['id']]['branch_name'] = $v_branch['name'];
+				$re[$v_branch['id']][$v_payment['id']]['re_total'] = (int) $this->paid_model->load_all($input_re)[0]['paiding'];
+			}
+		}
+
+//		print_arr($re);
+		$data['re'] = $re;
+		$data['startDate'] = $date_from;
+		$data['endDate'] = $date_end;
+
+		$data['left_col'] = array('date_happen_1', 'language');
+		$data['content'] = 'manager/view_report_payment_method';
+		$this->load->view(_MAIN_LAYOUT_, $data);
+	}
 
 //    Báo cáo số lượng học viên của cơ sở
 	function view_report_student_branch() {
