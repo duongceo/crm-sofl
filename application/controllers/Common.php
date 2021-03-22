@@ -205,6 +205,7 @@ class Common extends MY_Controller {
                 'status_sale_id' => 'edit',
                 'status_lecture_id' => 'edit',
                 'status_teacher_id' => 'edit',
+                'date_recall_customer_care' => 'edit',
                 'note' => 'edit',
 				'date_customer_care_call' => 'view',
             );
