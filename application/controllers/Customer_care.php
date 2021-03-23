@@ -25,8 +25,8 @@ class Customer_care extends MY_Controller {
         /*
          * Filter ở cột trái và cột phải
          */
-        $data['left_col'] = array('branch', 'class_study', 'date_rgt_study');
-        $data['right_col'] = array('language');
+        $data['left_col'] = array('branch', 'class_study', 'study_date_start', 'study_date_end');
+        $data['right_col'] = array('language', 'date_rgt_study', 'level_student_detail');
 
         /*
          * Các trường cần hiện của bảng contact (đã có default)
@@ -68,21 +68,14 @@ class Customer_care extends MY_Controller {
 		$data['table'] = explode(' ', $this->table);
 
 		$data['titleListContact'] = 'Danh sách contact đã nhập vào';
-//        $data['actionForm'] = 'customer_care/transfer_contact';
-//        $informModal = 'customer_care/modal/transfer_multi_contact';
-//        $data['informModal'] = explode(' ', $informModal);
-//        $outformModal = 'customer_care/modal/transfer_one_contact sale/modal/show_script';
-//        $data['outformModal'] = explode(' ', $outformModal);
-		$data['actionForm'] = '';
+
 		$data['content'] = 'common/list_contact';
 		$this->load->view(_MAIN_LAYOUT_, $data);
 	}
 
     private function _get_all_require_data() {
         $require_model = array(
-        	'class_study' => array(
-        		'where' => array('active' => 1)
-			),
+        	'class_study' => array(),
 			'branch' => array(),
             'language_study' => array(),
 			'level_language' => array(),
