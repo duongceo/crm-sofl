@@ -70,7 +70,7 @@ class Customer_care extends MY_Controller {
 		/*
          * Các trường cần hiện của bảng contact (đã có default)
          */
-		$this->table = 'selection name phone branch language class_study_id level_language date_customer_care_call';
+		$this->table = 'selection name phone branch language class_study_id level_language date_recall_customer_care';
 		$data['table'] = explode(' ', $this->table);
 
 		$data['titleListContact'] = 'Danh sách contact đã nhập vào hôm nay';
