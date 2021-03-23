@@ -1025,7 +1025,7 @@ class Common extends MY_Controller {
             }
 			$param['customer_care_staff_id'] = $this->user_id;
 			$param['date_customer_care_call'] = time();
-			$param['date_recall_customer_care'] = (isset($post['date_recall_customer_care']) && $post['date_recall_customer_care'] != '') ? strtotime($post['date_recall_customer_care']) : 0;
+			$param['date_recall_customer_care'] = (isset($post['date_recall_customer_care']) && $post['date_recall_customer_care'] != '') ? strtotime($post['date_recall_customer_care']) : '';
             $param['last_activity'] = time();
             $where = array('id' => $id);
             $this->contacts_model->update($where, $param);
