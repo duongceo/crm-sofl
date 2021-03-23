@@ -1332,14 +1332,22 @@ class Manager extends MY_Controller {
 			'time_created <=' => $date_end,
 		);
 		
-		//$input_language['where'] = array('no_report' => '0');
+		$input_source['where'] = array('out_report' => '1');
+		$this->load->model('sources_model');
+		$source = $this->sources_model->load_all($input_source);
+		if (!empty($source)) {
+			$source_arr = array();
+			foreach ($source as $item) {
+				$source_arr[] = $item['id'];
+			}
+		}
 
 		$language = $this->language_study_model->load_all();
 
 		$language_re = array();
 		foreach ($language as $value) {
 
-			$input_re['where_not_in']['source_id'] = array(9, 10, 11);
+			$input_re['where_not_in']['source_id'] = $source_arr;
 			$language_input_re_new = array_merge_recursive(array('where' => array('student_old' => '0', 'language_id' => $value['id'])), $input_re);
 			$language_input_re_old = array_merge_recursive(array('where' => array('student_old' => '1', 'language_id' => $value['id'])), $input_re);
 			$language_input_re = array_merge_recursive(array('where' => array('language_id' => $value['id'])), $input_re);
