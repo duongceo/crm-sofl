@@ -882,33 +882,33 @@ class MY_Controller extends CI_Controller {
 
          */
 
-        if (isset($get['filter_warning_cod']) && $get['filter_warning_cod'] != 'empty') {
-
-            if ($get['filter_warning_cod'] == 'red') {
-
-                $query = '((FLOOR((' . time() . ' - `date_print_cod`) / (60 * 60 * 24)) > 5 ' .
-
-                        'AND `cod_status_id` = 1)'
-
-                        . ' OR `weight_envelope` > 50)';
-
-                $input_get['where'][$query] = 'NO-VALUE';
-
-            }
-
-            if ($get['filter_warning_cod'] == 'yellow') {
-
-                $query = '(FLOOR((' . time() . ' - `date_print_cod`) / (60 * 60 * 24)) <= 5 AND '
-
-                        . 'FLOOR((' . time() . ' - `date_print_cod`) / (60 * 60 * 24)) >= 3 '
-
-                        . 'AND `cod_status_id` = 1)';
-
-                $input_get['where'][$query] = 'NO-VALUE';
-
-            }
-
-        }
+//        if (isset($get['filter_warning_cod']) && $get['filter_warning_cod'] != 'empty') {
+//
+//            if ($get['filter_warning_cod'] == 'red') {
+//
+//                $query = '((FLOOR((' . time() . ' - `date_print_cod`) / (60 * 60 * 24)) > 5 ' .
+//
+//                        'AND `cod_status_id` = 1)'
+//
+//                        . ' OR `weight_envelope` > 50)';
+//
+//                $input_get['where'][$query] = 'NO-VALUE';
+//
+//            }
+//
+//            if ($get['filter_warning_cod'] == 'yellow') {
+//
+//                $query = '(FLOOR((' . time() . ' - `date_print_cod`) / (60 * 60 * 24)) <= 5 AND '
+//
+//                        . 'FLOOR((' . time() . ' - `date_print_cod`) / (60 * 60 * 24)) >= 3 '
+//
+//                        . 'AND `cod_status_id` = 1)';
+//
+//                $input_get['where'][$query] = 'NO-VALUE';
+//
+//            }
+//
+//        }
 
         /*
 
@@ -979,6 +979,58 @@ class MY_Controller extends CI_Controller {
 			if (!empty($array_contact_id)) {
 				$input_get['where_in']['id'] = $array_contact_id;
 			}
+		}
+
+        if (isset($get['filter_study_date_start']) && !empty($get['filter_study_date_start'])) {
+        	$this->load->model('class_study_model');
+			$dateArr = explode('-', $get['filter_study_date_start']);
+			$date_from = trim($dateArr[0]);
+			$date_from = strtotime(str_replace("/", "-", $date_from));
+			$date_end = trim($dateArr[1]);
+			$date_end = strtotime(str_replace("/", "-", $date_end)) + 3600 * 24 - 1;
+
+			$input_class = array();
+			$input_class['where'] = array(
+				'time_start >=' => $date_from,
+				'time_start <=' => $date_end,
+			);
+
+			$class = $this->class_study_model->load_all($input_class);
+
+			if (!empty($class)) {
+				$class_array = array();
+				foreach ($class as $value) {
+					$class_array[] = $value['class_study_id'];
+				}
+			}
+
+			$input_get['where_in']['class_study_id'] = $class_array;
+		}
+
+		if (isset($get['filter_study_date_end']) && !empty($get['filter_study_date_end'])) {
+			$this->load->model('class_study_model');
+			$dateArr = explode('-', $get['filter_study_date_end']);
+			$date_from = trim($dateArr[0]);
+			$date_from = strtotime(str_replace("/", "-", $date_from));
+			$date_end = trim($dateArr[1]);
+			$date_end = strtotime(str_replace("/", "-", $date_end)) + 3600 * 24 - 1;
+
+			$input_class = array();
+			$input_class['where'] = array(
+				'time_end_real >=' => $date_from,
+				'time_end_real <=' => $date_end,
+			);
+
+			$class = $this->class_study_model->load_all($input_class);
+
+			if (!empty($class)) {
+				$class_array = array();
+				foreach ($class as $value) {
+					$class_array[] = $value['class_study_id'];
+				}
+			}
+
+			$input_get['where_in']['class_study_id'] = $class_array;
 		}
 
         return array(
