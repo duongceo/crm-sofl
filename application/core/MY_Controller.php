@@ -1002,9 +1002,8 @@ class MY_Controller extends CI_Controller {
 				foreach ($class as $value) {
 					$class_array[] = $value['class_study_id'];
 				}
+				$input_get['where_in']['class_study_id'] = $class_array;
 			}
-
-			$input_get['where_in']['class_study_id'] = $class_array;
 		}
 
 		if (isset($get['filter_study_date_end']) && !empty($get['filter_study_date_end'])) {
@@ -1028,9 +1027,8 @@ class MY_Controller extends CI_Controller {
 				foreach ($class as $value) {
 					$class_array[] = $value['class_study_id'];
 				}
+				$input_get['where_in']['class_study_id'] = $class_array;
 			}
-
-			$input_get['where_in']['class_study_id'] = $class_array;
 		}
 
         return array(
