@@ -1203,6 +1203,16 @@ class Manager extends MY_Controller {
 
 //		$time_start = microtime(true);
 
+		$input_source['where'] = array('out_report' => '1');
+		$this->load->model('sources_model');
+		$source = $this->sources_model->load_all($input_source);
+		if (!empty($source)) {
+			$source_arr = array();
+			foreach ($source as $item) {
+				$source_arr[] = $item['id'];
+			}
+		}
+
 		$input_contact = array();
 		$input_contact['select'] = 'id';
 		$input_contact['where']['date_paid >='] = $startDate;
@@ -1236,7 +1246,7 @@ class Manager extends MY_Controller {
 				foreach ($language as $key_language => $value_language) {
 					$conditional = array();
 					$conditional['where']['language_id'] = $value_language['id'];
-					$conditional['where_not_in']['source_id'] = array(9, 10, 11);
+					$conditional['where_not_in']['source_id'] = $source_arr;
 					$conditional['where_not_in']['sale_staff_id'] = array(5, 18);
 					if ($key2 == 'NHAN' && empty($get['tic_report'])) {
 						unset($value2['where']['date_handover >='], $value2['where']['date_handover <=']);
