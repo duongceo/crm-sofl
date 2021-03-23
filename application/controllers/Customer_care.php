@@ -45,6 +45,39 @@ class Customer_care extends MY_Controller {
         $this->load->view(_MAIN_LAYOUT_, $data);
     }
 
+	function view_contact_recall($offset = 0) {
+		$data = $this->_get_all_require_data();
+		$get = $this->input->get();
+
+		$conditional['where']['date_recall_customer_care !='] = '';
+		$conditional['order'] = array('date_recall_customer_care' => 'ASC');
+
+		$data_pagination = $this->_query_all_from_get($get, $conditional, $this->per_page, $offset);
+
+		/*
+         * Lấy link phân trang và danh sách contacts
+         */
+		$data['pagination'] = $this->_create_pagination_link($data_pagination['total_row']);
+		$data['contacts'] = $data_pagination['data'];
+		$data['total_contact'] = $data_pagination['total_row'];
+
+		/*
+         * Filter ở cột trái và cột phải
+         */
+		$data['left_col'] = array('date_recall_customer_care', 'study_date_start', 'study_date_end');
+		$data['right_col'] = array('branch', 'class_study',  'language');
+
+		/*
+         * Các trường cần hiện của bảng contact (đã có default)
+         */
+		$this->table = 'selection name phone branch language class_study_id level_language date_rgt_study';
+		$data['table'] = explode(' ', $this->table);
+
+		$data['titleListContact'] = 'Danh sách contact đã nhập vào hôm nay';
+		$data['content'] = 'common/list_contact';
+		$this->load->view(_MAIN_LAYOUT_, $data);
+	}
+
 	function view_all_contact($offset = 0) {
 		$data = $this->_get_all_require_data();
 		$get = $this->input->get();

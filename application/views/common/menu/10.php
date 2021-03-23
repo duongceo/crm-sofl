@@ -17,6 +17,13 @@
         </li>
 
 		<li>
+			<a href="<?php echo base_url('customer_care/view_contact_recall'); ?>">
+				<img src="<?php echo base_url(); ?>public/images/view-all.png">
+				<span> Danh sách hẹn gọi lại </span>
+			</a>
+		</li>
+
+		<li>
 			<a href="<?php echo base_url('customer_care/view_all_contact'); ?>">
 				<img src="<?php echo base_url(); ?>public/images/view-all.png">
 				<span> Danh sách tất cả học viên </span>
