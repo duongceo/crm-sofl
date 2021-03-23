@@ -79,8 +79,8 @@ class Customer_care extends MY_Controller {
 			'branch' => array(),
             'language_study' => array(),
 			'level_language' => array(),
-			'level_student_model' => array(
-				'where' => array('parent !=' => '')
+			'level_student' => array(
+				'where' => array('parent_id !=' => '')
 			)
         );
         return array_merge($this->data, $this->_get_require_data($require_model));
