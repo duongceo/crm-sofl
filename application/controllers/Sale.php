@@ -504,24 +504,24 @@ class Sale extends MY_Controller {
 					'class_study' => array(),
 					'sources' => array(),
 					'payment_method_rgt' => array(),
-					'campaign' =>array(
-						'where' => array('active' => '1', 'marketer_id' => $this->user_id),
-						'order' => array(
-							'name' => 'ASC'
-						)
-					),
-					'adset' =>array(
-						'where' => array('active' => '1', 'marketer_id' => $this->user_id),
-						'order' => array(
-							'name' => 'ASC'
-						)
-					),
-					'ad' =>array(
-						'where' => array('active' => '1', 'marketer_id' => $this->user_id),
-						'order' => array(
-							'name' => 'ASC'
-						)
-					),
+//					'campaign' =>array(
+//						'where' => array('active' => '1', 'marketer_id' => $this->user_id),
+//						'order' => array(
+//							'name' => 'ASC'
+//						)
+//					),
+//					'adset' =>array(
+//						'where' => array('active' => '1', 'marketer_id' => $this->user_id),
+//						'order' => array(
+//							'name' => 'ASC'
+//						)
+//					),
+//					'ad' =>array(
+//						'where' => array('active' => '1', 'marketer_id' => $this->user_id),
+//						'order' => array(
+//							'name' => 'ASC'
+//						)
+//					),
 					'channel' => array(
 						'where' => array('active' => '1'),
 						'order' => array('name' => 'ASC')
@@ -768,24 +768,24 @@ class Sale extends MY_Controller {
                 'class_study' => array(),
                 'sources' => array(),
 				'payment_method_rgt' => array(),
-				'campaign' =>array(
-					'where' => array('active' => '1', 'marketer_id' => $this->user_id),
-					'order' => array(
-						'name' => 'ASC'
-					)
-				),
-				'adset' =>array(
-					'where' => array('active' => '1', 'marketer_id' => $this->user_id),
-					'order' => array(
-						'name' => 'ASC'
-					)
-				),
-				'ad' =>array(
-					'where' => array('active' => '1', 'marketer_id' => $this->user_id),
-					'order' => array(
-						'name' => 'ASC'
-					)
-				),
+//				'campaign' =>array(
+//					'where' => array('active' => '1', 'marketer_id' => $this->user_id),
+//					'order' => array(
+//						'name' => 'ASC'
+//					)
+//				),
+//				'adset' =>array(
+//					'where' => array('active' => '1', 'marketer_id' => $this->user_id),
+//					'order' => array(
+//						'name' => 'ASC'
+//					)
+//				),
+//				'ad' =>array(
+//					'where' => array('active' => '1', 'marketer_id' => $this->user_id),
+//					'order' => array(
+//						'name' => 'ASC'
+//					)
+//				),
 				'channel' => array(
 					'where' => array('active' => '1'),
 					'order' => array('name' => 'ASC')
@@ -797,11 +797,11 @@ class Sale extends MY_Controller {
 					)
 				),
             );
-            $data = array_merge($this->data, $this->_get_require_data($require_model));
-			
-			if ($this->role_id == 12 || $this->role_id == 6) {
-				$data['top_nav'] = 'manager/common/top-nav';
-			}
+//            $data = array_merge($this->data, $this->_get_require_data($require_model));
+			$data = $this->_get_require_data($require_model);
+//			if ($this->role_id == 12 || $this->role_id == 6) {
+//				$data['top_nav'] = 'manager/common/top-nav';
+//			}
 //            print_arr($data);
             $data['content'] = 'sale/add_contact';
 
