@@ -22,6 +22,12 @@ class Customer_care extends MY_Controller {
         $data['contacts'] = $data_pagination['data'];
         $data['total_contact'] = $data_pagination['total_row'];
 
+		$input['where'] = array(
+			'parent_id !=' => ''
+		);
+		$this->load->model('level_student_model');
+		$data['level_student_detail'] = $this->level_student_model->load_all($input);
+
         /*
          * Filter ở cột trái và cột phải
          */
@@ -79,9 +85,6 @@ class Customer_care extends MY_Controller {
 			'branch' => array(),
             'language_study' => array(),
 			'level_language' => array(),
-			'level_student' => array(
-				'where' => array('parent_id !=' => '')
-			)
         );
         return array_merge($this->data, $this->_get_require_data($require_model));
     }
