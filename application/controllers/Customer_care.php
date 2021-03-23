@@ -26,7 +26,7 @@ class Customer_care extends MY_Controller {
          * Filter ở cột trái và cột phải
          */
         $data['left_col'] = array('branch', 'class_study', 'study_date_start', 'study_date_end');
-        $data['right_col'] = array('language', 'date_rgt_study', 'level_student_detail');
+        $data['right_col'] = array('language', 'level_student_detail');
 
         /*
          * Các trường cần hiện của bảng contact (đã có default)
@@ -79,6 +79,9 @@ class Customer_care extends MY_Controller {
 			'branch' => array(),
             'language_study' => array(),
 			'level_language' => array(),
+			'level_student_model' => array(
+				'where' => array('parent !=' => '')
+			)
         );
         return array_merge($this->data, $this->_get_require_data($require_model));
     }
