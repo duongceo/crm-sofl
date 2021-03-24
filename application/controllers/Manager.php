@@ -1206,8 +1206,8 @@ class Manager extends MY_Controller {
 		$input_source['where'] = array('out_report' => '1');
 		$this->load->model('sources_model');
 		$source = $this->sources_model->load_all($input_source);
+		$source_arr = array();
 		if (!empty($source)) {
-			$source_arr = array();
 			foreach ($source as $item) {
 				$source_arr[] = $item['id'];
 			}
@@ -1224,7 +1224,7 @@ class Manager extends MY_Controller {
         	foreach ($staffs as $key_staff => $value_staff) {
 				$conditional_1 = array();
 				$conditional_1['where']['sale_staff_id'] = $value_staff['id'];
-				$conditional_1['where_not_in']['source_id'] = array(11);
+				$conditional_1['where_not_in']['source_id'] = $source_arr;
 				$conditional = array_merge_recursive($conditional_1, $value2);
 
                 $staffs[$key_staff][$key2] = $this->_query_for_report($get, $conditional);
@@ -1345,8 +1345,8 @@ class Manager extends MY_Controller {
 		$input_source['where'] = array('out_report' => '1');
 		$this->load->model('sources_model');
 		$source = $this->sources_model->load_all($input_source);
+		$source_arr = array();
 		if (!empty($source)) {
-			$source_arr = array();
 			foreach ($source as $item) {
 				$source_arr[] = $item['id'];
 			}
@@ -1503,7 +1503,7 @@ class Manager extends MY_Controller {
 		if (isset($get['tic_report']) && !empty($get['tic_report'])) {
 			$conditionArr = array(
 				'L1' => array(
-					'where' => array('date_handover !=' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate, 'source_id NOT IN (9, 10, 11)' => 'NO-VALUE', 'is_hide' => '0', 'is_old' => '0',
+					'where' => array('date_handover !=' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate, 'source_id NOT IN (9, 10, 11, 13)' => 'NO-VALUE', 'is_hide' => '0', 'is_old' => '0',
 						'duplicate_id' => '0', 'call_status_id NOT IN (1, 3)' => 'NO-VALUE', 'level_contact_detail NOT IN ("L1.1", "L1.2", "L1.3")' => 'NO-VALUE'),
 					'sum' => 0
 				),
@@ -1516,7 +1516,7 @@ class Manager extends MY_Controller {
 					'sum' => 0
 				),
 				'L5_1' => array(
-					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'source_id NOT IN (9, 10, 11)' => 'NO-VALUE', 'is_old' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
+					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'source_id NOT IN (9, 10, 11, 13)' => 'NO-VALUE', 'is_old' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
 					'sum' => 0
 				),
 				'L5_2' => array(
@@ -1531,7 +1531,7 @@ class Manager extends MY_Controller {
 		} else {
 			$conditionArr = array(
 				'L1' => array(
-					'where' => array('date_handover >=' => $startDate, 'date_handover <=' => $endDate, 'source_id NOT IN (9, 10, 11)' => 'NO-VALUE', 'is_hide' => '0', 'is_old' => '0',
+					'where' => array('date_handover >=' => $startDate, 'date_handover <=' => $endDate, 'source_id NOT IN (9, 10, 11, 13)' => 'NO-VALUE', 'is_hide' => '0', 'is_old' => '0',
 						'duplicate_id' => '0', 'call_status_id NOT IN (1, 3)' => 'NO-VALUE', 'level_contact_detail NOT IN ("L1.1", "L1.2", "L1.3")' => 'NO-VALUE'),
 					'sum' => 0
 				),
@@ -1544,7 +1544,7 @@ class Manager extends MY_Controller {
 					'sum' => 0
 				),
 				'L5_1' => array(
-					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'source_id NOT IN (9, 10, 11)' => 'NO-VALUE', 'is_old' => '0', 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
+					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'source_id NOT IN (9, 10, 11, 13)' => 'NO-VALUE', 'is_old' => '0', 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
 					'sum' => 0
 				),
 				'L5_2' => array(
