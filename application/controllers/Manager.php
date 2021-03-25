@@ -1404,7 +1404,7 @@ class Manager extends MY_Controller {
         	}
 		}
 
-		//print_arr($total);
+		//print_arr($re);
 
 		$data['language_re'] = $language_re;
 		$data['re'] = $re;
