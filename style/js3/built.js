@@ -599,7 +599,7 @@ $(".action-contact-admin").confirm({
 								}
 							});
 						} else {
-							alert(data);
+							alert('Bạn chưa tích vào ô chọn contact');
 						}
 					},
                     error: errorThrown => alert(errorThrown)
@@ -1624,7 +1624,7 @@ $(document).on('click', '.btn-edit-contact', function (e) {
  */
 
 $(document).on('change', 'select.edit_payment_method_rgt', function (e) {
-    if ($(this).val() == 2) {
+    if ($(this).val() == 4) {
         $(".tbl_bank").show(1000);
     } else {
         $(".tbl_bank").hide();
@@ -2705,12 +2705,6 @@ $(document).on("click", ".ajax-request-modal", function (e) {
     }, 100);
 });
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 $(document).on('click', '.change-form-submit-url', function (e) {
     e.preventDefault();
     var form = $(this).data("form-id");
@@ -2719,12 +2713,6 @@ $(document).on('click', '.change-form-submit-url', function (e) {
     var url = $("#base_url").val() + action;
     $("#" + form).attr("action", url).attr("method", method).submit(); 
 });
-
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 var modalName = "navbar-search-modal";
 $(function () {
@@ -2818,11 +2806,6 @@ $(".anchor-navbar-search").click(function (e) {
         complete: () => $(`.${modalName} .navbar-search-modal`).modal("show")
     });
 });
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 $(document).on('click', '.export-to-excel', function (e) {
     e.preventDefault();
@@ -3175,7 +3158,6 @@ $(document).on('click', '.btn-cod-transfer-multi-contact-submit',function (e){
 });
 */
 
-
 $(document).on('click', 'a.transfer_contact, a.transfer_one_contact', function (e) {
     e.preventDefault();
     var action = $(this).attr("class").split(" ");
@@ -3357,7 +3339,7 @@ $(document).on('change', '[name="level_contact_id"], [name="level_student_id"], 
 	});
 });
 
-$(document).on('change', '[name="language_id"], [name="branch_id"]', function () {
+$(document).on('change', '[name="language_id"], [name="branch_id"], [name="payment_method_rgt"]', function () {
 	var level_id = $(this).val();
 	var type = $(this).attr("type");
 	// console.log(type);return false;
@@ -3373,6 +3355,8 @@ $(document).on('change', '[name="language_id"], [name="branch_id"]', function ()
 				$(".ajax_level_language_id").html(data);
 			} else if (type == 'branch') {
 				$(".ajax_class_id").html(data);
+			} else if (type == 'payment_method_rgt') {
+				$(".ajax_payment_method_rgt").html(data);
 			}
 		},
 		complete: function () {

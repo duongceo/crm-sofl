@@ -748,6 +748,7 @@ class Common extends MY_Controller {
 					'student_old' => $post['is_old'],
 					'source_id' => $rows[0]['source_id'],
 					'payment_method_id' => $post['payment_method_rgt'],
+					'account_banking_id' => (isset($post['account_banking_id'])) ? $post['account_banking_id'] : 0,
 				);
 
 				$this->load->model('paid_model');
@@ -1969,9 +1970,10 @@ class Common extends MY_Controller {
 		}
 	}
 
-	public function get_data_ajax(){
-    	$post = $this->input->post();
-    	if ($post['type'] == 'language') {
+	public function get_data_ajax()
+	{
+		$post = $this->input->post();
+		if ($post['type'] == 'language') {
 			$input['where']['language_id'] = $post['level_id'];
 			$this->load->model('level_language_model');
 			$level_language = $this->level_language_model->load_all($input);
@@ -1988,7 +1990,7 @@ class Common extends MY_Controller {
 					$str .= "<option value='{$value['id']}'> {$value['name']} </option>";
 				}
 				$str .= '</select>
-				</td>';
+						</td>';
 				echo $str;
 			} else {
 				echo '<td class="text-right"></td>';
@@ -2008,15 +2010,35 @@ class Common extends MY_Controller {
 					<div class="input-group">
 						<select class="form-control selectpicker" name="class_study_id">
 							<option value=""> Chọn lớp học </option>';
-							foreach ($class as $value) {
-								$str .= "<option value='{$value['class_study_id']}'> {$value['class_study_id']} </option>";
-							}
-						$str .= '</select>
+				foreach ($class as $value) {
+					$str .= "<option value='{$value['class_study_id']}'> {$value['class_study_id']} </option>";
+				}
+				$str .= '</select>
 						<div class="input-group-btn">
-							<a style="margin-top: 3px;" target="_blank" href="'.base_url('staff_managers/class_study').'" class="btn btn-success">Tạo mã lớp</a>
+							<a style="margin-top: 3px;" target="_blank" href="' . base_url('staff_managers/class_study') . '" class="btn btn-success">Tạo mã lớp</a>
 						</div>
 					</div>
 				</td>';
+				echo $str;
+			} else {
+				echo '<td class="text-right"></td>';
+			}
+		} elseif ($post['type'] == 'payment_method_rgt' && $post['level_id'] == 4) {
+			$this->load->model('account_banking_model');
+			$account_banking = $this->account_banking_model->load_all(array());
+
+			if (isset($account_banking) && !empty($account_banking)) {
+				$str = '<td class="text-right">
+					Thông tin tài khoản
+				</td>
+				<td>
+					<select class="form-control selectpicker" name="account_banking_id">
+						<option value=""> Thông tin tài khoản </option>';
+				foreach ($account_banking as $value) {
+					$str .= "<option value='{$value['id']}'> {$value['infor_banking']} </option>";
+				}
+				$str .= '</select>
+						</td>';
 				echo $str;
 			} else {
 				echo '<td class="text-right"></td>';

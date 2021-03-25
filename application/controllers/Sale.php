@@ -504,6 +504,7 @@ class Sale extends MY_Controller {
 					'class_study' => array(),
 					'sources' => array(),
 					'payment_method_rgt' => array(),
+					'account_banking' => array(),
 //					'campaign' =>array(
 //						'where' => array('active' => '1', 'marketer_id' => $this->user_id),
 //						'order' => array(
@@ -716,6 +717,7 @@ class Sale extends MY_Controller {
 						'student_old' => $input['is_old'],
 						'source_id' => $input['source_id'],
 						'payment_method_id' => $input['payment_method_rgt'],
+						'account_banking_id' => $input['account_banking_id']
 					);
 					//print_arr($param2);
 					$this->load->model('paid_model');
@@ -768,6 +770,7 @@ class Sale extends MY_Controller {
                 'class_study' => array(),
                 'sources' => array(),
 				'payment_method_rgt' => array(),
+				'account_banking' => array(),
 //				'campaign' =>array(
 //					'where' => array('active' => '1', 'marketer_id' => $this->user_id),
 //					'order' => array(

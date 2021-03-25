@@ -377,6 +377,22 @@
                     </div>
                 </div>
 
+				<div class="form-group">
+					<div class="row">
+						<div class="col-md-4 text-right">
+							Thông tin tài khoản
+						</div>
+						<div class="col-md-8">
+							<select class="form-control" name="account_banking_id">
+								<option value="0">Thông tin tài khoản</option>
+								<?php foreach($account_banking as $value) { ?>
+									<option value="<?php echo $value['id']; ?>"><?php echo $value['infor_banking']; ?></option>
+								<?php } ?>
+							</select>
+						</div>
+					</div>
+				</div>
+
                 <div class="form-group">
                     <div class="row">
                         <div class="col-md-4 text-right">
