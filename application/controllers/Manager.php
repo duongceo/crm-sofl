@@ -1367,6 +1367,7 @@ class Manager extends MY_Controller {
 			$language_re[$value['id']]['re_new'] = (int) $this->paid_model->load_all($language_input_re_new)[0]['paiding'];
 			$language_re[$value['id']]['re_old'] = (int) $this->paid_model->load_all($language_input_re_old)[0]['paiding'];
 
+			$language_re[$value['id']]['fee'] = $this->get_fee($value['id'], $date_from, $date_end, 'language');
 		}
 
 		$re = array();
@@ -1390,6 +1391,7 @@ class Manager extends MY_Controller {
 				$input_re_old = array_merge_recursive(array('where' => array('student_old' => '1')), $input_re);
 
 				$re[$v_branch['id']]['branch_name'] = $v_branch['name'];
+				$re[$v_branch['id']]['fee'] =  $this->get_fee($v_branch['id'], $date_from, $date_end, 'branch');
 //				$re[$v_branch['id']][$v_language['id']]['re_total'] = (int) $this->paid_model->load_all($input_re)[0]['paiding'];
 				$re[$v_branch['id']][$v_language['id']]['re_new'] = (int) $this->paid_model->load_all($input_re_new)[0]['paiding'];
 				$re[$v_branch['id']][$v_language['id']]['re_old'] = (int) $this->paid_model->load_all($input_re_old)[0]['paiding'];
@@ -1907,6 +1909,27 @@ class Manager extends MY_Controller {
 		}
 
 		return $re;
+	}
+
+	private function get_fee($data_id=0, $date_from=0, $date_end=0, $report) {
+    	$input = array();
+    	$input['select'] = 'SUM(fee) as total_fee';
+    	$input['where'] = array(
+			'date_rgt_study >=' => $date_from,
+			'date_rgt_study <=' => $date_end,
+			'level_contact_id' => 'L5',
+		);
+
+    	if ($report == 'branch') {
+    		$input['where']['branch_id'] = $data_id;
+		} elseif ($report == 'language') {
+			$input['where']['language_id'] = $data_id;
+		}
+
+    	$fee = $this->contacts_model->load_all($input);
+
+		return (int) $fee[0]['total_fee'];
+
 	}
 
 	public function view_report_class_study() {
