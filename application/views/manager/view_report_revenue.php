@@ -19,7 +19,7 @@
 		<tr>
 			<th style="background: none"></th>
 			<?php
-			$report = array('Học Viên Cũ', 'Học Viên Mới', 'Tổng học phí', 'Tổng');
+			$report = array('Học Viên Cũ', 'Học Viên Mới', 'Tổng học phí', 'Tổng thực thu');
 			foreach ($report as $value) {
 				?>
 				<th <?php if ($value == 'Tổng') echo 'style="background-color: #1e5f24"'?>>
@@ -96,7 +96,7 @@
 				</th>
 			<?php } ?>
 			<th style="background-color: #50629d"> Tổng học phí </th>
-			<th style="background-color: #1e5f24"> Tổng </th>
+			<th style="background-color: #1e5f24"> Tổng thực thu </th>
 		</tr>
 	</thead>
 
@@ -109,6 +109,7 @@
 			<tr>
 				<td style="background-color: #8aa6c1"><?php echo $value['branch_name']?></td>
 			<?php
+				$total_fee += $value['fee'];
 				$total_re = 0;
 				$total_re_new = 0;
 				$total_re_old = 0;
@@ -117,7 +118,7 @@
 					$total_re_old += $value[$item['id']]['re_old'];
 					$total_re += $value[$item['id']]['re_new'] + $value[$item['id']]['re_old'];
 					$total_all += $value[$item['id']]['re_new'] + $value[$item['id']]['re_old'];
-					$total_fee += $value[$item['id']]['fee'];
+					
 					?>
 						<td>
 							<?php echo number_format($value[$item['id']]['re_old'], 0, ",", "."); ?>
@@ -130,7 +131,7 @@
 
 				<td style="background-color: #b4cc46e6;"><?php echo number_format($total_re_old, 0, ",", ".") . " VNĐ";?></td>
 				<td style="background-color: #b4cc46e6;"><?php echo number_format($total_re_new, 0, ",", ".") . " VNĐ";?></td>
-				<td style="background-color: #b4cc46e6;"><?php echo number_format($value[$item['id']]['fee'], 0, ",", ".") . " VNĐ";?></td>
+				<td style="background-color: #b4cc46e6;"><?php echo number_format($value['fee'], 0, ",", ".") . " VNĐ";?></td>
 				<td style="background-color: #b4cc46e6;"><?php echo number_format($total_re, 0, ",", ".") . " VNĐ";?></td>
 			</tr>
 		<?php } ?>
