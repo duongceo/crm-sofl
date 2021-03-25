@@ -138,9 +138,9 @@ class Common extends MY_Controller {
                 'paid_today' => 'edit',
                 'complete_fee' => 'edit',
                 'date_paid' => 'edit',
+				'payment_method_rgt' => 'edit',
             );
             $right_edit = array(
-                'payment_method_rgt' => 'edit',
                 'call_stt' => 'edit',
                 'level_contact' => 'edit',
 				'level_student' => 'edit',
@@ -1084,7 +1084,7 @@ class Common extends MY_Controller {
         }
 		
 		if ($level_student != '') {
-			if (!in_array($level_contact_id, array('L5', 'L5.1', 'L5.2', 'L5.3')) || $call_status_id != _DA_LIEN_LAC_DUOC_) {
+			if (!in_array($level_contact_id, array('L5', 'L5.1', 'L5.2', 'L5.3', 'L5.4')) || $call_status_id != _DA_LIEN_LAC_DUOC_) {
 				return false;
 			}
 		}
