@@ -157,19 +157,19 @@ class Marketing extends MY_Controller {
 		if (isset($get['tic_report'])) {
 			$typeReport = array(
 				'C3' => array(
-					'where' => array('is_hide' => '0', 'is_old' => '0', 'duplicate_id' => '0', 'call_status_id NOT IN (1, 3)' => 'NO-VALUE', 'source_id IN (1, 2, 8)' => 'NO-VALUE', 'date_rgt >=' => $date_from, 'date_rgt <=' => $date_end),
+					'where' => array('is_hide' => '0', 'is_old' => '0', 'duplicate_id' => '0', 'call_status_id NOT IN (1, 3)' => 'NO-VALUE', 'date_rgt >=' => $date_from, 'date_rgt <=' => $date_end),
 				),
 				'L5' => array(
-					'where' => array('is_hide' => '0', 'is_old' => '0', 'source_id IN (1, 2, 6, 8)' => 'NO-VALUE', 'level_contact_id' => 'L5', 'date_rgt >=' => $date_from, 'date_rgt <=' => $date_end),
+					'where' => array('is_hide' => '0', 'is_old' => '0', 'level_contact_id' => 'L5', 'date_rgt >=' => $date_from, 'date_rgt <=' => $date_end),
 				),
 			);
 		} else {
 			$typeReport = array(
 				'C3' => array(
-					'where' => array('is_hide' => '0', 'is_old' => '0', 'duplicate_id' => '0', 'call_status_id NOT IN (1, 3)' => 'NO-VALUE', 'source_id IN (1, 2, 8)' => 'NO-VALUE', 'date_rgt >=' => $date_from, 'date_rgt <=' => $date_end),
+					'where' => array('is_hide' => '0', 'is_old' => '0', 'duplicate_id' => '0', 'call_status_id NOT IN (1, 3)' => 'NO-VALUE', 'date_rgt >=' => $date_from, 'date_rgt <=' => $date_end),
 				),
 				'L5' => array(
-					'where' => array('is_hide' => '0', 'is_old' => '0', 'source_id IN (1, 2, 6, 8)' => 'NO-VALUE', 'level_contact_id' => 'L5', 'date_rgt_study >=' => $date_from, 'date_rgt_study <=' => $date_end),
+					'where' => array('is_hide' => '0', 'is_old' => '0', 'level_contact_id' => 'L5', 'date_rgt_study >=' => $date_from, 'date_rgt_study <=' => $date_end),
 				),
 			);
 		}
@@ -180,6 +180,7 @@ class Marketing extends MY_Controller {
 		foreach ($language as $v_language) {
 			foreach ($typeReport as $report_type => $value) {
 				$condition = array('where' => array_merge($value['where'], array('language_id' => $v_language['id'])));
+				$condition['where_in']['source_id'] = array(1, 2, 8);
 				$Report[$v_language['id']][$report_type] = $this->_query_for_report($get, $condition);
 			}
 		}
