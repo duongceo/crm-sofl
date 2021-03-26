@@ -31,7 +31,7 @@
 			<th style="background: none" rowspan="2"></th>
 			<th rowspan="2">Tiền Mặt</th>
 			<th rowspan="2">Quẹt thẻ</th>
-			<th style="background-color: #1e5f24" colspan="<?php echo count($account_banking)?>">Chuyển khoản</th>
+			<th style="background-color: #1e5f24" colspan="<?php echo count($account_banking) + 1;?>">Chuyển khoản</th>
 		</tr>
 		<tr>
 			<?php foreach ($account_banking as $item) { ?>
@@ -39,6 +39,7 @@
 					<?php echo $item['bank'];?>
 				</th>
 			<?php } ?>
+			<th style="background-color: #3e5f5f">Tổng CK</th>
 		</tr>
 	</thead>
 
@@ -53,11 +54,13 @@
 				if ($value_payment['id'] == 4) {
 					foreach ($account_banking as $account) { ?>
 						<td>
-						<?php echo number_format($value[$value_payment['id']][$account['id']]['re_total'], 0, ",", "."); ?>
+						<?php echo number_format($value[$value_payment['id']][$account['bank']]['re_total'], 0, ",", "."); ?>
 						</td>
-				<?php
-					}
-				} else { ?>
+					<?php } ?>
+						<td>
+							<?php echo number_format($value[$value_payment['id']]['re_total'], 0, ",", "."); ?>
+						</td>
+				<?php } else { ?>
 					<td>
 						<?php echo number_format($value[$value_payment['id']]['re_total'], 0, ",", "."); ?>
 					</td>
