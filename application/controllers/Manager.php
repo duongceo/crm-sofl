@@ -1458,6 +1458,9 @@ class Manager extends MY_Controller {
 				if (isset($get['filter_language_id'])) {
 					$input_re['where_in']['language_id'] = $get['filter_language_id'];
 				}
+				
+				$re[$v_branch['id']]['branch_name'] = $v_branch['name'];
+				$re[$v_branch['id']][$v_payment['id']]['re_total'] = (int) $this->paid_model->load_all($input_re)[0]['paiding'];
 
 				if ($v_payment['id'] == 4) {
 					foreach ($data['account_banking'] as $account) {
@@ -1465,9 +1468,6 @@ class Manager extends MY_Controller {
 						$re[$v_branch['id']][$v_payment['id']][$account['bank']]['re_total'] = (int) $this->paid_model->load_all($input_re)[0]['paiding'];
 					}
 				}
-
-				$re[$v_branch['id']]['branch_name'] = $v_branch['name'];
-				$re[$v_branch['id']][$v_payment['id']]['re_total'] = (int) $this->paid_model->load_all($input_re)[0]['paiding'];
 			}
 		}
 
