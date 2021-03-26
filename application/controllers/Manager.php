@@ -1426,6 +1426,7 @@ class Manager extends MY_Controller {
 				'where' => array('active' => 1)
 			),
 			'language_study' => array(),
+			'account_banking' => array()
 		);
 		$data = array_merge($this->data, $this->_get_require_data($require_model));
 
@@ -1456,6 +1457,13 @@ class Manager extends MY_Controller {
 				);
 				if (isset($get['filter_language_id'])) {
 					$input_re['where_in']['language_id'] = $get['filter_language_id'];
+				}
+
+				if ($v_payment['id'] == 4) {
+					foreach ($data['account_banking'] as $account) {
+						$input_re['where']['account_banking_id'] = $account['id'];
+						$re[$v_branch['id']][$v_payment['id']][$account['bank']]['re_total'] = (int) $this->paid_model->load_all($input_re)[0]['paiding'];
+					}
 				}
 
 				$re[$v_branch['id']]['branch_name'] = $v_branch['name'];

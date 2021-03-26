@@ -16,14 +16,30 @@
 
 <table class="table table-bordered table-striped view_report">
 	<thead>
-	<tr>
-		<th style="background: none"></th>
-		<?php foreach ($payment_method_rgt as $value) { ?>
-			<th>
-				<?php echo $value['method']; ?>
-			</th>
-		<?php } ?>
-	</tr>
+<!--	<tr>-->
+<!--		<th style="background: none"></th>-->
+<!--		--><?php //foreach ($payment_method_rgt as $value) { ?>
+<!--			--><?php //if ($value['id'] == 4) { ?>
+<!--				<th colspan="--><?php //echo count($account_banking)?><!--">--><?php //echo $value['method']?><!--</th>-->
+<!--			--><?php //} ?>
+<!--			<th>-->
+<!--				--><?php //echo $value['method']; ?>
+<!--			</th>-->
+<!--		--><?php //} ?>
+<!--	</tr>-->
+		<tr>
+			<th style="background: none" rowspan="2"></th>
+			<th rowspan="2">Tiền Mặt</th>
+			<th rowspan="2">Quẹt thẻ</th>
+			<th style="background-color: #1e5f24" colspan="<?php echo count($account_banking)?>">Chuyển khoản</th>
+		</tr>
+		<tr>
+			<?php foreach ($account_banking as $item) { ?>
+				<th style="background-color: #1e5f24">
+					<?php echo $item['bank'];?>
+				</th>
+			<?php } ?>
+		</tr>
 	</thead>
 
 	<tbody>
@@ -33,9 +49,19 @@
 			<?php echo $value['branch_name']; ?>
 		</td>
 			<?php foreach ($payment_method_rgt as $value_payment) { ?>
-				<td>
-					<?php echo number_format($value[$value_payment['id']]['re_total'], 0, ",", "."); ?>
-				</td>
+				<?php
+				if ($value_payment['id'] == 4) {
+					foreach ($account_banking as $account) { ?>
+						<td>
+						<?php echo number_format($value[$value_payment['id']][$account['id']]['re_total'], 0, ",", "."); ?>
+						</td>
+				<?php
+					}
+				} else { ?>
+					<td>
+						<?php echo number_format($value[$value_payment['id']]['re_total'], 0, ",", "."); ?>
+					</td>
+				<?php } ?>
 			<?php } ?>
 		</tr>
 	<?php } ?>
