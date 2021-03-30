@@ -454,16 +454,15 @@ class MY_Controller extends CI_Controller {
 
         $result['data'] = $this->contacts_model->load_all($input);
 
-/*
+		$this->load->model('paid_model');
 		foreach ($result['data'] as &$item) {
-			$input_paid_log = array();
-			$input_paid_log['select'] = 'SUM(paid) as paiding';
-			$input_paid_log['where'] = array('contact_id' => $item['id']);
-			$this->load->model('paid_model');
-			$item['paid'] = $this->paid_model->load_all_paid_log($input_paid_log)[0]['paiding'];
+			$input_paid = array();
+			$input_paid['select'] = 'SUM(paid) as paiding';
+			$input_paid['where'] = array('contact_id' => $item['id']);
+			$item['paid'] = $this->paid_model->load_all($input_paid)[0]['paiding'];
 		}
 		unset($item);
-		*/
+		
 //		print_arr($result['data']);
         // echoQuery();
 

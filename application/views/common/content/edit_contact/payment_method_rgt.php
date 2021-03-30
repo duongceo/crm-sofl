@@ -12,5 +12,5 @@
 </tr>
 
 <tr class="ajax_payment_method_rgt">
-
+	<td></td>
 </tr>
