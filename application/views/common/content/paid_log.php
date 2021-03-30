@@ -40,6 +40,14 @@
 
 			</th>
 
+			<th>
+				Nguồn thu
+			</th>
+
+			<th>
+				Hình thức thanh toán
+			</th>
+
 		</tr>
 
 	</thead>
@@ -90,6 +98,14 @@
 
 					<?php echo ($value_paid_log['student_old'] == 1) ? 'Cũ' : 'Mới';?>
 
+				</td>
+
+				<td class="text-center">
+					<?php echo $value_paid_log['source_revenue_name']?>
+				</td>
+
+				<td class="text-center">
+					<?php echo $value_paid_log['payment_method_name']?>
 				</td>
 
 			</tr>

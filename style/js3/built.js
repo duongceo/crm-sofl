@@ -2628,7 +2628,7 @@ $(document).on('show.bs.modal', '.modal', function () {
     $(".reset_datepicker").click(function (e) {
         e.preventDefault();
         $(".datepicker").val("");
-        $(".datetimepicker").val('');
+		$(this).parent().parent().find(".datetimepicker").val('');
     });
     $('.datetimepicker').datetimepicker({
 		format: 'DD-MM-YYYY HH:mm'
@@ -3275,38 +3275,24 @@ $(document).on('change', '[name="add_role_id"]', function () {
 	});
 });
 
-$(document).on('change', '[name="add_branch_id"]',  function () {
+$(document).on('change', '[name="add_branch_id"], [name="add_language_id"]', function () {
 	var item_id = $(this).val();
+	var type_data = $(this).attr("type");
 	// console.log(item_id);return false;
 	$.ajax({
 		url: $('#base_url').val() + 'staff_managers/class_study/get_data_ajax',
 		type: "POST",
 		data: {
-			branch_id: item_id,
+			data_id: item_id,
+			type: type_data
 		},
 
 		success: function (data) {
-			$(".ajax_class_study").html(data);
-		},
-
-		complete: function () {
-			$('.selectpicker').selectpicker({});
-		}
-	});
-});
-
-$(document).on('change', '[name="add_language_id"]',  function () {
-	var item_id = $(this).val();
-	// console.log(item_id);return false;
-	$.ajax({
-		url: $('#base_url').val() + 'staff_managers/class_study/get_data_ajax',
-		type: "POST",
-		data: {
-			language_id: item_id,
-		},
-
-		success: function (data) {
-			$(".ajax_level_language").html(data);
+			if (type_data == 'branch') {
+				$(".ajax_class_study").html(data);
+			} else if (type_data == 'language') {
+				$(".ajax_level_language").html(data);
+			}
 		},
 
 		complete: function () {

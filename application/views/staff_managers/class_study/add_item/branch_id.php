@@ -5,7 +5,7 @@
 
 	<td>
 
-		<select class="form-control selectpicker" name="add_branch_id">
+		<select class="form-control selectpicker" type="branch" name="add_branch_id">
 
 			<option value=""> Chọn cơ sở</option>
 

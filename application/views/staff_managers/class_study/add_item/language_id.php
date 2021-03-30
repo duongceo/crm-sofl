@@ -5,7 +5,7 @@
 
 	<td>
 
-		<select class="form-control select_course_code selectpicker" name="add_language_id">
+		<select class="form-control selectpicker" type="language" name="add_language_id">
 
 			<option value="0"> Ngoại ngữ</option>
 

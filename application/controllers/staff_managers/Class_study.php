@@ -554,23 +554,23 @@ class Class_study extends MY_Table {
 
 	 public function get_data_ajax() {
 		 $post = $this->input->post();
-		 $key = array_keys($post);
-		 if ($key[0] == 'branch_id') {
+
+		 if ($post['type'] == 'branch') {
 			 $this->load->model('classroom_model');
 			 $input['where'] = array(
-				 'branch_id' => $post['branch_id']
+				 'branch_id' => $post['data_id']
 			 );
 
-			 $data= $this->classroom_model->load_all($input);
+			 $data = $this->classroom_model->load_all($input);
 			 $title = 'Phòng học';
 			 $name = 'add_classroom_id';
-		 } elseif ($key[0] == 'language_id') {
+		 } elseif ($post['type'] == 'language') {
 			 $this->load->model('level_language_model');
 			 $input['where'] = array(
-				 'language_id' => $post['language_id']
+				 'language_id' => $post['data_id']
 			 );
 
-			 $data= $this->level_language_model->load_all($input);
+			 $data = $this->level_language_model->load_all($input);
 			 $title = 'Trình độ';
 			 $name = 'add_level_language_id';
 		 }
@@ -585,9 +585,9 @@ class Class_study extends MY_Table {
 					 $context .= '<option value="">'.$title.'</option>';
 
 					 foreach ($data as $value) {
-						 if ($key[0] == 'branch_id') {
+						 if ($post['type'] == 'branch') {
 							 $context .= "<option value='{$value['classroom_id']}'> {$value['classroom_id']} </option>";
-						 } elseif ($key[0] == 'language_id') {
+						 } elseif ($post['type'] == 'language') {
 							 $context .= "<option value='{$value['id']}'> {$value['name']} </option>";
 						 }
 					 }

@@ -95,7 +95,6 @@
 					<?php echo $value; ?>
 				</th>
 			<?php } ?>
-			<th style="background-color: #50629d"> Tổng học phí </th>
 			<th style="background-color: #1e5f24"> Tổng thực thu </th>
 		</tr>
 	</thead>
@@ -103,13 +102,11 @@
 	<tbody>
 		<?php
 		$total_all = 0;
-		$total_fee = 0;
 		foreach ($re as $key => $value) {
 			?>
 			<tr>
 				<td style="background-color: #8aa6c1"><?php echo $value['branch_name']?></td>
 			<?php
-				$total_fee += $value['fee'];
 				$total_re = 0;
 				$total_re_new = 0;
 				$total_re_old = 0;
@@ -131,7 +128,6 @@
 
 				<td style="background-color: #b4cc46e6;"><?php echo number_format($total_re_old, 0, ",", ".") . " VNĐ";?></td>
 				<td style="background-color: #b4cc46e6;"><?php echo number_format($total_re_new, 0, ",", ".") . " VNĐ";?></td>
-				<td style="background-color: #b4cc46e6;"><?php echo number_format($value['fee'], 0, ",", ".") . " VNĐ";?></td>
 				<td style="background-color: #b4cc46e6;"><?php echo number_format($total_re, 0, ",", ".") . " VNĐ";?></td>
 			</tr>
 		<?php } ?>
@@ -148,10 +144,8 @@
 				<td> <h5> <?php echo number_format($item['total_re_old'], 0, ",", ".") . " VNĐ"; ?></h5></td>
 				<td> <h5> <?php echo number_format($item['total_re_new'], 0, ",", ".") . " VNĐ"; ?></h5></td>
 			<?php } ?>
-
 			<td> <h5> <?php echo number_format($total_re_old, 0, ",", ".") . " VNĐ"; ?></h5></td>
 			<td> <h5> <?php echo number_format($total_re_new, 0, ",", ".") . " VNĐ"; ?></h5></td>
-			<td> <h5> <?php echo number_format($total_fee, 0, ",", ".") . " VNĐ"; ?></h5></td>
 			<td> <h5> <?php echo number_format($total_all, 0, ",", ".") . " VNĐ"; ?></h5></td>
 		</tr>
 	</tbody>

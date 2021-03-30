@@ -125,7 +125,7 @@ class Common extends MY_Controller {
             $left_edit = array(
 //                'contact_id' => 'view',
                 'name' => 'edit',
-                'email' => 'edit',
+//                'email' => 'edit',
                 'phone' => 'edit',
                 'phone_foreign' => 'edit',
 				'branch' => 'edit',
@@ -193,7 +193,7 @@ class Common extends MY_Controller {
             $left_edit = array(
                 'contact_id' => 'view',
                 'name' => 'view',
-                'email' => 'view',
+//                'email' => 'view',
                 'phone' => 'view',
 				'branch' => 'view',
 				'language' => 'view',
@@ -538,7 +538,7 @@ class Common extends MY_Controller {
             $post = $this->input->post();
 //			print_arr($post);
             $param = array();
-            $post_arr = array('name', 'email', 'phone', 'phone_foreign', 'branch_id', 'language_id', 'class_study_id', 'level_language_id', 'payment_method_rgt', 'call_status_id', 'is_old', 'complete_fee');
+            $post_arr = array('name', 'phone', 'phone_foreign', 'branch_id', 'language_id', 'class_study_id', 'level_language_id', 'payment_method_rgt', 'call_status_id', 'is_old', 'complete_fee');
 
             foreach ($post_arr as $value) {
                 if (isset($post[$value])) {
@@ -550,8 +550,6 @@ class Common extends MY_Controller {
 				$param['fee'] = str_replace(',', '', $post['fee']);
 			}
 
-//			print_arr($post);
-			
 			if ($this->role_id == 12) {
 				if ($param['branch_id'] == 0 || $param['language_id'] == 0) {
 					$result['success'] = 0;
@@ -739,7 +737,7 @@ class Common extends MY_Controller {
             }
 
 			if ($post['paid_today'] != 0) {
-				$param3 = array(
+				$param_paid = array(
 					'paid' => $post['paid_today'],
 					'time_created' => $param['date_paid'],
 					'language_id' => $post['language_id'],
@@ -749,20 +747,52 @@ class Common extends MY_Controller {
 					'source_id' => $rows[0]['source_id'],
 					'payment_method_id' => $post['payment_method_rgt'],
 					'account_banking_id' => (isset($post['account_banking_id'])) ? $post['account_banking_id'] : 0,
+					'source_revenue_id' => 1,
 				);
 
 				$this->load->model('paid_model');
 				$input_paid['where'] = array(
 					'contact_id' => $id,
+					'source_revenue_id' => 1,
 					'time_created >=' => strtotime(date('d-m-Y'))
 				);
 				$paid = $this->paid_model->load_all($input_paid);
 
 				if (empty($paid)) {
-					$param3['contact_id'] = $id;
-					$this->paid_model->insert($param3);
+					$param_paid['contact_id'] = $id;
+					$this->paid_model->insert($param_paid);
 				} else {
-					$this->paid_model->update($input_paid['where'], $param3);
+					$this->paid_model->update($input_paid['where'], $param_paid);
+				}
+			}
+
+			if ($post['paid_book'] != 0) {
+				$param_paid_book = array(
+					'paid' => str_replace(',', '', $post['paid_book']),
+					'time_created' => strtotime($post['date_paid_book']),
+					'language_id' => $post['language_id'],
+					'branch_id' => $post['branch_id'],
+					'day' => date('Y-m-d', strtotime($post['date_paid_book'])),
+					'student_old' => $post['is_old'],
+					'source_id' => $rows[0]['source_id'],
+					'payment_method_id' => $post['payment_method_rgt'],
+					'account_banking_id' => (isset($post['account_banking_id'])) ? $post['account_banking_id'] : 0,
+					'source_revenue_id' => 2,
+				);
+
+				$this->load->model('paid_model');
+				$input_paid['where'] = array(
+					'contact_id' => $id,
+					'source_revenue_id' => 2,
+					'time_created >=' => strtotime(date('d-m-Y'))
+				);
+				$paid = $this->paid_model->load_all($input_paid);
+
+				if (empty($paid)) {
+					$param_paid_book['contact_id'] = $id;
+					$this->paid_model->insert($param_paid_book);
+				} else {
+					$this->paid_model->update($input_paid['where'], $param_paid_book);
 				}
 			}
 

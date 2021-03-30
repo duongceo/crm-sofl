@@ -8,7 +8,7 @@
 
             <label for="price-purchase" class="sr-only">Học Phí</label>
 
-            <input type="text" class="form-control edit-contact-price-purchase money" value="<?php echo $rows['fee']; ?>" name="fee"/>
+            <input type="text" class="form-control money" value="<?php echo $rows['fee']; ?>" name="fee"/>
 
         </div>
 
