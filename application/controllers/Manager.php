@@ -1341,7 +1341,7 @@ class Manager extends MY_Controller {
 		$input_re['where'] = array(
 			'time_created >=' => $date_from,
 			'time_created <=' => $date_end,
-			'source_revenue_id' => 1
+			'source_revenue_id !=' => 2
 		);
 		if (isset($get['filter_source_revenue_id']) && $get['filter_source_revenue_id'] != '') {
 			unset($input_re['where']['source_revenue_id']);
@@ -1390,7 +1390,7 @@ class Manager extends MY_Controller {
 					'time_created <=' => $date_end,
 					'language_id' => $v_language['id'],
 					'branch_id' => $v_branch['id'],
-					'source_revenue_id' => 1
+					'source_revenue_id !=' => 2
 				);
 
 				if (isset($get['filter_source_revenue_id']) && $get['filter_source_revenue_id'] != '') {

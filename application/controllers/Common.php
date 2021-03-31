@@ -378,7 +378,7 @@ class Common extends MY_Controller {
 
 		$input_paid_log = array();
 		$input_paid_log['select'] = 'SUM(paid) as paiding';
-		$input_paid_log['where'] = array('contact_id' => $id);
+		$input_paid_log['where'] = array('contact_id' => $id, 'source_revenue_id !=' => 2);
 //		$input_paid_log['order'] = array('time_created' => 'ASC');
 		$this->load->model('paid_model');
 		$paid = $this->paid_model->load_all($input_paid_log);
@@ -736,7 +736,7 @@ class Common extends MY_Controller {
                 $this->notes_model->insert($param2);
             }
 
-			if ($post['paid_today'] != '') {
+			if ($post['paid_today'] != 0) {
 				$param_paid = array(
 					'paid' => $post['paid_today'],
 					'time_created' => $param['date_paid'],
@@ -766,7 +766,7 @@ class Common extends MY_Controller {
 				}
 			}
 
-			if ($post['paid_book'] != 0) {
+			if ($post['paid_book'] != '') {
 				$param_paid_book = array(
 					'paid' => str_replace(',', '', $post['paid_book']),
 					'time_created' => strtotime($post['date_paid_book']),
