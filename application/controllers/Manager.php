@@ -2257,7 +2257,7 @@ class Manager extends MY_Controller {
 			$input_re['select'] = 'SUM(paid) AS RE';
 			$input_re['where'] = array(
 				'language_id' => $value['id'],
-				'paid !=' => 0,
+				'source_revenue_id' => 1,
 				'time_created >=' => strtotime(date('d-m-Y'))
 			);
 			$input_re_new = array_merge_recursive(array('where' => array('student_old' => '0')), $input_re);
@@ -2331,8 +2331,8 @@ class Manager extends MY_Controller {
 			$input_re['select'] = 'SUM(paid) AS RE';
 			$input_re['where'] = array(
 				'language_id' => $value['id'],
-				'paid !=' => 0,
-					'time_created >=' => strtotime(date('01-m-Y'))
+				'source_revenue_id' => 1,
+				'time_created >=' => strtotime(date('01-m-Y'))
 			);
 			$input_re_new = array_merge_recursive(array('where' => array('student_old' => '0')), $input_re);
 			$input_re_old = array_merge_recursive(array('where' => array('student_old' => 1)), $input_re);

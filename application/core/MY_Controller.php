@@ -1309,6 +1309,7 @@ class MY_Controller extends CI_Controller {
 			$input_re['select'] = 'SUM(paid) AS RE';
 			$input_re['where'] = array(
 				'language_id' => $value['id'],
+				'source_revenue_id' => 1,
 				'time_created >=' => strtotime(date('d-m-Y'))
 			);
 			
@@ -1346,7 +1347,7 @@ class MY_Controller extends CI_Controller {
 			$input_re['select'] = 'SUM(paid) AS RE';
 			$input_re['where'] = array(
 				'language_id' => $value['id'],
-				'paid !=' => 0,
+				'source_revenue_id' => 1,
 				'time_created >=' => strtotime(date('01-m-Y'))
 			);
 			
