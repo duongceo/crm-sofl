@@ -18,7 +18,7 @@
 
 		<div class="collapse" id="paid_source_book">
 			<div class="input-group">
-				<input type="text" class="form-control money" value="0" name="paid_book"/>
+				<input type="text" class="form-control money" placeholder="Tiền mua sách" value="" name="paid_book"/>
 			</div>
 			<div class="input-group">
 				<input type="text" class="form-control datetimepicker" placeholder="Ngày mua sách" name="date_paid_book"/>

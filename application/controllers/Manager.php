@@ -1318,6 +1318,7 @@ class Manager extends MY_Controller {
 					'no_report' => '0'
 				)
 			),
+			'source_revenue' => array()
 		);
 		$data = array_merge($this->data, $this->_get_require_data($require_model));
 
@@ -1340,7 +1341,12 @@ class Manager extends MY_Controller {
 		$input_re['where'] = array(
 			'time_created >=' => $date_from,
 			'time_created <=' => $date_end,
+			'source_revenue_id' => 1
 		);
+		if (isset($get['filter_source_revenue_id']) && $get['filter_source_revenue_id'] != '') {
+			unset($input_re['where']['source_revenue_id']);
+			$input_re['where_in']['source_revenue_id'] = $get['filter_source_revenue_id'];
+		}
 		
 		$input_source['where'] = array('out_report' => '1');
 		$this->load->model('sources_model');
@@ -1383,8 +1389,14 @@ class Manager extends MY_Controller {
 					'time_created >=' => $date_from,
 					'time_created <=' => $date_end,
 					'language_id' => $v_language['id'],
-					'branch_id' => $v_branch['id']
+					'branch_id' => $v_branch['id'],
+					'source_revenue_id' => 1
 				);
+
+				if (isset($get['filter_source_revenue_id']) && $get['filter_source_revenue_id'] != '') {
+					unset($input_re['where']['source_revenue_id']);
+					$input_re['where_in']['source_revenue_id'] = $get['filter_source_revenue_id'];
+				}
 
 				$input_re_new = array_merge_recursive(array('where' => array('student_old' => '0')), $input_re);
 				$input_re_old = array_merge_recursive(array('where' => array('student_old' => '1')), $input_re);
@@ -1410,7 +1422,7 @@ class Manager extends MY_Controller {
 		$data['startDate'] = $date_from;
 		$data['endDate'] = $date_end;
 
-		$data['left_col'] = array('date_happen_1');
+		$data['left_col'] = array('date_happen_1', 'source_revenue');
         $data['content'] = 'manager/view_report_revenue';
         $this->load->view(_MAIN_LAYOUT_, $data);
     }

@@ -736,7 +736,7 @@ class Common extends MY_Controller {
                 $this->notes_model->insert($param2);
             }
 
-			if ($post['paid_today'] != 0) {
+			if ($post['paid_today'] != '') {
 				$param_paid = array(
 					'paid' => $post['paid_today'],
 					'time_created' => $param['date_paid'],
