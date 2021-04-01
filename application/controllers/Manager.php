@@ -1676,8 +1676,7 @@ class Manager extends MY_Controller {
 		if (isset($get['tic_report']) && !empty($get['tic_report'])) {
 			$conditionArr = array(
 				'L1' => array(
-					'where' => array('duplicate_id' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate, 'is_hide' => '0', 'is_old' => '0',
-						'call_status_id NOT IN (1, 3)' => 'NO-VALUE'),
+					'where' => array('duplicate_id' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate, 'is_hide' => '0', 'is_old' => '0', 'call_status_id NOT IN (1, 3)' => 'NO-VALUE'),
 					'sum' => 0
 				),
 				'L2' => array(
@@ -1700,8 +1699,7 @@ class Manager extends MY_Controller {
 		} else {
 			$conditionArr = array(
 				'L1' => array(
-					'where' => array('duplicate_id' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate, 'is_hide' => '0', 'is_old' => '0',
-						'call_status_id NOT IN (1, 3)' => 'NO-VALUE'),
+					'where' => array('is_hide' => '0', 'is_old' => '0', 'duplicate_id' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate, 'call_status_id NOT IN (1, 3)' => 'NO-VALUE'),
 					'sum' => 0
 				),
 				'L2' => array(
