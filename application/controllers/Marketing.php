@@ -181,7 +181,7 @@ class Marketing extends MY_Controller {
 			foreach ($typeReport as $report_type => $value) {
 				$condition = array('where' => array_merge($value['where'], array('language_id' => $v_language['id'])));
 				$condition['where_in']['source_id'] = array(1, 2, 8);
-				$condition['where_not_in']['sale_staff_id'] = array(5);
+				$condition['where_not_in']['sale_staff_id'] = array(5, 18);
 				if ($report_type == 'L5') {
 					$condition['where_in']['source_id'] = array_merge($condition['where_in']['source_id'], array(6));
 				}
