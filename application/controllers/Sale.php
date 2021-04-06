@@ -717,7 +717,8 @@ class Sale extends MY_Controller {
 						'student_old' => $input['is_old'],
 						'source_id' => $input['source_id'],
 						'payment_method_id' => $input['payment_method_rgt'],
-						'account_banking_id' => $input['account_banking_id']
+//						'account_banking_id' => $input['account_banking_id'],
+						'source_revenue_id' => 1
 					);
 					//print_arr($param2);
 					$this->load->model('paid_model');
