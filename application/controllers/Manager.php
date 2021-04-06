@@ -1230,11 +1230,11 @@ class Manager extends MY_Controller {
                 $staffs[$key_staff][$key2] = $this->_query_for_report($get, $conditional);
                 //$conditionArr_staff[$key2]['sum'] += $staffs[$key][$key2];
 				$temp_sale += $staffs[$key_staff][$key2]; 
-				$data[$key2] = $temp_sale;
-
+				
 				if ($value_staff['out_report'] == 1) { // ko tính contact này vào tổng
-					$data[$key2] = $data[$key2] - $staffs[$key_staff][$key2];
+					$temp_sale = $temp_sale - $staffs[$key_staff][$key2];
 				}
+				$data[$key2] = $temp_sale;
 
 				$staffs[$key_staff]['RE'] = $this->get_re($conditional_1, $startDate, $endDate);
 				//$data['RE'] += $staffs[$key_staff]['RE'];
@@ -1248,7 +1248,8 @@ class Manager extends MY_Controller {
 					$conditional['where']['language_id'] = $value_language['id'];
 					//$conditional['where_not_in']['source_id'] = array_merge($source_arr, array(3));
 					$conditional['where_not_in']['sale_staff_id'] = array(5, 18);
-					if ($key2 == 'NHAN' && empty($get['tic_report'])) {
+					
+					if ($key2 == 'NHAN' && !isset($get['tic_report'])) {
 						unset($value2['where']['date_handover >='], $value2['where']['date_handover <=']);
 						$value2['where']['date_rgt >='] = $startDate;
 						$value2['where']['date_rgt <='] = $endDate;
@@ -1262,7 +1263,6 @@ class Manager extends MY_Controller {
 					$data[$key2 . '_L'] = $temp_language;
 				}
 			}
-
         }
 		
 		$total_re = 0;
