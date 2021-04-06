@@ -1218,9 +1218,9 @@ class Manager extends MY_Controller {
 		$input_contact['where']['date_paid >='] = $startDate;
 		$input_contact['where']['date_paid <='] = $endDate;
 		$input_contact['where']['level_contact_id'] = 'L5';
-
-		$temp_sale = 0;
+		
 		foreach ($conditionArr as $key2 => $value2) {
+			$temp_sale = 0;
         	foreach ($staffs as $key_staff => $value_staff) {
 				$conditional_1 = array();
 				$conditional_1['where']['sale_staff_id'] = $value_staff['id'];
