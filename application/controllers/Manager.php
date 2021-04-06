@@ -1246,7 +1246,7 @@ class Manager extends MY_Controller {
 				foreach ($language as $key_language => $value_language) {
 					$conditional = array();
 					$conditional['where']['language_id'] = $value_language['id'];
-					$conditional['where_not_in']['source_id'] = array_merge($source_arr, array(3));
+					//$conditional['where_not_in']['source_id'] = array_merge($source_arr, array(3));
 					$conditional['where_not_in']['sale_staff_id'] = array(5, 18);
 					if ($key2 == 'NHAN' && empty($get['tic_report'])) {
 						unset($value2['where']['date_handover >='], $value2['where']['date_handover <=']);
