@@ -157,7 +157,7 @@ class Marketing extends MY_Controller {
 		if (isset($get['tic_report'])) {
 			$typeReport = array(
 				'C3' => array(
-					'where' => array('is_hide' => '0', 'is_old' => '0', 'duplicate_id' => '0', 'call_status_id NOT IN (1, 3)' => 'NO-VALUE', 'level_contact_detail NOT IN ("L1.1", "L1.2", "L1.3")' => 'NO-VALUE', 'date_rgt >=' => $date_from, 'date_rgt <=' => $date_end),
+					'where' => array('is_hide' => '0', 'is_old' => '0', 'duplicate_id' => '0', 'call_status_id NOT IN (1, 3, 5)' => 'NO-VALUE', 'level_contact_detail NOT IN ("L1.1", "L1.2", "L1.3")' => 'NO-VALUE', 'date_rgt >=' => $date_from, 'date_rgt <=' => $date_end),
 				),
 				'L5' => array(
 					'where' => array('is_hide' => '0', 'is_old' => '0', 'level_contact_id' => 'L5', 'date_rgt >=' => $date_from, 'date_rgt <=' => $date_end),
@@ -166,7 +166,7 @@ class Marketing extends MY_Controller {
 		} else {
 			$typeReport = array(
 				'C3' => array(
-					'where' => array('is_hide' => '0', 'is_old' => '0', 'duplicate_id' => '0', 'call_status_id NOT IN (1, 3)' => 'NO-VALUE', 'level_contact_detail NOT IN ("L1.1", "L1.2", "L1.3")' => 'NO-VALUE', 'date_rgt >=' => $date_from, 'date_rgt <=' => $date_end),
+					'where' => array('is_hide' => '0', 'is_old' => '0', 'duplicate_id' => '0', 'call_status_id NOT IN (1, 3, 5)' => 'NO-VALUE', 'level_contact_detail NOT IN ("L1.1", "L1.2", "L1.3")' => 'NO-VALUE', 'date_rgt >=' => $date_from, 'date_rgt <=' => $date_end),
 				),
 				'L5' => array(
 					'where' => array('is_hide' => '0', 'is_old' => '0', 'level_contact_id' => 'L5', 'date_rgt_study >=' => $date_from, 'date_rgt_study <=' => $date_end),
