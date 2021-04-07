@@ -103,42 +103,62 @@
         </div>
 
     <ul class="list-unstyled components">
-        <li>
-            <a href="<?php echo base_url(); ?>">
-                <img src="<?php echo base_url(); ?>public/images/new.png"> 
-                <span> Danh sách contact mới  (<?php echo $this->L['L1'];?>) </span>
-            </a>
-        </li>
+		<li>
+			<a href="#submenu" data-toggle="collapse" aria-expanded="false">
+				<img src="<?php echo base_url(); ?>public/images/view-all.png">
+				<span>Danh sách contact</span>
+			</a>
+			<ul class="collapse list-unstyled" id="submenu">
+				<li>
+					<a href="<?php echo base_url(); ?>">
+						<img src="<?php echo base_url(); ?>public/images/new.png">
+						<span> Danh sách contact mới (<?php echo $this->L['L1'];?>) </span>
+					</a>
+				</li>
 
-        <li>
-            <a href="<?php echo base_url('tu-van-tuyen-sinh/contact-con-cuu-duoc.html'); ?>">
+				<li>
+					<a href="<?php echo base_url('tu-van-tuyen-sinh/contact-con-cuu-duoc.html'); ?>">
 
-                <img src="<?php echo base_url(); ?>public/images/can-save.png"> 
+						<img src="<?php echo base_url(); ?>public/images/can-save.png">
 
-                <span>Danh sách contact còn cứu được  (<?php echo $this->L['can_save'];?>) </span>
+						<span>Danh sách contact còn cứu được (<?php echo $this->L['can_save'];?>) </span>
 
-            </a>
-        </li>
+					</a>
+				</li>
 
-        <li>
-            <a href="<?php echo base_url('tu-van-tuyen-sinh/contact-co-lich-hen.html'); ?>">
+				<li>
+					<a href="<?php echo base_url('tu-van-tuyen-sinh/contact-co-lich-hen.html'); ?>">
 
-                <img src="<?php echo base_url(); ?>public/images/call-back.png"> 
+						<img src="<?php echo base_url(); ?>public/images/call-back.png">
 
-                <span> Danh sách contact có lịch hẹn gọi lại  (<?php echo $this->L['has_callback'];?>) </span>
+						<span> Danh sách contact có lịch hẹn gọi lại (<?php echo $this->L['has_callback'];?>) </span>
 
-            </a>
-        </li>
+					</a>
+				</li>
 
-        <li>
-            <a href="<?php echo base_url('tu-van-tuyen-sinh/xem-tat-ca-contact.html'); ?>">
+<!--				<li>-->
+<!--					<a href="--><?php //echo base_url('sale/contact_handle_marketer'); ?><!--">-->
+<!---->
+<!--						<img src="--><?php //echo base_url(); ?><!--public/images/call-back.png">-->
+<!---->
+<!--						<span> Danh sách contact xử lý với mkt </span>-->
+<!---->
+<!--					</a>-->
+<!--				</li>-->
 
-                <img src="<?php echo base_url(); ?>public/images/view-all.png"> 
+				<li>
+					<a href="<?php echo base_url('tu-van-tuyen-sinh/xem-tat-ca-contact.html'); ?>">
 
-                <span> Danh sách toàn bộ contact  (<?php echo $this->L['all'];?>) </span>
+						<img src="<?php echo base_url(); ?>public/images/view-all.png">
 
-            </a>
-        </li>
+						<span> Danh sách toàn bộ contact (<?php echo $this->L['all'];?>) </span>
+
+					</a>
+				</li>
+
+			</ul>
+
+		</li>
 
         <li>
             <a href="<?php echo base_url('tu-van-tuyen-sinh/them-contact.html'); ?>">

@@ -599,7 +599,6 @@ class Common extends MY_Controller {
 				}
 			}
 
-			$param['date_last_calling'] = time();
             $param['date_recall'] = (isset($post['date_recall']) && $post['date_recall'] != '') ? strtotime($post['date_recall']) : 0;
 			//print_arr($param);
             /* Kiểm tra điều kiện các trạng thái và ngày hẹn gọi lại có logic ko */
@@ -637,7 +636,6 @@ class Common extends MY_Controller {
 
 				$dataPush['message'] = 'Yeah Yeah !!';
                 $dataPush['success'] = '1';
-
             }
 
 			if ($param['level_contact_id'] == 'L5') {
@@ -717,6 +715,9 @@ class Common extends MY_Controller {
 			}
 
 			//print_arr($param);
+			if ($this->role_id == 1) {
+				$param['date_last_calling'] = time();
+			}
             $param['last_activity'] = time();
             $where = array('id' => $id);
             $this->contacts_model->update($where, $param);
@@ -803,18 +804,31 @@ class Common extends MY_Controller {
             $result['message'] = 'Chăm sóc thành công contact!';
             echo json_encode($result);
 
-            $options = array(
-                'cluster' => 'ap1',
-                'encrypted' => true,
-				'useTLS' => true
-            );
-
-			$pusher = new Pusher(
-				'f3c70a5a0960d7b811c9', '2fb574e3cce59e4659ac', '1042224', $options
-			);
-
-            //$dataPush['image'] = $this->staffs_model->GetStaffImage($this->user_id);
-            $pusher->trigger('my-channel', 'callLog', $dataPush);
+//            if (in_array($post['call_status_id'], array(1, 3, 5)) || in_array($post['level_contact_detail'], array('L1.1', 'L1.2', 'L1.3'))) {
+//				$options = array(
+//					'cluster' => 'ap1',
+//					'encrypted' => true,
+//					'useTLS' => true
+//				);
+//
+//				$pusher = new Pusher(
+//					'f3c70a5a0960d7b811c9', '2fb574e3cce59e4659ac', '1042224', $options
+//				);
+//
+//				$pusher->trigger('my-channel', 'noti_to_mkt', $dataPush);
+//			}
+//
+//            $options = array(
+//                'cluster' => 'ap1',
+//                'encrypted' => true,
+//				'useTLS' => true
+//            );
+//
+//			$pusher = new Pusher(
+//				'f3c70a5a0960d7b811c9', '2fb574e3cce59e4659ac', '1042224', $options
+//			);
+//
+//            $pusher->trigger('my-channel', 'callLog', $dataPush);
 
             die;
         }

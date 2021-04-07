@@ -11,33 +11,36 @@
         </div>
 
     <ul class="list-unstyled components">
-        
-        <li>
-            <a href="<?php echo base_url(); ?>">
-                <img src="<?php echo base_url(); ?>public/images/new.png"> 
-                <span> Danh sách contact ngày hôm nay (<?php echo $this->L['C3'];?>)</span>
-            </a>
-        </li>
-        <li>
-            <a href="<?php echo base_url('marketer/view_all'); ?>">
-                <img src="<?php echo base_url(); ?>public/images/view-all.png"> 
-                <span> Danh sách toàn bộ contact (<?php echo $this->L['all'];?>)</span>
-            </a>
-        </li>
 
-        <li>
-            <a href="<?php echo base_url('tu-van-tuyen-sinh/them-contact.html'); ?>">
-                <img src="<?php echo base_url(); ?>public/images/add-contact.png"> 
-                <span> Thêm mới contact </span>
-            </a>
-        </li>
-		
 		<li>
-            <a href="<?php echo base_url('marketer/get_ma_mkt'); ?>">
-                <img src="<?php echo base_url(); ?>public/images/add-contact.png"> 
-                <span> Nhập chi phí quảng cáo </span>
-            </a>
-        </li>
+			<a href="#submenu" data-toggle="collapse" aria-expanded="false">
+				<img src="<?php echo base_url(); ?>public/images/view-all.png">
+				<span>Danh sách contact</span>
+			</a>
+			<ul class="collapse list-unstyled" id="submenu">
+				<li>
+					<a href="<?php echo base_url(); ?>">
+						<img src="<?php echo base_url(); ?>public/images/new.png">
+						<span> Danh sách contact hôm nay (<?php echo $this->L['C3'];?>)</span>
+					</a>
+				</li>
+
+				<li>
+					<a href="<?php echo base_url('marketer/contact_sale_handle'); ?>">
+						<img src="<?php echo base_url(); ?>public/images/new.png">
+						<span> Danh sách contact Sale xử lý </span>
+					</a>
+				</li>
+
+				<li>
+					<a href="<?php echo base_url('marketer/view_all'); ?>">
+						<img src="<?php echo base_url(); ?>public/images/view-all.png">
+						<span> Danh sách toàn bộ contact (<?php echo $this->L['all'];?>)</span>
+					</a>
+				</li>
+
+			</ul>
+		</li>
 
         <li>
             <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">
@@ -128,14 +131,26 @@
             </ul>
         </li>
 
-		<?php if ($this->user_id == 15) { ?>
-			<li>
-				<a href="<?php echo base_url('sale/view_history_call'); ?>">
-					<img src="<?php echo base_url(); ?>public/images/view-all.png">
-					<span> Lịch sử cuộc gọi </span>
-				</a>
-			</li>
-		<?php } ?>
+		<li>
+			<a href="<?php echo base_url('tu-van-tuyen-sinh/them-contact.html'); ?>">
+				<img src="<?php echo base_url(); ?>public/images/add-contact.png">
+				<span> Thêm mới contact </span>
+			</a>
+		</li>
+
+		<li>
+			<a href="<?php echo base_url('marketer/get_ma_mkt'); ?>">
+				<img src="<?php echo base_url(); ?>public/images/add-contact.png">
+				<span> Nhập chi phí quảng cáo </span>
+			</a>
+		</li>
+
+<!--		<li>-->
+<!--			<a href="--><?php //echo base_url('sale/view_history_call'); ?><!--">-->
+<!--				<img src="--><?php //echo base_url(); ?><!--public/images/view-all.png">-->
+<!--				<span> Lịch sử cuộc gọi </span>-->
+<!--			</a>-->
+<!--		</li>-->
 
         <li>
             <a href="<?php echo base_url('home/logout'); ?>">

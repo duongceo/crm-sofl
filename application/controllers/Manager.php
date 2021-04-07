@@ -1213,11 +1213,11 @@ class Manager extends MY_Controller {
 			}
 		}
 
-		$input_contact = array();
-		$input_contact['select'] = 'id';
-		$input_contact['where']['date_paid >='] = $startDate;
-		$input_contact['where']['date_paid <='] = $endDate;
-		$input_contact['where']['level_contact_id'] = 'L5';
+//		$input_contact = array();
+//		$input_contact['select'] = 'id';
+//		$input_contact['where']['date_paid >='] = $startDate;
+//		$input_contact['where']['date_paid <='] = $endDate;
+//		$input_contact['where']['level_contact_id'] = 'L5';
 		
 		foreach ($conditionArr as $key2 => $value2) {
 			$temp_sale = 0;

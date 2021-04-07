@@ -2558,7 +2558,6 @@ channel.bind('callLog', function (data) {
     }
 });
 
-/*
 channel.bind('marketer_note', function (data) {
 	if (data.success == '1') {
 		$("#marketer-note-sound")[0].play();
@@ -2573,7 +2572,7 @@ channel.bind('marketer_note', function (data) {
 		);
 		
 		if ($("#input_controller").val() === 'sale' && data.sale === $("#input_user_id").val()) {
-			var append = ` <div style="position: fixed; right:10px; bottom: 10px; z-index: 999999999; 
+			var append = ` <div style="position: fixed; left:10px; bottom: 10px; z-index: 999999999; 
                                     background-color: #fff; display: inline-block; width: 30%; border-radius: 5px" class="my-notify">
                                         <div style="position:absolute; right: 5px; top:5px; cursor: pointer" class="close-notify"> 
                                             <i class="fa fa-times-circle" style="font-size: 20px;" aria-hidden="true"></i> 
@@ -2581,9 +2580,6 @@ channel.bind('marketer_note', function (data) {
                                         
                                         <div style="float:left; width:90%; padding: 2%">
                                             <h4> ${data.message} </h4>
-                                            <div>
-                                                <img src="${data.image}" style="width: 90%"/>
-                                            </div>
                                         </div>
                                    </div>`;
 
@@ -2598,8 +2594,6 @@ channel.bind('marketer_note', function (data) {
 $(document).on("click", ".close-notify", function () {
     $(".my-notify").remove();
 });
-
- */
 
 $('li.mega-dropdown').mouseover(() => $(".black-over").css('bottom', '0%')).mouseout(() => $(".black-over").css('bottom', '100%'));
 
@@ -3611,7 +3605,6 @@ $('.contact-sale-have-to-call').click(function(){
 	});
 });
 
-/*
 $("a.note_contact").on('click', function (e) {
     e.preventDefault();
     var contact_name = $(this).attr('contact_name');
@@ -3622,22 +3615,21 @@ $("a.note_contact").on('click', function (e) {
     $(".note_contact_modal").modal("show");
 });
 
- */
-
-/*
 $('.btn-note-contact').on('click', function(e) {
 	e.preventDefault();
 	url = $('#base_url').val() + "marketer/note_contact";
 	var contact_id = $("#contact_id_input_note").val();
 	var note = $('#note').val();
-	//console.log(url);return false;
+	var check_contact = $("input[name='check_contact']:checked").val();
+	// console.log(check_contact);return false;
 	$.ajax({
 		url: url,
 		type: "POST",
 		dataType: 'json',
 		data: {
 			contact_id: contact_id,
-			note: note
+			note: note,
+			check_contact: check_contact
 		},
 		success: function (data) {
 			// console.log(data);return false;
@@ -3654,8 +3646,6 @@ $('.btn-note-contact').on('click', function(e) {
 		}
     });
 });
-
- */
 
 $('.view_student').on('click', function (e) {
 	e.preventDefault();

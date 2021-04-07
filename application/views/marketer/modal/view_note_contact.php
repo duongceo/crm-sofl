@@ -18,9 +18,23 @@
 
                     <input type="hidden" name="contact_id" id="contact_id_input_note"/>
 
+					<div class="radio-inline">
+						<label>
+							<input type="radio" name="check_contact" value="0">
+							Để sale chăm sóc lại
+						</label>
+					</div>
+
+					<div class="radio-inline">
+						<label>
+							<input type="radio" name="check_contact" value="1">
+							Đồng ý là contact chết
+						</label>
+					</div>
+
                     <div class="form-group">
 
-                        <label>  Ghi chú </label>
+                        <label> Ghi chú </label>
 
                         <textarea class="form-control" rows="3" name="note" id="note"></textarea>
 

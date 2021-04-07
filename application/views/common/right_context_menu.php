@@ -280,15 +280,15 @@
 
         <?php } else if($controller != 'affiliate'){ //marketing ?>
 
-<!--			<a href="#" class="note_contact load-new-contact-id one-item-selected" contact_name="" data-contact-id ="0">-->
-<!---->
-<!--				<li>-->
-<!---->
-<!--					<i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp; Ghi chú cho contact này-->
-<!---->
-<!--				</li>-->
-<!---->
-<!--			</a>-->
+			<a href="#" class="note_contact load-new-contact-id one-item-selected" contact_name="" data-contact-id ="0">
+
+				<li>
+
+					<i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp; Xét duyệt contact chết
+
+				</li>
+
+			</a>
 
 			<?php if($controller == 'landingpage'){ ?>
 

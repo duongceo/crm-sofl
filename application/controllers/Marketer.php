@@ -31,7 +31,7 @@ class Marketer extends MY_Controller {
 		$data = $this->_get_all_require_data();
 		$get = $this->input->get();
 		//echo '<pre>'; print_r($data['ad']);die;
-		
+
 		/*
          * Điều kiện lấy contact : contact ở trang chủ là contact đăng kí trong ngày hôm nay
          */
@@ -87,6 +87,53 @@ class Marketer extends MY_Controller {
 		$this->load->view(_MAIN_LAYOUT_, $data);
     }
 
+    public function contact_sale_handle($offset = 0) {
+		$data = $this->_get_all_require_data();
+		$get = $this->input->get();
+
+		$conditional['where']['call_status_id IN (1, 3, 5) OR level_contact_detail IN ("L1.1", "L1.2", "L1.3")'] = 'NO-VALUE';
+		$conditional['where']['check_contact'] = '0';
+//		$conditional['where_in']['call_status_id'] = array(1, 3, 5);
+//		$conditional['where_in']['level_contact_detail'] = array("L1.1", "L1.2", "L1.3");
+//		print_arr($conditional);
+		$data_pagination = $this->_query_all_from_get($get, $conditional, $this->per_page, $offset);
+
+		$data['pagination'] = $this->_create_pagination_link($data_pagination['total_row']);
+		$data['contacts'] = $data_pagination['data'];
+		$data['total_contact'] = $data_pagination['total_row'];
+
+		$this->load->model('notes_model');
+		foreach ($data['contacts'] as &$value) {
+			$input = array();
+			$input['where'] = array('contact_id' => $value['id']);
+			$input['order'] = array('id' => 'DESC');
+			$last_note = $this->notes_model->load_all($input);
+			$notes = '';
+			if (!empty($last_note)) {
+				foreach ($last_note as $value2) {
+					$notes .= '<p>' . date('d/m/Y', $value2['time_created']) . ' ==> ' . $value2['content'] . '</p>';
+				}
+				$value['last_note'] = $notes;
+			} else {
+				$value['last_note'] = $notes;
+			}
+		}
+		unset($value);
+
+		$data['left_col'] = array('date_rgt', 'date_last_calling', 'language');
+		$data['right_col'] = array('branch');
+
+		$this->table .= 'last_note call_stt level_contact';
+		$data['table'] = explode(' ', $this->table);
+
+		$outformModal = 'marketer/modal/view_note_contact';
+		$data['outformModal'] = explode(' ', $outformModal);
+		$data['actionForm'] = 'marketer/note_contact';
+		$data['titleListContact'] = 'Danh sách contact Sale xử lý';
+		$data['content'] = 'common/list_contact';
+		$this->load->view(_MAIN_LAYOUT_, $data);
+	}
+
     function view_all($offset = 0) {
 
 		$data = $this->_get_all_require_data();
@@ -111,15 +158,6 @@ class Marketer extends MY_Controller {
 		$data['right_col'] = array('call_status');
 		$this->table .= 'channel campaign date_rgt call_stt level_contact';
 		$data['table'] = explode(' ', $this->table);
-
-		/*
-         * Các file js cần load
-         */
-
-//		$data['load_js'] = array(
-//			'common_view_detail_contact', 'common_real_filter_contact', 'common_edit_contact',
-//			's_check_edit_contact', 's_transfer_contact', 's_show_script', 'm_view_duplicate'
-//		);
 
 		$progress = $this->GetProccessMarketerThisMonth();
 		$data['marketers'] = $progress['marketers'];
@@ -401,15 +439,28 @@ class Marketer extends MY_Controller {
 	
 	public function note_contact() {
 		$post = $this->input->post();
-		//echo '<pre>';print_r($post);die();
-		$result = array();
+//		echo '<pre>';print_r($post);die();
+		$results = array();
+
+		if ($post['check_contact'] == 1) {
+			$param = array('check_contact' => 1);
+		} else {
+			$param = array(
+				'call_status_id' => 0,
+				'is_hide' => 0
+			);
+		}
+		$where = array('id' => $post['contact_id']);
+		$this->contacts_model->update($where, $param);
+
 		if ($post['note'] != '') {
 			$param2 = array(
 				'contact_id' => $post['contact_id'],
 				'content' => $post['note'],
-				'time' => time(),
+				'time_created' => time(),
 				'sale_id' => $this->user_id,
-				'contact_code' => $this->contacts_model->get_contact_code($post['contact_id'])
+				'contact_code' => $this->contacts_model->get_contact_code($post['contact_id']),
+				'role_id' => $this->role_id
 			);
 			$this->load->model('notes_model');
 			$this->notes_model->insert($param2);
@@ -427,15 +478,15 @@ class Marketer extends MY_Controller {
 				'cluster' => 'ap1',
 				'encrypted' => true
 			);
+
 			$pusher = new Pusher(
-				'32b339fca68db27aa480', '32f6731ad5d48264c579', '490390', $options
+				'f3c70a5a0960d7b811c9', '2fb574e3cce59e4659ac', '1042224', $options
 			);
-			
+
 			$dataPush['title'] = 'MKT';
 			$dataPush['sale'] = $c[0]['sale_staff_id'];
 			$dataPush['message'] = 'MKT "' . $mkt_name . '" đã note cho contact "' . $c[0]['phone'] . '" với nội dung "' . $post['note'] . ' "';
 			$dataPush['success'] = '1';
-			$dataPush['image'] = $this->staffs_model->GetStaffImage($this->user_id);
 			$pusher->trigger('my-channel', 'marketer_note', $dataPush);
 			
 			die;

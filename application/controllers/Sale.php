@@ -699,7 +699,7 @@ class Sale extends MY_Controller {
 						'sale_id' => $this->user_id,
 						'role_id' => $this->role_id,
 						'contact_code' => $this->contacts_model->get_contact_code($id),
-						'class_study_id' => 0
+						'class_study_id' => 0,
 					);
 					//print_arr($param2);
 					$this->load->model('notes_model');
