@@ -1436,15 +1436,6 @@ class Common extends MY_Controller {
 			$post['level_student_id'] = $post['level_student_detail'];
 		}
 
-        $statusArr = array('call_status_id', 'level_contact_id', 'level_student_id');
-        foreach ($statusArr as $value) {
-            if (isset($post[$value])) {
-                $data[$value] = $post[$value];
-            } else {
-                $data[$value] = "-1";
-            }
-        }
-		
         $data['time_created'] = time();
         $diffArr = array(
             '[Họ tên]: ' => 'name',
@@ -1473,8 +1464,20 @@ class Common extends MY_Controller {
             }
         }
 
-        if ($this->role_id == 10) {
+		if ($this->role_id != 10) {
+			$statusArr = array('call_status_id', 'level_contact_id', 'level_student_id');
+
+		} else {
+			$statusArr = array('customer_care_call_id', $rows[0]['level_contact_id'],  $rows[0]['level_student_id']);
 			$strDiff = 'Chăm sóc khách hàng gọi';
+		}
+
+		foreach ($statusArr as $value) {
+			if (isset($post[$value])) {
+				$data[$value] = $post[$value];
+			} else {
+				$data[$value] = "-1";
+			}
 		}
 
         $data['content_change'] = $strDiff;
