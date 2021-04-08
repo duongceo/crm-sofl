@@ -1031,7 +1031,6 @@ class Manager extends MY_Controller {
 
     // <editor-fold defaultstate="collapsed" desc="Báo cáo chi tiết của sale">
     function view_report_sale() {
-
 		$require_model = array(
 			'language_study' => array(
 				'where' => array(
@@ -1929,7 +1928,6 @@ class Manager extends MY_Controller {
 	}
 
 	public function view_report_class_study() {
-
     	$this->load->model('class_study_model');
 		$require_model = array(
 			'character_class' => array(),
@@ -2028,6 +2026,83 @@ class Manager extends MY_Controller {
 //		$data['right_col'] = array('source');
 //		$data['load_js'] = array('m_view_report');
 		$data['content'] = 'manager/view_report_class_study';
+		$this->load->view(_MAIN_LAYOUT_, $data);
+	}
+
+	public function view_report_customer_care() {
+		$require_model = array(
+			'language_study' => array(
+				'where' => array(
+					'no_report' => '0'
+				)
+			),
+		);
+
+		$data = array_merge($this->data, $this->_get_require_data($require_model));
+		$get = $this->input->get();
+
+		$input = array();
+		$input['where'] = array('role_id' => 10, 'active' => 1);
+		$staff_customer_care= $this->staffs_model->load_all($input);
+
+		/* Mảng chứa các ngày lẻ */
+		if (isset($get['filter_date_date_happen']) && $get['filter_date_date_happen'] != '') {
+			$time = $get['filter_date_date_happen'];
+		} else {
+			$time = '01' . '/' . date('m') . '/' . date('Y') . ' - ' . date('d') . '/' . date('m') . '/' . date('Y');
+		}
+
+		$dateArr = explode('-', $time);
+		$startDate = trim($dateArr[0]);
+		$startDate = strtotime(str_replace("/", "-", $startDate));
+		$endDate = trim($dateArr[1]);
+		$endDate = strtotime(str_replace("/", "-", $endDate)) + 3600 * 24 - 1;
+
+		$conditionArr = array(
+			'XU_LY' => array(
+				'where' => array('customer_care_call_id !=' => '0'),
+			),
+			'NGHE_MAY' => array(
+				'where' => array('customer_care_call_id' => 1),
+			),
+			'KO_NGHE_MAY' => array(
+				'where' => array('customer_care_call_id' => 2),
+			),
+			'THAM_KHAO' => array(
+				'where' => array('status_end_student_id' => 1),
+			),
+			'DONG_Y' => array(
+				'where' => array('status_end_student_id' => 2),
+			),
+			'TU_CHOI' => array(
+				'where' => array('status_end_student_id' => 3),
+			),
+		);
+
+		unset($get['filter_date_date_happen']);
+
+		foreach ($conditionArr as $key2 => $value2) {
+			$temp_cc = 0;
+			foreach ($staff_customer_care as $key_staff => $value_staff) {
+				$conditional_1 = array();
+				$conditional_1['where']['customer_care_staff_id'] = $value_staff['id'];
+				$conditional_1['where']['date_customer_care_call >='] = $startDate;
+				$conditional_1['where']['date_customer_care_call <='] = $endDate;
+				$conditional = array_merge_recursive($conditional_1, $value2);
+				$staff_customer_care[$key_staff][$key2] = $this->_query_for_report($get, $conditional);
+				$temp_cc += $staff_customer_care[$key_staff][$key2];
+				$data[$key2] = $temp_cc;
+			}
+		}
+//		print_arr($staff_customer_care);
+
+		$data['staffs'] = $staff_customer_care;
+		$data['startDate'] = $startDate;
+		$data['endDate'] = $endDate;
+		$data['left_col'] = array('date_happen_1', 'tic_report');
+//		$data['right_col'] = array('is_old');
+		$data['load_js'] = array('m_view_report');
+		$data['content'] = 'manager/view_report_customer_care';
 		$this->load->view(_MAIN_LAYOUT_, $data);
 	}
 
