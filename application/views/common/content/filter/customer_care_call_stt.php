@@ -1,10 +1,10 @@
-<?php if (isset($customer_care_call_stt)) { ?>
+<?php if (isset($customer_call_status)) { ?>
     <tr>
-        <td class="text-right"> Trạng thái gọi </td>
+        <td class="text-right"> Trạng thái gọi cskh </td>
         <td>
-            <select class="form-control call_status_id selectpicker" name="filter_customer_care_call_id[]" multiple>
+            <select class="form-control selectpicker" name="filter_customer_care_call_id[]" multiple>
                 <?php
-                foreach ($customer_care_call_stt as $key => $value) {
+                foreach ($customer_call_status as $key => $value) {
                     ?>
                     <option value="<?php echo $value['id']; ?>" 
                     <?php

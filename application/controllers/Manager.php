@@ -17,7 +17,7 @@ class Manager extends MY_Controller {
         $this->L['L1'] = count($this->contacts_model->load_all($input));
         $input = array();
         $input['select'] = 'id';
-        $input['where'] = array('call_status_id' => '0', 'sale_staff_id' => '0', 'is_hide' => '0', 'duplicate_id >' => '0');
+        $input['where'] = array('call_status_id' => '0', 'sale_staff_id' => '0', 'is_hide' => '0', 'duplicate_id !=' => '0');
         $this->L['L1_trung'] = count($this->contacts_model->load_all($input));
         $input = array();
         $input['select'] = 'id';
@@ -278,8 +278,8 @@ class Manager extends MY_Controller {
         /*
          * Filter ở cột trái và cột phải
          */
-        $data['left_col'] = array('care_number', 'sale', 'language', 'level_language', 'date_rgt', 'date_handover', 'date_confirm', 'date_rgt_study', 'date_last_calling', 'date_customer_care_call', 'date_paid', 'study_date_start', 'study_date_end');
-        $data['right_col'] = array('branch', 'class_study', 'is_old', 'complete_fee', 'source', 'call_status', 'level_contact', 'level_contact_detail', 'level_student', 'level_student_detail');
+        $data['left_col'] = array('care_number', 'sale', 'language', 'level_language', 'date_rgt', 'date_handover', 'date_confirm', 'date_rgt_study', 'date_last_calling', 'date_customer_care_call', 'date_paid', 'study_date_start', 'study_date_end', 'date_customer_care_call');
+        $data['right_col'] = array('branch', 'class_study', 'is_old', 'complete_fee', 'source', 'call_status', 'level_contact', 'level_contact_detail', 'level_student', 'level_student_detail', 'customer_care_call_stt');
 
         /*
          * Các trường cần hiện của bảng contact (đã có default)
@@ -2077,6 +2077,7 @@ class Manager extends MY_Controller {
 				)
 			),
 			'language_study' => array(),
+			'customer_call_status' => array(),
         );
         return array_merge($this->data, $this->_get_require_data($require_model));
     }

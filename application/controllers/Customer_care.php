@@ -82,7 +82,7 @@ class Customer_care extends MY_Controller {
 		$data = $this->_get_all_require_data();
 		$get = $this->input->get();
 
-		$conditional['where']['care_page_staff_id !='] = '0';
+		$conditional['where']['customer_care_staff_id !='] = '0';
 		$conditional['order'] = array('date_handover' => 'DESC');
 
 		$data_pagination = $this->_query_all_from_get($get, $conditional, $this->per_page, $offset);
@@ -97,8 +97,8 @@ class Customer_care extends MY_Controller {
 		/*
          * Filter ở cột trái và cột phải
          */
-		$data['left_col'] = array('date_rgt');
-//        $data['right_col'] = array('');
+		$data['left_col'] = array('date_rgt', 'date_customer_care_call');
+        $data['right_col'] = array('customer_care_call_stt');
 
 		/*
          * Các trường cần hiện của bảng contact (đã có default)
@@ -118,6 +118,7 @@ class Customer_care extends MY_Controller {
 			'branch' => array(),
             'language_study' => array(),
 			'level_language' => array(),
+			'customer_call_status' => array(),
         );
         return array_merge($this->data, $this->_get_require_data($require_model));
     }
