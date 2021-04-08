@@ -224,12 +224,33 @@
 			</ul>
 		</li>
 
+		<li>
+			<a href="#homeSubmenu_5" data-toggle="collapse" aria-expanded="false">
+				<img src="<?php echo base_url(); ?>public/images/report.png">
+				<span>Báo Cáo CSKH</span>
+			</a>
+			<ul class="collapse list-unstyled" id="homeSubmenu_5">
+				<li>
+
+					<a href="<?php echo base_url('manager/view_report_customer_care'); ?>">
+
+						<img src="<?php echo base_url(); ?>public/images/tvts.png">
+
+						<span> Xem báo trạng thái gọi cs </span>
+
+					</a>
+
+				</li>
+
+			</ul>
+		</li>
+
         <li>
-            <a href="#homeSubmenu_5" data-toggle="collapse" aria-expanded="false">
+            <a href="#homeSubmenu_6" data-toggle="collapse" aria-expanded="false">
                 <img src="<?php echo base_url(); ?>public/images/report.png">
                 <span>Thêm contact</span>
             </a>
-            <ul class="collapse list-unstyled" id="homeSubmenu_5">
+            <ul class="collapse list-unstyled" id="homeSubmenu_6">
                 
 <!--                <li>-->
 <!---->

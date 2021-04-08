@@ -1971,11 +1971,11 @@ class Manager extends MY_Controller {
 
 		$conditionalArr_contact = array(
 			'L7' => array(
-				'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_student_id' => 'L7', 'date_last_calling >' => $startDate, 'date_last_calling <' => $endDate),
+				'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_student_id' => 'L7', 'last_activity >=' => $startDate, 'last_activity <=' => $endDate),
 				'sum' => 0
 			),
 			'L8' => array(
-				'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_student_id' => 'L8', 'date_rgt_study >=' => $startDate, 'date_rgt_study <' => $endDate),
+				'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_student_id' => 'L8', 'date_rgt_study >=' => $startDate, 'date_rgt_study <' => $endDate),
 				'sum' => 0
 			),
 		);
@@ -2099,9 +2099,9 @@ class Manager extends MY_Controller {
 		$data['staffs'] = $staff_customer_care;
 		$data['startDate'] = $startDate;
 		$data['endDate'] = $endDate;
-		$data['left_col'] = array('date_happen_1', 'tic_report');
+		$data['left_col'] = array('date_happen_1');
 //		$data['right_col'] = array('is_old');
-		$data['load_js'] = array('m_view_report');
+//		$data['load_js'] = array('m_view_report');
 		$data['content'] = 'manager/view_report_customer_care';
 		$this->load->view(_MAIN_LAYOUT_, $data);
 	}
