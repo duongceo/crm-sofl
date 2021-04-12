@@ -471,7 +471,7 @@ class Class_study extends MY_Table {
 //			update trạng thái tham gia học cho các học viên tham gia lớp học này
 			if ($post['edit_character_class_id'] == 2) {
 				$where_contact = array('class_study_id' => $class_study[0]['class_study_id']);
-				$data_contact = array('level_study_id' => 'L7');
+				$data_contact = array('level_study_id' => 'L7', 'last_activity' => time());
 				$this->contacts_model->update($where_contact, $data_contact);
 			}
 			//echoQuery(); die();

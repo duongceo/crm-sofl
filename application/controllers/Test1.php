@@ -518,7 +518,7 @@ class Test1 extends CI_Controller {
 
 		foreach ($class as $item) {
 			$where_contact = array('class_study_id' => $item['class_study_id']);
-			$data_contact = array('level_study_id' => 'L7');
+			$data_contact = array('level_study_id' => 'L7', 'last_activity' => time());
 			$this->contacts_model->update($where_contact, $data_contact);
 		}
 

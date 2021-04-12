@@ -213,7 +213,7 @@
 
 					<a href="<?php echo base_url('manager/view_report_class_study'); ?>">
 
-						<img src="<?php echo base_url(); ?>public/images/tvts.png">
+						<img src="<?php echo base_url(); ?>public/images/report.png">
 
 						<span> Xem báo cáo lớp học </span>
 
@@ -234,9 +234,21 @@
 
 					<a href="<?php echo base_url('manager/view_report_customer_care'); ?>">
 
-						<img src="<?php echo base_url(); ?>public/images/tvts.png">
+						<img src="<?php echo base_url(); ?>public/images/report.png">
 
-						<span> Xem báo trạng thái gọi cs </span>
+						<span> Xem báo chăm sóc hv đi lên </span>
+
+					</a>
+
+				</li>
+
+				<li>
+
+					<a href="<?php echo base_url('manager/view_report_care_L7'); ?>">
+
+						<img src="<?php echo base_url(); ?>public/images/report.png">
+
+						<span> Xem báo các trạng thái L7</span>
 
 					</a>
 
@@ -247,7 +259,7 @@
 
         <li>
             <a href="#homeSubmenu_6" data-toggle="collapse" aria-expanded="false">
-                <img src="<?php echo base_url(); ?>public/images/report.png">
+				<img src="<?php echo base_url(); ?>public/images/add-contact.png">
                 <span>Thêm contact</span>
             </a>
             <ul class="collapse list-unstyled" id="homeSubmenu_6">

@@ -1,0 +1,51 @@
+
+<nav id="sidebar">
+	<div id="dismiss">
+		<i class="glyphicon glyphicon-arrow-left"></i>
+	</div>
+
+	<div class="sidebar-header">
+		<h3>Menu :))</h3>
+	</div>
+
+	<ul class="list-unstyled components">
+
+		<li>
+
+			<a href="<?php echo base_url('manager/view_report_revenue'); ?>">
+
+				<img src="<?php echo base_url(); ?>public/images/report.png">
+
+				<span> Báo cáo doanh thu </span>
+
+			</a>
+
+		</li>
+
+		<li>
+
+			<a href="<?php echo base_url('manager/view_report_payment_method'); ?>">
+
+				<img src="<?php echo base_url(); ?>public/images/dollar.png">
+
+				<span> Báo cáo doanh thu - HTTT </span>
+
+			</a>
+
+		</li>
+
+		<li>
+
+			<a href="<?php echo base_url('home/logout'); ?>">
+
+				<img src="<?php echo base_url(); ?>public/images/logout.png">
+
+				<span> Đăng xuất  </span>
+
+			</a>
+
+		</li>
+
+	</ul>
+
+</nav>

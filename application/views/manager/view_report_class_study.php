@@ -88,6 +88,7 @@
 
 	<tbody>
 		<?php
+//			print_arr($branch);
 			foreach ($branch as $key_branch => $value_branch) { ?>
 			<tr>
 				<td style="background-color: #8aa6c1"><?php echo $key_branch; ?></td>

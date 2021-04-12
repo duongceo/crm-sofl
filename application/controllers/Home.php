@@ -128,6 +128,12 @@ class Home extends CI_Controller {
 
                     break;
 
+				case 13:
+
+					redirect(base_url('manager/view_report_revenue' . $this->initGetVariable));
+
+					break;
+
                 default :
 
                     echo 'Có lỗi xảy ra!';

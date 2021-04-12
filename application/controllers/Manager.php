@@ -1344,7 +1344,7 @@ class Manager extends MY_Controller {
 			'source_revenue_id !=' => 2
 		);
 		if (isset($get['filter_source_revenue_id']) && $get['filter_source_revenue_id'] != '') {
-			unset($input_re['where']['source_revenue_id']);
+			unset($input_re['where']['source_revenue_id !=']);
 			$input_re['where_in']['source_revenue_id'] = $get['filter_source_revenue_id'];
 		}
 		
@@ -1394,7 +1394,7 @@ class Manager extends MY_Controller {
 				);
 
 				if (isset($get['filter_source_revenue_id']) && $get['filter_source_revenue_id'] != '') {
-					unset($input_re['where']['source_revenue_id']);
+					unset($input_re['where']['source_revenue_id !=']);
 					$input_re['where_in']['source_revenue_id'] = $get['filter_source_revenue_id'];
 				}
 
@@ -1971,11 +1971,11 @@ class Manager extends MY_Controller {
 
 		$conditionalArr_contact = array(
 			'L7' => array(
-				'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_student_id' => 'L7', 'last_activity >=' => $startDate, 'last_activity <=' => $endDate),
+				'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_study_id' => 'L7', 'last_activity >=' => $startDate, 'last_activity <=' => $endDate),
 				'sum' => 0
 			),
 			'L8' => array(
-				'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_student_id' => 'L8', 'date_rgt_study >=' => $startDate, 'date_rgt_study <' => $endDate),
+				'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_student_id' => 'L8', 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
 				'sum' => 0
 			),
 		);
@@ -2081,14 +2081,15 @@ class Manager extends MY_Controller {
 
 		unset($get['filter_date_date_happen']);
 
+		$conditional_date = array();
+		$conditional_date['where']['date_customer_care_call >='] = $startDate;
+		$conditional_date['where']['date_customer_care_call <='] = $endDate;
 		foreach ($conditionArr as $key2 => $value2) {
 			$temp_cc = 0;
 			foreach ($staff_customer_care as $key_staff => $value_staff) {
-				$conditional_1 = array();
-				$conditional_1['where']['customer_care_staff_id'] = $value_staff['id'];
-				$conditional_1['where']['date_customer_care_call >='] = $startDate;
-				$conditional_1['where']['date_customer_care_call <='] = $endDate;
-				$conditional = array_merge_recursive($conditional_1, $value2);
+				$conditional_staff = array();
+				$conditional_staff['where']['customer_care_staff_id'] = $value_staff['id'];
+				$conditional = array_merge_recursive($conditional_staff, $conditional_date, $value2);
 				$staff_customer_care[$key_staff][$key2] = $this->_query_for_report($get, $conditional);
 				$temp_cc += $staff_customer_care[$key_staff][$key2];
 				$data[$key2] = $temp_cc;
@@ -2103,6 +2104,89 @@ class Manager extends MY_Controller {
 //		$data['right_col'] = array('is_old');
 //		$data['load_js'] = array('m_view_report');
 		$data['content'] = 'manager/view_report_customer_care';
+		$this->load->view(_MAIN_LAYOUT_, $data);
+	}
+
+	public function view_report_care_L7() {
+		$require_model = array(
+			'branch' => array(),
+			'language_study' => array(
+				'where' => array(
+					'no_report' => '0'
+				)
+			),
+			'level_study' => array(
+				'where' => array('parent_id' => 'L7')
+			)
+		);
+
+		$data = array_merge($this->data, $this->_get_require_data($require_model));
+		$get = $this->input->get();
+
+//		$input = array();
+//		$input['where'] = array('role_id' => 10, 'active' => 1);
+//		$staff_customer_care= $this->staffs_model->load_all($input);
+
+		/* Mảng chứa các ngày lẻ */
+		if (isset($get['filter_date_date_happen']) && $get['filter_date_date_happen'] != '') {
+			$time = $get['filter_date_date_happen'];
+		} else {
+			$time = '01' . '/' . date('m') . '/' . date('Y') . ' - ' . date('d') . '/' . date('m') . '/' . date('Y');
+		}
+
+		$dateArr = explode('-', $time);
+		$startDate = trim($dateArr[0]);
+		$startDate = strtotime(str_replace("/", "-", $startDate));
+		$endDate = trim($dateArr[1]);
+		$endDate = strtotime(str_replace("/", "-", $endDate)) + 3600 * 24 - 1;
+
+//		$conditionArr = array(
+//			'XU_LY' => array(
+//				'where' => array('customer_care_call_id !=' => '0'),
+//			),
+//			'NGHE_MAY' => array(
+//				'where' => array('customer_care_call_id' => 1),
+//			),
+//			'KO_NGHE_MAY' => array(
+//				'where' => array('customer_care_call_id' => 2),
+//			),
+//			'THAM_KHAO' => array(
+//				'where' => array('status_end_student_id' => 1),
+//			),
+//			'DONG_Y' => array(
+//				'where' => array('status_end_student_id' => 2),
+//			),
+//			'TU_CHOI' => array(
+//				'where' => array('status_end_student_id' => 3),
+//			),
+//		);
+
+		unset($get['filter_date_date_happen'], $data['branch'][0]);
+
+		$report = array();
+		foreach ($data['branch'] as $key_branch => $value_branch) {
+			$temp_cc = 0;
+			foreach ($data['level_study'] as $key_level => $value_level) {
+				$conditional = array();
+				$conditional['where']['branch_id'] = $value_branch['id'];
+				$conditional['where']['level_study_detail'] = $value_level['level_id'];
+				$conditional['where']['date_rgt_study >='] = $startDate;
+				$conditional['where']['date_rgt_study <='] = $endDate;
+//				$conditional = array_merge_recursive($conditional, $value_branch);
+				$report[$value_branch['name']][$value_level['level_id']] = $this->_query_for_report($get, $conditional);
+				$temp_cc += $report[$value_branch['name']][$value_level['level_id']];
+//				$data[$key2] = $temp_cc;
+			}
+		}
+//		print_arr($report);
+
+		$data['report'] = $report;
+		$data['startDate'] = $startDate;
+		$data['endDate'] = $endDate;
+		$data['left_col'] = array('date_happen_1');
+//		$data['right_col'] = array('is_old');
+//		$data['load_js'] = array('m_view_report');
+		$data['content'] = 'manager/view_report_care_l7';
 		$this->load->view(_MAIN_LAYOUT_, $data);
 	}
 
