@@ -61,6 +61,13 @@
 		</li>
 
 		<li>
+			<a href="<?php echo base_url('student/cost_bracnh'); ?>">
+				<img src="<?php echo base_url(); ?>public/images/add-contact.png">
+				<span> Cập nhật chi phí tại cơ sở </span>
+			</a>
+		</li>
+
+		<li>
 			<a href="#homeSubmenu_3" data-toggle="collapse" aria-expanded="false">
 				<img src="<?php echo base_url(); ?>public/images/report.png">
 				<span>Báo Cáo</span>

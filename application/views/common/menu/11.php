@@ -24,6 +24,13 @@
 		</li>
 
 		<li>
+			<a href="<?php echo base_url('quan-ly/xem-bao-cao-tu-van-tuyen-sinh.html'); ?>">
+				<img src="<?php echo base_url(); ?>public/images/report.png">
+				<span> Xem sale nhận contact </span>
+			</a>
+		</li>
+
+		<li>
 			<a href="<?php echo base_url('tu-van-tuyen-sinh/them-contact.html'); ?>">
 
 				<img src="<?php echo base_url(); ?>public/images/add-contact.png">

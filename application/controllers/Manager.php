@@ -1212,6 +1212,14 @@ class Manager extends MY_Controller {
 			}
 		}
 
+		if ($this->role_id == 11) {
+			$conditionArr = array(
+				'NHAN' => array(
+					'where' => array('call_status_id NOT IN (1, 3, 5)' => 'NO-VALUE', 'level_contact_detail NOT IN ("L1.1", "L1.2", "L1.3")' => 'NO-VALUE', 'duplicate_id' => '0', 'is_hide' => '0', 'date_handover >=' => $startDate, 'date_handover <=' => $endDate)
+				)
+			);
+		}
+
 //		$input_contact = array();
 //		$input_contact['select'] = 'id';
 //		$input_contact['where']['date_paid >='] = $startDate;
