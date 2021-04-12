@@ -695,8 +695,8 @@ class MY_Controller extends CI_Controller {
 
     protected function _find_dupliacte_contact($email = '', $phone = '', $language_id = '') {
 
-        $phone = substr($phone, -9, 9);
-        
+//        $phone = substr($phone, -9, 9);
+
         $dulicate = 0;
 
         $input = array();
