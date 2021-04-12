@@ -2,11 +2,10 @@
 <body class="nav-sm">  
     <?php $this->load->view('common/hidden_input'); ?>
     <?php
-    if ($this->agent->is_mobile()) {
-//        $this->load->view('common/hidden_input');
-        $this->load->view('common/mobile');
-    } else {
-        ?>
+//    if ($this->agent->is_mobile()) {
+////        $this->load->view('common/hidden_input');
+//        $this->load->view('common/mobile');
+//    } else { ?>
         <div class="container body">
             <div class="main_container">
                 <?php
@@ -41,11 +40,9 @@
         <?php $this->load->view('common/right_context_menu'); ?>
         <?php $this->load->view('common/footer'); ?>
 
-        <?php if ($this->role_id == 12) {
-        	$this->load->view('sale/modal/transfer_one_contact');
-        }?>
-    <?php } ?>
-	
+        <?php if ($this->role_id == 12) { $this->load->view('sale/modal/transfer_one_contact'); }?>
+<!--    --><?php //} ?>
+
 </body>
 </html> 
 
