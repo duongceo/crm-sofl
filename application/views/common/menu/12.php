@@ -115,6 +115,17 @@
 
 				</li>
 
+				<li>
+
+					<a href="<?php echo base_url('manager/view_report_care_L7'); ?>">
+
+						<img src="<?php echo base_url(); ?>public/images/report.png">
+
+						<span> Xem báo các trạng thái L7</span>
+
+					</a>
+
+				</li>
 
 			</ul>
 		</li>
