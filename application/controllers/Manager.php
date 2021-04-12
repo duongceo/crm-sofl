@@ -1216,7 +1216,13 @@ class Manager extends MY_Controller {
 			$conditionArr = array(
 				'NHAN' => array(
 					'where' => array('call_status_id NOT IN (1, 3, 5)' => 'NO-VALUE', 'level_contact_detail NOT IN ("L1.1", "L1.2", "L1.3")' => 'NO-VALUE', 'duplicate_id' => '0', 'is_hide' => '0', 'date_handover >=' => $startDate, 'date_handover <=' => $endDate)
-				)
+				),
+				'CHUA_GOI' => array(
+					'where' => array('call_status_id' => '0', 'level_contact_id' => '', 'date_handover >=' => $startDate, 'date_handover <=' => $endDate, 'is_hide' => '0'),
+				),
+				'XU_LY' => array(
+					'where' => array('call_status_id !=' => '0', 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate, 'is_hide' => '0'),
+				),
 			);
 		}
 
