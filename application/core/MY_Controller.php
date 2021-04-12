@@ -710,9 +710,10 @@ class MY_Controller extends CI_Controller {
 //		print_arr($input);
 
         $rs = $this->contacts_model->load_all($input);
+		
         
         if (count($rs) > 0) {
-        	if (time() - $rs[0]['date_rgt'] > 3*30*24*60*60) {
+        	if (time() - $rs[0]['date_rgt'] < 3*30*24*60*60) {
 				$dulicate = $rs[0]['id'];
 			}
 		}
