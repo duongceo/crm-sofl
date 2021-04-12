@@ -693,7 +693,7 @@ class MY_Controller extends CI_Controller {
 
     }
 
-    protected function _find_dupliacte_contact($email = '', $phone = '', $level_language_id = '') {
+    protected function _find_dupliacte_contact($email = '', $phone = '', $language_id = '') {
 
         $phone = substr($phone, -9, 9);
         
@@ -703,7 +703,7 @@ class MY_Controller extends CI_Controller {
 
         $input['select'] = 'id, date_rgt';
 
-        $input['like'] = array('phone' => $phone);
+        $input['where'] = array('phone' => $phone, 'language_id' => $language_id);
         
         $input['order'] = array('id', 'ASC');
 		
