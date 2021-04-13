@@ -61,7 +61,7 @@
 		</li>
 
 		<li>
-			<a href="<?php echo base_url('student/cost_bracnh'); ?>">
+			<a href="<?php echo base_url('student/cost_branch'); ?>">
 				<img src="<?php echo base_url(); ?>public/images/add-contact.png">
 				<span> Cập nhật chi phí tại cơ sở </span>
 			</a>
@@ -114,7 +114,7 @@
 
 					<a href="<?php echo base_url('manager/view_report_class_study'); ?>">
 
-						<img src="<?php echo base_url(); ?>public/images/tvts.png">
+						<img src="<?php echo base_url(); ?>public/images/report.png">
 
 						<span> Xem báo cáo lớp học </span>
 

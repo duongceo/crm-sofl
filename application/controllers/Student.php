@@ -123,6 +123,74 @@ class Student extends MY_Controller {
 		show_error_and_redirect($msg, $_SERVER['HTTP_REFERER'], false);
 	}
 
+	public function cost_branch() {
+		$this->load->model('cost_branch_model');
+
+		$get = $this->input->get();
+
+		if (isset($get['filter_date_date_happen']) && $get['filter_date_date_happen'] != '') {
+			$time = $get['filter_date_date_happen'];
+		} else {
+			$time = '01' . '/' . date('m') . '/' . date('Y') . ' - ' . date('d') . '/' . date('m') . '/' . date('Y');
+		}
+
+		$dateArr = explode('-', $time);
+		$date_from = trim($dateArr[0]);
+		$date_from = strtotime(str_replace("/", "-", $date_from));
+		$date_end = trim($dateArr[1]);
+		$date_end = strtotime(str_replace("/", "-", $date_end)) + 3600 * 24;
+
+		$input = array();
+		$input['where'] = array(
+			'day_cost >=' => $date_from,
+			'day_cost <' => $date_end,
+			'branch_id' => $this->branch_id
+		);
+
+		if (isset($get['filter_number_records'])) {
+			$input['limit'] = array($get['filter_number_records']);
+		} else {
+			$input['limit'] = array(31);
+		}
+
+		$input['order']['day_cost'] = 'desc';
+
+		$cost = $this->cost_branch_model->load_all($input);
+//		print_arr($cost);
+
+//		$this->load->model('branch_model');
+		$total_cost = 0;
+		foreach ($cost as &$item) {
+//			$item['branch_name'] = $this->branch_model->find_branch_name($item['branch_id']);
+			$total_cost += $item['cost'];
+		}
+//		unset($item);
+
+		$post = $this->input->post();
+//		print_arr($post);
+
+		if (isset($post) && !empty($post)) {
+			$param['cost'] = $post['cost'];
+			$param['content_cost'] = $post['content_cost'];
+			$param['day_cost'] = strtotime(str_replace("/", "-", $post['day_cost']));
+			$param['time_created'] = time();
+			$param['branch_id'] = $this->branch_id;
+			$param['day'] = date('Y-m-d', strtotime($post['day_cost']));
+			$this->cost_branch_model->insert($param);
+			redirect(base_url('student/cost_branch'));
+		}
+
+		$data['cost'] = $cost;
+		$data['total_cost'] = str_replace(',', '.', number_format($total_cost));
+		$data['startDate'] = isset($date_from) ? $date_from : '0';
+		$data['endDate'] = isset($date_end) ? $date_end : '0';
+		$data['left_col'] = array('date_happen_1', 'language');
+		$data['content'] = 'student/cost_branch';
+		//echo '<pre>';print_r($data);die();
+
+		$this->load->view(_MAIN_LAYOUT_, $data);
+	}
+
 	private function get_all_require_data() {
         $require_model = array(
             'staffs' => array(

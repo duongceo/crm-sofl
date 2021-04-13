@@ -1118,7 +1118,6 @@ class Sale extends MY_Controller {
 		);
         $input['where_not_in'] = array(
             'call_status_id' => $this->_get_stop_care_call_stt(),
-//            'ordering_status_id' => $this->_get_stop_care_order_stt()
 			'level_contact_id' => array('L4', 'L4.1', 'L4.2', 'L4.3', 'L4.4', 'L4.5'),
 		);
         $this->L['has_callback'] = count($this->contacts_model->load_all($input));
@@ -1127,7 +1126,7 @@ class Sale extends MY_Controller {
         $input['select'] = 'id';
         $input['where']['sale_staff_id'] = $this->user_id;
         $input['where']['is_hide'] = '0';
-        $input['where']['(`call_status_id` = ' . _KHONG_NGHE_MAY_ . ')'] = 'NO-VALUE';
+        $input['where']['(`call_status_id` = ' . _KHONG_NGHE_MAY_ . ' OR `level_contact_id` IN ("L2", "L3"))'] = 'NO-VALUE';
         $this->L['can_save'] = count($this->contacts_model->load_all($input));
 
         $input = array();
