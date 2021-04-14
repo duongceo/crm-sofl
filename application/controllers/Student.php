@@ -124,6 +124,7 @@ class Student extends MY_Controller {
 	}
 
 	public function cost_branch() {
+		$this->load->model('branch_model');
 		$this->load->model('cost_branch_model');
 
 		$get = $this->input->get();
@@ -135,56 +136,85 @@ class Student extends MY_Controller {
 		}
 
 		$dateArr = explode('-', $time);
-		$date_from = trim($dateArr[0]);
-		$date_from = strtotime(str_replace("/", "-", $date_from));
-		$date_end = trim($dateArr[1]);
-		$date_end = strtotime(str_replace("/", "-", $date_end)) + 3600 * 24;
+		$date_from_arr = trim($dateArr[0]);
+		$date_from = strtotime(str_replace("/", "-", $date_from_arr));
+		$date_end_arr = trim($dateArr[1]);
+		$date_end = strtotime(str_replace("/", "-", $date_end_arr)) + 3600 * 24 - 1;
 
 		$input = array();
 		$input['where'] = array(
 			'day_cost >=' => $date_from,
-			'day_cost <' => $date_end,
+			'day_cost <=' => $date_end,
 			'branch_id' => $this->branch_id
 		);
 
-		if (isset($get['filter_number_records'])) {
-			$input['limit'] = array($get['filter_number_records']);
+//		if (isset($get['filter_number_records'])) {
+//			$input['limit'] = array($get['filter_number_records']);
+//		} else {
+//			$input['limit'] = array(10);
+//		}
+		if ($this->role_id != 12) {
+			unset($input['where']['branch_id']);
+			if (isset($get['filter_branch_id'])) {
+				$input['where_in']['branch_id'] = $get['filter_branch_id'];
+			}
+			$branch = $this->branch_model->load_all();
+			unset($branch[8]);
+			$data['branch'] = $branch;
 		} else {
-			$input['limit'] = array(31);
+			$branch[] = array('id' => $this->branch_id);
 		}
-
 		$input['order']['day_cost'] = 'desc';
 
 		$cost = $this->cost_branch_model->load_all($input);
-//		print_arr($cost);
 
-//		$this->load->model('branch_model');
 		$total_cost = 0;
 		foreach ($cost as &$item) {
-//			$item['branch_name'] = $this->branch_model->find_branch_name($item['branch_id']);
+			$item['branch_name'] = $this->branch_model->find_branch_name($item['branch_id']);
 			$total_cost += $item['cost'];
 		}
-//		unset($item);
+		unset($item);
 
 		$post = $this->input->post();
-//		print_arr($post);
-
 		if (isset($post) && !empty($post)) {
 			$param['cost'] = $post['cost'];
 			$param['content_cost'] = $post['content_cost'];
 			$param['day_cost'] = strtotime(str_replace("/", "-", $post['day_cost']));
 			$param['time_created'] = time();
 			$param['branch_id'] = $this->branch_id;
-			$param['day'] = date('Y-m-d', strtotime($post['day_cost']));
+			$param['day'] = date('d-m-Y', strtotime($post['day_cost']));
 			$this->cost_branch_model->insert($param);
 			redirect(base_url('student/cost_branch'));
 		}
 
+		$date_for_report = $this->display_date($date_from_arr, $date_end_arr);
+
+		$report = array();
+		foreach ($date_for_report as $value_date) {
+			foreach ($branch as $value_branch) {
+				$input_report['select'] = 'SUM(cost) AS COST';
+				$input_report['where'] = array(
+					'day' => $value_date,
+					'branch_id' => $value_branch['id'],
+				);
+				if (isset($input['where_in'])) {
+					$input_report['where_in'] = $input['where_in'];
+				}
+				$cost_day = $this->cost_branch_model->load_all($input_report);
+				if (!empty($cost_day)) {
+					$report[$value_branch['name']]['total'] += $cost_day[0]['COST'];
+					$report[$value_branch['name']][$value_date] = $cost_day[0]['COST'];
+				}
+			}
+		}
+
 		$data['cost'] = $cost;
+		$data['report'] = $report;
+		$data['date'] = array_reverse($date_for_report);
 		$data['total_cost'] = str_replace(',', '.', number_format($total_cost));
 		$data['startDate'] = isset($date_from) ? $date_from : '0';
 		$data['endDate'] = isset($date_end) ? $date_end : '0';
-		$data['left_col'] = array('date_happen_1', 'language');
+		$data['left_col'] = array('date_happen_1', 'branch');
 		$data['content'] = 'student/cost_branch';
 		//echo '<pre>';print_r($data);die();
 

@@ -190,6 +190,13 @@ s
 
 				</li>
 
+				<li>
+					<a href="<?php echo base_url('marketer/get_ma_mkt'); ?>">
+						<img src="<?php echo base_url(); ?>public/images/add-contact.png">
+						<span> Thống kê chi phí theo ngày </span>
+					</a>
+				</li>
+
             </ul>
         </li>
 

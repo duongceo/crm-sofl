@@ -13,45 +13,88 @@
 </div>
 
 <div class="container" style="max-width: 910px">
-		<div>
-			<div class="col-md-10">
-				<div class="row text-left">
-					<a class="btn btn-primary" data-toggle="modal" href='#modal-id'>Nhập chi tiêu</a>
-				</div>
-			</div>
+	<div class="col-md-10">
+		<div class="row text-left">
+			<a class="btn btn-primary" data-toggle="modal" href='#modal-id'>Nhập chi tiêu</a>
 		</div>
+	</div>
 
-		<table>
-			<thead>
+	<table class="table table-bordered table-striped" style="display: block;overflow: scroll; height: 600px;">
+		<thead>
 			<tr>
 				<th>Ngày chi tiêu</th>
 				<th>Chi phí</th>
 				<th>Nội dung</th>
 				<th>Ngày nhập</th>
 			</tr>
+		</thead>
+
+		<tbody id="log-body">
+		<?php if (isset($cost) && !empty($cost)) { ?>
+			<?php foreach ($cost as $item){ ?>
+				<tr>
+					<td class="text-center">
+						<?php echo date('d-m-Y', $item['day_cost']); ?>
+					</td>
+					<td class="text-center">
+						<?php echo $item['cost']; ?> VNĐ
+					</td>
+					<td class="text-justify">
+						<?php echo $item['content_cost']; ?>
+					</td>
+					<td class="text-center">
+						<?php echo date('d-m-Y H:i:s', $item['time_created']); ?>
+					</td>
+				</tr>
+			<?php } ?>
+		<?php } ?>
+		</tbody>
+	</table>
+</div>
+<br>
+<hr>
+<div class="row">
+	<div class="col-lg-2 col-md-2" style="padding-right: 0">
+		<table class="table table-bordered table-striped view_report">
+			<thead class="table-head-pos">
+			<tr>
+				<th style="height: 50px; background: none;"></th>
+				<th style="background-color: #147c67"">Tổng chi tiêu</th>
+			</tr>
 			</thead>
-			<tbody id="log-body">
-			<?php if (isset($cost) && !empty($cost)) { ?>
-				<?php foreach ($cost as $item){ ?>
-					<tr>
-						<td class="text-center">
-							<?php echo date('d-m-Y', $item['day_cost']); ?>
-						</td>
-						<td class="text-center">
-							<?php echo $item['cost']; ?> VNĐ
-						</td>
-						<td class="text-justify">
-							<?php echo $item['content_cost']; ?>
-						</td>
-						<td class="text-center">
-							<?php echo date('d-m-Y H:i:s', $item['time_created']); ?>
-						</td>
-					</tr>
-				<?php } ?>
+
+			<tbody>
+			<?php foreach ($report as $key_report => $item_report) { ?>
+				<tr>
+					<td style="background: #48baad; height: 50px;"> <?php echo $key_report; ?> </td>
+					<td> <?php echo number_format($item_report['total'], 0, ",", "."); ?> </td>
+				</tr>
 			<?php } ?>
 			</tbody>
 		</table>
 	</div>
+
+	<div class="col-lg-10 col-md-10" style="padding-left: 0">
+		<table class="table table-bordered table-striped view_report gr4-table" style="display: block;overflow: scroll">
+			<thead class="table-head-pos">
+			<tr>
+				<?php foreach ($date as $item) { ?>
+					<th style="min-width: 180px; height: 50px; background-color: #4689c8"> <?php echo $item ?></th>
+				<?php } ?>
+			</tr>
+			</thead>
+			<tbody>
+			<?php foreach ($report as $key_report => $item_report) { ?>
+				<tr>
+					<?php foreach ($date as $item) { ?>
+						<td style="height: 50px;"><?php echo number_format($item_report[$item], 0, ",", ".")?></td>
+					<?php } ?>
+				</tr>
+			<?php } ?>
+			</tbody>
+		</table>
+	</div>
+</div>
 
 <div class="modal fade" id="modal-id" role="dialog">
 	<div class="modal-dialog modal-lg">
@@ -65,32 +108,34 @@
 					<div class="row">
 						<div class="col-md-6">
 							<table class="table table-striped table-bordered table-hover table-1 table-view-1">
-							<tr>
-								<td  class="text-right">Ngày chi tiêu</td>
-								<td>
-									<input type="text" class="form-control datepicker" name="day_cost">
-								</td>
-							</tr>
+								<tr>
+									<td  class="text-right">Ngày chi tiêu</td>
+									<td>
+										<input type="text" class="form-control datepicker" name="day_cost">
+									</td>
+								</tr>
 
-							<tr>
-								<td  class="text-right">Số tiền chi tiêu</td>
-								<td>
-									<input type="text" class="form-control" name="cost" />
-								</td>
-							</tr>
+								<tr>
+									<td  class="text-right">Số tiền chi tiêu</td>
+									<td>
+										<input type="text" class="form-control" name="cost" />
+									</td>
+								</tr>
 							</table>
 						</div>
 
 						<div class="col-md-6">
 							<table class="table table-striped table-bordered table-hover table-2 table-view-2">
-								<td class="text-right">
-									Nội dung chi tiêu
-								</td>
-								<td>
-									<div class="form-group">
-										<textarea class="form-control" rows="4" cols="30" name="content_cost"></textarea>
-									</div>
-								</td>
+								<tr>
+									<td class="text-right">
+										Nội dung chi tiêu
+									</td>
+									<td>
+										<div class="form-group">
+											<textarea class="form-control" rows="4" cols="30" name="content_cost"></textarea>
+										</div>
+									</td>
+								</tr>
 							</table>
 						</div>
 						<div class="text-center">

@@ -1039,6 +1039,17 @@ class MY_Controller extends CI_Controller {
 
     }
 
+	protected function display_date($date1, $date2, $format = 'd-m-Y' ) {
+		$dates = array();
+		$current = strtotime(str_replace("/", "-", $date1));
+		$date2 = strtotime(str_replace("/", "-", $date2));
+		$stepVal = '+1 day';
+		while($current <= $date2) {
+			$dates[] = date($format, $current);
+			$current = strtotime($stepVal, $current);
+		}
+		return $dates;
+	}
 
     protected function _ajax_redirect($location = '') {
 
@@ -1158,7 +1169,6 @@ class MY_Controller extends CI_Controller {
         $data['search_all'] = $get['search_all'];
         $this->load->view('common/modal/search_all', $data);
     }
-
 
     private function _slogan() {
         $slogan = array(

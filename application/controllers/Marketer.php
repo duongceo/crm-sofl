@@ -334,7 +334,10 @@ class Marketer extends MY_Controller {
 	
 	public function get_ma_mkt() {
 		$this->load->model('spending_model');
-		
+		$this->load->model('language_study_model');
+		$this->load->model('channel_model');
+		$this->load->model('location_model');
+
 		$require_model = array(
 			'language_study' => array(),
 			'channel' => array(),
@@ -353,10 +356,10 @@ class Marketer extends MY_Controller {
 		}
 
 		$dateArr = explode('-', $time);
-		$date_from = trim($dateArr[0]);
-		$date_from = strtotime(str_replace("/", "-", $date_from));
-		$date_end = trim($dateArr[1]);
-		$date_end = strtotime(str_replace("/", "-", $date_end)) + 3600 * 24;
+		$date_from_arr = trim($dateArr[0]);
+		$date_from = strtotime(str_replace("/", "-", $date_from_arr));
+		$date_end_arr = trim($dateArr[1]);
+		$date_end = strtotime(str_replace("/", "-", $date_end_arr)) + 3600 * 24;
 		
 		$input = array();
 		$input['where'] = array(
@@ -368,21 +371,30 @@ class Marketer extends MY_Controller {
 		if (isset($get['filter_language_id'])) {
 			$input['where_in']['language_id'] = $get['filter_language_id'];
 		}
+		if (isset($get['filter_channel_id'])) {
+			$input['where_in']['channel_id'] = $get['filter_channel_id'];
+		}
+		if (isset($get['filter_marketer_id'])) {
+			$input['where_in']['marketer_id'] = $get['filter_marketer_id'];
+		}
 
-		if (isset($get['filter_number_records'])) {
-			$input['limit'] = array($get['filter_number_records']);
+//		if (isset($get['filter_number_records'])) {
+//			$input['limit'] = array($get['filter_number_records']);
+//		} else {
+//			$input['limit'] = array(31);
+//		}
+		if ($this->role_id != 6) {
+			unset($input['where']['marketer_id']);
+			$marketer = $this->staffs_model->load_all(array('where' => array('role_id' => 6, 'active' => 1)));
+			$data['marketers'] = $marketer;
 		} else {
-			$input['limit'] = array(31);
+			$marketer[] = array('id' => $this->user_id);
 		}
 		$input['order']['day_spend'] = 'desc';
 	
 		$spend = $this->spending_model->load_all($input);
-		
-		$spend_fb = 0;
-		$this->load->model('language_study_model');
-		$this->load->model('channel_model');
-		$this->load->model('location_model');
 
+		$spend_fb = 0;
 		if (isset($spend)) {
 			foreach ($spend as $value) {
 				$data['spend'][] = array(
@@ -398,8 +410,6 @@ class Marketer extends MY_Controller {
 		}
 
 		$post = $this->input->post();
-//		print_arr($post);
-		
 		if (isset($post) && !empty($post)) {
 			$param['channel_id'] = $post['channel_id'];
 			$param['language_id'] = $post['language_id'];
@@ -414,11 +424,35 @@ class Marketer extends MY_Controller {
 			redirect(base_url('marketer/get_ma_mkt'));
 		}
 
-		$data['marketers'] = $data['staffs'];
+		$date_for_report = $this->display_date($date_from_arr, $date_end_arr);
+		$report = array();
+		foreach ($date_for_report as $value_date) {
+			foreach ($marketer as $value_marketer) {
+				$input_report['select'] = 'SUM(spend) AS COST';
+				$input_report['where'] = array(
+					'day_spend' => strtotime(str_replace("/", "-", $value_date)),
+					'marketer_id' => $value_marketer['id'],
+				);
+				if (isset($input['where_in'])) {
+					$input_report['where_in'] = $input['where_in'];
+				}
+				$cost_day = $this->spending_model->load_all($input_report);
+				if (!empty($cost_day)) {
+					$report[$value_marketer['name']]['total'] += $cost_day[0]['COST'];
+					$report[$value_marketer['name']][$value_date] = $cost_day[0]['COST'];
+				}
+			}
+		}
+//		print_arr($report);
+
+		$data['report'] = $report;
+		$data['date'] = array_reverse($date_for_report);
+//		$data['marketers'] = $data['staffs'];
 		$data['total_spend'] = str_replace(',', '.', number_format($spend_fb));
 		$data['startDate'] = isset($date_from) ? $date_from : '0';
 		$data['endDate'] = isset($date_end) ? $date_end : '0';
-		$data['left_col'] = array('date_happen_1', 'language');
+		$data['left_col'] = array('date_happen_1', 'language', 'marketer');
+		$data['right_col'] = array('channel');
 		$data['content'] = 'marketer/upload_spend';
 		//echo '<pre>';print_r($data);die();
 
