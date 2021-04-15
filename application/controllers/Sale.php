@@ -635,7 +635,7 @@ class Sale extends MY_Controller {
 				
 				if (isset($input['fee']) && $input['fee'] != '') {
 					$param['fee'] = str_replace(',', '', $input['fee']);
-					if (strlen($param['fee']) < 6 || (strlen($param['fee']) > 7)) {
+					if (strlen($param['fee']) < 6) {
 						show_error_and_redirect('Contact bạn vừa thêm có số tiền học phí không đúng chuẩn', 0, $input['back_location']);
 					}
 				}
