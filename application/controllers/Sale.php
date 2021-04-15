@@ -650,7 +650,7 @@ class Sale extends MY_Controller {
 						show_error_and_redirect('Contact bạn vừa thêm ko đúng logic tiền đóng và trạng thái contact', 0, $input['back_location']);
 					}
 					
-					if (strlen($param['paid']) < 6 || strlen($param['paid']) > 7 || ((int)$param['paid'] > (int)$param['fee'])) {
+					if (strlen($param['paid']) < 6 || strlen($param['paid']) > 8 || ((int)$param['paid'] > (int)$param['fee'])) {
 						show_error_and_redirect('Contact bạn vừa thêm có số tiền đã đóng không đúng chuẩn', 0, $input['back_location']);
 					} else if ($param['paid'] == $param['fee']) {
 						$param['complete_fee'] = 1;
