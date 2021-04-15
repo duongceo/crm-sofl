@@ -851,7 +851,8 @@ class Sale extends MY_Controller {
         $data = array();
         $data['contact_id'] = $id;
         $data['staff_id'] = $this->user_id;
-		
+        $data['role_id'] = $this->role_id;
+
 		if (isset($post['level_contact_detail']) && $post['level_contact_detail'] != '') {
 			$post['level_contact_id'] = $post['level_contact_detail'];
 		}
