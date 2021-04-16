@@ -53,17 +53,17 @@
 		<?php
 
 		$report = array(
-			array('Xử Lý', 'XU_LY', $XU_LY),
-			array('1 Lần', 'LAN_1', $LAN_1),
-			array('2 Lần', 'LAN_2', $LAN_2),
-			array('3 Lần', 'LAN_3', $LAN_3),
-			array('4 Lần', 'LAN_4', $LAN_4),
-			array('5 Lần', 'LAN_5', $LAN_5)
+			array('Xử Lý', 'XU_LY'),
+			array('1 Lần', 'LAN_1'),
+			array('2 Lần', 'LAN_2'),
+			array('3 Lần', 'LAN_3'),
+			array('4 Lần', 'LAN_4'),
+			array('5 Lần', 'LAN_5')
 		);
 
 		foreach ($report as $values) {
 
-			list($name, $value2, $total) = $values;
+			list($name, $value2) = $values;
 
 			?>
 
