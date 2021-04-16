@@ -1046,6 +1046,7 @@ class Manager extends MY_Controller {
 		//echo '<pre>'; print_r($get);die;
 
 		$input = array();
+		$input['select'] = 'id, name';
 		$input['where'] = array('role_id' => 1, 'active' => 1);
         $staffs = $this->staffs_model->load_all($input);
 
@@ -1239,19 +1240,15 @@ class Manager extends MY_Controller {
 				$conditional_1['where']['sale_staff_id'] = $value_staff['id'];
 				$conditional_1['where_not_in']['source_id'] = $source_arr;
 				$conditional = array_merge_recursive($conditional_1, $value2);
-
                 $staffs[$key_staff][$key2] = $this->_query_for_report($get, $conditional);
                 //$conditionArr_staff[$key2]['sum'] += $staffs[$key][$key2];
-				$temp_sale += $staffs[$key_staff][$key2]; 
-				
+				$temp_sale += $staffs[$key_staff][$key2];
 				if ($value_staff['out_report'] == 1) { // ko tính contact này vào tổng
 					$temp_sale = $temp_sale - $staffs[$key_staff][$key2];
 				}
 				$data[$key2] = $temp_sale;
-
 				$staffs[$key_staff]['RE'] = $this->get_re($conditional_1, $startDate, $endDate);
 				//$data['RE'] += $staffs[$key_staff]['RE'];
-				
             }
 			
 			if ($this->role_id == 3) {
@@ -1261,7 +1258,6 @@ class Manager extends MY_Controller {
 					$conditional['where']['language_id'] = $value_language['id'];
 					$conditional['where_not_in']['source_id'] = $source_arr;
 					$conditional['where_not_in']['sale_staff_id'] = array(5, 18);
-					
 					if ($key2 == 'NHAN' && !isset($get['tic_report'])) {
 						unset($value2['where']['date_handover >='], $value2['where']['date_handover <=']);
 						$value2['where']['date_rgt >='] = $startDate;
@@ -1878,9 +1874,7 @@ class Manager extends MY_Controller {
 					if ($report[$value_source['name']][$value_sale['name']][$key_condition] == 0 && $report[$value_source['name']][$value_sale['name']]['RE'] == 0) {
 						unset($report[$value_source['name']][$value_sale['name']]);
 					}
-					
 				}
-
 				//$conditional_2 = array_merge_recursive($conditional_source, $value);
 				//$data['sources'][$key_source][$key_condition] = $this->_query_for_report($get, $conditional_2);
 			}
@@ -1911,7 +1905,7 @@ class Manager extends MY_Controller {
 		$input_contact['select'] = 'id';
 		$input_contact['where']['date_paid >='] = $startDate;
 		$input_contact['where']['date_paid <='] = $endDate;
-		$input_contact['where']['level_contact_id'] = 'L5';
+//		$input_contact['where']['level_contact_id'] = 'L5';
 		$input_contact = array_merge_recursive($condition_id, $input_contact);
 //		print_arr($input_contact);
 		$contact = $this->contacts_model->load_all($input_contact);
@@ -1934,7 +1928,7 @@ class Manager extends MY_Controller {
 			//print_arr($input_re);
 
 			$input_re['where_in']['contact_id'] = $contact_id;
-			
+
 			$re = (int) $this->paid_model->load_all($input_re)[0]['paiding'];
 		}
 
@@ -2154,27 +2148,6 @@ class Manager extends MY_Controller {
 		$endDate = trim($dateArr[1]);
 		$endDate = strtotime(str_replace("/", "-", $endDate)) + 3600 * 24 - 1;
 
-//		$conditionArr = array(
-//			'XU_LY' => array(
-//				'where' => array('customer_care_call_id !=' => '0'),
-//			),
-//			'NGHE_MAY' => array(
-//				'where' => array('customer_care_call_id' => 1),
-//			),
-//			'KO_NGHE_MAY' => array(
-//				'where' => array('customer_care_call_id' => 2),
-//			),
-//			'THAM_KHAO' => array(
-//				'where' => array('status_end_student_id' => 1),
-//			),
-//			'DONG_Y' => array(
-//				'where' => array('status_end_student_id' => 2),
-//			),
-//			'TU_CHOI' => array(
-//				'where' => array('status_end_student_id' => 3),
-//			),
-//		);
-
 		unset($get['filter_date_date_happen'], $data['branch'][0]);
 
 		$report = array();
@@ -2201,6 +2174,80 @@ class Manager extends MY_Controller {
 //		$data['right_col'] = array('is_old');
 //		$data['load_js'] = array('m_view_report');
 		$data['content'] = 'manager/view_report_care_l7';
+		$this->load->view(_MAIN_LAYOUT_, $data);
+	}
+
+	public function view_report_sale_handle() {
+		$this->load->model('call_log_model');
+		$require_model = array(
+			'language_study' => array(),
+		);
+
+		$data = array_merge($this->data, $this->_get_require_data($require_model));
+		$get = $this->input->get();
+
+		/* Mảng chứa các ngày lẻ */
+		if (isset($get['filter_date_date_happen']) && $get['filter_date_date_happen'] != '') {
+			$time = $get['filter_date_date_happen'];
+		} else {
+			$time = '01' . '/' . date('m') . '/' . date('Y') . ' - ' . date('d') . '/' . date('m') . '/' . date('Y');
+		}
+
+		$dateArr = explode('-', $time);
+		$start_date = trim($dateArr[0]);
+		$start_date = strtotime(str_replace("/", "-", $start_date));
+		$end_date = trim($dateArr[1]);
+		$end_date = strtotime(str_replace("/", "-", $end_date)) + 3600 * 24 - 1;
+
+//		echo $start_date . '--' . $end_date;die();
+
+		$input_call = array(
+			'XU_LY' => array(
+				'where' => array('call_status_id !=' => '0', 'is_hide' => '0', 'date_last_calling >=' => $start_date, 'date_last_calling <=' => $end_date),
+			),
+		);
+
+		for ($i=1; $i<6; $i++) {
+			$input_call['LAN_' . $i] = array(
+//				'select' => 'COUNT(DISTINCT(contact_id)) AS COUNT_CALL',
+				'where' => array('time_created >=' => $start_date, 'time_created <=' => $end_date),
+				'group_by' => array('contact_id'),
+				'having' => array('COUNT(contact_id)' => $i)
+			);
+		}
+
+		unset($get['filter_date_date_happen']);
+
+		$input = array();
+		$input['select'] = 'id, name';
+		$input['where'] = array('role_id' => 1, 'active' => 1);
+		$staff= $this->staffs_model->load_all($input);
+
+//		$temp_cc = 0;
+		foreach ($staff as $key_staff => $value_staff) {
+			foreach ($input_call as $key_call => $value_call) {
+				$conditional_staff = array();
+				if ($key_call == 'XU_LY') {
+					$conditional_staff['where']['sale_staff_id'] = $value_staff['id'];
+					$conditional = array_merge_recursive($conditional_staff, $value_call);
+					$staff[$key_staff][$key_call] = $this->_query_for_report($get, $conditional);
+				} else {
+					$conditional_staff['where']['staff_id'] = $value_staff['id'];
+					$conditional = array_merge_recursive($conditional_staff, $value_call);
+					$count_call = $this->call_log_model->load_all($conditional);
+					$staff[$key_staff][$key_call] = (!empty($count_call)) ? count($count_call) : 0;
+				}
+			}
+		}
+//		print_arr($staff);
+
+		$data['staffs'] = $staff;
+		$data['startDate'] = $start_date;
+		$data['endDate'] = $end_date;
+		$data['left_col'] = array('date_happen_1');
+//		$data['right_col'] = array('is_old');
+//		$data['load_js'] = array('m_view_report');
+		$data['content'] = 'manager/view_report_sale_handle';
 		$this->load->view(_MAIN_LAYOUT_, $data);
 	}
 

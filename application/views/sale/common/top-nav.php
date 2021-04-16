@@ -216,6 +216,18 @@
 					</a>
 
 				</li>
+
+				<li>
+
+					<a href="<?php echo base_url('manager/view_report_sale_handle'); ?>">
+
+						<img src="<?php echo base_url(); ?>public/images/report.png">
+
+						<span> Báo cáo xử lý contact </span>
+
+					</a>
+
+				</li>
 <!--                <li>-->
 <!--                    <a href="--><?php //echo base_url('tu-van-tuyen-sinh/xem-bao-cao.html'); ?><!--">-->
 <!---->

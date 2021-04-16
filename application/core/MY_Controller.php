@@ -732,21 +732,21 @@ class MY_Controller extends CI_Controller {
 
      */
 
-    protected function _set_call_log_common($contact_id, $content_change) {
-
-        $this->load->model('call_log_model');
-
-        $param['contact_id'] = $contact_id;
-
-        $param['staff_id'] = $this->user_id;
-
-        $param['content_change'] = $content_change;
-
-        $param['time_created'] = time();
-
-        $this->call_log_model->insert($param);
-
-    }
+//    protected function _set_call_log_common($contact_id, $content_change) {
+//
+//        $this->load->model('call_log_model');
+//
+//        $param['contact_id'] = $contact_id;
+//
+//        $param['staff_id'] = $this->user_id;
+//
+//        $param['content_change'] = $content_change;
+//
+//        $param['time_created'] = time();
+//
+//        $this->call_log_model->insert($param);
+//
+//    }
 
     /*
 
@@ -962,6 +962,7 @@ class MY_Controller extends CI_Controller {
 			$this->load->model('call_log_model');
 			$input = array();
 			$input['select'] = 'distinct(contact_id)';
+			$input['where']['role_id'] = 1;
 			$input['group_by'] = array('contact_id');
 			$input['having'] = array('count(contact_id)' => $get['filter_care_number']);
 			$called = $this->call_log_model->load_all($input);
