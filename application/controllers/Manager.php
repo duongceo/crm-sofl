@@ -1046,7 +1046,7 @@ class Manager extends MY_Controller {
 		//echo '<pre>'; print_r($get);die;
 
 		$input = array();
-		$input['select'] = 'id, name';
+		$input['select'] = 'id, name, out_report';
 		$input['where'] = array('role_id' => 1, 'active' => 1);
         $staffs = $this->staffs_model->load_all($input);
 
@@ -2209,7 +2209,7 @@ class Manager extends MY_Controller {
 
 		for ($i=1; $i<6; $i++) {
 			$input_call['LAN_' . $i] = array(
-//				'select' => 'COUNT(DISTINCT(contact_id)) AS COUNT_CALL',
+				'select' => 'contact_id',
 				'where' => array('time_created >=' => $start_date, 'time_created <=' => $end_date),
 				'group_by' => array('contact_id'),
 				'having' => array('COUNT(contact_id)' => $i)
@@ -2222,7 +2222,7 @@ class Manager extends MY_Controller {
 		$input['select'] = 'id, name';
 		$input['where'] = array('role_id' => 1, 'active' => 1);
 		$staff= $this->staffs_model->load_all($input);
-
+		
 //		$temp_cc = 0;
 		foreach ($staff as $key_staff => $value_staff) {
 			foreach ($input_call as $key_call => $value_call) {

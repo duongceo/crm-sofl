@@ -98,6 +98,7 @@ class MY_Model extends CI_Model {
      * $input : mang cac du lieu dau vao
      */
     function load_all($input = array()) {
+        $data = array();
 //    	print_arr($input);
         //xu ly ca du lieu dau vao
         $this->get_list_set_input($input);
@@ -106,7 +107,11 @@ class MY_Model extends CI_Model {
         //thuc hien truy van du lieu
         $query = $this->db->get($this->table);
         //echo $this->db->last_query();
-        return $query->result_array();
+        if ($query !== FALSE && $query->num_rows() > 0) {
+            $data = $query->result_array();
+        }
+        // return $query->result_array();
+        return $data;
         //var_dump($query->result_array());
     }
 
