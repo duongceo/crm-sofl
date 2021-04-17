@@ -125,7 +125,7 @@ class Contact extends CI_Controller {
 
             /* ======= Lọc trùng contact ============ */
 
-            $param['duplicate_id'] = $this->_find_dupliacte_contact($param['phone'], $param['level_language_id']);
+            $param['duplicate_id'] = $this->_find_dupliacte_contact($param['phone'], $param['language_id']);
 
             // print_arrs($param);
 
@@ -245,7 +245,7 @@ class Contact extends CI_Controller {
 
     }
 
-	private function _find_dupliacte_contact($phone = '', $level_language_id = '') {
+	private function _find_dupliacte_contact($phone = '', $language_id = '') {
 
         $dulicate = 0;
 
@@ -257,7 +257,7 @@ class Contact extends CI_Controller {
 
             'phone' => trim($phone),
 
-            'level_language_id' => $level_language_id,
+            'language_id' => $language_id,
 
             'is_hide' => '0'
 
@@ -270,7 +270,7 @@ class Contact extends CI_Controller {
         $rs = $this->contacts_model->load_all($input);
 
         if (count($rs) > 0) {
-			if (time() - $rs[0]['date_rgt'] > 3*30*24*60*60) {
+			if (time() - $rs[0]['date_rgt'] < 3*30*24*60*60) {
 				$dulicate = $rs[0]['id'];
 			}
         }
