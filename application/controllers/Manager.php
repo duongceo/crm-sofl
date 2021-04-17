@@ -278,7 +278,7 @@ class Manager extends MY_Controller {
         /*
          * Filter ở cột trái và cột phải
          */
-        $data['left_col'] = array('care_number', 'sale', 'language', 'level_language', 'date_rgt', 'date_handover', 'date_confirm', 'date_rgt_study', 'date_last_calling', 'date_customer_care_call', 'date_paid', 'study_date_start', 'study_date_end', 'date_customer_care_call');
+        $data['left_col'] = array('care_number', 'sale', 'language', 'level_language', 'date_rgt', 'date_handover', 'date_confirm', 'date_rgt_study', 'date_last_calling', 'date_paid', 'study_date_start', 'study_date_end', 'date_customer_care_call');
         $data['right_col'] = array('branch', 'class_study', 'is_old', 'complete_fee', 'source', 'call_status', 'level_contact', 'level_contact_detail', 'level_student', 'level_student_detail', 'customer_care_call_stt');
 
         /*
@@ -2251,16 +2251,99 @@ class Manager extends MY_Controller {
 		$this->load->view(_MAIN_LAYOUT_, $data);
 	}
 
-	private function get_class_id($class_arr) {
-    	$class_id_arr = array();
-    	if (empty($class_arr)) {
-    		return $class_id_arr;
+	public function view_report_revenue_class() {
+		$this->load->model('paid_model');
+		$this->load->model('class_study_model');
+		$this->load->model('branch_model');
+
+		$require_model = array(
+			'branch' => array(),
+		);
+		$data = array_merge($this->data, $this->_get_require_data($require_model));
+
+		$get = $this->input->get();
+
+		if (isset($get['filter_date_date_happen']) && $get['filter_date_date_happen'] != '') {
+			$time = $get['filter_date_date_happen'];
 		} else {
+			$time = '01' . '/' . date('m') . '/' . date('Y') . ' - ' . date('d') . '/' . date('m') . '/' . date('Y');
+		}
+
+		$dateArr = explode('-', $time);
+		$date_from = trim($dateArr[0]);
+		$date_from = strtotime(str_replace("/", "-", $date_from));
+		$date_end = trim($dateArr[1]);
+		$date_end = strtotime(str_replace("/", "-", $date_end)) + 3600 * 24 - 1;
+
+		if ($this->role_id != 12) {
+			unset($data['branch'][0],$data['branch'][8]);
+			$branch = $data['branch'];
+		} else {
+			$branch[] = array('id' => $this->branch_id, 'name' => $this->branch_model->find_branch_name($this->branch_id));
+		}
+
+		$report = array();
+		foreach ($branch as $v_branch) {
+			$input_class = array();
+			$input_class['where'] = array(
+				'time_start >=' => $date_from,
+				'time_start <=' => $date_end,
+				'character_class_id' => 2,
+				'branch_id' => $v_branch['id']
+			);
+			if (isset($get['filter_language_id'])) {
+				$input_class['where_in']['language_id'] = $get['filter_language_id'];
+			}
+
+			$class = $this->class_study_model->load_all($input_class);
+
+			if (!empty($class)) {
+				foreach ($class as $value_class) {
+					$contact_id_arr = $this->get_contact_id($value_class['class_study_id']);
+					if (!empty($contact_id_arr)) {
+						$input_re = array();
+						$input_re['select'] = 'SUM(paid) AS RE';
+						$input_re['where_in']['contact_id'] = $contact_id_arr;
+						$re_class = $this->paid_model->load_all($input_re);
+						$report[$v_branch['name']][$value_class['class_study_id']]['RE'] = (!empty($re_class)) ? $re_class[0]['RE'] : 0;
+						$report[$v_branch['name']][$value_class['class_study_id']]['student'] = count($contact_id_arr);
+					}
+				}
+			}
+		}
+
+//		print_arr($report);
+		$data['report'] = $report;
+		$data['startDate'] = $date_from;
+		$data['endDate'] = $date_end;
+
+		$data['left_col'] = array('date_happen_1');
+		$data['content'] = 'manager/view_report_revenue_class';
+		$this->load->view(_MAIN_LAYOUT_, $data);
+	}
+
+	private function get_contact_id($class_id) {
+		$input_conatct = array();
+		$input_conatct['select'] = 'id';
+		$input_conatct['where']['class_study_id'] = $class_id;
+		$contact_arr = $this->contacts_model->load_all($input_conatct);
+    	$contact_id_arr = array();
+    	if (!empty($contact_arr)) {
+			foreach ($contact_arr as $item) {
+				$contact_id_arr[] = $item['id'];
+			}
+		}
+		return $contact_id_arr;
+	}
+
+	private function get_class_id($class_arr) {
+		$class_id_arr = array();
+		if (!empty($class_arr)) {
 			foreach ($class_arr as $item) {
 				$class_id_arr[] = $item['class_study_id'];
-    		}
-			return $class_id_arr;
+			}
 		}
+		return $class_id_arr;
 	}
 
     // <editor-fold defaultstate="collapsed" desc="get_all_require_data">

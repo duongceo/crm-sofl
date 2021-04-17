@@ -233,6 +233,18 @@
 
 				</li>
 
+				<li>
+
+					<a href="<?php echo base_url('manager/view_report_revenue_class'); ?>">
+
+						<img src="<?php echo base_url(); ?>public/images/report.png">
+
+						<span> Báo cáo doanh thu lớp học</span>
+
+					</a>
+
+				</li>
+
 			</ul>
 		</li>
 

@@ -78,7 +78,7 @@
 
 					<a href="<?php echo base_url('manager/view_report_revenue'); ?>">
 
-						<img src="<?php echo base_url(); ?>public/images/report.png">
+						<img src="<?php echo base_url(); ?>public/images/dollar.png">
 
 						<span> Báo cáo doanh thu </span>
 
@@ -93,6 +93,18 @@
 						<img src="<?php echo base_url(); ?>public/images/dollar.png">
 
 						<span> Báo cáo doanh thu - HTTT </span>
+
+					</a>
+
+				</li>
+
+				<li>
+
+					<a href="<?php echo base_url('manager/view_report_revenue_class'); ?>">
+
+						<img src="<?php echo base_url(); ?>public/images/dollar.png">
+
+						<span> Báo cáo doanh thu lớp học</span>
 
 					</a>
 
