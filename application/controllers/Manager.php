@@ -332,126 +332,6 @@ class Manager extends MY_Controller {
         $this->load->view('manager/modal/view_duplicate', $data);
     }
 
-    // <editor-fold defaultstate="collapsed" desc="hàm add contact và các hàm phụ trợ">
-    /* ========================  hàm add contact và các hàm phụ trợ =========================== */
-
-//    public function add_contact() {
-//        $input = $this->input->post();
-////        print_arr($input);
-//        $this->load->library('form_validation');
-//        $this->form_validation->set_rules('name', 'Họ tên', 'trim|required|min_length[2]');
-//        $this->form_validation->set_rules('address', 'Địa chỉ', 'trim|required|min_length[3]');
-//        $this->form_validation->set_rules('phone', 'Số điện thoại', 'required|min_length[2]|integer');
-////        $this->form_validation->set_rules('class_study_id', 'Mã khóa học', 'required|callback_check_course_code');
-////        $this->form_validation->set_rules('source_id', 'Nguồn contact', 'required|callback_check_source_id');
-//        if (!empty($input)) {
-//            $result = array();
-//            if ($this->form_validation->run() == FALSE) {
-//                $result['success'] = 0;
-//                $result['message'] = 'Có lỗi xảy ra trong quá trình nhập liệu!';
-//                $require_model = array(
-//                    'class_study' => array(
-//                        'where' => array('active' => '1'),
-//                    ),
-//                    'sources' => array()
-//                );
-//                $data = array_merge($this->data, $this->_get_require_data($require_model));
-//                //  $data['content'] = 'manager/add_contact';
-//                $data['content'] = 'common/modal/add_new_contact';
-//                $this->load->view('common/modal/add_new_contact', $data);
-//                $result['content'] = $this->load->view('common/modal/add_new_contact', $data, true);
-//                echo json_encode($result);
-//                die;
-////                $this->session->set_tempdata('message', 'Có lỗi xảy ra trong quá trình nhập liệu', 2);
-////                $this->session->set_tempdata('msg_success', 0, 2);
-////                $this->_view_add_contact();
-//            } else {
-//                $param['name'] = $input['name'];
-//                $param['email'] = $input['email'];
-//                $param['address'] = $input['address'];
-//
-//				$t = stripos($param['address'], 'mh');
-//				if ($t === false) {
-//					$param['is_consultant'] = 0;
-//				} else {
-//					$param['is_consultant'] = 1;
-//				}
-//
-//                $param['phone'] = trim($input['phone']);
-//                $param['class_study_id'] = $input['class_study_id'];
-//                $param['source_id'] = $input['source_id'];
-//                $param['payment_method_rgt'] = $input['payment_method_rgt'];
-//                $param['fee'] = $input['fee'];
-//                $param['paid'] = $input['paid'];
-//                $param['date_rgt'] = time();
-//                $param['duplicate_id'] = $this->_find_dupliacte_contact($input['email'], $input['phone'], $input['class_study_id']);
-//                $param['last_activity'] = time();
-////                $param['source_sale_id'] = $input['source_sale_id'];
-//                $id = $this->contacts_model->insert_return_id($param, 'id');
-//				$a = $this->contacts_backup_model->insert_return_id($param, 'id');
-//                if ($input['note'] != '') {
-//                    $param2 = array(
-//                        'contact_id' => $id,
-//                        'content' => $input['note'],
-//                        'time' => time(),
-//                        'sale_id' => $this->user_id,
-//                        'contact_code' => $this->contacts_model->get_contact_code($id)
-//                    );
-//                    $this->load->model('notes_model');
-//                    $this->notes_model->insert($param2);
-//                }
-//                $data2 = [];
-//
-//                $data2['title'] = 'Có 1 contact mới đăng ký';
-//                $data2['message'] = 'Click để xem ngay';
-//
-//                require_once APPPATH . 'libraries/Pusher.php';
-//                $options = array(
-//                    'cluster' => 'ap1',
-//                    'encrypted' => true
-//                );
-////                $pusher = new Pusher(
-////                        '32b339fca68db27aa480', '32f6731ad5d48264c579', '490390', $options
-////                );
-//				$pusher = new Pusher(
-//					'f3c70a5a0960d7b811c9', '2fb574e3cce59e4659ac', '1042224', $options
-//				);
-//
-//                $pusher->trigger('my-channel', 'notice', $data2);
-//                $result['success'] = 1;
-//                $result['message'] = 'Thêm thành công contact!';
-//                echo json_encode($result);
-//                die;
-//            }
-//        } else {
-//            $this->_view_add_contact();
-//        }
-//    }
-
-//    private function _view_add_contact() {
-//        $require_model = array(
-//            'class_study' => array(
-//                'where' => ['active' => '1'],
-//            ),
-//            'sources' => array()
-//        );
-//        $data = array_merge($this->data, $this->_get_require_data($require_model));
-//        //  $data['content'] = 'manager/add_contact';
-//        $data['content'] = 'common/modal/add_new_contact';
-//        $this->load->view('common/modal/add_new_contact', $data);
-//    }
-
-//    function check_source_id($str) {
-//        if ($str == 0) {
-//            $this->form_validation->set_message('check_source_id', 'Vui lòng chọn {field}!');
-//            return false;
-//        }
-//        return true;
-//    }
-
-    /* ========================  hàm add contact và các hàm phụ trợ (hết) =========================== */
-
-    // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="hàm chia contact (chia riêng contact) và các hàm phụ trợ">
     /* ========================  hàm chia contact (chia riêng contact) và các hàm phụ trợ =========================== */
     function divide_contact() {
@@ -967,69 +847,8 @@ class Manager extends MY_Controller {
     /* ========================  hàm chia contact (chia đều contact) và các hàm phụ trợ (hết) =========================== */
 
     // </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc="hàm xóa contact và các hàm phụ trợ">
-    /* ========================  hàm xóa contact và các hàm phụ trợ =========================== */
-//    function delete_contact() {
-//        $post = $this->input->post();
-//        if (empty($post['contact_id'])) {
-//            redirect_and_die('Vui lòng chọn contact!');
-//        }
-//        $this->_check_contact_can_be_delete($post['contact_id']);
-//        foreach ($post['contact_id'] as $value) {
-//            $where = array('id' => $value);
-//            $data = array('is_hide' => 1, 'last_activity' => time());
-//            $this->contacts_model->update($where, $data);
-//        }
-//        $msg = 'Xóa thành công các contact vừa chọn!';
-//        show_error_and_redirect($msg);
-//    }
 
-//    function delete_one_contact() {
-//        $post = $this->input->post();
-//        if (!empty($post['contact_id'])) {
-//            $this->_check_contact_can_be_delete(array($post['contact_id']));
-//            $where = array('id' => $post['contact_id']);
-//            $data = array('is_hide' => 1, 'last_activity' => time());
-//            $this->contacts_model->update($where, $data);
-//            echo '1';
-//        }
-//    }
-
-//    private function _check_contact_can_be_delete($list) {
-//        $this->load->model('Staffs_model');
-//        foreach ($list as $value) {
-//            $input = array();
-//            $input['select'] = 'duplicate_id, sale_staff_id';
-//            $input['where'] = array('id' => $value);
-//            $rows = $this->contacts_model->load_all($input);
-//            if ($rows[0]['duplicate_id'] == 0) {
-//                redirect_and_die('Contact ' . $rows[0]['name'] . ' không bị trùng, vì vậy không thể xóa contact này!');
-//            }
-//            if ($rows[0]['sale_staff_id'] > 0) {
-//                $name = $this->Staffs_model->find_staff_name($rows[0]['sale_staff_id']);
-//                $msg = 'Contact này đã được bàn giao cho TVST: "' . $name . '", vì vậy không thể xóa contact này!';
-//                redirect_and_die($msg);
-//            }
-//        }
-//    }
-
-    /* ========================  hàm xóa contact và các hàm phụ trợ (hết) =========================== */
-
-    // </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc="Tìm kiếm contact">
-//    function find_contact() {
-//        $get = $this->input->get();
-//        $data = $this->_common_find_all($get);
-//        $this->table .= 'date_rgt date_last_calling call_stt ordering_stt action';
-//        $data['table'] = explode(' ', $this->table);
-//        $data['content'] = 'manager/find_contact';
-//        $data['load_js'] = array('common_real_search');
-//        $this->load->view(_MAIN_LAYOUT_, $data);
-//    }
-
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Báo cáo chi tiết của sale">
+    // <editor-fold defaultstate="collapsed" desc="Các báo cáo">
     function view_report_sale() {
 		$require_model = array(
 			'language_study' => array(
@@ -1314,9 +1133,6 @@ class Manager extends MY_Controller {
         $this->	load->view(_MAIN_LAYOUT_, $data);
     }
 
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Báo cáo doanh thu theo cơ sở và ngôn ngữ">
     function view_report_revenue() {
         $this->load->helper('manager_helper');
 		$this->load->model('paid_model');
@@ -1972,7 +1788,7 @@ class Manager extends MY_Controller {
 				'sum' => 0
 			),
 			'ĐA_KT' => array(
-				'where' => array('time_end_expected >=' => $startDate, 'time_end_expected <=' => $endDate, 'character_class_id' => 3),
+				'where' => array('time_end_real >=' => $startDate, 'time_end_real <=' => $endDate, 'character_class_id' => 3),
 				'sum' => 0
 			),
 		);
@@ -1997,7 +1813,7 @@ class Manager extends MY_Controller {
 			foreach ($data['language_study'] as $value_language) {
 				foreach ($conditionArr as $key_class => $value_class) {
 					$conditional = array();
-					$conditional['select'] = 'id';
+					$conditional['select'] = 'class_study_id';
 					$conditional['where']['branch_id'] = $value_branch['id'];
 					$conditional['where']['language_id'] = $value_language['id'];
 					$conditional = array_merge_recursive($conditional, $value_class);
@@ -2345,8 +2161,9 @@ class Manager extends MY_Controller {
 		}
 		return $class_id_arr;
 	}
+	// </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="get_all_require_data">
+	// <editor-fold defaultstate="collapsed" desc="get_all_require_data">
     private function get_all_require_data() {
         $require_model = array(
             'staffs' => array(
