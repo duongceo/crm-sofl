@@ -2142,6 +2142,7 @@ class Manager extends MY_Controller {
 		$input_conatct = array();
 		$input_conatct['select'] = 'id';
 		$input_conatct['where']['class_study_id'] = $class_id;
+		$input_conatct['where']['level_contact_id'] = 'L5';
 		$contact_arr = $this->contacts_model->load_all($input_conatct);
     	$contact_id_arr = array();
     	if (!empty($contact_arr)) {
