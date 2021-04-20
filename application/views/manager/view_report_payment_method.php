@@ -44,29 +44,29 @@
 	</thead>
 
 	<tbody>
-	<?php foreach ($re as $value) { ?>
-		<tr>
-		<td style="background-color: #8aa6c1">
-			<?php echo $value['branch_name']; ?>
-		</td>
-			<?php foreach ($payment_method_rgt as $value_payment) { ?>
-				<?php
-				if ($value_payment['id'] == 4) {
-					foreach ($account_banking as $account) { ?>
-						<td>
-						<?php echo number_format($value[$value_payment['id']][$account['bank']]['re_total'], 0, ",", "."); ?>
-						</td>
-					<?php } ?>
+		<?php foreach ($re as $value) { ?>
+			<tr>
+			<td style="background-color: #8aa6c1">
+				<?php echo $value['branch_name']; ?>
+			</td>
+				<?php foreach ($payment_method_rgt as $value_payment) { ?>
+					<?php
+					if ($value_payment['id'] == 4) {
+						foreach ($account_banking as $account) { ?>
+							<td>
+							<?php echo number_format($value[$value_payment['id']][$account['bank']]['re_total'], 0, ",", "."); ?>
+							</td>
+						<?php } ?>
+							<td>
+								<?php echo number_format($value[$value_payment['id']]['re_total'], 0, ",", "."); ?>
+							</td>
+					<?php } else { ?>
 						<td>
 							<?php echo number_format($value[$value_payment['id']]['re_total'], 0, ",", "."); ?>
 						</td>
-				<?php } else { ?>
-					<td>
-						<?php echo number_format($value[$value_payment['id']]['re_total'], 0, ",", "."); ?>
-					</td>
+					<?php } ?>
 				<?php } ?>
-			<?php } ?>
-		</tr>
-	<?php } ?>
+			</tr>
+		<?php } ?>
 	</tbody>
 </table>

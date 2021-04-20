@@ -72,22 +72,31 @@
 	<thead>
 		<tr>
 			<th style="background: none"></th>
-			<th colspan="2">Hàn</th>
-			<th colspan="2">Nhật</th>
-			<th colspan="2">Trung</th>
-			<th style="background-color: #1e5f24" colspan="4">Tổng</th>
+<!--			<th colspan="2">Hàn</th>-->
+<!--			<th colspan="2">Nhật</th>-->
+<!--			<th colspan="2">Trung</th>-->
+			<?php foreach ($language_study as $item) { ?>
+				<th colspan="2">
+					<?php echo $item['name']; ?>
+				</th>
+			<?php } ?>
+			<th style="background-color: #1e5f24" colspan="3">Tổng</th>
 		</tr>
 
 		<tr>
 			<th style="background: none"></th>
 			<?php
-			$report = array('Học Viên Cũ', 'Học Viên Mới', 'Học Viên Cũ', 'Học Viên Mới', 'Học Viên Cũ', 'Học Viên Mới', 'Học Viên Cũ', 'Học Viên Mới');
-			foreach ($report as $value) {
-			?>
-				<th style="background-color: #1b6d85">
-					<?php echo $value; ?>
-				</th>
+			$report = array('Học Viên Cũ', 'Học Viên Mới');
+			foreach ($language_study as $item) {
+				foreach ($report as $value) {
+				?>
+					<th style="background-color: #1b6d85">
+						<?php echo $value; ?>
+					</th>
+				<?php } ?>
 			<?php } ?>
+			<th style="background-color: #1e5f24"> Học Viên Cũ </th>
+			<th style="background-color: #1e5f24"> Học Viên Mới </th>
 			<th style="background-color: #1e5f24"> Tổng thực thu </th>
 		</tr>
 	</thead>

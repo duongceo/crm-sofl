@@ -1785,22 +1785,21 @@ class Manager extends MY_Controller {
 		$conditionArr = array(
 			'ĐA_KG' => array(
 				'where' => array('time_start >=' => $startDate, 'time_start <=' => $endDate, 'character_class_id' => 2),
-				'sum' => 0
 			),
 			'ĐA_KT' => array(
 				'where' => array('time_end_real >=' => $startDate, 'time_end_real <=' => $endDate, 'character_class_id' => 3),
-				'sum' => 0
+			),
+			'DK_KT' => array(
+				'where' => array('time_end_expected >=' => $startDate, 'time_end_expected <=' => $endDate),
 			),
 		);
 
 		$conditionalArr_contact = array(
 			'L7' => array(
 				'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_study_id' => 'L7', 'last_activity >=' => $startDate, 'last_activity <=' => $endDate),
-				'sum' => 0
 			),
 			'L8' => array(
 				'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_student_id' => 'L8', 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
-				'sum' => 0
 			),
 		);
 

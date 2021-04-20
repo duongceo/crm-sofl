@@ -19,72 +19,72 @@
 
 	<thead>
 
-	<tr>
+		<tr>
 
-		<th style="background: none" class="staff_0"></th>
+			<th style="background: none" class="staff_0"></th>
 
-		<?php foreach ($staffs as $value) { ?>
+			<?php foreach ($staffs as $value) { ?>
 
-				<th style="background: #0f846c"  class="staff_<?php echo $value['id']; ?>">
+					<th style="background: #0f846c"  class="staff_<?php echo $value['id']; ?>">
 
-					<?php echo $value['name']; ?>
+						<?php echo $value['name']; ?>
 
-				</th>
+					</th>
 
-		<?php } ?>
+			<?php } ?>
 
-		<th class="staff_sum">
+			<th class="staff_sum">
 
-			Tổng
+				Tổng
 
-		</th>
+			</th>
 
-	</tr>
+		</tr>
 
 	</thead>
 
 	<tbody>
 
-	<?php
+		<?php
 
-	$report = array(
-		array('Xử Lý', 'XU_LY', $XU_LY),
-		array('Nghe Máy', 'NGHE_MAY', $NGHE_MAY),
-		array('Ko Nghe Máy', 'KO_NGHE_MAY', $KO_NGHE_MAY),
-		array('Tham khảo', 'THAM_KHAO', $THAM_KHAO),
-		array('Đồng ý đăng ký', 'DONG_Y', $DONG_Y),
-		array('Từ chối', 'TU_CHOI', $TU_CHOI),
-	);
+		$report = array(
+			array('Xử Lý', 'XU_LY', $XU_LY),
+			array('Nghe Máy', 'NGHE_MAY', $NGHE_MAY),
+			array('Ko Nghe Máy', 'KO_NGHE_MAY', $KO_NGHE_MAY),
+			array('Tham khảo', 'THAM_KHAO', $THAM_KHAO),
+			array('Đồng ý đăng ký', 'DONG_Y', $DONG_Y),
+			array('Từ chối', 'TU_CHOI', $TU_CHOI),
+		);
 
-	foreach ($report as $values) {
+		foreach ($report as $values) {
 
-		list($name, $value2, $total) = $values;
+			list($name, $value2, $total) = $values;
 
-		?>
+			?>
 
-		<tr>
+			<tr>
 
-			<td> <?php echo $name; ?> </td>
+				<td> <?php echo $name; ?> </td>
 
-			<?php foreach ($staffs as $value) { ?>
+				<?php foreach ($staffs as $value) { ?>
 
-				<td>
+					<td>
 
-					<?php echo $value[$value2]; ?>
+						<?php echo $value[$value2]; ?>
+
+					</td>
+
+				<?php } ?>
+
+				<td class="show_detail">
+
+					<?php echo $total; ?>
 
 				</td>
 
-			<?php } ?>
+			</tr>
 
-			<td class="show_detail">
-
-				<?php echo $total; ?>
-
-			</td>
-
-		</tr>
-
-	<?php } ?>
+		<?php } ?>
 
 	</tbody>
 

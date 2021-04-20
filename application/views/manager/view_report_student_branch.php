@@ -15,107 +15,94 @@
 </form>
 
 <table class="table table-bordered table-striped view_report">
-
 	<thead>
-	<tr>
-		<th style="background: none"></th>
-		<th colspan="7" style="background-color: #e94600">Hàn</th>
-		<th colspan="7" style="background-color: #E94600">Nhật</th>
-		<th colspan="7" style="background-color: #E94600">Trung</th>
-		<th colspan="2" style="background-color: #1e5f24" >Tổng</th>
-	</tr>
-
-	<tr>
-
-		<th style="background: none"></th>
-
-		<?php
-
-		$report = array('L1', 'L2', 'L3', 'L5_1', 'L5_2', 'L8', 'L5_1/L1');
-		foreach ($language_study as $item) {
-			foreach ($report as $value) {
-
-				?>
-
-				<th style="background-color: #1b6d85; width: 4%;">
-
-					<?php echo $value; ?>
-
+		<tr>
+			<th style="background: none"></th>
+	<!--		<th colspan="7" style="background-color: #e94600">Hàn</th>-->
+	<!--		<th colspan="7" style="background-color: #E94600">Nhật</th>-->
+	<!--		<th colspan="7" style="background-color: #E94600">Trung</th>-->
+			<?php foreach ($language_study as $item) { ?>
+				<th colspan="7">
+					<?php echo $item['name']; ?>
 				</th>
+			<?php } ?>
+			<th colspan="2" style="background-color: #1e5f24" >Tổng</th>
+		</tr>
 
-				<?php
-
+		<tr>
+			<th style="background: none"></th>
+			<?php
+			$report = array('L1', 'L2', 'L3', 'L5_1', 'L5_2', 'L8', 'L5_1/L1');
+			foreach ($language_study as $item) {
+				foreach ($report as $value) {
+					?>
+					<th style="background-color: #1b6d85; width: 4%;">
+						<?php echo $value; ?>
+					</th>
+					<?php
+				}
 			}
-		}
+			?>
 
-		?>
+			<th style="background-color: #2e6da4; width: 4%">
+				L5
+			</th>
 
-		<th style="background-color: #2e6da4; width: 4%">
-			L5
-		</th>
-
-		<th style="background-color: #2e6da4; width: 4%">
-			L8
-		</th>
-
-	</tr>
-
+			<th style="background-color: #2e6da4; width: 4%">
+				L8
+			</th>
+		</tr>
 	</thead>
 
 	<tbody>
+		<?php
+		foreach ($branch as $key => $value) {
+			$total_L5 = 0;
+			$total_L8 = 0;
+			?>
+			<tr <?php if ($key == 'total') echo 'style="background-color: #089bcebd"'?>>
+				<td style="background-color: #8aa6c1;"><h6><?php echo $value['name']?></h6></td>
+				<?php
+				foreach ($language_study as $item) {
 
-	<?php
+					$total_L5 += $value[$item['id']]['L5_1'] + $value[$item['id']]['L5_2'];
+					$total_L8 += $value[$item['id']]['L8'];
+					?>
+					<td>
+						<?php echo $value[$item['id']]['L1']; ?>
+					</td>
 
-	foreach ($branch as $key => $value) {
-		$total_L5 = 0;
-		$total_L8 = 0;
-		?>
-		<tr <?php if ($key == 'total') echo 'style="background-color: #089bcebd"'?>>
-			<td style="background-color: #8aa6c1;"><h6><?php echo $value['name']?></h6></td>
-			<?php
-			foreach ($language_study as $item) {
+					<td>
+						<?php echo $value[$item['id']]['L2']; ?>
+					</td>
 
-				$total_L5 += $value[$item['id']]['L5_1'] + $value[$item['id']]['L5_2'];
-				$total_L8 += $value[$item['id']]['L8'];
-				?>
-				<td>
-					<?php echo $value[$item['id']]['L1']; ?>
-				</td>
+					<td>
+						<?php echo $value[$item['id']]['L3']; ?>
+					</td>
 
-				<td>
-					<?php echo $value[$item['id']]['L2']; ?>
-				</td>
+					<td <?php if ($key != 'total') echo 'style="background-color: #9cc2cb"'?>>
+						<?php echo $value[$item['id']]['L5_1']; ?>
+					</td>
 
-				<td>
-					<?php echo $value[$item['id']]['L3']; ?>
-				</td>
+					<td <?php if ($key != 'total') echo 'style="background-color: #9cc2cb"'?>>
+						<?php echo $value[$item['id']]['L5_2']; ?>
+					</td>
 
-				<td <?php if ($key != 'total') echo 'style="background-color: #9cc2cb"'?>>
-					<?php echo $value[$item['id']]['L5_1']; ?>
-				</td>
+					<td <?php if ($key != 'total') echo 'style="background-color: #9cc2cb"' ?>>
+						<?php echo $value[$item['id']]['L8']; ?>
+					</td>
 
-				<td <?php if ($key != 'total') echo 'style="background-color: #9cc2cb"'?>>
-					<?php echo $value[$item['id']]['L5_2']; ?>
-				</td>
+					<td style="background-color: #41a85f">
+						<?php echo ($value[$item['id']]['L1'] == 0) ? 'ko thể chia cho 0' : round(($value[$item['id']]['L5_1'] / $value[$item['id']]['L1']) * 100, 2) . '%'; ?>
+					</td>
 
-				<td <?php if ($key != 'total') echo 'style="background-color: #9cc2cb"' ?>>
-					<?php echo $value[$item['id']]['L8']; ?>
-				</td>
+				<?php } ?>
 
-				<td style="background-color: #41a85f">
-					<?php echo ($value[$item['id']]['L1'] == 0) ? 'ko thể chia cho 0' : round(($value[$item['id']]['L5_1'] / $value[$item['id']]['L1']) * 100, 2) . '%'; ?>
-				</td>
-
-			<?php } ?>
-
-			<td style="background-color: #e787548f;"><?php echo $total_L5 ?></td>
-			<td style="background-color: #e787548f;"><?php echo $total_L8 ?></td>
-		</tr>
-
-	<?php } ?>
-
+				<td style="background-color: #e787548f;"><?php echo $total_L5 ?></td>
+				<td style="background-color: #e787548f;"><?php echo $total_L8 ?></td>
+			</tr>
+		<?php } ?>
 	</tbody>
-
 </table>
 
 <h5>L5_1 : Các học viên đăng ký mà contact có nguồn từ FB, Landingpge, Zalo, trực tiếp, ....</h5>

@@ -18,22 +18,29 @@
 	<thead>
 		<tr>
 			<th style="background: none"></th>
-			<th colspan="2">Hàn</th>
-			<th colspan="2">Nhật</th>
-			<th colspan="2">Trung</th>
-	<!--		<th style="background-color: #1e5f24" colspan="3">Tổng</th>-->
+<!--			<th colspan="2">Hàn</th>-->
+<!--			<th colspan="2">Nhật</th>-->
+<!--			<th colspan="2">Trung</th>-->
+			<?php foreach ($language_study as $item) { ?>
+				<th colspan="3">
+					<?php echo $item['name']; ?>
+				</th>
+			<?php } ?>
 		</tr>
 
 		<tr>
 			<th style="background: none"></th>
 			<?php
-			$report = array('Đã Khai Giảng', 'Đã Kết Thúc', 'Đã Khai Giảng', 'Đã Kết Thúc', 'Đã Khai Giảng', 'Đã Kết Thúc');
-			foreach ($report as $value) {
+			$report = array('Đã Khai Giảng', 'Đã Kết Thúc', 'Dự Kiến Kết Thúc');
+			foreach ($language_study as $item) {
+				foreach ($report as $value) {
 				?>
-				<th style="background-color: #1b6d85">
-					<?php echo $value; ?>
-				</th>
+					<th style="background-color: #1b6d85">
+						<?php echo $value; ?>
+					</th>
+				<?php } ?>
 			<?php } ?>
+
 	<!--		<th style="background-color: #1e5f24"> Tổng </th>-->
 		</tr>
 	</thead>
@@ -43,10 +50,11 @@
 		foreach ($branch as $key => $value) { ?>
 			<tr>
 				<td style="background-color: #8aa6c1"><?php echo $key; ?></td>
-			<?php foreach ($value as $item) { ?>
-				<td><?php echo $item['ĐA_KG']; ?></td>
-				<td><?php echo $item['ĐA_KT']; ?></td>
-			<?php } ?>
+				<?php foreach ($value as $item) { ?>
+					<td><?php echo $item['ĐA_KG']; ?></td>
+					<td><?php echo $item['ĐA_KT']; ?></td>
+					<td><?php echo $item['DK_KT']; ?></td>
+				<?php } ?>
 			</tr>
 		<?php } ?>
 
