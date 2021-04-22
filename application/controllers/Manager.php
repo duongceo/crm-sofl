@@ -1412,18 +1412,17 @@ class Manager extends MY_Controller {
 		
 		if ($this->role_id == 12) {
 			$this->load->model('branch_model');
-			$branch_id = $this->session->userdata('branch_id');
 			foreach ($data['language_study'] as $item) {
 				foreach ($conditionArr as $key2 => $value2) {
 					$conditional = array();
-					$conditional['where']['branch_id'] = $branch_id;
+					$conditional['where']['branch_id'] = $this->branch_id;
 					$conditional['where']['language_id'] = $item['id'];
-					$conditional['where_not_in']['sale_staff_id'] = array(5);
+					$conditional['where_not_in']['sale_staff_id'] = array(5, 18);
 //					$conditional['where_not_in']['source_id'] = array(9, 10, 11);
 					$conditional = array_merge_recursive($conditional, $value2);
 //					echo '<pre>'; print_r($conditional);
-					$branch[$branch_id]['name'] = $this->branch_model->find_branch_name($branch_id);
-					$branch[$branch_id][$item['id']][$key2] = $this->_query_for_report($get, $conditional);
+					$branch[$this->branch_id]['name'] = $this->branch_model->find_branch_name($this->branch_id);
+					$branch[$this->branch_id][$item['id']][$key2] = $this->_query_for_report($get, $conditional);
 //					$data[$branch_id] += $branch[$branch_id][$key2];
 				}
 			}
@@ -1435,7 +1434,7 @@ class Manager extends MY_Controller {
 						$conditional = array();
 						$conditional['where']['branch_id'] = $value['id'];
 						$conditional['where']['language_id'] = $item['id'];
-						$conditional['where_not_in']['sale_staff_id'] = array(5);
+						$conditional['where_not_in']['sale_staff_id'] = array(5, 18);
 	//						$conditional['where_not_in']['source_id'] = array(9, 10, 11);
 						$conditional = array_merge_recursive($conditional, $value2);
 	//						echo '<pre>'; print_r($conditional);
