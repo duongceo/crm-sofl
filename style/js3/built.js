@@ -67,11 +67,11 @@ uncheck_not_checked = () => {
 right_context_menu_display = (controller, contact_id, contact_name, duplicate_id, contact_phone) => {
     $(".load-new-contact-id").attr('data-contact-id', contact_id);
     // $("a.view_duplicate").attr("duplicate_id", duplicate_id);
-    $("a.send_to_mobile").attr("contact_name", contact_name).attr("contact_phone", contact_phone);
+    /*$("a.send_to_mobile").attr("contact_name", contact_name).attr("contact_phone", contact_phone);*/
     
-    $("a.btn-export-one-contact-for-send-vnpost").attr('data-contact-id', contact_id);
+    /*$("a.btn-export-one-contact-for-send-vnpost").attr('data-contact-id', contact_id);*/
 	
-	$("a.restore-infor").attr('data-contact-id', contact_id);
+	/*$("a.restore-infor").attr('data-contact-id', contact_id);*/
     /*
      * Nếu chọn nhiều contact thì ẩn menu xem chi tiết contact và phân 1 contact
      */
@@ -468,7 +468,7 @@ if($("#input_controller").val() == 'cod' || $("#input_controller").val() == 'sal
 }
 
 /*
-$(document).on('click', 'a.delete_one_contact_admin', e => {
+$(document).on('click', '.delete_one_contact_admin', e => {
     var r = confirm("Bạn có chắc chắn muốn xóa contact này không?");
     if (r == true) {
         var del = $(e.target);
@@ -494,7 +494,7 @@ $(document).on('click', 'a.delete_one_contact_admin', e => {
         return false;
     }
 });
-$(document).on('click', 'a.delete_forever_one_contact_admin', function (e) {
+$(document).on('click', '.delete_forever_one_contact_admin', function (e) {
     var r = confirm("Bạn có chắc chắn muốn xóa contact này không?");
     if (r == true) {
         var del = $(this);
@@ -526,7 +526,7 @@ $(document).on('click', 'a.delete_forever_one_contact_admin', function (e) {
  */
 
 /*
-$(document).on('click', 'a.retrieve-contact', function (e) {
+$(document).on('click', '.retrieve-contact', function (e) {
 	var r = confirm("Bạn có chắc chắn muốn thu hồi contact này không?");
 	if (r == true) {
 		e.preventDefault();
@@ -629,7 +629,7 @@ $(document).on('click', '.create-adset-from-fb', function (e) {
  */
 
 /*
-$(document).on('click', 'a.add-item-fetch', function (e) {
+$(document).on('click', '.add-item-fetch', function (e) {
 	e.preventDefault();
 	var url = $("#url-add-item-fetch").val();
 	$.ajax({
@@ -750,8 +750,8 @@ $(document).on('click', 'a.add_item', function (e) {
         }
     });
 });
-
-$("a.delete_multi_item").confirm({
+/*
+$(".delete_multi_item").confirm({
 	theme: 'supervan', // 'material', 'bootstrap',
 	title: 'Bạn có chắc chắn muốn xóa các dòng đã chọn không?',
 	content: 'Hãy nhớ thứ tự xóa là xóa ad => xóa adset => xóa campaign.',
@@ -786,8 +786,7 @@ $("a.delete_multi_item").confirm({
 	}
 });
 
-
-$("a.delete_item").confirm({
+$(".delete_item").confirm({
 	theme: 'supervan', // 'material', 'bootstrap',
 	title: 'Bạn có chắc chắn muốn xóa dòng này không?',
 	content: 'Hãy nhớ thứ tự xóa là xóa ad => xóa adset => xóa campaign.',
@@ -831,6 +830,8 @@ $("a.delete_item").confirm({
 		}
 	}
 });
+
+ */
 
 $(document).on('click', 'a.edit_item', function (e) {
 	e.preventDefault();
@@ -908,7 +909,7 @@ $(document).on('click', '.campaign-detail', function (e) {
     });
 });
 
-$(document).on('click', 'a.form_plugin', function (e) {
+$(document).on('click', '.form_plugin', function (e) {
     e.preventDefault();
     var item_id = $(this).attr("item_id");
     var url = $('#base_url').val() + $(this).attr("edit-url");
@@ -1029,7 +1030,7 @@ $(function () {
  */
 
 /*
-$(document).on('click', 'a.delete_bill', function (e) {
+$(document).on('click', '.delete_bill', function (e) {
     var r = confirm("Bạn có chắc chắn muốn xóa dòng đối soát này không?");
     if (r == true) {
         var del = $(this);
@@ -1058,7 +1059,7 @@ $(document).on('click', 'a.delete_bill', function (e) {
 
  */
 /*
-$(document).on('click', 'a.edit_bill', function (e) {
+$(document).on('click', '.edit_bill', function (e) {
     e.preventDefault();
     var bill_id = $(this).attr("bill_id");
     var url = $("#base_url").val() + "CODS/check_L8/show_edit_bill";
@@ -1542,7 +1543,7 @@ $(document).on('click', '.btn-action-add-new-contact', function (e) {
 });
 
 /*
- $(document).on('click', 'a.edit_contact', function (e) {
+ $(document).on('click', '.edit_contact', function (e) {
  e.preventDefault();
  $(".checked").removeClass("checked");
  $(this).parent().parent().addClass("checked");
@@ -1600,11 +1601,9 @@ $(document).on('click', '.btn-edit-contact', function (e) {
 				}
 				*/
 				
-                if((data.role == 10 && data.hide == 1) || data.role == 1 || data.role == 2){
+                if((data.role == 10 && data.hide == 1) || data.role == 1){
                     $('tr[contact_id="' + contact_id + '"]').remove();
-                }else if(data.role == 13){
-					location.reload();
-				}
+                }
             } else {
                 /*$("#send_email_error")[0].play();*/
                 $.notify('Có lỗi xảy ra! Nội dung: ' + data.message, {
@@ -1863,7 +1862,7 @@ var nameArr = {
    }
 };
 
-$(document).on('click', 'a.action_view_detail_contact', function (e) {
+$(document).on('click', '.action_view_detail_contact', function (e) {
    e.preventDefault();
    var url = $("#base_url").val() + "common/view_detail_contact";
    var contact_id = $(this).attr("contact_id");
@@ -1984,7 +1983,7 @@ $('.tbl_name').on('click', 'span.badge-star', function (e) {
 $('.view_contact_star_modal').on('hide.bs.modal', () => setTimeout(() => $("div.replace_content_view_contact_star").html(""), 1000));
 
 /*
-$(document).on('click', 'a.action_view_detail_contact', function (e) {
+$(document).on('click', 'aaction_view_detail_contact', function (e) {
     e.preventDefault();
     $(".checked").removeClass("checked");
     $(this).parent().parent().addClass("checked");
@@ -2024,7 +2023,7 @@ $(document).on("click", ".view_contact_phone", () => {
 });
 */
 /*
-$(document).on('click', 'a.action_view_detail_contact', function (e) {
+$(document).on('click', '.action_view_detail_contact', function (e) {
     e.preventDefault();
     $(".checked").removeClass("checked");
     $(this).parent().parent().addClass("checked");
@@ -2829,11 +2828,10 @@ $(".btn-export-all-contact-to-excel").click(function (e) {
 	$("#"+formID).attr("action", "#").attr("method", "GET").submit();
 	$(".export-all-to-excel").remove();
 });
-
+/*
 shortcut.add("Ctrl+s", function () {
     $(".btn-edit-contact").click();
 });
-
 shortcut.add("Ctrl+Shift+a", function () {
     $("input.tbl-item-checkbox").prop('checked', true);
     $('.custom_right_menu').addClass('checked');
@@ -2845,9 +2843,14 @@ shortcut.add("Esc", function () {
     $(".menu").hide();
 });
 
+ */
+
+/*
 shortcut.add("Ctrl+i", function () {
     $(".add_item_modal_fetch").modal('hide');
 });
+
+ */
 
 /*
 $("a.cancel_one_contact").on('click', function (e) {
@@ -2905,7 +2908,7 @@ $("#delete_contact").on('click', function (e) {
  */
 
 /*
-$(document).on('click', 'a.delete_one_contact', function (e) {
+$(document).on('click', '.delete_one_contact', function (e) {
 	var del = $(this);
 	var contact_id = $(this).attr("contact_id");
 	e.preventDefault();
@@ -2934,14 +2937,14 @@ $(document).on('click', 'a.delete_one_contact', function (e) {
  */
 
 /*=================================== chia contact đã chọn (form modal)================================================*/
-$("a.divide_contact").on('click', function (e) {
+$(".divide_contact").on('click', function (e) {
     e.preventDefault();
     $("#action_contact").removeClass("form-inline");
     $(".divide_multi_contact_modal").modal("show");
 });
 
 //chia đều contact
-$("a.divide_contact_auto").on('click', function (e) {
+$(".divide_contact_auto").on('click', function (e) {
     e.preventDefault();
     $("#action_contact").removeClass("form-inline");
     $(".divide_multi_contact_auto_modal").modal("show");
@@ -2963,11 +2966,14 @@ $(document).on('click', '.divide_one_contact_achor', function (e) {
 });
 
 /*=================================== chia đều contact đã chọn ================================================*/
+/*
 $(".divide_contact_even").on('click', function (e) {
     e.preventDefault();
     $("#action_contact").attr("action", $("#base_url").val() + "manager/divide_contact_even");
     $("#action_contact").submit();
 });
+
+ */
 
 /*===================================== phân contact bằng ajax ==============*/
 $(document).on('click', '.btn-divide-one-contact', function (e) {
@@ -3137,7 +3143,7 @@ $(document).on('change', 'select.select_script', function () {
 /* cod chuyển nhượng nhiều contact */
 /*
 var action_old = $("#action_contact").attr('action');
-$(document).on('click', 'a.cod_transfer_multi_contact',function (e){
+$(document).on('click', '.cod_transfer_multi_contact',function (e){
     e.preventDefault();
     $("#action_contact").removeClass("form-inline");
     $(".transfer_multi_contact_modal").modal("show");
@@ -3152,7 +3158,7 @@ $(document).on('click', '.btn-cod-transfer-multi-contact-submit',function (e){
 });
 */
 
-$(document).on('click', 'a.transfer_contact, a.transfer_one_contact', function (e) {
+$(document).on('click', '.transfer_contact, .transfer_one_contact', function (e) {
     e.preventDefault();
     var action = $(this).attr("class").split(" ");
     if (action[0] == "transfer_contact") {
@@ -3170,7 +3176,7 @@ $(document).on('click', 'a.transfer_contact, a.transfer_one_contact', function (
 });
 
 /*
-$(document).on('click', 'a.transfer_one_contact_to_manager', function(e) {
+$(document).on('click', '.transfer_one_contact_to_manager', function(e) {
 	e.preventDefault();
 	//var action = $(this).attr("class").split(" ");
 	$(".checked").removeClass("checked");
@@ -3605,7 +3611,7 @@ $('.contact-sale-have-to-call').click(function(){
 	});
 });
 
-$("a.note_contact").on('click', function (e) {
+$(".note_contact").on('click', function (e) {
     e.preventDefault();
     var contact_name = $(this).attr('contact_name');
     var contact_id = $(this).attr('data-contact-id');
@@ -3747,7 +3753,7 @@ $(".recall_missed").confirm({
 	}
 });
 
-$(document).on('click', 'a.merge_contact', function (e) {
+$(document).on('click', '.merge_contact', function (e) {
 	e.preventDefault();
 	$(".checked").removeClass("checked");
 	$(this).parent().parent().addClass("checked");

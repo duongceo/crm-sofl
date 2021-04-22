@@ -73,7 +73,7 @@
 			<th style="background-color: #4c28c6b3"></th>
 
 			<?php foreach ($language_study as $item_1) { ?>
-				<th style="background-color: #1e5f24" colspan="6"><?php echo $item_1['name']?></th>
+				<th style="background-color: #1e5f24" colspan="7"><?php echo $item_1['name']?></th>
 			<?php } ?>
 		</tr>
 
@@ -82,7 +82,7 @@
 			<?php
 			foreach ($language_study as $item_1) {
 				$report = array();
-				$report = array('HV Khai Giảng', 'HV Kết Thúc', 'L7', 'L8', 'L7/KT', 'L8/KT');
+				$report = array('HV Khai Giảng', 'HV Kết Thúc', 'HV DK Kết Thúc', 'L7', 'L8', 'L7/KT', 'L8/KT');
 				foreach ($report as $value) {
 					?>
 					<th style="background-color: #1b6d85">
@@ -103,6 +103,7 @@
 				<?php foreach ($value_branch as $item) { ?>
 					<td><?php echo $item['HV_ĐA_KG']; ?></td>
 					<td><?php echo $item['HV_ĐA_KT']; ?></td>
+					<td><?php echo $item['HV_DK_KT']; ?></td>
 					<td><?php echo $item['L7']; ?></td>
 					<td><?php echo $item['L8']; ?></td>
 					<td style="background-color: #9cc2cb"><?php echo round($item['L7'] / $item['HV_ĐA_KT'] * 100, 2) . '%'; ?></td>

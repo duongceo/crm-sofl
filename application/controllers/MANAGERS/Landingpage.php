@@ -475,9 +475,13 @@ class Landingpage extends MY_Table {
 
             }
 
-            if(!empty($param['url'])){
-            $param['code'] = str_replace('.lakita.com.vn', '', str_replace('.lakita.com.vn/', '', str_replace('http://', '', str_replace('.html', '', str_replace('https://lakita.vn/', '', $param['url'])))));
+            if (!empty($param['url'])) {
+            	$param['code'] = str_replace('.lakita.com.vn', '', str_replace('.lakita.com.vn/', '', str_replace('http://', '', str_replace('.html', '', str_replace('https://lakita.vn/', '', $param['url'])))));
             }
+
+			if (!isset($post['edit_active']) && empty($post['edit_active'])) {
+				$param['active'] = 0;
+			}
 
             $this->{$this->model}->update($input['where'], $param);
 
