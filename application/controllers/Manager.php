@@ -13,15 +13,14 @@ class Manager extends MY_Controller {
         parent::__construct();
         $input = array();
         $input['select'] = 'id';
-        $input['where'] = array('call_status_id' => '0', 'level_contact_id' => '', 'sale_staff_id' => '0', 'is_hide' => '0', 'duplicate_id' => '0');
+        $input['where'] = array('call_status_id' => '0', 'level_contact_id' => '', 'sale_staff_id' => '0', 'duplicate_id' => '0');
         $this->L['L1'] = count($this->contacts_model->load_all($input));
         $input = array();
         $input['select'] = 'id';
-        $input['where'] = array('call_status_id' => '0', 'sale_staff_id' => '0', 'is_hide' => '0', 'duplicate_id !=' => '0');
+        $input['where'] = array('call_status_id' => '0', 'sale_staff_id' => '0', 'duplicate_id !=' => '0');
         $this->L['L1_trung'] = count($this->contacts_model->load_all($input));
         $input = array();
         $input['select'] = 'id';
-        $input['where'] = array('is_hide' => '0');
         $this->L['all'] = count($this->contacts_model->load_all($input));
     }
 
@@ -35,7 +34,7 @@ class Manager extends MY_Controller {
          *
          */
 
-        $conditional['where'] = array('call_status_id' => '0', 'level_contact_id' => '', 'sale_staff_id' => '0', 'is_hide' => '0', 'duplicate_id' => '0');
+        $conditional['where'] = array('call_status_id' => '0', 'level_contact_id' => '', 'sale_staff_id' => '0', 'duplicate_id' => '0');
         $conditional['order'] = array('date_rgt' => 'DESC');
 		$data_pagination = $this->_query_all_from_get($get, $conditional, $this->per_page, $offset);
         /*
@@ -90,7 +89,7 @@ class Manager extends MY_Controller {
          *
          */
 
-        $conditional['where'] = array('call_status_id' => '0', 'sale_staff_id' => '0', 'is_hide' => '0', 'duplicate_id >' => '0');
+        $conditional['where'] = array('call_status_id' => '0', 'sale_staff_id' => '0', 'duplicate_id >' => '0');
         $data_pagination = $this->_query_all_from_get($get, $conditional, $this->per_page, $offset);
         /*
          * Lấy danh sách contacts
@@ -243,7 +242,7 @@ class Manager extends MY_Controller {
          * lấy tất cả contact nên $conditional là mảng rỗng
          *
          */
-        $conditional['where'] = array('is_hide' => '0');
+        $conditional['where'] = array();
 
         if (isset($get['export_all'])) {
             $post = [];
@@ -635,17 +634,13 @@ class Manager extends MY_Controller {
         $this->load->model('Staffs_model');
         foreach ($contact_ids as $value) {
             $input = array();
-            $input['select'] = 'sale_staff_id, id, duplicate_id, is_hide';
+            $input['select'] = 'sale_staff_id, id, duplicate_id';
             $input['where'] = array('id' => $value);
             $rows = $this->contacts_model->load_all($input);
 
             if (empty($rows)) {
                 $result['success'] = 0;
                 $result['message'] = "Không tồn tại khách hàng này! Mã lỗi : 30203";
-            }
-            if ($rows[0]['is_hide'] == '1') {
-                $result['success'] = 0;
-                $result['message'] = "Contact này đã bị xóa, vì vậy không thể phân contact này được!";
             }
 
             if ($rows[0]['sale_staff_id'] > 0) {
@@ -885,134 +880,104 @@ class Manager extends MY_Controller {
         if (isset($get['tic_report']) && !empty($get['tic_report'])) {
             $conditionArr = array(
 				'NHAN' => array(
-					'where' => array('date_handover !=' => '0', 'duplicate_id' => '0', 'call_status_id NOT IN (1, 3, 5)' => 'NO-VALUE', 'level_contact_detail NOT IN ("L1.1", "L1.2", "L1.3")' => 'NO-VALUE', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate, 'is_hide' => '0'),
-					'sum' => 0
+					'where' => array('date_handover !=' => '0', 'duplicate_id' => '0', 'call_status_id NOT IN (1, 3, 5)' => 'NO-VALUE', 'level_contact_detail NOT IN ("L1.1", "L1.2", "L1.3")' => 'NO-VALUE', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
 				),
                 'CHUA_GOI' => array(
-                    'where' => array('call_status_id' => '0', 'level_contact_id' => '', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate, 'is_hide' => '0'),
-                    'sum' => 0
+                    'where' => array('call_status_id' => '0', 'level_contact_id' => '', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
                 ),
 				'XU_LY' => array(
-                    'where' => array('call_status_id !=' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate, 'is_hide' => '0'),
-                    'sum' => 0
+                    'where' => array('call_status_id !=' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
                 ),
 				'NGHE_MAY' => array(
-					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'date_handover !=' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
-					'sum' => 0
+					'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'date_handover !=' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
 				),
 				'KHONG_NGHE_MAY' => array(
-					'where' => array('call_status_id' => _KHONG_NGHE_MAY_, 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate, 'is_hide' => '0'),
-					'sum' => 0
+					'where' => array('call_status_id' => _KHONG_NGHE_MAY_, 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
 				),
                 'L1' => array(
-                    'where' => array('is_hide' => '0', 'date_handover !=' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate, 'level_contact_id' => 'L1'),
-                    'sum' => 0
+                    'where' => array('date_handover !=' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate, 'level_contact_id' => 'L1'),
                 ),
                 'L2' => array(
-                    'where' => array('is_hide' => '0', 'level_contact_id' => 'L2', 'date_handover !=' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
-                    'sum' => 0
+                    'where' => array('level_contact_id' => 'L2', 'date_handover !=' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
                 ),
                 'L3' => array(
-                    'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L3', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
-                    'sum' => 0
+                    'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L3', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
                 ),
                 'L4' => array(
-                    'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L4', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
-                    'sum' => 0
+                    'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L4', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
                 ),
                 'L5' => array(
-                    'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
-                    'sum' => 0
+                    'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
                 ),
                 'L6' => array(
-                    'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_student_id' => 'L6', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
-                    'sum' => 0
+                    'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_student_id' => 'L6', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
                 ),
                 'L7' => array(
-                    'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_student_id' => 'L7', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
-                    'sum' => 0
+                    'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_student_id' => 'L7', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
                 ),
                 'L8' => array(
-                    'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_student_id' => 'L8', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
-                    'sum' => 0
+                    'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_student_id' => 'L8', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
                 ),
                 'LC' => array(
-                    'where' => array('is_hide' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate,
+                    'where' => array('date_rgt >=' => $startDate, 'date_rgt <=' => $endDate,
                         '(`call_status_id` = ' . _SO_MAY_SAI_ . ' OR `call_status_id` = ' . _NHAM_MAY_ . ' OR `call_status_id` = 5 OR `level_contact_detail IN` ("L1.1", "L1.2", "L1.3")' => 'NO-VALUE'),
-                    'sum' => 0
                 ),
                 /*
                 'CON_CUU_DUOC' => array(
-                    'where' => array('is_hide' => '0', 'date_rgt >' => $startDate, 'date_rgt <' => $endDate,
+                    'where' => array('date_rgt >' => $startDate, 'date_rgt <' => $endDate,
                         '(`call_status_id` = ' . _KHONG_NGHE_MAY_ . ' OR `ordering_status_id` in (' . _BAN_GOI_LAI_SAU_ . ' , ' . _CHAM_SOC_SAU_MOT_THOI_GIAN_ . ',' . _LAT_NUA_GOI_LAI_ . '))' => 'NO-VALUE'),
-                    'sum' => 0
                 ),
                 */
             );
         } else {
             $conditionArr = array(
 				'NHAN' => array(
-					'where' => array('call_status_id NOT IN (1, 3, 5)' => 'NO-VALUE', 'level_contact_detail NOT IN ("L1.1", "L1.2", "L1.3")' => 'NO-VALUE', 'duplicate_id' => '0', 'is_hide' => '0', 'date_handover >=' => $startDate, 'date_handover <=' => $endDate),
-					'sum' => 0
+					'where' => array('call_status_id NOT IN (1, 3, 5)' => 'NO-VALUE', 'level_contact_detail NOT IN ("L1.1", "L1.2", "L1.3")' => 'NO-VALUE', 'duplicate_id' => '0', 'date_handover >=' => $startDate, 'date_handover <=' => $endDate),
 				),
 				'CHUA_GOI' => array(
-					'where' => array('call_status_id' => '0', 'level_contact_id' => '', 'date_handover >=' => $startDate, 'date_handover <=' => $endDate, 'is_hide' => '0'),
-					'sum' => 0
+					'where' => array('call_status_id' => '0', 'level_contact_id' => '', 'date_handover >=' => $startDate, 'date_handover <=' => $endDate),
 				),
 				'XU_LY' => array(
-					'where' => array('call_status_id !=' => '0', 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate, 'is_hide' => '0'),
-					'sum' => 0
+					'where' => array('call_status_id !=' => '0', 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate),
 				),
 				'NGHE_MAY' => array(
-					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate),
-					'sum' => 0
+					'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate),
 				),
 				'KHONG_NGHE_MAY' => array(
-					'where' => array('call_status_id' => _KHONG_NGHE_MAY_, 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate, 'is_hide' => '0'),
-					'sum' => 0
+					'where' => array('call_status_id' => _KHONG_NGHE_MAY_, 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate),
 				),
 				'L1' => array(
-					'where' => array('is_hide' => '0', 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate, 'level_contact_id' => 'L1'),
-					'sum' => 0
+					'where' => array('date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate, 'level_contact_id' => 'L1'),
 				),
 				'L2' => array(
-					'where' => array('is_hide' => '0', 'level_contact_id' => 'L2', 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate),
-					'sum' => 0
+					'where' => array('level_contact_id' => 'L2', 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate),
 				),
 				'L3' => array(
-					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L3', 'date_confirm >=' => $startDate, 'date_confirm <=' => $endDate),
-					'sum' => 0
+					'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L3', 'date_confirm >=' => $startDate, 'date_confirm <=' => $endDate),
 				),
 				'L4' => array(
-					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L4', 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate),
-					'sum' => 0
+					'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L4', 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate),
 				),
 				'L5' => array(
-					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
-					'sum' => 0
+					'where' => array('duplicate_id' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
 				),
 				'L6' => array(
-					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_student_id' => 'L6', 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
-					'sum' => 0
+					'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_student_id' => 'L6', 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
 				),
 				'L7' => array(
-					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_student_id' => 'L7', 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate),
-					'sum' => 0
+					'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_student_id' => 'L7', 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate),
 				),
 				'L8' => array(
-					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_student_id' => 'L8', 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
-					'sum' => 0
+					'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_student_id' => 'L8', 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
 				),
                 'LC' => array(
-                    'where' => array('is_hide' => '0', 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate,
+                    'where' => array('date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate,
                         '(`call_status_id` = ' . _SO_MAY_SAI_ . ' OR `call_status_id` = ' . _NHAM_MAY_ . ' OR `call_status_id` = 5 OR `level_contact_detail` IN ("L1.1", "L1.2", "L1.3"))' => 'NO-VALUE'),
-                    'sum' => 0
                 ),
 				/*
                 'CON_CUU_DUOC' => array(
-                    'where' => array('is_hide' => '0', 'date_rgt >' => $startDate, 'date_rgt <' => $endDate,
+                    'where' => array('date_rgt >' => $startDate, 'date_rgt <' => $endDate,
                         '(`call_status_id` = ' . _KHONG_NGHE_MAY_ . ' OR `ordering_status_id` in (' . _BAN_GOI_LAI_SAU_ . ' , ' . _CHAM_SOC_SAU_MOT_THOI_GIAN_ . ',' . _LAT_NUA_GOI_LAI_ . '))' => 'NO-VALUE'),
-                    'sum' => 0
                 ),
                 */
             );
@@ -1035,13 +1000,13 @@ class Manager extends MY_Controller {
 		if ($this->role_id == 11) {
 			$conditionArr = array(
 				'NHAN' => array(
-					'where' => array('call_status_id NOT IN (1, 3, 5)' => 'NO-VALUE', 'level_contact_detail NOT IN ("L1.1", "L1.2", "L1.3")' => 'NO-VALUE', 'duplicate_id' => '0', 'is_hide' => '0', 'date_handover >=' => $startDate, 'date_handover <=' => $endDate)
+					'where' => array('call_status_id NOT IN (1, 3, 5)' => 'NO-VALUE', 'level_contact_detail NOT IN ("L1.1", "L1.2", "L1.3")' => 'NO-VALUE', 'duplicate_id' => '0', 'date_handover >=' => $startDate, 'date_handover <=' => $endDate)
 				),
 				'CHUA_GOI' => array(
-					'where' => array('call_status_id' => '0', 'level_contact_id' => '', 'date_handover >=' => $startDate, 'date_handover <=' => $endDate, 'is_hide' => '0'),
+					'where' => array('call_status_id' => '0', 'level_contact_id' => '', 'date_handover >=' => $startDate, 'date_handover <=' => $endDate),
 				),
 				'XU_LY' => array(
-					'where' => array('call_status_id !=' => '0', 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate, 'is_hide' => '0'),
+					'where' => array('call_status_id !=' => '0', 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate),
 				),
 			);
 		}
@@ -1349,57 +1314,45 @@ class Manager extends MY_Controller {
 		if (isset($get['tic_report']) && !empty($get['tic_report'])) {
 			$conditionArr = array(
 				'L1' => array(
-					'where' => array('date_handover !=' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate, 'is_hide' => '0', 'is_old' => '0', 'duplicate_id' => '0',
+					'where' => array('date_handover !=' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate, 'is_old' => '0', 'duplicate_id' => '0',
 						'call_status_id NOT IN (1, 3, 5)' => 'NO-VALUE', 'level_contact_detail NOT IN ("L1.1", "L1.2", "L1.3")' => 'NO-VALUE'),
-					'sum' => 0
 				),
 				'L2' => array(
-					'where' => array('is_hide' => '0', 'level_contact_id' => 'L2', 'date_handover !=' => '0', 'is_old' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
-					'sum' => 0
+					'where' => array('level_contact_id' => 'L2', 'date_handover !=' => '0', 'is_old' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
 				),
 				'L3' => array(
-					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L3', 'is_old' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
-					'sum' => 0
+					'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L3', 'is_old' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
 				),
 				'L5_1' => array(
-					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'source_id NOT IN (9, 10, 11, 13)' => 'NO-VALUE', 'is_old' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
-					'sum' => 0
+					'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'source_id NOT IN (9, 10, 11, 13)' => 'NO-VALUE', 'is_old' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
 				),
 				'L5_2' => array(
-					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'source_id IN (9, 10, 11, 13)' => 'NO-VALUE', 'is_old' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
-					'sum' => 0
+					'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'source_id IN (9, 10, 11, 13)' => 'NO-VALUE', 'is_old' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
 				),
 				'L8' => array(
-					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => 1, 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
-					'sum' => 0
+					'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => 1, 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
 				),
 			);
 		} else {
 			$conditionArr = array(
 				'L1' => array(
-					'where' => array('date_handover >=' => $startDate, 'date_handover <=' => $endDate, 'is_hide' => '0', 'is_old' => '0', 'duplicate_id' => '0',
+					'where' => array('date_handover >=' => $startDate, 'date_handover <=' => $endDate, 'is_old' => '0', 'duplicate_id' => '0',
 						'call_status_id NOT IN (1, 3, 5)' => 'NO-VALUE', 'level_contact_detail NOT IN ("L1.1", "L1.2", "L1.3")' => 'NO-VALUE'),
-					'sum' => 0
 				),
 				'L2' => array(
-					'where' => array('is_hide' => '0', 'level_contact_id' => 'L2', 'is_old' => '0', 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate),
-					'sum' => 0
+					'where' => array('level_contact_id' => 'L2', 'is_old' => '0', 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate),
 				),
 				'L3' => array(
-					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L3', 'is_old' => '0', 'date_confirm >=' => $startDate, 'date_confirm <=' => $endDate),
-					'sum' => 0
+					'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L3', 'is_old' => '0', 'date_confirm >=' => $startDate, 'date_confirm <=' => $endDate),
 				),
 				'L5_1' => array(
-					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'source_id NOT IN (9, 10, 11, 13)' => 'NO-VALUE', 'is_old' => '0', 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
-					'sum' => 0
+					'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'source_id NOT IN (9, 10, 11, 13)' => 'NO-VALUE', 'is_old' => '0', 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
 				),
 				'L5_2' => array(
-					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'source_id IN (9, 10, 11, 13)' => 'NO-VALUE', 'is_old' => '0', 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
-					'sum' => 0
+					'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'source_id IN (9, 10, 11, 13)' => 'NO-VALUE', 'is_old' => '0', 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
 				),
 				'L8' => array(
-					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => 1, 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
-					'sum' => 0
+					'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => 1, 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
 				),
 			);
 		}
@@ -1501,47 +1454,37 @@ class Manager extends MY_Controller {
 		if (isset($get['tic_report']) && !empty($get['tic_report'])) {
 			$conditionArr = array(
 				'L1' => array(
-					'where' => array('duplicate_id' => '0', 'is_hide' => '0', 'is_old' => '0', 'call_status_id NOT IN (1, 3, 5)' => 'NO-VALUE', 'level_contact_detail NOT IN ("L1.1", "L1.2", "L1.3")' => 'NO-VALUE', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
-					'sum' => 0
+					'where' => array('duplicate_id' => '0', 'is_old' => '0', 'call_status_id NOT IN (1, 3, 5)' => 'NO-VALUE', 'level_contact_detail NOT IN ("L1.1", "L1.2", "L1.3")' => 'NO-VALUE', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
 				),
 				'L2' => array(
-					'where' => array('is_hide' => '0', 'level_contact_id' => 'L2', 'date_handover !=' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
-					'sum' => 0
+					'where' => array('level_contact_id' => 'L2', 'date_handover !=' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
 				),
 				'L3' => array(
-					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L3', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
-					'sum' => 0
+					'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L3', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
 				),
 				'L5' => array(
-					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
-					'sum' => 0
+					'where' => array('duplicate_id' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
 				),
 				'L8' => array(
-					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => 1, 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
-					'sum' => 0
+					'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => 1, 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
 				),
 			);
 		} else {
 			$conditionArr = array(
 				'L1' => array(
-					'where' => array('is_hide' => '0', 'is_old' => '0', 'duplicate_id' => '0', 'call_status_id NOT IN (1, 3, 5)' => 'NO-VALUE', 'level_contact_detail NOT IN ("L1.1", "L1.2", "L1.3")' => 'NO-VALUE', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
-					'sum' => 0
+					'where' => array('is_old' => '0', 'duplicate_id' => '0', 'call_status_id NOT IN (1, 3, 5)' => 'NO-VALUE', 'level_contact_detail NOT IN ("L1.1", "L1.2", "L1.3")' => 'NO-VALUE', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
 				),
 				'L2' => array(
-					'where' => array('is_hide' => '0', 'level_contact_id' => 'L2', 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate),
-					'sum' => 0
+					'where' => array('level_contact_id' => 'L2', 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate),
 				),
 				'L3' => array(
-					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L3', 'date_confirm >=' => $startDate, 'date_confirm <=' => $endDate),
-					'sum' => 0
+					'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L3', 'date_confirm >=' => $startDate, 'date_confirm <=' => $endDate),
 				),
 				'L5' => array(
-					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => '0', 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
-					'sum' => 0
+					'where' => array('duplicate_id' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => '0', 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
 				),
 				'L8' => array(
-					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => 1, 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
-					'sum' => 0
+					'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => 1, 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
 				),
 			);
 		}
@@ -1623,47 +1566,37 @@ class Manager extends MY_Controller {
 		if (isset($get['tic_report']) && !empty($get['tic_report'])) {
 			$conditionArr = array(
 				'L1' => array(
-					'where' => array('date_handover !=' => '0', 'duplicate_id' => '0', 'call_status_id NOT IN (1, 3, 5)' => 'NO-VALUE', 'level_contact_detail NOT IN ("L1.1", "L1.2", "L1.3")' => 'NO-VALUE', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate, 'is_hide' => '0'),
-					'sum' => 0
+					'where' => array('date_handover !=' => '0', 'duplicate_id' => '0', 'call_status_id NOT IN (1, 3, 5)' => 'NO-VALUE', 'level_contact_detail NOT IN ("L1.1", "L1.2", "L1.3")' => 'NO-VALUE', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
 				),
 				'L2' => array(
-					'where' => array('is_hide' => '0', 'level_contact_id' => 'L2', 'date_handover !=' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
-					'sum' => 0
+					'where' => array('level_contact_id' => 'L2', 'date_handover !=' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
 				),
 				'L3' => array(
-					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L3', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
-					'sum' => 0
+					'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L3', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
 				),
 				'L5' => array(
-					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
-					'sum' => 0
+					'where' => array('duplicate_id' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
 				),
 				'L8' => array(
-					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => 1, 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
-					'sum' => 0
+					'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => 1, 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
 				),
 			);
 		} else {
 			$conditionArr = array(
 				'L1' => array(
-					'where' => array('date_handover >=' => $startDate, 'date_handover <=' => $endDate, 'is_hide' => '0', 'duplicate_id' => '0', 'call_status_id NOT IN (1, 3, 5)' => 'NO-VALUE', 'level_contact_detail NOT IN ("L1.1", "L1.2", "L1.3")' => 'NO-VALUE'),
-					'sum' => 0
+					'where' => array('date_handover >=' => $startDate, 'date_handover <=' => $endDate, 'duplicate_id' => '0', 'call_status_id NOT IN (1, 3, 5)' => 'NO-VALUE', 'level_contact_detail NOT IN ("L1.1", "L1.2", "L1.3")' => 'NO-VALUE'),
 				),
 				'L2' => array(
-					'where' => array('is_hide' => '0', 'level_contact_id' => 'L2', 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate),
-					'sum' => 0
+					'where' => array('level_contact_id' => 'L2', 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate),
 				),
 				'L3' => array(
-					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L3', 'date_confirm >=' => $startDate, 'date_confirm <=' => $endDate),
-					'sum' => 0
+					'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L3', 'date_confirm >=' => $startDate, 'date_confirm <=' => $endDate),
 				),
 				'L5' => array(
-					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => '0', 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
-					'sum' => 0
+					'where' => array('duplicate_id' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => '0', 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
 				),
 				'L8' => array(
-					'where' => array('is_hide' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => 1, 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
-					'sum' => 0
+					'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => 1, 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
 				),
 			);
 		}
@@ -2017,7 +1950,7 @@ class Manager extends MY_Controller {
 
 		$input_call = array(
 			'XU_LY' => array(
-				'where' => array('call_status_id !=' => '0', 'is_hide' => '0', 'date_last_calling >=' => $start_date, 'date_last_calling <=' => $end_date),
+				'where' => array('call_status_id !=' => '0', 'date_last_calling >=' => $start_date, 'date_last_calling <=' => $end_date),
 			),
 		);
 
@@ -2332,7 +2265,7 @@ class Manager extends MY_Controller {
         $progress = [];
         $inputContact = array();
         $inputContact['select'] = 'id';
-        $inputContact['where'] = array('date_rgt >=' => strtotime(date('d-m-Y')), 'is_hide' => '0');
+        $inputContact['where'] = array('date_rgt >=' => strtotime(date('d-m-Y')));
         $today = $this->contacts_model->load_all($inputContact);
   
         $progress['marketing'] = array(
@@ -2343,7 +2276,7 @@ class Manager extends MY_Controller {
         );
         $progress['marketing']['progress'] = round($progress['marketing']['count'] / $progress['marketing']['kpi'] * 100, 2);
 
-        $inputContact['where'] = array('date_rgt_study >=' => strtotime(date('d-m-Y')), 'is_hide' => '0', 'is_old' => '0');
+        $inputContact['where'] = array('date_rgt_study >=' => strtotime(date('d-m-Y')), 'is_old' => '0');
         $today = $this->contacts_model->load_all($inputContact);
         $progress['sale'] = array(
             'count' => count($today),
@@ -2353,7 +2286,7 @@ class Manager extends MY_Controller {
 		);
         $progress['sale']['progress'] = round($progress['sale']['count'] / $progress['sale']['kpi'] * 100, 2);
 
-		$inputContact['where'] = array('date_rgt_study >=' => strtotime(date('d-m-Y')), 'is_hide' => '0', 'is_old' => '1');
+		$inputContact['where'] = array('date_rgt_study >=' => strtotime(date('d-m-Y')), 'is_old' => '1');
 		$today = $this->contacts_model->load_all($inputContact);
 		$progress['branch'] = array(
 			'count' => count($today),
@@ -2407,7 +2340,7 @@ class Manager extends MY_Controller {
         $progress = [];
 		$input['where']['no_report'] = '0';
         $inputContact['select'] = 'id';
-        $inputContact['where'] = array('date_rgt >' => strtotime(date('01-m-Y')), 'is_hide' => '0');
+        $inputContact['where'] = array('date_rgt >' => strtotime(date('01-m-Y')));
         $today = $this->contacts_model->load_all($inputContact);
         $progress['marketing'] = array(
             'count' => count($today),
@@ -2417,7 +2350,7 @@ class Manager extends MY_Controller {
 		);
         $progress['marketing']['progress'] = round($progress['marketing']['count'] / $progress['marketing']['kpi'] * 100, 2);
 
-        $inputContact['where'] = array('date_rgt_study >=' => strtotime(date('01-m-Y')), 'is_hide' => '0', 'is_old' => '0');
+        $inputContact['where'] = array('date_rgt_study >=' => strtotime(date('01-m-Y')), 'is_old' => '0');
         $today = $this->contacts_model->load_all($inputContact);
         $progress['sale'] = array(
             'count' => count($today),
@@ -2427,7 +2360,7 @@ class Manager extends MY_Controller {
 		);
         $progress['sale']['progress'] = round($progress['sale']['count'] / $progress['sale']['kpi'] * 100, 2);
 
-		$inputContact['where'] = array('date_rgt_study >=' => strtotime(date('1-m-Y')), 'is_hide' => '0', 'is_old' => '1');
+		$inputContact['where'] = array('date_rgt_study >=' => strtotime(date('1-m-Y')), 'is_old' => 1);
 		$today = $this->contacts_model->load_all($inputContact);
 		$progress['branch'] = array(
 			'count' => count($today),
@@ -2688,7 +2621,6 @@ class Manager extends MY_Controller {
 //                // Số lượng C3 theo ngày
 //                if ($report_type == 'C3') {
 //                    $input['select'] = 'id';
-//                    $input['where']['is_hide'] = '0';
 //                    $array = array();
 //                    $array['value'] = count($this->contacts_model->load_all($input));
 //                    $array['value/kpi'] = round($array['value'] / $typeKPI['C3'], 2) * 100 . '%';
@@ -2821,7 +2753,6 @@ class Manager extends MY_Controller {
 //                if ($report_type == 're_buy') {
 //                    $input['select'] = 'distinct(phone), date_rgt';
 //
-//                    $input['where']['is_hide'] = '0';
 ////                    $input['where']['affiliate_id'] = '0';
 //                    $input['where']['duplicate_id'] = '';
 //                    $input['where']['ordering_status_id'] = 4;
@@ -2834,7 +2765,6 @@ class Manager extends MY_Controller {
 //                        $input = '';
 //                        $input['select'] = 'phone,email,course_code,date_rgt';
 //                        $input['where']['phone'] = $value['phone'];
-//                        $input['where']['is_hide'] = '0';
 ////                        $input['where']['affiliate_id'] = '0';
 //                        $input['where']['duplicate_id'] = '0';
 //                        $input['where']['ordering_status_id'] = 4;
@@ -3116,7 +3046,7 @@ class Manager extends MY_Controller {
 //
 //                if ($report_type == 'C3') {
 //                    $input['select'] = 'id';
-//                    $input['where']['is_hide'] = '0';
+
 ////                    $input['where']['affiliate_id'] = '0';
 //
 //                    $array = array();
@@ -3215,7 +3145,7 @@ class Manager extends MY_Controller {
 //                if ($report_type == 're_buy') {
 //                    $input['select'] = 'distinct(phone)';
 //
-//                    $input['where']['is_hide'] = '0';
+
 ////                    $input['where']['affiliate_id'] = '0';
 //                    $input['where']['duplicate_id'] = '';
 //                    $input['where']['ordering_status_id'] = 4;
@@ -3227,7 +3157,7 @@ class Manager extends MY_Controller {
 //                        $input = '';
 //                        $input['select'] = 'phone,email,course_code,date_rgt';
 //                        $input['where']['phone'] = $value['phone'];
-//                        $input['where']['is_hide'] = '0';
+
 ////                        $input['where']['affiliate_id'] = '0';
 //                        $input['where']['duplicate_id'] = '';
 //                        $input['where']['ordering_status_id'] = 4;
@@ -3655,7 +3585,7 @@ class Manager extends MY_Controller {
 //						'date_rgt <=' => $date_end,
 //						// 'date_handover >=' => $date_start,
 //						// 'date_handover <=' => $date_end,
-//						'is_hide' => '0',
+
 //						'duplicate_id' => '0'
 //					);
 //					$L1 = $this->contacts_model->load_all($input_L1);
@@ -3677,7 +3607,7 @@ class Manager extends MY_Controller {
 //						'date_rgt <=' => $date_end,
 //						// 'date_handover >=' => $date_start,
 //						// 'date_handover <=' => $date_end,
-//						'is_hide' => '0',
+
 //						'duplicate_id' => '0'
 //					);
 //					$L2 = $this->contacts_model->load_all($input_L2);
@@ -3699,7 +3629,7 @@ class Manager extends MY_Controller {
 //						// 'date_rgt <=' => $date_end,
 //						'date_rgt >=' => $date_start,
 //						'date_rgt <=' => $date_end,
-//						'is_hide' => '0',
+
 //						'duplicate_id' => '0',
 //						'call_status_id' => _DA_LIEN_LAC_DUOC_,
 //						'ordering_status_id' => _DONG_Y_MUA_

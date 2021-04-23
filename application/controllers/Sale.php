@@ -689,6 +689,7 @@ class Sale extends MY_Controller {
 //				print_arr($param);
 				
                 $id = $this->contacts_model->insert_return_id($param, 'id');
+				$this->contacts_backup_model->insert($param);
 //				$id_backup = $this->contacts_backup_model->insert_return_id($param, 'id');
 				
                 if ($input['note'] != '') {

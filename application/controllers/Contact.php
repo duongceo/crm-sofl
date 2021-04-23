@@ -40,6 +40,12 @@ class Contact extends CI_Controller {
 
 			}
 
+			$number_first_phone = substr($param['phone'], 0, 1);
+
+			if ($number_first_phone != '0') {
+				echo 'Số điện thoại phải có số 0 đầu tiên';die;
+			}
+
             $param['email'] = isset($input['email']) ? $input['email'] : '';
 
            // $address = isset($input['dia_chi']) ? $input['dia_chi'] : '';
@@ -133,7 +139,7 @@ class Contact extends CI_Controller {
            // $this->contacts_backup_model->insert_from_mol($param);
 
 			$id = $this->contacts_model->insert_return_id($param, 'id');
-			// $id_backup = $this->contacts_backup_model->insert_return_id($param, 'id');
+			$this->contacts_backup_model->insert($param);
 
 			if (isset($input['lop']) || $input['note']) {
 				$param2 = array(
