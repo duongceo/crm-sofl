@@ -211,6 +211,18 @@
 					</a>
 
 				</li>
+
+				<li>
+
+					<a href="<?php echo base_url('manager/view_report_compare_source'); ?>">
+
+						<img src="<?php echo base_url(); ?>public/images/view-all.png" alt="">
+
+						<span> Bảng so sánh các nguồn </span>
+
+					</a>
+
+				</li>
                 
             </ul>
         </li>

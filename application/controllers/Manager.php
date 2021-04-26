@@ -2069,12 +2069,97 @@ class Manager extends MY_Controller {
 		$this->load->view(_MAIN_LAYOUT_, $data);
 	}
 
+	public function view_report_compare_source() {
+		$require_model = array(
+			'language_study' => array(
+				'where' => array(
+					'no_report' => '0'
+				)
+			),
+			'sources' => array(
+				'where' => array(
+					'active' => 1,
+					'out_report' => '0'
+				)
+			)
+		);
+		$data = $this->_get_require_data($require_model);
+
+		$get = $this->input->get();
+
+		/* Mảng chứa các ngày lẻ */
+		if (isset($get['filter_date_date_happen']) && $get['filter_date_date_happen'] != '') {
+			$time = $get['filter_date_date_happen'];
+		} else {
+			$time = '01' . '/' . date('m') . '/' . date('Y') . ' - ' . date('d') . '/' . date('m') . '/' . date('Y');
+		}
+
+		$dateArr = explode('-', $time);
+//		$startDate = trim($dateArr[0]);
+//		$startDate = strtotime(str_replace("/", "-", $startDate));
+//		$endDate = trim($dateArr[1]);
+//		$endDate = strtotime(str_replace("/", "-", $endDate)) + 3600 * 24 - 1;
+
+		if (isset($get['filter_date_date_happen_compare']) && $get['filter_date_date_happen_compare'] != '') {
+			$time_compare = $get['filter_date_date_happen_compare'];
+		} else {
+			$time_compare = str_replace("-", "/", date("d-m-Y", strtotime("-1 month", strtotime(str_replace("/", "-", trim($dateArr[0])))))) . ' - ' . str_replace("-", "/", date("d-m-Y", strtotime("-1 month", strtotime(str_replace("/", "-", trim($dateArr[1]))))));
+		}
+
+		$date_array = array($time_compare, $time);
+
+		$conditionArr = array(
+			'L1' => array(
+				'where' => array('duplicate_id' => '0', 'is_old' => '0', 'call_status_id NOT IN (1, 3, 5)' => 'NO-VALUE', 'level_contact_detail NOT IN ("L1.1", "L1.2", "L1.3")' => 'NO-VALUE'),
+				'time' => 'filter_date_date_rgt'
+			),
+			'L5' => array(
+				'where' => array('duplicate_id' => '0', 'is_old' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5'),
+				'time' => 'filter_date_date_rgt_study'
+			),
+		);
+
+		unset($get['filter_date_date_happen']);
+
+		$report = array();
+//		$total = array();
+		foreach ($data['sources'] as $key_source => $value_source) {
+			$conditional_source = array();
+			$conditional_source['where']['source_id'] = $value_source['id'];
+			$conditional_source['where_not_in']['sale_staff_id'] = array(5, 18);
+			foreach ($date_array as $value_date) {
+				foreach ($conditionArr as $key_condition => $value_condition) {
+					foreach ($data['language_study'] as $value_language) {
+						$condition_language = array();
+						$get_time = array($value_condition['time'] => $value_date);
+						$condition_language['where']['language_id'] = $value_language['id'];
+						$conditional = array_merge_recursive($condition_language, $conditional_source, $value_condition);
+
+//						$report[$value_language['name']][$value_source['name']]['RE'] = $this->get_re(array_merge_recursive($conditional_1, $conditional_source), $startDate, $endDate, 'report');
+						$report[$value_language['name']][$value_date][$value_source['name']][$key_condition] = $this->_query_for_report($get_time, $conditional);
+					}
+				}
+			}
+		}
+
+//		print_arr($report);
+
+		$data['report'] = $report;
+//		$data['startDate'] = $startDate;
+//		$data['endDate'] = $endDate;
+		$data['left_col'] = array('date_happen_1', 'date_happen_compare');
+//		$data['right_col'] = array('is_old');
+		$data['content'] = 'manager/view_report_compare_source';
+//        print_arr($data);
+		$this->load->view(_MAIN_LAYOUT_, $data);
+	}
+
 	private function get_contact_id($class_id) {
-		$input_conatct = array();
-		$input_conatct['select'] = 'id';
-		$input_conatct['where']['class_study_id'] = $class_id;
-		$input_conatct['where']['level_contact_id'] = 'L5';
-		$contact_arr = $this->contacts_model->load_all($input_conatct);
+		$input_contact = array();
+		$input_contact['select'] = 'id';
+		$input_contact['where']['class_study_id'] = $class_id;
+		$input_contact['where']['level_contact_id'] = 'L5';
+		$contact_arr = $this->contacts_model->load_all($input_contact);
     	$contact_id_arr = array();
     	if (!empty($contact_arr)) {
 			foreach ($contact_arr as $item) {
