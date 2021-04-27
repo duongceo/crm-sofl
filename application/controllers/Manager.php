@@ -335,12 +335,10 @@ class Manager extends MY_Controller {
     /* ========================  hàm chia contact (chia riêng contact) và các hàm phụ trợ =========================== */
     function divide_contact() {
         $post = $this->input->post();
-        // echo "<pre>";print_r($post);die();
         $this->_action_divide_contact($post);
     }
 
     /* Chia contact */
-
     private function _action_divide_contact($post) {
         $result = array();
         $this->load->model('Staffs_model');
@@ -362,91 +360,91 @@ class Manager extends MY_Controller {
         $contact_ids = is_array($post['contact_id']) ? $post['contact_id'] : array($post['contact_id']);
         $note = $post['note'];
 
-		if ($post['transfer_contact'] == 2) {
-			$this->load->model('transfer_logs_model');
+		if ($sale_id == 0) {
+			$result['success'] = 0;
+			$result['message'] = "Vui lòng chọn nhân viên TVTS!";
+			echo json_encode($result);
+			die;
+		}
+		if (empty($contact_ids)) {
+			$result['success'] = 0;
+			$result['message'] = "Vui lòng chọn contact!";
+			echo json_encode($result);
+			die;
+		}
 
-            $data_cancel = array(
-                'last_activity' => time(),
-                'is_transfer' => '0'
-            );
+//		if ($post['transfer_contact'] == 2) {
+//			$this->load->model('transfer_logs_model');
+//
+//            $data_cancel = array(
+//                'last_activity' => time(),
+//                'is_transfer' => '0'
+//            );
+//
+//            // $data2 = array('is_transfered' => '0');
+//
+//            foreach ($contact_ids as $value) {
+//                $where_cancel = array('id' => $value);
+//                $this->contacts_model->update($where_cancel, $data_cancel);
+//
+//                $where2 = array('contact_id' => $value);
+//                $this->transfer_logs_model->delete($where2);
+//            }
+//
+//            $result['success'] = 1;
+//            $result['message'] = 'Đã hủy chuyển contact';
+//            echo json_encode($result);
+//            die;
+//        }
 
-            // $data2 = array('is_transfered' => '0');
-
-            foreach ($contact_ids as $value) {
-                $where_cancel = array('id' => $value);
-                $this->contacts_model->update($where_cancel, $data_cancel);
-
-                $where2 = array('contact_id' => $value);
-                $this->transfer_logs_model->delete($where2);
-            }
-
-            $result['success'] = 1;
-            $result['message'] = 'Đã hủy chuyển contact';
-            echo json_encode($result);
-            die;
-        }
-
-        if ($sale_id == 0) {
-            $result['success'] = 0;
-            $result['message'] = "Vui lòng chọn nhân viên TVTS!";
-            echo json_encode($result);
-            die;
-        }
-        if (empty($contact_ids)) {
-            $result['success'] = 0;
-            $result['message'] = "Vui lòng chọn contact!";
-            echo json_encode($result);
-            die;
-        }
-
-        if ($post['transfer_contact'] == 1) {
-            $this->load->model('transfer_logs_model');
-
-            $data_transfer = array(
-                'is_transfered' => '1'
-            );
-
-            // $this->transfer_logs_model->update($where_transfer, $data_transfer);
-
-            $data = array(
-                'sale_staff_id' => $sale_id,
-                'is_transfered' => '1',
-                'date_transfer' => time(),
-                'last_activity' => time()
-            );
-
-            foreach ($contact_ids as $value) {
-                $where = array('id' => $value);
-                $this->contacts_model->update($where, $data);
-
-                $where_transfer = array(
-                    'contact_id' => $value
-                );
-
-                $this->transfer_logs_model->update($where_transfer, $data_transfer);
-            }
-
-            if ($note != '') {
-                $this->load->model('notes_model');
-                foreach ($contact_ids as $value) {
-                    $param2 = array(
-                        'contact_id' => $value,
-                        'content' => $note,
-                        'time' => time(),
-                        'sale_id' => $this->user_id,
-                        'contact_code' => $this->contacts_model->get_contact_code($value)
-                    );
-                    $this->notes_model->insert($param2);
-                }
-            }
-
-            $staff_name = $this->Staffs_model->find_staff_name($sale_id);
-
-            $result['success'] = 1;
-            $result['message'] = 'Đã chuyển contact cho nhân viên ' . $staff_name;
-            echo json_encode($result);
-            die;
-        }
+//        if ($post['transfer_contact'] == 1) {
+//            $this->load->model('transfer_logs_model');
+//
+//            $data_transfer = array(
+//                'is_transfered' => '1'
+//            );
+//
+//            // $this->transfer_logs_model->update($where_transfer, $data_transfer);
+//
+//            $data_contact = array(
+//                'sale_staff_id' => $sale_id,
+////                'is_transfered' => '1',
+//                'date_transfer' => time(),
+//                'last_activity' => time()
+//            );
+//
+//            foreach ($contact_ids as $value) {
+//                $where = array('id' => $value);
+//                $this->contacts_model->update($where, $data_contact);
+//
+//                $where_transfer = array(
+//                    'contact_id' => $value
+//                );
+//
+//                $this->transfer_logs_model->update($where_transfer, $data_transfer);
+//            }
+//
+//            if ($note != '') {
+//                $this->load->model('notes_model');
+//                foreach ($contact_ids as $value) {
+//                    $param2 = array(
+//                        'contact_id' => $value,
+//                        'content' => $note,
+//                        'time' => time(),
+//                        'sale_id' => $this->user_id,
+//                        'contact_code' => $this->contacts_model->get_contact_code($value)
+//                    );
+//                    $this->notes_model->insert($param2);
+//                }
+//            }
+//
+//            $staff_name = $this->Staffs_model->find_staff_name($sale_id);
+//
+//            $result['success'] = 1;
+//            $result['message'] = 'Đã chuyển contact cho nhân viên ' . $staff_name;
+//            echo json_encode($result);
+//            die;
+//        }
 
         $checkContactCanBeDivide = $this->_check_contact_can_be_divide($contact_ids);
         if (!empty($checkContactCanBeDivide)) {
@@ -462,6 +460,7 @@ class Manager extends MY_Controller {
             $where = array('id' => $value);
             $this->contacts_model->update($where, $data);
         }
+
         if ($note != '') {
             $this->load->model('notes_model');
             foreach ($contact_ids as $value) {
@@ -526,16 +525,16 @@ class Manager extends MY_Controller {
             die;
         }
 
-        $data1 = array(
-            // 'sale_staff_id' => $sale_id,
-            'date_handover' => time(),
-            'last_activity' => time()
-        );
-
-        foreach ($contact_ids as $value) {
-            $where = array('id' => $value);
-            $this->contacts_model->update($where,$data1);
-        }
+//        $data1 = array(
+//            // 'sale_staff_id' => $sale_id,
+//            'date_handover' => time(),
+//            'last_activity' => time()
+//        );
+//
+//        foreach ($contact_ids as $value) {
+//            $where = array('id' => $value);
+//            $this->contacts_model->update($where,$data1);
+//        }
 
         shuffle($contact_ids); //trộn đều các contact
 //		print_arr($contact_ids);
@@ -550,8 +549,6 @@ class Manager extends MY_Controller {
 
         //$this->action_divide_contact_auto($sales, $contact_ids, 0);
 		$this->action_divide_contact_auto_test($sale, $contact_ids, 0);
-        // var_dump($contacts);die();
-
     }
 
 //    function action_divide_contact_auto($sales, $contact_ids, $i) {
@@ -594,7 +591,6 @@ class Manager extends MY_Controller {
 //    }
 
 	function action_divide_contact_auto_test($sale, $contact_ids, $i) {
-
 		$tmp = 0;
       	foreach ($contact_ids as $value) {
 			$count_sale = count($sale);
@@ -602,7 +598,9 @@ class Manager extends MY_Controller {
 //				echo $value . '<br>';
 				$where = array('id' => $value);
 				$data = array(
-					'sale_staff_id' => $sale[$i][0]['id']
+					'sale_staff_id' => $sale[$i][0]['id'],
+					'date_handover' => time(),
+					'last_activity' => time()
 				);
 				$this->contacts_model->update($where, $data);
 //				echo $sale[$i][0]['count'].'-'. $sale[$i][0]['max_contact'].'-'.$sale[$i][0]['name'] .'-'.$value. '<br>';
@@ -622,10 +620,7 @@ class Manager extends MY_Controller {
 		die();
 	}
 
-    /*
-     * Check điều kiện chia contact (Contact không bị trùng và contact chưa được phân cho ai)
-     */
-
+    /* Check điều kiện chia contact (Contact không bị trùng và contact chưa được phân cho ai) */
     private function _check_contact_can_be_divide($contact_ids) {
         $result = array();
         $this->load->model('Staffs_model');
