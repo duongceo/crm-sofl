@@ -50,7 +50,7 @@ class Care_page extends MY_Controller {
 		$get = $this->input->get();
 
 		$conditional['where']['call_status_id'] = '0';
-		$conditional['where']['date_rgt >='] = strtotime(date('d-m-Y'));
+//		$conditional['where']['date_rgt >='] = strtotime(date('d-m-Y'));
 		$conditional['order'] = array('date_rgt' => 'DESC');
 
 		$data_pagination = $this->_query_all_from_get($get, $conditional, $this->per_page, $offset);
