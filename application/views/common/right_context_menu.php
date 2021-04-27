@@ -2,15 +2,21 @@
     <ul>
         <?php if ($this->role_id == 3) { ?> <!-- TK quản lý -->
             <li class="divide_one_contact_achor one-item-selected" contact_id="" contact_name="">
-                <a><i class="fa fa-hand-pointer-o" aria-hidden="true"></i> &nbsp; &nbsp; Phân contact này cho TVTS... </a>
+                <a>
+					<i class="fa fa-hand-pointer-o" aria-hidden="true"></i> &nbsp; &nbsp; Phân contact này cho TVTS...
+				</a>
             </li>
 
             <li class="divide_contact divide_multi_contact multi-item-selected">
-                <a><i class="fa fa-hand-paper-o" aria-hidden="true"></i> &nbsp; &nbsp; Phân các contact đã chọn cho TVTS... </a>
+                <a>
+					<i class="fa fa-hand-paper-o" aria-hidden="true"></i> &nbsp; &nbsp; Phân các contact đã chọn cho TVTS...
+				</a>
             </li>
 
 			<li class="divide_contact_auto divide_multi_contact multi-item-selected">
-                <a><i class="fa fa-hand-paper-o" aria-hidden="true"></i> &nbsp; &nbsp; Phân đều contact </a>
+                <a>
+					<i class="fa fa-hand-paper-o" aria-hidden="true"></i> &nbsp; &nbsp; Phân đều contact
+				</a>
             </li>
 
 			<li class="action-contact-admin load-new-contact-id" data-contact-id ="0" data-answer="Thu hồi thành công contact!" data-url="admin/retrieve_contact">
@@ -31,7 +37,7 @@
                 </a>
             </li>
 
-        <?php } else if ($this->role_id == 1) { ?>
+        <?php } else if ($this->role_id == 1) { ?> <!-- TK Sale -->
 
             <li class="ajax-request-modal load-new-contact-id edit-one-contact one-item-selected" data-contact-id ="0" data-modal-name="edit-contact-div"
                data-url="common/show_edit_contact_modal">
@@ -52,7 +58,7 @@
 				</a>
             </li>
 
-        <?php } else if ($this->role_id == 10) { ?>
+        <?php } else if ($this->role_id == 10) { ?>  <!-- TK CSKH -->
             <li class="ajax-request-modal load-new-contact-id edit-one-contact one-item-selected" data-contact-id ="0" data-modal-name="edit-contact-div"
                data-url="common/show_edit_contact_modal">
                 <a>
@@ -85,7 +91,7 @@
 
 		<?php } ?>
 
-        <?php if ($this->role_id == 12) { ?>
+        <?php if ($this->role_id == 12) { ?>  <!-- TK TVV cơ sở -->
 			<li class="ajax-request-modal load-new-contact-id edit-one-contact one-item-selected" data-contact-id ="0" data-modal-name="edit-contact-div" data-url="common/show_edit_contact_modal">
 				<a>
 					<i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp; Chăm sóc contact này
@@ -99,7 +105,13 @@
 					</a>
 				</li>
 
-				<li contact_id="0" contact_name="0" class="merge_contact one-item-selected">
+				<li class="divide_contact divide_multi_contact multi-item-selected">
+					<a>
+						<i class="fa fa-hand-paper-o" aria-hidden="true"></i> &nbsp; &nbsp; Phân các contact đã chọn cho TVTS...
+					</a>
+				</li>
+
+				<li class="merge_contact one-item-selected" contact_id="0" contact_name="0">
 					<a>
 						<i class="fa fa-exchange" aria-hidden="true"></i> &nbsp; &nbsp; Ghép contact
 					</a>
@@ -118,10 +130,26 @@
 						</a>
 					</li>
 				<?php } ?>
-
 			<?php } ?>
+        <?php } else if ($this->role_id == 11) { ?> <!-- Trực page -->
+			<li class="divide_one_contact_achor one-item-selected" contact_id="" contact_name="">
+				<a>
+					<i class="fa fa-hand-pointer-o" aria-hidden="true"></i> &nbsp; &nbsp; Phân contact này cho TVTS...
+				</a>
+			</li>
 
-        <?php } ?>
+			<li class="divide_contact divide_multi_contact multi-item-selected">
+				<a>
+					<i class="fa fa-hand-paper-o" aria-hidden="true"></i> &nbsp; &nbsp; Phân các contact đã chọn cho TVTS...
+				</a>
+			</li>
+
+			<li class="divide_contact_auto divide_multi_contact multi-item-selected">
+				<a>
+					<i class="fa fa-hand-paper-o" aria-hidden="true"></i> &nbsp; &nbsp; Phân đều contact
+				</a>
+			</li>
+		<?php } ?>
         
 		<li class="ajax-request-modal load-new-contact-id one-item-selected" data-contact-id ="0" data-modal-name="view-detail-contact-div" data-url="common/view_detail_contact">
 			<a>

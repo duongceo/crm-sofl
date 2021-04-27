@@ -18,21 +18,19 @@
 
                     <input type="hidden" name="contact_id" id="contact_id_input" />
 
-                    <div class="radio-inline">
-                        <label>
-                            <input type="radio" name="transfer_contact" value="1">
-                            Chuyển contact
-                        </label>
-
-                    </div>
-
-                    <div class="radio-inline">
-                        <label>
-                            <input type="radio" name="transfer_contact" value="2">
-                            Không đồng ý
-                        </label>
-
-                    </div>
+<!--                    <div class="radio-inline">-->
+<!--                        <label>-->
+<!--                            <input type="radio" name="transfer_contact" value="1">-->
+<!--                            Chuyển contact-->
+<!--                        </label>-->
+<!--                    </div>-->
+<!---->
+<!--                    <div class="radio-inline">-->
+<!--                        <label>-->
+<!--                            <input type="radio" name="transfer_contact" value="2">-->
+<!--                            Không đồng ý-->
+<!--                        </label>-->
+<!--                    </div>-->
 
                     <div class="form-group">
 

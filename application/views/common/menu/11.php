@@ -17,6 +17,13 @@
 		</li>
 
 		<li>
+			<a href="<?php echo base_url('care_page'); ?>">
+				<img src="<?php echo base_url(); ?>public/images/view-all.png">
+				<span> Danh sách Contact chưa chia cho sale </span>
+			</a>
+		</li>
+
+		<li>
 			<a href="<?php echo base_url('care_page/view_all_contact'); ?>">
 				<img src="<?php echo base_url(); ?>public/images/view-all.png">
 				<span> Danh sách tất cả contact đã nhập </span>
