@@ -17,7 +17,7 @@
 		</li>
 
 		<li>
-			<a href="<?php echo base_url('care_page'); ?>">
+			<a href="<?php echo base_url('care_page/contact_have_not_yet_been_divided'); ?>">
 				<img src="<?php echo base_url(); ?>public/images/view-all.png">
 				<span> Danh sách Contact chưa chia cho sale </span>
 			</a>
