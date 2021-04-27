@@ -50,6 +50,7 @@ class Care_page extends MY_Controller {
 		$get = $this->input->get();
 
 		$conditional['where']['call_status_id'] = '0';
+		$conditional['where']['duplicate_id'] = '0';
 		$conditional['where']['sale_staff_id'] = '0';
 //		$conditional['where']['date_rgt >='] = strtotime(date('d-m-Y'));
 		$conditional['order'] = array('date_rgt' => 'DESC');
