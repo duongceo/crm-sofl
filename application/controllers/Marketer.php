@@ -514,6 +514,11 @@ class Marketer extends MY_Controller {
 			
 			die;
 		}
+
+		$result['success'] = 1;
+		$result['message'] = 'duyệt contact thành công';
+		echo json_encode($result);
+		die();
 	}
 
 }
