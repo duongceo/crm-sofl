@@ -82,7 +82,7 @@ class Marketer extends MY_Controller {
 		$data = $this->_get_all_require_data();
 		$get = $this->input->get();
 
-		$conditional['where']['call_status_id IN (1, 3, 5) OR level_contact_detail IN ("L1.1", "L1.2", "L1.3", "L1.6")'] = 'NO-VALUE';
+		$conditional['where']['(call_status_id IN (1, 3, 5) OR level_contact_detail IN ("L1.1", "L1.2", "L1.3", "L1.6"))'] = 'NO-VALUE';
 		$conditional['where']['check_contact'] = '0';
 //		$conditional['where_in']['call_status_id'] = array(1, 3, 5);
 //		$conditional['where_in']['level_contact_detail'] = array("L1.1", "L1.2", "L1.3");
