@@ -112,7 +112,7 @@ class Marketer extends MY_Controller {
 		unset($value);
 
 		$data['left_col'] = array('date_rgt', 'date_last_calling', 'language');
-		$data['right_col'] = array('branch');
+		$data['right_col'] = array('branch', 'source');
 
 		$this->table .= 'last_note call_stt level_contact';
 		$data['table'] = explode(' ', $this->table);
