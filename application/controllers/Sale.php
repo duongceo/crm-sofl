@@ -46,11 +46,9 @@ class Sale extends MY_Controller {
         $get = $this->input->get();
 
         /*
-         * Điều kiện lấy contact :
-         * contact ở trang chủ là contact chưa gọi lần nào và contact là của riêng TVTS, sắp xếp theo ngày nhận contact
-         *
+         * Điều kiện lấy contact :contact ở trang chủ là contact chưa gọi lần nào và contact là của riêng TVTS, sắp xếp theo ngày nhận contact
          */
-        $conditional['where'] = array('call_status_id' => '0', 'sale_staff_id' => $this->user_id, 'is_hide' => '0');
+        $conditional['where'] = array('call_status_id' => '0', 'sale_staff_id' => $this->user_id);
         //$conditional['order'] = array('date_handover' => 'DESC');
 		$conditional['order'] = array('date_rgt' => 'DESC');
 
@@ -59,24 +57,16 @@ class Sale extends MY_Controller {
         $data_pagination = $this->_query_all_from_get($get, $conditional, $this->per_page, $offset);
 		//echo '<pre>'; print_r($data_pagination);die;
 
-        /*
-         * Lấy link phân trang và danh sách contacts
-         */
-		 
+        /* Lấy link phân trang và danh sách contacts */
         $data['pagination'] = $this->_create_pagination_link($data_pagination['total_row']);
         $data['contacts'] = $data_pagination['data'];
         $data['total_contact'] = $data_pagination['total_row'];
 
-        /*
-         * Filter ở cột trái và cột phải
-         */
-		 
-        $data['left_col'] = array('date_rgt');
+        /* Filter ở cột trái và cột phải */
+        $data['left_col'] = array('date_rgt', 'branch');
         $data['right_col'] = array('language');
 
-        /*
-         * Các trường cần hiện của bảng contact (đã có default)
-         */
+        /* Các trường cần hiện của bảng contact (đã có default) */
 
         $this->table .= 'date_rgt date_handover';
         $data['table'] = explode(' ', $this->table);

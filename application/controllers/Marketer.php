@@ -14,51 +14,37 @@ class Marketer extends MY_Controller {
 
     }
 
-    function delete_item() {
-
-        die('Không thể xóa, liên hệ admin để biết thêm chi tiết');
-
-    }
-
-    function delete_multi_item() {
-
-        show_error_and_redirect('Không thể xóa, liên hệ admin để biết thêm chi tiết', '', FALSE);
-
-    }
+//    function delete_item() {
+//
+//        die('Không thể xóa, liên hệ admin để biết thêm chi tiết');
+//
+//    }
+//
+//    function delete_multi_item() {
+//
+//        show_error_and_redirect('Không thể xóa, liên hệ admin để biết thêm chi tiết', '', FALSE);
+//
+//    }
 
     function index($offset = 0) {
 		$data = $this->_get_all_require_data();
 		$get = $this->input->get();
-		//echo '<pre>'; print_r($data['ad']);die;
 
-		/*
-         * Điều kiện lấy contact : contact ở trang chủ là contact đăng kí trong ngày hôm nay
-         */
-
+		/* Điều kiện lấy contact : contact ở trang chủ là contact đăng kí trong ngày hôm nay */
 		$conditional['where'] = array('date_rgt >' => strtotime(date('d-m-Y')), 'marketer_id' => $this->user_id, 'is_hide' => '0');
 
 		$data_pagination = $this->_query_all_from_get($get, $conditional, $this->per_page, $offset);
-		//echo '<pre>'; print_r($data_pagination);die
 
-		/*
-         * Lấy link phân trang và danh sách contacts
-         */
-
+		/* Lấy link phân trang và danh sách contacts */
 		$data['pagination'] = $this->_create_pagination_link($data_pagination['total_row']);
 		$data['contacts'] = $data_pagination['data'];
 		$data['total_contact'] = $data_pagination['total_row'];
 
-		/*
-         * Filter ở cột trái và cột phải
-         */
-
+		/* Filter ở cột trái và cột phải */
 		$data['left_col'] = array('date_rgt', 'channel');
 //		$data['right_col'] = array();
 
-		/*
-         * Các trường cần hiện của bảng contact (đã có default)
-         */
-
+		/* Các trường cần hiện của bảng contact (đã có default) */
 		$this->table .= 'channel campaign call_stt level_contact';
 		$data['table'] = explode(' ', $this->table);
 		//echo '<pre>'; print_r($data['table']);die;
@@ -467,12 +453,17 @@ class Marketer extends MY_Controller {
 
 		if ($post['check_contact'] == 1) {
 			$param = array('check_contact' => 1);
-		} else {
+		} else if ($post['check_contact'] == 0) {
 			$param = array(
 				'call_status_id' => 0,
-				'is_hide' => 0
+			);
+		} else if ($post['check_contact'] == 2) {
+			$param = array(
+				'check_contact' => 1,
+				'sale_staff_id' => 5
 			);
 		}
+
 		$where = array('id' => $post['contact_id']);
 		$this->contacts_model->update($where, $param);
 

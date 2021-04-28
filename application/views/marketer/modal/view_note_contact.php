@@ -32,6 +32,13 @@
 						</label>
 					</div>
 
+					<div class="radio-inline">
+						<label>
+							<input type="radio" name="check_contact" value="2">
+							Contact Online
+						</label>
+					</div>
+
                     <div class="form-group">
 
                         <label> Ghi chú </label>
