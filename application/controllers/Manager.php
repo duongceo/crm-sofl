@@ -277,7 +277,7 @@ class Manager extends MY_Controller {
         /*
          * Filter ở cột trái và cột phải
          */
-        $data['left_col'] = array('care_number', 'sale', 'language', 'level_language', 'date_rgt', 'date_handover', 'date_confirm', 'date_rgt_study', 'date_last_calling', 'date_paid', 'study_date_start', 'study_date_end', 'date_customer_care_call');
+        $data['left_col'] = array('care_number', 'sale', 'language', 'level_language', 'date_rgt', 'date_handover', 'date_confirm', 'date_rgt_study', 'date_last_calling', 'date_paid', 'study_date_start', 'study_date_end', 'date_customer_care_call', 'date_transfer');
         $data['right_col'] = array('branch', 'class_study', 'is_old', 'complete_fee', 'source', 'call_status', 'level_contact', 'level_contact_detail', 'level_student', 'level_student_detail', 'customer_care_call_stt');
 
         /*
@@ -1872,7 +1872,7 @@ class Manager extends MY_Controller {
 
 //		$input = array();
 //		$input['where'] = array('role_id' => 10, 'active' => 1);
-//		$staff_customer_care= $this->staffs_model->load_all($input);
+//		$staff_customer_care = $this->staffs_model->load_all($input);
 
 		/* Mảng chứa các ngày lẻ */
 		if (isset($get['filter_date_date_happen']) && $get['filter_date_date_happen'] != '') {
@@ -1938,11 +1938,13 @@ class Manager extends MY_Controller {
 		$end_date = trim($dateArr[1]);
 		$end_date = strtotime(str_replace("/", "-", $end_date)) + 3600 * 24 - 1;
 
-//		echo $start_date . '--' . $end_date;die();
-
 		$input_call = array(
 			'XU_LY' => array(
 				'where' => array('call_status_id !=' => '0', 'date_last_calling >=' => $start_date, 'date_last_calling <=' => $end_date),
+			),
+			'CON_CUU_DUOC' => array(
+				'where' => array('date_handover >=' => $start_date, 'date_handover <=' => $end_date,
+					'(call_status_id = ' . _KHONG_NGHE_MAY_ . ' OR level_contact_id IN ("L3", "L2"))' => 'NO-VALUE'),
 			),
 		);
 
@@ -1950,6 +1952,27 @@ class Manager extends MY_Controller {
 			$input_call['LAN_' . $i] = array(
 				'select' => 'contact_id',
 				'where' => array('time_created >=' => $start_date, 'time_created <=' => $end_date),
+				'group_by' => array('contact_id'),
+				'having' => array('COUNT(contact_id)' => $i)
+			);
+		}
+
+		$date_today_start = strtotime(date('d-m-Y'));
+		$date_today_end = strtotime(date('d-m-Y')) + 3600 * 24 - 1;
+		$input_call_today = array(
+			'XU_LY' => array(
+				'where' => array('call_status_id !=' => '0', 'date_last_calling >=' => $date_today_start, 'date_last_calling <=' => $date_today_end),
+			),
+			'CON_CUU_DUOC' => array(
+				'where' => array('date_handover >=' => $date_today_start, 'date_handover <=' => $date_today_end,
+					'(call_status_id = ' . _KHONG_NGHE_MAY_ . ' OR level_contact_id IN ("L3", "L2"))' => 'NO-VALUE'),
+			),
+		);
+
+		for ($i=1; $i<6; $i++) {
+			$input_call_today['LAN_' . $i] = array(
+				'select' => 'contact_id',
+				'where' => array('time_created >=' => $date_today_start, 'time_created <=' => $date_today_end),
 				'group_by' => array('contact_id'),
 				'having' => array('COUNT(contact_id)' => $i)
 			);
@@ -1966,7 +1989,7 @@ class Manager extends MY_Controller {
 		foreach ($staff as $key_staff => $value_staff) {
 			foreach ($input_call as $key_call => $value_call) {
 				$conditional_staff = array();
-				if ($key_call == 'XU_LY') {
+				if ($key_call == 'XU_LY' || $key_call == 'CON_CUU_DUOC') {
 					$conditional_staff['where']['sale_staff_id'] = $value_staff['id'];
 					$conditional = array_merge_recursive($conditional_staff, $value_call);
 					$staff[$key_staff][$key_call] = $this->_query_for_report($get, $conditional);
@@ -1977,6 +2000,21 @@ class Manager extends MY_Controller {
 					$staff[$key_staff][$key_call] = (!empty($count_call)) ? count($count_call) : 0;
 				}
 			}
+
+			foreach ($input_call_today as $key_call_today => $value_call_today) {
+				$conditional_staff = array();
+				if ($key_call_today == 'XU_LY' || $key_call_today == 'CON_CUU_DUOC') {
+					$conditional_staff['where']['sale_staff_id'] = $value_staff['id'];
+					$conditional = array_merge_recursive($conditional_staff, $value_call_today);
+					$staff[$key_staff][$key_call_today . '_TODAY'] = $this->_query_for_report($get, $conditional);
+				} else {
+					$conditional_staff['where']['staff_id'] = $value_staff['id'];
+					$conditional = array_merge_recursive($conditional_staff, $value_call_today);
+					$count_call = $this->call_log_model->load_all($conditional);
+					$staff[$key_staff][$key_call_today . '_TODAY'] = (!empty($count_call)) ? count($count_call) : 0;
+				}
+			}
+
 		}
 //		print_arr($staff);
 
@@ -1985,7 +2023,6 @@ class Manager extends MY_Controller {
 		$data['endDate'] = $end_date;
 		$data['left_col'] = array('date_happen_1');
 //		$data['right_col'] = array('is_old');
-//		$data['load_js'] = array('m_view_report');
 		$data['content'] = 'manager/view_report_sale_handle';
 		$this->load->view(_MAIN_LAYOUT_, $data);
 	}

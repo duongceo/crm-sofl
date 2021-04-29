@@ -326,7 +326,7 @@ class Sale extends MY_Controller {
 		$data['level_contact_detail'] = $this->level_contact_model->load_all($input);
 		$data['level_student_detail'] = $this->level_student_model->load_all($input);
 		
-		$data['left_col'] = array('care_number', 'language', 'date_rgt', 'date_handover', 'date_confirm', 'date_rgt_study', 'date_last_calling');
+		$data['left_col'] = array('care_number', 'language', 'date_rgt', 'date_handover', 'date_confirm', 'date_rgt_study', 'date_last_calling', 'date_transfer');
         $data['right_col'] = array('call_status', 'level_contact', 'level_contact_detail', 'level_student', 'level_student_detail');
 		
 //		if ($this->user_id == 18) {
@@ -720,27 +720,21 @@ class Sale extends MY_Controller {
 					$this->_set_call_log($id, $input);
 				}
 				
-                $data2 = [];
-                $data2['title'] = 'Có 1 contact mới đăng ký';
-                $data2['message'] = 'Click để xem ngay';
-
-                require_once APPPATH . 'libraries/Pusher.php';
-
-                $options = array(
-                    'cluster' => 'ap1',
-                    'encrypted' => true,
-                    'useTLS' => true
-                );
-
-//                $pusher = new Pusher(
-//                        '32b339fca68db27aa480', '32f6731ad5d48264c579', '490390', $options
+//                $data2 = [];
+//                $data2['title'] = 'Có 1 contact mới đăng ký';
+//                $data2['message'] = 'Click để xem ngay';
+//
+//                require_once APPPATH . 'libraries/Pusher.php';
+//                $options = array(
+//                    'cluster' => 'ap1',
+//                    'encrypted' => true,
+//                    'useTLS' => true
 //                );
+//                $pusher = new Pusher(
+//                    'f3c70a5a0960d7b811c9', '2fb574e3cce59e4659ac', '1042224', $options
+//                );
+//                $pusher->trigger('my-channel', 'notice', $data2);
 
-                $pusher = new Pusher(
-                    'f3c70a5a0960d7b811c9', '2fb574e3cce59e4659ac', '1042224', $options
-                );
-
-                $pusher->trigger('my-channel', 'notice', $data2);
                 show_error_and_redirect('Thêm thành công contact', $input['back_location']);
             }
         } else {
@@ -805,25 +799,21 @@ class Sale extends MY_Controller {
     }
 	
 	public function create_new_account_student($name = '', $phone = '', $level_language_id = '') {
-        if ($phone != '' && $level_language_id != '') {
-			$this->load->model('level_language_model');
-			$contact_s = $this->level_language_model->find_course_combo($level_language_id);
-//			echo $contact_s;die();
-			// $courseCode = explode(",", $contact_s);
-			$contact = array(
-				'course_code' => $contact_s,
-				'name' => $name,
-				'phone' => trim($phone),
-				'type' => 'offline'
-			);
+    	$this->load->model('level_language_model');
+		$contact_s = $this->level_language_model->find_course_combo($level_language_id);
+		$contact = array(
+			'course_code' => $contact_s,
+			'name' => $name,
+			'phone' => trim($phone),
+			'type' => 'offline'
+		);
 
-			$student = $this->_create_account_student_offline($contact);
+		$student = $this->_create_account_student_offline($contact);
 //			return json_encode($student); die();
-			return $student;
-        }
+		return $student;
     }
 	
-	 //api tạo tài khoản cho học viên
+    //api tạo tài khoản cho học viên
     private function _create_account_student_offline($contact) {
         require_once APPPATH . "libraries/Rest_Client.php";
 		$config = array(
