@@ -14,8 +14,9 @@
     <?php $this->load->view('common/content/filter'); ?>
 
 </form> 
+<div class="table-responsive">
 
-<table class="table table-bordered table-striped view_report gr4-table ">
+	<table class="table table-bordered table-striped view_report gr4-table">
 
     <thead>
 
@@ -219,6 +220,8 @@
 
 </table>
 
+</div>
+
 <?php if ($this->role_id == 3) { ?>
 	<hr>
 	<div class="row">
@@ -231,7 +234,9 @@
 
 	</div>
 
-	<table class="table table-bordered table-striped view_report gr4-table">
+	<div class="table-responsive">
+
+		<table class="table table-bordered table-striped view_report gr4-table">
 
 		<thead>
 
@@ -386,163 +391,7 @@
 
 	</table>
 
-
-<!--	<hr>-->
-<!--	<div class="row">-->
-<!---->
-<!--		<div class="col-md-10 col-md-offset-1">-->
-<!---->
-<!--			<h3 class="text-center marginbottom20"> Báo cáo tỷ lệ sale theo nguồn ngày --><?php //echo date('d-m-Y', $startDate); ?><!-- đến ngày --><?php //echo date('d-m-Y', $endDate); ?><!--</h3>-->
-<!---->
-<!--		</div>-->
-<!---->
-<!--	</div>-->
-<!---->
-<!--	<table class="table table-bordered table-striped view_report gr4-table">-->
-<!---->
-<!--		<thead>-->
-<!---->
-<!--		<tr>-->
-<!---->
-<!--			<th style="background: none" class="staff_0"></th>-->
-<!---->
-<!--			--><?php //foreach ($source as $value) { ?>
-<!---->
-<!--				<th style="background: #279a9d"  class="staff_--><?php //echo $value['id']; ?><!--">-->
-<!---->
-<!--					--><?php //echo $value['name']; ?>
-<!---->
-<!--				</th>-->
-<!---->
-<!--			--><?php //} ?>
-<!---->
-<!--			<th class="staff_sum">-->
-<!---->
-<!--				Tổng-->
-<!---->
-<!--			</th>-->
-<!---->
-<!--		</tr>-->
-<!---->
-<!--		</thead>-->
-<!---->
-<!--		<tbody>-->
-<!---->
-<!--		--><?php
-//
-//		$report = array(
-//			array('Nhận', 'NHAN', $NHAN_S),
-//			array('Chưa gọi', 'CHUA_GOI', $CHUA_GOI_S),
-//			array('Xử Lý', 'XU_LY', $XU_LY_S),
-//			array('Nghe Máy', 'NGHE_MAY', $NGHE_MAY_S),
-//			array('Ko Nghe Máy', 'KHONG_NGHE_MAY', $KHONG_NGHE_MAY_S),
-//			array('Contact chết', 'LC', $LC_S),
-//			array('L1', 'L1', $L1_S),
-//			array('L2', 'L2', $L2_S),
-//			array('L3', 'L3', $L3_S),
-//			array('L4', 'L4', $L4_S),
-//			array('L5', 'L5', $L5_S),
-//			array('L6', 'L6', $L6_S),
-//			array('L7', 'L7', $L7_S),
-//			array('L8', 'L8', $L8_S),
-//		);
-//
-//		foreach ($report as $values) {
-//
-//			list($name, $value2, $total) = $values;
-//
-//			?>
-<!---->
-<!--			<tr>-->
-<!---->
-<!--				<td> --><?php //echo $name; ?><!-- </td>-->
-<!---->
-<!--				--><?php //foreach ($source as $value) { ?>
-<!---->
-<!--					<td> --><?php //echo $value[$value2]; ?><!-- </td>-->
-<!---->
-<!--				--><?php //} ?>
-<!---->
-<!--				<td class="show_detail">-->
-<!---->
-<!--					--><?php //echo $total; ?>
-<!---->
-<!--				</td>-->
-<!---->
-<!--			</tr>-->
-<!---->
-<!--		--><?php //} ?>
-<!---->
-<!--		--><?php
-//
-//		$report2 = array(
-//			array('Nghe Máy/Xử lý', 'NGHE_MAY', 'XU_LY', ($XU_LY_S != 0) ? round(($NGHE_MAY_S / $XU_LY_S) * 100, 2) : 'không thể chia cho 0', 70),
-//			array('Ko Nghe Máy/Xử lý', 'KHONG_NGHE_MAY', 'XU_LY', ($XU_LY_S != 0) ? round(($KHONG_NGHE_MAY_S / $XU_LY_S) * 100, 2) : 'không thể chia cho 0', 25),
-//			array('L2/Xử lý', 'L2', 'XU_LY', ($XU_LY_S != 0) ? round(($L2_S / $XU_LY_S) * 100, 2) : 'không thể chia cho 0', 40),
-//			array('L3/Nhận', 'L3', 'NHAN', ($NHAN_S != 0) ? round(($L3_S / $NHAN_S) * 100, 2) : 'không thể chia cho 0', 35),
-//			array('L5/Nhận', 'L5', 'NHAN', ($NHAN_S != 0) ? round(($L5_S / $NHAN_S) * 100, 2) : 'không thể chia cho 0', 20),
-//		);
-//
-//		foreach ($report2 as $values) {
-//
-//			list($name, $tu_so, $mau_so, $total, $limit) = $values;
-//
-//			?>
-<!---->
-<!--			<tr>-->
-<!---->
-<!--				<td> --><?php //echo $name; ?><!-- </td>-->
-<!---->
-<!--				--><?php //foreach ($source as $value) { ?>
-<!---->
-<!--					<td-->
-<!--						--><?php //if ($value[$mau_so] != 0 && round(($value[$tu_so] / $value[$mau_so]) * 100) < $limit && $limit > 0) {
-//
-//							echo 'style="background-color: #a71717;color: #fff;"';
-//
-//						} else if ($value[$mau_so] != 0 && round(($value[$tu_so] / $value[$mau_so]) * 100) >= $limit && $limit > 0) {
-//
-//							echo 'style="background-color: #0C812D;color: #fff;"';
-//
-//						}
-//
-//						?><!-->-->
-<!---->
-<!--						--><?php
-//
-//						echo ($value[$mau_so] != 0) ? round(($value[$tu_so] / $value[$mau_so]) * 100, 2) . '%' : 'không thể chia cho 0';
-//
-//						?>
-<!---->
-<!--					</td>-->
-<!---->
-<!--				--><?php //} ?>
-<!---->
-<!--				<td --><?php
-//
-//				if ($total < $limit && $limit > 0) {
-//
-//					echo 'style="background-color: #a71717;color: #fff;"';
-//
-//				} else if ($total >= $limit && $limit > 0) {
-//
-//					echo 'style="background-color: #0C812D;color: #fff;"';
-//
-//				}
-//
-//				?><!-->-->
-<!---->
-<!--					--><?php //echo $total . '%'; ?>
-<!---->
-<!--				</td>-->
-<!---->
-<!--			</tr>-->
-<!---->
-<!--			--><?php //} ?>
-<!---->
-<!--		</tbody>-->
-<!---->
-<!--	</table>-->
+	</div>
 <?php } ?>
 
 <?php //$this->load->view('common/modal/view_detail_infor');  ?>

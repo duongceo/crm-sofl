@@ -15,7 +15,9 @@
 
 </form>
 
-<table class="table table-bordered table-striped view_report gr4-table ">
+<div class="table-responsive">
+
+	<table class="table table-bordered table-striped view_report gr4-table ">
 
 	<thead>
 
@@ -74,6 +76,8 @@
 	</tbody>
 
 </table>
+
+</div>
 
 <h5>Chú thích</h5>
 <h5> L7.1: Học viên bảo lưu </h5>

@@ -843,6 +843,7 @@ class Manager extends MY_Controller {
 					'no_report' => '0'
 				)
 			),
+			'branch' => array()
 		);
 		$data = array_merge($this->data, $this->_get_require_data($require_model));
 		$language = $data['language_study'];
@@ -1080,7 +1081,7 @@ class Manager extends MY_Controller {
         $data['startDate'] = $startDate;
         $data['endDate'] = $endDate;
         $data['left_col'] = array('branch', 'date_happen_1', 'tic_report');
-        $data['right_col'] = array('is_old');
+        $data['right_col'] = array('is_old', 'language');
         $data['load_js'] = array('m_view_report');
         $data['content'] = 'manager/view_report';
         if($this->role_id == 1){

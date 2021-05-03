@@ -14,36 +14,37 @@
 
 </form>
 
-<table class="table table-bordered table-striped view_report">
-	<thead>
-<!--	<tr>-->
-<!--		<th style="background: none"></th>-->
-<!--		--><?php //foreach ($payment_method_rgt as $value) { ?>
-<!--			--><?php //if ($value['id'] == 4) { ?>
-<!--				<th colspan="--><?php //echo count($account_banking)?><!--">--><?php //echo $value['method']?><!--</th>-->
-<!--			--><?php //} ?>
-<!--			<th>-->
-<!--				--><?php //echo $value['method']; ?>
-<!--			</th>-->
-<!--		--><?php //} ?>
-<!--	</tr>-->
-		<tr>
-			<th style="background: none" rowspan="2"></th>
-			<th rowspan="2">Tiền Mặt</th>
-			<th rowspan="2">Quẹt thẻ</th>
-			<th style="background-color: #1e5f24" colspan="<?php echo count($account_banking) + 1;?>">Chuyển khoản</th>
-		</tr>
-		<tr>
-			<?php foreach ($account_banking as $item) { ?>
-				<th style="background-color: #1e5f24">
-					<?php echo $item['bank'];?>
-				</th>
-			<?php } ?>
-			<th style="background-color: #3e5f5f">Tổng CK</th>
-		</tr>
-	</thead>
+<div class="table-responsive">
+	<table class="table table-bordered table-striped view_report">
+		<thead>
+	<!--	<tr>-->
+	<!--		<th style="background: none"></th>-->
+	<!--		--><?php //foreach ($payment_method_rgt as $value) { ?>
+	<!--			--><?php //if ($value['id'] == 4) { ?>
+	<!--				<th colspan="--><?php //echo count($account_banking)?><!--">--><?php //echo $value['method']?><!--</th>-->
+	<!--			--><?php //} ?>
+	<!--			<th>-->
+	<!--				--><?php //echo $value['method']; ?>
+	<!--			</th>-->
+	<!--		--><?php //} ?>
+	<!--	</tr>-->
+			<tr>
+				<th style="background: none" rowspan="2"></th>
+				<th rowspan="2">Tiền Mặt</th>
+				<th rowspan="2">Quẹt thẻ</th>
+				<th style="background-color: #1e5f24" colspan="<?php echo count($account_banking) + 1;?>">Chuyển khoản</th>
+			</tr>
+			<tr>
+				<?php foreach ($account_banking as $item) { ?>
+					<th style="background-color: #1e5f24">
+						<?php echo $item['bank'];?>
+					</th>
+				<?php } ?>
+				<th style="background-color: #3e5f5f">Tổng CK</th>
+			</tr>
+		</thead>
 
-	<tbody>
+		<tbody>
 		<?php foreach ($re as $value) { ?>
 			<tr>
 			<td style="background-color: #8aa6c1">
@@ -68,5 +69,6 @@
 				<?php } ?>
 			</tr>
 		<?php } ?>
-	</tbody>
-</table>
+		</tbody>
+	</table>
+</div>

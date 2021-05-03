@@ -1,20 +1,15 @@
 <div class="row">
-
 	<div class="col-md-10 col-md-offset-1">
-
 		<h3 class="text-center marginbottom20"> Thống kê số lượng các lớp từ ngày <?php echo date('d-m-Y', $startDate); ?> đến hết ngày <?php echo date('d-m-Y', $endDate); ?></h3>
-
 	</div>
-
 </div>
 
 <form action="#" method="GET" id="action_contact" class="form-inline">
-
 	<?php $this->load->view('common/content/filter'); ?>
-
 </form>
 
-<table class="table table-bordered table-striped view_report">
+<div class="table-responsive">
+	<table class="table table-bordered table-striped view_report">
 	<thead>
 		<tr>
 			<th style="background: none"></th>
@@ -60,6 +55,7 @@
 
 	</tbody>
 </table>
+</div>
 
 <div class="row">
 	<div class="col-md-10 col-md-offset-1">
@@ -67,7 +63,8 @@
 	</div>
 </div>
 
-<table class="table table-bordered table-striped view_report">
+<div class="table-responsive">
+	<table class="table table-bordered table-striped view_report">
 	<thead>
 		<tr>
 			<th style="background-color: #4c28c6b3"></th>
@@ -113,3 +110,4 @@
 			<?php } ?>
 	</tbody>
 </table>
+</div>

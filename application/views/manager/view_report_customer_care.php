@@ -15,7 +15,9 @@
 
 </form>
 
-<table class="table table-bordered table-striped view_report gr4-table ">
+<div class="table-responsive">
+
+	<table class="table table-bordered table-striped view_report gr4-table ">
 
 	<thead>
 
@@ -89,3 +91,5 @@
 	</tbody>
 
 </table>
+
+</div>

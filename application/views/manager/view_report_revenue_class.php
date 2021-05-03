@@ -15,7 +15,8 @@
 </form>
 
 <?php foreach ($report as $key => $item) { ?>
-	<table class="table table-bordered table-striped view_report">
+	<div class="table-responsive">
+		<table class="table table-bordered table-striped view_report">
 		<thead>
 			<tr>
 				<th style="background-color: #2b669a"><?php echo $key?></th>
@@ -38,6 +39,7 @@
 			<?php }	?>
 		</tbody>
 	</table>
+	</div>
 <?php } ?>
 
 

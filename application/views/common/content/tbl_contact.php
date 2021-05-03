@@ -14,81 +14,87 @@
 
     </div>
 
-    <table class="table table-bordered table-expandable table-striped list_contact list_contact_2 table-fixed-head">
+	<?php $class_contact = ($this->agent->is_mobile()) ? '' : 'list_contact list_contact_2';?>
 
-        <thead>
+	<div class="table-responsive">
 
-            <tr>
+		<table class="table table-bordered table-expandable table-striped table-fixed-head <?php echo $class_contact;?>">
 
-                <?php
+			<thead>
 
-                if (isset($table)) {
+				<tr>
 
-                    foreach ($table as $value) {
+					<?php
 
-                        $this->load->view('common/content/table/head/' . $value);
-						
-                    }
+					if (isset($table)) {
 
-                }
+						foreach ($table as $value) {
 
-                ?>
+							$this->load->view('common/content/table/head/' . $value);
 
-            </tr>
+						}
 
-        </thead>
+					}
 
-        <tbody>
+					?>
 
-            <?php
+				</tr>
 
-            if (isset($contacts)) {
+			</thead>
 
-                foreach ($contacts as $key => $value) {
+			<tbody>
 
-                    ?>
+				<?php
 
-                    <tr class="custom_right_menu <?php echo h_get_row_class($value); ?>" 
+				if (isset($contacts)) {
 
-                        contact_id="<?php echo $value['id']; ?>" 
+					foreach ($contacts as $key => $value) {
 
-                        item_id="<?php echo $value['id']; ?>"
+						?>
 
-                        duplicate_id="<?php echo $value['duplicate_id']; ?>" 
+						<tr class="custom_right_menu <?php echo h_get_row_class($value); ?>"
 
-                        contact_name="<?php echo $value['name']; ?>"
+							contact_id="<?php echo $value['id']; ?>"
 
-                        contact_phone="<?php echo $value['phone']; ?>">
+							item_id="<?php echo $value['id']; ?>"
 
-                            <?php
+							duplicate_id="<?php echo $value['duplicate_id']; ?>"
 
-                            $idRandom = h_generateRandomString();
+							contact_name="<?php echo $value['name']; ?>"
 
-                            $data['value'] = $value;
+							contact_phone="<?php echo $value['phone']; ?>">
 
-                            $data['id_random'] = $idRandom;
+								<?php
 
-                            foreach ($table as $value2) {
+								$idRandom = h_generateRandomString();
 
-                                $this->load->view('common/content/table/body/' . $value2, $data);
+								$data['value'] = $value;
 
-                            }
+								$data['id_random'] = $idRandom;
 
-                            ?>
+								foreach ($table as $value2) {
 
-                    </tr>
+									$this->load->view('common/content/table/body/' . $value2, $data);
 
-                    <?php
+								}
 
-                }
+								?>
 
-            }
+						</tr>
 
-            ?>
+						<?php
 
-        </tbody>
+					}
 
-    </table>
+				}
+
+				?>
+
+			</tbody>
+
+		</table>
+
+	</div>
 	
 	<div class="paging_down">
 	

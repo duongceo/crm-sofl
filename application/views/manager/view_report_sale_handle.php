@@ -9,7 +9,8 @@
 	<?php $this->load->view('common/content/filter'); ?>
 </form>
 
-<table class="table table-bordered table-striped view_report gr4-table ">
+<div class="table-responsive">
+	<table class="table table-bordered table-striped view_report gr4-table ">
 	<thead>
 		<tr>
 			<th style="background: none" class="staff_0"></th>
@@ -58,16 +59,17 @@
 			<?php } ?>
 	</tbody>
 </table>
+</div>
 
 <hr>
-
 <div class="row">
 	<div class="col-md-10 col-md-offset-1">
 		<h3 class="text-center marginbottom20"> Báo cáo xử lý contact từ ngày <?php echo date('d-m-Y', $startDate); ?> đến ngày <?php echo date('d-m-Y', $endDate); ?></h3>
 	</div>
 </div>
 
-<table class="table table-bordered table-striped view_report gr4-table ">
+<div class="table-responsive">
+	<table class="table table-bordered table-striped view_report gr4-table ">
 	<thead>
 	<tr>
 		<th style="background: none" class="staff_0"></th>
@@ -116,3 +118,4 @@
 	<?php } ?>
 	</tbody>
 </table>
+</div>

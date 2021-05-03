@@ -1,20 +1,15 @@
 <div class="row">
-
 	<div class="col-md-10 col-md-offset-1">
-
 		<h3 class="text-center marginbottom20"> Báo cáo học viên tại cơ sở từ ngày <?php echo date('d-m-Y', $startDate); ?> đến hết ngày <?php echo date('d-m-Y', $endDate); ?></h3>
-
 	</div>
-
 </div>
 
 <form action="#" method="GET" id="action_contact" class="form-inline">
-
 	<?php $this->load->view('common/content/filter'); ?>
-
 </form>
 
-<table class="table table-bordered table-striped view_report">
+<div class="table-responsive">
+	<table class="table table-bordered table-striped view_report">
 	<thead>
 		<tr>
 			<th style="background: none"></th>
@@ -104,6 +99,7 @@
 		<?php } ?>
 	</tbody>
 </table>
+</div>
 
 <h5>L5_1 : Các học viên đăng ký mà contact có nguồn từ FB, Landingpge, Zalo, trực tiếp, ....</h5>
 <h5>L5_2 : Các học viên đăng ký mà contact có nguồn từ Contact cũ, Học viên cũ trước đây</h5>

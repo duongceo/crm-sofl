@@ -1,6 +1,8 @@
+
+<?php  $class_contact = ($this->agent->is_mobile()) ? '' : 'list_contact list_contact_2';?>
 <div class="table-responsive">
 
-	<table class="table table-bordered table-striped list_contact list_contact_2 table-fixed-head">
+	<table class="table table-bordered table-striped table-fixed-head <?php echo  $class_contact ?>">
 
 		<?php
 

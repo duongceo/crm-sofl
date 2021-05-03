@@ -14,7 +14,8 @@
 
 </form>
 
-<table class="table table-bordered table-striped view_report">
+<div class="table-responsive">
+	<table class="table table-bordered table-striped view_report">
 	<thead>
 		<tr>
 			<th style="background: none"></th>
@@ -68,7 +69,7 @@
 	</tbody>
 </table>
 
-<table class="table table-bordered table-striped view_report">
+	<table class="table table-bordered table-striped view_report">
 	<thead>
 		<tr>
 			<th style="background: none"></th>
@@ -152,6 +153,7 @@
 		</tr>
 	</tbody>
 </table>
+</div>
 
 <h5>Phần doanh thu theo từng tiếng không tính các nguồn Contact cũ, Học viên Cũ</h5>
 <h5>Phần doanh thu theo các cơ sở thì tính theo tất cả các nguồn</h5>
