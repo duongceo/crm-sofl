@@ -1421,7 +1421,8 @@ class Manager extends MY_Controller {
 			),
 			'sources' => array(
 				'where' => array(
-					'active' => 1
+					'active' => 1,
+					'out_report' => '0'
 				)
 			)
 		);

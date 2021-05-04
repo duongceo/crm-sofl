@@ -18,207 +18,207 @@
 
 	<table class="table table-bordered table-striped view_report gr4-table">
 
-    <thead>
+		<thead>
 
-        <tr>
+			<tr>
 
-            <th style="background: none" class="staff_0"></th>
+				<th style="background: none" class="staff_0"></th>
 
-            <?php
-				foreach ($staffs as $value) {
+				<?php
+					foreach ($staffs as $value) {
 
-					if ($value['NHAN'] > 0 || $value['XU_LY'] > 0) {
+						if ($value['NHAN'] > 0 || $value['XU_LY'] > 0) {
 
-						?>
+							?>
 
-						<th style="background: #0f846c"  class="staff_<?php echo $value['id']; ?>">
+							<th style="background: #0f846c"  class="staff_<?php echo $value['id']; ?>">
 
-							<?php echo $value['name']; ?>
+								<?php echo $value['name']; ?>
 
-						</th>
+							</th>
 
-						<?php
+							<?php
+
+						}
 
 					}
 
-				}
+				?>
 
-            ?>
+				<th class="staff_sum">
 
-            <th class="staff_sum">
+					Tổng
 
-                Tổng
+				</th>
 
-            </th>
+			</tr>
 
-        </tr>
+		</thead>
 
-    </thead>
+		<tbody>
 
-    <tbody>
+			<?php
 
-        <?php
+			$report = array(
+				array('Nhận', 'NHAN', $NHAN),
+				array('Chưa gọi', 'CHUA_GOI', $CHUA_GOI),
+				array('Xử Lý', 'XU_LY', $XU_LY),
+				array('Nghe Máy', 'NGHE_MAY', $NGHE_MAY),
+				array('Ko Nghe Máy', 'KHONG_NGHE_MAY', $KHONG_NGHE_MAY),
+				array('Contact chết', 'LC', $LC),
+				array('L1', 'L1', $L1),
+				array('L2', 'L2', $L2),
+				array('L3', 'L3', $L3),
+				array('L4', 'L4', $L4),
+				array('L5', 'L5', $L5),
+				array('L6', 'L6', $L6),
+				array('L7', 'L7', $L7),
+				array('L8', 'L8', $L8),
+				array('Doanh Thu', 'RE', h_number_format($RE)),
 
-        $report = array(
-            array('Nhận', 'NHAN', $NHAN),
-            array('Chưa gọi', 'CHUA_GOI', $CHUA_GOI),
-			array('Xử Lý', 'XU_LY', $XU_LY),
-			array('Nghe Máy', 'NGHE_MAY', $NGHE_MAY),
-			array('Ko Nghe Máy', 'KHONG_NGHE_MAY', $KHONG_NGHE_MAY),
-			array('Contact chết', 'LC', $LC),
-            array('L1', 'L1', $L1),
-            array('L2', 'L2', $L2),
-            array('L3', 'L3', $L3),
-            array('L4', 'L4', $L4),
-            array('L5', 'L5', $L5),
-            array('L6', 'L6', $L6),
-            array('L7', 'L7', $L7),
-            array('L8', 'L8', $L8),
-            array('Doanh Thu', 'RE', h_number_format($RE)),
+			);
 
-        );
+			foreach ($report as $values) {
 
-        foreach ($report as $values) {
+				list($name, $value2, $total) = $values;
 
-            list($name, $value2, $total) = $values;
+				?>
 
-            ?>
+				<tr <?php if (in_array($value2, array('RE', 'L5', 'L3'))) echo 'style="background-color: #6bc5e6"' ?>>
 
-            <tr <?php if (in_array($value2, array('RE', 'L5', 'L3'))) echo 'style="background-color: #6bc5e6"' ?>>
+					<td> <?php echo $name; ?> </td>
 
-                <td> <?php echo $name; ?> </td>
+					<?php
 
-                <?php
+					foreach ($staffs as $value) {
 
-                foreach ($staffs as $value) {
+						if (($value['NHAN'] > 0 || $value['XU_LY'] > 0)) {
 
-                    if (($value['NHAN'] > 0 || $value['XU_LY'] > 0)) {
-
-                        ?>
-
-						<td class="show_detail" staff_id = "<?php echo $value['id']; ?>" type_contact = "<?php echo $value2; ?>" time_start = "<?php echo $startDate; ?>" time_end = "<?php echo $endDate; ?>"
-							total = "<?php echo $value[$value2]; ?>" >
-
-							<?php
-								if ($value2 == 'RE') {
-									echo h_number_format($value[$value2]);
-								} else {
-									echo $value[$value2];
-								}
 							?>
 
-						</td>
+							<td class="show_detail" staff_id = "<?php echo $value['id']; ?>" type_contact = "<?php echo $value2; ?>" time_start = "<?php echo $startDate; ?>" time_end = "<?php echo $endDate; ?>"
+								total = "<?php echo $value[$value2]; ?>" >
 
-                        <?php
+								<?php
+									if ($value2 == 'RE') {
+										echo h_number_format($value[$value2]);
+									} else {
+										echo $value[$value2];
+									}
+								?>
 
-                    }
+							</td>
 
-                }
+							<?php
 
-                ?>
+						}
 
-                <td class="show_detail">
+					}
 
-                    <?php echo $total; ?>
+					?>
 
-                </td>
+					<td class="show_detail">
 
-            </tr>
+						<?php echo $total; ?>
 
-            <?php
+					</td>
 
-        }
+				</tr>
 
-        ?>
+				<?php
 
-        <?php
+			}
 
-        $report2 = array(
-            array('Nghe Máy/Xử lý', 'NGHE_MAY', 'XU_LY', ($XU_LY != 0) ? round(($NGHE_MAY / $XU_LY) * 100, 2) : 'không thể chia cho 0', 70),
-            array('Ko Nghe Máy/Xử lý', 'KHONG_NGHE_MAY', 'XU_LY', ($XU_LY != 0) ? round(($KHONG_NGHE_MAY / $XU_LY) * 100, 2) : 'không thể chia cho 0', 25),
-            array('L2/Xử lý', 'L2', 'XU_LY', ($XU_LY != 0) ? round(($L2 / $XU_LY) * 100, 2) : 'không thể chia cho 0', 40),
-            array('L2/Nhận', 'L2', 'NHAN', ($NHAN != 0) ? round(($L2 / $NHAN) * 100, 2) : 'không thể chia cho 0', 40),
-            array('L3/Nhận', 'L3', 'NHAN', ($NHAN != 0) ? round(($L3 / $NHAN) * 100, 2) : 'không thể chia cho 0', 35),
-            array('L5/Nhận', 'L5', 'NHAN', ($NHAN != 0) ? round(($L5 / $NHAN) * 100, 2) : 'không thể chia cho 0', 20),
-        );
+			?>
 
-        foreach ($report2 as $values) {
+			<?php
 
-            list($name, $tu_so, $mau_so, $total, $limit) = $values;
+			$report2 = array(
+				array('Nghe Máy/Xử lý', 'NGHE_MAY', 'XU_LY', ($XU_LY != 0) ? round(($NGHE_MAY / $XU_LY) * 100, 2) : 'không thể chia cho 0', 70),
+				array('Ko Nghe Máy/Xử lý', 'KHONG_NGHE_MAY', 'XU_LY', ($XU_LY != 0) ? round(($KHONG_NGHE_MAY / $XU_LY) * 100, 2) : 'không thể chia cho 0', 25),
+				array('L2/Xử lý', 'L2', 'XU_LY', ($XU_LY != 0) ? round(($L2 / $XU_LY) * 100, 2) : 'không thể chia cho 0', 40),
+				array('L2/Nhận', 'L2', 'NHAN', ($NHAN != 0) ? round(($L2 / $NHAN) * 100, 2) : 'không thể chia cho 0', 40),
+				array('L3/Nhận', 'L3', 'NHAN', ($NHAN != 0) ? round(($L3 / $NHAN) * 100, 2) : 'không thể chia cho 0', 35),
+				array('L5/Nhận', 'L5', 'NHAN', ($NHAN != 0) ? round(($L5 / $NHAN) * 100, 2) : 'không thể chia cho 0', 25),
+			);
 
-            ?>
+			foreach ($report2 as $values) {
 
-            <tr>
+				list($name, $tu_so, $mau_so, $total, $limit) = $values;
 
-                <td> <?php echo $name; ?> </td>
+				?>
 
-                <?php
+				<tr>
 
-                foreach ($staffs as $value) {
+					<td> <?php echo $name; ?> </td>
 
-                    if ($value['NHAN'] > 0 || $value['XU_LY'] > 0 ) {
+					<?php
 
-                        ?>
+					foreach ($staffs as $value) {
 
-                        <td <?php
+						if ($value['NHAN'] > 0 || $value['XU_LY'] > 0 ) {
 
-                        if ($value[$mau_so] != 0 && round(($value[$tu_so] / $value[$mau_so]) * 100) < $limit && $limit > 0) {
+							?>
 
-                            echo 'style="background-color: #a71717;color: #fff;"';
+							<td <?php
 
-                        } else if ($value[$mau_so] != 0 && round(($value[$tu_so] / $value[$mau_so]) * 100) >= $limit && $limit > 0) {
+							if ($value[$mau_so] != 0 && round(($value[$tu_so] / $value[$mau_so]) * 100) < $limit && $limit > 0) {
 
-                            echo 'style="background-color: #0C812D;color: #fff;"';
+								echo 'style="background-color: #a71717;color: #fff;"';
 
-                        }
+							} else if ($value[$mau_so] != 0 && round(($value[$tu_so] / $value[$mau_so]) * 100) >= $limit && $limit > 0) {
 
-                        ?>>
+								echo 'style="background-color: #0C812D;color: #fff;"';
 
-                        <?php
+							}
 
-							echo ($value[$mau_so] != 0) ? round(($value[$tu_so] / $value[$mau_so]) * 100, 2) . '%' : 'không thể chia cho 0';
+							?>>
 
-                            ?>
+							<?php
 
-                        </td>
+								echo ($value[$mau_so] != 0) ? round(($value[$tu_so] / $value[$mau_so]) * 100, 2) . '%' : 'không thể chia cho 0';
 
-                                <?php
+								?>
 
-                            }
+							</td>
 
-                        }
+									<?php
 
-                        ?>
+								}
 
-                <td <?php
+							}
 
-                if ($total < $limit && $limit > 0) {
+							?>
 
-                    echo 'style="background-color: #a71717;color: #fff;"';
+					<td <?php
 
-                } else if ($total >= $limit && $limit > 0) {
+					if ($total < $limit && $limit > 0) {
 
-                    echo 'style="background-color: #0C812D;color: #fff;"';
+						echo 'style="background-color: #a71717;color: #fff;"';
 
-                }
+					} else if ($total >= $limit && $limit > 0) {
 
-                ?>>
+						echo 'style="background-color: #0C812D;color: #fff;"';
 
-                <?php echo $total . '%'; ?>
+					}
 
-                </td>
+					?>>
 
-            </tr>
+					<?php echo $total . '%'; ?>
 
-    <?php
+					</td>
 
-}
+				</tr>
 
-?>
+		<?php
 
-    </tbody>
+	}
 
-</table>
+	?>
+
+		</tbody>
+
+	</table>
 
 </div>
 
@@ -238,112 +238,140 @@
 
 		<table class="table table-bordered table-striped view_report gr4-table">
 
-		<thead>
-
-		<tr>
-
-			<th style="background: none" class="staff_0"></th>
-
-			<?php foreach ($language as $value) { ?>
-
-				<th style="background-color: #5189ae"  class="staff_<?php echo $value['id']; ?>">
-
-					<?php echo $value['name']; ?>
-
-				</th>
-
-			<?php } ?>
-
-			<th class="staff_sum">
-
-				Tổng
-
-			</th>
-
-		</tr>
-
-		</thead>
-
-		<tbody>
-
-		<?php
-
-		$report = array(
-			array('Nhận', 'NHAN', $NHAN_L),
-			array('Chưa gọi', 'CHUA_GOI', $CHUA_GOI_L),
-			array('Xử Lý', 'XU_LY', $XU_LY_L),
-			array('Nghe Máy', 'NGHE_MAY', $NGHE_MAY_L),
-			array('Ko Nghe Máy', 'KHONG_NGHE_MAY', $KHONG_NGHE_MAY_L),
-			array('Contact chết', 'LC', $LC_L),
-			array('L1', 'L1', $L1_L),
-			array('L2', 'L2', $L2_L),
-			array('L3', 'L3', $L3_L),
-			array('L4', 'L4', $L4_L),
-			array('L5', 'L5', $L5_L),
-			array('L6', 'L6', $L6_L),
-			array('L7', 'L7', $L7_L),
-			array('L8', 'L8', $L8_L),
-		);
-
-		foreach ($report as $values) {
-
-			list($name, $value2, $total) = $values;
-
-			?>
+			<thead>
 
 			<tr>
 
-				<td> <?php echo $name; ?> </td>
+				<th style="background: none" class="staff_0"></th>
 
 				<?php foreach ($language as $value) { ?>
 
-					<td>
+					<th style="background-color: #5189ae"  class="staff_<?php echo $value['id']; ?>">
 
-						<?php echo $value[$value2]; ?>
+						<?php echo $value['name']; ?>
 
-					</td>
+					</th>
 
 				<?php } ?>
 
-				<td class="show_detail">
+				<th class="staff_sum">
 
-					<?php echo $total; ?>
+					Tổng
 
-				</td>
+				</th>
 
 			</tr>
 
-		<?php } ?>
+			</thead>
 
-		<?php
+			<tbody>
 
-		$report2 = array(
-			array('Nghe Máy/Xử lý', 'NGHE_MAY', 'XU_LY', ($XU_LY_L != 0) ? round(($NGHE_MAY_L / $XU_LY_L) * 100, 2) : 'không thể chia cho 0', 70),
-			array('Ko Nghe Máy/Xử lý', 'KHONG_NGHE_MAY', 'XU_LY', ($XU_LY_L != 0) ? round(($KHONG_NGHE_MAY_L / $XU_LY_L) * 100, 2) : 'không thể chia cho 0', 25),
-			array('L2/Xử lý', 'L2', 'XU_LY', ($XU_LY_L != 0) ? round(($L2_L / $XU_LY_L) * 100, 2) : 'không thể chia cho 0', 40),
-			array('L3/Nhận', 'L3', 'NHAN', ($NHAN_L != 0) ? round(($L3_L / $NHAN_L) * 100, 2) : 'không thể chia cho 0', 35),
-			array('L5/Nhận', 'L5', 'NHAN', ($NHAN_L != 0) ? round(($L5_L / $NHAN_L) * 100, 2) : 'không thể chia cho 0', 20),
-		);
+			<?php
 
-		foreach ($report2 as $values) {
+			$report = array(
+				array('Nhận', 'NHAN', $NHAN_L),
+				array('Chưa gọi', 'CHUA_GOI', $CHUA_GOI_L),
+				array('Xử Lý', 'XU_LY', $XU_LY_L),
+				array('Nghe Máy', 'NGHE_MAY', $NGHE_MAY_L),
+				array('Ko Nghe Máy', 'KHONG_NGHE_MAY', $KHONG_NGHE_MAY_L),
+				array('Contact chết', 'LC', $LC_L),
+				array('L1', 'L1', $L1_L),
+				array('L2', 'L2', $L2_L),
+				array('L3', 'L3', $L3_L),
+				array('L4', 'L4', $L4_L),
+				array('L5', 'L5', $L5_L),
+				array('L6', 'L6', $L6_L),
+				array('L7', 'L7', $L7_L),
+				array('L8', 'L8', $L8_L),
+			);
 
-			list($name, $tu_so, $mau_so, $total, $limit) = $values;
+			foreach ($report as $values) {
 
-			?>
+				list($name, $value2, $total) = $values;
 
-			<tr>
+				?>
 
-				<td> <?php echo $name; ?> </td>
+				<tr>
 
-				<?php foreach ($language as $value) { ?>
+					<td> <?php echo $name; ?> </td>
+
+					<?php foreach ($language as $value) { ?>
+
+						<td>
+
+							<?php echo $value[$value2]; ?>
+
+						</td>
+
+					<?php } ?>
+
+					<td class="show_detail">
+
+						<?php echo $total; ?>
+
+					</td>
+
+				</tr>
+
+			<?php } ?>
+
+			<?php
+
+			$report2 = array(
+				array('Nghe Máy/Xử lý', 'NGHE_MAY', 'XU_LY', ($XU_LY_L != 0) ? round(($NGHE_MAY_L / $XU_LY_L) * 100, 2) : 'không thể chia cho 0', 70),
+				array('Ko Nghe Máy/Xử lý', 'KHONG_NGHE_MAY', 'XU_LY', ($XU_LY_L != 0) ? round(($KHONG_NGHE_MAY_L / $XU_LY_L) * 100, 2) : 'không thể chia cho 0', 25),
+				array('L2/Xử lý', 'L2', 'XU_LY', ($XU_LY_L != 0) ? round(($L2_L / $XU_LY_L) * 100, 2) : 'không thể chia cho 0', 40),
+				array('L3/Nhận', 'L3', 'NHAN', ($NHAN_L != 0) ? round(($L3_L / $NHAN_L) * 100, 2) : 'không thể chia cho 0', 35),
+				array('L5/Nhận', 'L5', 'NHAN', ($NHAN_L != 0) ? round(($L5_L / $NHAN_L) * 100, 2) : 'không thể chia cho 0', 20),
+			);
+
+			foreach ($report2 as $values) {
+
+				list($name, $tu_so, $mau_so, $total, $limit) = $values;
+
+				?>
+
+				<tr>
+
+					<td> <?php echo $name; ?> </td>
+
+					<?php foreach ($language as $value) { ?>
+
+						<td <?php
+
+						if ($value[$mau_so] != 0 && round(($value[$tu_so] / $value[$mau_so]) * 100) < $limit && $limit > 0) {
+
+							echo 'style="background-color: #a71717;color: #fff;"';
+
+						} else if ($value[$mau_so] != 0 && round(($value[$tu_so] / $value[$mau_so]) * 100) >= $limit && $limit > 0) {
+
+							echo 'style="background-color: #0C812D;color: #fff;"';
+
+						}
+
+						?>>
+
+							<?php
+
+							echo ($value[$mau_so] != 0) ? round(($value[$tu_so] / $value[$mau_so]) * 100, 2) . '%' : 'không thể chia cho 0';
+
+							?>
+
+						</td>
+
+						<?php
+
+					}
+
+					?>
 
 					<td <?php
 
-					if ($value[$mau_so] != 0 && round(($value[$tu_so] / $value[$mau_so]) * 100) < $limit && $limit > 0) {
+					if ($total < $limit && $limit > 0) {
 
 						echo 'style="background-color: #a71717;color: #fff;"';
 
-					} else if ($value[$mau_so] != 0 && round(($value[$tu_so] / $value[$mau_so]) * 100) >= $limit && $limit > 0) {
+					} else if ($total >= $limit && $limit > 0) {
 
 						echo 'style="background-color: #0C812D;color: #fff;"';
 
@@ -351,45 +379,17 @@
 
 					?>>
 
-						<?php
-
-						echo ($value[$mau_so] != 0) ? round(($value[$tu_so] / $value[$mau_so]) * 100, 2) . '%' : 'không thể chia cho 0';
-
-						?>
+						<?php echo $total . '%'; ?>
 
 					</td>
 
-					<?php
+				</tr>
 
-				}
+			<?php } ?>
 
-				?>
+			</tbody>
 
-				<td <?php
-
-				if ($total < $limit && $limit > 0) {
-
-					echo 'style="background-color: #a71717;color: #fff;"';
-
-				} else if ($total >= $limit && $limit > 0) {
-
-					echo 'style="background-color: #0C812D;color: #fff;"';
-
-				}
-
-				?>>
-
-					<?php echo $total . '%'; ?>
-
-				</td>
-
-			</tr>
-
-		<?php } ?>
-
-		</tbody>
-
-	</table>
+		</table>
 
 	</div>
 <?php } ?>

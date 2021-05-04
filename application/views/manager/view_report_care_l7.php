@@ -19,63 +19,63 @@
 
 	<table class="table table-bordered table-striped view_report gr4-table ">
 
-	<thead>
-
-		<tr>
-
-			<th style="background: none" class="staff_0"></th>
-
-			<?php foreach ($level_study as $value) { ?>
-
-				<th style="background: #0f846c">
-
-					<?php echo $value['level_id']; ?>
-
-				</th>
-
-			<?php } ?>
-
-	<!--		<th class="staff_sum">-->
-	<!---->
-	<!--			Tổng-->
-	<!---->
-	<!--		</th>-->
-
-		</tr>
-
-	</thead>
-
-	<tbody>
-
-		<?php foreach ($report as $key_report => $value_report) { ?>
+		<thead>
 
 			<tr>
 
-				<td style="background-color: #8aa6c1"> <?php echo $key_report; ?> </td>
+				<th style="background: none" class="staff_0"></th>
 
-				<?php foreach ($level_study as $value_study) { ?>
+				<?php foreach ($level_study as $value) { ?>
 
-					<td>
+					<th style="background: #0f846c">
 
-						<?php echo $value_report[$value_study['level_id']]; ?>
+						<?php echo $value['level_id']; ?>
 
-					</td>
+					</th>
 
 				<?php } ?>
 
-<!--				<td class="show_detail">-->
-<!---->
-<!--					--><?php //echo $total; ?>
-<!---->
-<!--				</td>-->
+		<!--		<th class="staff_sum">-->
+		<!---->
+		<!--			Tổng-->
+		<!---->
+		<!--		</th>-->
 
 			</tr>
 
-		<?php } ?>
+		</thead>
 
-	</tbody>
+		<tbody>
 
-</table>
+			<?php foreach ($report as $key_report => $value_report) { ?>
+
+				<tr>
+
+					<td style="background-color: #8aa6c1"> <?php echo $key_report; ?> </td>
+
+					<?php foreach ($level_study as $value_study) { ?>
+
+						<td>
+
+							<?php echo $value_report[$value_study['level_id']]; ?>
+
+						</td>
+
+					<?php } ?>
+
+	<!--				<td class="show_detail">-->
+	<!---->
+	<!--					--><?php //echo $total; ?>
+	<!---->
+	<!--				</td>-->
+
+				</tr>
+
+			<?php } ?>
+
+		</tbody>
+
+	</table>
 
 </div>
 
