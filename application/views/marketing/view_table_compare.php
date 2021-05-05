@@ -16,38 +16,37 @@
 </form>
 
 <?php foreach ($report as $key => $value) { ?>
-
-<div class="row">
-
-	<table class="table table-bordered table-striped view_report gr4-table">
-		<thead class="table-head-pos">
-			<tr>
-				<th ><h6 style="font-weight: bold;"><?php echo $key ?></h6></th>
-				<th style="font-weight: bold;  background-color: #41658f">Contact (L1)</th>
-				<th style="font-weight: bold; background-color: #41658f">Tổng chi phí</th>
-				<th style="font-weight: bold; background-color: #41658f">Giá Contact</th>
-				<th style="font-weight: bold; background-color: #3c7e5b">Đăng ký thành công (L5)</th>
-				<th style="font-weight: bold; background-color: #3c7e5b">Doanh thu</th>
-				<th style="font-weight: bold; background-color: #477e75">% Chốt</th>
-			</tr>
-		</thead>
-		<tbody>
-			<?php foreach ($value as $key_2 => $item) { ?>
-				<tr>
-					<td style="background-color: #2f96ca ;color: #FFF;font-weight: bold"><?php echo $key_2 ?></td>
-					<td><?php echo $item['L1'] ?></td>
-					<td><?php echo $item['Ma_mkt']?> VNĐ</td>
-					<td><?php echo $item['Gia_So']?> VNĐ</td>
-					<td><?php echo $item['L5'] ?></td>
-					<td><?php echo $item['Re_thuc_te']?> VNĐ</td>
-					<td><?php echo $item['Chot']?> %</td>
-				</tr>
-			<?php } ?>
-		</tbody>
-	</table>
-
-</div>
-	<br>
+	<div class="row">
+		<div class="table-responsive">
+			<table class="table table-bordered table-striped view_report gr4-table">
+				<thead class="table-head-pos">
+					<tr>
+						<th ><h6 style="font-weight: bold;"><?php echo $key ?></h6></th>
+						<th style="font-weight: bold;  background-color: #41658f">Contact (L1)</th>
+						<th style="font-weight: bold; background-color: #41658f">Tổng chi phí</th>
+						<th style="font-weight: bold; background-color: #41658f">Giá Contact</th>
+						<th style="font-weight: bold; background-color: #3c7e5b">Đăng ký thành công (L5)</th>
+						<th style="font-weight: bold; background-color: #3c7e5b">Doanh thu</th>
+						<th style="font-weight: bold; background-color: #477e75">% Chốt</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach ($value as $key_2 => $item) { ?>
+						<tr>
+							<td style="background-color: #2f96ca ;color: #FFF;font-weight: bold"><?php echo $key_2 ?></td>
+							<td><?php echo $item['L1'] ?></td>
+							<td><?php echo $item['Ma_mkt']?> VNĐ</td>
+							<td><?php echo $item['Gia_So']?> VNĐ</td>
+							<td><?php echo $item['L5'] ?></td>
+							<td><?php echo $item['Re_thuc_te']?> VNĐ</td>
+							<td><?php echo $item['Chot']?> %</td>
+						</tr>
+					<?php } ?>
+				</tbody>
+			</table>
+		</div>
+	</div>
+<br>
 <?php } ?>
 
 <div class="row">
@@ -57,26 +56,27 @@
 </div>
 
 <?php foreach ($report as $key => $value) { ?>
-
 	<div class="row">
-		<table class="table table-bordered table-striped view_report gr4-table">
-			<thead class="table-head-pos">
-				<tr>
-					<th style=" background-color: #8f8810e3"><h6 style="font-weight: bold;"><?php echo $key ?></h6></th>
-					<th style="font-weight: bold; background-color: #3c7e5b">Đăng ký (L8)</th>
-					<th style="font-weight: bold; background-color: #3c7e5b">Doanh thu</th>
-				</tr>
-			</thead>
-			<tbody>
-			<?php foreach ($value as $key_2 => $item) { ?>
-				<tr>
-					<td style="background-color: #2f96ca ;color: #FFF;font-weight: bold"><?php echo $key_2 ?></td>
-					<td><?php echo $item['L8'] ?></td>
-					<td><?php echo $item['Re_cu']?> VNĐ</td>
-				</tr>
-			<?php } ?>
-			</tbody>
-		</table>
+		<div class="table-responsive">
+			<table class="table table-bordered table-striped view_report gr4-table">
+				<thead class="table-head-pos">
+					<tr>
+						<th style=" background-color: #8f8810e3"><h6 style="font-weight: bold;"><?php echo $key ?></h6></th>
+						<th style="font-weight: bold; background-color: #3c7e5b">Đăng ký (L8)</th>
+						<th style="font-weight: bold; background-color: #3c7e5b">Doanh thu</th>
+					</tr>
+				</thead>
+				<tbody>
+				<?php foreach ($value as $key_2 => $item) { ?>
+					<tr>
+						<td style="background-color: #2f96ca ;color: #FFF;font-weight: bold"><?php echo $key_2 ?></td>
+						<td><?php echo $item['L8'] ?></td>
+						<td><?php echo $item['Re_cu']?> VNĐ</td>
+					</tr>
+				<?php } ?>
+				</tbody>
+			</table>
+		</div>
 	</div>
 	<br>
 <?php } ?>
