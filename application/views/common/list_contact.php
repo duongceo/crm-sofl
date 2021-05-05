@@ -59,7 +59,7 @@
     	<h4>Học viên mới</h4>
         <div class="row">
 			<?php foreach ($progress['new'] as $key => $value) {?>
-				<div class="col-md-3 col-xs-6">
+				<div class="col-md-3 col-xs-4">
 					<div class="panel panel-success text-center">
 						<div class="panel-heading"><?php echo $key; ?></div>
 						<div class="panel-body" style="color: #006cf1"><?php echo h_number_format($value[0]['RE']) ?></div>
@@ -67,7 +67,7 @@
 				</div>
 			<?php } ?>
 
-            <div class="col-md-3 col-xs-6">
+            <div class="col-md-3 col-xs-12">
                 <div class="panel panel-success text-center">
                     <div class="panel-heading">Tổng</div>
                     <div class="panel-body" style="color: #006cf1"><?php echo h_number_format($progress['total_new']); ?></div>
@@ -78,7 +78,7 @@
         <h4>Học viên cũ</h4>
         <div class="row">
             <?php foreach ($progress['old'] as $key => $value) {?>
-                <div class="col-md-3 col-xs-6">
+                <div class="col-md-3 col-xs-4">
                     <div class="panel panel-success text-center">
                         <div class="panel-heading"><?php echo $key; ?></div>
                         <div class="panel-body" style="color: #006cf1"><?php echo h_number_format($value[0]['RE']) ?></div>
@@ -86,7 +86,7 @@
                 </div>
             <?php } ?>
 
-            <div class="col-md-3 col-xs-6">
+            <div class="col-md-3 col-xs-12">
                 <div class="panel panel-success text-center">
                     <div class="panel-heading">Tổng</div>
                     <div class="panel-body" style="color: #006cf1"><?php echo h_number_format($progress['total_old']); ?></div>
