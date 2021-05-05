@@ -1,17 +1,18 @@
-<div class="container" style="width: 950px">
-	<div class="row">
-		<h3 class="text-center">Lịch sử cuộc gọi từ ngày <?php echo date('d-m-Y', $startDate); ?> đến ngày <?php echo date('d-m-Y', $endDate); ?></h3>
-		<h3 class="text-center marginbottom35"> Tổng cước phí gọi : <?php echo h_number_format($total_fee_call); ?> VNĐ</h3>
 
-		<div class="row">
-			<div class="col-md-10">
-				<form action="#" method="GET" id="action_contact" class="form-inline">
-					<?php $this->load->view('common/content/filter'); ?>
-				</form>
-			</div>
+<div class="row">
+	<h3 class="text-center">Lịch sử cuộc gọi từ ngày <?php echo date('d-m-Y', $startDate); ?> đến ngày <?php echo date('d-m-Y', $endDate); ?></h3>
+	<h3 class="text-center marginbottom35"> Tổng cước phí gọi : <?php echo h_number_format($total_fee_call); ?> VNĐ</h3>
+
+	<div class="row">
+		<div class="col-md-10">
+			<form action="#" method="GET" id="action_contact" class="form-inline">
+				<?php $this->load->view('common/content/filter'); ?>
+			</form>
 		</div>
 	</div>
+</div>
 
+<div class="container" style="width: 950px">
 	<div class="table-responsive">
 		<table class="table table-bordered table-striped">
 			<thead>
