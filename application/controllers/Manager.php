@@ -891,25 +891,25 @@ class Manager extends MY_Controller {
                     'where' => array('date_handover !=' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate, 'level_contact_id' => 'L1'),
                 ),
                 'L2' => array(
-                    'where' => array('level_contact_id' => 'L2', 'date_handover !=' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
+                    'where' => array('level_contact_id' => 'L2', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
                 ),
                 'L3' => array(
-                    'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L3', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
+                    'where' => array('level_contact_id' => 'L3', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
                 ),
                 'L4' => array(
-                    'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L4', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
+                    'where' => array('level_contact_id' => 'L4', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
                 ),
                 'L5' => array(
-                    'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
+                    'where' => array('level_contact_id' => 'L5', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
                 ),
                 'L6' => array(
-                    'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_student_id' => 'L6', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
+                    'where' => array('level_student_id' => 'L6', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
                 ),
                 'L7' => array(
-                    'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_student_id' => 'L7', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
+                    'where' => array('level_student_id' => 'L7', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
                 ),
                 'L8' => array(
-                    'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_student_id' => 'L8', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
+                    'where' => array('level_student_id' => 'L8', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
                 ),
                 'LC' => array(
                     'where' => array('date_rgt >=' => $startDate, 'date_rgt <=' => $endDate,
@@ -946,22 +946,22 @@ class Manager extends MY_Controller {
 					'where' => array('level_contact_id' => 'L2', 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate),
 				),
 				'L3' => array(
-					'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L3', 'date_confirm >=' => $startDate, 'date_confirm <=' => $endDate),
+					'where' => array('level_contact_id' => 'L3', 'date_confirm >=' => $startDate, 'date_confirm <=' => $endDate),
 				),
 				'L4' => array(
-					'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L4', 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate),
+					'where' => array('level_contact_id' => 'L4', 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate),
 				),
 				'L5' => array(
-					'where' => array('duplicate_id' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
+					'where' => array('duplicate_id' => '0', 'level_contact_id' => 'L5', 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
 				),
 				'L6' => array(
-					'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_student_id' => 'L6', 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
+					'where' => array('level_student_id' => 'L6', 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
 				),
 				'L7' => array(
-					'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_student_id' => 'L7', 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate),
+					'where' => array('level_student_id' => 'L7', 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate),
 				),
 				'L8' => array(
-					'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_student_id' => 'L8', 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
+					'where' => array('level_student_id' => 'L8', 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
 				),
                 'LC' => array(
                     'where' => array('date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate,
@@ -1314,16 +1314,16 @@ class Manager extends MY_Controller {
 					'where' => array('level_contact_id' => 'L2', 'date_handover !=' => '0', 'is_old' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
 				),
 				'L3' => array(
-					'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L3', 'is_old' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
+					'where' => array('level_contact_id' => 'L3', 'is_old' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
 				),
 				'L5_1' => array(
-					'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'source_id NOT IN (9, 10, 11, 13)' => 'NO-VALUE', 'is_old' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
+					'where' => array('level_contact_id' => 'L5', 'source_id NOT IN (9, 10, 11, 13)' => 'NO-VALUE', 'is_old' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
 				),
 				'L5_2' => array(
-					'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'source_id IN (9, 10, 11, 13)' => 'NO-VALUE', 'is_old' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
+					'where' => array('level_contact_id' => 'L5', 'source_id IN (9, 10, 11, 13)' => 'NO-VALUE', 'is_old' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
 				),
 				'L8' => array(
-					'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => 1, 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
+					'where' => array('level_contact_id' => 'L5', 'is_old' => 1, 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
 				),
 			);
 		} else {
@@ -1336,16 +1336,16 @@ class Manager extends MY_Controller {
 					'where' => array('level_contact_id' => 'L2', 'is_old' => '0', 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate),
 				),
 				'L3' => array(
-					'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L3', 'is_old' => '0', 'date_confirm >=' => $startDate, 'date_confirm <=' => $endDate),
+					'where' => array('level_contact_id' => 'L3', 'is_old' => '0', 'date_confirm >=' => $startDate, 'date_confirm <=' => $endDate),
 				),
 				'L5_1' => array(
-					'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'source_id NOT IN (9, 10, 11, 13)' => 'NO-VALUE', 'is_old' => '0', 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
+					'where' => array('level_contact_id' => 'L5', 'source_id NOT IN (9, 10, 11, 13)' => 'NO-VALUE', 'is_old' => '0', 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
 				),
 				'L5_2' => array(
-					'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'source_id IN (9, 10, 11, 13)' => 'NO-VALUE', 'is_old' => '0', 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
+					'where' => array('level_contact_id' => 'L5', 'source_id IN (9, 10, 11, 13)' => 'NO-VALUE', 'is_old' => '0', 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
 				),
 				'L8' => array(
-					'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => 1, 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
+					'where' => array('level_contact_id' => 'L5', 'is_old' => 1, 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
 				),
 			);
 		}

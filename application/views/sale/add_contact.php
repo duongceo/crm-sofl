@@ -1,19 +1,18 @@
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
 
-
 <div class="container margintop45 marginbottom35">
     <?php echo validation_errors(); ?>
+	<h3 class="text-center marginbottom20"> Thêm mới 1 contact </h3>
     <div class="row">
-        <div class="col-md-7 col-md-offset-1">
-            <h3 class="text-center marginbottom20"> Thêm mới 1 contact </h3>
+        <div class="col-md-8 col-xs-12 col-md-offset-1">
             <form method="post" action="<?php echo base_url('sale/add_contact'); ?>">
                 <div class="form-group">
                     <div class="row">
-                        <div class="col-md-4 text-right">
+                        <div class="col-md-4 col-xs-4 text-right">
                             Họ tên
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-8 col-xs-8">
                             <input type="text" class="form-control" placeholder="Họ tên" name="name" value="
                             <?php if (isset($_GET['name'])) {
 								echo $_GET['name'];
@@ -26,10 +25,10 @@
 
                 <div class="form-group">
                     <div class="row">
-                        <div class="col-md-4 text-right">
+                        <div class="col-md-4 col-xs-4 text-right">
                             Email
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-8 col-xs-8">
                             <input type="email" class="form-control" placeholder="Email" name="email" value="
                             <?php if (isset($_GET['email'])) {
 								echo $_GET['email'];
@@ -42,10 +41,10 @@
 
                 <div class="form-group">
                     <div class="row">
-                        <div class="col-md-4 text-right">
+                        <div class="col-md-4 col-xs-4 text-right">
                             Số điện thoại
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-8 col-xs-8">
                             <input type="tel" class="form-control" placeholder="Số điện thoại" name="phone" value="
                             <?php if (isset($_GET['phone'])) {
 								echo $_GET['phone'];
@@ -56,10 +55,10 @@
 
 				<div class="form-group">
 					<div class="row">
-						<div class="col-md-4 text-right">
+						<div class="col-md-4 col-xs-4 text-right">
 							Ngày contact về
 						</div>
-						<div class="col-md-8">
+						<div class="col-md-8 col-xs-8">
 							<div class="form-group">
 								<div class='input-group date date_rgt'>
 									<input type='text' class="form-control" name='date_rgt' value="<?php if (isset($_GET['date_rgt'])) {
@@ -76,10 +75,10 @@
 
                 <div class="form-group">
                     <div class="row">
-                        <div class="col-md-4 text-right">
+                        <div class="col-md-4 col-xs-4 text-right">
                             Học viên mới hay cũ
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-8 col-xs-8">
                             <div class="radio">
                                 <label class="radio-inline">
                                     <input type="radio" name="is_old" value="1" <?php echo (isset($_GET['is_old']) && $_GET['is_old']) == 1 ? 'checked':''?>> Cũ
@@ -94,10 +93,10 @@
 
 				<div class="form-group">
 					<div class="row">
-						<div class="col-md-4 text-right">
+						<div class="col-md-4 col-xs-4 text-right">
 							Cơ sở
 						</div>
-						<div class="col-md-8">
+						<div class="col-md-8 col-xs-8">
 							<select class="form-control" name="branch_id">
 								<option value="0"> Chọn cơ sở </option>
 								<?php
@@ -116,10 +115,10 @@
 
 				<div class="form-group">
 					<div class="row">
-						<div class="col-md-4 text-right">
+						<div class="col-md-4 col-xs-4 text-right">
 							Trạng thái gọi
 						</div>
-						<div class="col-md-8">
+						<div class="col-md-8 col-xs-8">
 							<select class="form-control" name="call_status_id">
 								<option value="0"> Trạng thái gọi</option>
 								<?php
@@ -138,10 +137,10 @@
 
                 <div class="form-group">
                     <div class="row">
-                        <div class="col-md-4 text-right">
+                        <div class="col-md-4 col-xs-4 text-right">
                             Trạng thái contact
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-8 col-xs-8">
                             <select class="form-control select_contact_status" name="level_contact_id">
                                 <option value="">Trạng thái contact</option>
 								<?php foreach ($level_contact as $key => $value) { ?>
@@ -156,10 +155,10 @@
 
                 <div class="form-group">
                     <div class="row">
-                        <div class="col-md-4 text-right">
+                        <div class="col-md-4 col-xs-4 text-right">
                             Trạng thái học viên
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-8 col-xs-8">
                             <select class="form-control select_contact_status" name="level_student_id">
                                 <option value="">Trạng thái học viên</option>
 								<?php foreach ($level_student as $key => $value) { ?>
@@ -174,10 +173,10 @@
 
                 <div class="form-group">
                     <div class="row">
-                        <div class="col-md-4 text-right">
+                        <div class="col-md-4 col-xs-4 text-right">
                             Ngày đăng ký học
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-8 col-xs-8">
                             <div class="form-group">
                                 <div class='input-group date'>
                                     <input type='text' class="form-control" name='date_rgt_study' value="" />
@@ -192,10 +191,10 @@
 
 				<div class="form-group">
 					<div class="row">
-						<div class="col-md-4 text-right">
+						<div class="col-md-4 col-xs-4 text-right">
 							Ngoại ngữ
 						</div>
-						<div class="col-md-8">
+						<div class="col-md-8 col-xs-8">
 							<select class="form-control" name="language_id">
 								<option value=""> Ngoại ngữ </option>
 								<?php foreach ($language_study as $value) { ?>
@@ -210,10 +209,10 @@
 
 				<div class="form-group">
 					<div class="row">
-						<div class="col-md-4 text-right">
+						<div class="col-md-4 col-xs-4 text-right">
 							Trình độ ngoại ngữ
 						</div>
-						<div class="col-md-8">
+						<div class="col-md-8 col-xs-8">
 							<select class="form-control" name="level_language_id">
 								<option value="0"> Trình độ </option>
 								<?php foreach ($level_language as $value) { ?>
@@ -228,10 +227,10 @@
 
                 <div class="form-group">
                     <div class="row">
-                        <div class="col-md-4 text-right">
+                        <div class="col-md-4 col-xs-4 text-right">
                             Mã lớp học (Nếu có)
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-8 col-xs-8">
 							<select class="form-control select_course" name="class_study_id">
 								<option value="">Mã lớp học</option>
 								<?php foreach ($class_study as $value) { ?>
@@ -248,10 +247,10 @@
 				<?php if ($this->role_id == 11 || $this->role_id == 3 || $this->role_id == 12) { ?>
 					<div class="form-group">
 						<div class="row">
-							<div class="col-md-4 text-right">
+							<div class="col-md-4 col-xs-4 text-right">
 								Nhân viên sale
 							</div>
-							<div class="col-md-8">
+							<div class="col-md-8 col-xs-8">
 								<select class="form-control" name="sale_staff_id">
 									<option value="0"> Chọn nhân viên sale </option>
 									<?php
@@ -271,10 +270,10 @@
 				
                 <div class="form-group">
                     <div class="row">
-                        <div class="col-md-4 text-right">
+                        <div class="col-md-4 col-xs-4 text-right">
                             Nguồn kênh
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-8 col-xs-8">
                             <select class="form-control" name="source_id">
                                 <option value=""> Chọn nguồn kênh </option>
 									<?php foreach ($sources as $key => $value) { ?>
@@ -291,10 +290,10 @@
 			<?php if($this->role_id == 6){ ?>
 				<div class="form-group">
                     <div class="row">
-                        <div class="col-md-4 text-right">
+                        <div class="col-md-4 col-xs-4 text-right">
                             Kênh quảng cáo
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-8 col-xs-8">
                             <select class="form-control" name="channel_id">
 								<option value="2">Facebook Ads</option>
                                <?php foreach($channel as $value) { ?>
@@ -307,10 +306,10 @@
 				
 				<div class="form-group">
                     <div class="row">
-                        <div class="col-md-4 text-right">
+                        <div class="col-md-4 col-xs-4 text-right">
                             Campaign
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-8 col-xs-8">
                             <select class="form-control" name="campaign_id">
                                 <option value="0"> Chọn campaign </option>
 								<?php foreach ($campaign as $key => $value) { ?>
@@ -325,10 +324,10 @@
                 </div>
 				<div class="form-group">
                     <div class="row">
-                        <div class="col-md-4 text-right">
+                        <div class="col-md-4 col-xs-4 text-right">
                             Adset
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-8 col-xs-8">
                             <select class="form-control" name="adset_id">
                                 <option value="0"> Chọn adset </option>
 								<?php foreach ($adset as $key => $value) { ?>
@@ -343,10 +342,10 @@
                 </div>
 				<div class="form-group">
                     <div class="row">
-                        <div class="col-md-4 text-right">
+                        <div class="col-md-4 col-xs-4 text-right">
                             Ad
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-8 col-xs-8">
                             <select class="form-control" name="ad_id">
                                 <option value="0"> Chọn ad </option>
 								<?php foreach ($ad as $key => $value) { ?>
@@ -363,10 +362,10 @@
 
                 <div class="form-group">
                     <div class="row">
-                        <div class="col-md-4 text-right">
+                        <div class="col-md-4 col-xs-4 text-right">
                             Hình thức thanh toán
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-8 col-xs-8">
 							<select class="form-control" name="payment_method_rgt">
 								<option value="1">Thanh toán trực tiếp</option>
 								<?php foreach($payment_method_rgt as $value) { ?>
@@ -379,10 +378,10 @@
 
 				<div class="form-group">
 					<div class="row">
-						<div class="col-md-4 text-right">
+						<div class="col-md-4 col-xs-4 text-right">
 							Thông tin tài khoản
 						</div>
-						<div class="col-md-8">
+						<div class="col-md-8 col-xs-8">
 							<select class="form-control" name="account_banking_id">
 								<option value="0">Thông tin tài khoản</option>
 								<?php foreach($account_banking as $value) { ?>
@@ -395,10 +394,10 @@
 
                 <div class="form-group">
                     <div class="row">
-                        <div class="col-md-4 text-right">
+                        <div class="col-md-4 col-xs-4 text-right">
                             Học phí
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-8 col-xs-8">
                             <input type="text" class="form-control money" placeholder="Học phí" name="fee" value=""/>
                         </div>
                     </div>
@@ -406,10 +405,10 @@
 
 				<div class="form-group">
 					<div class="row">
-						<div class="col-md-4 text-right">
+						<div class="col-md-4 col-xs-4 text-right">
 							Đã đóng
 						</div>
-						<div class="col-md-8">
+						<div class="col-md-8 col-xs-8">
 							<input type="text" class="form-control money" placeholder="" name="paid" value=""/>
 						</div>
 					</div>
@@ -417,10 +416,10 @@
 
 				<div class="form-group">
 					<div class="row">
-						<div class="col-md-4 text-right">
+						<div class="col-md-4 col-xs-4 text-right">
 							Ngày đóng tiền
 						</div>
-						<div class="col-md-8">
+						<div class="col-md-8 col-xs-8">
 							<div class="form-group">
 								<div class='input-group date'>
 									<input type='text' class="form-control" name='date_paid' value="" />
@@ -460,10 +459,10 @@
 
                 <div class="form-group">
                     <div class="row">
-                        <div class="col-md-4 text-right">
+                        <div class="col-md-4 col-xs-4 text-right">
                             Ghi chú
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-8 col-xs-8">
                             <textarea class="form-control" rows="3" name="note"></textarea>
                         </div>
                     </div>

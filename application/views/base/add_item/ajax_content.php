@@ -2,7 +2,7 @@
 
     <div class="row" style="margin-right: 5px; margin-left: 5px;">
 
-        <div class="col-md-6">
+        <div class="col-md-6 col-xs-12">
 
             <table class="table table-striped table-bordered table-hover table-1 table-view-1 heavyTable">                
 
@@ -70,7 +70,7 @@
 
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-6 col-xs-12">
 
             <table class="table table-striped table-bordered table-hover table-2 table-view-2">
 

@@ -10,19 +10,9 @@
 
                 <li class="pull-left">
 
-                    <!-- <a href="#" class="dropdown-toggle" data-toggle="dropdown"> MENU <span class="caret"></span></a>                -->
-
                     <a href="#" id="sidebarCollapse"><i class="glyphicon glyphicon-align-left"></i> MENU</a>
 
-                    <!-- <div id="filters" class="dropdown-menu mega-dropdown-menu">
-
-                    </div> -->
-
-                    <?php //$this->load->view('common/menu/test.php') ?>
-
                 </li>
-
-                <!-- <li class="dropdown mega-dropdown dropdown-hover pull-right"> -->
 
 <!--				--><?php //if (isset($this->sub_folder)) {
 //					$action = base_url() . $this->sub_folder .'/'. $controller . '/search';
@@ -49,23 +39,23 @@
 
                 </form>
 
-                <li class="dropdown-hover float-right">
+				<?php if (!$this->agent->mobile) { ?>
+                <li class="pull-right">
 
-                    <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <a href="javascript:;" class="user-profile">
 
-                        <img src="<?php echo base_url(); ?>style/img/logo.png" alt=""> <?php echo $this->session->userdata('name'); ?> &nbsp;&nbsp;&nbsp;&nbsp;
-
-<!--                        <span class=" fa fa-angle-down"></span>-->
+                        <img src="<?php echo base_url(); ?>style/img/logo.png" alt=""> <span> <?php echo $this->session->userdata('name'); ?> </span>
 
                     </a>
 
                 </li>
 
-                <a href="<?php echo base_url(); ?>" class="logo pull-right">
+					<a href="<?php echo base_url(); ?>" class="logo pull-right">
 
-                    <img src="<?php echo base_url(); ?>style/img/logo.png" class="logo-fix">
+						<img src="<?php echo base_url(); ?>style/img/logo.png" class="logo-fix">
 
-                </a>
+					</a>
+				<?php } ?>
 
             </ul>
 

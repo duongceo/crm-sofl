@@ -15,13 +15,13 @@
 
                     <div class="row">
 
-                        <div class="col-md-4 text-right text-uppercase margintop5">
+                        <div class="col-md-4 col-xs-5 text-right text-uppercase margintop5">
 
                             <?php echo $team['name'] . ' (' . $team['count'] . '/' . $team['kpi'] . ') (' . $team['type'] . ')'; ?>
 
                         </div>
 
-                        <div class="col-md-6">
+                        <div class="col-md-6 col-xs-7">
 
                             <div class="progress skill-bar">
 
@@ -56,11 +56,10 @@
 				<h3 class="text-center marginbottom20">Doanh thu</h3>
 			</div>
 		</div>
-<!--		--><?php //print_arr($progress) ?>
     	<h4>Học viên mới</h4>
         <div class="row">
 			<?php foreach ($progress['new'] as $key => $value) {?>
-				<div class="col-md-3">
+				<div class="col-md-3 col-xs-6">
 					<div class="panel panel-success text-center">
 						<div class="panel-heading"><?php echo $key; ?></div>
 						<div class="panel-body" style="color: #006cf1"><?php echo h_number_format($value[0]['RE']) ?></div>
@@ -68,7 +67,7 @@
 				</div>
 			<?php } ?>
 
-            <div class="col-md-3">
+            <div class="col-md-3 col-xs-6">
                 <div class="panel panel-success text-center">
                     <div class="panel-heading">Tổng</div>
                     <div class="panel-body" style="color: #006cf1"><?php echo h_number_format($progress['total_new']); ?></div>
@@ -79,7 +78,7 @@
         <h4>Học viên cũ</h4>
         <div class="row">
             <?php foreach ($progress['old'] as $key => $value) {?>
-                <div class="col-md-3">
+                <div class="col-md-3 col-xs-6">
                     <div class="panel panel-success text-center">
                         <div class="panel-heading"><?php echo $key; ?></div>
                         <div class="panel-body" style="color: #006cf1"><?php echo h_number_format($value[0]['RE']) ?></div>
@@ -87,7 +86,7 @@
                 </div>
             <?php } ?>
 
-            <div class="col-md-3">
+            <div class="col-md-3 col-xs-6">
                 <div class="panel panel-success text-center">
                     <div class="panel-heading">Tổng</div>
                     <div class="panel-body" style="color: #006cf1"><?php echo h_number_format($progress['total_old']); ?></div>
@@ -120,13 +119,13 @@
 
 					<div class="row">
 
-						<div class="col-md-4 text-right text-uppercase margintop5">
+						<div class="col-md-4 col-xs-5 text-right text-uppercase margintop5">
 
 							<?php echo $marketer['name'] . ' (' . $marketer['totalC3'] . '/' . $marketer['targets'] . ')'; ?>
 
 						</div>
 
-						<div class="col-md-6">
+						<div class="col-md-6 col-xs-7">
 
 							<div class="progress skill-bar ">
 

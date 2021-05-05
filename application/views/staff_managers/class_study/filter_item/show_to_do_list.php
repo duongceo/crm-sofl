@@ -6,7 +6,7 @@
 
 <div class="container">
 	<div class="row">
-		<div class="col-md-6">
+		<div class="col-md-6 col-xs-12">
 			<div class="panel panel-primary text-center">
 				<div class="panel-heading">Các lớp chưa khai giảng</div>
 				<div class="panel-body">
@@ -16,12 +16,12 @@
 						$before_4_day = date("d/m/Y", strtotime("+4 day"));
 //						echo $before_4_day; die();
 						foreach ($language_study as $value) { ?>
-							<div class="col-md-4">
+							<div class="col-md-4 col-xs-12">
 								<div class="panel panel-danger text-center">
 									<div class="panel-heading"><?php echo $value['name']?></div>
 									<div class="panel-body">
 										<div class="row">
-											<div class="col-md-6">
+											<div class="col-md-6 col-xs-6">
 												<div class="panel panel-warning text-center">
 													<div class="panel-heading">1 ngày</div>
 													<div class="panel-body">
@@ -31,7 +31,7 @@
 												</div>
 											</div>
 
-											<div class="col-md-6">
+											<div class="col-md-6 col-xs-6">
 												<div class="panel panel-warning text-center">
 													<div class="panel-heading">4 ngày</div>
 													<div class="panel-body">
@@ -58,7 +58,7 @@
 			</div>
 		</div>
 
-		<div class="col-md-6">
+		<div class="col-md-6 col-xs-12">
 			<div class="panel panel-primary text-center">
 				<div class="panel-heading">Các lớp đã khai giảng</div>
 				<div class="panel-body">
@@ -68,7 +68,7 @@
 								<div class="panel-heading">Các lớp đã khai giảng</div>
 								<div class="panel-body">
 									<div class="row">
-										<div class="col-md-4">
+										<div class="col-md-4 col-xs-4">
 											<div class="panel panel-warning text-center">
 												<div class="panel-heading">Giai đoạn 1</div>
 												<div class="panel-body">
@@ -77,7 +77,7 @@
 											</div>
 										</div>
 
-										<div class="col-md-4">
+										<div class="col-md-4 col-xs-4">
 											<div class="panel panel-warning text-center">
 												<div class="panel-heading">Giai đoạn 2</div>
 												<div class="panel-body">
@@ -86,7 +86,7 @@
 											</div>
 										</div>
 
-										<div class="col-md-4">
+										<div class="col-md-4 col-xs-4">
 											<div class="panel panel-warning text-center">
 												<div class="panel-heading">Giai đoạn 3</div>
 												<div class="panel-body">
@@ -98,7 +98,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-md-3">
+						<div class="col-md-3 col-xs-6">
 							<div class="panel panel-danger text-center">
 								<div class="panel-heading">Các lớp đã kết thức</div>
 								<div class="panel-body">

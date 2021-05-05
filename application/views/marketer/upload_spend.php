@@ -67,45 +67,49 @@
 <br>
 <hr>
 <div class="row">
-	<div class="col-lg-2 col-md-2" style="padding-right: 0">
-		<table class="table table-bordered table-striped view_report">
-			<thead class="table-head-pos">
-				<tr>
-					<th style="height: 50px; background: none;"></th>
-					<th style="background-color: #147c67"">Tổng chi phí</th>
-				</tr>
-			</thead>
+	<div class="col-lg-2 col-md-2 col-xs-4" style="padding-right: 0">
+		<div class="table-responsive">
+			<table class="table table-bordered table-striped view_report">
+				<thead class="table-head-pos">
+					<tr>
+						<th style="height: 50px; background: none;"></th>
+						<th style="background-color: #147c67"">Tổng chi phí</th>
+					</tr>
+				</thead>
 
-			<tbody>
-			<?php foreach ($report as $key_report => $item_report) { ?>
-				<tr>
-					<td style="background: #48baad; height: 50px;"> <?php echo $key_report; ?> </td>
-					<td> <?php echo number_format($item_report['total'], 0, ",", "."); ?> </td>
-				</tr>
-			<?php } ?>
-			</tbody>
-		</table>
+				<tbody>
+				<?php foreach ($report as $key_report => $item_report) { ?>
+					<tr>
+						<td style="background: #48baad; height: 50px;"> <?php echo $key_report; ?> </td>
+						<td> <?php echo number_format($item_report['total'], 0, ",", "."); ?> </td>
+					</tr>
+				<?php } ?>
+				</tbody>
+			</table>
+		</div>
 	</div>
 
-	<div class="col-lg-10 col-md-10" style="padding-left: 0">
-		<table class="table table-bordered table-striped view_report gr4-table" style="display: block;overflow: scroll">
-			<thead class="table-head-pos">
-			<tr>
-				<?php foreach ($date as $item) { ?>
-					<th style="min-width: 180px; height: 50px; background-color: #4689c8"> <?php echo $item ?></th>
-				<?php } ?>
-			</tr>
-			</thead>
-			<tbody>
-			<?php foreach ($report as $key_report => $item_report) { ?>
+	<div class="col-lg-10 col-md-10 col-xs-8" style="padding-left: 0">
+		<div class="table-responsive">
+			<table class="table table-bordered table-striped view_report gr4-table" style="display: block;overflow: scroll">
+				<thead class="table-head-pos">
 				<tr>
 					<?php foreach ($date as $item) { ?>
-						<td style="height: 50px;"><?php echo number_format($item_report[$item], 0, ",", ".")?></td>
+						<th style="min-width: 180px; height: 50px; background-color: #4689c8"> <?php echo $item ?></th>
 					<?php } ?>
 				</tr>
-			<?php } ?>
-			</tbody>
-		</table>
+				</thead>
+				<tbody>
+				<?php foreach ($report as $key_report => $item_report) { ?>
+					<tr>
+						<?php foreach ($date as $item) { ?>
+							<td style="height: 50px;"><?php echo number_format($item_report[$item], 0, ",", ".")?></td>
+						<?php } ?>
+					</tr>
+				<?php } ?>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </div>
 

@@ -6,9 +6,9 @@
         <i class="glyphicon glyphicon-arrow-left"></i>
     </div>
 
-        <div class="sidebar-header">
-            <h3>Menu :))</h3>
-        </div>
+	<div class="sidebar-header">
+		<h3>Menu :))</h3>
+	</div>
 
     <ul class="list-unstyled components">
         

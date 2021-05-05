@@ -1,4 +1,4 @@
-<div class="col-md-6">
+<div class="col-md-6 col-xs-12">
 
     <table class="table table-bordered table-hover filter-contact filter-tbl-1">
 
@@ -20,7 +20,7 @@
 
 </div>
 
-<div class="col-md-6">
+<div class="col-md-6 col-xs-12">
 
     <table class="table table-bordered table-hover filter-contact filter-tbl-2">
 
