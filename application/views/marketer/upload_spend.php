@@ -5,8 +5,6 @@
 	
 	<div class="row">
 		<div class="col-md-10">
-			
-
 			<form action="#" method="GET" id="action_contact" class="form-inline">
 				<?php $this->load->view('common/content/filter'); ?>
 			</form>
@@ -22,45 +20,47 @@
 			</div>
 		</div>
 
-		<table class="table table-bordered table-striped" style="height: 800px;display: block;overflow: scroll">
-			<thead>
-				<tr>
-					<th>Kênh</th>
-					<th>Ngôn ngữ</th>
-					<th>Khu vực</th>
-					<th>Ngày</th>
-					<th>Chi phí</th>
-					<th>Ngày nhập</th>
-				</tr>
-			</thead>
-			<tbody id="log-body">
-				<?php if (isset($spend) && !empty($spend)){ ?>
-					<?php foreach ($spend as $item){ ?>
-						<tr>
-							<td class="text-center">
-								<?php echo $item['channel_name']; ?>
-							</td>
-							<td class="text-center">
-								<?php echo $item['language_name']; ?>
-							</td>
-							<td class="text-center">
-								<?php echo $item['location']; ?>
-							</td>
-							<td class="text-center">
-								<?php echo date('d-m-Y', $item['day_spend']); ?>
-							</td>
-							<td class="text-center">
-								<?php echo $item['spend']; ?> VNĐ
-							</td>
-							<td class="text-center">
-								<?php echo date('d-m-Y H:i:s', $item['time_created']); ?>
-							</td>
+		<div class="table-responsive">
+			<table class="table table-bordered table-striped" style="height: 800px;display: block;overflow: scroll">
+				<thead>
+					<tr>
+						<th>Kênh</th>
+						<th>Ngôn ngữ</th>
+						<th>Khu vực</th>
+						<th>Ngày</th>
+						<th>Chi phí</th>
+						<th>Ngày nhập</th>
+					</tr>
+				</thead>
+				<tbody id="log-body">
+					<?php if (isset($spend) && !empty($spend)){ ?>
+						<?php foreach ($spend as $item){ ?>
+							<tr>
+								<td class="text-center">
+									<?php echo $item['channel_name']; ?>
+								</td>
+								<td class="text-center">
+									<?php echo $item['language_name']; ?>
+								</td>
+								<td class="text-center">
+									<?php echo $item['location']; ?>
+								</td>
+								<td class="text-center">
+									<?php echo date('d-m-Y', $item['day_spend']); ?>
+								</td>
+								<td class="text-center">
+									<?php echo $item['spend']; ?> VNĐ
+								</td>
+								<td class="text-center">
+									<?php echo date('d-m-Y H:i:s', $item['time_created']); ?>
+								</td>
 
-						</tr>
+							</tr>
+						<?php } ?>
 					<?php } ?>
-				<?php } ?>
-			</tbody>
-		</table>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </div>
 

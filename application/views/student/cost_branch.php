@@ -18,38 +18,39 @@
 			<a class="btn btn-primary" data-toggle="modal" href='#modal-id'>Nhập chi tiêu</a>
 		</div>
 	</div>
-
-	<table class="table table-bordered table-striped" style="display: block;overflow: scroll; height: 600px;">
-		<thead>
-			<tr>
-				<th>Ngày chi tiêu</th>
-				<th>Chi phí</th>
-				<th>Nội dung</th>
-				<th>Ngày nhập</th>
-			</tr>
-		</thead>
-
-		<tbody id="log-body">
-		<?php if (isset($cost) && !empty($cost)) { ?>
-			<?php foreach ($cost as $item){ ?>
+	<div class="table-responsive">
+		<table class="table table-bordered table-striped" style="display: block;overflow: scroll; height: 600px;">
+			<thead>
 				<tr>
-					<td class="text-center">
-						<?php echo date('d-m-Y', $item['day_cost']); ?>
-					</td>
-					<td class="text-center">
-						<?php echo $item['cost']; ?> VNĐ
-					</td>
-					<td class="text-justify">
-						<?php echo $item['content_cost']; ?>
-					</td>
-					<td class="text-center">
-						<?php echo date('d-m-Y H:i:s', $item['time_created']); ?>
-					</td>
+					<th>Ngày chi tiêu</th>
+					<th>Chi phí</th>
+					<th>Nội dung</th>
+					<th>Ngày nhập</th>
 				</tr>
+			</thead>
+
+			<tbody id="log-body">
+			<?php if (isset($cost) && !empty($cost)) { ?>
+				<?php foreach ($cost as $item){ ?>
+					<tr>
+						<td class="text-center">
+							<?php echo date('d-m-Y', $item['day_cost']); ?>
+						</td>
+						<td class="text-center">
+							<?php echo $item['cost']; ?> VNĐ
+						</td>
+						<td class="text-justify">
+							<?php echo $item['content_cost']; ?>
+						</td>
+						<td class="text-center">
+							<?php echo date('d-m-Y H:i:s', $item['time_created']); ?>
+						</td>
+					</tr>
+				<?php } ?>
 			<?php } ?>
-		<?php } ?>
-		</tbody>
-	</table>
+			</tbody>
+		</table>
+	</div>
 </div>
 <br>
 <hr>
