@@ -149,6 +149,12 @@
 					<i class="fa fa-hand-paper-o" aria-hidden="true"></i> &nbsp; &nbsp; Phân đều contact
 				</a>
 			</li>
+		<?php } else if ($this->role_id == 7) { ?>
+			<li>
+				<a class="edit_item" edit-url="" data-modal-name="edit-item-modal" item_id="0">
+					<i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp; Chỉnh sửa
+				</a>
+			</li>
 		<?php } ?>
         
 		<li class="ajax-request-modal load-new-contact-id one-item-selected" data-contact-id ="0" data-modal-name="view-detail-contact-div" data-url="common/view_detail_contact">
