@@ -12,10 +12,10 @@ class Marketing extends MY_Controller {
 
 		$input = array();
 		$input['select'] = 'id';
-		$input['where'] = array('call_status_id' => '0', 'level_contact_id' => '', 'sale_staff_id' => '0', 'is_hide' => '0', 'duplicate_id' => '0');
+		$input['where'] = array('call_status_id' => '0', 'level_contact_id' => '', 'sale_staff_id' => '0', 'duplicate_id' => '0');
 		$this->L['L1'] = count($this->contacts_model->load_all($input));
 
-		$input['where'] = array('is_hide' => '0');
+		$input['where'] = array();
 		$this->L['all'] = count($this->contacts_model->load_all($input));
 	}
 
@@ -29,7 +29,7 @@ class Marketing extends MY_Controller {
          *
          */
 
-		$conditional['where'] = array('call_status_id' => '0', 'level_contact_id' => '', 'sale_staff_id' => '0', 'is_hide' => '0', 'duplicate_id' => '0');
+		$conditional['where'] = array('call_status_id' => '0', 'level_contact_id' => '', 'sale_staff_id' => '0', 'duplicate_id' => '0');
 		$data_pagination = $this->_query_all_from_get($get, $conditional, $this->per_page, $offset);
 		/*
          * Lấy danh sách contacts
@@ -81,7 +81,7 @@ class Marketing extends MY_Controller {
 	function view_all($offset = 0) {
 		$data = $this->get_all_require_data();
 		$get = $this->input->get();
-		$conditional['where'] = array('is_hide' => '0');
+		$conditional['where'] = array();
 		$conditional['order'] = array('date_rgt' => 'DESC');
 		$data_pagination = $this->_query_all_from_get($get, $conditional, $this->per_page, $offset);
 		$data['pagination'] = $this->_create_pagination_link($data_pagination['total_row']);
@@ -157,19 +157,19 @@ class Marketing extends MY_Controller {
 		if (isset($get['tic_report'])) {
 			$typeReport = array(
 				'C3' => array(
-					'where' => array('is_hide' => '0', 'is_old' => '0', 'duplicate_id' => '0', 'call_status_id NOT IN (1, 3, 5)' => 'NO-VALUE', 'level_contact_detail NOT IN ("L1.1", "L1.2", "L1.3")' => 'NO-VALUE', 'date_rgt >=' => $date_from, 'date_rgt <=' => $date_end),
+					'where' => array('is_old' => '0', 'duplicate_id' => '0', 'call_status_id NOT IN (1, 3, 5)' => 'NO-VALUE', 'level_contact_detail NOT IN ("L1.1", "L1.2", "L1.3")' => 'NO-VALUE', 'date_rgt >=' => $date_from, 'date_rgt <=' => $date_end),
 				),
 				'L5' => array(
-					'where' => array('is_hide' => '0', 'is_old' => '0', 'level_contact_id' => 'L5', 'date_rgt >=' => $date_from, 'date_rgt <=' => $date_end),
+					'where' => array('is_old' => '0', 'duplicate_id' => '0', 'level_contact_id' => 'L5', 'date_rgt >=' => $date_from, 'date_rgt <=' => $date_end),
 				),
 			);
 		} else {
 			$typeReport = array(
 				'C3' => array(
-					'where' => array('is_hide' => '0', 'is_old' => '0', 'duplicate_id' => '0', 'call_status_id NOT IN (1, 3, 5)' => 'NO-VALUE', 'level_contact_detail NOT IN ("L1.1", "L1.2", "L1.3")' => 'NO-VALUE', 'date_rgt >=' => $date_from, 'date_rgt <=' => $date_end),
+					'where' => array('is_old' => '0', 'duplicate_id' => '0', 'call_status_id NOT IN (1, 3, 5)' => 'NO-VALUE', 'level_contact_detail NOT IN ("L1.1", "L1.2", "L1.3")' => 'NO-VALUE', 'date_rgt >=' => $date_from, 'date_rgt <=' => $date_end),
 				),
 				'L5' => array(
-					'where' => array('is_hide' => '0', 'is_old' => '0', 'level_contact_id' => 'L5', 'date_rgt_study >=' => $date_from, 'date_rgt_study <=' => $date_end),
+					'where' => array('is_old' => '0', 'duplicate_id' => '0', 'level_contact_id' => 'L5', 'date_rgt_study >=' => $date_from, 'date_rgt_study <=' => $date_end),
 				),
 			);
 		}
@@ -181,7 +181,7 @@ class Marketing extends MY_Controller {
 			foreach ($typeReport as $report_type => $value) {
 				$condition = array('where' => array_merge($value['where'], array('language_id' => $v_language['id'])));
 				$condition['where_in']['source_id'] = array(1, 2, 8);
-				$condition['where_not_in']['sale_staff_id'] = array(18);
+//				$condition['where_not_in']['sale_staff_id'] = array(18);
 				if ($report_type == 'L5') {
 					$condition['where_in']['source_id'] = array_merge($condition['where_in']['source_id'], array(6));
 				}
@@ -440,11 +440,11 @@ class Marketing extends MY_Controller {
 				'time' => 'filter_date_date_rgt'
 			),
 			'L5' => array(
-				'where' => array('is_hide' => '0', 'duplicate_id' => '0', 'level_contact_id' => 'L5', 'is_old' => '0', 'source_id IN (1, 2, 6, 8)' => 'NO-VALUE'),
+				'where' => array('duplicate_id' => '0', 'level_contact_id' => 'L5', 'is_old' => '0', 'source_id IN (1, 2, 6, 8)' => 'NO-VALUE'),
 				'time' => 'filter_date_date_rgt_study'
 			),
 			'L8' => array(
-				'where' => array('is_hide' => '0', 'duplicate_id' => '0', 'level_contact_id' => 'L5', 'is_old' => 1),
+				'where' => array('duplicate_id' => '0', 'level_contact_id' => 'L5', 'is_old' => 1),
 				'time' => 'filter_date_date_rgt_study'
 			),
 		);
@@ -536,7 +536,6 @@ class Marketing extends MY_Controller {
 			$inputContact['where'] = array(
 				'marketer_id' => $marketer['id'],
 				'date_rgt >=' => strtotime(date('d-m-Y')),
-				'is_hide' => '0'
 			);
 
 			$today = $this->contacts_model->load_all($inputContact);
@@ -558,7 +557,7 @@ class Marketing extends MY_Controller {
 
 		$inputContact['select'] = 'id';
 
-		$inputContact['where'] = array('date_rgt >' => strtotime(date('d-m-Y')), 'is_hide' => '0');
+		$inputContact['where'] = array('date_rgt >' => strtotime(date('d-m-Y')));
 
 		$today = $this->contacts_model->load_all($inputContact);
 
@@ -584,7 +583,7 @@ class Marketing extends MY_Controller {
 
 			$inputContact['select'] = 'id';
 
-			$inputContact['where'] = array('marketer_id' => $marketer['id'], 'date_rgt >' => strtotime(date('01-m-Y')), 'is_hide' => '0');
+			$inputContact['where'] = array('marketer_id' => $marketer['id'], 'date_rgt >' => strtotime(date('01-m-Y')));
 
 			$today = $this->contacts_model->load_all($inputContact);
 
@@ -606,7 +605,7 @@ class Marketing extends MY_Controller {
 
 		$inputContact['select'] = 'id';
 
-		$inputContact['where'] = array('date_rgt >' => strtotime(date('01-m-Y')), 'is_hide' => '0');
+		$inputContact['where'] = array('date_rgt >' => strtotime(date('01-m-Y')));
 
 		$today = $this->contacts_model->load_all($inputContact);
 

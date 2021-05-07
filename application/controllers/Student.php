@@ -1,7 +1,5 @@
 <?php
 
-// Quang NV
-
 class Student extends MY_Controller {
 	public function __construct() {
 		parent::__construct();
@@ -53,7 +51,7 @@ class Student extends MY_Controller {
         $data = $this->get_all_require_data();
 		
         $get = $this->input->get();
-        $conditional['where'] = array('branch_id' => $this->session->userdata('branch_id'), 'is_hide' => '0');
+        $conditional['where'] = array('branch_id' => $this->session->userdata('branch_id'));
         $conditional['order'] = array('date_rgt' => 'DESC');
         $data_pagination = $this->_query_all_from_get($get, $conditional, $this->per_page, $offset);
         $data['pagination'] = $this->_create_pagination_link($data_pagination['total_row']);
@@ -62,7 +60,7 @@ class Student extends MY_Controller {
 		
 		$input = array();
 		$input['where'] = array(
-			'parent_id !=' => '' 
+			'parent_id !=' => ''
 		);
 		
 		$this->load->model('level_contact_model');

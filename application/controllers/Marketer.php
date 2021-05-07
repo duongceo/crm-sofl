@@ -31,7 +31,7 @@ class Marketer extends MY_Controller {
 		$get = $this->input->get();
 
 		/* Điều kiện lấy contact : contact ở trang chủ là contact đăng kí trong ngày hôm nay */
-		$conditional['where'] = array('date_rgt >' => strtotime(date('d-m-Y')), 'marketer_id' => $this->user_id, 'is_hide' => '0');
+		$conditional['where'] = array('date_rgt >' => strtotime(date('d-m-Y')), 'marketer_id' => $this->user_id);
 
 		$data_pagination = $this->_query_all_from_get($get, $conditional, $this->per_page, $offset);
 
@@ -114,7 +114,7 @@ class Marketer extends MY_Controller {
     function view_all($offset = 0) {
 		$data = $this->_get_all_require_data();
 		$get = $this->input->get();
-		$conditional['where'] = array('marketer_id' => $this->user_id, 'is_hide' => '0');
+		$conditional['where'] = array('marketer_id' => $this->user_id);
 //		$conditional['order'] = array('date_last_calling' => 'DESC');
 		$data_pagination = $this->_query_all_from_get($get, $conditional, $this->per_page, $offset);
 		$data['pagination'] = $this->_create_pagination_link($data_pagination['total_row']);
@@ -180,8 +180,6 @@ class Marketer extends MY_Controller {
 
         $input['where']['marketer_id'] = $this->user_id;
 
-        $input['where']['is_hide'] = '0';
-
         $input['where']['date_rgt >'] = strtotime(date('d-m-Y'));
 
         $this->L['C3'] = count($this->contacts_model->load_all($input));
@@ -215,8 +213,6 @@ class Marketer extends MY_Controller {
 
         $input['where']['marketer_id'] = $this->user_id;
 
-        $input['where']['is_hide'] = '0';
-
         $this->L['all'] = count($this->contacts_model->load_all($input));
 
     }
@@ -238,7 +234,6 @@ class Marketer extends MY_Controller {
 			$inputContact['where'] = array(
 				'marketer_id' => $marketer['id'],
 				'date_rgt >=' => strtotime(date('d-m-Y')),
-				'is_hide' => '0'
 			);
 
 			$today = $this->contacts_model->load_all($inputContact);
@@ -260,7 +255,7 @@ class Marketer extends MY_Controller {
 
 		$inputContact['select'] = 'id';
 
-		$inputContact['where'] = array('date_rgt >' => strtotime(date('d-m-Y')), 'is_hide' => '0');
+		$inputContact['where'] = array('date_rgt >' => strtotime(date('d-m-Y')));
 
 		$today = $this->contacts_model->load_all($inputContact);
 
@@ -285,7 +280,7 @@ class Marketer extends MY_Controller {
 
 			$inputContact['select'] = 'id';
 
-			$inputContact['where'] = array('marketer_id' => $marketer['id'], 'date_rgt >' => strtotime(date('01-m-Y')), 'is_hide' => '0');
+			$inputContact['where'] = array('marketer_id' => $marketer['id'], 'date_rgt >' => strtotime(date('01-m-Y')));
 
 			$today = $this->contacts_model->load_all($inputContact);
 
@@ -307,7 +302,7 @@ class Marketer extends MY_Controller {
 
 		$inputContact['select'] = 'id';
 
-		$inputContact['where'] = array('date_rgt >' => strtotime(date('01-m-Y')), 'is_hide' => '0');
+		$inputContact['where'] = array('date_rgt >' => strtotime(date('01-m-Y')));
 
 		$today = $this->contacts_model->load_all($inputContact);
 

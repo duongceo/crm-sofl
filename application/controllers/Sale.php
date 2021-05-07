@@ -96,7 +96,6 @@ class Sale extends MY_Controller {
             'date_recall >' => '0',
             // 'date_recall <' => strtotime('tomorrow'),
             'sale_staff_id' => $this->user_id,
-            'is_hide' => '0',
 		);
         $conditional['where_not_in'] = array(
             'call_status_id' => $this->_get_stop_care_call_stt(),
@@ -153,7 +152,6 @@ class Sale extends MY_Controller {
         $get = $this->input->get();
 
 		$conditional['where']['sale_staff_id'] = $this->user_id;
-		$conditional['where']['is_hide'] = '0';
 		$conditional['where']['(call_status_id = '. _KHONG_NGHE_MAY_ .' OR level_contact_id IN ("L1.4", "L2", "L2.1", "L2.2"))'] = 'NO-VALUE';
 //            $conditional['where']['(`call_status_id` = ' . _KHONG_NGHE_MAY_ . ' OR `ordering_status_id` in (' . _BAN_GOI_LAI_SAU_ . ' , ' . _CHAM_SOC_SAU_MOT_THOI_GIAN_ . ',' . _LAT_NUA_GOI_LAI_ . '))'] = 'NO-VALUE';
 		$conditional['where_not_in'] = array(
@@ -313,7 +311,7 @@ class Sale extends MY_Controller {
     function view_all_contact($offset = 0) {
         $data = $this->_get_all_require_data();
         $get = $this->input->get();
-        $conditional['where'] = array('sale_staff_id' => $this->user_id, 'is_hide' => '0');
+        $conditional['where'] = array('sale_staff_id' => $this->user_id);
         $conditional['order'] = array('date_last_calling' => 'DESC');
 		
 		$input = array();
@@ -1088,7 +1086,7 @@ class Sale extends MY_Controller {
     private function _loadCountListContact() {
         $input = array();
         $input['select'] = 'id';
-        $input['where'] = array('call_status_id' => '0', 'sale_staff_id' => $this->user_id, 'is_hide' => '0');
+        $input['where'] = array('call_status_id' => '0', 'sale_staff_id' => $this->user_id);
         $this->L['L1'] = count($this->contacts_model->load_all($input));
 
         $input = array();
@@ -1096,7 +1094,6 @@ class Sale extends MY_Controller {
         $input['where'] = array(
             'date_recall >' => '0',
             'sale_staff_id' => $this->user_id,
-            'is_hide' => '0'
 		);
         $input['where_not_in'] = array(
             'call_status_id' => $this->_get_stop_care_call_stt(),
@@ -1107,13 +1104,12 @@ class Sale extends MY_Controller {
         $input = array();
         $input['select'] = 'id';
         $input['where']['sale_staff_id'] = $this->user_id;
-        $input['where']['is_hide'] = '0';
         $input['where']['(`call_status_id` = ' . _KHONG_NGHE_MAY_ . ' OR `level_contact_id` IN ("L2", "L3"))'] = 'NO-VALUE';
         $this->L['can_save'] = count($this->contacts_model->load_all($input));
 
         $input = array();
         $input['select'] = 'id';
-        $input['where'] = array('sale_staff_id' => $this->user_id, 'is_hide' => '0');
+        $input['where'] = array('sale_staff_id' => $this->user_id);
         $this->L['all'] = count($this->contacts_model->load_all($input));
     }
 	
@@ -1127,7 +1123,7 @@ class Sale extends MY_Controller {
 		 $progress['progressbar'] = array();
 		 $inputContact = array();
 		 $inputContact['select'] = 'id';
-		 $inputContact['where'] = array('date_rgt_study >=' => strtotime(date('d-m-Y')), 'is_hide' => '0', 'is_old' => '0');
+		 $inputContact['where'] = array('date_rgt_study >=' => strtotime(date('d-m-Y')), 'is_old' => '0');
 		 $today = $this->contacts_model->load_all($inputContact);
 		 $progress['progressbar']['sale'] = array(
 			 'count' => count($today),
@@ -1138,7 +1134,7 @@ class Sale extends MY_Controller {
 		 );
 //		 $progress['sale']['progress'] = round($progress['sale']['count'] / $progress['sale']['kpi'] * 100, 2);
 
-		 $inputContact['where'] = array('date_rgt_study >=' => strtotime(date('d-m-Y')), 'is_hide' => '0', 'is_old' => '1');
+		 $inputContact['where'] = array('date_rgt_study >=' => strtotime(date('d-m-Y')), 'is_old' => '1');
 		 $today = $this->contacts_model->load_all($inputContact);
 		 $progress['progressbar']['branch'] = array(
 			 'count' => count($today),
@@ -1180,10 +1176,10 @@ class Sale extends MY_Controller {
 
 		 $condition = array(
 		 	 'L1' => array(
-				 'where' => array('date_handover >=' => strtotime(date('d-m-Y')), 'is_hide' => '0')
+				 'where' => array('date_handover >=' => strtotime(date('d-m-Y')))
 			 ),
 		 	 'L1_XULY' => array(
-				 'where' => array('call_status_id !=' => 0, 'date_handover >=' => strtotime(date('d-m-Y')), 'is_hide' => '0')
+				 'where' => array('call_status_id !=' => 0, 'date_handover >=' => strtotime(date('d-m-Y')))
 			 ),
 		 	 'KNM_LAN_1' => array(
 		 		 'where' => array('call_status_id' => _KHONG_NGHE_MAY_, 'date_last_calling < ' => strtotime(date('d-m-Y'))),
@@ -1229,7 +1225,7 @@ class Sale extends MY_Controller {
         $progress = [];
         $inputContact = array();
         $inputContact['select'] = 'id';
-        $inputContact['where'] = array('date_rgt >=' => strtotime(date('01-m-Y')), 'is_hide' => '0');
+        $inputContact['where'] = array('date_rgt >=' => strtotime(date('01-m-Y')));
         $today = $this->contacts_model->load_all($inputContact);
         $progress['marketing'] = array(
             'count' => count($today),
@@ -1241,7 +1237,7 @@ class Sale extends MY_Controller {
 
         $inputContact = array();
         $inputContact['select'] = 'id';
-        $inputContact['where'] = array('date_rgt_study >=' => strtotime(date('01-m-Y')), 'is_hide' => '0', 'is_old' => '0');
+        $inputContact['where'] = array('date_rgt_study >=' => strtotime(date('01-m-Y')), 'is_old' => '0');
         $today = $this->contacts_model->load_all($inputContact);
         $progress['sale'] = array(
             'count' => count($today),
@@ -1251,7 +1247,7 @@ class Sale extends MY_Controller {
 		);
         $progress['sale']['progress'] = round($progress['sale']['count'] / $progress['sale']['kpi'] * 100, 2);
 
-		$inputContact['where'] = array('date_rgt_study >=' => strtotime(date('1-m-Y')), 'is_hide' => '0', 'is_old' => '1');
+		$inputContact['where'] = array('date_rgt_study >=' => strtotime(date('1-m-Y')), 'is_old' => '1');
 		$today = $this->contacts_model->load_all($inputContact);
 		$progress['branch'] = array(
 			'count' => count($today),
@@ -1268,7 +1264,7 @@ class Sale extends MY_Controller {
 
 	public function sale_call_process() {
         $input = array();
-        $input['where'] = array('call_status_id' => '0', 'sale_staff_id' => $this->user_id, 'is_hide' => '0');
+        $input['where'] = array('call_status_id' => '0', 'sale_staff_id' => $this->user_id);
         $input['order'] = array('date_handover' => 'DESC');
         $data['have_call']['new_contact'] = $this->contacts_model->m_count_all_result_from_get($input);
 
@@ -1277,7 +1273,6 @@ class Sale extends MY_Controller {
             'date_recall >' => '0',
             'date_recall <' => strtotime('tomorrow'),
             'sale_staff_id' => $this->user_id,
-            'is_hide' => '0'
         );
         $input['where_not_in'] = array(
             'call_status_id' => $this->_get_stop_care_call_stt(),
@@ -1303,7 +1298,6 @@ class Sale extends MY_Controller {
         $input = array();
         $input['select'] = 'id';
         $input['where']['sale_staff_id'] = $this->user_id;
-        $input['where']['is_hide'] = '0';
         $input['where']['(`call_status_id` = ' . _KHONG_NGHE_MAY_ . ' OR `ordering_status_id` in (' . _BAN_GOI_LAI_SAU_ . ' , ' . _CHAM_SOC_SAU_MOT_THOI_GIAN_ . ',' . _LAT_NUA_GOI_LAI_ . '))'] = 'NO-VALUE';
         if(!empty($array)){
             $input['where_in']['id'] = $array;
@@ -1325,7 +1319,6 @@ class Sale extends MY_Controller {
         $input = array();
         $input['select'] = 'id';
         $input['where']['sale_staff_id'] = $this->user_id;
-        $input['where']['is_hide'] = '0';
         $input['where']['(`call_status_id` = ' . _KHONG_NGHE_MAY_ . ' OR `ordering_status_id` in (' . _BAN_GOI_LAI_SAU_ . ' , ' . _CHAM_SOC_SAU_MOT_THOI_GIAN_ . ',' . _LAT_NUA_GOI_LAI_ . '))'] = 'NO-VALUE';
         if(!empty($array)){
             $input['where_in']['id'] = $array;
@@ -1352,7 +1345,7 @@ class Sale extends MY_Controller {
         switch ($post['type']) {
             case 'L1':
                 $input = array();
-                $input['where'] = array('call_status_id' => '0', 'sale_staff_id' => $this->user_id, 'is_hide' => '0');
+                $input['where'] = array('call_status_id' => '0', 'sale_staff_id' => $this->user_id);
 //                $input['order'] = array('date_handover' => 'DESC');
                 break;
 
@@ -1368,7 +1361,6 @@ class Sale extends MY_Controller {
                     'call_status_id' => _KHONG_NGHE_MAY_,
                     'date_last_calling <' => strtotime(date('d-m-Y')),
                     'sale_staff_id' => $this->user_id,
-                    'is_hide' => '0'
                 );
                 $input['where_in']['id'] = $array_called_1;
                 break;
@@ -1385,7 +1377,6 @@ class Sale extends MY_Controller {
 					'call_status_id' => _KHONG_NGHE_MAY_,
 					'date_last_calling <' => strtotime(date('d-m-Y')),
 					'sale_staff_id' => $this->user_id,
-					'is_hide' => '0'
 				);
 				$input['where_in']['id'] = $array_called_2;
                 break;
@@ -1402,7 +1393,6 @@ class Sale extends MY_Controller {
 					'call_status_id' => _KHONG_NGHE_MAY_,
 					'date_last_calling <' => strtotime(date('d-m-Y')),
 					'sale_staff_id' => $this->user_id,
-					'is_hide' => '0'
 				);
 				$input['where_in']['id'] = $array_called_3;
                 break;

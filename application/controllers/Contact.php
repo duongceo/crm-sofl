@@ -199,7 +199,7 @@ class Contact extends CI_Controller {
 
                 $inputToday['select'] = 'id';
 
-                $inputToday['where'] = array('marketer_id' => $marketerId, 'date_rgt >' => strtotime(date('d-m-Y')), 'is_hide' => '0');
+                $inputToday['where'] = array('marketer_id' => $marketerId, 'date_rgt >' => strtotime(date('d-m-Y')));
 
                 $today = $this->contacts_model->load_all($inputToday);
 
@@ -264,8 +264,6 @@ class Contact extends CI_Controller {
             'phone' => trim($phone),
 
             'language_id' => $language_id,
-
-            'is_hide' => '0'
 
         );
 
