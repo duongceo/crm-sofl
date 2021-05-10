@@ -31,15 +31,12 @@ class Manager extends MY_Controller {
         /*
          * Điều kiện lấy contact :
          * contact ở trang chủ là contact chưa được phân cho TVTS nào và chua gọi lần nào
-         *
          */
 
         $conditional['where'] = array('call_status_id' => '0', 'level_contact_id' => '', 'sale_staff_id' => '0', 'duplicate_id' => '0');
         $conditional['order'] = array('date_rgt' => 'DESC');
 		$data_pagination = $this->_query_all_from_get($get, $conditional, $this->per_page, $offset);
-        /*
-         * Lấy danh sách contacts
-         */
+        /* Lấy danh sách contacts */
         $contacts = $data_pagination['data'];
         foreach ($contacts as &$value) {
             $value['marketer_name'] = $this->staffs_model->find_staff_name($value['marketer_id']);
@@ -52,19 +49,13 @@ class Manager extends MY_Controller {
         $data['total_contact'] = $data_pagination['total_row'];
 		
 		//print_arr($data);
-        /*
-         * Lấy link phân trang
-         */
+        /* Lấy link phân trang */
         $data['pagination'] = $this->_create_pagination_link($data_pagination['total_row']);
-        /*
-         * Filter ở cột trái và cột phải
-         */
+        /* Filter ở cột trái và cột phải */
         $data['left_col'] = array('duplicate', 'date_rgt');
         //$data['right_col'] = array('tv_dk');
 
-        /*
-         * Các trường cần hiện của bảng contact (đã có default)
-         */
+        /* Các trường cần hiện của bảng contact (đã có default) */
         $this->table .= 'class_study_id fee paid date_rgt matrix';
         $data['table'] = explode(' ', $this->table);
 
@@ -91,9 +82,7 @@ class Manager extends MY_Controller {
 
         $conditional['where'] = array('call_status_id' => '0', 'sale_staff_id' => '0', 'duplicate_id >' => '0');
         $data_pagination = $this->_query_all_from_get($get, $conditional, $this->per_page, $offset);
-        /*
-         * Lấy danh sách contacts
-         */
+        /* Lấy danh sách contacts */
         $contacts = $data_pagination['data'];
         foreach ($contacts as &$value) {
             $value['marketer_name'] = $this->staffs_model->find_staff_name($value['marketer_id']);
@@ -127,14 +116,7 @@ class Manager extends MY_Controller {
         $data['informModal'] = explode(' ', $informModal);
         $outformModal = 'manager/modal/divide_one_contact';
         $data['outformModal'] = explode(' ', $outformModal);
-        /*
-         * Các file js cần load
-         */
 
-//        $data['load_js'] = array(
-//            'common_view_detail_contact', 'common_real_filter_contact',
-//            'm_delete_one_contact', 'm_divide_contact', 'm_view_duplicate', 'm_delete_multi_contact'
-//        );
         $data['content'] = 'common/list_contact';
         $this->load->view(_MAIN_LAYOUT_, $data);
     }
@@ -1948,6 +1930,9 @@ class Manager extends MY_Controller {
 				'where' => array('date_handover >=' => $start_date, 'date_handover <=' => $end_date,
 					'(call_status_id = ' . _KHONG_NGHE_MAY_ . ' OR level_contact_id IN ("L3", "L2"))' => 'NO-VALUE'),
 			),
+			'CO_LICH_GOI_LAI' => array(
+				'where' => array('date_recall >=' => $start_date, 'date_recall <=' => $end_date)
+			),
 		);
 
 		for ($i=1; $i<6; $i++) {
@@ -1968,6 +1953,9 @@ class Manager extends MY_Controller {
 			'CON_CUU_DUOC' => array(
 				'where' => array('date_handover >=' => $date_today_start, 'date_handover <=' => $date_today_end,
 					'(call_status_id = ' . _KHONG_NGHE_MAY_ . ' OR level_contact_id IN ("L3", "L2"))' => 'NO-VALUE'),
+			),
+			'CO_LICH_GOI_LAI' => array(
+				'where' => array('date_recall >=' => $date_today_start, 'date_recall <=' => $date_today_end)
 			),
 		);
 
@@ -1991,7 +1979,7 @@ class Manager extends MY_Controller {
 		foreach ($staff as $key_staff => $value_staff) {
 			foreach ($input_call as $key_call => $value_call) {
 				$conditional_staff = array();
-				if ($key_call == 'XU_LY' || $key_call == 'CON_CUU_DUOC') {
+				if ($key_call == 'XU_LY' || $key_call == 'CON_CUU_DUOC' || $key_call == 'CO_LICH_GOI_LAI') {
 					$conditional_staff['where']['sale_staff_id'] = $value_staff['id'];
 					$conditional = array_merge_recursive($conditional_staff, $value_call);
 					$staff[$key_staff][$key_call] = $this->_query_for_report($get, $conditional);
@@ -2005,7 +1993,7 @@ class Manager extends MY_Controller {
 
 			foreach ($input_call_today as $key_call_today => $value_call_today) {
 				$conditional_staff = array();
-				if ($key_call_today == 'XU_LY' || $key_call_today == 'CON_CUU_DUOC') {
+				if ($key_call_today == 'XU_LY' || $key_call_today == 'CON_CUU_DUOC' || $key_call_today == 'CO_LICH_GOI_LAI') {
 					$conditional_staff['where']['sale_staff_id'] = $value_staff['id'];
 					$conditional = array_merge_recursive($conditional_staff, $value_call_today);
 					$staff[$key_staff][$key_call_today . '_TODAY'] = $this->_query_for_report($get, $conditional);

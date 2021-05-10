@@ -462,6 +462,7 @@ class Class_study extends MY_Table {
 					'contact_id' => 0,
 					'content' => $post['note'],
 					'sale_id' => $this->user_id,
+					'role_id' => $this->role_id,
 					'time_created' => time(),
 					'class_study_id' => $id,
 				);

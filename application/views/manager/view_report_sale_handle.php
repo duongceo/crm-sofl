@@ -33,6 +33,7 @@
 			$report = array(
 				array('Xử Lý', 'XU_LY'),
 				array('Còn Cứu Được', 'CON_CUU_DUOC'),
+				array('Có Lịch Gọi Lại', 'CO_LICH_GOI_LAI'),
 				array('1 Lần', 'LAN_1'),
 				array('2 Lần', 'LAN_2'),
 				array('3 Lần', 'LAN_3'),
@@ -92,6 +93,7 @@
 			$report = array(
 				array('Xử Lý', 'XU_LY_TODAY'),
 				array('Còn Cứu Được', 'CON_CUU_DUOC_TODAY'),
+				array('Có Lịch Gọi Lại', 'CO_LICH_GOI_LAI_TODAY'),
 				array('1 Lần', 'LAN_1_TODAY'),
 				array('2 Lần', 'LAN_2_TODAY'),
 				array('3 Lần', 'LAN_3_TODAY'),

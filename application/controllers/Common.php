@@ -488,30 +488,8 @@ class Common extends MY_Controller {
                 die;
             }
             $this->_action_edit_by_sale(trim($id), $rows);
-        } else if ($this->role_id == 2) {
-            if ($rows[0]['ordering_status_id'] != _DONG_Y_MUA_ || $rows[0]['call_status_id'] != _DA_LIEN_LAC_DUOC_) {
-                $result['success'] = 0;
-                $result['message'] = "Contact không là L6, nên không thể chăm sóc!";
-                echo json_encode($result);
-                die;
-            }
-            $this->_action_edit_by_cod(trim($id), $rows);
         } else if ($this->role_id == 10) { // chăm sóc khách hàng
-//            if ($rows[0]['cod_status_id'] != 2 && $rows[0]['cod_status_id'] != 3) {
-//                $result['success'] = 0;
-//                $result['message'] = "Contact chưa nhận COD, nên không thể chăm sóc!";
-//                echo json_encode($result);
-//                die;
-//            }
             $this->_action_edit_by_customer_care(trim($id), $rows);
-        } else if ($this->role_id == 13) {
-        	if ($rows[0]['affiliate_id'] != $this->user_id) {
-                $result['success'] = 0;
-                $result['message'] = "Contact này không được phân cho bạn, vì vậy bạn không thể chăm sóc!";
-                echo json_encode($result);
-                die;
-            }
-            $this->_action_edit_by_affiliate(trim($id), $rows);
         } else {
             $result['success'] = 0;
             $result['message'] = "Bạn không có quyền chỉnh sửa contact";
