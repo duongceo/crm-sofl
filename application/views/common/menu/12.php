@@ -23,19 +23,33 @@
 <!--				<span>Danh sách phòng & ca học</span>-->
 <!--			</a>-->
 <!--		</li>-->
-
 		<li>
-			<a href="<?php echo base_url('danh-sach-hoc-vien.html'); ?>">
+			<a href="#submenu" data-toggle="collapse" aria-expanded="false">
 				<img src="<?php echo base_url(); ?>public/images/view-all.png">
-				<span>Danh sách học viên đã đăng ký</span>
+				<span>Danh sách contact</span>
 			</a>
-		</li>
+			<ul class="collapse list-unstyled" id="submenu">
+				<li>
+					<a href="<?php echo base_url('danh-sach-hoc-vien.html'); ?>">
+						<img src="<?php echo base_url(); ?>public/images/view-all.png">
+						<span>Danh sách học viên đã đăng ký</span>
+					</a>
+				</li>
 
-		<li>
-			<a href="<?php echo base_url('student/view_all_contact'); ?>">
-				<img src="<?php echo base_url(); ?>public/images/view-all.png">
-				<span>Danh sách tất cả học viên</span>
-			</a>
+				<li>
+					<a href="<?php echo base_url('student/sort_class'); ?>">
+						<img src="<?php echo base_url(); ?>public/images/view-all.png">
+						<span>Danh sách học viên đã xếp lớp</span>
+					</a>
+				</li>
+
+				<li>
+					<a href="<?php echo base_url('student/view_all_contact'); ?>">
+						<img src="<?php echo base_url(); ?>public/images/view-all.png">
+						<span>Danh sách tất cả học viên</span>
+					</a>
+				</li>
+			</ul>
 		</li>
 
 		<li>

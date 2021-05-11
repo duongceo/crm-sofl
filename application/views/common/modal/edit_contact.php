@@ -15,7 +15,9 @@
 
             <div class="modal-body replace_content">
 
-                <form method="post" action="<?php echo base_url($action_url); ?>" class="form_submit form_edit_contact_modal" contact_id="<?php echo $contact_id; ?>">
+                <form method="post" action="<?php echo base_url($action_url); ?>" class="form_submit form_edit_contact_modal" type_modal="<?php echo $type_modal?>" contact_id="<?php echo $contact_id; ?>">
+
+					<input type="hidden" name="type_modal" value="<?php echo $type_modal?>">
 
                     <div class="tab_container">
 

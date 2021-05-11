@@ -1564,6 +1564,7 @@ $(document).on('click', '.btn-edit-contact', function (e) {
     }
     var url = $(this).parents('.form_edit_contact_modal').attr("action");
     var contact_id = $(this).parents('.form_edit_contact_modal').attr("contact_id");
+
     $.ajax({
         url: url,
         type: "POST",
@@ -2657,6 +2658,7 @@ $(document).on("click", ".ajax-request-modal", function (e) {
         var url = $("#base_url").val() + _this.attr("data-url");
         var modalName = _this.attr("data-modal-name");
         var controller = _this.attr("data-controller");
+        let type_modal = _this.attr("data_type_modal");
 		
         $.ajax({
             url: url,
@@ -2664,10 +2666,11 @@ $(document).on("click", ".ajax-request-modal", function (e) {
             dataType: 'json',
             data: {
                 contact_id: contact_id,
-                controller: controller
+                controller: controller,
+				type_modal: type_modal
             },
             success: data => {
-                console.log(data);
+                /* console.log(data); */
                 if (data.success == 0) {
                     /*$("#send_email_error")[0].play();*/
                     $.notify(data.message, {

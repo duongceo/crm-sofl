@@ -92,9 +92,15 @@
 		<?php } ?>
 
         <?php if ($this->role_id == 12) { ?>  <!-- TK TVV cơ sở -->
-			<li class="ajax-request-modal load-new-contact-id edit-one-contact one-item-selected" data-contact-id ="0" data-modal-name="edit-contact-div" data-url="common/show_edit_contact_modal">
+			<li class="ajax-request-modal load-new-contact-id edit-one-contact one-item-selected" data_type_modal="sale"  data-contact-id="0" data-modal-name="edit-contact-div" data-url="common/show_edit_contact_modal">
 				<a>
 					<i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp; Chăm sóc contact này
+				</a>
+			</li>
+
+			<li class="ajax-request-modal load-new-contact-id edit-one-contact one-item-selected" data_type_modal="customer_care" data-contact-id ="0" data-modal-name="edit-contact-div" data-url="common/show_edit_contact_modal">
+				<a>
+					<i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp; Chăm sóc L6 --> L8
 				</a>
 			</li>
 

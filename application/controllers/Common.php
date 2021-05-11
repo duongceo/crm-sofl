@@ -121,7 +121,7 @@ class Common extends MY_Controller {
     function show_edit_contact_modal() {
         $post = $this->input->post();
 
-        if ($this->role_id == 1 || $this->role_id == 12) {  //sale && nhân viên cơ sở
+        if ($this->role_id == 1 || ($this->role_id == 12 && $post['type_modal'] == 'sale')) {  //sale && nhân viên cơ sở
             $left_edit = array(
 //                'contact_id' => 'view',
                 'name' => 'edit',
@@ -156,44 +156,10 @@ class Common extends MY_Controller {
             );
         }
 
-//        if ($this->role_id == 2) { //cod
-//            $left_edit = array(
-//                'contact_id' => 'view',
-//                'name' => 'edit',
-//                'email' => 'view',
-//                'phone' => 'edit',
-//				  'is_black' => 'edit',
-//                'address' => 'edit',
-//                'course_code' => 'view',
-//                'price_purchase' => 'edit',
-//                'date_rgt' => 'view',
-//                'date_handover' => 'view',
-//                'date_confirm' => 'view',
-//            );
-//            $right_edit = array(
-//                'sale' => 'view',
-//                'payment_method_rgt' => 'edit',
-//                'code_cross_check' => 'edit',
-//                'provider' => 'edit',
-//                'cod_status' => 'edit',
-//                'date_recall' => 'edit',
-//                'date_expect_receive_cod' => 'edit',
-//                'weight_envelope' => 'edit',
-//                'cod_fee' => 'edit',
-//                'fee_resend' => 'edit',
-//                'send_banking_info' => 'edit',
-//                'send_account_lakita' => 'edit',
-//				  'account_active' => 'view',
-//                'note' => 'edit',
-//                'note_cod' => 'edit'
-//            );
-//        }
-
-        if ($this->role_id == 10) {  //chăm sóc khách hàng
+        if ($this->role_id == 10 || ($this->role_id == 12 && $post['type_modal'] == 'customer_care')) {  //chăm sóc khách hàng
             $left_edit = array(
                 'contact_id' => 'view',
                 'name' => 'view',
-//                'email' => 'view',
                 'phone' => 'view',
 				'branch' => 'view',
 				'language' => 'view',
@@ -302,7 +268,7 @@ class Common extends MY_Controller {
 			'language_study' => array(),
         );
 
-		if ($this->role_id == 10) {
+		if ($this->role_id == 10 || ($this->role_id == 12 && $post['type_modal'] == 'customer_care')) {
 			$require_model = array(
 				'branch' => array(),
 				'language_study' => array(),
@@ -316,6 +282,8 @@ class Common extends MY_Controller {
 					'order' => array('time_created' => 'ASC')
 				),
 			);
+
+			$edited_contact = true;
 		}
 
 		$this->load->model('level_contact_model');
@@ -344,28 +312,15 @@ class Common extends MY_Controller {
         $data['view_edit_left'] = $left_edit;
         $data['view_edit_right'] = $right_edit;
 
-        if ($this->role_id == 1 || $this->role_id == 12) {
+        if ($this->role_id == 1) {
             $edited_contact = $this->_can_edit_by_sale($rows[0]['call_status_id'], $rows[0]['level_contact_id']);
 //			$data['action_url'] = 'common/update_before_edit_contact/' . $id;
         }
-//        if ($this->role_id == 12) {
+
+        if ($this->role_id == 12) {
 //			$edited_contact = $this->_can_edit_by_branch($rows[0]['branch_id']);
-//		}
-
-//        if ($this->role_id == 2) {
-//            if ($rows[0]['call_status_id'] != _DA_LIEN_LAC_DUOC_ || $rows[0]['ordering_status_id'] != _DONG_Y_MUA_) {
-//                $edited_contact = false;
-//            } else {
-//                $edited_contact = $this->_can_edit_by_cod($rows[0]['cod_status_id']);
-//            }
-//
-//			$data['action_url'] = 'common/action_edit_contact/' . $id;
-//        }
-
-        if ($this->role_id == 10) {
 			$edited_contact = true;
-//			$data['action_url'] = 'common/action_edit_contact/' . $id;
-        }
+		}
 		
         $data['contact_id'] = $id;
         $data['edited_contact'] = $edited_contact;
@@ -386,6 +341,7 @@ class Common extends MY_Controller {
 			$rows[0]['paid'] = $paid[0]['paiding'];
 		}
 
+		$data['type_modal'] = $post['type_modal'];
         $data['rows'] = $rows[0];
 		$data['action_url'] = 'common/action_edit_contact/' . $id;
         $result['success'] = 1;
@@ -415,11 +371,11 @@ class Common extends MY_Controller {
         return true;
     }
 
-    protected function _can_edit_by_branch($branch_id) {
-    	if ($branch_id == 0 || $this->branch_id == $branch_id) {
-			return true;
-		} else return false;
-	}
+//    protected function _can_edit_by_branch($branch_id) {
+//    	if ($branch_id == 0 || $this->branch_id == $branch_id) {
+//			return true;
+//		} else return false;
+//	}
 
 //    protected function _can_edit_by_cod($cod_status_id) {
 //        $this->load->model("cod_status_model");
@@ -468,8 +424,8 @@ class Common extends MY_Controller {
         $input['where'] = array('id' => trim($id));
         $rows = $this->contacts_model->load_all($input);
 		
-		/*var_dump($rows);die;*/
-		
+		$post = $this->input->post();
+
         if (empty($rows)) {
             $result['success'] = 0;
             $result['message'] = 'Không tồn tại contact này!';
@@ -477,11 +433,8 @@ class Common extends MY_Controller {
             die;
         }
 
-        if ($this->role_id == 1 || $this->role_id == 12) { // sale && cơ sở
-			if ($this->role_id == 12) {
-				$this->_action_edit_by_sale(trim($id), $rows);
-				die;
-			} else if ($rows[0]['sale_staff_id'] != $this->user_id && $this->user_id != 18) {
+        if ($this->role_id == 1) { // sale && cơ sở
+			if ($rows[0]['sale_staff_id'] != $this->user_id && $this->user_id != 18) {
                 $result['success'] = 0;
                 $result['message'] = "Contact này không được phân cho bạn, vì vậy bạn không thể chăm sóc!";
                 echo json_encode($result);
@@ -490,7 +443,13 @@ class Common extends MY_Controller {
             $this->_action_edit_by_sale(trim($id), $rows);
         } else if ($this->role_id == 10) { // chăm sóc khách hàng
             $this->_action_edit_by_customer_care(trim($id), $rows);
-        } else {
+        } else if ($this->role_id == 12) {
+        	if ($post['type_modal'] == 'sale') {
+				$this->_action_edit_by_sale(trim($id), $rows);
+			} else if ($post['type_modal'] == 'customer_care') {
+				$this->_action_edit_by_customer_care(trim($id), $rows);
+			}
+		} else {
             $result['success'] = 0;
             $result['message'] = "Bạn không có quyền chỉnh sửa contact";
             echo json_encode($result);
@@ -1030,7 +989,6 @@ class Common extends MY_Controller {
 //    }
 
     private function _action_edit_by_customer_care($id, $rows) {
-
         if (!empty($this->input->post())) {
 
 //        	Thông báo realtime về khi đã chăm sóc contact
@@ -1071,7 +1029,7 @@ class Common extends MY_Controller {
             $this->_set_call_log($id, $post, $rows);
 
             $result['success'] = 1;
-            $result['role'] = 10;
+            $result['role'] = $this->role_id;
 			$result['hide'] = 1;
             $result['message'] = 'Chăm sóc thành công contact!';
             echo json_encode($result);
