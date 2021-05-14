@@ -1900,7 +1900,7 @@ class Manager extends MY_Controller {
 
 				$input_class = array();
 				$input_class['where'] = array(
-					'time_start >=' => $date_from,
+					'time_start >=' => $date_from + 7*24*60*60,
 					'time_start <=' => $date_end,
 					'character_class_id' => 2,
 					'branch_id' => $value_branch['id']
