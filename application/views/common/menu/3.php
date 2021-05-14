@@ -85,51 +85,6 @@
                 </li>
             </ul>
         </li>
-
-<!--        <li>-->
-<!--            <a href="#homeSubmenu_1" data-toggle="collapse" aria-expanded="false">-->
-<!--                <img src="--><?php //echo base_url(); ?><!--public/images/view-all.png">-->
-<!--                <span>Quản lý</span>-->
-<!--            </a>-->
-<!--            <ul class="collapse list-unstyled" id="homeSubmenu_1">-->
-<!--                <li>-->
-<!---->
-<!--                    <a href="--><?php //echo base_url('config/course'); ?><!--">-->
-<!---->
-<!--                        <img src="--><?php //echo base_url(); ?><!--public/images/courses.png"> -->
-<!---->
-<!--                        <span> Cài đặt khóa học </span>-->
-<!---->
-<!--                    </a>-->
-<!---->
-<!--                </li>-->
-<!---->
-<!--                <li>-->
-<!---->
-<!--                    <a href="--><?php //echo base_url('MANAGERS/teacher'); ?><!--">-->
-<!---->
-<!--                        <img src="--><?php //echo base_url(); ?><!--public/images/courses.png"> -->
-<!---->
-<!--                        <span> Cài đặt giảng viên</span>-->
-<!---->
-<!--                    </a>-->
-<!---->
-<!--                </li>-->
-<!---->
-<!--                <li>-->
-<!--        -->
-<!--                     <a class="add-new-tvts-modal" href="--><?php //echo base_url('quan-ly/them-tvts.html'); ?><!--"> -->
-<!--                    <a href="--><?php //echo base_url('MANAGERS/manager_tvts'); ?><!--">-->
-<!---->
-<!--                        <img src="--><?php //echo base_url(); ?><!--public/images/tvts.png"> -->
-<!---->
-<!--                        <span> Quản lý TVTS </span>-->
-<!---->
-<!--                    </a>-->
-<!---->
-<!--                </li>-->
-<!--            </ul>-->
-<!--        </li>-->
     
         <li>
             <a href="#homeSubmenu_3" data-toggle="collapse" aria-expanded="false">
@@ -220,18 +175,6 @@
 					</a>
 
 				</li>
-
-				<li>
-
-					<a href="<?php echo base_url('manager/view_report_compare_source'); ?>">
-
-						<img src="<?php echo base_url(); ?>public/images/view-all.png" alt="">
-
-						<span> Bảng so sánh các nguồn </span>
-
-					</a>
-
-				</li>
                 
             </ul>
         </li>
@@ -294,6 +237,39 @@
 						<img src="<?php echo base_url(); ?>public/images/report.png">
 
 						<span> Xem báo các trạng thái L7</span>
+
+					</a>
+
+				</li>
+
+			</ul>
+		</li>
+
+		<li>
+			<a href="#homeSubmenu_compare" data-toggle="collapse" aria-expanded="false">
+				<img src="<?php echo base_url(); ?>public/images/report.png">
+				<span>Bảng so sánh hiệu quả</span>
+			</a>
+			<ul class="collapse list-unstyled" id="homeSubmenu_compare">
+				<li>
+
+					<a href="<?php echo base_url('manager/view_report_compare_source'); ?>">
+
+						<img src="<?php echo base_url(); ?>public/images/view-all.png" alt="">
+
+						<span> Bảng so sánh các nguồn </span>
+
+					</a>
+
+				</li>
+
+				<li>
+
+					<a href="<?php echo base_url('manager/view_report_compare_sale'); ?>">
+
+						<img src="<?php echo base_url(); ?>public/images/view-all.png" alt="">
+
+						<span> Bảng so sánh các sale </span>
 
 					</a>
 

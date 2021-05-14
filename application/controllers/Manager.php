@@ -2208,6 +2208,86 @@ class Manager extends MY_Controller {
 		$this->load->view(_MAIN_LAYOUT_, $data);
 	}
 
+	public function view_report_compare_sale() {
+		$require_model = array(
+			'language_study' => array(
+				'where' => array(
+					'no_report' => '0'
+				)
+			),
+			'staffs' => array(
+				'where' => array(
+					'active' => 1,
+					'role_id' => 1,
+					'out_report' => '0'
+				)
+			)
+		);
+		$data = $this->_get_require_data($require_model);
+
+		$get = $this->input->get();
+
+		/* Mảng chứa các ngày lẻ */
+		if (isset($get['filter_date_date_happen']) && $get['filter_date_date_happen'] != '') {
+			$time = $get['filter_date_date_happen'];
+		} else {
+			$time = '01' . '/' . date('m') . '/' . date('Y') . ' - ' . date('d') . '/' . date('m') . '/' . date('Y');
+		}
+
+		$dateArr = explode('-', $time);
+//		$startDate = trim($dateArr[0]);
+//		$startDate = strtotime(str_replace("/", "-", $startDate));
+//		$endDate = trim($dateArr[1]);
+//		$endDate = strtotime(str_replace("/", "-", $endDate)) + 3600 * 24 - 1;
+
+		if (isset($get['filter_date_date_happen_compare']) && $get['filter_date_date_happen_compare'] != '') {
+			$time_compare = $get['filter_date_date_happen_compare'];
+		} else {
+			$time_compare = str_replace("-", "/", date("d-m-Y", strtotime("-1 month", strtotime(str_replace("/", "-", trim($dateArr[0])))))) . ' - ' . str_replace("-", "/", date("d-m-Y", strtotime("-1 month", strtotime(str_replace("/", "-", trim($dateArr[1]))))));
+		}
+
+		$date_array = array($time_compare, $time);
+
+		$conditionArr = array(
+			'L1' => array(
+				'where' => array('call_status_id NOT IN (1, 3, 5)' => 'NO-VALUE', 'level_contact_detail NOT IN ("L1.1", "L1.2", "L1.3")' => 'NO-VALUE'),
+				'time' => 'filter_date_date_handover'
+			),
+			'L5' => array(
+				'where' => array('level_contact_id' => 'L5'),
+				'time' => 'filter_date_date_rgt_study'
+			),
+		);
+
+		unset($get['filter_date_date_happen']);
+
+		$report = array();
+//		$total = array();
+		foreach ($data['staffs'] as $key_source => $value_sale) {
+			$conditional_sale = array();
+			$conditional_sale['where']['sale_staff_id'] = $value_sale['id'];
+			foreach ($date_array as $value_date) {
+				foreach ($conditionArr as $key_condition => $value_condition) {
+					$get_time = array($value_condition['time'] => $value_date);
+					$conditional = array_merge_recursive($conditional_sale, $value_condition);
+
+//						$report[$value_language['name']][$value_source['name']]['RE'] = $this->get_re(array_merge_recursive($conditional_1, $conditional_source), $startDate, $endDate, 'report');
+					$report[$value_date][$value_sale['name']][$key_condition] = $this->_query_for_report($get_time, $conditional);
+
+				}
+			}
+		}
+
+//		print_arr($report);
+
+		$data['report'] = $report;
+		$data['left_col'] = array('date_happen_1', 'date_happen_compare');
+//		$data['right_col'] = array('is_old');
+		$data['content'] = 'manager/view_report_compare_sale';
+//        print_arr($data);
+		$this->load->view(_MAIN_LAYOUT_, $data);
+	}
+
 	private function get_contact_id($class_id) {
 		$input_contact = array();
 		$input_contact['select'] = 'id';

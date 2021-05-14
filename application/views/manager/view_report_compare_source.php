@@ -49,8 +49,8 @@
 								<td>
 									<?php echo $value_2[$item_2['name']]['L5']; ?>
 								</td>
-								<td>
-									<?php echo ($value_2[$item_2['name']]['L1'] != 0) ? round(($value_2[$item_2['name']]['L5'] / $value_2[$item_2['name']]['L1']) * 100, 2) . '%' : 'không thể chia cho 0'; ?>
+								<td style="background-color: #a5d2e9">
+									<?php echo ($value_2[$item_2['name']]['L1'] != 0) ? round(($value_2[$item_2['name']]['L5'] / $value_2[$item_2['name']]['L1']) * 100, 2) . '%' : 'NAN'; ?>
 								</td>
 							<?php } ?>
 						</tr>

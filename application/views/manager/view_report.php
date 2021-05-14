@@ -134,12 +134,12 @@
 			<?php
 
 			$report2 = array(
-				array('Nghe Máy/Xử lý', 'NGHE_MAY', 'XU_LY', ($XU_LY != 0) ? round(($NGHE_MAY / $XU_LY) * 100, 2) : 'không thể chia cho 0', 70),
-				array('Ko Nghe Máy/Xử lý', 'KHONG_NGHE_MAY', 'XU_LY', ($XU_LY != 0) ? round(($KHONG_NGHE_MAY / $XU_LY) * 100, 2) : 'không thể chia cho 0', 25),
-				array('L2/Xử lý', 'L2', 'XU_LY', ($XU_LY != 0) ? round(($L2 / $XU_LY) * 100, 2) : 'không thể chia cho 0', 40),
-				array('L2/Nhận', 'L2', 'NHAN', ($NHAN != 0) ? round(($L2 / $NHAN) * 100, 2) : 'không thể chia cho 0', 40),
-				array('L3/Nhận', 'L3', 'NHAN', ($NHAN != 0) ? round(($L3 / $NHAN) * 100, 2) : 'không thể chia cho 0', 35),
-				array('L5/Nhận', 'L5', 'NHAN', ($NHAN != 0) ? round(($L5 / $NHAN) * 100, 2) : 'không thể chia cho 0', 25),
+				array('Nghe Máy/Xử lý', 'NGHE_MAY', 'XU_LY', ($XU_LY != 0) ? round(($NGHE_MAY / $XU_LY) * 100, 2) : 'NAN', 70),
+				array('Ko Nghe Máy/Xử lý', 'KHONG_NGHE_MAY', 'XU_LY', ($XU_LY != 0) ? round(($KHONG_NGHE_MAY / $XU_LY) * 100, 2) : 'NAN', 25),
+				array('L2/Xử lý', 'L2', 'XU_LY', ($XU_LY != 0) ? round(($L2 / $XU_LY) * 100, 2) : 'NAN', 40),
+				array('L2/Nhận', 'L2', 'NHAN', ($NHAN != 0) ? round(($L2 / $NHAN) * 100, 2) : 'NAN', 40),
+				array('L3/Nhận', 'L3', 'NHAN', ($NHAN != 0) ? round(($L3 / $NHAN) * 100, 2) : 'NAN', 35),
+				array('L5/Nhận', 'L5', 'NHAN', ($NHAN != 0) ? round(($L5 / $NHAN) * 100, 2) : 'NAN', 25),
 			);
 
 			foreach ($report2 as $values) {
@@ -176,7 +176,7 @@
 
 							<?php
 
-								echo ($value[$mau_so] != 0) ? round(($value[$tu_so] / $value[$mau_so]) * 100, 2) . '%' : 'không thể chia cho 0';
+								echo ($value[$mau_so] != 0) ? round(($value[$tu_so] / $value[$mau_so]) * 100, 2) . '%' : 'NAN';
 
 								?>
 
@@ -318,11 +318,11 @@
 			<?php
 
 			$report2 = array(
-				array('Nghe Máy/Xử lý', 'NGHE_MAY', 'XU_LY', ($XU_LY_L != 0) ? round(($NGHE_MAY_L / $XU_LY_L) * 100, 2) : 'không thể chia cho 0', 70),
-				array('Ko Nghe Máy/Xử lý', 'KHONG_NGHE_MAY', 'XU_LY', ($XU_LY_L != 0) ? round(($KHONG_NGHE_MAY_L / $XU_LY_L) * 100, 2) : 'không thể chia cho 0', 25),
-				array('L2/Xử lý', 'L2', 'XU_LY', ($XU_LY_L != 0) ? round(($L2_L / $XU_LY_L) * 100, 2) : 'không thể chia cho 0', 40),
-				array('L3/Nhận', 'L3', 'NHAN', ($NHAN_L != 0) ? round(($L3_L / $NHAN_L) * 100, 2) : 'không thể chia cho 0', 35),
-				array('L5/Nhận', 'L5', 'NHAN', ($NHAN_L != 0) ? round(($L5_L / $NHAN_L) * 100, 2) : 'không thể chia cho 0', 20),
+				array('Nghe Máy/Xử lý', 'NGHE_MAY', 'XU_LY', ($XU_LY_L != 0) ? round(($NGHE_MAY_L / $XU_LY_L) * 100, 2) : 'NAN', 70),
+				array('Ko Nghe Máy/Xử lý', 'KHONG_NGHE_MAY', 'XU_LY', ($XU_LY_L != 0) ? round(($KHONG_NGHE_MAY_L / $XU_LY_L) * 100, 2) : 'NAN', 25),
+				array('L2/Xử lý', 'L2', 'XU_LY', ($XU_LY_L != 0) ? round(($L2_L / $XU_LY_L) * 100, 2) : 'NAN', 40),
+				array('L3/Nhận', 'L3', 'NHAN', ($NHAN_L != 0) ? round(($L3_L / $NHAN_L) * 100, 2) : 'NAN', 35),
+				array('L5/Nhận', 'L5', 'NHAN', ($NHAN_L != 0) ? round(($L5_L / $NHAN_L) * 100, 2) : 'NAN', 20),
 			);
 
 			foreach ($report2 as $values) {
@@ -353,7 +353,7 @@
 
 							<?php
 
-							echo ($value[$mau_so] != 0) ? round(($value[$tu_so] / $value[$mau_so]) * 100, 2) . '%' : 'không thể chia cho 0';
+							echo ($value[$mau_so] != 0) ? round(($value[$tu_so] / $value[$mau_so]) * 100, 2) . '%' : 'NAN';
 
 							?>
 
