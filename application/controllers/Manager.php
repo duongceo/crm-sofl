@@ -1872,11 +1872,17 @@ class Manager extends MY_Controller {
 		$date_end = trim($dateArr[1]);
 		$date_end = strtotime(str_replace("/", "-", $date_end)) + 3600 * 24 - 1;
 
-		unset($get['filter_date_date_happen'], $data['branch'][0], $data['branch'][8]);
+		if ($this->role_id != 12) {
+			unset($data['branch'][0], $data['branch'][8]);
+			$branch = $data['branch'];
+		} else {
+			$branch[] = array('id' => $this->branch_id, 'name' => $this->branch_model->find_branch_name($this->branch_id));
+		}
+		unset($get['filter_date_date_happen']);
 
 		$report = array();
 		$report_class = array();
-		foreach ($data['branch'] as $key_branch => $value_branch) {
+		foreach ($branch as $key_branch => $value_branch) {
 //			$temp_cc = 0;
 			foreach ($data['level_study'] as $key_level => $value_level) {
 				foreach ($data['language_study'] as $value_language) {
