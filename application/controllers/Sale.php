@@ -22,7 +22,7 @@ class Sale extends MY_Controller {
         $input = array();
         $input['select'] = 'date_recall';
         $input['where']['sale_staff_id'] = $this->user_id;
-        $input['where']['date_recall >'] = time();
+        $input['where']['date_recall >='] = time();
         $input['order']['date_recall'] = 'ASC';
         $input['limit'] = array('1', '0');
         $noti_contact = $this->contacts_model->load_all($input);

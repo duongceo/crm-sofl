@@ -1839,6 +1839,7 @@ class Manager extends MY_Controller {
 	}
 
 	public function view_report_care_L7() {
+    	$this->load->model('class_study_model');
 		$require_model = array(
 			'branch' => array(),
 			'language_study' => array(
@@ -1866,33 +1867,61 @@ class Manager extends MY_Controller {
 		}
 
 		$dateArr = explode('-', $time);
-		$startDate = trim($dateArr[0]);
-		$startDate = strtotime(str_replace("/", "-", $startDate));
-		$endDate = trim($dateArr[1]);
-		$endDate = strtotime(str_replace("/", "-", $endDate)) + 3600 * 24 - 1;
+		$date_from = trim($dateArr[0]);
+		$date_from = strtotime(str_replace("/", "-", $date_from));
+		$date_end = trim($dateArr[1]);
+		$date_end = strtotime(str_replace("/", "-", $date_end)) + 3600 * 24 - 1;
 
-		unset($get['filter_date_date_happen'], $data['branch'][0]);
+		unset($get['filter_date_date_happen'], $data['branch'][0], $data['branch'][8]);
 
 		$report = array();
+		$report_class = array();
 		foreach ($data['branch'] as $key_branch => $value_branch) {
-			$temp_cc = 0;
+//			$temp_cc = 0;
 			foreach ($data['level_study'] as $key_level => $value_level) {
-				$conditional = array();
-				$conditional['where']['branch_id'] = $value_branch['id'];
-				$conditional['where']['level_study_detail'] = $value_level['level_id'];
-				$conditional['where']['date_rgt_study >='] = $startDate;
-				$conditional['where']['date_rgt_study <='] = $endDate;
-//				$conditional = array_merge_recursive($conditional, $value_branch);
-				$report[$value_branch['name']][$value_level['level_id']] = $this->_query_for_report($get, $conditional);
-				$temp_cc += $report[$value_branch['name']][$value_level['level_id']];
-//				$data[$key2] = $temp_cc;
+				foreach ($data['language_study'] as $value_language) {
+					$conditional = array();
+					$conditional['where']['level_study_detail'] = $value_level['level_id'];
+					$conditional['where']['date_rgt_study >='] = $date_from;
+					$conditional['where']['date_rgt_study <='] = $date_end;
+					$conditional['where']['branch_id'] = $value_branch['id'];
+					$conditional['where']['language_id'] = $value_language['id'];
+//					$conditional = array_merge_recursive($conditional, $value_branch);
+					$report[$value_branch['name']][$value_language['name']][$value_level['level_id']] = $this->_query_for_report($get, $conditional);
+//					$temp_cc += $report[$value_branch['name']][$value_level['level_id']];
+//					$data[$key2] = $temp_cc;
+				}
+
+				$input_class = array();
+				$input_class['where'] = array(
+					'time_start >=' => $date_from,
+					'time_start <=' => $date_end,
+					'character_class_id' => 2,
+					'branch_id' => $value_branch['id']
+				);
+
+				$class = $this->class_study_model->load_all($input_class);
+
+				if (!empty($class)) {
+					foreach ($class as $value_class) {
+						$input_contact = array();
+						$input_contact['where']['class_study_id'] = $value_class['class_study_id'];
+						$input_contact['where']['level_contact_id'] = 'L5';
+						$report_class[$value_branch['name']][$value_class['class_study_id']]['student'] = $this->_query_for_report($get, $input_contact);
+
+						unset($input_contact['where']['level_contact_id']);
+						$input_class_level_study = array_merge_recursive($input_contact, array('where' => array('level_study_detail' => $value_level['level_id'])));
+						$report_class[$value_branch['name']][$value_class['class_study_id']][$value_level['level_id']] = $this->_query_for_report($get, $input_class_level_study);
+					}
+				}
 			}
 		}
-//		print_arr($report);
+//		print_arr($report_class);
 
 		$data['report'] = $report;
-		$data['startDate'] = $startDate;
-		$data['endDate'] = $endDate;
+		$data['report_class'] = $report_class;
+		$data['startDate'] = $date_from;
+		$data['endDate'] = $date_end;
 		$data['left_col'] = array('date_happen_1');
 //		$data['right_col'] = array('is_old');
 //		$data['load_js'] = array('m_view_report');
@@ -2042,7 +2071,7 @@ class Manager extends MY_Controller {
 		$date_end = strtotime(str_replace("/", "-", $date_end)) + 3600 * 24 - 1;
 
 		if ($this->role_id != 12) {
-			unset($data['branch'][0],$data['branch'][8]);
+			unset($data['branch'][0], $data['branch'][8]);
 			$branch = $data['branch'];
 		} else {
 			$branch[] = array('id' => $this->branch_id, 'name' => $this->branch_model->find_branch_name($this->branch_id));
