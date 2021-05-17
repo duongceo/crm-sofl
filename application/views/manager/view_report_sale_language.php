@@ -1,6 +1,6 @@
 <div class="row">
 	<div class="col-md-10 col-md-offset-1">
-		<h3 class="text-center marginbottom20"> Báo cáo tỷ lệ theo nguồn từ ngày <?php echo date('d-m-Y', $startDate); ?> đến hết ngày <?php echo date('d-m-Y', $endDate); ?></h3>
+		<h3 class="text-center marginbottom20"> Báo cáo tỷ lệ theo từng tiếng và sale từ ngày <?php echo date('d-m-Y', $startDate); ?> đến hết ngày <?php echo date('d-m-Y', $endDate); ?></h3>
 	</div
 
 </div>

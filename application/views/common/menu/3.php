@@ -175,6 +175,18 @@
 					</a>
 
 				</li>
+
+				<li>
+
+					<a href="<?php echo base_url('manager/view_report_sale_language'); ?>">
+
+						<img src="<?php echo base_url(); ?>public/images/report.png">
+
+						<span> Xem báo cáo theo Tiếng - Sale </span>
+
+					</a>
+
+				</li>
                 
             </ul>
         </li>

@@ -1623,6 +1623,125 @@ class Manager extends MY_Controller {
 		$this->load->view(_MAIN_LAYOUT_, $data);
 	}
 
+	public function view_report_sale_language() {
+		$require_model = array(
+			'staffs' => array(
+				'where' => array(
+					'role_id' => 1,
+					'active' => 1,
+					'out_report' => '0'
+				)
+			),
+			'language_study' => array(
+				'where' => array(
+					'no_report' => '0'
+				)
+			),
+		);
+
+		$data = $this->_get_require_data($require_model);
+
+		$get = $this->input->get();
+
+		/* Mảng chứa các ngày lẻ */
+		if (isset($get['filter_date_date_happen']) && $get['filter_date_date_happen'] != '') {
+			$time = $get['filter_date_date_happen'];
+		} else {
+			$time = '01' . '/' . date('m') . '/' . date('Y') . ' - ' . date('d') . '/' . date('m') . '/' . date('Y');
+		}
+
+		$dateArr = explode('-', $time);
+		$startDate = trim($dateArr[0]);
+		$startDate = strtotime(str_replace("/", "-", $startDate));
+		$endDate = trim($dateArr[1]);
+		$endDate = strtotime(str_replace("/", "-", $endDate)) + 3600 * 24 - 1;
+
+//		echo $startDate . ' - ' . $endDate;die;
+
+		if (isset($get['tic_report']) && !empty($get['tic_report'])) {
+			$conditionArr = array(
+				'L1' => array(
+					'where' => array('date_handover !=' => '0', 'duplicate_id' => '0', 'call_status_id NOT IN (1, 3, 5)' => 'NO-VALUE', 'level_contact_detail NOT IN ("L1.1", "L1.2", "L1.3")' => 'NO-VALUE', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
+				),
+				'L2' => array(
+					'where' => array('level_contact_id' => 'L2', 'date_handover !=' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
+				),
+				'L3' => array(
+					'where' => array('level_contact_id' => 'L3', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
+				),
+				'L5' => array(
+					'where' => array('level_contact_id' => 'L5', 'is_old' => '0', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
+				),
+				'L8' => array(
+					'where' => array('level_contact_id' => 'L5', 'is_old' => 1, 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
+				),
+			);
+		} else {
+			$conditionArr = array(
+				'L1' => array(
+					'where' => array('date_handover >=' => $startDate, 'date_handover <=' => $endDate, 'duplicate_id' => '0', 'call_status_id NOT IN (1, 3, 5)' => 'NO-VALUE', 'level_contact_detail NOT IN ("L1.1", "L1.2", "L1.3")' => 'NO-VALUE'),
+				),
+				'L2' => array(
+					'where' => array('level_contact_id' => 'L2', 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate),
+				),
+				'L3' => array(
+					'where' => array('level_contact_id' => 'L3', 'date_confirm >=' => $startDate, 'date_confirm <=' => $endDate),
+				),
+				'L5' => array(
+					'where' => array('level_contact_id' => 'L5', 'is_old' => '0', 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
+				),
+				'L8' => array(
+					'where' => array('level_contact_id' => 'L5', 'is_old' => 1, 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
+				),
+			);
+		}
+
+		unset($get['filter_date_date_happen']);
+
+		$report = array();
+//		$total = array();
+		foreach ($data['language_study'] as $key_language => $value_language) {
+			$conditional_language = array();
+			$conditional_language['where']['language_id'] = $value_language['id'];
+//			$conditional_source['where_not_in']['sale_staff_id'] = array(5);
+
+			foreach ($conditionArr as $key_condition => $value) {
+				foreach ($data['staffs'] as $value_sale) {
+					$conditional_1 = array();
+					$conditional_1['where']['sale_staff_id'] = $value_sale['id'];
+					$conditional = array_merge_recursive($conditional_1, $value_language, $value);
+
+//					$report[$value_language['name']][$value_sale['name']]['RE'] = $this->get_re(array_merge_recursive($conditional_1, $conditional_language), $startDate, $endDate);
+					$report[$value_language['name']][$value_sale['name']][$key_condition] = $this->_query_for_report($get, $conditional);
+
+					if ($report[$value_language['name']][$value_sale['name']][$key_condition] == 0 && $report[$value_language['name']][$value_sale['name']]['RE'] == 0) {
+						unset($report[$value_language['name']][$value_sale['name']]);
+					}
+				}
+				//$conditional_2 = array_merge_recursive($conditional_source, $value);
+				//$data['sources'][$key_source][$key_condition] = $this->_query_for_report($get, $conditional_2);
+			}
+
+			if (empty($report[$value_language['name']])) {
+				unset($report[$value_language['name']]);
+			}
+
+			$data['staffs'][$key_language]['RE'] = $this->get_re($conditional_language, $startDate, $endDate);
+		}
+
+//		print_arr($report);
+
+		$data['report'] = $report;
+		$data['startDate'] = $startDate;
+		$data['endDate'] = $endDate;
+		$data['left_col'] = array('date_happen_1', 'tic_report');
+//		$data['right_col'] = array('source');
+		$data['load_js'] = array('m_view_report');
+		$data['content'] = 'manager/view_report_sale_language';
+//        print_arr($data);
+		$this->load->view(_MAIN_LAYOUT_, $data);
+	}
+
 	private function get_re($condition_id=[], $startDate=0, $endDate=0, $report='') {
 		$this->load->model('paid_model');
 		$input_contact = array();
@@ -2210,11 +2329,6 @@ class Manager extends MY_Controller {
 
 	public function view_report_compare_sale() {
 		$require_model = array(
-			'language_study' => array(
-				'where' => array(
-					'no_report' => '0'
-				)
-			),
 			'staffs' => array(
 				'where' => array(
 					'active' => 1,

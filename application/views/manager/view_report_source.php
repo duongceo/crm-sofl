@@ -82,7 +82,7 @@
 
 								<?php
 
-								echo ($value_3[$mau_so] != 0) ? round(($value_3[$tu_so] / $value_3[$mau_so]) * 100, 2) . '%' : 'không thể chia cho 0';
+								echo ($value_3[$mau_so] != 0) ? round(($value_3[$tu_so] / $value_3[$mau_so]) * 100, 2) . '%' : 'NAN';
 
 								?>
 
@@ -165,7 +165,7 @@
 
 							<?php
 
-							echo ($value[$mau_so] != 0) ? round(($value[$tu_so] / $value[$mau_so]) * 100, 2) . '%' : 'không thể chia cho 0';
+							echo ($value[$mau_so] != 0) ? round(($value[$tu_so] / $value[$mau_so]) * 100, 2) . '%' : 'NAN';
 
 							?>
 
