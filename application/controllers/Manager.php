@@ -1707,19 +1707,14 @@ class Manager extends MY_Controller {
 
 			foreach ($conditionArr as $key_condition => $value) {
 				foreach ($data['staffs'] as $value_sale) {
-					$conditional_1 = array();
-					$conditional_1['where']['sale_staff_id'] = $value_sale['id'];
-					$conditional = array_merge_recursive($conditional_1, $value_language, $value);
+					$conditional_sale = array();
+					$conditional_sale['where']['sale_staff_id'] = $value_sale['id'];
+					$conditional = array_merge_recursive($conditional_sale, $conditional_language, $value);
 
 //					$report[$value_language['name']][$value_sale['name']]['RE'] = $this->get_re(array_merge_recursive($conditional_1, $conditional_language), $startDate, $endDate);
 					$report[$value_language['name']][$value_sale['name']][$key_condition] = $this->_query_for_report($get, $conditional);
 
-					if ($report[$value_language['name']][$value_sale['name']][$key_condition] == 0 && $report[$value_language['name']][$value_sale['name']]['RE'] == 0) {
-						unset($report[$value_language['name']][$value_sale['name']]);
-					}
 				}
-				//$conditional_2 = array_merge_recursive($conditional_source, $value);
-				//$data['sources'][$key_source][$key_condition] = $this->_query_for_report($get, $conditional_2);
 			}
 
 			if (empty($report[$value_language['name']])) {
