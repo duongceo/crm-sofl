@@ -1088,7 +1088,7 @@ class MY_Table extends MY_Controller {
 		$notes = '';
 		if (!empty($last_note)) {
 			foreach ($last_note as $value2) {
-				$notes .= '<p>' . date('d/m/Y', $value2['time_created']) . ' ==> ' . $value2['content'] . '</p>';
+				$notes .= '<p>' . $value2['content'] . '</p>';
 			}
 		}
 		return $notes;
