@@ -29,6 +29,7 @@
 					<th>Chi phí</th>
 					<th>Nội dung</th>
 					<th>Ngày nhập</th>
+					<th>Cơ sở</th>
 				</tr>
 			</thead>
 
@@ -40,13 +41,16 @@
 							<?php echo date('d-m-Y', $item['day_cost']); ?>
 						</td>
 						<td class="text-center">
-							<?php echo $item['cost']; ?> VNĐ
+							<?php echo h_number_format($item['cost']); ?> VNĐ
 						</td>
 						<td class="text-justify">
 							<?php echo $item['content_cost']; ?>
 						</td>
 						<td class="text-center">
 							<?php echo date('d-m-Y H:i:s', $item['time_created']); ?>
+						</td>
+						<td class="text-center">
+							<?php echo $item['branch_name']; ?>
 						</td>
 					</tr>
 				<?php } ?>
