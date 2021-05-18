@@ -126,7 +126,6 @@ class Class_study extends MY_Table {
 	}
 
 	public function index($offset = 0) {
-
 		$require_model = array(
 			'branch' => array(),
 			'language_study' => array(
@@ -156,6 +155,7 @@ class Class_study extends MY_Table {
 					'type' => 'arr_multi'
 				),
 			),
+
 			'left_filter' => array(
 				'character_class' => array(
 					'type' => 'arr_multi'
@@ -185,7 +185,6 @@ class Class_study extends MY_Table {
 		$this->show_table();
 
 		$data = $this->data;
-
 //		$data['slide_menu'] = 'cod/common/slide-menu';
 //		if($this->role_id == 1){
 //			$data['top_nav'] = 'sale/common/top-nav';

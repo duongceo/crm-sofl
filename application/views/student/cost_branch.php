@@ -12,12 +12,15 @@
 	</div>
 </div>
 
-<div class="container" style="max-width: 910px">
-	<div class="col-md-10">
-		<div class="row text-left">
-			<a class="btn btn-primary" data-toggle="modal" href='#modal-id'>Nhập chi tiêu</a>
+<div class="container" style="max-width: 950px">
+	<div class="row">
+		<div class="col-md-10">
+			<div class="text-left">
+				<a class="btn btn-primary" data-toggle="modal" href='#modal-id'>Nhập chi tiêu</a>
+			</div>
 		</div>
 	</div>
+
 	<div class="table-responsive">
 		<table class="table table-bordered table-striped" style="display: block;overflow: scroll; height: 600px;">
 			<thead>

@@ -298,6 +298,7 @@ class MY_Table extends MY_Controller {
         if ($this->controller == 'class_study') {
         	foreach ($this->data['rows'] as &$value) {
 				$value['number_student'] = $this->get_student_current($value['class_study_id']);
+				$value['notes'] = $this->get_note($value['id']);
 			}
 		}
         unset($value);
@@ -1076,6 +1077,21 @@ class MY_Table extends MY_Controller {
 			'level_contact_id' => 'L5'
 		);
     	return count($this->contacts_model->load_all($input));
+	}
+
+	private function get_note($class_id) {
+    	$this->load->model('notes_model');
+		$input = array();
+		$input['where'] = array('class_study_id' => $class_id);
+		$input['order'] = array('id' => 'DESC');
+		$last_note = $this->notes_model->load_all($input);
+		$notes = '';
+		if (!empty($last_note)) {
+			foreach ($last_note as $value2) {
+				$notes .= '<p>' . date('d/m/Y', $value2['time_created']) . ' ==> ' . $value2['content'] . '</p>';
+			}
+		}
+		return $notes;
 	}
 
 //	public function search($offset = 0) {

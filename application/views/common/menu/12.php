@@ -16,7 +16,6 @@
 	</div>
 
 	<ul class="list-unstyled components">
-
 <!--		<li>-->
 <!--			<a href="--><?php //echo base_url('staff_managers/class_time'); ?><!--">-->
 <!--				<img src="--><?php //echo base_url(); ?><!--public/images/view-all.png">-->
@@ -53,25 +52,33 @@
 		</li>
 
 		<li>
-			<a href="<?php echo base_url('staff_managers/classroom'); ?>">
+			<a href="#submenu_manager" data-toggle="collapse" aria-expanded="false">
 				<img src="<?php echo base_url(); ?>public/images/view-all.png">
-				<span> Quản lý phòng học
+				<span>Quản lý</span>
+			</a>
+			<ul class="collapse list-unstyled" id="submenu_manager">
+				<li>
+					<a href="<?php echo base_url('staff_managers/classroom'); ?>">
+						<img src="<?php echo base_url(); ?>public/images/view-all.png">
+						<span> Quản lý phòng học
                 </span>
-			</a>
-		</li>
+					</a>
+				</li>
 
-		<li>
-			<a href="<?php echo base_url('staff_managers/class_study'); ?>">
-				<img src="<?php echo base_url(); ?>public/images/view-all.png">
-				<span> Quản lý lớp học </span>
-			</a>
-		</li>
+				<li>
+					<a href="<?php echo base_url('staff_managers/class_study'); ?>">
+						<img src="<?php echo base_url(); ?>public/images/view-all.png">
+						<span> Quản lý lớp học </span>
+					</a>
+				</li>
 
-		<li>
-			<a href="<?php echo base_url('staff_managers/teacher'); ?>">
-				<img src="<?php echo base_url(); ?>public/images/view-all.png">
-				<span> Quản lý giảng viên </span>
-			</a>
+				<li>
+					<a href="<?php echo base_url('staff_managers/teacher'); ?>">
+						<img src="<?php echo base_url(); ?>public/images/view-all.png">
+						<span> Quản lý giảng viên </span>
+					</a>
+				</li>
+			</ul>
 		</li>
 
 		<li>
@@ -84,7 +91,7 @@
 		<li>
 			<a href="<?php echo base_url('student/cost_branch'); ?>">
 				<img src="<?php echo base_url(); ?>public/images/add-contact.png">
-				<span> Cập nhật chi phí tại cơ sở </span>
+				<span> Cập nhật chi tiêu tại cơ sở </span>
 			</a>
 		</li>
 

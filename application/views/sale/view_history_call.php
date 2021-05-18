@@ -12,7 +12,7 @@
 	</div>
 </div>
 
-<div class="container" style="width: 950px">
+<div class="container" style="max-width: 950px">
 	<div class="table-responsive">
 		<table class="table table-bordered table-striped" style="display: block;overflow: scroll; height: 600px;">
 			<thead>
