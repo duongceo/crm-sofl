@@ -193,7 +193,7 @@ class Student extends MY_Controller {
 			unset($branch[8]);
 			$data['branch'] = $branch;
 		} else {
-			$branch[] = array('id' => $this->branch_id);
+			$branch[] = array('id' => $this->branch_id, 'name' => $this->branch_model->find_branch_name($this->branch_id));
 		}
 		$input['order']['day_cost'] = 'desc';
 
@@ -210,6 +210,7 @@ class Student extends MY_Controller {
 		if (isset($post) && !empty($post)) {
 			$param['cost'] = $post['cost'];
 			$param['content_cost'] = $post['content_cost'];
+			$param['revenue_cost'] = (isset($post['revenue_cost'])) ? $post['revenue_cost'] : 0;
 			$param['day_cost'] = strtotime(str_replace("/", "-", $post['day_cost']));
 			$param['time_created'] = time();
 			$param['branch_id'] = $this->branch_id;
@@ -220,7 +221,8 @@ class Student extends MY_Controller {
 
 		$date_for_report = $this->display_date($date_from_arr, $date_end_arr);
 
-		$report = array();
+		$report_cost = array();
+		$report_revenue = array();
 		foreach ($date_for_report as $value_date) {
 			foreach ($branch as $value_branch) {
 				$input_report['select'] = 'SUM(cost) AS COST';
@@ -231,16 +233,27 @@ class Student extends MY_Controller {
 				if (isset($input['where_in'])) {
 					$input_report['where_in'] = $input['where_in'];
 				}
-				$cost_day = $this->cost_branch_model->load_all($input_report);
+
+				$input_cost = array_merge_recursive($input_report, array('where' => array('revenue_cost' => '0')));
+				$input_revenue = array_merge_recursive($input_report, array('where' => array('revenue_cost' => 1)));
+
+				$cost_day = $this->cost_branch_model->load_all($input_cost);
 				if (!empty($cost_day)) {
-					$report[$value_branch['name']]['total'] += $cost_day[0]['COST'];
-					$report[$value_branch['name']][$value_date] = $cost_day[0]['COST'];
+					$report_cost[$value_branch['name']]['total'] += $cost_day[0]['COST'];
+					$report_cost[$value_branch['name']][$value_date] = $cost_day[0]['COST'];
+				}
+
+				$revenue_day = $this->cost_branch_model->load_all($input_revenue);
+				if (!empty($revenue_day)) {
+					$report_revenue[$value_branch['name']]['total'] += $revenue_day[0]['COST'];
+					$report_revenue[$value_branch['name']][$value_date] = $revenue_day[0]['COST'];
 				}
 			}
 		}
 
 		$data['cost'] = $cost;
-		$data['report'] = $report;
+		$data['report_cost'] = $report_cost;
+		$data['report_revenue'] = $report_revenue;
 		$data['date'] = array_reverse($date_for_report);
 		$data['total_cost'] = str_replace(',', '.', number_format($total_cost));
 		$data['startDate'] = isset($date_from) ? $date_from : '0';

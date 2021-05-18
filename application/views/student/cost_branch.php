@@ -1,6 +1,6 @@
 
 <div class="row">
-	<h1 class="text-center">Nhật ký chi tiêu từ ngày <?php echo date('d-m-Y', $startDate); ?> đến ngày <?php echo date('d-m-Y', $endDate); ?></h1>
+	<h1 class="text-center">Nhật ký thu chi từ ngày <?php echo date('d-m-Y', $startDate); ?> đến ngày <?php echo date('d-m-Y', $endDate); ?></h1>
 	<h1 class="text-center marginbottom35" style="color: #04a2df"> Tổng chi tiêu : <?php echo $total_cost; ?> VNĐ</h1>
 
 	<div class="row">
@@ -16,7 +16,7 @@
 	<div class="row">
 		<div class="col-md-10">
 			<div class="text-left">
-				<a class="btn btn-primary" data-toggle="modal" href='#modal-id'>Nhập chi tiêu</a>
+				<a class="btn btn-primary" data-toggle="modal" href='#modal-id'>Nhập thu chi</a>
 			</div>
 		</div>
 	</div>
@@ -59,26 +59,27 @@
 		</table>
 	</div>
 </div>
-<br>
+
 <hr>
+<h3 class="text-center">Thống kê chi tiêu</h3>
 <div class="row">
 	<div class="col-lg-2 col-md-2 col-xs-5" style="padding-right: 0">
 		<div class="table-responsive">
 			<table class="table table-bordered table-striped view_report">
 				<thead class="table-head-pos">
-				<tr>
-					<th style="height: 50px; background: none;"></th>
-					<th style="background-color: #147c67"">Tổng chi tiêu</th>
-				</tr>
+					<tr>
+						<th style="height: 50px; background: none;"></th>
+						<th style="background-color: #147c67"">Tổng chi tiêu</th>
+					</tr>
 				</thead>
 
 				<tbody>
-				<?php foreach ($report as $key_report => $item_report) { ?>
-					<tr>
-						<td style="background: #48baad; height: 50px;"> <?php echo $key_report; ?> </td>
-						<td> <?php echo number_format($item_report['total'], 0, ",", "."); ?> </td>
-					</tr>
-				<?php } ?>
+					<?php foreach ($report_cost as $key_report => $item_report_cost) { ?>
+						<tr>
+							<td style="background: #48baad; height: 50px;"> <?php echo $key_report; ?> </td>
+							<td> <?php echo number_format($item_report_cost['total'], 0, ",", "."); ?> </td>
+						</tr>
+					<?php } ?>
 				</tbody>
 			</table>
 		</div>
@@ -86,22 +87,71 @@
 
 	<div class="col-lg-10 col-md-10 col-xs-7" style="padding-left: 0">
 		<div class="table-responsive">
-			<table class="table table-bordered table-striped view_report gr4-table" style="display: block;overflow: scroll">
+			<table class="table table-bordered table-striped view_report gr4-table">
 				<thead class="table-head-pos">
-				<tr>
-					<?php foreach ($date as $item) { ?>
-						<th style="min-width: 180px; height: 50px; background-color: #4689c8"> <?php echo $item ?></th>
-					<?php } ?>
-				</tr>
-				</thead>
-				<tbody>
-				<?php foreach ($report as $key_report => $item_report) { ?>
 					<tr>
 						<?php foreach ($date as $item) { ?>
-							<td style="height: 50px;"><?php echo number_format($item_report[$item], 0, ",", ".")?></td>
+							<th style="min-width: 180px; height: 50px; background-color: #4689c8"> <?php echo $item ?></th>
 						<?php } ?>
 					</tr>
-				<?php } ?>
+				</thead>
+				<tbody>
+					<?php foreach ($report_cost as $key_report => $item_report) { ?>
+						<tr>
+							<?php foreach ($date as $item) { ?>
+								<td style="height: 50px;"><?php echo number_format($item_report[$item], 0, ",", ".")?></td>
+							<?php } ?>
+						</tr>
+					<?php } ?>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<hr>
+<h3 class="text-center">Thống kê nguồn thu khác ngoài học phí</h3>
+<div class="row">
+	<div class="col-lg-2 col-md-2 col-xs-5" style="padding-right: 0">
+		<div class="table-responsive">
+			<table class="table table-bordered table-striped view_report">
+				<thead class="table-head-pos">
+					<tr>
+						<th style="height: 50px; background: none;"></th>
+						<th style="background-color: #147c67"">Tổng thu</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<?php foreach ($report_revenue as $key_report => $item_report) { ?>
+						<tr>
+							<td style="background: #48baad; height: 50px;"> <?php echo $key_report; ?> </td>
+							<td> <?php echo number_format($item_report['total'], 0, ",", "."); ?> </td>
+						</tr>
+					<?php } ?>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<div class="col-lg-10 col-md-10 col-xs-7" style="padding-left: 0">
+		<div class="table-responsive">
+			<table class="table table-bordered table-striped view_report gr4-table">
+				<thead class="table-head-pos">
+					<tr>
+						<?php foreach ($date as $item) { ?>
+							<th style="min-width: 180px; height: 50px; background-color: #4689c8"> <?php echo $item ?></th>
+						<?php } ?>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach ($report_revenue as $key_report => $item_report) { ?>
+						<tr>
+							<?php foreach ($date as $item) { ?>
+								<td style="height: 50px;"><?php echo number_format($item_report[$item], 0, ",", ".")?></td>
+							<?php } ?>
+						</tr>
+					<?php } ?>
 				</tbody>
 			</table>
 		</div>
@@ -113,7 +163,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title">Nhập chi phí</h4>
+				<h4 class="modal-title">Nhập thu chi</h4>
 			</div>
 			<div class="modal-body">
 				<form action="<?php echo base_url('student/cost_branch') ?>" method="POST" class="form-inline" role="form">
@@ -148,6 +198,14 @@
 										</div>
 									</td>
 								</tr>
+								<tr>
+									<td class="text-right">
+										Thu Khác - Chi Tiêu
+									</td>
+									<td>
+										<input type="checkbox" name="revenue_cost" value="1" data-off-text="Chi Tiêu" data-on-text="Thu khác" data-handle-width="100">
+									</td>
+								</tr>
 							</table>
 						</div>
 						<div class="text-center">
@@ -159,3 +217,7 @@
 		</div>
 	</div>
 </div>
+
+<script>
+	$("[name='revenue_cost']").bootstrapSwitch();
+</script>
