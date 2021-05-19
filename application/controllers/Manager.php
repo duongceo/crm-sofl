@@ -822,7 +822,7 @@ class Manager extends MY_Controller {
 		$require_model = array(
 			'language_study' => array(
 				'where' => array(
-					'no_report' => '0'
+					'out_report' => '0'
 				)
 			),
 			'branch' => array()
@@ -1081,7 +1081,7 @@ class Manager extends MY_Controller {
 			'branch' => array(),
 			'language_study' => array(
 				'where' => array(
-					'no_report' => '0'
+					'active' => 1
 				)
 			),
 			'source_revenue' => array()
@@ -1263,7 +1263,7 @@ class Manager extends MY_Controller {
 			'branch' => array(),
 			'language_study' => array(
 				'where' => array(
-					'no_report' => '0'
+					'out_report' => '0'
 				)
 			),
 		);
@@ -1398,7 +1398,7 @@ class Manager extends MY_Controller {
 		$require_model = array(
 			'language_study' => array(
 				'where' => array(
-					'no_report' => '0'
+					'out_report' => '0'
 				)
 			),
 			'sources' => array(
@@ -1633,7 +1633,7 @@ class Manager extends MY_Controller {
 			),
 			'language_study' => array(
 				'where' => array(
-					'no_report' => '0'
+					'out_report' => '0'
 				)
 			),
 		);
@@ -1779,7 +1779,7 @@ class Manager extends MY_Controller {
 			'branch' => array(),
 			'language_study' => array(
 				'where' => array(
-					'no_report' => '0'
+					'out_report' => '0'
 				)
 			),
 		);
@@ -1877,7 +1877,7 @@ class Manager extends MY_Controller {
 		$require_model = array(
 			'language_study' => array(
 				'where' => array(
-					'no_report' => '0'
+					'out_report' => '0'
 				)
 			),
 		);
@@ -1957,7 +1957,7 @@ class Manager extends MY_Controller {
 			'branch' => array(),
 			'language_study' => array(
 				'where' => array(
-					'no_report' => '0'
+					'out_report' => '0'
 				)
 			),
 			'level_study' => array(
@@ -2240,7 +2240,7 @@ class Manager extends MY_Controller {
 		$require_model = array(
 			'language_study' => array(
 				'where' => array(
-					'no_report' => '0'
+					'out_report' => '0'
 				)
 			),
 			'sources' => array(
@@ -2701,7 +2701,7 @@ class Manager extends MY_Controller {
 		
 		$this->load->model('language_study_model');
 		$this->load->model('paid_model');
-		$input['where']['no_report'] = '0';
+		$input['where']['out_report'] = '0';
 		$input['where']['active'] = 1;
 		$language = $this->language_study_model->load_all($input);
 		
