@@ -2627,7 +2627,8 @@ class Manager extends MY_Controller {
 		
 		$this->load->model('language_study_model');
 		$this->load->model('paid_model');
-		$input['where']['no_report'] = '0';
+//		$input['where']['no_report'] = '0';
+		$input['where']['active'] = 1;
 		$language = $this->language_study_model->load_all($input);
 		
 		$total_new = 0;
@@ -2665,7 +2666,6 @@ class Manager extends MY_Controller {
 		$total_month_L8 = 500;
 
         $progress = [];
-		$input['where']['no_report'] = '0';
         $inputContact['select'] = 'id';
         $inputContact['where'] = array('date_rgt >' => strtotime(date('01-m-Y')));
         $today = $this->contacts_model->load_all($inputContact);
@@ -2701,7 +2701,7 @@ class Manager extends MY_Controller {
 		
 		$this->load->model('language_study_model');
 		$this->load->model('paid_model');
-		$input['where']['no_report'] = '0';
+		$input['where']['active'] = 1;
 		$language = $this->language_study_model->load_all($input);
 		
 		$total_new = 0;
