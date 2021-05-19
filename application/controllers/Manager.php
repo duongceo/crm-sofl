@@ -2627,7 +2627,7 @@ class Manager extends MY_Controller {
 		
 		$this->load->model('language_study_model');
 		$this->load->model('paid_model');
-		$input['where']['no_report'] = '0';
+		$input['where']['out_report'] = '0';
 		$input['where']['active'] = 1;
 		$language = $this->language_study_model->load_all($input);
 		
@@ -2701,6 +2701,7 @@ class Manager extends MY_Controller {
 		
 		$this->load->model('language_study_model');
 		$this->load->model('paid_model');
+		$input['where']['no_report'] = '0';
 		$input['where']['active'] = 1;
 		$language = $this->language_study_model->load_all($input);
 		
