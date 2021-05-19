@@ -130,7 +130,7 @@ class Class_study extends MY_Table {
 			'branch' => array(),
 			'language_study' => array(
 				'where' => array(
-					'no_report' => '0'
+					'out_report' => '0'
 				)
 			),
 			'level_language' => array(),
@@ -600,9 +600,9 @@ class Class_study extends MY_Table {
 		 } else echo '';
 	 }
 	 
-	function get_class_from_web() {
-		$post = $this->input->post();
-		print_arr($post);
-	}
+//	function get_class_from_web() {
+//		$post = $this->input->post();
+//		print_arr($post);
+//	}
 
 }
