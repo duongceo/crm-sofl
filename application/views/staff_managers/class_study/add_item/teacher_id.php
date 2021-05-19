@@ -1,11 +1,14 @@
 
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
+
 <tr>
 
-	<td class="text-right"> Giảng viên </td>
+	<td class="text-right">Giảng viên </td>
 
 	<td>
 
-		<select class="form-control select_course_code selectpicker" name="add_teacher_id">
+		<select class="form-control teacher_id_select" name="add_teacher_id">
 
 			<option value="0"> Chọn giảng viên</option>
 
@@ -20,3 +23,11 @@
 	</td>
 
 </tr>
+
+<script>
+	$(document).ready(function() {
+		$('.teacher_id_select').select2({
+			width: '100%',
+		});
+	});
+</script>

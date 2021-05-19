@@ -236,7 +236,6 @@ class Class_study extends MY_Table {
 				'total_lesson' => array(),
 				'lesson_learned' => array(),
 				'lecture' => array(),
-
 			),
 
 			'right_table' => array(
