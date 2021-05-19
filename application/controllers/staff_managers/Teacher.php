@@ -38,9 +38,13 @@ class Teacher extends MY_Table {
 			'email' => array(
 				'name_display' => 'Email',
 			),
+			'bank' => array(
+				'name_display' => 'Số tài khoản',
+			),
 			'branch' => array(
+				'type' => 'custom',
+				'value' => $this->get_data_from_model('branch'),
 				'name_display' => 'Cơ sở',
-				'display' => 'none'
 			),
 			'language' => array(
 				'type' => 'custom',
@@ -63,11 +67,6 @@ class Teacher extends MY_Table {
 	public function index($offset = 0) {
 		$require_model = array(
 			'branch' => array(),
-			'language_study' => array(
-				'where' => array(
-					'out_report' => '0'
-				)
-			),
 		);
 
 		$this->data = $this->_get_require_data($require_model);
@@ -109,6 +108,7 @@ class Teacher extends MY_Table {
 			'left_table' => array(
 				'name' => array(),
 				'phone' => array(),
+				'bank' => array(),
 				'language_id' => array(
 					'type' => 'array',
 					'value' => $this->get_data_from_model('language_study')
@@ -143,7 +143,7 @@ class Teacher extends MY_Table {
 				redirect_and_die('Trạng thái hoạt động là 0 hoặc 1!');
 			}
 
-			$paramArr = array('phone', 'branch_id', 'language_id', 'email', 'name', 'active');
+			$paramArr = array('phone', 'branch_id', 'language_id', 'email', 'bank', 'name', 'active');
 
 			foreach ($paramArr as $value) {
 
@@ -167,6 +167,7 @@ class Teacher extends MY_Table {
 			'left_table' => array(
 				'name' => array(),
 				'phone' => array(),
+				'bank' => array(),
 				'language_id' => array(
 					'type' => 'array',
 					'value' => $this->get_data_from_model('language_study')
@@ -206,7 +207,7 @@ class Teacher extends MY_Table {
 //				redirect_and_die('Mã ngôn ngữ này đã tồn tại!');
 //			}
 
-			$paramArr = array('phone', 'email', 'branch_id', 'language_id', 'name', 'active');
+			$paramArr = array('phone', 'email', 'branch_id', 'language_id', 'bank', 'name', 'active');
 
 			foreach ($paramArr as $value) {
 
