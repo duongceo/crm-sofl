@@ -771,6 +771,7 @@ class MY_Table extends MY_Controller {
                 if ($key == 'filter_distance') {
                 	if ($value == 'gd2') {
 						$input_get['where']['lesson_learned = FLOOR(total_lesson/2)'] = 'NO-VALUE';
+						$input_get['where']['character_class_id'] = 2;
 					} else if ($value == 'gd3') {
 						$query = 'FLOOR((`time_end_expected` - ' . time() . ') / (60 * 60 * 24)) = 9';
 						$input_get['where'][$query] = 'NO-VALUE';
