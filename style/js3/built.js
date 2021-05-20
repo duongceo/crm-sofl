@@ -3762,7 +3762,7 @@ $(document).on('click', '.update_data_inline', function(e) {
 	e.preventDefault();
 	let value_current = $(this).parent().find('.value_current').val();
 	let form = '<form class="form-inline"> ' +
-		'<input style="max-width: 50%" type="text" value='+value_current+'> ' +
+		'<input style="max-width: 43%" type="text" value='+value_current+'> ' +
 		'<button class="update_inline_now">OK</button> ' +
 		'</form>';
 
