@@ -88,18 +88,13 @@ class Classroom extends MY_Table {
 
 		/*type mặc định là text nên nếu là text sẽ không cần khai báo*/
 
-		$this->load->model('branch_model');
-
-		$input = array();
-
-		$input['where'] = array('active' => 1);
-
-		$branch = $this->branch_model->load_all($input);
-
 		$this->list_add = array(
 			'left_table' => array(
 				'classroom_id' => array(),
-				'branch_id' => array('type' => 'array', 'value' => $branch)
+				'branch_id' => array(
+					'type' => 'array',
+					'value' => $this->get_data_from_model('branch'),
+				),
 			),
 			'right_table' => array(
 				'number_student_max' => array(),

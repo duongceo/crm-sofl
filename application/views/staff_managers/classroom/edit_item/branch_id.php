@@ -5,11 +5,11 @@
 
 	<td>
 
-		<select class="form-control select_course_code selectpicker" name="edit_branch_id">
+		<select class="form-control selectpicker" name="edit_branch_id">
 
 			<option value=""> Chọn cơ sở</option>
 
-			<?php foreach ($arr as $value) { ?>
+			<?php foreach ($arr as $key => $value) { ?>
 
 				<option value="<?php echo $value['id'] ?>" <?php echo ($row['branch_id'] == $value['id'])?'selected':''?>> <?php echo $value['name'] ?></option>
 
