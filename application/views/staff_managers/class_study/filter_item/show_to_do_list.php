@@ -100,10 +100,10 @@
 						</div>
 						<div class="col-md-3 col-xs-6">
 							<div class="panel panel-danger text-center">
-								<div class="panel-heading">Các lớp đã kết thức</div>
+								<div class="panel-heading">Lớp đã kết thức</div>
 								<div class="panel-body">
 									<div class="panel panel-warning text-center">
-										<div class="panel-heading">Các lớp đã kết thức</div>
+										<div class="panel-heading">Lớp đã kết thức</div>
 										<div class="panel-body">
 											<a class="btn btn-success btn-block" href="<?php echo base_url().'staff_managers/class_study?filter_arr_character_class_id=3'?>">Lọc</a>
 										</div>
