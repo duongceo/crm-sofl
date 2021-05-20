@@ -72,9 +72,11 @@ class Class_study extends MY_Table {
 				'name_display' => 'Tổng số buổi',
 			),
 			'lesson_learned' => array(
+				'type' => 'custom',
 				'name_display' => 'Số buổi đã học',
 			),
 			'lecture' => array(
+				'type' => 'custom',
 				'name_display' => 'Tiến độ bài giảng',
 			),
 			'salary_per_hour' => array(
@@ -117,6 +119,10 @@ class Class_study extends MY_Table {
 			'notes' => array(
 				'type' => 'custom',
 				'name_display' => 'Ghi chú'
+			),
+			'date_last_update' => array(
+				'type' => 'custom',
+				'name_display' => 'Cập nhật cuối'
 			)
 		);
 		//print_arr($list_view);
@@ -243,7 +249,9 @@ class Class_study extends MY_Table {
 					'type' => 'array',
 					'value' => $this->get_data_from_model('teacher')
 				),
-				'salary_per_hour' => array(),
+				'salary_per_hour' => array(
+					'type' => 'custom'
+				),
 				'time_start' => array(
 					'type' => 'datetime'
 				),
@@ -287,7 +295,7 @@ class Class_study extends MY_Table {
 //			}
 
 			$paramArr = array('class_study_id', 'classroom_id', 'branch_id', 'level_language_id', 'language_id', 'day_id', 'time_id',
-				'number_student', 'number_student_max', 'total_lesson', 'lesson_learned', 'lecture', 'salary_per_hour', 'teacher_id', 'character_class_id', 'status', 'active');
+				'number_student', 'number_student_max', 'total_lesson', 'lesson_learned', 'lecture', 'teacher_id', 'character_class_id', 'status', 'active');
 
 			foreach ($paramArr as $value) {
 
@@ -296,6 +304,10 @@ class Class_study extends MY_Table {
 					$param[$value] = $post['add_' . $value];
 
 				}
+			}
+
+			if ($post['add_salary_per_hour'] != 0) {
+				$param['salary_per_hour'] = str_replace(',', '', $post['add_salary_per_hour']);
 			}
 
 			$param_time = array('time_start', 'time_end_expected', 'time_end_real');
@@ -368,7 +380,9 @@ class Class_study extends MY_Table {
 					'type' => 'array',
 					'value' => $this->get_data_from_model('teacher')
 				),
-				'salary_per_hour' => array(),
+				'salary_per_hour' => array(
+					'type' => 'custom'
+				),
 				'time_start' => array(
 					'type' => 'datetime'
 				),
@@ -420,7 +434,7 @@ class Class_study extends MY_Table {
 			}
 
 			$paramArr = array('class_study_id', 'branch_id', 'classroom_id', 'level_language_id', 'language_id', 'day_id', 'time_id',
-				'number_student_max', 'total_lesson', 'lesson_learned', 'lecture', 'salary_per_hour', 'teacher_id', 'active', 'character_class_id', 'status');
+				'number_student_max', 'total_lesson', 'lesson_learned', 'lecture', 'teacher_id', 'active', 'character_class_id', 'status');
 
 			foreach ($paramArr as $value) {
 
@@ -429,6 +443,11 @@ class Class_study extends MY_Table {
 					$param[$value] = $post['edit_' . $value];
 
 				}
+
+			}
+
+			if ($post['edit_salary_per_hour'] != 0) {
+				$param['salary_per_hour'] = str_replace(',', '', $post['edit_salary_per_hour']);
 			}
 
 			$param_time = array('time_start', 'time_end_expected', 'time_end_real');
@@ -598,10 +617,36 @@ class Class_study extends MY_Table {
 			 echo $context;die();
 		 } else echo '';
 	 }
+
+	 function update_data_inline() {
+		 $post = $this->input->post();
+		 $response = array();
+
+		 if (!empty($post['data_now'])) {
+			 $where = array('id' => $post['class_id']);
+			 if ($post['column'] == 'lesson_learned') {
+				 $param['lesson_learned'] = $post['data_now'];
+			 } else if ($post['column'] == 'lecture') {
+				 $param['lecture'] = $post['data_now'];
+			 }
+			 $param['date_last_update'] = time();
+
+			 if ($this->{$this->model}->update($where, $param)) {
+				 $response['success'] = 1;
+			 } else {
+				 $response['success'] = 0;
+			 }
+		 } else {
+			 $response['success'] = 0;
+		 }
+
+		 echo json_encode($response);
+		 die;
+	 }
 	 
 //	function get_class_from_web() {
 //		$post = $this->input->post();
-//		print_arr($post);
+//
 //	}
 
 }

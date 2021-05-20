@@ -37,6 +37,9 @@ class Classroom extends MY_Table {
 				'value' => $this->get_data_from_model('branch'),
 				'name_display' => 'Cơ sở - chi nhánh',
 			),
+			'number_student_max' => array(
+				'name_display' => 'Sĩ số tối đa',
+			),
 			'active' => array(
 				'type' => 'active',
 				'name_display' => 'Hoạt động'
@@ -99,6 +102,7 @@ class Classroom extends MY_Table {
 				'branch_id' => array('type' => 'array', 'value' => $branch)
 			),
 			'right_table' => array(
+				'number_student_max' => array(),
 				'active' => array(
 					'type' => 'active'
 				)
@@ -128,7 +132,7 @@ class Classroom extends MY_Table {
 				redirect_and_die('Trạng thái hoạt động là 0 hoặc 1!');
 			}
 
-			$paramArr = array('classroom_id', 'branch_id', 'active');
+			$paramArr = array('classroom_id', 'branch_id', 'number_student_max', 'active');
 
 			foreach ($paramArr as $value) {
 
@@ -162,6 +166,7 @@ class Classroom extends MY_Table {
 				'branch_id' => array('type' => 'array', 'value' => $branch)
 			),
 			'right_table' => array(
+				'number_student_max' => array(),
 				'active' => array(
 					'type' => 'active'
 				)
@@ -190,7 +195,7 @@ class Classroom extends MY_Table {
 				redirect_and_die('Mã phòng học này đã tồn tại!');
 			}
 
-			$paramArr = array('classroom_id', 'branch_id', 'active');
+			$paramArr = array('classroom_id', 'branch_id', 'number_student_max', 'active');
 
 			foreach ($paramArr as $value) {
 

@@ -46,7 +46,7 @@ foreach ($rows as $row) {
                         break;
 
                     case 'datetime':
-						$time = ($row[$columm_name]!= 0)?date('d/m/Y', $row[$columm_name]):'';
+						$time = ($row[$columm_name] != 0) ? date('d/m/Y', $row[$columm_name]) : '';
                         echo '<td class="text-center tbl_' . $columm_name . '">' . $time . '</td>';
 
 						break;
@@ -104,9 +104,4 @@ foreach ($rows as $row) {
         ?>
     </tr>
 
-<?php }
-
-?>
-
-</tr>
-
+<?php } ?>

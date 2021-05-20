@@ -3758,3 +3758,64 @@ $(document).on('click', '.merge_contact', function (e) {
 	$(".merge_contact_modal").modal("show");
 });
 
+$(document).on('click', '.update_data_inline', function(e) {
+	e.preventDefault();
+	let value_current = $(this).parent().find('.value_current').val();
+	let form = '<form class="form-inline"> ' +
+		'<input style="max-width: 50%" type="text" value='+value_current+'> ' +
+		'<button class="update_inline_now">OK</button> ' +
+		'</form>';
+
+	$(this).parent().html(form);
+});
+
+$(document).on('click', '.update_inline_now', function (e) {
+	e.preventDefault();
+	let url =  $("#base_url").val() + 'staff_managers/class_study/update_data_inline';
+	let data_now = $(this).parent().find('input').val();
+	let column = $(this).parent().attr('column');
+	let class_id = $(this).parent().parent().attr('item_id');
+
+	$.ajax({
+		url: url,
+		type: 'POST',
+		dataType: 'json',
+		data: {
+			data_now : data_now,
+			column : column,
+			class_id: class_id
+		},
+		// beforeSend: function() {
+		// 	$(".popup-wrapper").show();
+		// },
+		success: function (data) {
+			if (data.success == 1) {
+				let content = data_now + '&nbsp; <input type="hidden" class="value_current" value='+data_now+'>' +
+					'<button style="margin-right: 0" type="button" class="btn btn-default btn-sm update_data_inline">' +
+					'<span class="glyphicon glyphicon-edit"></span>' +
+					'</button>';
+
+				let today = new Date();
+				let dd = String(today.getDate()).padStart(2, '0');
+				let mm = String(today.getMonth() + 1).padStart(2, '0');
+				let yyyy = today.getFullYear();
+
+				today = dd + '/' + mm + '/' + yyyy;
+
+				$('.update_inline_now').parent().html(content);
+				$('.date_last_update_class').text(today);
+			} else {
+				alert('Nhập giá trị vào ô');
+			}
+		},
+		error: function(errorThrown) {
+			alert(errorThrown);
+			$(".popup-wrapper").hide();
+		},
+		complete: function() {
+			$(".popup-wrapper").hide();
+		},
+	});
+});
+
+
