@@ -1936,9 +1936,9 @@ class Manager extends MY_Controller {
 		$conditional_date['where']['date_customer_care_call >='] = $startDate;
 		$conditional_date['where']['date_customer_care_call <='] = $endDate;
 
-		$conditional_today = array();
-		$conditional_today['where']['date_customer_care_call >='] = $date_today_start;
-		$conditional_today['where']['date_customer_care_call <='] = $date_today_end;
+		$conditional_date_today = array();
+		$conditional_date_today['where']['date_customer_care_call >='] = $date_today_start;
+		$conditional_date_today['where']['date_customer_care_call <='] = $date_today_end;
 
 		$staff_customer_care_today = array();
 		foreach ($conditionArr as $key2 => $value2) {
@@ -1947,9 +1947,11 @@ class Manager extends MY_Controller {
 				$conditional_staff = array();
 				$conditional_staff['where']['customer_care_staff_id'] = $value_staff['id'];
 				$conditional = array_merge_recursive($conditional_staff, $conditional_date, $value2);
-				$conditional_today = array_merge_recursive($conditional_staff, $conditional_today, $value2);
 				$staff_customer_care[$key_staff][$key2] = $this->_query_for_report($get, $conditional);
+
+				$conditional_today = array_merge_recursive($conditional_staff, $conditional_date_today, $value2);
 				$staff_customer_care_today[$key_staff][$key2] = $this->_query_for_report($get, $conditional_today);
+
 				$temp_cc += $staff_customer_care[$key_staff][$key2];
 				$data[$key2] = $temp_cc;
 			}

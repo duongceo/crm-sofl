@@ -15,6 +15,17 @@
 
 </form>
 
+<?php
+	$report = array(
+		array('Xử Lý', 'XU_LY', $XU_LY),
+		array('Nghe Máy', 'NGHE_MAY', $NGHE_MAY),
+		array('Ko Nghe Máy', 'KO_NGHE_MAY', $KO_NGHE_MAY),
+		array('Tham khảo', 'THAM_KHAO', $THAM_KHAO),
+		array('Đồng ý đăng ký', 'DONG_Y', $DONG_Y),
+		array('Từ chối', 'TU_CHOI', $TU_CHOI),
+	);
+?>
+
 <div class="table-responsive">
 
 	<table class="table table-bordered table-striped view_report gr4-table ">
@@ -48,15 +59,6 @@
 		<tbody>
 
 			<?php
-
-			$report = array(
-				array('Xử Lý', 'XU_LY', $XU_LY),
-				array('Nghe Máy', 'NGHE_MAY', $NGHE_MAY),
-				array('Ko Nghe Máy', 'KO_NGHE_MAY', $KO_NGHE_MAY),
-				array('Tham khảo', 'THAM_KHAO', $THAM_KHAO),
-				array('Đồng ý đăng ký', 'DONG_Y', $DONG_Y),
-				array('Từ chối', 'TU_CHOI', $TU_CHOI),
-			);
 
 			foreach ($report as $values) {
 
@@ -123,12 +125,12 @@
 					</th>
 
 				<?php } ?>
-
-				<th class="staff_sum">
-
-					Tổng
-
-				</th>
+<!---->
+<!--				<th class="staff_sum">-->
+<!---->
+<!--					Tổng-->
+<!---->
+<!--				</th>-->
 
 			</tr>
 
@@ -137,15 +139,6 @@
 		<tbody>
 
 			<?php
-
-			$report = array(
-				array('Xử Lý', 'XU_LY', $XU_LY),
-				array('Nghe Máy', 'NGHE_MAY', $NGHE_MAY),
-				array('Ko Nghe Máy', 'KO_NGHE_MAY', $KO_NGHE_MAY),
-				array('Tham khảo', 'THAM_KHAO', $THAM_KHAO),
-				array('Đồng ý đăng ký', 'DONG_Y', $DONG_Y),
-				array('Từ chối', 'TU_CHOI', $TU_CHOI),
-			);
 
 			foreach ($report as $values) {
 
@@ -167,11 +160,11 @@
 
 					<?php } ?>
 
-					<td class="show_detail">
-
-						<?php echo $total; ?>
-
-					</td>
+<!--					<td class="show_detail">-->
+<!---->
+<!--						--><?php //echo $total; ?>
+<!---->
+<!--					</td>-->
 
 				</tr>
 
