@@ -1633,7 +1633,7 @@ class Manager extends MY_Controller {
 			),
 			'language_study' => array(
 				'where' => array(
-					'out_report' => '0'
+					'active' => 1
 				)
 			),
 		);
@@ -1704,8 +1704,8 @@ class Manager extends MY_Controller {
 			$conditional_language['where']['language_id'] = $value_language['id'];
 //			$conditional_source['where_not_in']['sale_staff_id'] = array(5);
 
-			foreach ($conditionArr as $key_condition => $value) {
-				foreach ($data['staffs'] as $value_sale) {
+			foreach ($data['staffs'] as $value_sale) {
+				foreach ($conditionArr as $key_condition => $value) {
 					$conditional_sale = array();
 					$conditional_sale['where']['sale_staff_id'] = $value_sale['id'];
 					$conditional = array_merge_recursive($conditional_sale, $conditional_language, $value);
@@ -1713,6 +1713,10 @@ class Manager extends MY_Controller {
 //					$report[$value_language['name']][$value_sale['name']]['RE'] = $this->get_re(array_merge_recursive($conditional_1, $conditional_language), $startDate, $endDate);
 					$report[$value_language['name']][$value_sale['name']][$key_condition] = $this->_query_for_report($get, $conditional);
 
+				}
+
+				if ($report[$value_language['name']][$value_sale['name']]['L1'] == 0 && $report[$value_language['name']][$value_sale['name']]['L5'] == 0) {
+					unset($report[$value_language['name']][$value_sale['name']]);
 				}
 			}
 
@@ -1887,7 +1891,7 @@ class Manager extends MY_Controller {
 
 		$input = array();
 		$input['where'] = array('role_id' => 10, 'active' => 1);
-		$staff_customer_care= $this->staffs_model->load_all($input);
+		$staff_customer_care_today = $staff_customer_care= $this->staffs_model->load_all($input);
 
 		/* Mảng chứa các ngày lẻ */
 		if (isset($get['filter_date_date_happen']) && $get['filter_date_date_happen'] != '') {
@@ -1923,25 +1927,37 @@ class Manager extends MY_Controller {
 			),
 		);
 
+		$date_today_start = strtotime(date('d-m-Y'));
+		$date_today_end = strtotime(date('d-m-Y')) + 3600 * 24 - 1;
+
 		unset($get['filter_date_date_happen']);
 
 		$conditional_date = array();
 		$conditional_date['where']['date_customer_care_call >='] = $startDate;
 		$conditional_date['where']['date_customer_care_call <='] = $endDate;
+
+		$conditional_today = array();
+		$conditional_today['where']['date_customer_care_call >='] = $date_today_start;
+		$conditional_today['where']['date_customer_care_call <='] = $date_today_end;
+
+		$staff_customer_care_today = array();
 		foreach ($conditionArr as $key2 => $value2) {
 			$temp_cc = 0;
 			foreach ($staff_customer_care as $key_staff => $value_staff) {
 				$conditional_staff = array();
 				$conditional_staff['where']['customer_care_staff_id'] = $value_staff['id'];
 				$conditional = array_merge_recursive($conditional_staff, $conditional_date, $value2);
+				$conditional_today = array_merge_recursive($conditional_staff, $conditional_today, $value2);
 				$staff_customer_care[$key_staff][$key2] = $this->_query_for_report($get, $conditional);
+				$staff_customer_care_today[$key_staff][$key2] = $this->_query_for_report($get, $conditional);
 				$temp_cc += $staff_customer_care[$key_staff][$key2];
 				$data[$key2] = $temp_cc;
 			}
 		}
-//		print_arr($staff_customer_care);
+//		print_arr($staff_customer_care_today);
 
 		$data['staffs'] = $staff_customer_care;
+		$data['staff_customer_care_today'] = $staff_customer_care_today;
 		$data['startDate'] = $startDate;
 		$data['endDate'] = $endDate;
 		$data['left_col'] = array('date_happen_1');
