@@ -1949,7 +1949,7 @@ class Manager extends MY_Controller {
 				$conditional = array_merge_recursive($conditional_staff, $conditional_date, $value2);
 				$conditional_today = array_merge_recursive($conditional_staff, $conditional_today, $value2);
 				$staff_customer_care[$key_staff][$key2] = $this->_query_for_report($get, $conditional);
-				$staff_customer_care_today[$key_staff][$key2] = $this->_query_for_report($get, $conditional);
+				$staff_customer_care_today[$key_staff][$key2] = $this->_query_for_report($get, $conditional_today);
 				$temp_cc += $staff_customer_care[$key_staff][$key2];
 				$data[$key2] = $temp_cc;
 			}
