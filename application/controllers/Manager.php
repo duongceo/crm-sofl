@@ -2239,6 +2239,7 @@ class Manager extends MY_Controller {
 						$re_class = $this->paid_model->load_all($input_re);
 						$report[$v_branch['name']][$value_class['class_study_id']]['RE'] = (!empty($re_class)) ? $re_class[0]['RE'] : 0;
 						$report[$v_branch['name']][$value_class['class_study_id']]['student'] = count($contact_id_arr);
+						$report[$v_branch['name']][$value_class['class_study_id']]['salary_teacher'] = $value_class['salary_per_hour']*$value_class['lesson_learned'];
 					}
 				}
 			}

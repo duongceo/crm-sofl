@@ -90,10 +90,6 @@ class Common extends MY_Controller {
 			//'date_receive_cost' => 'view'
         );
 		
-		if ($this->role_id == 8) {
-			unset($left_view['phone']);
-		}
-		
         $data['view_edit_left'] = $left_view;
         $data['view_edit_right'] = $right_view;
 

@@ -11,11 +11,11 @@ foreach ($rows as $row) {
 
         >
 
-        <td class="text-center tbl_selection">
-
-            <input type="checkbox" name="item_id[]" value="<?php echo $row['id']; ?>" class="tbl-item-checkbox"/>
-
-        </td>
+<!--        <td class="text-center tbl_selection">-->
+<!---->
+<!--            <input type="checkbox" name="item_id[]" value="--><?php //echo $row['id']; ?><!--" class="tbl-item-checkbox"/>-->
+<!---->
+<!--        </td>-->
 
         <?php
 

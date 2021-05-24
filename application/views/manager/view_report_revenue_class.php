@@ -14,6 +14,7 @@
 			<thead>
 				<tr>
 					<th style="background-color: #2b669a"><?php echo $key?></th>
+					<th style="background-color: #2b669a">Lương giáo viên theo số buổi</th>
 					<th style="background-color: #2b669a">Số lượng học viên</th>
 					<th style="background-color: #2b669a">Doanh Thu</th>
 				</tr>
@@ -22,7 +23,12 @@
 			<tbody>
 				<?php foreach ($item as $key_2 => $item_2) { ?>
 					<tr>
-						<td style="background-color: #43bcdf96"><h5><?php echo $key_2 ?></h5></td>
+						<td style="background-color: #43bcdf96">
+							<h5><?php echo $key_2 ?></h5>
+						</td>
+						<td>
+							<h5><?php echo $item_2['salary_teacher'] ?></h5>
+						</td>
 						<td>
 							<h5><?php echo $item_2['student'] ?></h5>
 						</td>

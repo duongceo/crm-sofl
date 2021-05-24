@@ -119,14 +119,13 @@ const _CONTACT_DANG_KY_TRUNG_CHET_ = 8;
 
 check_edit_contact = () => {
     var call_status_id = $("select[name='call_status_id']").val();
-    // var ordering_status_id = $("select[name='ordering_status_id']").val();
     var date_recall = $(".date_recall").val();
     // var class_study_id = $('select[name="class_study_id"]').val();
     // var fee = $('[name="fee"]').val();
     // var paid = $('[name="paid"]').val();
     var customer_care_call_id = $("select[name='customer_care_call_id']").val();
     var level_contact = $("select[name='level_contact_id']").val();
-	//alert(call_status_id);return false;
+
     if (customer_care_call_id == 0) {
         $.alert({
             theme: 'modern',

@@ -1,4 +1,4 @@
-<td class="center tbl_name">
+<td class="text-center tbl_name">
 
     <?php
 

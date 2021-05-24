@@ -1,6 +1,6 @@
 <tr>
 
-    <td class="text-right">  Ngày khách hẹn gọi lại </td>
+    <td class="text-right"> Ngày hẹn gọi lại </td>
 
     <td> 
 

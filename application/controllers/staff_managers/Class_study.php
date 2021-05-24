@@ -51,10 +51,16 @@ class Class_study extends MY_Table {
 				'value' => $this->get_data_from_model('time'),
 				'name_display' => 'Giờ học',
 			),
+			'teacher_id' => array(
+				'type' => 'custom',
+				'value' => $this->get_data_from_model('teacher'),
+				'name_display' => 'Giảng viên',
+			),
 			'language' => array(
 				'type' => 'custom',
 				'value' => $this->get_data_from_model('language_study'),
 				'name_display' => 'Ngoại ngữ',
+				'display' => 'none'
 			),
 			'level_language' => array(
 				'type' => 'custom',
@@ -64,6 +70,7 @@ class Class_study extends MY_Table {
 			),
 			'number_student_max' => array(
 				'name_display' => 'Sĩ số tối đa',
+				'display' => 'none'
 			),
 			'number_student' => array(
 				'name_display' => 'Sĩ số hiện tại',
@@ -95,21 +102,18 @@ class Class_study extends MY_Table {
 			'time_end_real' => array(
 				'type' => 'datetime',
 				'name_display' => 'Ngày kết thúc thực',
-			),
-			'teacher_id' => array(
-				'type' => 'custom',
-				'value' => $this->get_data_from_model('teacher'),
-				'name_display' => 'Giảng viên',
 				'display' => 'none'
 			),
 			'character_class' => array(
 				'type' => 'custom',
 				'value' => $this->get_data_from_model('character_class'),
 				'name_display' => 'Đặc điểm lớp',
+				'display' => 'none'
 			),
 			'status' => array(
 				'type' => 'custom',
-				'name_display' => 'Trạng thái'
+				'name_display' => 'Trạng thái',
+				'display' => 'none'
 			),
 			'active' => array(
 				'type' => 'active',
@@ -531,7 +535,7 @@ class Class_study extends MY_Table {
         $data['contacts'] = $data_pagination['data'];
         $data['total_contact'] = $data_pagination['total_row'];
 
-		$this->table .= 'fee paid level_contact date_rgt date_rgt_study';
+		$this->table = 'name phone fee paid level_study_detail date_rgt_study';
 		$data['table'] = explode(' ', $this->table);
 		$this->load->view('common/content/tbl_contact', $data);
 	}

@@ -6,11 +6,11 @@ thì người dùng vẫn có thể nhìn thấy các trường head là gì (d�
 
     <tr>
 
-        <th class="tbl_selection_2 check_all">
-
-            Chọn <i class="fa fa-check" aria-hidden="true"></i>
-
-        </th>
+<!--        <th class="tbl_selection_2 check_all">-->
+<!---->
+<!--            Chọn <i class="fa fa-check" aria-hidden="true"></i>-->
+<!---->
+<!--        </th>-->
 
         <?php
 

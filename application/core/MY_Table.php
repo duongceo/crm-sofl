@@ -773,8 +773,10 @@ class MY_Table extends MY_Controller {
 						$input_get['where']['lesson_learned = FLOOR(total_lesson/2)'] = 'NO-VALUE';
 						$input_get['where']['character_class_id'] = 2;
 					} else if ($value == 'gd3') {
-						$query = 'FLOOR((`time_end_expected` - ' . time() . ') / (60 * 60 * 24)) = 9';
-						$input_get['where'][$query] = 'NO-VALUE';
+                		$input_get['where']['FLOOR(total_lesson - lesson_learned) <= 3'] = 'NO-VALUE';
+                		$input_get['where']['FLOOR(total_lesson - lesson_learned) > 0'] = 'NO-VALUE';
+//						$query = 'FLOOR((`time_end_expected` - ' . time() . ') / (60 * 60 * 24)) = 9';
+//						$input_get['where'][$query] = 'NO-VALUE';
 					}
 				}
 
@@ -1081,6 +1083,7 @@ class MY_Table extends MY_Controller {
     		'class_study_id' => $class_id,
 			'level_contact_id' => 'L5'
 		);
+    	$input['where_not_in']['level_study_detail'] = 'L7.1, L7.2, L7.3';
     	return count($this->contacts_model->load_all($input));
 	}
 
@@ -1093,7 +1096,7 @@ class MY_Table extends MY_Controller {
 		$notes = '';
 		if (!empty($last_note)) {
 			foreach ($last_note as $value2) {
-				$notes .= '<p>' . $value2['content'] . '</p>';
+				$notes .= '<p>' . date('d/m/Y', $value2['time_created']) . ' ==> ' . $value2['content'] . '</p>';
 			}
 		}
 		return $notes;

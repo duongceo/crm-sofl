@@ -46,7 +46,7 @@ class Student extends MY_Controller {
 		$this->load->view(_MAIN_LAYOUT_, $data);
 	}
 
-	function sort_class ($offset = 0) {
+	function contact_sort_class($offset = 0) {
 		$data = $this->get_all_require_data();
 		$branch_id = $this->session->userdata('branch_id');
 		$role_id =  $this->session->userdata('role_id');
@@ -58,7 +58,7 @@ class Student extends MY_Controller {
 		}
 
 		$conditional['where']['level_student_id'] = 'L6';
-		$conditional['order'] = array('date_confirm' => 'DESC');
+		$conditional['order'] = array('date_rgt_study' => 'DESC');
 
 		$data_pagination = $this->_query_all_from_get($get, $conditional, $this->per_page, $offset);
 
@@ -68,6 +68,41 @@ class Student extends MY_Controller {
 
 		$data['left_col'] = array('date_rgt_study', 'date_paid', 'study_date_start', 'study_date_end');
 		$data['right_col'] = array('language', 'class_study', 'is_old', 'complete_fee');
+
+		$this->table .= 'class_study_id fee paid level_contact level_student date_rgt_study';
+		$data['table'] = explode(' ', $this->table);
+		//echo '<pre>'; print_r($data['table']);die;
+
+		$data['titleListContact'] = 'Danh sách học viên';
+		$data['actionForm'] = '';
+
+		$data['content'] = 'common/list_contact';
+		$this->load->view(_MAIN_LAYOUT_, $data);
+	}
+
+	function contact_unsort_class($offset = 0) {
+		$data = $this->get_all_require_data();
+		$branch_id = $this->session->userdata('branch_id');
+		$role_id =  $this->session->userdata('role_id');
+
+		$get = $this->input->get();
+
+		if ($role_id == 12) {
+			$conditional['where']['branch_id'] = $branch_id;
+		}
+
+		$conditional['where']['level_contact_id'] = 'L5';
+		$conditional['where']['class_study_id'] = '';
+		$conditional['order'] = array('date_rgt_study' => 'DESC');
+
+		$data_pagination = $this->_query_all_from_get($get, $conditional, $this->per_page, $offset);
+
+		$data['pagination'] = $this->_create_pagination_link($data_pagination['total_row']);
+		$data['contacts'] = $data_pagination['data'];
+		$data['total_contact'] = $data_pagination['total_row'];
+
+		$data['left_col'] = array('date_recall', 'date_rgt_study', 'study_date_start', 'study_date_end');
+		$data['right_col'] = array('language', 'is_old', 'complete_fee');
 
 		$this->table .= 'class_study_id fee paid level_contact level_student date_rgt_study';
 		$data['table'] = explode(' ', $this->table);
