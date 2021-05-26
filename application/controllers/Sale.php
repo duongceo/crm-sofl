@@ -14,9 +14,14 @@
 class Sale extends MY_Controller {
 
     public $L = array();
+    private $sale_study_abroad = 0;
 
     public function __construct() {
         parent::__construct();
+        $input_sale['where']['id'] = $this->user_id;
+        $sale_staff = $this->staffs_model->load_all($input_sale);
+		$this->sale_study_abroad = $sale_staff[0]['sale_study_abroad'];
+
         $this->data['top_nav'] = 'sale/common/top-nav';
         $data['time_remaining'] = 0;
         $input = array();
@@ -69,6 +74,9 @@ class Sale extends MY_Controller {
         /* Các trường cần hiện của bảng contact (đã có default) */
 
         $this->table .= 'date_rgt date_handover';
+		if ($this->sale_study_abroad == 1) {
+			$this->table = 'selection name address phone date_rgt date_handover';
+		}
         $data['table'] = explode(' ', $this->table);
 		//echo '<pre>'; print_r($data['table']);die;
 
@@ -134,6 +142,9 @@ class Sale extends MY_Controller {
 //        $data['right_col'] = array('');
 
         $this->table = 'selection name phone last_note level_language level_contact fee date_recall';
+        if ($this->sale_study_abroad == 1) {
+			$this->table = 'selection name address phone last_note level_language level_contact fee date_recall';
+		}
         $data['table'] = explode(' ', $this->table);
 
         $data['titleListContact'] = 'Danh sách contact có lịch hẹn gọi lại';
@@ -192,6 +203,9 @@ class Sale extends MY_Controller {
         $data['right_col'] = array('care_number');
 
         $this->table = 'selection name phone last_note call_stt level_contact fee date_last_calling date_rgt date_handover';
+		if ($this->sale_study_abroad == 1) {
+			$this->table = 'selection name address phone last_note call_stt level_contact date_last_calling date_handover';
+		}
         $data['table'] = explode(' ', $this->table);
 
         $data['titleListContact'] = 'Danh sách contact còn cứu được';
@@ -339,6 +353,9 @@ class Sale extends MY_Controller {
         $data['total_contact'] = $data_pagination['total_row'];
 
         $this->table .= 'fee paid call_stt level_contact level_student date_rgt date_last_calling';
+		if ($this->sale_study_abroad == 1) {
+			$this->table = 'selection name address phone call_stt date_rgt date_handover date_last_calling';
+		}
         $data['table'] = explode(' ', $this->table);
 
 		$data['progressType'] = 'Tiến độ các Team tháng này';

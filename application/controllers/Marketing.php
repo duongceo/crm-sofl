@@ -136,7 +136,9 @@ class Marketing extends MY_Controller {
 		$this->load->model('paid_model');
 		$get = $this->input->get();
 
-		$input = array();
+		$input['where'] = array(
+			'active' => 1,
+		);
 		$language = $this->language_study_model->load_all($input);
 
 		if (isset($get['filter_date_date_happen']) && $get['filter_date_date_happen'] != '') {
@@ -199,6 +201,7 @@ class Marketing extends MY_Controller {
 		$total_RE = 0;
 
 		foreach ($Report as $key => $value) {
+			$spend = 0;
 			// lấy chi phí
 			$input = array();
 			$input['select'] = 'SUM(spend) as spending';
@@ -272,6 +275,10 @@ class Marketing extends MY_Controller {
 			}
 
 			$Report[$key]['language_name'] = $this->language_study_model->find_language_name($key);
+
+			if ($Report[$key]['C3'] == 0 && $Report[$key]['L5'] == 0 && $Report[$key]['Ma_mkt'] == 0 && $Report[$key]['RE'] == 0) {
+				unset($Report[$key]);
+			}
 
 		}
 
