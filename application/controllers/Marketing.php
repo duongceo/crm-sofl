@@ -369,6 +369,10 @@ class Marketing extends MY_Controller {
 			$total_spend_mkt += $spend_mkt;
 
 			$Report_mkt[$key]['mkt_name'] = $this->staffs_model->find_staff_name($key);
+
+			if ($Report_mkt[$key]['C3'] == 0 && $Report_mkt[$key]['L5'] == 0 && $Report_mkt[$key]['Ma_mkt'] == 0) {
+				unset($Report_mkt[$key]);
+			}
 		}
 
 		usort($Report_mkt, function ($a, $b) {
