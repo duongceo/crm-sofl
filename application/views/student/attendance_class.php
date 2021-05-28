@@ -45,7 +45,7 @@
 				</tbody>
 			</table>
 			<div class="text-center">
-				<button class="btn btn-lg btn-success btn-attendance" style="width: 10%;">Lưu</button>
+				<button class="btn btn-lg btn-success btn-attendance">Lưu</button>
 			</div>
 		</div>
 	</div>
