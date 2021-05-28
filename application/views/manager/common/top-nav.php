@@ -21,39 +21,22 @@
 //				}
 //				?>
 
-				<?php if ($this->user_id != 75) { ?>
-					<form action="" class="form-search" method="GET">
+				<form action="" class="form-search" method="GET">
 
-						<input type="text" class="form-control input-navbar-search" name="search_all" placeholder="Tìm mọi thứ...."
+					<input type="text" class="form-control input-navbar-search" name="search_all" placeholder="Tìm mọi thứ...."
 
-							 value="<?php echo isset($_GET['search_all']) ? $_GET['search_all'] : ''; ?>">
+						 value="<?php echo isset($_GET['search_all']) ? $_GET['search_all'] : ''; ?>">
 
-						<span class="input-group-btn" >
+					<span class="input-group-btn" >
 
-							<button class="btn btn-default btn-navbar-search" type="submit">
+						<button class="btn btn-default btn-navbar-search" type="submit">
 
-								<span class="glyphicon glyphicon-search"></span>
+							<span class="glyphicon glyphicon-search"></span>
 
-							</button>
+						</button>
 
-						</span>
-					</form>
-				<?php } else { ?>
-					<li class="pull-right">
-
-						<a href="javascript:;" class="user-profile">
-
-							<img src="<?php echo base_url(); ?>style/img/logo.png" alt=""> <span> <?php echo $this->session->userdata('name'); ?> </span>
-
-						</a>
-
-					</li>
-					<a href="<?php echo base_url(); ?>" class="logo pull-right">
-
-						<img src="<?php echo base_url(); ?>style/img/logo.png" class="logo-fix">
-
-					</a>
-				<?php } ?>
+					</span>
+				</form>
 
 				<?php if (!$this->agent->mobile) { ?>
 					<li class="pull-right">
