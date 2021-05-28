@@ -100,7 +100,7 @@ class Home extends CI_Controller {
 
                 case 8:
 
-                    redirect(base_url('giang-vien/danh-sach-da-dang-ky.html' . $this->initGetVariable));
+                    redirect(base_url('student/chose_branch' . $this->initGetVariable));
 
                     break;
 

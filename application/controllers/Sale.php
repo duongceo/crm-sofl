@@ -75,7 +75,7 @@ class Sale extends MY_Controller {
 
         $this->table .= 'date_rgt date_handover';
 		if ($this->sale_study_abroad == 1) {
-			$this->table = 'selection name address phone date_rgt date_handover';
+			$this->table = 'selection name address phone language date_rgt date_handover';
 		}
         $data['table'] = explode(' ', $this->table);
 		//echo '<pre>'; print_r($data['table']);die;
@@ -143,7 +143,7 @@ class Sale extends MY_Controller {
 
         $this->table = 'selection name phone last_note level_language level_contact fee date_recall';
         if ($this->sale_study_abroad == 1) {
-			$this->table = 'selection name address phone last_note level_language level_contact fee date_recall';
+			$this->table = 'selection name address phone language last_note level_contact fee date_recall';
 		}
         $data['table'] = explode(' ', $this->table);
 
@@ -204,7 +204,7 @@ class Sale extends MY_Controller {
 
         $this->table = 'selection name phone last_note call_stt level_contact fee date_last_calling date_rgt date_handover';
 		if ($this->sale_study_abroad == 1) {
-			$this->table = 'selection name address phone last_note call_stt level_contact date_last_calling date_handover';
+			$this->table = 'selection name address phone language last_note call_stt level_contact date_last_calling date_handover';
 		}
         $data['table'] = explode(' ', $this->table);
 
@@ -354,7 +354,7 @@ class Sale extends MY_Controller {
 
         $this->table .= 'fee paid call_stt level_contact level_student date_rgt date_last_calling';
 		if ($this->sale_study_abroad == 1) {
-			$this->table = 'selection name address phone call_stt date_rgt date_handover date_last_calling';
+			$this->table = 'selection name address phone language call_stt date_rgt date_handover date_last_calling';
 		}
         $data['table'] = explode(' ', $this->table);
 

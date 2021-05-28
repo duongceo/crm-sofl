@@ -5,6 +5,44 @@ class Student extends MY_Controller {
 		parent::__construct();
 	}
 
+	private function get_all_require_data() {
+		$require_model = array(
+			'staffs' => array(
+				'where' => array(
+					'role_id' => 1,
+					'active' => 1,
+					'transfer_contact' => 1
+				)
+			),
+			'class_study' => array(
+				'where' => array(
+					'active' => 1
+				),
+				'order' => array(
+					'class_study_id' => 'ASC'
+				)
+			),
+			'call_status' => array(),
+			'payment_method_rgt' => array(),
+			'sources' => array(),
+			'channel' => array(),
+			'branch' => array(),
+			'level_language' => array(),
+			'language_study' => array(),
+			'level_contact' => array(
+				'where' => array(
+					'parent_id' => ''
+				)
+			),
+			'level_student' => array(
+				'where' => array(
+					'parent_id' => ''
+				)
+			),
+		);
+		return array_merge($this->data, $this->_get_require_data($require_model));
+	}
+
 	public function index($offset=0) {
 		$data = $this->get_all_require_data();
 		$branch_id = $this->session->userdata('branch_id');
@@ -300,42 +338,126 @@ class Student extends MY_Controller {
 		$this->load->view(_MAIN_LAYOUT_, $data);
 	}
 
-	private function get_all_require_data() {
-        $require_model = array(
-            'staffs' => array(
-                'where' => array(
-                    'role_id' => 1,
-                    'active' => 1,
-					'transfer_contact' => 1
-                )
-            ),
-            'class_study' => array(
-                'where' => array(
-                    'active' => 1
-                ),
-                'order' => array(
-                    'class_study_id' => 'ASC'
-                )
-            ),
-            'call_status' => array(),
-            //'ordering_status' => array(),
-            'payment_method_rgt' => array(),
-            'sources' => array(),
-            'channel' => array(),
-            'branch' => array(),
-            'level_language' => array(),
-            'language_study' => array(),
-			'level_contact' => array(
-				'where' => array(
-					'parent_id' => ''
-				)
-			),
-			'level_student' => array(
-				'where' => array(
-					'parent_id' => ''
-				)
-			),
-        );
-        return array_merge($this->data, $this->_get_require_data($require_model));
-    }
+	public function chose_branch() {
+		$data = $this->data;
+		$this->load->model('branch_model');
+		$data['branch'] = $this->branch_model->load_all();
+		unset($data['branch'][8], $data['branch'][0]);
+//		print_arr($data);
+		$data['content'] = 'student/chose_branch';
+		$this->load->view(_MAIN_LAYOUT_, $data);
+	}
+
+	public function chose_language() {
+		$get = $this->input->get();
+		$data = $this->data;
+		$this->load->model('language_study_model');
+		$input['where'] = array(
+			'active' => 1,
+			'out_report' => '0'
+		);
+		$data['language'] = $this->language_study_model->load_all($input);
+		$data['branch_id'] = $get['branch_id'];
+		$data['content'] = 'student/chose_language';
+		$this->load->view(_MAIN_LAYOUT_, $data);
+	}
+
+	public function get_class_attendance() {
+		$get = $this->input->get();
+		$post = $this->input->post();
+		$this->load->model('class_study_model');
+		$this->load->model('teacher_model');
+		$this->load->model('level_language_model');
+		$input['where'] = array(
+			'active' => 1,
+			'branch_id' => $get['branch_id'],
+			'language_id' => $get['language_id'],
+			'character_class_id' => 2
+		);
+
+		if (isset($post) && $post['search_class'] != '') {
+			$input['where']['(class_study_id LIKE "%'.$post['search_class'].'%")'] = 'NO-VALUE';
+			$input['where']['branch_id'] = $post['branch_id'];
+			$input['where']['language_id'] = $post['language_id'];
+		}
+
+		$data['class'] = $this->class_study_model->load_all($input);
+		foreach ($data['class'] as &$value) {
+			$value['teacher_name'] = $this->teacher_model->find_teacher_name($value['teacher_id']);
+			$value['level_language_name'] = $this->level_language_model->get_name_level_language($value['level_language_id']);
+		}
+		unset($value);
+
+		$data['branch_id'] = $get['branch_id'];
+		$data['language_id'] = $get['language_id'];
+		$data['content'] = 'student/get_class_attendance';
+		$this->load->view(_MAIN_LAYOUT_, $data);
+	}
+
+	public function attendance_class() {
+		$this->load->model('attendance_model');
+		$get = $this->input->get();
+		$input['select'] = 'id, name, class_study_id';
+		$input['where'] = array(
+			'class_study_id' => $get['class_study_id'],
+			'level_student_id' => 'L6'
+		);
+		$data['contact'] = $this->contacts_model->load_all($input);
+
+		if (!empty($data['contact'])) {
+			foreach ($data['contact'] as &$value) {
+				$input_attend = array();
+				$input_attend['where'] = array(
+					'contact_id' => $value['id'],
+					'time_update >=' => strtotime(date('d-m-Y'))
+				);
+
+				$contact_attend = $this->attendance_model->load_all($input_attend);
+				if (!empty($contact_attend)) {
+					$value['presence_id'] = $contact_attend[0]['presence_id'];
+					$value['time_update'] = $contact_attend[0]['time_update'];
+					$value['note'] = $contact_attend[0]['note'];
+				}
+			}
+			unset($value);
+		}
+
+		$data['class'] = $get['class_study_id'];
+		$data['content'] = 'student/attendance_class';
+		$this->load->view(_MAIN_LAYOUT_, $data);
+	}
+
+	public function action_attendance() {
+		$this->load->model('attendance_model');
+		$post = $this->input->post();
+//		print_arr((array) json_decode($post['data_attendance']));
+		$data = json_decode($post['data_attendance']);
+		if (!empty($data)) {
+			foreach ($data as $item) {
+				$input_attend = array();
+				$input_attend['where'] = array(
+					'contact_id' => $item->contact_id,
+					'time_update >=' => strtotime(date('d-m-Y'))
+				);
+
+				$contact_attend = $this->attendance_model->load_all($input_attend);
+
+				$param = array(
+					'class_study_id' => $item->class_id,
+					'contact_id' => $item->contact_id,
+					'presence_id' => $item->presence_id,
+					'time_update' => time(),
+					'note' => $item->note
+				);
+
+				if (empty($contact_attend)) {
+					$param['time_created'] = time();
+					$this->attendance_model->insert($param);
+				} else {
+					$this->attendance_model->update($input_attend['where'], $param);
+				}
+			}
+		}
+	}
+
 }
