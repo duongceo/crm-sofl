@@ -401,8 +401,9 @@ class Student extends MY_Controller {
 		$input['where'] = array(
 			'class_study_id' => $get['class_study_id'],
 			'level_contact_id' => 'L5',
-			'level_study_detail' => ''
 		);
+
+		$input['where_not_in']['level_study_detail'] = array('L7.1', 'L7.2', 'L7.3', 'L7.4', 'L7.5');
 		$data['contact'] = $this->contacts_model->load_all($input);
 
 		if (!empty($data['contact'])) {
