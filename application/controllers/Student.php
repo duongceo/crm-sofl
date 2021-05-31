@@ -400,7 +400,8 @@ class Student extends MY_Controller {
 		$input['select'] = 'id, name, class_study_id';
 		$input['where'] = array(
 			'class_study_id' => $get['class_study_id'],
-			'level_study_id' => 'L7'
+			'level_study_id' => 'L7',
+			'level_study_detail' => ''
 		);
 		$data['contact'] = $this->contacts_model->load_all($input);
 
