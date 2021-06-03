@@ -535,7 +535,7 @@ class Class_study extends MY_Table {
         $data['contacts'] = $data_pagination['data'];
         $data['total_contact'] = $data_pagination['total_row'];
 
-		$this->table = 'name phone fee paid level_study_detail date_rgt_study';
+		$this->table = 'name phone level_language fee paid level_study_detail date_rgt_study';
 		$data['table'] = explode(' ', $this->table);
 		$this->load->view('common/content/tbl_contact', $data);
 	}
