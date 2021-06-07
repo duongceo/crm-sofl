@@ -554,7 +554,7 @@ class Sale extends MY_Controller {
 
                 $param['name'] = $input['name'];
                 $param['email'] = $input['email'];
-//                $param['address'] = $input['address'];
+                $param['address'] = $input['address'];
 				$param['branch_id'] = $input['branch_id'];
 				$param['language_id'] = $input['language_id'];
 				$param['level_language_id'] = $input['level_language_id'];

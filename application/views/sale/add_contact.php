@@ -26,6 +26,22 @@
                 <div class="form-group">
                     <div class="row">
                         <div class="col-md-4 col-xs-4 text-right">
+                            Địa chỉ
+                        </div>
+                        <div class="col-md-8 col-xs-8">
+                            <input type="text" class="form-control" placeholder="Địa chỉ" name="address" value="
+                            <?php if (isset($_GET['address'])) {
+								echo $_GET['address'];
+							} else {
+								echo set_value('address');
+							} ?>"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-4 col-xs-4 text-right">
                             Email
                         </div>
                         <div class="col-md-8 col-xs-8">
