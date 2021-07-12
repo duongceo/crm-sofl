@@ -1,3 +1,3 @@
 <td class="text-center">
-	<?php echo $row['salary_per_day'] * $row['lecture']?>
+	<?php echo h_number_format($row['salary_per_day'] * $row['lecture'])?>
 </td>
