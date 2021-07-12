@@ -86,9 +86,13 @@ class Class_study extends MY_Table {
 				'type' => 'custom',
 				'name_display' => 'Tiến độ bài giảng',
 			),
-			'salary_per_hour' => array(
+			'salary_teacher' => array(
 				'type' => 'custom',
-				'name_display' => 'Lương/Giờ',
+				'name_display' => 'Lương giảng viên',
+			),
+			'salary_per_day' => array(
+				'type' => 'custom',
+				'name_display' => 'Lương/Buổi',
 				'display' => 'none'
 			),
 			'time_start' => array(
@@ -253,7 +257,7 @@ class Class_study extends MY_Table {
 					'type' => 'array',
 					'value' => $this->get_data_from_model('teacher')
 				),
-				'salary_per_hour' => array(
+				'salary_per_day' => array(
 					'type' => 'custom'
 				),
 				'time_start' => array(
@@ -310,8 +314,8 @@ class Class_study extends MY_Table {
 				}
 			}
 
-			if ($post['add_salary_per_hour'] != 0) {
-				$param['salary_per_hour'] = str_replace(',', '', $post['add_salary_per_hour']);
+			if ($post['add_salary_per_day'] != 0) {
+				$param['salary_per_day'] = str_replace(',', '', $post['add_salary_per_day']);
 			}
 
 			$param_time = array('time_start', 'time_end_expected', 'time_end_real');
@@ -384,7 +388,7 @@ class Class_study extends MY_Table {
 					'type' => 'array',
 					'value' => $this->get_data_from_model('teacher')
 				),
-				'salary_per_hour' => array(
+				'salary_per_day' => array(
 					'type' => 'custom'
 				),
 				'time_start' => array(
@@ -450,8 +454,8 @@ class Class_study extends MY_Table {
 
 			}
 
-			if ($post['edit_salary_per_hour'] != 0) {
-				$param['salary_per_hour'] = str_replace(',', '', $post['edit_salary_per_hour']);
+			if ($post['edit_salary_per_day'] != 0) {
+				$param['salary_per_day'] = str_replace(',', '', $post['edit_salary_per_day']);
 			}
 
 			$param_time = array('time_start', 'time_end_expected', 'time_end_real');

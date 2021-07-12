@@ -6,7 +6,7 @@
 
 		<div class="form-group">
 
-			<input type="text" class="form-control money" value="0" name="add_salary_per_hour"/>
+			<input type="text" class="form-control money" value="0" name="add_salary_per_day"/>
 
 		</div>
 

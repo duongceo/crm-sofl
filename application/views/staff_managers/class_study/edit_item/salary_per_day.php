@@ -6,7 +6,7 @@
 
 		<div class="form-group">
 
-			<input type="text" class="form-control money" value="<?php echo $row['salary_per_hour']?>" name="edit_salary_per_hour"/>
+			<input type="text" class="form-control money" value="<?php echo $row['salary_per_hour']?>" name="edit_salary_per_day"/>
 
 		</div>
 
