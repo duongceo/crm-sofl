@@ -1,6 +1,6 @@
 <tr>
 
-	<td class="text-right"> Lương/Giờ </td>
+	<td class="text-right"> Lương/Buổi </td>
 
 	<td>
 
