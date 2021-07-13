@@ -1095,9 +1095,10 @@ class MY_Table extends MY_Controller {
 		$last_note = $this->notes_model->load_all($input);
 		$notes = '';
 		if (!empty($last_note)) {
-			foreach ($last_note as $value2) {
-				$notes .= '<p>' . date('d/m/Y', $value2['time_created']) . ' ==> ' . $value2['content'] . '</p>';
-			}
+			$notes .= '<p>' . date('d/m/Y', $last_note[0]['time_created']) . ' ==> ' . $last_note[0]['content'] . '</p>';
+//			foreach ($last_note as $value2) {
+//				$notes .= '<p>' . date('d/m/Y', $value2['time_created']) . ' ==> ' . $value2['content'] . '</p>';
+//			}
 		}
 		return $notes;
 	}
