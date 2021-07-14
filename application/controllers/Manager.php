@@ -1078,7 +1078,11 @@ class Manager extends MY_Controller {
 		$this->load->model('paid_model');
 		$this->load->model('language_study_model');
 		$require_model = array(
-			'branch' => array(),
+			'branch' => array(
+				'where' => array(
+					'active' => 1,
+				)
+			),
 			'language_study' => array(
 				'where' => array(
 					'active' => 1,
@@ -2239,7 +2243,7 @@ class Manager extends MY_Controller {
 						$re_class = $this->paid_model->load_all($input_re);
 						$report[$v_branch['name']][$value_class['class_study_id']]['RE'] = (!empty($re_class)) ? $re_class[0]['RE'] : 0;
 						$report[$v_branch['name']][$value_class['class_study_id']]['student'] = count($contact_id_arr);
-						$report[$v_branch['name']][$value_class['class_study_id']]['salary_teacher'] = $value_class['salary_per_hour']*$value_class['lesson_learned'];
+						$report[$v_branch['name']][$value_class['class_study_id']]['salary_teacher'] = $value_class['salary_per_day']*$value_class['lesson_learned'];
 					}
 				}
 			}

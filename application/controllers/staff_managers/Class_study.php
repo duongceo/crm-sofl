@@ -152,7 +152,7 @@ class Class_study extends MY_Table {
 		);
 
 		$this->data = $this->_get_require_data($require_model);
-				
+
 //		$this->data['branch'] = $this->get_data_from_model('branch');
 
 		$this->data['language'] = $this->get_data_from_model('language_study');
