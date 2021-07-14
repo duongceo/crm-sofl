@@ -291,7 +291,7 @@ class Marketing extends MY_Controller {
 			'Ma_mkt' => str_replace(',', '.', number_format($total_spend)),
 			'Ma_HN' => str_replace(',', '.', number_format($total_spend_hn)),
 			'Ma_HCM' => str_replace(',', '.', number_format($total_spend_hcm)),
-			'Gia_So' => ($total_C3 == 0) ? '0' : str_replace(',', '.', number_format(round($total_spend / $total_C3, 2) * 100)),
+			'Gia_So' => ($total_C3 == 0) ? '0' : str_replace(',', '.', number_format(round($total_spend / $total_C3, 2))),
 			'Ma_Re_thuc_te' => ($total_RE == 0) ? '0' : round($total_spend / $total_RE, 2) * 100,
 			'Re_thuc_te' => str_replace(',', '.', number_format($total_RE)),
 			'language_name' => 'Tổng'
