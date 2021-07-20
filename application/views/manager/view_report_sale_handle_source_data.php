@@ -37,7 +37,7 @@
 				<tr>
 					<th style="background-color: #147c67" rowspan="2">Ngày</th>
 					<?php foreach ($date_for_report as $key => $value) { ?>
-						<th colspan="6" style="background: #0f846c">
+						<th colspan="6" style="background: #0f846c; height: 50px">
 							<?php echo $value; ?>
 						</th>
 					<?php } ?>
