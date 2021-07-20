@@ -118,6 +118,18 @@
 
 				<li>
 
+					<a href="<?php echo base_url('manager/view_report_sale_handle_source_data'); ?>">
+
+						<img src="<?php echo base_url(); ?>public/images/report.png">
+
+						<span> Báo cáo xử lý contact - Nguồn Data lạnh </span>
+
+					</a>
+
+				</li>
+
+				<li>
+
 					<a href="<?php echo base_url('manager/view_report_revenue'); ?>">
 
 						<img src="<?php echo base_url(); ?>public/images/dollar.png">
