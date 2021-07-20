@@ -2484,9 +2484,13 @@ class Manager extends MY_Controller {
 					$condition_1['where']['source_id'] = 15;
 					$conditional = array_merge_recursive($condition_1, $value_condition);
 					$report[$value_staff['name']][$value_date][$key_condition] = $this->_query_for_report($get, $conditional);
+					if ($report[$value_staff['name']][$value_date]['XU_LY'] == 0) {
+						unset($report[$value_staff['name']][$value_date]);
+					}
 				}
+				
 			}
-			if (!empty($report[$value_staff['name']])) {
+			if (empty($report[$value_staff['name']])) {
 				unset($report[$value_staff['name']]);
 			}
 		}
