@@ -1225,6 +1225,7 @@ class Manager extends MY_Controller {
 		$date_end = strtotime(str_replace("/", "-", $date_end)) + 3600 * 24 - 1;
 
 		unset($data['branch'][0]);
+		$re = array();
 		foreach ($data['branch'] as $v_branch) {
 			foreach ($data['payment_method_rgt'] as $v_payment) {
 				$input_re = array();
@@ -2415,6 +2416,91 @@ class Manager extends MY_Controller {
 		$data['left_col'] = array('date_happen_1', 'date_happen_compare');
 //		$data['right_col'] = array('is_old');
 		$data['content'] = 'manager/view_report_compare_sale';
+//        print_arr($data);
+		$this->load->view(_MAIN_LAYOUT_, $data);
+	}
+
+	public function view_report_sale_handle_source_data() {
+		$require_model = array(
+			'staffs' => array(
+				'where' => array(
+					'role_id' => 1,
+					'active' => 1,
+					'out_report' => '0'
+				)
+			),
+
+		);
+
+		$data = $this->_get_require_data($require_model);
+
+		$get = $this->input->get();
+
+		/* Mảng chứa các ngày lẻ */
+		if (isset($get['filter_date_date_happen']) && $get['filter_date_date_happen'] != '') {
+			$time = $get['filter_date_date_happen'];
+		} else {
+			$time = '01' . '/' . date('m') . '/' . date('Y') . ' - ' . date('d') . '/' . date('m') . '/' . date('Y');
+		}
+
+		$dateArr = explode('-', $time);
+		$date_from_arr = trim($dateArr[0]);
+		$startDate = strtotime(str_replace("/", "-", $date_from_arr));
+		$date_end_arr = trim($dateArr[1]);
+		$endDate = strtotime(str_replace("/", "-", $date_end_arr)) + 3600 * 24;
+
+//		echo $startDate . ' - ' . $endDate;die;
+
+		$conditionArr = array(
+			'XU_LY' => array(),
+			'KNM' => array(
+				'where' => array('call_status_id' => _KHONG_NGHE_MAY_),
+			),
+			'L1' => array(
+				'where' => array('level_contact_id' => 'L1'),
+			),
+			'L2' => array(
+				'where' => array('level_contact_id' => 'L2'),
+			),
+			'L3' => array(
+				'where' => array('level_contact_id' => 'L3', 'call_status_id' => _DA_LIEN_LAC_DUOC_,),
+			),
+			'L5' => array(
+				'where' => array('duplicate_id' => '0', 'level_contact_id' => 'L5', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'is_old' => '0'),
+			),
+		);
+
+		unset($get['filter_date_date_happen']);
+
+		$date_for_report = $this->display_date($date_from_arr, $date_end_arr);
+		$report = array();
+		foreach ($data['staffs'] as $value_staff) {
+			foreach ($date_for_report as $value_date) {
+				foreach ($conditionArr as $key_condition => $value_condition) {
+					$condition_1 = array();
+					$condition_1['where']['date_last_calling >='] = strtotime(str_replace("/", "-", $value_date));
+					$condition_1['where']['date_last_calling <='] = strtotime(str_replace("/", "-", $value_date)) + 3600 * 24 - 1;
+					$condition_1['where']['sale_staff_id'] = $value_staff['id'];
+					$condition_1['where']['source_id'] = 15;
+					$conditional = array_merge_recursive($condition_1, $value_condition);
+					$report[$value_staff['name']][$value_date][$key_condition] = $this->_query_for_report($get, $conditional);
+				}
+			}
+			if (!empty($report[$value_staff['name']])) {
+				unset($report[$value_staff['name']]);
+			}
+		}
+
+//		print_arr($report);
+
+		$data['report'] = $report;
+		$data['date_for_report'] = $date_for_report;
+//		$data['startDate'] = $startDate;
+//		$data['endDate'] = $endDate;
+		$data['left_col'] = array('date_happen_1');
+//		$data['right_col'] = array('source');
+//		$data['load_js'] = array('m_view_report');
+		$data['content'] = 'manager/view_report_sale_handle_source_data';
 //        print_arr($data);
 		$this->load->view(_MAIN_LAYOUT_, $data);
 	}
