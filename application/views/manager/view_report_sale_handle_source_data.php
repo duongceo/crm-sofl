@@ -47,7 +47,7 @@
 					<?php $report_2 = array('Xử Lý', 'Ko Nghe Máy', 'L1', 'L2', 'L3', 'L5') ?>
 					<?php foreach ($date_for_report as $staff) { ?>
 						<?php foreach ($report_2 as $value) { ?>
-							<th style="background: #0f846c">
+							<th style="background: #086183">
 								<?php echo $value; ?>
 							</th>
 						<?php } ?>
