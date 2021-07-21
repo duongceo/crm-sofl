@@ -2463,10 +2463,13 @@ class Manager extends MY_Controller {
 				'where' => array('level_contact_id' => 'L2'),
 			),
 			'L3' => array(
-				'where' => array('level_contact_id' => 'L3', 'call_status_id' => _DA_LIEN_LAC_DUOC_,),
+				'where' => array('level_contact_id' => 'L3'),
+			),
+			'L4' => array(
+				'where' => array('level_contact_id' => 'L4'),
 			),
 			'L5' => array(
-				'where' => array('duplicate_id' => '0', 'level_contact_id' => 'L5', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'is_old' => '0'),
+				'where' => array('level_contact_id' => 'L5'),
 			),
 		);
 
