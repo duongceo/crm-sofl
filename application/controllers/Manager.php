@@ -2475,7 +2475,7 @@ class Manager extends MY_Controller {
 
 		unset($get['filter_date_date_happen']);
 
-		$date_for_report = $this->display_date($date_from_arr, $date_end_arr);
+		$date_for_report = array_reverse($this->display_date($date_from_arr, $date_end_arr));
 		$report = array();
 		foreach ($data['staffs'] as $value_staff) {
 			foreach ($date_for_report as $value_date) {
