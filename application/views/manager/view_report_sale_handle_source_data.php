@@ -36,15 +36,15 @@
 			<thead>
 				<tr>
 					<th style="background-color: #147c67" rowspan="2">Ngày</th>
+					<?php $report_2 = array('Xử Lý', 'Ko Nghe Máy', 'L1', 'L2', 'L3', 'L4', 'L5', 'L2/XL', 'L5/XL') ?>
 					<?php foreach ($date_for_report as $key => $value) { ?>
-						<th colspan="6" style="background: #0f846c; height: 50px">
+						<th colspan="<?php echo count($report_2)?>" style="background: #0f846c; height: 50px">
 							<?php echo $value; ?>
 						</th>
 					<?php } ?>
 				</tr>
 
 				<tr>
-					<?php $report_2 = array('Xử Lý', 'Ko Nghe Máy', 'L1', 'L2', 'L3', 'L5') ?>
 					<?php foreach ($date_for_report as $staff) { ?>
 						<?php foreach ($report_2 as $value) { ?>
 							<th style="background: #086183">
@@ -65,7 +65,10 @@
 							<td><?php echo $value[$date]['L1'] ?></td>
 							<td><?php echo $value[$date]['L2'] ?></td>
 							<td><?php echo $value[$date]['L3'] ?></td>
+							<td><?php echo $value[$date]['L4'] ?></td>
 							<td><?php echo $value[$date]['L5'] ?></td>
+							<td><?php echo ($value[$date]['XU_LY'] != 0) ? round(($value[$date]['L2'] / $value[$date]['XU_LY']) * 100, 2) . '%' : '0';?></td>
+							<td><?php echo ($value[$date]['XU_LY'] != 0) ? round(($value[$date]['L5'] / $value[$date]['XU_LY']) * 100, 2) . '%' : '0';?></td>
 						<?php } ?>
 					</tr>
 				<?php } ?>
