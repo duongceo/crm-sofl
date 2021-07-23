@@ -608,6 +608,10 @@ class Common extends MY_Controller {
                 		$param['date_active'] = time();
 					}
                 }
+
+                if ($post['level_contact_detail'] != 'L5.4') {
+                	$param['level_contact_detail'] = '';
+				}
 				
 			} else if (isset($post['date_rgt_study']) && $post['date_rgt_study'] != '') {
 				$result['success'] = 0;
