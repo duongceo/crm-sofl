@@ -155,9 +155,9 @@ class Common extends MY_Controller {
             );
         }
 
-        if ($this->role_id == 1) {
-        	unset($right_edit['level_contact'], $right_edit['level_student'], $right_edit['level_study']);
-		}
+//        if ($this->role_id == 1) {
+//        	unset($right_edit['level_contact'], $right_edit['level_student'], $right_edit['level_study']);
+//		}
 
         if ($this->role_id == 10 || ($this->role_id == 12 && $post['type_modal'] == 'customer_care')) {  //chăm sóc khách hàng
             $left_edit = array(
