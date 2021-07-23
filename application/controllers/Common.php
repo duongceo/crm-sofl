@@ -143,6 +143,7 @@ class Common extends MY_Controller {
 				'level_student' => 'edit',
 				'level_study' => 'edit',
 				'date_rgt_study' => 'edit',
+				'status_register' => 'edit',
 				'is_old' => 'edit',
                 'date_recall' => 'edit',
                 'note' => 'edit',
@@ -472,7 +473,7 @@ class Common extends MY_Controller {
             $post = $this->input->post();
 //			print_arr($post);
             $param = array();
-            $post_arr = array('name', 'phone', 'phone_foreign', 'address', 'branch_id', 'language_id', 'class_study_id', 'level_language_id', 'payment_method_rgt', 'call_status_id', 'is_old', 'complete_fee');
+            $post_arr = array('name', 'phone', 'phone_foreign', 'address', 'branch_id', 'language_id', 'class_study_id', 'level_language_id', 'payment_method_rgt', 'call_status_id', 'is_old', 'complete_fee', 'status_register');
 
             foreach ($post_arr as $value) {
                 if (isset($post[$value])) {
@@ -524,17 +525,17 @@ class Common extends MY_Controller {
 				$param['level_study_detail'] = $post['level_study_detail'];
 			}
 			
-			if ($post['level_contact_detail'] == 'L5.2' || $post['level_student_id'] == 'L8') {
-				if ($post['is_old'] == 0) {
-					$result['success'] = 0;
-					$result['message'] = 'Contact là học viên cũ đúng ko ?';
-					echo json_encode($result);
-					die;
-				}
-			}
+//			if ($post['level_contact_detail'] == 'L5.2' || $post['level_student_id'] == 'L8') {
+//				if ($post['is_old'] == 0) {
+//					$result['success'] = 0;
+//					$result['message'] = 'Contact là học viên cũ đúng ko ?';
+//					echo json_encode($result);
+//					die;
+//				}
+//			}
 
             $param['date_recall'] = (isset($post['date_recall']) && $post['date_recall'] != '') ? strtotime($post['date_recall']) : 0;
-			//print_arr($param);
+//			print_arr($param);
             /* Kiểm tra điều kiện các trạng thái và ngày hẹn gọi lại có logic ko */
             if (isset($post['call_status_id'])) {
 				if ($post['call_status_id'] == 0) {
@@ -546,7 +547,7 @@ class Common extends MY_Controller {
 				
 				if ($post['call_status_id'] == _DA_LIEN_LAC_DUOC_) {
 					if (isset($post['level_contact_id']) && $post['level_contact_id'] != '') {
-						if (!isset($post['level_contact_detail']) || $post['level_contact_detail'] == '') {
+						if ((!isset($post['level_contact_detail']) || $post['level_contact_detail'] == '') && $post['level_contact_id'] != 'L5') {
 							$result['success'] = 0;
 							$result['message'] = 'Bạn phải cập nhật trạng thái chi tiết contact!';
 							echo json_encode($result);
@@ -1915,6 +1916,7 @@ class Common extends MY_Controller {
     	$post = $this->input->post();
 		$input['where'] = array(
 			'parent_id' => $post['level_id'],
+			'active' => 1
 		);
     	if (in_array($post['level_id'], array('L1', 'L2', 'L3', 'L4', 'L5'))) {
 			$this->load->model('level_contact_model');
