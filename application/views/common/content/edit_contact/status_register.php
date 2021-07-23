@@ -1,5 +1,5 @@
 <tr>
-	<td class="text-right"> Học viên mới hay cũ ? </td>
+	<td class="text-right"> Trạng thái đăng ký </td>
 	<td>
 		<div class="radio" style="margin-top: 0;">
 			<label class="radio-inline" style="width: 45%">
