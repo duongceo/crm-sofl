@@ -140,9 +140,10 @@ class Common extends MY_Controller {
             $right_edit = array(
                 'call_stt' => 'edit',
                 'level_contact' => 'edit',
+				'date_rgt_study' => 'edit',
 				'level_student' => 'edit',
 				'level_study' => 'edit',
-				'date_rgt_study' => 'edit',
+				'date_action_of_study' => 'edit',
 //				'status_register' => 'edit',
 				'is_old' => 'edit',
                 'date_recall' => 'edit',
@@ -153,6 +154,10 @@ class Common extends MY_Controller {
 				'date_confirm' => 'view',
             );
         }
+
+        if ($this->role_id == 1) {
+        	unset($right_edit['level_contact'], $right_edit['level_student'], $right_edit['level_study']);
+		}
 
         if ($this->role_id == 10 || ($this->role_id == 12 && $post['type_modal'] == 'customer_care')) {  //chăm sóc khách hàng
             $left_edit = array(
@@ -252,7 +257,7 @@ class Common extends MY_Controller {
 			'level_study' => array(
 				'order' => array('level_id' => 'ASC'),
 				'where' => array(
-					'parent_id' => '',
+//					'parent_id' => '',
 					'active' => 1
 				),
 			),
@@ -519,20 +524,21 @@ class Common extends MY_Controller {
 
 			if (isset($post['level_study_id']) && !empty($post['level_study_id']) && $post['level_study_id'] != '') {
 				$param['level_study_id'] = $post['level_study_id'];
+				$param['date_action_of_study'] = (isset($post['date_action_of_study']) && $post['date_action_of_study'] != '') ? strtotime($post['date_action_of_study']) : '';
 			}
 
-			if (isset($post['level_study_detail']) && !empty($post['level_study_detail']) && $post['level_study_detail'] != '') {
-				$param['level_study_detail'] = $post['level_study_detail'];
-			}
-			
-//			if ($post['level_contact_detail'] == 'L5.2' || $post['level_student_id'] == 'L8') {
-//				if ($post['is_old'] == 0) {
-//					$result['success'] = 0;
-//					$result['message'] = 'Contact là học viên cũ đúng ko ?';
-//					echo json_encode($result);
-//					die;
-//				}
+//			if (isset($post['level_study_detail']) && !empty($post['level_study_detail']) && $post['level_study_detail'] != '') {
+//				$param['level_study_detail'] = $post['level_study_detail'];
 //			}
+			
+			if ($post['level_student_id'] == 'L8') {
+				if ($post['is_old'] == 0) {
+					$result['success'] = 0;
+					$result['message'] = 'Contact là học viên cũ đúng ko ?';
+					echo json_encode($result);
+					die;
+				}
+			}
 
             $param['date_recall'] = (isset($post['date_recall']) && $post['date_recall'] != '') ? strtotime($post['date_recall']) : 0;
 //			print_arr($param);
@@ -1926,11 +1932,12 @@ class Common extends MY_Controller {
 			$this->load->model('level_contact_model');
 			$chil_level = $this->level_contact_model->load_all($input);
 			$name = "level_contact_detail";
-		}  else if ($post['level_id'] == 'L7') {
-			$this->load->model('level_study_model');
-			$chil_level = $this->level_study_model->load_all($input);
-			$name = "level_study_detail";
 		}
+//    	else if ($post['level_id'] == 'L7') {
+//			$this->load->model('level_study_model');
+//			$chil_level = $this->level_study_model->load_all($input);
+//			$name = "level_study_detail";
+//		}
 //    	else if (in_array($post['level_id'], array('L6', 'L8'))) {
 //			$this->load->model('level_student_model');
 //			$chil_level = $this->level_student_model->load_all($input);
@@ -1956,8 +1963,7 @@ class Common extends MY_Controller {
 		}
 	}
 
-	public function get_data_ajax()
-	{
+	public function get_data_ajax() {
 		$post = $this->input->post();
 		if ($post['type'] == 'language') {
 			$input['where']['language_id'] = $post['level_id'];
@@ -2001,7 +2007,7 @@ class Common extends MY_Controller {
 				}
 				$str .= '</select>
 						<div class="input-group-btn">
-							<a style="margin-top: 3px;" target="_blank" href="' . base_url('staff_managers/class_study') . '" class="btn btn-success">Tạo mã lớp</a>
+							<a style="padding: 10px;" target="_blank" href="' . base_url('staff_managers/class_study') . '" class="btn btn-success" >Tạo mã lớp</a>
 						</div>
 					</div>
 				</td>';

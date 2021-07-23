@@ -4,7 +4,7 @@
 
     <td> 
 
-        <div class="input-group">
+        <div class="input-group" style="margin: 0;">
 
            <input type="text" class="form-control datetimepicker date_recall" name="date_recall"
 

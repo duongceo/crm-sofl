@@ -4,7 +4,7 @@
 		<select class="form-control selectpicker" name="level_study_id">
 			<option value="">Trạng thái học tập</option>
 			<?php foreach ($level_study as $key => $value) { ?>
-				<option value="<?php echo $value['level_id']; ?>">
+				<option value="<?php echo $value['level_id']; ?>" <?php if ($value['level_id'] == $rows['level_study_id']) echo 'selected'; ?>>
 					<?php echo $value['level_id'] . ' - ' .$value['name']; ?>
 				</option>
 			<?php } ?>
@@ -12,10 +12,10 @@
 	</td>
 </tr>
 
-<tr class="ajax_level_study_id">
-	<td class="text-right">Trạng thái chi tiết</td>
-	<td>
-		<input class="form-control" name="level_study_detail" type="hidden" value="<?php echo (isset($rows['level_study_id'])) ? $rows['level_study_id'] : ''?>">
-		<?php echo (isset($rows['level_study_name'])) ? $rows['level_study_name'] : ''; ?>
-	</td>
-</tr>
+<!--<tr class="ajax_level_study_id">-->
+<!--	<td class="text-right">Trạng thái chi tiết</td>-->
+<!--	<td>-->
+<!--		<input class="form-control" name="level_study_detail" type="hidden" value="--><?php //echo (isset($rows['level_study_id'])) ? $rows['level_study_id'] : ''?><!--">-->
+<!--		--><?php //echo (isset($rows['level_study_name'])) ? $rows['level_study_name'] : ''; ?>
+<!--	</td>-->
+<!--</tr>-->
