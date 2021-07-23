@@ -1150,7 +1150,7 @@ class MY_Controller extends CI_Controller {
         $data['left_col'] = array('duplicate', 'date_rgt');
 //        $data['right_col'] = array('course_code');
         /*Các trường cần hiện của bảng contact (đã có default)*/
-        $this->table .= 'fee paid call_stt level_contact';
+        $this->table .= 'class_study_id fee paid call_stt level_contact';
         if ($this->role_id == 1 || $this->role_id == 12) {
             /*  nếu là nhân viên sale thì thêm nút thêm contact khi tìm kiếm */
             $this->table .= ' add_contact';
