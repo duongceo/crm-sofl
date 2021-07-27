@@ -36,7 +36,7 @@
 			<thead>
 				<tr>
 					<th style="background-color: #147c67" rowspan="2">Ngày</th>
-					<?php $report_2 = array('Xử Lý', 'Ko Nghe Máy', 'L1', 'L2', 'L3', 'L4', 'L5', 'L2/XL', 'L5/XL') ?>
+					<?php $report_2 = array('Xử Lý', 'KNM', 'L1', 'L2', 'L3', 'L4', 'L5', 'L2/XL', 'L5/XL') ?>
 					<?php foreach ($date_for_report as $key => $value) { ?>
 						<th colspan="<?php echo count($report_2)?>" style="background: #0f846c; height: 50px">
 							<?php echo $value; ?>
