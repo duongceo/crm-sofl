@@ -82,6 +82,9 @@ right_context_menu_display = (controller, contact_id, contact_name, duplicate_id
 	
 	$(".note_contact").attr('contact_name', contact_name);
 
+	// $(".set_data_contact").attr('contact_id', contact_id);
+	$(".set_data_contact").attr({'contact_id':contact_id, 'contact_name':contact_name});
+
     if (controller === 'manager' || controller === 'care_page') {
         $(".divide_one_contact_achor").attr('contact_id', contact_id);
         $(".divide_one_contact_achor").attr('contact_name', contact_name);
@@ -102,6 +105,7 @@ right_context_menu_display = (controller, contact_id, contact_name, duplicate_id
 		/* $(".transfer_one_contact_to_manager").attr('contact_name', contact_name) */
 		$(".merge_contact").attr('contact_id', contact_id);
 		$(".merge_contact").attr('contact_name', contact_name);
+
     }
 };
 
@@ -3695,7 +3699,6 @@ $(".search_phone").on('dblclick', function (e) {
 		// 	$(".popup-wrapper").show();
 		// },
 		success: function (data) {
-			console.log(data);
 			$('.body-modal-show-infor-contact').html('');
 			$('.body-modal-show-infor-contact').append(data);
 			$('.view_contact_from_ipphone').modal('show');
@@ -3816,5 +3819,37 @@ $(document).on('click', '.update_inline_now', function (e) {
 		},
 	});
 });
+
+/*
+$(document).on('click', '.check_diligence', function(e) {
+	e.preventDefault();
+	let contact_id = $(this).attr('item_id');
+	let url = $('#base_url').val() + 'student/check_diligence';
+	$.ajax({
+		url: url,
+		type: 'POST',
+		data: {
+			contact_id : contact_id
+		},
+		beforeSend: function() {
+			$(".popup-wrapper").show();
+		},
+		success: function (data) {
+			$('.body-modal-show-student').html('');
+			$('.body-modal-show-student').append(data);
+			$('.show_student').modal('show');
+		},
+		error: function(errorThrown) {
+			alert(errorThrown);
+			$(".popup-wrapper").hide();
+		},
+		complete: function() {
+			$(".popup-wrapper").hide();
+		},
+	});
+});
+
+ */
+
 
 

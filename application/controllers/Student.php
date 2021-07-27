@@ -212,7 +212,7 @@ class Student extends MY_Controller {
 			$param = array();
 			$param['contact_id'] = $post['contact_id'];
 			$param['staff_id'] = $this->user_id;
-			$param['content_change'] = 'Ghép contact';
+			$param['content_change'] = 'Ghép contact - ' . $post['phone_merger'];
 			$param['time_created'] = time();
 			$this->load->model('call_log_model');
 			$this->call_log_model->insert($param);
@@ -342,7 +342,7 @@ class Student extends MY_Controller {
 		$data = $this->data;
 		$this->load->model('branch_model');
 		$data['branch'] = $this->branch_model->load_all();
-		unset($data['branch'][8], $data['branch'][0]);
+		unset($data['branch'][8]);
 //		print_arr($data);
 		$data['content'] = 'student/chose_branch';
 		$this->load->view(_MAIN_LAYOUT_, $data);
@@ -460,6 +460,10 @@ class Student extends MY_Controller {
 				}
 			}
 		}
+	}
+
+	public function check_diligence() {
+		$post = $this->input->post();
 	}
 
 }
