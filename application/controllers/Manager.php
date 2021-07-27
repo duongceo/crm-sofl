@@ -1985,7 +1985,8 @@ class Manager extends MY_Controller {
 			),
 			'level_study' => array(
 				'where' => array('parent_id' => 'L7')
-			)
+			),
+			'character_class' => array()
 		);
 
 		$data = array_merge($this->data, $this->_get_require_data($require_model));
@@ -2023,7 +2024,7 @@ class Manager extends MY_Controller {
 			foreach ($data['level_study'] as $key_level => $value_level) {
 				foreach ($data['language_study'] as $value_language) {
 					$conditional = array();
-					$conditional['where']['level_study_detail'] = $value_level['level_id'];
+					$conditional['where']['level_study_id'] = $value_level['level_id'];
 					$conditional['where']['date_rgt_study >='] = $date_from;
 					$conditional['where']['date_rgt_study <='] = $date_end;
 					$conditional['where']['branch_id'] = $value_branch['id'];
@@ -2038,9 +2039,16 @@ class Manager extends MY_Controller {
 				$input_class['where'] = array(
 					'time_start >=' => $date_from + 7*24*60*60,
 					'time_start <=' => $date_end,
-					'character_class_id' => 2,
+//					'character_class_id' => 2,
 					'branch_id' => $value_branch['id']
 				);
+
+				if (isset($get['filter_character_class_id']) && $get['filter_character_class_id'] != '') {
+					$input_class['where_in']['character_class_id'] = $get['filter_character_class_id'];
+				} else {
+					$input_class['where']['character_class_id'] = 2;
+
+				}
 
 				$class = $this->class_study_model->load_all($input_class);
 
@@ -2052,7 +2060,7 @@ class Manager extends MY_Controller {
 						$report_class[$value_branch['name']][$value_class['class_study_id']]['student'] = $this->_query_for_report($get, $input_contact);
 
 						unset($input_contact['where']['level_contact_id']);
-						$input_class_level_study = array_merge_recursive($input_contact, array('where' => array('level_study_detail' => $value_level['level_id'])));
+						$input_class_level_study = array_merge_recursive($input_contact, array('where' => array('level_study_id' => $value_level['level_id'])));
 						$report_class[$value_branch['name']][$value_class['class_study_id']][$value_level['level_id']] = $this->_query_for_report($get, $input_class_level_study);
 					}
 				}
@@ -2064,7 +2072,7 @@ class Manager extends MY_Controller {
 		$data['report_class'] = $report_class;
 		$data['startDate'] = $date_from;
 		$data['endDate'] = $date_end;
-		$data['left_col'] = array('date_happen_1');
+		$data['left_col'] = array('date_happen_1', 'character_class');
 //		$data['right_col'] = array('is_old');
 //		$data['load_js'] = array('m_view_report');
 		$data['content'] = 'manager/view_report_care_l7';
