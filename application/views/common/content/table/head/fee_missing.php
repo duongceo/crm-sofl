@@ -1,6 +1,4 @@
-<th class="order_price_purchase tbl_price_purchase" id="th_tbl_price_purchase">
-
-	<input type="text" class="hidden" />
+<th class="order_price_purchase tbl_price_purchase">
 
 	Học phí còn lại
 
