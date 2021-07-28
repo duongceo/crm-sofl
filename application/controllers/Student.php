@@ -39,6 +39,7 @@ class Student extends MY_Controller {
 					'parent_id' => ''
 				)
 			),
+			'character_class' => array()
 		);
 		return array_merge($this->data, $this->_get_require_data($require_model));
 	}
@@ -104,7 +105,7 @@ class Student extends MY_Controller {
 		$data['contacts'] = $data_pagination['data'];
 		$data['total_contact'] = $data_pagination['total_row'];
 
-		$data['left_col'] = array('date_rgt_study', 'date_paid', 'study_date_start', 'study_date_end');
+		$data['left_col'] = array('character_class', 'date_rgt_study', 'date_paid', 'study_date_start', 'study_date_end');
 		$data['right_col'] = array('language', 'class_study', 'is_old', 'complete_fee');
 
 		$this->table .= 'class_study_id fee paid level_contact level_student date_rgt_study';

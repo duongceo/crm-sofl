@@ -146,7 +146,7 @@ class Contact_excel extends MY_Table {
 
 		$sheet = $objPHPExcel->getActiveSheet();
 
-		$data1 = $sheet->rangeToArray('A1:K1000');
+		$data1 = $sheet->rangeToArray('A1:M1000');
 		// echo '<pre>'; print_r($data1);die();
 
 		$receive_contact = array();
@@ -165,6 +165,7 @@ class Contact_excel extends MY_Table {
 					'note' => $row[6],
 					'source_id' => $row[7],
 					'address' => $row[8],
+					'birthday' => strtotime($row[9]),
 				);
 			}
 		}
@@ -191,7 +192,8 @@ class Contact_excel extends MY_Table {
 				'duplicate_id' => $dupliacte,
 				'source_id' => $value['source_id'],
 				'is_old' => $is_old,
-				'address' => $value['address']
+				'address' => $value['address'],
+				'birthday' => $value['birthday']
 			);
 
 			$id = $this->contacts_model->insert_return_id($data, 'id');

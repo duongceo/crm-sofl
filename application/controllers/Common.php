@@ -60,6 +60,7 @@ class Common extends MY_Controller {
         $left_view = array(
             'contact_id' => 'view',
             'name' => 'view',
+            'birthday' => 'view',
 //            'email' => 'view',
             'phone' => 'view',
             'phone_foreign' => 'view',

@@ -87,7 +87,7 @@ defined('EXIT__AUTO_MAX') OR define('EXIT__AUTO_MAX', 125); // highest automatic
 
 
 define('_MAIN_LAYOUT_', 'common/main');
-define('_DATE_FORMAT_', 'd/m/Y H:i:s');
+define('_DATE_FORMAT_', 'd/m/Y H:i');
 
 define('_SO_MAY_SAI_', 1);
 define('_KHONG_NGHE_MAY_', 2);
