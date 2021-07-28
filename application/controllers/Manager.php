@@ -2047,7 +2047,6 @@ class Manager extends MY_Controller {
 					$input_class['where_in']['character_class_id'] = $get['filter_character_class_id'];
 				} else {
 					$input_class['where']['character_class_id'] = 2;
-
 				}
 
 				$class = $this->class_study_model->load_all($input_class);
