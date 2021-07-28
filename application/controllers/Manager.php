@@ -2058,6 +2058,9 @@ class Manager extends MY_Controller {
 						$input_contact['where']['level_contact_id'] = 'L5';
 						$report_class[$value_branch['name']][$value_class['class_study_id']]['student'] = $this->_query_for_report($get, $input_contact);
 
+						$input_contact['where']['status_end_student_id'] = 4;
+						$report_class[$value_branch['name']][$value_class['class_study_id']]['student_L8'] = $this->_query_for_report($get, $input_contact);
+
 						unset($input_contact['where']['level_contact_id']);
 						$input_class_level_study = array_merge_recursive($input_contact, array('where' => array('level_study_id' => $value_level['level_id'])));
 						$report_class[$value_branch['name']][$value_class['class_study_id']][$value_level['level_id']] = $this->_query_for_report($get, $input_class_level_study);

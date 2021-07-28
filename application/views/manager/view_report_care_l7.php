@@ -119,6 +119,7 @@
 					<?php foreach ($level_study as $value_study) { ?>
 						<th style="background-color: #2b669a"><?php echo $value_study['level_id']?></th>
 					<?php } ?>
+					<th style="background-color: #2b669a">HV đăng ký lên</th>
 				</tr>
 			</thead>
 
@@ -134,6 +135,9 @@
 							<h5><?php echo $item_2[$value_study['level_id']] ?></h5>
 						</td>
 						<?php }	?>
+						<td>
+							<h5><?php echo $item_2['student_L8'] ?></h5>
+						</td>
 					</tr>
 				<?php } ?>
 			</tbody>
