@@ -276,9 +276,9 @@ class Marketing extends MY_Controller {
 
 			$Report[$key]['language_name'] = $this->language_study_model->find_language_name($key);
 
-//			if ($Report[$key]['C3'] == 0 && $Report[$key]['L5'] == 0 && $Report[$key]['Ma_mkt'] == 0 && $Report[$key]['RE'] == 0) {
-//				unset($Report[$key]);
-//			}
+			if ($Report[$key]['C3'] == 0 && $Report[$key]['L5'] == 0 && $Report[$key]['Ma_mkt'] == 0 && $Report[$key]['RE'] == 0) {
+				unset($Report[$key]);
+			}
 
 		}
 
