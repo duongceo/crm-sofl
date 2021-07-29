@@ -14,6 +14,18 @@
 					</div>
 
 					<div class="form-group">
+						<h5><b>Giữ lại contact nào</b></h5>
+						<div class="radio" style="margin-top: 0;">
+							<label class="radio-inline" style="width: 45%; font-size: 15px;">
+								<input type="radio" name="keep_contact" value="0" > Contact ban đầu
+							</label>
+							<label class="radio-inline" style="width: 45%; font-size: 15px;">
+								<input type="radio" name="keep_contact" value="1"> Contact theo sđt vừa nhập
+							</label>
+						</div>
+					</div>
+
+					<div class="form-group">
 						<input class="btn btn-success btn-block btn-lg" type="submit" value="Ghép Contact" />
 					</div>
 				</form>

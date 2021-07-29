@@ -193,22 +193,42 @@ class Student extends MY_Controller {
 
     public function merge_contact() {
 		$post = $this->input->post();
+		print_arr($post);
 
 		$input = array();
-		$input['select'] = 'id';
+		$input['select'] = 'id, phone';
 		$input['where'] = array('phone' => trim($post['phone_merger']));
 		$contact_merger = $this->contacts_model->load_all($input);
 
+		$input_contact['where'] = array('id' => trim($post['contact_id']));
+		$contact = $this->contacts_model->load_all($input_contact);
+
 		if (!empty($contact_merger)) {
-			$where_infor = array('contact_id' => $contact_merger[0]['id']);
-			$data = array('contact_id' => $post['contact_id']);
 
-			$this->load->model('paid_model');
-			$this->paid_model->update($where_infor, $data);
-			$this->load->model('notes_model');
-			$this->notes_model->update($where_infor, $data);
+			if ($post['keep_contact'] == 0) {
+				$where_infor = array('contact_id' => $contact_merger[0]['id']);
+				$data = array('contact_id' => $post['contact_id']);
 
-			$this->contacts_model->update(array('id' => $post['contact_id']), array('phone_foreign' => $post['phone_merger']));
+				$this->load->model('paid_model');
+				$this->paid_model->update($where_infor, $data);
+				$this->load->model('notes_model');
+				$this->notes_model->update($where_infor, $data);
+
+				$this->contacts_model->update(array('id' => $post['contact_id']), array('phone_foreign' => $post['phone_merger']));
+				$this->contacts_model->delete(array('id' => $contact_merger[0]['id']));
+			} elseif ($post['keep_contact'] == 1) {
+				$where_infor = array('contact_id' => $post['contact_id']);
+				$data = array('contact_id' => $contact_merger[0]['id']);
+
+				$this->load->model('paid_model');
+				$this->paid_model->update($where_infor, $data);
+				$this->load->model('notes_model');
+				$this->notes_model->update($where_infor, $data);
+
+				$this->contacts_model->update(array('id' => $post['contact_id']), array('phone_foreign' => $contact[0]['phone']));
+
+				$this->contacts_model->delete(array('id' => $post['contact_id']));
+			}
 
 			$param = array();
 			$param['contact_id'] = $post['contact_id'];
@@ -217,8 +237,6 @@ class Student extends MY_Controller {
 			$param['time_created'] = time();
 			$this->load->model('call_log_model');
 			$this->call_log_model->insert($param);
-
-			$this->contacts_model->delete(array('id' => $contact_merger[0]['id']));
 
 			$msg = 'Đã ghép contact thành công contact với sđt - ' . $post['phone_merger'];
 		} else {
