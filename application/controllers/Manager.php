@@ -2891,33 +2891,60 @@ class Manager extends MY_Controller {
 		$rowCount = 1;
 		$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'STT');
 		$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Họ tên');
-		$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Email');
+		$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Địa chỉ');
 		$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Số điện thoại');
-		$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'ID cơ sở');
-		$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'ID ngoại ngữ');
-		$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Ghi chú');
+		$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Học phí');
+		$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Khóa học');
+		$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Tổng số giờ');
+		$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Lớp');
+		$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Học phí gốc');
+		$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Thời gian học');
+		$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Ngày học');
+		$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Ngày khai giảng');
+		//$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'ID cơ sở');
+		//$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'ID ngoại ngữ');
 		$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Ngày đăng ký');
+
+		//$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Ghi chú');
 
 		$rowCount++;
 
         //đổ dữ liệu ra file excel
+		$this->load->model('class_study_model');
+		$this->load->model('level_language_model');
+		$this->load->model('time_model');
+		$this->load->model('day_model');
         $i = 1;
 //		$rowCount = 2;
         foreach ($post['contact_id'] as $value) {
             $input = array();
-            $input['select'] = 'name, branch_id, language_id, email, phone, date_rgt';
+            //$input['select'] = 'name, branch_id, language_id, email, phone, date_rgt';
             $input['where'] = array('id' => $value);
             $contact = $this->contacts_model->load_all($input);
-//            print_arr($value);
+			
+			
+			$input_class['where'] = array('class_study_id' => $contact['class_study_id']);
+			$class = $this->class_study_model->load_all($input_class);
+//          print_arr($value);
+			$course = $this->level_language_model->get_name_level_language($contact[0]['level_language_id']);
+			$time = $this->time_model->get_time($class[0]['time_id']);
+			$day = $this->day_model->get_day($class[0]['day_id']);
 
             $columnName = 'A';
             $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $i++);
             $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['name']);
-            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['email']);
+            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['address']);
             $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['phone']);
-            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['branch_id']);
-            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['language_id']);
-            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['email']);
+            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['fee']);
+            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $course);
+            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, !empty($class) ? $class[0]['total_lesson'] : 0);
+            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['class_study_id']);
+            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 0);
+            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $time);
+            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $day);
+			$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, !empty($class) ? date('d/m/Y', $class[0]['time_start']) : 0);
+            //$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['branch_id']);
+            //$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['language_id']);
             $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, date('d/m/Y', $contact[0]['date_rgt']));
             $objPHPExcel->getActiveSheet()->getRowDimension($rowCount)->setRowHeight(35);
 //            $BStyle = array(

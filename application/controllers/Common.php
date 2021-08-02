@@ -1675,7 +1675,7 @@ class Common extends MY_Controller {
 
     }
 */
-
+	/*
 	public function ExportToExcel() {
 		$post = $this->input->post();
 
@@ -1726,6 +1726,129 @@ class Common extends MY_Controller {
 		$objWriter->save('php://output');
 		die;
 	}
+	*/
+	
+	public function ExportToExcel($post=array()) {
+
+    	if (empty($post)) {
+			$post = $this->input->post();
+		}
+
+		$this->load->library('PHPExcel');
+        $objPHPExcel = new PHPExcel();
+        $objPHPExcel->setActiveSheetIndex(0);
+        // $objPHPExcel->getActiveSheet()->getStyle("A1:H1")->getFont()->setSize(11)->setBold(true)->setName('Times New Roman');
+        //     ->getColor()->setRGB('FFFFFF')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+//        $styleArray = array(
+//            'font' => array(
+//                'bold' => true,
+//                'color' => array('rgb' => 'FFFFFF'),
+//                'size' => 15,
+//                'name' => 'Times New Roman'
+//            ),
+//            'alignment' => array(
+//                'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+//                'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER
+//            )
+//        );
+//        $objPHPExcel->getActiveSheet()->getStyle("A1:R1")->applyFromArray($styleArray);
+//        $objPHPExcel->getActiveSheet()->getStyle("A1:R1")->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setARGB('548235');
+//        $objPHPExcel->getActiveSheet()->getStyle("A1:R1")->getBorders()->getAllBorders()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
+//        $objPHPExcel->getActiveSheet()->getStyle("A2:R200")->getFont()->setSize(15)->setName('Times New Roman');
+//        $objPHPExcel->getActiveSheet()->getRowDimension('1')->setRowHeight(40);
+//        $objPHPExcel->getActiveSheet()->getSheetView()->setZoomScale(73);
+
+        //set tên các cột cần in
+		$columnName = 'A';
+		$rowCount = 1;
+		$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'STT');
+		$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Họ tên');
+		$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Địa chỉ');
+		$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Số điện thoại');
+		$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Học phí');
+		$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Khóa học');
+		$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Tổng số giờ');
+		$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Lớp');
+		$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Học phí gốc');
+		$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Thời gian học');
+		$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Ngày học');
+		$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Ngày khai giảng');
+		//$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'ID cơ sở');
+		//$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'ID ngoại ngữ');
+		$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Ngày đăng ký');
+
+		//$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Ghi chú');
+
+		$rowCount++;
+
+        //đổ dữ liệu ra file excel
+		$this->load->model('class_study_model');
+		$this->load->model('level_language_model');
+		$this->load->model('time_model');
+		$this->load->model('day_model');
+        $i = 1;
+//		$rowCount = 2;
+        foreach ($post['contact_id'] as $value) {
+            $input = array();
+            //$input['select'] = 'name, branch_id, language_id, email, phone, date_rgt';
+            $input['where'] = array('id' => $value);
+            $contact = $this->contacts_model->load_all($input);
+			
+			$class = array();
+			if ($contact[0]['class_study_id'] != '') {
+				$input_class['where'] = array('class_study_id' => $contact[0]['class_study_id']);
+				$class = $this->class_study_model->load_all($input_class);
+				//print_arr($class);
+			}
+			
+			$course = $this->level_language_model->get_name_level_language($contact[0]['level_language_id']);
+			$day = $time = '';
+			if (!empty($class)) {
+				$day = $this->day_model->get_day($class[0]['day_id']);
+				$time = $this->time_model->get_time($class[0]['time_id']);
+			}
+			//print_arr($day);
+			
+            $columnName = 'A';
+            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $i++);
+            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['name']);
+            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['address']);
+            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['phone']);
+            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['fee']);
+            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $course);
+            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, (!empty($class)) ? $class[0]['total_lesson'] : 0);
+            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['class_study_id']);
+            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 0);
+            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $time);
+            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $day);
+			$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, (!empty($class)) ? date('d/m/Y', $class[0]['time_start']) : 0);
+            //$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['branch_id']);
+            //$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['language_id']);
+            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, date('d/m/Y', $contact[0]['date_rgt']));
+            $objPHPExcel->getActiveSheet()->getRowDimension($rowCount)->setRowHeight(35);
+//            $BStyle = array(
+//                'borders' => array(
+//                    'allborders' => array(
+//                        'style' => PHPExcel_Style_Border::BORDER_THICK,
+//                        'color' => array('rgb' => '151313')
+//                    )
+//                )
+//            );
+//            $objPHPExcel->getActiveSheet()->getStyle('A' . $rowCount . ':' . $columnName . $rowCount)->applyFromArray($BStyle);
+            $rowCount++;
+        }
+
+//        foreach (range('A', $columnName) as $columnID) {
+//            $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
+//        }
+
+		$objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
+		header('Content-Type: application/vnd.ms-excel;charset=utf-8');
+		header('Content-Disposition: attachment;filename="Contact_' . date('d/m/Y') . '.xlsx"');
+		header('Cache-Control: max-age=0');
+		$objWriter->save('php://output');
+        die;
+    }
 
     /*
     public function ExportL7ToExcel() {
