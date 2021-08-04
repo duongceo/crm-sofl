@@ -674,6 +674,10 @@ class Sale extends MY_Controller {
 						$param['sale_staff_id'] = $input['sale_staff_id'];
 					}
 				}
+				
+				if (in_array($param['language_id'], array(13, 14, 15))) {
+					$param['branch_id'] = 1;
+				}
 
 				//$param['date_rgt'] = time();
                 $param['date_handover'] = time();

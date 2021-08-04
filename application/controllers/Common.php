@@ -2124,7 +2124,7 @@ class Common extends MY_Controller {
 				
 				<td>
 					<div class="input-group">
-						<select class="form-control selectpicker" name="class_study_id">
+						<select class="form-control class_study_select" name="class_study_id">
 							<option value=""> Chọn lớp học </option>';
 				foreach ($class as $value) {
 					$str .= "<option value='{$value['class_study_id']}'> {$value['class_study_id']} </option>";
@@ -2134,7 +2134,15 @@ class Common extends MY_Controller {
 							<a style="padding: 10px;" target="_blank" href="' . base_url('staff_managers/class_study') . '" class="btn btn-success" >Tạo mã lớp</a>
 						</div>
 					</div>
-				</td>';
+				</td>
+				<script>
+						$(document).ready(function() {
+							$(".class_study_select").select2({
+								width: "100%",
+							});
+						});
+					</script>
+				';
 				echo $str;
 			} else {
 				echo '<td class="text-right"></td>';

@@ -125,6 +125,10 @@ class Contact extends CI_Controller {
            		$param['source_id'] = 1;
            	}
 
+			if (in_array($param['language_id'], array(13, 14, 15))) {
+				$param['branch_id'] = 1;
+			}
+
             // $param['source_id'] = (isset($input['source_id'])) ? $input['source_id'] : 1;
 
             $param['last_activity'] = time();
