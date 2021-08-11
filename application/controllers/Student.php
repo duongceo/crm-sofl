@@ -306,6 +306,7 @@ class Student extends MY_Controller {
 			$param['day_cost'] = strtotime(str_replace("/", "-", $post['day_cost']));
 			$param['time_created'] = time();
 			$param['branch_id'] = $this->branch_id;
+			$param['user_id'] = $this->user_id;
 			$param['day'] = date('d-m-Y', strtotime($post['day_cost']));
 			$this->cost_branch_model->insert($param);
 			redirect(base_url('student/cost_branch'));

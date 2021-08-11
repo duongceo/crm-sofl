@@ -30,6 +30,7 @@
 					<th>Nội dung</th>
 					<th>Ngày nhập</th>
 					<th>Cơ sở</th>
+					<th>Người nhập</th>
 				</tr>
 			</thead>
 
@@ -51,6 +52,9 @@
 						</td>
 						<td class="text-center">
 							<?php echo $item['branch_name']; ?>
+						</td>
+						<td class="text-center">
+							<?php echo $this->session->userdata('name');; ?>
 						</td>
 					</tr>
 				<?php } ?>

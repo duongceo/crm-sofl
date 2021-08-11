@@ -249,9 +249,18 @@
 <!---->
 <!--                    </a>-->
 <!--                </li>-->
-                
+
             </ul>
         </li>
+
+		<?php if ($this->user_id == 74) { ?>
+			<li>
+				<a href="<?php echo base_url('student/cost_branch'); ?>">
+					<img src="<?php echo base_url(); ?>public/images/add-contact.png">
+					<span> Cập nhật chi tiêu du học</span>
+				</a>
+			</li>
+		<?php } ?>
 
 		<li>
 			<a href="<?php echo base_url('sale/view_history_call'); ?>">
