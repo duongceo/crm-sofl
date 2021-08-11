@@ -339,7 +339,7 @@ class Sale extends MY_Controller {
 		$data['level_student_detail'] = $this->level_student_model->load_all($input);
 		
 		$data['left_col'] = array('care_number', 'language', 'date_rgt', 'date_handover', 'date_confirm', 'date_rgt_study', 'date_last_calling', 'date_transfer');
-        $data['right_col'] = array('call_status', 'level_contact', 'level_contact_detail', 'level_student', 'level_student_detail');
+        $data['right_col'] = array('call_status', 'level_contact', 'level_contact_detail', 'level_student', 'level_student_detail', 'source', 'class_study');
 		
 //		if ($this->user_id == 18) {
 //			unset($conditional['where']['sale_staff_id']);
@@ -1097,9 +1097,11 @@ class Sale extends MY_Controller {
             'language_study' => array(),
             'call_status' => array('order' => array('sort' => 'ASC')),
             'payment_method_rgt' => array(),
-			'link' => array(),
-			'channel' => array(),
-			'campaign' => array(),
+			'sources' => array(),
+//			'link' => array(),
+//			'channel' => array(),
+//			'campaign' => array(),
+
         );
         return array_merge($this->data, $this->_get_require_data($require_model));
     }
