@@ -1513,13 +1513,14 @@ class Manager extends MY_Controller {
 			'staffs' => array(
 				'where' => array(
 					'role_id' => 1,
-					'active' => 1
+					'active' => 1,
+					'sale_study_abroad' => 1
 				)
 			),
 			'sources' => array(
 				'where' => array(
 					'active' => 1,
-					'out_report' => 1
+//					'out_report' => 1
 				)
 			)
 		);
