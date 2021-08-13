@@ -416,6 +416,7 @@ class Student extends MY_Controller {
 
 	public function attendance_class() {
 		$this->load->model('attendance_model');
+		$this->load->model('class_study_model');
 		$get = $this->input->get();
 		$input['select'] = 'id, name, class_study_id';
 		$input['where'] = array(
@@ -424,7 +425,11 @@ class Student extends MY_Controller {
 		);
 
 		$input['where_not_in']['level_study_detail'] = array('L7.1', 'L7.2', 'L7.3', 'L7.4', 'L7.5');
+		$input['where_not_in']['level_study_id'] = array('L7.1', 'L7.2', 'L7.3', 'L7.4', 'L7.5');
 		$data['contact'] = $this->contacts_model->load_all($input);
+
+		$input_class['where'] = array('class_study_id' => $get['class_study_id']);
+		$class = $this->class_study_model->load_all($input_class);
 
 		if (!empty($data['contact'])) {
 			foreach ($data['contact'] as &$value) {
@@ -445,14 +450,18 @@ class Student extends MY_Controller {
 		}
 
 		$data['class'] = $get['class_study_id'];
+		$data['lesson_learned'] = $class[0]['lesson_learned'];
 		$data['content'] = 'student/attendance_class';
 		$this->load->view(_MAIN_LAYOUT_, $data);
 	}
 
 	public function action_attendance() {
 		$this->load->model('attendance_model');
+		$this->load->model('class_study_model');
 		$post = $this->input->post();
-//		print_arr((array) json_decode($post['data_attendance']));
+		$result = array();
+
+//		print_arr($post);
 		$data = json_decode($post['data_attendance']);
 		if (!empty($data)) {
 			foreach ($data as $item) {
@@ -469,7 +478,8 @@ class Student extends MY_Controller {
 					'contact_id' => $item->contact_id,
 					'presence_id' => $item->presence_id,
 					'time_update' => time(),
-					'note' => $item->note
+					'note' => $item->note,
+					'lesson_learned' => $post['lesson_learned']
 				);
 
 				if (empty($contact_attend)) {
@@ -478,8 +488,25 @@ class Student extends MY_Controller {
 				} else {
 					$this->attendance_model->update($input_attend['where'], $param);
 				}
+
+				$class_id = $item->class_id;
 			}
+
+			$where_class = array('class_study_id' => $class_id);
+			$data_class['lesson_learned'] = $post['lesson_learned'];
+
+			$this->class_study_model->update($where_class, $data_class);
+
+			$result['good'] = 1;
+			$result['message'] = 'Điểm danh thành công';
+
+		} else {
+			$result['good'] = 0;
+			$result['message'] = 'Điểm Không thành công';
 		}
+
+		echo json_encode($result);
+		die();
 	}
 
 	public function check_diligence() {

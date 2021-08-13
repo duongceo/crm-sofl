@@ -39,9 +39,17 @@
 							<td class="text-center">
 								<input type="text" name="note_<?php echo $item['id']?>" value="<?php echo ($item['note'] != '') ? $item['note']:''?>" style="width: 100%">
 							</td>
-
 						</tr>
+
 					<?php } ?>
+					<tr>
+						<td class="text-center" style="font-size: 16px;">
+							Số buổi học
+						</td>
+						<td class="text-center">
+							<input type="text" name="lesson_learned" value="<?php echo $lesson_learned; ?>">
+						</td>
+					</tr>
 				</tbody>
 			</table>
 			<div class="text-center">
@@ -54,6 +62,7 @@
 <script type="text/javascript">
 	$(document).on('click', '.btn-attendance', function (e) {
 		e.preventDefault();
+		let lesson_learned = $('input[name=lesson_learned]').val();
 		let statusList = $('input[type=radio]:checked');
 		let data = [];
 		for (let i=0; i<statusList.length; i++) {
@@ -70,10 +79,26 @@
 			url: $("#base_url").val() + "student/action_attendance",
 			type: "POST",
 			data: {
-				data_attendance: JSON.stringify(data)
+				data_attendance: JSON.stringify(data),
+				lesson_learned: lesson_learned
 			},
-			success: function (infor) {
-				location.reload();
+			success: function (data) {
+				data = JSON.parse(data);
+				if (data.good == 1) {
+					$.notify(data.message, {
+						position: "top left",
+						className: 'success',
+						showDuration: 200,
+						autoHideDelay: 5000
+					});
+				} else {
+					$.notify('Có lỗi xảy ra! Nội dung: ' + data.message, {
+						position: "top left",
+						className: 'error',
+						showDuration: 200,
+						autoHideDelay: 7000
+					});
+				}
 			},
 		});
 	});
