@@ -260,7 +260,7 @@
                     </div>
                 </div>
 
-				<?php if ($this->role_id == 11 || $this->role_id == 3 || $this->role_id == 12) { ?>
+				<?php if (in_array($this->role_id, [1, 3, 6, 12])) { ?>
 					<div class="form-group">
 						<div class="row">
 							<div class="col-md-4 col-xs-4 text-right">
@@ -303,7 +303,7 @@
                     </div>
                 </div>
 
-			<?php if($this->role_id == 6){ ?>
+		<!-- 	<?php if($this->role_id == 6){ ?>
 				<div class="form-group">
                     <div class="row">
                         <div class="col-md-4 col-xs-4 text-right">
@@ -374,7 +374,7 @@
                         </div>
                     </div>
                 </div>
-			<?php } ?>
+			<?php } ?> -->
 
                 <div class="form-group">
                     <div class="row">

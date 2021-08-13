@@ -240,7 +240,7 @@ class Marketing extends MY_Controller {
 				'language_id' => $key
 			);
 
-			$input_re['where_not_in']['source_id'] = array(11);
+			$input_re['where_in']['source_id'] = array(1, 2, 8);
 
 			if (isset($get['filter_branch_id'])) {
 				$input_re['where_in']['branch_id'] = $get['filter_branch_id'];
