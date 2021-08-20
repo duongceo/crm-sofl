@@ -302,6 +302,13 @@
 			</ul>
 		</li>
 
+		<li>
+			<a href="<?php echo base_url('student/cost_branch'); ?>">
+				<img src="<?php echo base_url(); ?>public/images/add-contact.png">
+				<span> Thống kê chi tiêu tại cơ sở </span>
+			</a>
+		</li>
+
         <li>
             <a href="#homeSubmenu_6" data-toggle="collapse" aria-expanded="false">
 				<img src="<?php echo base_url(); ?>public/images/add-contact.png">
