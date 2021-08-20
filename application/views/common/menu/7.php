@@ -60,6 +60,13 @@
 		</li>
 
 		<li>
+			<a href="<?php echo base_url('staff_managers/level_language'); ?>">
+				<img src="<?php echo base_url(); ?>public/images/view-all.png">
+				<span> Quản lý Khóa học </span>
+			</a>
+		</li>
+
+		<li>
 			<a href="<?php echo base_url('staff_managers/teacher'); ?>">
 				<img src="<?php echo base_url(); ?>public/images/view-all.png">
 				<span> Quản lý giảng viên </span>
