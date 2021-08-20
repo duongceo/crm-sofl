@@ -756,35 +756,35 @@ class MY_Controller extends CI_Controller {
 
      */
 
-    protected function _put_L8_to_MOL($receiveCOD) {
-
-        if (!empty($receiveCOD)) {
-
-            $this->load->library('REST');
-
-            $config = array(
-
-            	'server' => 'http://mol.lakita.vn/',
-
-                'api_key' => 'SSeKfm7RXCJZxnFUleFsPf63o2ymZ93fWuCmvCjq',
-
-                'api_name' => 'key'
-
-            );
-
-            $this->rest->initialize($config);
-
-            foreach ($receiveCOD as $value) {
-
-                $param['contact_id'] = $value;
-
-                $this->rest->post('contact_collection_api/C3L8', $param);
-
-            }
-
-        }
-
-    }
+//    protected function _put_L8_to_MOL($receiveCOD) {
+//
+//        if (!empty($receiveCOD)) {
+//
+//            $this->load->library('REST');
+//
+//            $config = array(
+//
+//            	'server' => 'http://mol.lakita.vn/',
+//
+//                'api_key' => 'SSeKfm7RXCJZxnFUleFsPf63o2ymZ93fWuCmvCjq',
+//
+//                'api_name' => 'key'
+//
+//            );
+//
+//            $this->rest->initialize($config);
+//
+//            foreach ($receiveCOD as $value) {
+//
+//                $param['contact_id'] = $value;
+//
+//                $this->rest->post('contact_collection_api/C3L8', $param);
+//
+//            }
+//
+//        }
+//
+//    }
 
     /*
 
@@ -1287,7 +1287,6 @@ class MY_Controller extends CI_Controller {
         $input['where']['active'] = 1;
         $input['where']['out_report'] = '0';
 		$language = $this->language_study_model->load_all($input);
-//		print_arr($language);
 
 		$total_new = 0;
 		$total_old = 0;

@@ -14,6 +14,7 @@
 			<thead>
 				<tr>
 					<th style="background-color: #2b669a"><?php echo $key?></th>
+					<th style="background-color: #2b669a">Số buổi đã học</th>
 					<th style="background-color: #2b669a">Lương giáo viên theo số buổi</th>
 					<th style="background-color: #2b669a">Số lượng học viên</th>
 					<th style="background-color: #2b669a">Doanh Thu</th>
@@ -25,6 +26,9 @@
 					<tr>
 						<td style="background-color: #43bcdf96">
 							<h5><?php echo $key_2 ?></h5>
+						</td>
+						<td>
+							<h5><?php echo $item_2['lesson_learned'] ?></h5>
 						</td>
 						<td>
 							<h5><?php echo $item_2['salary_teacher'] ?></h5>

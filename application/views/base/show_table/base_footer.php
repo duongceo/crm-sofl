@@ -1,8 +1,5 @@
-<?php
 
-if (isset($rows[0]['fee'])) {
-
-    ?>
+<?php if (isset($rows[0]['fee'])) { ?>
 
     <div class="number_paging" > 
 
