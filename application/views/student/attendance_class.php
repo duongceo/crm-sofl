@@ -13,6 +13,7 @@
 						<th>Đi học</th>
 						<th>Nghỉ có phép</th>
 						<th>Nghỉ không phép</th>
+						<th>Điểm</th>
 						<th>Ghi chú</th>
 					</tr>
 				</thead>
@@ -37,10 +38,12 @@
 								<input type="radio" name="check_attend_<?php echo $item['id']?>" <?php echo ($item['presence_id'] == 3) ? 'checked':''?> contact_id="<?php echo $item['id']?>" value="3" class="form-control">
 							</td>
 							<td class="text-center">
+								<input type="text" name="score" value="<?php echo ($item['score'] != '') ? $item['score'] : ''?>" style="width: 50%">
+							</td>
+							<td class="text-center">
 								<input type="text" name="note_<?php echo $item['id']?>" value="<?php echo ($item['note'] != '') ? $item['note']:''?>" style="width: 100%">
 							</td>
 						</tr>
-
 					<?php } ?>
 					<tr>
 						<td class="text-center" style="font-size: 16px;">

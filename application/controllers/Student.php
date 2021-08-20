@@ -479,7 +479,8 @@ class Student extends MY_Controller {
 					'presence_id' => $item->presence_id,
 					'time_update' => time(),
 					'note' => $item->note,
-					'lesson_learned' => $post['lesson_learned']
+					'lesson_learned' => $post['lesson_learned'],
+					'score' => $post['score']
 				);
 
 				if (empty($contact_attend)) {
@@ -510,7 +511,30 @@ class Student extends MY_Controller {
 	}
 
 	public function check_diligence() {
+		$this->load->model('attendance_model');
 		$post = $this->input->post();
+
+		$input['select'] = 'name, phone, class_study_id';
+		$input['where'] = array('id' => $post['contact_id']);
+		$input_diligence['where'] = array('contact_id' => $post['contact_id']);
+		$data['diligence'] = $this->attendance_model->load_all($input_diligence);
+
+		$data_pagination = $this->_query_all_from_get(array(), $input, 50, 0);
+
+		$data['pagination'] = $this->_create_pagination_link($data_pagination['total_row']);
+		$data['total_contact'] = $data_pagination['total_row'];
+
+		$contact_arr = [];
+		if (!empty($data['diligence'])) {
+			foreach ($data['diligence'] as $item) {
+				$contact_arr[] = array_merge($data_pagination['data'][0], $item);
+			}
+		}
+		$data['contacts'] = $contact_arr;
+
+		$this->table = 'name phone presence lesson_learned';
+		$data['table'] = explode(' ', $this->table);
+		$this->load->view('common/content/tbl_contact', $data);
 	}
 
 }

@@ -3820,10 +3820,10 @@ $(document).on('click', '.update_inline_now', function (e) {
 	});
 });
 
-/*
+
 $(document).on('click', '.check_diligence', function(e) {
 	e.preventDefault();
-	let contact_id = $(this).attr('item_id');
+	let contact_id = $(this).attr('contact_id');
 	let url = $('#base_url').val() + 'student/check_diligence';
 	$.ajax({
 		url: url,
@@ -3835,9 +3835,10 @@ $(document).on('click', '.check_diligence', function(e) {
 			$(".popup-wrapper").show();
 		},
 		success: function (data) {
-			$('.body-modal-show-student').html('');
-			$('.body-modal-show-student').append(data);
-			$('.show_student').modal('show');
+			return false;
+			$('.body-modal-show-diligence').html('');
+			$('.body-modal-show-diligence').append(data);
+			$('.show_diligence').modal('show');
 		},
 		error: function(errorThrown) {
 			alert(errorThrown);
@@ -3848,8 +3849,6 @@ $(document).on('click', '.check_diligence', function(e) {
 		},
 	});
 });
-
- */
 
 
 
