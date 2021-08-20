@@ -199,11 +199,6 @@ class Class_study extends MY_Table {
 		$this->show_table();
 
 		$data = $this->data;
-//		$data['slide_menu'] = 'cod/common/slide-menu';
-//		if($this->role_id == 1){
-//			$data['top_nav'] = 'sale/common/top-nav';
-//			$data['slide_menu'] = 'sale/common/slide-menu';
-//		}
 
 		$data['list_title'] = 'Lớp học';
 		$data['edit_title'] = 'Sửa thông tin lớp học';

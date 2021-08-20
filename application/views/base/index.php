@@ -26,7 +26,7 @@
 
     -->
 
-	<?php if ($this->controller == 'class_study') {
+	<?php if ($this->controller == 'class_study' && $this->role_id == 12) {
 		$this->load->view('staff_managers/class_study/filter_item/show_to_do_list');
 	} ?>
 

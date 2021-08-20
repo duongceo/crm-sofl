@@ -8,13 +8,10 @@
 		<h3>Menu :))</h3>
 
 		<?php if ($this->agent->mobile) { ?>
-			<a href="javascript:;" class="user-profile" style="font-size: 16px; color: #f0f0f0 !important;">
-
+			<a href="javascript:" class="user-profile" style="font-size: 16px; color: #f0f0f0 !important;">
 				<img src="<?php echo base_url(); ?>style/img/logo.png" alt=""> <span> <?php echo $this->session->userdata('name'); ?> </span>
-
 			</a>
 		<?php } ?>
-
 	</div>
 
     <ul class="list-unstyled components">
@@ -215,7 +212,7 @@
 
 						<img src="<?php echo base_url(); ?>public/images/report.png">
 
-						<span> Xem báo cáo lớp học </span>
+						<span> Xem báo cáo lớp học</span>
 
 					</a>
 
@@ -227,7 +224,7 @@
 
 						<img src="<?php echo base_url(); ?>public/images/report.png">
 
-						<span> Báo cáo doanh thu lớp học</span>
+						<span> Báo cáo thông tin lớp học</span>
 
 					</a>
 
@@ -308,7 +305,7 @@
                 <span>Thêm contact</span>
             </a>
             <ul class="collapse list-unstyled" id="homeSubmenu_6">
-                
+
 <!--                <li>-->
 <!---->
 <!--                    <a class="add-new-contact-modal" href="--><?php //echo base_url('quan-ly/them-contact.html'); ?><!--">-->
