@@ -24,7 +24,7 @@ class Contact extends CI_Controller {
 
         $input = $this->input->post();
 
-        // print_arr($input);
+         //print_arr($input);
 
         if (!empty($input)) {
 
@@ -111,7 +111,7 @@ class Contact extends CI_Controller {
                 $param['channel_id'] = (isset($input['channel_id'])) ? $input['channel_id'] : '';
             }
 
-			if (isset($input['link'])) {
+			if (isset($input['link']) && $input['link'] != '') {
 				$this->load->model('link_site_model');
 				$input_link = array();
 				$input_link['like'] = array('url' => $input['link']);
@@ -246,6 +246,7 @@ class Contact extends CI_Controller {
         if (isset($input['url'])) {
         	
 			header("Location: " . $input['url']);
+			
 			die();
 			
         } else {

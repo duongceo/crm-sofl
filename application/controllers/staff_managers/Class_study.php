@@ -66,7 +66,7 @@ class Class_study extends MY_Table {
 				'type' => 'custom',
 				'value' => $this->get_data_from_model('level_language'),
 				'name_display' => 'Trình độ',
-				'display' => 'none'
+				//'display' => 'none'
 			),
 			'number_student_max' => array(
 				'name_display' => 'Sĩ số tối đa',
@@ -534,7 +534,7 @@ class Class_study extends MY_Table {
         $data['contacts'] = $data_pagination['data'];
         $data['total_contact'] = $data_pagination['total_row'];
 
-		$this->table = 'name phone level_language fee paid fee_missing level_study_detail date_rgt_study';
+		$this->table = 'name phone address level_language fee paid fee_missing level_study_detail date_rgt_study';
 		$data['table'] = explode(' ', $this->table);
 		$this->load->view('common/content/tbl_contact', $data);
 	}
