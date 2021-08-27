@@ -28,6 +28,10 @@ class Class_study extends MY_Table {
 		$this->view_path = 'staff_managers/class_study';
 		$this->sub_folder = 'staff_managers';
 		$list_view = array(
+			'priority' => array(
+				'type' => 'custom',
+				'name_display' => 'Ưu tiên'
+			),
 			'class_study_id' => array(
 				'name_display' => 'Mã lớp học',
 			),
@@ -132,10 +136,7 @@ class Class_study extends MY_Table {
 				'type' => 'custom',
 				'name_display' => 'Cập nhật cuối'
 			),
-			'priority' => array(
-				'type' => 'custom',
-				'name_display' => 'Ưu tiên'
-			)
+			
 		);
 		//print_arr($list_view);
 		$this->set_list_view($list_view);
