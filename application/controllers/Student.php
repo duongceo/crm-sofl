@@ -131,6 +131,7 @@ class Student extends MY_Controller {
 		}
 
 		$conditional['where']['level_contact_id'] = 'L5';
+		$conditional['where']['level_contact_detail !='] = 'L5.1';
 		$conditional['where']['class_study_id'] = '';
 		$conditional['order'] = array('date_rgt_study' => 'DESC');
 

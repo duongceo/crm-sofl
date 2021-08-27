@@ -388,7 +388,7 @@ class Marketing extends MY_Controller {
 			'Ma_mkt_HN' => str_replace(',', '.', number_format($total_mkt_spend_hn)),
 			'Ma_mkt_HCM' => str_replace(',', '.', number_format($total_mkt_spend_hcm)),
 			'Ma_mkt' => str_replace(',', '.', number_format($total_spend_mkt)),
-			'Gia_So' => ($total_mkt_C3 == 0) ? '0' : str_replace(',', '.', number_format(round($total_spend_mkt / $total_mkt_C3, 2) * 100)),
+			'Gia_So' => ($total_mkt_C3 == 0) ? '0' : str_replace(',', '.', number_format(round($total_spend_mkt / $total_mkt_C3, 2))),
 			'mkt_name' => 'Tổng'
 		);
 
