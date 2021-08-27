@@ -1148,7 +1148,7 @@ class Manager extends MY_Controller {
 		$re = array();
 		$total = array();
 		
-		unset($data['branch'][0]);
+		//unset($data['branch'][0]);
 		foreach ($data['language_study'] as $v_language) {
 			$re_new_temp = 0;
 			$re_old_temp = 0;
