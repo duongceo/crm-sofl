@@ -131,6 +131,10 @@ class Class_study extends MY_Table {
 			'date_last_update' => array(
 				'type' => 'custom',
 				'name_display' => 'Cập nhật cuối'
+			),
+			'priority' => array(
+				'type' => 'custom',
+				'name_display' => 'Ưu tiên'
 			)
 		);
 		//print_arr($list_view);
@@ -268,6 +272,9 @@ class Class_study extends MY_Table {
 					'type' => 'array',
 					'value' => $this->get_data_from_model('character_class')
 				),
+				'priority' => array(
+					'type' => 'custom'
+				),
 				'status' => array(
 					'type' => 'custom'
 				),
@@ -297,7 +304,7 @@ class Class_study extends MY_Table {
 //				redirect_and_die('Trạng thái hoạt động là 0 hoặc 1!');
 //			}
 
-			$paramArr = array('class_study_id', 'classroom_id', 'branch_id', 'level_language_id', 'language_id', 'day_id', 'time_id',
+			$paramArr = array('class_study_id', 'classroom_id', 'branch_id', 'level_language_id', 'language_id', 'day_id', 'time_id', 'priority_id',
 				'number_student', 'number_student_max', 'total_lesson', 'lesson_learned', 'lecture', 'teacher_id', 'character_class_id', 'status', 'active');
 
 			foreach ($paramArr as $value) {
@@ -402,6 +409,9 @@ class Class_study extends MY_Table {
 					'type' => 'array',
 					'value' => $this->get_data_from_model('character_class')
 				),
+				'priority' => array(
+					'type' => 'custom'
+				),
 				'status' => array(
 					'type' => 'custom'
 				),
@@ -436,7 +446,7 @@ class Class_study extends MY_Table {
 				redirect_and_die('Mã lớp học này đã tồn tại!');
 			}
 
-			$paramArr = array('class_study_id', 'branch_id', 'classroom_id', 'level_language_id', 'language_id', 'day_id', 'time_id',
+			$paramArr = array('class_study_id', 'branch_id', 'classroom_id', 'level_language_id', 'language_id', 'day_id', 'time_id', 'priority_id',
 				'number_student_max', 'total_lesson', 'lesson_learned', 'lecture', 'teacher_id', 'active', 'character_class_id', 'status');
 
 			foreach ($paramArr as $value) {
