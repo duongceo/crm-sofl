@@ -515,6 +515,12 @@ class Student extends MY_Controller {
 		$this->load->model('attendance_model');
 		$post = $this->input->post();
 
+		$require_model = array(
+			'presence' => array(),
+		);
+
+		$data = $this->_get_require_data($require_model);
+
 		$input['select'] = 'name, phone, class_study_id';
 		$input['where'] = array('id' => $post['contact_id']);
 		$input_diligence['where'] = array('contact_id' => $post['contact_id']);
