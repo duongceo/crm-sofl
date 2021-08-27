@@ -3834,11 +3834,13 @@ $(document).on('click', '.check_diligence', function(e) {
 		beforeSend: function() {
 			$(".popup-wrapper").show();
 		},
+		
 		success: function (data) {
 			$('.body-modal-show-diligence').html('');
 			$('.body-modal-show-diligence').append(data);
 			$('.show_diligence').modal('show');
 		},
+		
 		error: function(errorThrown) {
 			alert(errorThrown);
 			$(".popup-wrapper").hide();
