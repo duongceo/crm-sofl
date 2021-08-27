@@ -531,6 +531,7 @@ class Student extends MY_Controller {
 				$contact_arr[] = array_merge($data_pagination['data'][0], $item);
 			}
 		}
+
 		$data['contacts'] = $contact_arr;
 
 		$this->table = 'name phone presence lesson_learned';
