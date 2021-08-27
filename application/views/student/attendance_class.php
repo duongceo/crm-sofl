@@ -47,10 +47,10 @@
 					<?php } ?>
 					<tr>
 						<td class="text-center" style="font-size: 16px;">
-							Số buổi học
+							Tiến độ bài học
 						</td>
 						<td class="text-center">
-							<input type="text" name="lesson_learned" value="<?php echo $lesson_learned; ?>">
+							<input type="text" class=".lesson_learned" name="lesson_learned" value="">
 						</td>
 					</tr>
 				</tbody>
@@ -65,7 +65,7 @@
 <script type="text/javascript">
 	$(document).on('click', '.btn-attendance', function (e) {
 		e.preventDefault();
-		let lesson_learned = $('input[name=lesson_learned]').val();
+		let lesson_learned = $('.lesson_learned').val();
 		let statusList = $('input[type=radio]:checked');
 		let data = [];
 		for (let i=0; i<statusList.length; i++) {

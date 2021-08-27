@@ -451,7 +451,7 @@ class Student extends MY_Controller {
 		}
 
 		$data['class'] = $get['class_study_id'];
-		$data['lesson_learned'] = $class[0]['lesson_learned'];
+//		$data['lesson_learned'] = $class[0]['lesson_learned'];
 		$data['content'] = 'student/attendance_class';
 		$this->load->view(_MAIN_LAYOUT_, $data);
 	}
