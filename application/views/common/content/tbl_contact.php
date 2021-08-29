@@ -19,6 +19,14 @@
 	<div class="table-responsive">
 
 		<table class="table table-bordered table-expandable table-striped table-fixed-head <?php echo $class_contact;?>">
+		
+			<colgroup>
+                <?php if ($table[0] == 'selection') { ?>
+                    <col style="width: 2%;"/>
+				<?php } ?>
+                <col style="width: 10%;"/>
+                <col style="width: 8%;"/>
+            </colgroup>
 
 			<thead>
 

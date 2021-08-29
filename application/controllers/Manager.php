@@ -69,7 +69,7 @@ class Manager extends MY_Controller {
         $data['content'] = 'common/list_contact';
         $this->load->view(_MAIN_LAYOUT_, $data);
     }
-
+	
     function new_duplicate($offset = 0) {
         $data = $this->get_all_require_data();
         //print_arr($data);
@@ -108,6 +108,55 @@ class Manager extends MY_Controller {
          * Các trường cần hiện của bảng contact (đã có default)
          */
         $this->table .= 'class_study_id date_rgt matrix';
+        $data['table'] = explode(' ', $this->table);
+
+        $data['titleListContact'] = 'Danh sách contact mới bị trùng';
+        $data['actionForm'] = 'manager/divide_contact';
+        $informModal = 'manager/modal/divide_contact';
+        $data['informModal'] = explode(' ', $informModal);
+        $outformModal = 'manager/modal/divide_one_contact';
+        $data['outformModal'] = explode(' ', $outformModal);
+
+        $data['content'] = 'common/list_contact';
+        $this->load->view(_MAIN_LAYOUT_, $data);
+    }
+	
+	function contact_cancel($offset = 0) {
+        $data = $this->get_all_require_data();
+        //print_arr($data);
+        $get = $this->input->get();
+        /*
+         * Điều kiện lấy contact :
+         * contact ở trang chủ là contact chưa được phân cho TVTS nào và chua gọi lần nào
+         *
+         */
+
+        $conditional['where'] = array(
+			'level_contact_detail' => 'L5.4',
+		);
+        $data_pagination = $this->_query_all_from_get($get, $conditional, $this->per_page, $offset);
+        /* Lấy danh sách contacts */
+        $contacts = $data_pagination['data'];
+
+        $data['contacts'] = $contacts;
+        $data['progress'] = $this->GetProccessToday();
+        $data['progressType'] = 'Tiến độ các team ngày hôm nay';
+
+        $data['total_contact'] = $data_pagination['total_row'];
+        /*
+         * Lấy link phân trang
+         */
+        $data['pagination'] = $this->_create_pagination_link($data_pagination['total_row']);
+        /*
+         * Filter ở cột trái và cột phải
+         */
+        $data['left_col'] = array('date_rgt_study', 'date_rgt');
+        //$data['right_col'] = array();
+
+        /*
+         * Các trường cần hiện của bảng contact (đã có default)
+         */
+        $this->table .= 'class_study_id date_rgt';
         $data['table'] = explode(' ', $this->table);
 
         $data['titleListContact'] = 'Danh sách contact mới bị trùng';
