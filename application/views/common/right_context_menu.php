@@ -175,6 +175,19 @@
 					<i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp; Chỉnh sửa
 				</a>
 			</li>
+		<?php } else if ($this->role_id == 14) { ?>
+			<li>
+				<a class="edit_item" edit-url="" data-modal-name="edit-item-modal" item_id="0">
+					<i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp; Chỉnh sửa
+				</a>
+			</li>
+			<?php if ($controller == 'class_study') { ?>
+				<li class="view_student" item_id="0" show_url="staff_managers/class_study/show_student">
+					<a>
+						<i class="fa fa-info-circle" aria-hidden="true"></i> &nbsp; &nbsp; Xem danh sách học viên
+					</a>
+				</li>
+			<?php } ?>
 		<?php } ?>
         
 		<li class="ajax-request-modal load-new-contact-id one-item-selected" data-contact-id ="0" data-modal-name="view-detail-contact-div" data-url="common/view_detail_contact">
@@ -182,5 +195,6 @@
 				<i class="fa fa-info-circle" aria-hidden="true"></i> &nbsp; &nbsp; Chi tiết contact
 		  	</a>
 		</li>
-    </ul>
+
+	</ul>
 </div>

@@ -38,6 +38,8 @@ class Home extends CI_Controller {
 
             $branch_id = $this->session->userdata('branch_id');
 
+            $language_id = $this->session->userdata('language_id');
+
 //            echo '<pre>'; print_r($_SESSION); die();
 
             $input = array();
@@ -134,6 +136,12 @@ class Home extends CI_Controller {
 
 					break;
 
+				case 14:
+
+					redirect(base_url('staff_managers/class_study' . $this->initGetVariable));
+
+					break;
+
                 default :
 
                     echo 'Có lỗi xảy ra!';
@@ -193,6 +201,8 @@ class Home extends CI_Controller {
                 $this->session->set_userdata('role_id', $result[0]['role_id']);
 
                 $this->session->set_userdata('branch_id', $result[0]['branch_id']);
+
+                $this->session->set_userdata('language_id', $result[0]['language_id']);
 
                 $this->session->set_userdata('pass_ipphone', $result[0]['ipphone_password']);
 

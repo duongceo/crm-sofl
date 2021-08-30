@@ -263,10 +263,10 @@ class Class_study extends MY_Table {
 					'priority_id !=' => '0'
 				)
 			);
-		}
-		
-		if ($this->session->userdata('role_id') == 12 && $_GET['filter_class_id'] == '') {
+		} else if ($this->role_id == 12 && $_GET['filter_class_id'] == '') {
 			$conditional['where']['branch_id'] = $this->branch_id;
+		} else if ($this->role_id == 14) {
+			$conditional['where']['language_id'] = $this->session->userdata('language_id');
 		}
 
 		$this->set_conditional($conditional);
@@ -616,6 +616,9 @@ class Class_study extends MY_Table {
         $data['total_contact'] = $data_pagination['total_row'];
 
 		$this->table = 'name phone address level_language fee paid fee_missing level_study_detail date_rgt_study';
+		if ($this->role_id == 14) {
+			$this->table = 'name address date_rgt_study';
+		}
 		$data['table'] = explode(' ', $this->table);
 		$this->load->view('common/content/tbl_contact', $data);
 	}
