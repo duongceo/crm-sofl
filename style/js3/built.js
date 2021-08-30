@@ -744,6 +744,7 @@ $(document).on('click', 'a.add_item', function (e) {
         }
     });
 });
+
 /*
 $(".delete_multi_item").confirm({
 	theme: 'supervan', // 'material', 'bootstrap',
@@ -779,11 +780,12 @@ $(".delete_multi_item").confirm({
 		}
 	}
 });
+*/
 
 $(".delete_item").confirm({
 	theme: 'supervan', // 'material', 'bootstrap',
 	title: 'Bạn có chắc chắn muốn xóa dòng này không?',
-	content: 'Hãy nhớ thứ tự xóa là xóa ad => xóa adset => xóa campaign.',
+	// content: 'Hãy nhớ thứ tự xóa là xóa ad => xóa adset => xóa campaign.',
 	buttons: {
 		confirm: {
 			text: 'Xóa',
@@ -798,8 +800,7 @@ $(".delete_item").confirm({
 					},
 					success: function (data) {
 						console.log(data);
-						if (data === '1')
-						{
+						if (data === '1') {
 							location.reload();
 						} else {
 							alert(data);
@@ -813,19 +814,17 @@ $(".delete_item").confirm({
 		cancel: {
 			text: 'Nope',
 			action: function () {
-			}},
+			}
+		},
 		somethingElse: {
 			text: 'Khác',
 			btnClass: 'btn-blue',
 			keys: ['enter', 'shift'],
 			action: function () {
-
 			}
 		}
 	}
 });
-
- */
 
 $(document).on('click', 'a.edit_item', function (e) {
 	e.preventDefault();
@@ -2065,7 +2064,7 @@ $(document).on('contextmenu', 'tr.custom_right_menu', function (e) {
     var item_id = $(this).attr('item_id');
     $(".delete_item, .edit_item, .form_plugin, .view_student").attr('item_id', item_id);
     var editURL = $(this).attr('edit-url');
-    $(".delete_item, .edit_item").attr('edit-url', editURL);
+    $(".edit_item").attr('edit-url', editURL);
 
     var menu = $(".menu");
     menu.hide();

@@ -16,7 +16,7 @@ class Class_study extends MY_Table {
 	}
 
 	public function delete_item(){
-		redirect_and_die('Không được xóa!');
+		parent::delete_item();
 	}
 
 	public function delete_multi_item(){

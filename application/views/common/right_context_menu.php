@@ -135,6 +135,12 @@
 					</a>
 				</li>
 
+				<li>
+					<a href="#" class="delete_item" item_id="0">
+						<i class="fa fa-trash-o" aria-hidden="true"></i> &nbsp; &nbsp; Xóa dòng
+					</a>
+				</li>
+
 				<?php if ($controller == 'class_study') { ?>
 					<li class="view_student" item_id="0" show_url="staff_managers/class_study/show_student">
 						<a>
@@ -142,7 +148,9 @@
 						</a>
 					</li>
 				<?php } ?>
+
 			<?php } ?>
+
         <?php } else if ($this->role_id == 11) { ?> <!-- Trực page -->
 			<li class="divide_one_contact_achor one-item-selected" contact_id="" contact_name="">
 				<a>
