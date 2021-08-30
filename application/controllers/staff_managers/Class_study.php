@@ -45,15 +45,21 @@ class Class_study extends MY_Table {
 				'name_display' => 'Phòng học',
 				'display' => 'none'
 			),
+			'time_id' => array(
+				'type' => 'custom',
+				'value' => $this->get_data_from_model('time'),
+				'name_display' => 'Giờ học',
+			),
 			'day_id' => array(
 				'type' => 'custom',
 				'value' => $this->get_data_from_model('day'),
 				'name_display' => 'Ngày học',
 			),
-			'time_id' => array(
+			'level_language' => array(
 				'type' => 'custom',
-				'value' => $this->get_data_from_model('time'),
-				'name_display' => 'Giờ học',
+				'value' => $this->get_data_from_model('level_language'),
+				'name_display' => 'Trình độ',
+				//'display' => 'none'
 			),
 			'teacher_id' => array(
 				'type' => 'custom',
@@ -65,12 +71,6 @@ class Class_study extends MY_Table {
 				'value' => $this->get_data_from_model('language_study'),
 				'name_display' => 'Ngoại ngữ',
 				'display' => 'none'
-			),
-			'level_language' => array(
-				'type' => 'custom',
-				'value' => $this->get_data_from_model('level_language'),
-				'name_display' => 'Trình độ',
-				//'display' => 'none'
 			),
 			'number_student_max' => array(
 				'name_display' => 'Sĩ số tối đa',
@@ -138,6 +138,66 @@ class Class_study extends MY_Table {
 			),
 			
 		);
+		
+		if(in_array($this->role_id, [1, 3, 6])) {
+			$list_view = array(
+				'priority' => array(
+					'type' => 'custom',
+					'name_display' => 'Ưu tiên'
+				),
+				'class_study_id' => array(
+					'name_display' => 'Mã lớp học',
+				),
+				'branch' => array(
+					'type' => 'custom',
+					'value' => $this->get_data_from_model('branch'),
+					'name_display' => 'Cơ sở',
+					'display' => 'none'
+				),
+				'classroom_id' => array(
+					'name_display' => 'Phòng học',
+					'display' => 'none'
+				),
+				'time_id' => array(
+					'type' => 'custom',
+					'value' => $this->get_data_from_model('time'),
+					'name_display' => 'Giờ học',
+				),
+				'day_id' => array(
+					'type' => 'custom',
+					'value' => $this->get_data_from_model('day'),
+					'name_display' => 'Ngày học',
+				),
+				'level_language' => array(
+					'type' => 'custom',
+					'value' => $this->get_data_from_model('level_language'),
+					'name_display' => 'Trình độ',
+					//'display' => 'none'
+				),
+				'time_start' => array(
+					'type' => 'datetime',
+					'name_display' => 'Ngày khai giảng',
+				),
+				'number_student' => array(
+					'name_display' => 'Sĩ số hiện tại',
+				),
+				'total_lesson' => array(
+					'name_display' => 'Tổng số buổi',
+				),
+				'lesson_learned' => array(
+					'type' => 'custom',
+					'name_display' => 'Số buổi đã học',
+				),
+				'lecture' => array(
+					'type' => 'custom',
+					'name_display' => 'Tiến độ bài giảng',
+				),
+				'notes' => array(
+					'type' => 'custom',
+					'name_display' => 'Ghi chú'
+				),
+			);
+		}
 		//print_arr($list_view);
 		$this->set_list_view($list_view);
 		$this->set_model('class_study_model');
@@ -195,6 +255,16 @@ class Class_study extends MY_Table {
 		);
 
 		$conditional = array();
+		
+		if($this->role_id == 1) {
+			$conditional = array(
+				'where' => array(
+					'character_class_id' => 1,
+					'priority_id !=' => '0'
+				)
+			);
+		}
+		
 		if ($this->session->userdata('role_id') == 12 && $_GET['filter_class_id'] == '') {
 			$conditional['where']['branch_id'] = $this->branch_id;
 		}
