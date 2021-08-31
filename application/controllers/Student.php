@@ -537,7 +537,7 @@ class Student extends MY_Controller {
 
 		$data['contacts'] = $contact_arr;
 
-		$this->table = 'name phone presence lesson_learned';
+		$this->table = 'name phone presence lesson_learned time_created';
 		$data['table'] = explode(' ', $this->table);
 		$this->load->view('common/content/tbl_contact', $data);
 	}

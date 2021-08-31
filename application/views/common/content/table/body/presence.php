@@ -1,4 +1,4 @@
-<td class="tbl_sale">
+<td class="text-center tbl_sale">
 	<?php
 	foreach ($presence as $key2 => $value2) {
 		if ($value2['id'] == $value['presence_id']) {
