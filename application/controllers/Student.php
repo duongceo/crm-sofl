@@ -541,5 +541,35 @@ class Student extends MY_Controller {
 		$data['table'] = explode(' ', $this->table);
 		$this->load->view('common/content/tbl_contact', $data);
 	}
+	
+	public function manager_diligence($class_id) {
+		$this->load->model('attendance_model');
+
+		$get = $this->input->get();
+		$input['select'] = 'DISTINCT(time_created), class_study_id, lesson_learned';
+		$input['where'] = array('class_study_id' => $get['class_study_id']);
+		$data['list_diligence'] = $this->attendance_model->load_all($input);
+		$data['content'] = 'student/manager_diligence';
+		$this->load->view(_MAIN_LAYOUT_, $data);
+
+	}
+	
+	public function check_diligence_class() {
+		$this->load->model('attendance_model');
+		$this->load->model('presence_model');
+		$data['presence'] = $this->presence_model->load_all(array());
+		
+		$get = $this->input->get();
+		$input['where'] = array(
+			'class_study_id' => $get['class_study_id'],
+			'time_created' => $get['time_created']
+		);
+		$data['list_diligence_detail'] = $this->attendance_model->load_all($input);
+		foreach($data['list_diligence_detail'] as &$item) {
+			$item['contact_name'] = $this->contacts_model->get_contact_name($item['contact_id']);
+		}
+		$data['content'] = 'student/check_diligence_class';
+		$this->load->view(_MAIN_LAYOUT_, $data);
+	}
 
 }

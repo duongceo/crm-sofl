@@ -9,11 +9,11 @@
 
 			<option value="0"> Độ ưu tiên</option>
 
-			<option value="1"> Ưu tiên 1 - Đã khai giảng</option>
+			<option value="1" <?php echo ($row['priority_id'] == 1) ? 'selected' : '' ; ?>> Ưu tiên 1 - Đã khai giảng</option>
 
-			<option value="2"> Ưu tiên 2 - Chắc chắn khai giảng </option>
+			<option value="2" <?php echo ($row['priority_id'] == 2) ? 'selected' : '' ; ?>> Ưu tiên 2 - Chắc chắn khai giảng </option>
 
-			<option value="3"> Ưu tiên 3 - Dự kiến khai giảng </option>
+			<option value="3" <?php echo ($row['priority_id'] == 3) ? 'selected' : '' ; ?>> Ưu tiên 3 - Dự kiến khai giảng </option>
 
 		</select>
 

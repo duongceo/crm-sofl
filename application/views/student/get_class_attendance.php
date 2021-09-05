@@ -25,7 +25,7 @@
 						<th>Khóa học</th>
 						<th>Giảng viên</th>
 						<th>Điểm danh</th>
-						<!--						<th>Danh sách lớp</th>-->
+						<th>Kiểm tra chuyên cần</th>
 					</tr>
 				</thead>
 
@@ -37,6 +37,9 @@
 							<td class="text-center"><?php echo $item['teacher_name']?></td>
 							<td class="text-center">
 								<a class="btn btn-success" href="<?php echo base_url().'student/attendance_class?class_study_id='.$item['class_study_id']?>">Điểm danh lớp</a>
+							</td>
+							<td class="text-center">
+								<a class="btn btn-primary" href="<?php echo base_url().'student/manager_diligence?class_study_id='.$item['class_study_id']?>">Kiểm tra chuyên cần</a>
 							</td>
 						</tr>
 					<?php } ?>

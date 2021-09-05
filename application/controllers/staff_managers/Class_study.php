@@ -32,6 +32,10 @@ class Class_study extends MY_Table {
 				'type' => 'custom',
 				'name_display' => 'Ưu tiên'
 			),
+			'time_start' => array(
+				'type' => 'datetime',
+				'name_display' => 'Ngày khai giảng',
+			),
 			'class_study_id' => array(
 				'name_display' => 'Mã lớp học',
 			),
@@ -98,10 +102,6 @@ class Class_study extends MY_Table {
 				'type' => 'custom',
 				'name_display' => 'Lương/Buổi',
 				'display' => 'none'
-			),
-			'time_start' => array(
-				'type' => 'datetime',
-				'name_display' => 'Ngày khai giảng',
 			),
 			'time_end_expected' => array(
 				'type' => 'datetime',
@@ -593,6 +593,7 @@ class Class_study extends MY_Table {
 			'class_study_id' => $class_study_code[0]['class_study_id'],
 		);
 		$input['where']['level_contact_id'] = 'L5';
+		$input['where']['level_contact_detail !='] = 'L5.4';
 //		$student = $this->contacts_model->load_all($input);
 
 		$require_model = array(

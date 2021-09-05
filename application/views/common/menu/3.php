@@ -349,7 +349,6 @@
             </ul>
         </li>
 
-
 		<li>
 			<a href="<?php echo base_url('staff_managers/class_study'); ?>">
 				<img src="<?php echo base_url(); ?>public/images/view-all.png">

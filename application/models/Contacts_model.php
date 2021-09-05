@@ -46,6 +46,15 @@ class Contacts_model extends MY_Model {
         $code = $rows[0]['phone'];
         return $code;
     }
+
+    function get_contact_name($id) {
+        $code = '';
+        $input = array();
+        $input['where'] = array('id' => $id);
+        $rows = $this->load_all($input);
+        $code = $rows[0]['name'];
+        return $code;
+    }
 	
 	//Quét các contact
     function check_account() {
