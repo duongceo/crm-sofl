@@ -1061,11 +1061,6 @@ class MY_Table extends MY_Controller {
 
 		$input['where']['active'] = '1';
 
-		if ($table == 'teacher') {
-			$input['where']['branch_id'] = $this->branch_id;
-			$input['or_where']['branch_id'] = 0;
-		}
-
 //		các điều kiện lấy dữ liệu từng bảng và dùng cho thêm mới, chỉnh sửa
 		if ($key != 'show') {
 			if ($table == 'class_time') {

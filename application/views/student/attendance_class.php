@@ -4,6 +4,22 @@
 		<br>
 		<h1 class="text-center">Danh sách học viên điểm danh lớp <b class="text-primary"><?php echo $class ?></b></h1>
 		<br>
+		<div>
+			<div class="form-group">
+				<div class="row">
+				<div class="col-md-5 col-xs-4 offset-md-4 text-right">
+					Ngày điểm danh
+				</div>
+				<div class=' col-md-3 col-xs-8 input-group date'>
+					<input type='text' class="form-control" name='date_diligence' value="" style="z-index: 0" />
+					<span class="input-group-addon">
+	                    <span class="glyphicon glyphicon-calendar"></span>
+	                </span>
+				</div>
+			</div>
+			</div>
+		</div>
+
 		<div class="table-responsive">
 			<table class="table table-bordered table-striped table-fixed-head">
 				<thead>
@@ -47,10 +63,19 @@
 					<?php } ?>
 					<tr>
 						<td class="text-center" style="font-size: 16px;">
+							Số buổi học
+						</td>
+						<td class="text-center">
+							<input type="text" class="lesson_learned" name="lesson_learned" value="">
+						</td>
+					</tr>
+
+					<tr>
+						<td class="text-center" style="font-size: 16px;">
 							Tiến độ bài học
 						</td>
 						<td class="text-center">
-							<input type="text" class=".lesson_learned" name="lesson_learned" value="">
+							<textarea class="lecture" name="lecture" value=""></textarea>
 						</td>
 					</tr>
 				</tbody>
@@ -63,9 +88,17 @@
 </div>
 
 <script type="text/javascript">
+    $(function () {
+        $('.date').datetimepicker();
+    });
+</script>
+
+<script type="text/javascript">
 	$(document).on('click', '.btn-attendance', function (e) {
 		e.preventDefault();
 		let lesson_learned = $('.lesson_learned').val();
+		let date_diligence = $('.date_diligence').val();
+		let lecture = $('.lecture').val();
 		let statusList = $('input[type=radio]:checked');
 		let data = [];
 		for (let i=0; i<statusList.length; i++) {
@@ -83,7 +116,9 @@
 			type: "POST",
 			data: {
 				data_attendance: JSON.stringify(data),
-				lesson_learned: lesson_learned
+				lesson_learned: lesson_learned,
+				date_diligence: date_diligence,
+				lecture: lecture,
 			},
 			success: function (data) {
 				data = JSON.parse(data);

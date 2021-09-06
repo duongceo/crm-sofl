@@ -145,6 +145,10 @@ class Class_study extends MY_Table {
 					'type' => 'custom',
 					'name_display' => 'Ưu tiên'
 				),
+				'time_start' => array(
+					'type' => 'datetime',
+					'name_display' => 'Ngày khai giảng',
+				),
 				'class_study_id' => array(
 					'name_display' => 'Mã lớp học',
 				),
@@ -173,10 +177,6 @@ class Class_study extends MY_Table {
 					'value' => $this->get_data_from_model('level_language'),
 					'name_display' => 'Trình độ',
 					//'display' => 'none'
-				),
-				'time_start' => array(
-					'type' => 'datetime',
-					'name_display' => 'Ngày khai giảng',
 				),
 				'number_student' => array(
 					'name_display' => 'Sĩ số hiện tại',
@@ -259,7 +259,7 @@ class Class_study extends MY_Table {
 		if($this->role_id == 1) {
 			$conditional = array(
 				'where' => array(
-					'character_class_id' => 1,
+					//'character_class_id' => 1,
 					'priority_id !=' => '0'
 				)
 			);

@@ -96,7 +96,9 @@ class Student extends MY_Controller {
 			$conditional['where']['branch_id'] = $branch_id;
 		}
 
-		$conditional['where']['level_student_id'] = 'L6';
+		$conditional['where']['level_contact_id'] = 'L5';
+		$conditional['where']['level_contact_detail '] = 'L5.4';
+		$conditional['where']['class_study_id !='] = '';
 		$conditional['order'] = array('date_rgt_study' => 'DESC');
 
 		$data_pagination = $this->_query_all_from_get($get, $conditional, $this->per_page, $offset);
@@ -131,7 +133,7 @@ class Student extends MY_Controller {
 		}
 
 		$conditional['where']['level_contact_id'] = 'L5';
-		$conditional['where']['level_contact_detail !='] = 'L5.1';
+		$conditional['where']['level_contact_detail !='] = 'L5.4';
 		$conditional['where']['class_study_id'] = '';
 		$conditional['order'] = array('date_rgt_study' => 'DESC');
 
@@ -423,10 +425,12 @@ class Student extends MY_Controller {
 		$input['where'] = array(
 			'class_study_id' => $get['class_study_id'],
 			'level_contact_id' => 'L5',
+			'level_contact_detail !=' => 'L5.4',
+			'level_study_id' => 'L7'
 		);
 
-		$input['where_not_in']['level_study_detail'] = array('L7.1', 'L7.2', 'L7.3', 'L7.4', 'L7.5');
-		$input['where_not_in']['level_study_id'] = array('L7.1', 'L7.2', 'L7.3', 'L7.4', 'L7.5');
+		//$input['where_not_in']['level_study_detail'] = array('L7.1', 'L7.2', 'L7.3', 'L7.4', 'L7.5');
+		//$input['where_not_in']['level_study_id'] = array('L7.1', 'L7.2', 'L7.3', 'L7.4', 'L7.5');
 		$data['contact'] = $this->contacts_model->load_all($input);
 
 		$input_class['where'] = array('class_study_id' => $get['class_study_id']);
@@ -462,7 +466,6 @@ class Student extends MY_Controller {
 		$post = $this->input->post();
 		$result = array();
 
-//		print_arr($post);
 		$data = json_decode($post['data_attendance']);
 		if (!empty($data)) {
 			foreach ($data as $item) {
@@ -481,11 +484,12 @@ class Student extends MY_Controller {
 					'time_update' => time(),
 					'note' => $item->note,
 					'lesson_learned' => $post['lesson_learned'],
+					'lecture' => $post['lecture'],
 					'score' => $post['score']
 				);
 
 				if (empty($contact_attend)) {
-					$param['time_created'] = time();
+					$param['time_created'] = (isset($post['date_diligence'])) ? strtotime($post['date_diligence']) : time();
 					$this->attendance_model->insert($param);
 				} else {
 					$this->attendance_model->update($input_attend['where'], $param);
