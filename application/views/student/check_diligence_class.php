@@ -13,6 +13,7 @@
 						<th>Họ tên học viên</th>
 						<th>Trạng thái học</th>
 						<th>Buổi học</th>
+						<th>Bài học</th>
 						<th>Ghi chú</th>
 					</tr>
 				</thead>
@@ -27,7 +28,8 @@
 									echo ($value['id'] == $item['presence_id']) ? $value['name'] : '' ;
 								} ?>
 							 </td>
-							<td class="text-center"><?php echo $item['lesson_learned'] ?></td>
+							<td class="text-center">Buổi <?php echo $item['lesson_learned'] ?></td>
+							<td class="text-center"><?php echo $item['lecture'] ?></td>
 							<td class="text-center"><?php echo $item['note'] ?></td>
 						</tr>
 					<?php } ?>

@@ -1046,7 +1046,7 @@ class Manager extends MY_Controller {
         	foreach ($staffs as $key_staff => $value_staff) {
 				$conditional_1 = array();
 				$conditional_1['where']['sale_staff_id'] = $value_staff['id'];
-				$conditional_1['where_not_in']['source_id'] = $source_arr;
+				//$conditional_1['where_not_in']['source_id'] = $source_arr;
 				$conditional = array_merge_recursive($conditional_1, $value2);
                 $staffs[$key_staff][$key2] = $this->_query_for_report($get, $conditional);
                 //$conditionArr_staff[$key2]['sum'] += $staffs[$key][$key2];

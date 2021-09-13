@@ -7,16 +7,16 @@
 		<div>
 			<div class="form-group">
 				<div class="row">
-				<div class="col-md-5 col-xs-4 offset-md-4 text-right">
-					Ngày điểm danh
+					<div class="col-md-5 col-xs-4 offset-md-4 text-right">
+						Ngày điểm danh
+					</div>
+					<div class=' col-md-3 col-xs-8 input-group date'>
+						<input type='text' class="form-control date_diligence" name='date_diligence' value="" style="z-index: 0" />
+						<span class="input-group-addon">
+		                    <span class="glyphicon glyphicon-calendar"></span>
+		                </span>
+					</div>
 				</div>
-				<div class=' col-md-3 col-xs-8 input-group date'>
-					<input type='text' class="form-control" name='date_diligence' value="" style="z-index: 0" />
-					<span class="input-group-addon">
-	                    <span class="glyphicon glyphicon-calendar"></span>
-	                </span>
-				</div>
-			</div>
 			</div>
 		</div>
 
@@ -72,6 +72,15 @@
 
 					<tr>
 						<td class="text-center" style="font-size: 16px;">
+							Số giờ học
+						</td>
+						<td class="text-center">
+							<input type="text" class="hour" name="hour" value="0">
+						</td>
+					</tr>
+
+					<tr>
+						<td class="text-center" style="font-size: 16px;">
 							Tiến độ bài học
 						</td>
 						<td class="text-center">
@@ -99,6 +108,7 @@
 		let lesson_learned = $('.lesson_learned').val();
 		let date_diligence = $('.date_diligence').val();
 		let lecture = $('.lecture').val();
+		let hour = $('.hour').val();
 		let statusList = $('input[type=radio]:checked');
 		let data = [];
 		for (let i=0; i<statusList.length; i++) {
@@ -119,6 +129,7 @@
 				lesson_learned: lesson_learned,
 				date_diligence: date_diligence,
 				lecture: lecture,
+				hour: hour,
 			},
 			success: function (data) {
 				data = JSON.parse(data);

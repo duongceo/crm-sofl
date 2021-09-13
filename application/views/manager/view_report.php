@@ -27,7 +27,7 @@
 				<?php
 					foreach ($staffs as $value) {
 
-						if ($value['NHAN'] > 0 || $value['XU_LY'] > 0) {
+						if ($value['NHAN'] > 0 || $value['XU_LY'] > 0 || $value['L5'] > 0) {
 
 							?>
 
@@ -92,7 +92,7 @@
 
 					foreach ($staffs as $value) {
 
-						if (($value['NHAN'] > 0 || $value['XU_LY'] > 0)) {
+						if (($value['NHAN'] > 0 || $value['XU_LY'] > 0) || $value['L5'] > 0) {
 
 							?>
 
@@ -156,7 +156,7 @@
 
 					foreach ($staffs as $value) {
 
-						if ($value['NHAN'] > 0 || $value['XU_LY'] > 0 ) {
+						if ($value['NHAN'] > 0 || $value['XU_LY'] > 0 || $value['L5'] > 0) {
 
 							?>
 

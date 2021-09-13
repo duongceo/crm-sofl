@@ -72,7 +72,7 @@ class Student extends MY_Controller {
 		$data['total_contact'] = $data_pagination['total_row'];
 
 		$data['left_col'] = array('date_rgt', 'date_confirm', 'date_rgt_study', 'date_paid', 'study_date_start', 'study_date_end');
-		$data['right_col'] = array('language', 'class_study', 'is_old', 'complete_fee', 'payment_method_rgt');
+		$data['right_col'] = array('language', 'level_language', 'class_study', 'is_old', 'complete_fee', 'payment_method_rgt');
 
 		$this->table .= 'class_study_id fee paid level_contact level_student date_rgt date_rgt_study';
 		$data['table'] = explode(' ', $this->table);
@@ -426,11 +426,9 @@ class Student extends MY_Controller {
 			'class_study_id' => $get['class_study_id'],
 			'level_contact_id' => 'L5',
 			'level_contact_detail !=' => 'L5.4',
-			'level_study_id' => 'L7'
+			//'level_study_id' => 'L7'
 		);
-
-		//$input['where_not_in']['level_study_detail'] = array('L7.1', 'L7.2', 'L7.3', 'L7.4', 'L7.5');
-		//$input['where_not_in']['level_study_id'] = array('L7.1', 'L7.2', 'L7.3', 'L7.4', 'L7.5');
+		
 		$data['contact'] = $this->contacts_model->load_all($input);
 
 		$input_class['where'] = array('class_study_id' => $get['class_study_id']);
@@ -467,6 +465,7 @@ class Student extends MY_Controller {
 		$result = array();
 
 		$data = json_decode($post['data_attendance']);
+
 		if (!empty($data)) {
 			foreach ($data as $item) {
 				$input_attend = array();
@@ -483,25 +482,34 @@ class Student extends MY_Controller {
 					'presence_id' => $item->presence_id,
 					'time_update' => time(),
 					'note' => $item->note,
-					'lesson_learned' => $post['lesson_learned'],
+					'lesson_learned' => trim($post['lesson_learned']),
 					'lecture' => $post['lecture'],
 					'score' => $post['score']
 				);
+				
+				$param['time_created'] = (isset($post['date_diligence']) && $post['date_diligence'] != '') ? strtotime($post['date_diligence']) : time();
 
+				$this->attendance_model->insert($param);
+				
+				/*
 				if (empty($contact_attend)) {
 					$param['time_created'] = (isset($post['date_diligence'])) ? strtotime($post['date_diligence']) : time();
 					$this->attendance_model->insert($param);
 				} else {
 					$this->attendance_model->update($input_attend['where'], $param);
 				}
+				*/
 
 				$class_id = $item->class_id;
 			}
 
-			$where_class = array('class_study_id' => $class_id);
+			$input_class['where'] = array('class_study_id' => $class_id);
+			
 			$data_class['lesson_learned'] = $post['lesson_learned'];
-
-			$this->class_study_model->update($where_class, $data_class);
+			$class = $this->class_study_model->load_all($input_class);
+			$data_class['hour'] = $class[0]['hour'] + $post['hour'];
+			
+			$this->class_study_model->update($input_class['where'], $data_class);
 
 			$result['good'] = 1;
 			$result['message'] = 'Điểm danh thành công';
@@ -550,8 +558,9 @@ class Student extends MY_Controller {
 		$this->load->model('attendance_model');
 
 		$get = $this->input->get();
-		$input['select'] = 'DISTINCT(time_created), class_study_id, lesson_learned';
+		$input['select'] = 'DISTINCT(time_created), class_study_id, lesson_learned, lecture';
 		$input['where'] = array('class_study_id' => $get['class_study_id']);
+		$input['order'] = array('lesson_learned' => 'DESC');
 		$data['list_diligence'] = $this->attendance_model->load_all($input);
 		$data['content'] = 'student/manager_diligence';
 		$this->load->view(_MAIN_LAYOUT_, $data);

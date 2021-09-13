@@ -256,14 +256,7 @@ class Class_study extends MY_Table {
 
 		$conditional = array();
 		
-		if($this->role_id == 1) {
-			$conditional = array(
-				'where' => array(
-					//'character_class_id' => 1,
-					'priority_id !=' => '0'
-				)
-			);
-		} else if ($this->role_id == 12 && $_GET['filter_class_id'] == '') {
+		if ($this->role_id == 12 && $_GET['filter_class_id'] == '') {
 			$conditional['where']['branch_id'] = $this->branch_id;
 		} else if ($this->role_id == 14) {
 			$conditional['where']['language_id'] = $this->session->userdata('language_id');
