@@ -557,15 +557,36 @@ class Student extends MY_Controller {
 		$this->load->view('common/content/tbl_contact', $data);
 	}
 	
-	public function manager_diligence($class_id) {
+	public function manager_diligence() {
 		$this->load->model('attendance_model');
+		$this->load->model('class_study_model');
 
+		$data['class_study'] = $this->class_study_model->load_all(array('where'=>array('character_class_id' => 2)));
 		$get = $this->input->get();
 		$input['select'] = 'DISTINCT(time_created), class_study_id, lesson_learned, lecture';
-		$input['where'] = array('class_study_id' => $get['class_study_id']);
+        $input['where'] = array();
 		$input['order'] = array('lesson_learned' => 'DESC');
+		if (isset($get['class_study_id']) && $get['class_study_id'] != '') {
+            $input['where'] = array('class_study_id' => $get['class_study_id']);
+        }
+        if (isset($get['filter_date_date_happen']) && $get['filter_date_date_happen'] != '') {
+            $dateArr = explode('-', $get['filter_date_date_happen']);
+            $date_from_arr = trim($dateArr[0]);
+            $date_from = strtotime(str_replace("/", "-", $date_from_arr));
+            $date_end_arr = trim($dateArr[1]);
+            $date_end = strtotime(str_replace("/", "-", $date_end_arr)) + 3600 * 24 - 1;
+
+            $input['where']['time_created >='] = $date_from;
+            $input['where']['time_created <='] = $date_end;
+        }
+
+        if (isset($get['filter_class_study_id']) && $get['filter_class_study_id'] != '') {
+            $input['where_in'] = array('class_study_id' => $get['filter_class_study_id']);
+        }
+
 		$data['list_diligence'] = $this->attendance_model->load_all($input);
-		$data['content'] = 'student/manager_diligence';
+        $data['left_col'] = array('date_happen_1', 'class_study');
+        $data['content'] = 'student/manager_diligence';
 		$this->load->view(_MAIN_LAYOUT_, $data);
 
 	}
@@ -584,7 +605,8 @@ class Student extends MY_Controller {
 		foreach($data['list_diligence_detail'] as &$item) {
 			$item['contact_name'] = $this->contacts_model->get_contact_name($item['contact_id']);
 		}
-		$data['content'] = 'student/check_diligence_class';
+
+        $data['content'] = 'student/check_diligence_class';
 		$this->load->view(_MAIN_LAYOUT_, $data);
 	}
 

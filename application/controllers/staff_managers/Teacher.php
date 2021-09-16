@@ -162,7 +162,6 @@ class Teacher extends MY_Table {
 	}
 
 	function show_edit_item($inputData = []) {
-
 		$this->list_edit = array(
 			'left_table' => array(
 				'name' => array(),

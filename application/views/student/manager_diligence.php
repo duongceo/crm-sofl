@@ -1,7 +1,15 @@
 
 <div class="container">
 	<div class="row">
-		<h1 class="text-center">Kiểm tra chuyên cần lớp <b class="text-primary"><?php echo $_GET['class_study_id'] ?></b></h1>	
+		<h1 class="text-center">Kiểm tra chuyên cần lớp <b class="text-primary"><?php echo $_GET['class_study_id'] ?></b></h1>
+
+        <?php if ($this->role_id == 12) { ?>
+            <div class="col-md-8 col-md-offset-2 col-xs-12">
+                <form action="#" method="GET" id="action_contact" class="form-inline">
+                    <?php $this->load->view('common/content/filter'); ?>
+                </form>
+            </div>
+        <?php } ?>
 
 		<div class="clearfix"></div>
 

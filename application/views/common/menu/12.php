@@ -85,6 +85,14 @@
 						<span> Quản lý giảng viên </span>
 					</a>
 				</li>
+
+                <li>
+                    <a href="<?php echo base_url('student/manager_diligence'); ?>">
+                        <img src="<?php echo base_url(); ?>public/images/view-all.png">
+                        <span> Kiểm tra chuyên cần </span>
+                    </a>
+                </li>
+
 			</ul>
 		</li>
 
