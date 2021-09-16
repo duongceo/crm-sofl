@@ -116,7 +116,6 @@
 		let date_diligence = $('.date_diligence').val();
 		let lecture = $('.lecture').val();
 		let hour = $('.hour').val();
-		alert(hour); return false;
 		let statusList = $('input[type=radio]:checked');
 		let data = [];
 		for (let i=0; i<statusList.length; i++) {
