@@ -1835,7 +1835,11 @@ class Manager extends MY_Controller {
     	$this->load->model('class_study_model');
 		$require_model = array(
 			'character_class' => array(),
-			'branch' => array(),
+			'branch' => array(
+                'where' => array(
+                    'active' => 1
+                )
+            ),
 			'language_study' => array(
 				'where' => array(
 					'out_report' => '0'
