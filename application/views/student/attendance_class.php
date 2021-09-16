@@ -63,35 +63,35 @@
 					<?php } ?>
 					<tr>
 						<td class="text-center" style="font-size: 16px;">
-							Số buổi học
+							Buổi học
 						</td>
 						<td class="text-center">
-							<input type="text" class="form-control lesson_learned" name="lesson_learned" value="">
+							<input type="number" class="form-control lesson_learned" name="lesson_learned" value="<?php echo $lesson_learned ?>" required>
 						</td>
 					</tr>
 
-					<tr>
-						<td class="text-center" style="font-size: 16px;">
-							Số giờ học
-						</td>
-						<td class="text-center">
-                            <select class="form-control hour" name="hour">
-                                <option value="1.5">1.5 Giờ</option>
-                                <option value="2">2 Giờ</option>
-                                <option value="2.5">2.5 Giờ</option>
-                                <option value="3">3 Giờ</option>
-                                <option value="3.5">3.5 Giờ</option>
-                                <option value="4">4 Giờ</option>
-                            </select>
-						</td>
-					</tr>
+<!--					<tr>-->
+<!--						<td class="text-center" style="font-size: 16px;">-->
+<!--							Số giờ học-->
+<!--						</td>-->
+<!--						<td class="text-center">-->
+<!--                            <select class="form-control hour" name="hour">-->
+<!--                                <option value="1.5">1.5 Giờ</option>-->
+<!--                                <option value="2">2 Giờ</option>-->
+<!--                                <option value="2.5">2.5 Giờ</option>-->
+<!--                                <option value="3">3 Giờ</option>-->
+<!--                                <option value="3.5">3.5 Giờ</option>-->
+<!--                                <option value="4">4 Giờ</option>-->
+<!--                            </select>-->
+<!--						</td>-->
+<!--					</tr>-->
 
 					<tr>
 						<td class="text-center" style="font-size: 16px;">
 							Tiến độ bài học
 						</td>
 						<td class="text-center">
-							<textarea class="form-control lecture" name="lecture" value=""></textarea>
+							<textarea class="form-control lecture" name="lecture" value=""><?php echo $lecture ?></textarea>
 						</td>
 					</tr>
 				</tbody>
@@ -115,7 +115,6 @@
 		let lesson_learned = $('.lesson_learned').val();
 		let date_diligence = $('.date_diligence').val();
 		let lecture = $('.lecture').val();
-		let hour = $('.hour').val();
 		let statusList = $('input[type=radio]:checked');
 		let data = [];
 		for (let i=0; i<statusList.length; i++) {
@@ -136,7 +135,6 @@
 				lesson_learned: lesson_learned,
 				date_diligence: date_diligence,
 				lecture: lecture,
-				hour: hour,
 			},
 			success: function (data) {
 				data = JSON.parse(data);
