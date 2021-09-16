@@ -1883,7 +1883,7 @@ class Manager extends MY_Controller {
 			),
 		);
 
-		unset($data['language_study'][9]);
+		unset($data['language_study'][3]);
 		unset($get['filter_date_date_happen']);
 
 		$branch = array();
