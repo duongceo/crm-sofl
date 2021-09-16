@@ -580,6 +580,12 @@ class Student extends MY_Controller {
             $input['where']['time_created <='] = $date_end;
         }
 
+        if (isset($get['filter_number_records'])) {
+			$input['limit'] = array($get['filter_number_records']);
+		} else {
+			$input['limit'] = array(30);
+		}
+
         if (isset($get['filter_class_study_id']) && $get['filter_class_study_id'] != '') {
             $input['where_in'] = array('class_study_id' => $get['filter_class_study_id']);
         }
