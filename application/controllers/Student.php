@@ -566,7 +566,9 @@ class Student extends MY_Controller {
 		$input['select'] = 'DISTINCT(time_created), class_study_id, lesson_learned, lecture';
         $input['where'] = array();
 		$input['order'] = array('lesson_learned' => 'DESC');
-		if (isset($get['class_study_id']) && $get['class_study_id'] != '') {
+        $input['limit'] = array(30, 0);
+
+        if (isset($get['class_study_id']) && $get['class_study_id'] != '') {
             $input['where'] = array('class_study_id' => $get['class_study_id']);
         }
         if (isset($get['filter_date_date_happen']) && $get['filter_date_date_happen'] != '') {
@@ -579,18 +581,12 @@ class Student extends MY_Controller {
             $input['where']['time_created >='] = $date_from;
             $input['where']['time_created <='] = $date_end;
         }
-
-        if (isset($get['filter_number_records'])) {
-			$input['limit'] = array($get['filter_number_records']);
-		} else {
-			$input['limit'] = array(30);
-		}
-
         if (isset($get['filter_class_study_id']) && $get['filter_class_study_id'] != '') {
             $input['where_in'] = array('class_study_id' => $get['filter_class_study_id']);
         }
 
-		$data['list_diligence'] = $this->attendance_model->load_all($input);
+        $data['list_diligence'] = $this->attendance_model->load_all($input);
+//        echoQuery(); die();
         $data['left_col'] = array('date_happen_1', 'class_study');
         $data['content'] = 'student/manager_diligence';
 		$this->load->view(_MAIN_LAYOUT_, $data);
