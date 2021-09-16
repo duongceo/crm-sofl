@@ -207,6 +207,7 @@ class Home extends CI_Controller {
                 $this->session->set_userdata('pass_ipphone', $result[0]['ipphone_password']);
 
                 $this->session->set_userdata('username_ipphone', $result[0]['ipphone_user_name']);
+				/*
 
                 $last_page = $this->session->userdata('last_page');
 
@@ -223,6 +224,7 @@ class Home extends CI_Controller {
                     die;
 
                 }
+				*/
 
                 $redirect_page = '';
 

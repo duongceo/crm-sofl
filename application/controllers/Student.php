@@ -506,8 +506,11 @@ class Student extends MY_Controller {
 			$input_class['where'] = array('class_study_id' => $class_id);
 			
 			$data_class['lesson_learned'] = $post['lesson_learned'];
-			$class = $this->class_study_model->load_all($input_class);
-			$data_class['hour'] = $class[0]['hour'] + $post['hour'];
+			$data_class['lecture'] = $post['lecture'];
+			if ($post['hour'] != 0) {
+				$class = $this->class_study_model->load_all($input_class);
+				$data_class['hour'] = $class[0]['hour'] + $post['hour'];
+			}
 			
 			$this->class_study_model->update($input_class['where'], $data_class);
 

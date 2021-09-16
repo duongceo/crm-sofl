@@ -4,7 +4,7 @@
 	if (isset($row['teacher_id']) && !empty($row['teacher_id'])) {
 		foreach ($value as $key2 => $value2) {
 			if ($value2['id'] == $row['teacher_id']) {
-				echo $value2['name'];
+				echo $value2['name'] . ' - ' . $value2['phone'];
 				break;
 			}
 		}
