@@ -54,11 +54,11 @@
 								<input type="radio" name="check_attend_<?php echo $item['id']?>" <?php echo ($item['presence_id'] == 3) ? 'checked':''?> contact_id="<?php echo $item['id']?>" value="3" class="form-control">
 							</td>
 							<td class="text-center">
-								<input type="text" name="score" value="<?php echo ($item['score'] != '') ? $item['score'] : ''?>" style="width: 50%">
+								<input type="text" class="form-control" name="note_<?php echo $item['id']?>" value="<?php echo ($item['note'] != '') ? $item['note']:''?>" style="width: 100%">
 							</td>
-							<td class="text-center">
-								<input type="text" name="note_<?php echo $item['id']?>" value="<?php echo ($item['note'] != '') ? $item['note']:''?>" style="width: 100%">
-							</td>
+                            <td class="text-center">
+                                <input type="text" class="form-control" name="score" value="<?php echo ($item['score'] != '') ? $item['score'] : ''?>" style="width: 50%">
+                            </td>
 						</tr>
 					<?php } ?>
 					<tr>
@@ -66,7 +66,7 @@
 							Số buổi học
 						</td>
 						<td class="text-center">
-							<input type="text" class="lesson_learned" name="lesson_learned" value="">
+							<input type="text" class="form-control lesson_learned" name="lesson_learned" value="">
 						</td>
 					</tr>
 
@@ -75,7 +75,14 @@
 							Số giờ học
 						</td>
 						<td class="text-center">
-							<input type="text" class="hour" name="hour" value="0">
+                            <select class="form-control hour" name="hour">
+                                <option value="1.5">1.5 Giờ</option>
+                                <option value="2">2 Giờ</option>
+                                <option value="2.5">2.5 Giờ</option>
+                                <option value="3">3 Giờ</option>
+                                <option value="3.5">3.5 Giờ</option>
+                                <option value="4">4 Giờ</option>
+                            </select>
 						</td>
 					</tr>
 
@@ -84,7 +91,7 @@
 							Tiến độ bài học
 						</td>
 						<td class="text-center">
-							<textarea class="lecture" name="lecture" value=""></textarea>
+							<textarea class="form-control lecture" name="lecture" value=""></textarea>
 						</td>
 					</tr>
 				</tbody>
@@ -109,6 +116,7 @@
 		let date_diligence = $('.date_diligence').val();
 		let lecture = $('.lecture').val();
 		let hour = $('.hour').val();
+		alert(hour); return false;
 		let statusList = $('input[type=radio]:checked');
 		let data = [];
 		for (let i=0; i<statusList.length; i++) {
