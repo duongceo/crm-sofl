@@ -81,7 +81,7 @@ class Class_study extends MY_Table {
 				'display' => 'none'
 			),
 			'number_student' => array(
-				'name_display' => 'Sĩ số hiện tại',
+				'name_display' => 'SS hiện tại',
 			),
 			'total_lesson' => array(
 				'name_display' => 'Tổng số buổi',
@@ -94,14 +94,13 @@ class Class_study extends MY_Table {
 				'type' => 'custom',
 				'name_display' => 'Tiến độ bài giảng',
 			),
-			'salary_teacher' => array(
-				'type' => 'custom',
-				'name_display' => 'Lương giảng viên',
-			),
+//			'salary_teacher' => array(
+//				'type' => 'custom',
+//				'name_display' => 'Lương giảng viên',
+//			),
 			'salary_per_day' => array(
-				'type' => 'custom',
+//				'type' => 'custom',
 				'name_display' => 'Lương/Buổi',
-				'display' => 'none'
 			),
 			'time_end_expected' => array(
 				'type' => 'datetime',
