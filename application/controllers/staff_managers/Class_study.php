@@ -99,7 +99,7 @@ class Class_study extends MY_Table {
 //				'name_display' => 'Lương giảng viên',
 //			),
 			'salary_per_day' => array(
-//				'type' => 'custom',
+				'type' => 'custom',
 				'name_display' => 'Lương/Buổi',
 			),
 			'time_end_expected' => array(
