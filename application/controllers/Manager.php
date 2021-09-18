@@ -1065,7 +1065,7 @@ class Manager extends MY_Controller {
 					$conditional = array();
 					$conditional['where']['language_id'] = $value_language['id'];
 					$conditional['where_not_in']['source_id'] = $source_arr;
-					$conditional['where_not_in']['sale_staff_id'] = array(5, 18);
+//					$conditional['where_not_in']['sale_staff_id'] = array(5, 18);
 					if ($key2 == 'NHAN' && !isset($get['tic_report'])) {
 						unset($value2['where']['date_handover >='], $value2['where']['date_handover <=']);
 						$value2['where']['date_rgt >='] = $startDate;
@@ -1386,12 +1386,12 @@ class Manager extends MY_Controller {
 			);
 		}
 
-		unset($data['branch'][0]);
+//		unset($data['branch'][0]);
+		unset($data['language_study'][3]);
 		unset($get['filter_date_date_happen']);
 
 		$branch = array();
 		$total = array();
-		
 		if ($this->role_id == 12) {
 			$this->load->model('branch_model');
 			foreach ($data['language_study'] as $item) {
@@ -1440,7 +1440,7 @@ class Manager extends MY_Controller {
 		$data['left_col'] = array('date_happen_1', 'tic_report');
 		$data['right_col'] = array('source');
 		$data['load_js'] = array('m_view_report');
-		$data['content'] = 'manager/view_report_student_branch';
+            $data['content'] = 'manager/view_report_student_branch';
 		if($this->role_id == 1){
 			$data['top_nav'] = 'sale/common/top-nav';
 		}

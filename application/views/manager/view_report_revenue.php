@@ -61,9 +61,9 @@
 
 		<tr style="background-color: #61bcb4f0;">
 			<td> Tổng </td>
-			<td> <h4> <?php echo number_format($total_re_old, 0, ",", ".") . " VNĐ"; ?></h4></td>
-			<td> <h4> <?php echo number_format($total_re_new, 0, ",", ".") . " VNĐ"; ?></h4></td>
-			<td colspan="3"> <h4> <?php echo number_format($total_re, 0, ",", ".") . " VNĐ"; ?></h4></td>
+			<td> <h4> <?php echo number_format($total_re_old, 0, ",", "."); ?></h4></td>
+			<td> <h4> <?php echo number_format($total_re_new, 0, ",", "."); ?></h4></td>
+			<td colspan="3"> <h4> <?php echo number_format($total_re, 0, ",", "."); ?></h4></td>
 		</tr>
 	</tbody>
 </table>
@@ -144,12 +144,12 @@
 					$total_re_old += $item['total_re_old'];
 					$total_re_new += $item['total_re_new'];
 				?>
-					<td> <h5> <?php echo number_format($item['total_re_old'], 0, ",", ".") . " VNĐ"; ?></h5></td>
-					<td> <h5> <?php echo number_format($item['total_re_new'], 0, ",", ".") . " VNĐ"; ?></h5></td>
+					<td> <h5> <?php echo number_format($item['total_re_old'], 0, ",", "."); ?></h5></td>
+					<td> <h5> <?php echo number_format($item['total_re_new'], 0, ",", "."); ?></h5></td>
 				<?php } ?>
-				<td> <h5> <?php echo number_format($total_re_old, 0, ",", ".") . " VNĐ"; ?></h5></td>
-				<td> <h5> <?php echo number_format($total_re_new, 0, ",", ".") . " VNĐ"; ?></h5></td>
-				<td> <h5> <?php echo number_format($total_all, 0, ",", ".") . " VNĐ"; ?></h5></td>
+				<td> <h5> <?php echo number_format($total_re_old, 0, ",", "."); ?></h5></td>
+				<td> <h5> <?php echo number_format($total_re_new, 0, ",", "."); ?></h5></td>
+				<td> <h5> <?php echo number_format($total_all, 0, ",", "."); ?></h5></td>
 			</tr>
 		</tbody>
 	</table>
