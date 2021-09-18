@@ -525,6 +525,22 @@ class Test1 extends CI_Controller {
 		$this->class_study_model->update($input['where'], $data);
 	}
 
+	public function send_email() {
+        $this->load->library('email');
+
+        $this->email->from('nv.quang.2897@gmail.com', 'Ngo Quang');
+        $this->email->to('ngovanquang281997@gmail.com');
+
+        $this->email->subject('Email Test');
+        $this->email->message('Testing the email class.');
+
+        if ($this->email->send()) {
+            echo 'Your Email has successfully been sent.';
+        } else {
+            show_error($this->email->print_debugger());
+        }
+    }
+
 }
 
 

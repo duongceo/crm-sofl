@@ -226,4 +226,72 @@ class Teacher extends MY_Table {
 		show_error_and_redirect('Sửa thông tin giảng viên thành công!');
 	}
 
+	public function statistical_salary_teacher() {
+        $this->load->model('attendance_model');
+        $this->load->model('class_study_model');
+
+        $get = $this->input->get();
+
+        $data['branch'] = $this->get_data_from_model('branch');
+        $data['language_study'] = $this->get_data_from_model('language_study');
+
+        $input_teacher['where'] = array('active' => 1);
+        $input_teacher['order'] = array('id' => 'DESC');
+        if (isset($get['filter_language_id']) && !empty($get['filter_language_id'])) {
+            $input_teacher['where_in']['language_id'] = $get['filter_language_id'];
+        }
+        if (isset($get['filter_branch_id']) && !empty($get['filter_branch_id'])) {
+            $input_teacher['where_in']['branch_id'] = $get['filter_branch_id'];
+        }
+
+        $data['rows'] = $this->{$this->model}->load_all($input_teacher);
+
+        /* Mảng chứa các ngày lẻ */
+        if (isset($get['filter_date_date_happen']) && $get['filter_date_date_happen'] != '') {
+            $time = $get['filter_date_date_happen'];
+        } else {
+            $time = '01' . '/' . date('m') . '/' . date('Y') . ' - ' . date('d') . '/' . date('m') . '/' . date('Y');
+        }
+        $dateArr = explode('-', $time);
+        $startDate = trim($dateArr[0]);
+        $startDate = strtotime(str_replace("/", "-", $startDate));
+        $endDate = trim($dateArr[1]);
+        $endDate = strtotime(str_replace("/", "-", $endDate)) + 3600 * 24 - 1;
+
+        foreach ($data['rows'] as $key => &$item_teacher) {
+            $input_class['where'] = array(
+                'teacher_id' => $item_teacher['id'],
+                'character_class_id' => 2
+            );
+            $class_teacher_owner = $this->class_study_model->load_all($input_class);
+            if (!empty($class_teacher_owner)) {
+                foreach ($class_teacher_owner as $item_class) {
+                    $input_lesson_learned['select'] = 'DISTINCT(time_update)';
+                    $input_lesson_learned['where'] = array(
+                        'time_update >=' => $startDate,
+                        'time_update <=' => $endDate,
+                        'class_study_id' => $item_class['class_study_id']
+                    );
+
+                    $item_teacher['attendance'][] = array(
+                        'class_study_id' => $item_class['class_study_id'],
+                        'time_start' => $item_class['time_start'],
+                        'time_end_real' => $item_class['time_end_real'],
+                        'language' => $this->language_study_model->find_language_name($item_class['language_id']),
+                        'salary_per_day' => $item_class['salary_per_day'],
+                        'lesson_learned' => count($this->attendance_model->load_all($input_lesson_learned))
+                    );
+                }
+            } else {
+                unset($data['rows'][$key]);
+            }
+        }
+
+        $data['left_col'] = array('date_happen_1', 'language', 'branch');
+        $data['startDate'] = $startDate;
+        $data['endDate'] = $endDate;
+        $data['content'] = 'staff_managers/teacher/statistical_salary_teacher';
+        $this->load->view(_MAIN_LAYOUT_, $data);
+    }
+
 }

@@ -219,6 +219,7 @@ class MY_Table extends MY_Controller {
         /* Lấy tổng các dòng*/
 
         $get = $this->input->get();
+        unset($get['filter_date_date_happen']);
 
         $input_get_arr = $this->_get_query_condition_arr($get);
 
@@ -261,8 +262,6 @@ class MY_Table extends MY_Controller {
         $input = array_merge_recursive($input_init, $input_get);
 
         $this->conditional = $input;
-		
-		// echo '<pre>';print_r($input);die;
 
         $total_row = $this->{$this->model}->m_count_all_result_from_get($this->conditional);
 		// print_arr($total_row);
@@ -290,6 +289,8 @@ class MY_Table extends MY_Controller {
             $this->conditional['order'] = array('id' => 'DESC');
 
         }
+
+//        print_arr($this->conditional);
 
         $this->data['rows'] = $this->{$this->model}->load_all($this->conditional);
 //		echoQuery();die();
@@ -359,19 +360,15 @@ class MY_Table extends MY_Controller {
 
             }
 
-        } else {
+        }
 
-			if ($this->controller_path == 'staff_managers/class_study') {
-				$this->load->model('notes_model');
-				$input['where'] = array(
-					'class_study_id' => $rows[0]['id']
-				);
-				$rows[0]['notes'] = $this->notes_model->load_all($input);
-
-			}
-
+        if ($this->controller_path == 'staff_managers/class_study') {
+            $this->load->model('notes_model');
+            $input_note['where'] = array(
+                'class_study_id' => $rows[0]['id']
+            );
+            $rows[0]['notes'] = $this->notes_model->load_all($input_note);
 		}
-//        print_arr($rows);
 
 		$data['canEdited'] = $canEdited;
 		if ($this->role_id == 6 && $this->controller_path == 'MANAGERS/landingpage' && $this->method == 'show_edit_item') {
@@ -765,6 +762,7 @@ class MY_Table extends MY_Controller {
                 if (isset($get['filter_class_id']) && trim($get['filter_class_id']) != '') {
                 	$search_class = trim($get['filter_class_id']);
                 	$input_get['like']['class_study_id'] = $search_class;
+                	$input_get['or_like']['id'] = $search_class;
                 	$input_get['or_like']['name_class'] = $search_class;
 				}
                 

@@ -31,7 +31,10 @@ class Common extends MY_Controller {
             'staffs' => array(),
             //'class_study' => array(),
             'notes' => array(
-				'where' => array('contact_id' => $contact_id),
+				'where' => array(
+				    'contact_id' => $contact_id,
+                    'type_note' => '0'
+                ),
                 'order' => array('time_created' => 'ASC')
             ),
             'transfer_logs' => array(
@@ -231,7 +234,10 @@ class Common extends MY_Controller {
             'branch' => array(),
             'notes' => array(
                 //'where' => array('contact_code' => $contact_code),
-				'where' => array('contact_id' => $contact_id),
+				'where' => array(
+				    'contact_id' => $contact_id,
+                    'type_note' => '0'
+                ),
                 'order' => array('time_created' => 'ASC')
             ),
             'transfer_logs' => array(
@@ -282,7 +288,11 @@ class Common extends MY_Controller {
 				'status_for_teacher' => array(),
 				'status_end_student' => array(),
 				'notes' => array(
-					'where' => array('contact_id' => $contact_id, 'role_id' => $this->role_id),
+					'where' => array(
+					    'contact_id' => $contact_id,
+                        'role_id' => $this->role_id,
+                        'type_note' => 1
+                    ),
 					'order' => array('time_created' => 'ASC')
 				),
 			);
@@ -675,7 +685,8 @@ class Common extends MY_Controller {
                     'time_created' => time(),
                     'sale_id' => $this->user_id,
                     'contact_code' => $this->contacts_model->get_contact_code($id),
-					'class_study_id' => 0
+					'class_study_id' => 0,
+                    'type_note' => 0
                 );
 				
 				//print_arr($param2);
@@ -1030,7 +1041,8 @@ class Common extends MY_Controller {
                     'time_created' => time(),
                     'sale_id' => $this->user_id,
                     'contact_code' => $this->contacts_model->get_contact_code($id),
-					'role_id' => $this->role_id
+					'role_id' => $this->role_id,
+                    'type_note' => 1
                 );
                 $this->load->model('notes_model');
                 $this->notes_model->insert($param2);

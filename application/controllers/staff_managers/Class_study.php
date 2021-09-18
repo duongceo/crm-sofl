@@ -723,10 +723,4 @@ class Class_study extends MY_Table {
 		 echo json_encode($response);
 		 die;
 	 }
-	 
-//	function get_class_from_web() {
-//		$post = $this->input->post();
-//
-//	}
-
 }
