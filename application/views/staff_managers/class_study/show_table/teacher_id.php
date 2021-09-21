@@ -8,6 +8,6 @@
 				break;
 			}
 		}
-	} else echo 'Chưa có giáo viên';
+	} else echo 'UNKNOWN';
 	?>
 </td>

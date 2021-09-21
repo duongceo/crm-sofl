@@ -29,9 +29,9 @@
 						<th>Đi học</th>
 						<th>Nghỉ có phép</th>
 						<th>Nghỉ không phép</th>
-						<th>Điểm</th>
 						<th>Ghi chú</th>
-					</tr>
+                        <th>Điểm</th>
+                    </tr>
 				</thead>
 
 				<tbody>

@@ -428,10 +428,14 @@ class Student extends MY_Controller {
 			'level_contact_detail !=' => 'L5.4',
 			//'level_study_id' => 'L7'
 		);
-		
 		$data['contact'] = $this->contacts_model->load_all($input);
 
-        $lesson_learned = $lecture = '';
+		$input_class['select'] = 'lesson_learned';
+		$input_class['where'] = array('class_study_id' => $get['class_study_id']);
+        $class = $this->class_study_model->load_all($input_class);
+        $lesson_learned = $class[0]['lesson_learned'] + 1;
+
+        $lecture = '';
 		if (!empty($data['contact'])) {
 			foreach ($data['contact'] as &$value) {
 				$input_attend = array();

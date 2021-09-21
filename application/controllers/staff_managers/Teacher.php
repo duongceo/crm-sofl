@@ -229,11 +229,35 @@ class Teacher extends MY_Table {
 	public function statistical_salary_teacher() {
         $this->load->model('attendance_model');
         $this->load->model('class_study_model');
+        $this->load->model('mechanism_model');
+
+        $require_model = array(
+            'class_study' => array(
+                'where' => array(
+                    'character_class_id' => 2,
+                    'teacher_id !=' => '0'
+                ),
+                'order' => array(
+                    'class_study_id' => 'ASC'
+                )
+            ),
+            'branch' => array(),
+            'language_study' => array(
+                'where' => array(
+                    'active' => 1
+                ),
+            ),
+            'teacher' => array(
+                'where' => array(
+                    'active' => 1
+                ),
+            ),
+
+        );
+
+        $data = $this->_get_require_data($require_model);
 
         $get = $this->input->get();
-
-        $data['branch'] = $this->get_data_from_model('branch');
-        $data['language_study'] = $this->get_data_from_model('language_study');
 
         $input_teacher['where'] = array('active' => 1);
         $input_teacher['order'] = array('id' => 'DESC');
@@ -268,10 +292,20 @@ class Teacher extends MY_Table {
                 foreach ($class_teacher_owner as $item_class) {
                     $input_lesson_learned['select'] = 'DISTINCT(time_update)';
                     $input_lesson_learned['where'] = array(
+                        'class_study_id' => $item_class['class_study_id'],
                         'time_update >=' => $startDate,
-                        'time_update <=' => $endDate,
-                        'class_study_id' => $item_class['class_study_id']
+                        'time_update <=' => $endDate
                     );
+
+                    $input_mechanism['select'] = 'SUM(money) as money, reason';
+                    $input_mechanism['where'] = array(
+                        'class_study_id' => $item_class['class_study_id'],
+                        'teacher_id' => $item_teacher['id'],
+                        'time_created >=' => $startDate,
+                        'time_created <=' => $endDate
+                    );
+                    $bonus = $this->mechanism_model->load_all(array_merge_recursive($input_mechanism, array('where' => array('mechanism' => 1))));
+                    $fine = $this->mechanism_model->load_all(array_merge_recursive($input_mechanism, array('where' => array('mechanism' => '0'))));
 
                     $item_teacher['attendance'][] = array(
                         'class_study_id' => $item_class['class_study_id'],
@@ -279,7 +313,10 @@ class Teacher extends MY_Table {
                         'time_end_real' => $item_class['time_end_real'],
                         'language' => $this->language_study_model->find_language_name($item_class['language_id']),
                         'salary_per_day' => $item_class['salary_per_day'],
-                        'lesson_learned' => count($this->attendance_model->load_all($input_lesson_learned))
+                        'lesson_learned' => count($this->attendance_model->load_all($input_lesson_learned)),
+                        'reason' => $this->mechanism_model->load_all($input_mechanism)[0]['reason'],
+                        'bonus' => ($bonus[0]['money'] != '') ? $bonus[0]['money'] : 0,
+                        'fine' => ($fine[0]['money'] != '') ? $fine[0]['money'] : 0
                     );
                 }
             } else {
@@ -287,11 +324,24 @@ class Teacher extends MY_Table {
             }
         }
 
+//        print_arr($data['rows']);
+
         $data['left_col'] = array('date_happen_1', 'language', 'branch');
         $data['startDate'] = $startDate;
         $data['endDate'] = $endDate;
         $data['content'] = 'staff_managers/teacher/statistical_salary_teacher';
         $this->load->view(_MAIN_LAYOUT_, $data);
+    }
+
+    public function action_mechanism() {
+        $this->load->model('mechanism_model');
+
+        $post = $this->input->post();
+        $post['time_created'] = ($post['time_created'] != '') ? strtotime($post['time_created']) : time();
+
+        $this->mechanism_model->insert($post);
+
+        show_error_and_redirect('Thêm thành công!');
     }
 
 }
