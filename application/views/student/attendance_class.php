@@ -4,21 +4,21 @@
 		<br>
 		<h1 class="text-center">Danh sách học viên điểm danh lớp <b class="text-primary"><?php echo $class ?></b></h1>
 		<br>
-		<div>
-			<div class="form-group">
-				<div class="row">
-					<div class="col-md-5 col-xs-4 offset-md-4 text-right">
-						Ngày điểm danh
-					</div>
-					<div class=' col-md-3 col-xs-8 input-group date'>
-						<input type='text' class="form-control date_diligence" name='date_diligence' value="" style="z-index: 0" />
-						<span class="input-group-addon">
-		                    <span class="glyphicon glyphicon-calendar"></span>
-		                </span>
-					</div>
-				</div>
-			</div>
-		</div>
+<!--		<div>-->
+<!--			<div class="form-group">-->
+<!--				<div class="row">-->
+<!--					<div class="col-md-5 col-xs-4 offset-md-4 text-right">-->
+<!--						Ngày điểm danh-->
+<!--					</div>-->
+<!--					<div class=' col-md-3 col-xs-8 input-group date'>-->
+<!--						<input type='text' class="form-control date_diligence" name='date_diligence' value="" style="z-index: 0" />-->
+<!--						<span class="input-group-addon">-->
+<!--		                    <span class="glyphicon glyphicon-calendar"></span>-->
+<!--		                </span>-->
+<!--					</div>-->
+<!--				</div>-->
+<!--			</div>-->
+<!--		</div>-->
 
 		<div class="table-responsive">
 			<table class="table table-bordered table-striped table-fixed-head">

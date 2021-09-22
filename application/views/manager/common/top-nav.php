@@ -54,6 +54,23 @@
 						<img src="<?php echo base_url(); ?>style/img/logo.png" class="logo-fix">
 
 					</a>
+
+                    <li class="dropdown-hover pull-right" style="margin-right: 10%">
+
+                        <a href="javascript:;" class="noti dropdown-toggle" data-toggle="dropdown" aria-expanded="false" style="position: relative">
+
+                            <i class="fa fa-volume-control-phone" aria-hidden="true"></i> &nbsp;
+
+                            Contact cần gọi lại
+                            <sup> <span class="badge bg-red" id="num_noti"></span> </sup>
+
+                        </a>
+
+                        <ul class="dropdown-menu" id="noti_contact_recall">
+
+                        </ul>
+
+                    </li>
 				<?php } ?>
 
             </ul>

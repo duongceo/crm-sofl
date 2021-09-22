@@ -941,12 +941,15 @@ class Sale extends MY_Controller {
         $input['select'] = 'id, name, phone, date_recall, sale_staff_id';
         if ($this->role_id == 1) {
             $input['where']['sale_staff_id'] = $this->user_id;
+            $input['where']['date_recall >'] = '0';
+            $input['where']['date_recall <='] = time();
         }
-//	  	if ($this->role_id == 2) {
-//			$input['where']['cod_status_id >'] = '0';
-//        }
-        $input['where']['date_recall >'] = '0';
-        $input['where']['date_recall <='] = time();
+	  	if ($this->role_id == 12) {
+			$input['where']['branch_id'] = $this->branch_id;
+            $input['where']['level_contact_id'] = 'L5';
+            $input['where']['((`date_customer_care_call` > 0 AND `date_customer_care_call` <=' .time() . ') OR (`date_recall` > 0 AND `date_recall` <=' .time() . '))'] = 'NO-VALUE';
+        }
+
         $input['order']['date_recall'] = 'DESC';
         $noti_contact = $this->contacts_model->load_all($input);
         if (!empty($noti_contact)) {

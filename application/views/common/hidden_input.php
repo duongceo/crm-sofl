@@ -21,6 +21,8 @@
 
 <input type="hidden" value="<?php echo $this->session->userdata('user_id');?>" id="input_user_id" />
 
+<input type="hidden" value="<?php echo $this->session->userdata('role_id');?>" id="input_role_id" />
+
 <!-- version cache -->
 
 <input type="hidden" value="<?php   echo _VER_CACHED_;?>" id="version-cache" />

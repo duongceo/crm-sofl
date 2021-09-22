@@ -526,13 +526,27 @@ class Test1 extends CI_Controller {
 	}
 
 	public function send_email() {
+        $data['teacher'] = array(
+            'name' => 1,
+            'phone' => 1,
+            'class_study_id' => 1,
+            'time_start' => 1,
+            'time_end_expected' => 1,
+            'language' => 1,
+            'salary_per_day' => 1,
+            'lesson_learned' => 1,
+            'bonus' => 1,
+            'fine' => 1,
+        );
+
         $this->load->library('email');
 
-        $this->email->from('nv.quang.2897@gmail.com', 'Ngo Quang');
+        $this->email->from('minhduc.sofl@gmail.com', 'TRUNG TÂM NGOẠI NGỮ SOFL');
         $this->email->to('ngovanquang281997@gmail.com');
 
-        $this->email->subject('Email Test');
-        $this->email->message('Testing the email class.');
+        $this->email->subject('SOFL GỬI BẢNG KÊ LƯƠNG THÁNG ');
+        $message = $this->load->view('staff_managers/teacher/test_mail', $data, true);
+        $this->email->message($message);
 
         if ($this->email->send()) {
             echo 'Your Email has successfully been sent.';

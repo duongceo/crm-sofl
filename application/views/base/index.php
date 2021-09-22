@@ -28,7 +28,8 @@
 
 	<?php if ($this->controller == 'class_study' && $this->role_id == 12) {
 		$this->load->view('staff_managers/class_study/filter_item/show_to_do_list');
-	} ?>
+        $this->load->view('staff_managers/class_study/show_student');
+    } ?>
 
     <?php $this->load->view('base/show_table/base_header'); ?>
 
@@ -79,8 +80,8 @@ cố định thanh tiêu đề phía trên của bảng khi người dùng cuộ
 -->
 
 <?php
-$this->load->view('staff_managers/class_study/show_student');
 $this->load->view('staff_managers/class_study/show_diligence');
+$this->load->view('staff_managers/teacher/show_mechanism_teacher');
 
 // $this->load->view('base/js');
 

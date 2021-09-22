@@ -147,6 +147,12 @@
 							<i class="fa fa-info-circle" aria-hidden="true"></i> &nbsp; &nbsp; Xem danh sách học viên
 						</a>
 					</li>
+
+                    <li class="mechanism_teacher" class_study_id="">
+                        <a>
+                            <i class="fa fa-info-circle" aria-hidden="true"></i> &nbsp; &nbsp; Thêm thưởng phạt giáo viên
+                        </a>
+                    </li>
 				<?php } ?>
 
 			<?php } ?>

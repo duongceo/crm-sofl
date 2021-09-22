@@ -391,7 +391,7 @@ Array.prototype.unique = function () {
 };
 
 
-var url = $("#base_url").val() + "sale/noti_contact_recall";
+let url = $("#base_url").val() + "sale/noti_contact_recall";
 noti = () => {
     $.ajax({
         url: url,
@@ -399,11 +399,11 @@ noti = () => {
         dataType: 'json',
         success: data => {
             $('#num_noti').html(data.num_noti);
-            var content_noti = ``;
+            let content_noti = ``;
             $.each(data.contacts_noti, function () {
                 content_noti += `<li class="content_noti">`;
                 content_noti += `<a href="#"
-									style="color: #fff"
+									style="color: #000000"
                                     title="Chăm sóc contact"
                                     class="ajax-request-modal"
                                     data-contact-id ="${this.id}"
@@ -414,7 +414,7 @@ noti = () => {
             });
             $('#noti_contact_recall').html(content_noti);
             if (data.num_noti > 0) {
-                var title = '(' + data.num_noti + ')  CONTACT CẦN GỌI LẠI';
+                let title = '(' + data.num_noti + ')  CONTACT CẦN GỌI LẠI';
                 $("title").text(title);
             }
 
@@ -456,9 +456,9 @@ noti = () => {
         }
     });
 };
-var notiContactRecall = '';
-if($("#input_controller").val() == 'cod' || $("#input_controller").val() == 'sale') {
-    notiContactRecall = setInterval(noti, 10000);
+
+if ($("#input_controller").val() == 'sale' || $("#input_role_id").val() == 12) {
+    setInterval(noti, 10000);
 }
 
 /*
@@ -2053,29 +2053,32 @@ $(document).on('contextmenu', 'tr.custom_right_menu', function (e) {
     /*
      * Lấy các thuộc tính của contact
      */
-    var contact_id = $(this).attr('contact_id');
-    var contact_name = $(this).attr('contact_name');
-    var duplicate_id = $(this).attr("duplicate_id");
-    var contact_phone = $(this).attr("contact_phone");
-    var controller = $("#input_controller").val();
+    let contact_id = $(this).attr('contact_id');
+    let contact_name = $(this).attr('contact_name');
+    let duplicate_id = $(this).attr("duplicate_id");
+    let contact_phone = $(this).attr("contact_phone");
+    let controller = $("#input_controller").val();
     right_context_menu_display(controller, contact_id, contact_name, duplicate_id, contact_phone);
 
     /* marketing */
-    var item_id = $(this).attr('item_id');
+    let item_id = $(this).attr('item_id');
     $(".delete_item, .edit_item, .form_plugin, .view_student").attr('item_id', item_id);
-    var editURL = $(this).attr('edit-url');
+    let editURL = $(this).attr('edit-url');
     $(".edit_item").attr('edit-url', editURL);
 
-    var menu = $(".menu");
+    let class_study_id = $(this).attr('class_study_id');
+    $(".mechanism_teacher").attr('class_study_id', class_study_id);
+
+    let menu = $(".menu");
     menu.hide();
-    var pageX = e.pageX;
-    var pageY = e.pageY;
+    let pageX = e.pageX;
+    let pageY = e.pageY;
     menu.css({top: pageY, left: pageX});
-    var mwidth = menu.width();
-    var mheight = menu.height();
-    var screenWidth = $(window).width();
-    var screenHeight = $(window).height();
-    var scrTop = $(window).scrollTop();
+    let mwidth = menu.width();
+    let mheight = menu.height();
+    let screenWidth = $(window).width();
+    let screenHeight = $(window).height();
+    let scrTop = $(window).scrollTop();
     /*
      * Nếu "tọa độ trái chuột" + "chiều dài menu" > "chiều dài trình duyệt" 
      * thì hiển thị sang bên phải tọa độ click
@@ -2094,7 +2097,7 @@ $(document).on('contextmenu', 'tr.custom_right_menu', function (e) {
     /*
      * Nếu dòng đó đang không chọn (đã click trái) thì bỏ chọn và bỏ check những dòng đã chọn
      */
-    var is_checked_input = $(this).find('input[type="checkbox"]');
+    let is_checked_input = $(this).find('input[type="checkbox"]');
     if (!is_checked_input[0].checked) {
         $(".checked").removeClass("checked");
         uncheck_checked();
@@ -2231,7 +2234,6 @@ $(".datepicker").datepicker({
 );
 
 /*
- * 
  * Tham khảo http://www.daterangepicker.com/#usage
  */
 
@@ -2773,7 +2775,7 @@ $(".btn-navbar-search").click(function (e) {
     });
 });
 
-/*     <a href="#" class="anchor-navbar-search">6899</a> */
+/*<a href="#" class="anchor-navbar-search">6899</a> */
 $(".anchor-navbar-search").click(function (e) {
     e.preventDefault();
     $.ajax({
@@ -3609,8 +3611,8 @@ $('.contact-sale-have-to-call').click(function(){
 
 $(".note_contact").on('click', function (e) {
     e.preventDefault();
-    var contact_name = $(this).attr('contact_name');
-    var contact_id = $(this).attr('data-contact-id');
+    let contact_name = $(this).attr('contact_name');
+    let contact_id = $(this).attr('data-contact-id');
 	$("#contact_id_input_note").val(contact_id);
 	//console.log(contact_id);return false;
     $("span.contact_name").text(contact_name);
@@ -3620,9 +3622,9 @@ $(".note_contact").on('click', function (e) {
 $('.btn-note-contact').on('click', function(e) {
 	e.preventDefault();
 	url = $('#base_url').val() + "marketer/note_contact";
-	var contact_id = $("#contact_id_input_note").val();
-	var note = $('#note').val();
-	var check_contact = $("input[name='check_contact']:checked").val();
+	let contact_id = $("#contact_id_input_note").val();
+    let note = $('#note').val();
+    let check_contact = $("input[name='check_contact']:checked").val();
 	// console.log(check_contact);return false;
 	$.ajax({
 		url: url,
@@ -3752,8 +3754,8 @@ $(document).on('click', '.merge_contact', function (e) {
 	e.preventDefault();
 	$(".checked").removeClass("checked");
 	$(this).parent().parent().addClass("checked");
-	var contact_id = $(this).attr("contact_id");
-	var contact_name = $(this).attr("contact_name");
+	let contact_id = $(this).attr("contact_id");
+	let contact_name = $(this).attr("contact_name");
 	$("#contact_id_input_merger").val(contact_id);
 	$(".contact_name_replacement").text(contact_name);
 	$(".merge_contact_modal").modal("show");
@@ -3850,6 +3852,69 @@ $(document).on('click', '.check_diligence', function(e) {
 	});
 });
 
+$(".mechanism_teacher").on('click', function (e) {
+    e.preventDefault();
+    let class_study_id = $(this).attr('class_study_id');
+    $("#class_study_id").val(class_study_id);
+    $(".show_mechanism_teacher").modal("show");
+});
+
+$('.export_excel').on('click', function (e) {
+    e.preventDefault();
+    let teacher_id = $(this).attr('teacher_id');
+    let class_study_id = $(this).attr('class_study_id');
+});
+
+$('.send_mail_teacher').on('click', function (e) {
+    e.preventDefault();
+    let teacher_id = $(this).attr('teacher_id');
+    let class_study_id = $(this).attr('class_study_id');
+    let start_date = $('span#start_date').text();
+    let end_date = $('span#end_date').text();
+    let _this_ = $(this);
+
+    $.ajax({
+        url: $('#base_url').val() + 'staff_managers/teacher/send_mail_salary_teacher',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            teacher_id : teacher_id,
+            class_study_id : class_study_id,
+            start_date : start_date,
+            end_date : end_date
+        },
+        beforeSend: function() {
+            $(".popup-wrapper").show();
+        },
+        success: function (data) {
+            if (data.success) {
+                _this_.parent().parent().find('td.paid_salary').html('<p class="bg-success">Đã gửi mail lương</p>');
+                _this_.attr('disabled', true);
+
+                $.notify(data.message, {
+                    position: "top left",
+                    className: 'success',
+                    showDuration: 200,
+                    autoHideDelay: 5000
+                });
+            } else {
+                $.notify('Có lỗi xảy ra! Nội dung: ' + data.message, {
+                    position: "top left",
+                    className: 'error',
+                    showDuration: 200,
+                    autoHideDelay: 7000
+                });
+            }
+        },
+        error: function(errorThrown) {
+            alert(errorThrown);
+            $(".popup-wrapper").hide();
+        },
+        complete: function() {
+            $(".popup-wrapper").hide();
+        },
+    });
+});
 
 
 

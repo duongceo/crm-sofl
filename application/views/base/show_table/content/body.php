@@ -7,6 +7,8 @@ foreach ($rows as $row) {
 
         item_id="<?php echo $row['id']; ?>"
 
+        class_study_id="<?php echo $row['class_study_id']; ?>"
+
         edit-url="<?php echo base_url().$this->controller_path.'/show_edit_item'?>"
 
         >

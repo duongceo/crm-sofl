@@ -306,6 +306,8 @@ class Teacher extends MY_Table {
                     );
                     $bonus = $this->mechanism_model->load_all(array_merge_recursive($input_mechanism, array('where' => array('mechanism' => 1))));
                     $fine = $this->mechanism_model->load_all(array_merge_recursive($input_mechanism, array('where' => array('mechanism' => '0'))));
+                    unset($input_mechanism['select']);
+                    $paid_salary = $this->mechanism_model->load_all(array_merge_recursive($input_mechanism, array('where' => array('send_mail_salary' => 1))));
 
                     $item_teacher['attendance'][] = array(
                         'class_study_id' => $item_class['class_study_id'],
@@ -316,7 +318,8 @@ class Teacher extends MY_Table {
                         'lesson_learned' => count($this->attendance_model->load_all($input_lesson_learned)),
                         'reason' => $this->mechanism_model->load_all($input_mechanism)[0]['reason'],
                         'bonus' => ($bonus[0]['money'] != '') ? $bonus[0]['money'] : 0,
-                        'fine' => ($fine[0]['money'] != '') ? $fine[0]['money'] : 0
+                        'fine' => ($fine[0]['money'] != '') ? $fine[0]['money'] : 0,
+                        'paid_salary' => (!empty($paid_salary)) ? $paid_salary[0]['reason'] : ''
                     );
                 }
             } else {
@@ -335,13 +338,99 @@ class Teacher extends MY_Table {
 
     public function action_mechanism() {
         $this->load->model('mechanism_model');
+        $this->load->model('class_study_model');
 
         $post = $this->input->post();
         $post['time_created'] = ($post['time_created'] != '') ? strtotime($post['time_created']) : time();
 
+        $input_class['where'] = array(
+            'class_study_id' => $post['class_study_id']
+        );
+        $class = $this->class_study_model->load_all($input_class);
+        $post['teacher_id'] = $class[0]['teacher_id'];
+
         $this->mechanism_model->insert($post);
 
         show_error_and_redirect('Thêm thành công!');
+    }
+
+    public function send_mail_salary_teacher() {
+	    $this->load->model('class_study_model');
+	    $this->load->model('mechanism_model');
+	    $this->load->model('attendance_model');
+	    $this->load->model('teacher_model');
+
+	    $post = $this->input->post();
+
+        $input_class['where'] = array(
+            'class_study_id' => $post['class_study_id']
+        );
+        $class = $this->class_study_model->load_all($input_class);
+
+        $input_teacher['where'] = array(
+            'id' => $post['teacher_id']
+        );
+
+        $teacher = $this->teacher_model->load_all($input_teacher);
+
+        $input_lesson_learned['select'] = 'DISTINCT(time_update)';
+        $input_lesson_learned['where'] = array(
+            'class_study_id' => $post['class_study_id'],
+            'time_update >=' => strtotime($post['start_date']),
+            'time_update <=' => strtotime($post['end_date'])
+        );
+
+        $input_mechanism['select'] = 'SUM(money) as money, reason';
+        $input_mechanism['where'] = array(
+            'class_study_id' => $post['class_study_id'],
+            'teacher_id' => $post['teacher_id'],
+            'time_created >=' => strtotime($post['start_date']),
+            'time_created <=' => strtotime($post['end_date'])
+        );
+        $bonus = $this->mechanism_model->load_all(array_merge_recursive($input_mechanism, array('where' => array('mechanism' => 1))));
+        $fine = $this->mechanism_model->load_all(array_merge_recursive($input_mechanism, array('where' => array('mechanism' => '0'))));
+
+        $data['teacher'] = array(
+            'name' => $teacher[0]['name'],
+            'phone' => $teacher[0]['phone'],
+            'class_study_id' => $post['class_study_id'],
+            'time_start' => $class[0]['time_start'],
+            'time_end_expected' => $class[0]['time_end_expected'],
+            'language' => $this->language_study_model->find_language_name($class[0]['language_id']),
+            'salary_per_day' => $class[0]['salary_per_day'],
+            'lesson_learned' => count($this->attendance_model->load_all($input_lesson_learned)),
+            'bonus' => ($bonus[0]['money'] != '') ? $bonus[0]['money'] : 0,
+            'fine' => ($fine[0]['money'] != '') ? $fine[0]['money'] : 0,
+        );
+        $this->load->view('staff_managers/teacher/email_salary', $data, true);
+
+        $this->load->library('email');
+        $this->email->from('minhduc.sofl@gmail.com', 'TRUNG TÂM NGOẠI NGỮ SOFL');
+        $this->email->to($teacher[0]['email']);
+
+        $subject = 'SOFL GỬI BẢNG KÊ LƯƠNG THÁNG ' . date('m/Y', strtotime($post['start_date'])) . ' - Mã lớp ' . $post['class_study_id'];
+        $this->email->subject($subject);
+        $message = $this->load->view('staff_managers/teacher/email_salary', $data, true);
+        $this->email->message($message);
+
+        if ($this->email->send()) {
+            $param['class_study_id'] = $post['class_study_id'];
+            $param['teacher_id'] = $post['teacher_id'];
+            $param['reason'] = 'Đã trả lương';
+            $param['send_mail_salary'] = 1;
+            $param['time_created'] = time();
+            $this->mechanism_model->insert($param);
+
+            $result['success'] = true;
+            $result['message'] =  'Đã gửi mail thành công';
+        } else {
+            $result['success'] = false;
+            $result['message'] =  'Có gì đó ko đúng, chưa gửi đc mail';
+            show_error($this->email->print_debugger());
+        }
+
+        echo json_encode($result);
+        die();
     }
 
 }

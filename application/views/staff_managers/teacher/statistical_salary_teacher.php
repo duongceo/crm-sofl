@@ -9,11 +9,6 @@
             </form>
         </div>
 
-        <div class="col-md-10">
-            <div class="text-left">
-                <a class="btn btn-primary" data-toggle="modal" href='#modal-id'>Nhập thưởng phạt giáo viên</a>
-            </div>
-        </div>
         <div class="clearfix"></div>
 
         <div class="table-responsive">
@@ -51,12 +46,14 @@
                         <td class="text-center">
                             <?php echo h_number_format($item['attendance'][0]['bonus']) ?>
                         </td>
-                        <td class="text-center">Chưa trả</td>
+                        <td class="text-center paid_salary">
+                            <p class="bg-success"><?php echo $item['attendance'][0]['paid_salary'] ?></p>
+                        </td>
                         <td class="text-center text-primary">
-                            <button class="btn btn-sm btn-success export_excel" teacher_id="<?php echo $item['id'] ?>" class_id="<?php echo $item['attendance'][0]['class_study_id'] ?>">
+                            <button class="btn btn-sm btn-success export_excel" teacher_id="<?php echo $item['id'] ?>" class_study_id="<?php echo $item['attendance'][0]['class_study_id'] ?>">
                                 File excel
                             </button>
-                            <button class="btn btn-sm btn-warning send_mail">
+                            <button class="btn btn-sm btn-warning send_mail_teacher" teacher_id="<?php echo $item['id'] ?>" class_study_id="<?php echo $item['attendance'][0]['class_study_id'] ?>">
                                 Gửi mail
                             </button>
                         </td>
@@ -78,12 +75,14 @@
                                     <td class="text-center">
                                         <?php echo h_number_format($item_attendance['bonus']) ?>
                                     </td>
-                                    <td class="text-center">Chưa trả</td>
+                                    <td class="text-center paid_salary">
+                                        <p class="bg-success"><?php echo $item_attendance['paid_salary'] ?></p>
+                                    </td>
                                     <td class="text-center text-primary">
                                         <button class="btn btn-sm btn-success export_excel" teacher_id="<?php echo $item['id'] ?>" class_id="<?php echo $item_attendance['class_study_id'] ?>">
                                             File excel
                                         </button>
-                                        <button class="btn btn-sm btn-warning send_mail">
+                                        <button class="btn btn-sm btn-warning send_mail_teacher" teacher_id="<?php echo $item['id'] ?>" class_id="<?php echo $item_attendance['class_study_id'] ?>">
                                            Gửi mail
                                         </button>
                                     </td>
@@ -95,93 +94,6 @@
                 <?php } ?>
                 </tbody>
             </table>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="modal-id" role="dialog">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Nhập cơ chế giáo viên</h4>
-            </div>
-            <div class="modal-body">
-                <form action="<?php echo base_url('staff_managers/teacher/action_mechanism') ?>" method="POST" class="form-inline" role="form">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <table class="table table-striped table-bordered table-hover table-1 table-view-1">
-                                <tr>
-                                    <td class="text-right"> Giáo viên </td>
-                                    <td>
-                                        <select class="form-control class_study_select" name="teacher_id">
-                                            <option value="">Chọn giáo viên</option>
-                                            <?php foreach ($teacher as $key => $value) { ?>
-                                                <option value="<?php echo $value['id']; ?>">
-                                                    <?php echo $value['name']; ?>
-                                                </option>
-                                            <?php } ?>
-                                        </select>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td class="text-right">Lớp</td>
-                                    <td>
-                                        <select class="form-control class_study_select" name="class_study_id">
-                                            <option value="">Mã lớp</option>
-                                            <?php foreach ($class_study as $key => $value) { ?>
-                                                <option value="<?php echo $value['class_study_id']; ?>">
-                                                    <?php echo $value['class_study_id']; ?>
-                                                </option>
-                                            <?php } ?>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-right">Cơ chế</td>
-                                    <td>
-                                        <select class="form-control selectpicker" name="mechanism">
-                                            <option value="">Cơ chế</option>
-                                            <option value="1">Thưởng</option>
-                                            <option value="0">Phạt</option>
-                                        </select>
-                                    </td>
-                                </tr>
-
-                            </table>
-                        </div>
-
-                        <div class="col-md-6">
-                            <table class="table table-striped table-bordered table-hover table-2 table-view-2">
-                                <tr>
-                                    <td class="text-right">Số tiền</td>
-                                    <td>
-                                        <input type="number" class="form-control" name="money" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-right">Lý do</td>
-                                    <td>
-                                        <textarea class="form-control" name="reason" rows="3"></textarea>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-right">Ngày</td>
-                                    <td>
-                                        <div class="form-group">
-                                            <input type="text" class="form-control datetimepicker" name="time_created">
-                                        </div><!-- /input-group -->
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-success btn-lg" style="width: 130px;">Lưu</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
         </div>
     </div>
 </div>
