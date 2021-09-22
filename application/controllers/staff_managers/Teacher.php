@@ -416,7 +416,7 @@ class Teacher extends MY_Table {
         if ($this->email->send()) {
             $param['class_study_id'] = $post['class_study_id'];
             $param['teacher_id'] = $post['teacher_id'];
-            $param['reason'] = 'Đã trả lương';
+            $param['reason'] = 'Đã gửi mail bảng lương';
             $param['send_mail_salary'] = 1;
             $param['time_created'] = time();
             $this->mechanism_model->insert($param);
