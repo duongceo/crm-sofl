@@ -4,9 +4,9 @@
 		<h1 class="text-center">Chọn ngoại ngữ của lớp học cần điểm danh</h1>
 		<br>
 		<div class="col-xs-12">
-			<form action="<?php echo base_url()?>student/get_class_attendance" class="form-inline text-center" method="POST">
+			<form action="<?php echo base_url()?>student/get_class_attendance" class="form-inline text-center" method="GET">
 				<div class="form-group">
-					<input style="border-radius: 5px; padding: 20px; margin-bottom: 10px;" type="text" class="form-control" name="search_class" placeholder="Tìm mã lớp" value="">
+					<input style="border-radius: 5px; padding: 20px; margin-bottom: 10px;" type="text" class="form-control" name="search_class" placeholder="Tìm mã lớp" value="<?php echo (isset($_GET['search_class'])) ? $_GET['search_class'] : ''?>">
 					<input type="hidden" name="branch_id" value="<?php echo $branch_id?>">
 					<input type="hidden" name="language_id" value="<?php echo $language_id?>">
 				</div>

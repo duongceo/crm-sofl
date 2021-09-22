@@ -387,21 +387,17 @@ class Student extends MY_Controller {
 
 	public function get_class_attendance() {
 		$get = $this->input->get();
-		$post = $this->input->post();
 		$this->load->model('class_study_model');
 		$this->load->model('teacher_model');
 		$this->load->model('level_language_model');
 		$input['where'] = array(
-			'active' => 1,
 			'branch_id' => $get['branch_id'],
 			'language_id' => $get['language_id'],
 			'character_class_id' => 2
 		);
 
-		if (isset($post) && $post['search_class'] != '') {
-			$input['where']['(class_study_id LIKE "%'.$post['search_class'].'%")'] = 'NO-VALUE';
-			$input['where']['branch_id'] = $post['branch_id'];
-			$input['where']['language_id'] = $post['language_id'];
+		if (isset($get['search_class']) && $get['search_class'] != '') {
+            $input['like']['class_study_id'] = trim($get['search_class']);
 		}
 
 		$data['class'] = $this->class_study_model->load_all($input);
