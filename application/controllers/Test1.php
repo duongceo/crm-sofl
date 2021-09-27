@@ -555,6 +555,93 @@ class Test1 extends CI_Controller {
         }
     }
 
+    function test_render_pdf() {
+//        $this->load->view('staff_managers/class_study/contract_teacher');
+
+        $this->load->library('pdf');
+        $html = $this->load->view('staff_managers/class_study/contract_teacher', [], true);
+        $this->pdf->createPDF($html, 'mypdf', false);
+
+//        $this->pdf->loadHtml($html);
+//        $this->pdf->render();
+//        $this->pdf->stream("mypdf.pdf", array("Attachment"=>0));
+    }
+
+    function test_pdf() {
+        $this->load->library('Pdf');
+        // create new PDF document
+        $pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
+
+// set document information
+        $pdf->SetCreator(PDF_CREATOR);
+
+// set default header data
+//        $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE.' 006', PDF_HEADER_STRING);
+
+// set default monospaced font
+        $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+// set margins
+        $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+        $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+        $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+// set auto page breaks
+        $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+// set image scale factor
+        $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+        // set some language-dependent strings (optional)
+        if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
+            require_once(dirname(__FILE__).'/lang/eng.php');
+            $pdf->setLanguageArray($l);
+        }
+// ---------------------------------------------------------
+// convert TTF font to TCPDF format and store it on the fonts folder
+
+        $fontname = TCPDF_FONTS::addTTFfont(dirname(dirname(__FILE__)).'/libraries/tcpdf/fonts/vuTimes.ttf', 'TrueTypeUnicode', '', 96);
+//        print_arr($fontname);
+// use the font
+        $pdf->SetFont($fontname, '', 14);
+
+// add a page
+        $pdf->AddPage();
+
+// writeHTML($html, $ln=true, $fill=false, $reseth=false, $cell=false, $align='')
+// writeHTMLCell($w, $h, $x, $y, $html='', $border=0, $ln=0, $fill=0, $reseth=true, $align='', $autopadding=true)
+
+// create some HTML content
+//        $html = '';
+
+        $html = $this->load->view('staff_managers/class_study/contract_teacher', [], true);
+
+// output the HTML content
+        $pdf->writeHTML($html, true, false, true, false, '');
+
+        $pdf->Output('output.pdf', 'I');
+    }
+
+    function test_pdf_2() {
+//        $this->load->view('staff_managers/class_study/contract_teacher');
+        $this->load->library('pdf');
+        $pdf = $this->pdf->load();
+        $pdf->allow_charset_conversion=true;  // Set by default to TRUE
+        $pdf->charset_in='UTF-8';
+        $pdf->autoLangToFont = true;
+
+        ini_set('memory_limit', '256M');
+        $html = $this->load->view('staff_managers/class_study/contract_teacher', [], true);
+
+//        $stylesheet = file_get_contents('mpdf.css');
+//        $pdf->WriteHTML($stylesheet, 1);
+        // render the view into HTML
+        $pdf->WriteHTML($html); // write the HTML into the PDF
+        $output = 'itemreport' . date('Y_m_d_H_i_s') . '_.pdf';
+        $pdf->Output("$output", 'I'); // save to file because we can
+        exit();
+    }
+
 }
 
 
