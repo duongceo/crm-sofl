@@ -104,11 +104,11 @@
 				</a>
 			</li>
 
-			<li class="check_diligence set_data_contact one-item-selected" contact_id="0" contact_name="0">
-				<a>
-					<i class="fa fa-exchange" aria-hidden="true"></i> &nbsp; &nbsp; Kiểm tra chuyên cần
-				</a>
-			</li>
+<!--			<li class="check_diligence set_data_contact one-item-selected" contact_id="0" contact_name="0">-->
+<!--				<a>-->
+<!--					<i class="fa fa-exchange" aria-hidden="true"></i> &nbsp; &nbsp; Kiểm tra chuyên cần-->
+<!--				</a>-->
+<!--			</li>-->
 
 			<?php if ($controller == 'student') { ?>
 				<li contact_id="0" contact_name="0" class="transfer_one_contact one-item-selected">
