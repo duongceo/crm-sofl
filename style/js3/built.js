@@ -118,17 +118,15 @@ const _CONTACT_CHET_ = 5;
 const _CHUA_CHAM_SOC_ = 0;
 const _TU_CHOI_MUA_ = 3;
 const _DONG_Y_MUA_ = 4;
-const _CONTACT_TU_VAN_TRUNG_CHET_ = 7;
-const _CONTACT_DANG_KY_TRUNG_CHET_ = 8;
 
 check_edit_contact = () => {
-    var call_status_id = $("select[name='call_status_id']").val();
-    var date_recall = $(".date_recall").val();
+    let call_status_id = $("select[name='call_status_id']").val();
+    let date_recall = $(".date_recall").val();
     // var class_study_id = $('select[name="class_study_id"]').val();
     // var fee = $('[name="fee"]').val();
     // var paid = $('[name="paid"]').val();
-    var customer_care_call_id = $("select[name='customer_care_call_id']").val();
-    var level_contact = $("select[name='level_contact_id']").val();
+    let customer_care_call_id = $("select[name='customer_care_call_id']").val();
+    let level_contact = $("select[name='level_contact_id']").val();
 
     if (customer_care_call_id == 0) {
         $.alert({
@@ -287,7 +285,7 @@ check_rule_call_stt_and_date_recall = (call_status_id, level_contact, date_recal
     return false;
 };
 
-var condition_level = ['L4', 'L4.1', 'L4.2', 'L4.3', 'L4.4', 'L4.5'];
+let condition_level = ['L4', 'L4.1', 'L4.2', 'L4.3', 'L4.4', 'L4.5'];
 stop_care = (call_status_id, level_contact) => {
     if (call_status_id == _SO_MAY_SAI_ || call_status_id == _NHAM_MAY_ || call_status_id == _KHONG_NGHE_MAY_) {
     	if (condition_level.indexOf(level_contact) != -1) {
@@ -298,13 +296,13 @@ stop_care = (call_status_id, level_contact) => {
 };
 
 now_greater_than_input_date = date_string => {
-    var date_arr = date_string.split(/-/);
-    var year = date_arr[2];
-    var month = date_arr[1];
-    var day = date_arr[0];
-    var now_timestamp = new Date();
+    let date_arr = date_string.split(/-/);
+    let year = date_arr[2];
+    let month = date_arr[1];
+    let day = date_arr[0];
+    let now_timestamp = new Date();
     now_timestamp = now_timestamp.getTime();
-    var input_timestamp = new Date(year, month - 1, day);
+    let input_timestamp = new Date(year, month - 1, day);
     input_timestamp = input_timestamp.getTime();
     return (now_timestamp > input_timestamp);
 };

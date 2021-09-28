@@ -118,7 +118,7 @@
 								<?php
 								foreach ($branch as $key => $value) {
 									?>
-									<option value="<?php echo $value['id']; ?>" <?php //if ($value['id'] == $_GET['branch_id'] &) echo 'selected'; ?>>
+									<option value="<?php echo $value['id']; ?>" <?php if ($value['id'] == $_GET['branch_id']) echo 'selected'; ?>>
 										<?php echo $value['name']; ?>
 									</option>
 									<?php
@@ -214,7 +214,7 @@
 							<select class="form-control" name="language_id">
 								<option value=""> Ngoại ngữ </option>
 								<?php foreach ($language_study as $value) { ?>
-									<option value="<?php echo $value['id']; ?>" <?php //if ($value['id'] == $_GET['language_id']) echo 'selected'; ?>>
+									<option value="<?php echo $value['id']; ?>" <?php if ($value['id'] == $_GET['language_id']) echo 'selected'; ?>>
 										<?php echo $value['name']; ?>
 									</option>
 								<?php } ?>
@@ -294,7 +294,7 @@
                                 <option value=""> Chọn nguồn kênh </option>
 									<?php foreach ($sources as $key => $value) { ?>
                                     <option value="<?php echo $value['id']; ?>"
-										<?php //if ($_GET['source_id'] == $value['id']) echo "selected"; ?>>
+										<?php if ($_GET['source_id'] == $value['id']) echo "selected"; ?>>
 										<?php echo $value['name']; ?>
 									</option>
 									<?php } ?>

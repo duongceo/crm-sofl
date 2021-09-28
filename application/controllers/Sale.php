@@ -476,7 +476,7 @@ class Sale extends MY_Controller {
 
     public function add_contact() {
         $input = $this->input->post();
-//		echo '<pre>';print_r($input);die;
+
         $this->load->library('form_validation');
         //$this->form_validation->set_rules('name', 'Họ tên', 'trim|required|min_length[2]');
 //        $this->form_validation->set_rules('address', 'Địa chỉ', 'trim|required|min_length[3]');
@@ -597,10 +597,10 @@ class Sale extends MY_Controller {
 						show_error_and_redirect('Contact đã đăng ký thành công thì phải có trình độ ngoại ng', 0, $input['back_location']);
 					}
 				
-					if ($input['level_contact_id'] == 'L5') {
+					if ($input['level_contact_id'] == 'L5' || $input['level_student_id'] == 'L8.1') {
 						if (isset($input['date_rgt_study']) && $input['date_rgt_study'] != '') {
 							$param['date_rgt_study'] = strtotime($input['date_rgt_study']);
-							
+
 							$student = $this->create_new_account_student($input['name'], $input['phone'], $input['level_language_id']);
 							if ($student->success != 0) {
 								$param['sent_account_online'] = 1;
@@ -619,17 +619,16 @@ class Sale extends MY_Controller {
 					}
 					
 					$param['date_last_calling'] = time();
-
 				}
 				
-				if (isset($input['level_student_id']) && $input['level_student_id'] != '') {
+				if (isset($input['level_student_id']) && $input['level_student_id'] != '' && $input['level_student_id'] != 'L8.1') {
 					if(!isset($input['call_status_id']) || $input['call_status_id'] != 4) {
-						show_error_and_redirect('Contact bạn vừa thêm ko đúng logic trạng thái học viên và trạng thái gọi', 0, $input['back_location']);
-					}
-				
-					if (!isset($input['level_contact_id']) || $input['level_contact_id'] != 'L5') {
-						show_error_and_redirect('Contact bạn vừa thêm ko đúng logic trạng thái học viên và trạng thái contact', 0, $input['back_location']);
-					}
+                        show_error_and_redirect('Contact bạn vừa thêm ko đúng logic trạng thái học viên và trạng thái gọi', 0, $input['back_location']);
+                    }
+
+                    if (!isset($input['level_contact_id']) || $input['level_contact_id'] != 'L5') {
+                        show_error_and_redirect('Contact bạn vừa thêm ko đúng logic trạng thái học viên và trạng thái contact', 0, $input['back_location']);
+                    }
 					
 					if ($input['level_student_id'] == 'L8') {
 						if (!isset($input['is_old']) || $input['is_old'] == 0) {
@@ -637,6 +636,12 @@ class Sale extends MY_Controller {
 						}
 					}
 				}
+
+                if ($input['level_student_id'] == 'L8.1') {
+                    if (isset($input['date_rgt_study']) && $input['date_rgt_study'] != '') {
+                        $param['date_rgt_study'] = strtotime($input['date_rgt_study']);
+                    }
+                }
 				
 				if (isset($input['fee']) && $input['fee'] != '') {
 					$param['fee'] = str_replace(',', '', $input['fee']);

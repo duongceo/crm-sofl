@@ -1883,6 +1883,9 @@ class Manager extends MY_Controller {
 			'L8' => array(
 				'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_student_id' => 'L8', 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
 			),
+            'L8.1' => array(
+				'where' => array('level_student_id' => 'L8.1', 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
+			),
 		);
 
 		unset($data['language_study'][3]);
