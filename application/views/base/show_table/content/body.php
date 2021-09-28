@@ -12,16 +12,17 @@ foreach ($rows as $row) {
         edit-url="<?php echo base_url().$this->controller_path.'/show_edit_item'?>"
 
         >
-
-<!--        <td class="text-center tbl_selection">-->
+<!--        --><?php //if ($this->controller != 'class_study') { ?>
 <!---->
-<!--            <input type="checkbox" name="item_id[]" value="--><?php //echo $row['id']; ?><!--" class="tbl-item-checkbox"/>-->
+<!--            <td class="text-center tbl_selection">-->
 <!---->
-<!--        </td>-->
+<!--                <input type="checkbox" name="item_id[]" value="--><?php //echo $row['id']; ?><!--" class="tbl-item-checkbox"/>-->
+<!---->
+<!--            </td>-->
+<!---->
+<!--        --><?php //} ?>
 
         <?php
-
-//		echo '<pre>';print_r($head_tbl);die();
 
         foreach ($head_tbl as $columm_name => $column_type) {
 

@@ -342,8 +342,6 @@ class MY_Table extends MY_Controller {
 
         $rows = $this->{$this->model}->load_all($input);
 
-//        print_arr($rows);
-
         if (empty($rows)) {
 
             echo 'Không tồn tại danh mục này!';
@@ -374,6 +372,7 @@ class MY_Table extends MY_Controller {
 		if ($this->role_id == 6 && $this->controller_path == 'MANAGERS/landingpage' && $this->method == 'show_edit_item') {
 			$data['canEdited'] = 1;
 		}
+
 		if ($this->role_id == 6 && $this->controller_path == 'MANAGERS/landingpage' && $this->method == 'show_plugin_landingpage') {
             $data['canEdited'] = 1;
 

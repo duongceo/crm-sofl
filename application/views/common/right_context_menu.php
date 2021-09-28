@@ -74,8 +74,8 @@
 					</a>
 				</li>
 			<?php } else {?>
-				<li>
-					<a class="edit_item" edit-url="" data-modal-name="edit-item-modal" item_id="0">
+				<li  class="edit_item" edit-url="" data-modal-name="edit-item-modal" item_id="0">
+					<a>
 						<i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp; Chỉnh sửa
 					</a>
 				</li>
@@ -104,11 +104,11 @@
 				</a>
 			</li>
 
-<!--			<li class="check_diligence set_data_contact one-item-selected" contact_id="0" contact_name="0">-->
-<!--				<a>-->
-<!--					<i class="fa fa-exchange" aria-hidden="true"></i> &nbsp; &nbsp; Kiểm tra chuyên cần-->
-<!--				</a>-->
-<!--			</li>-->
+			<li class="check_diligence set_data_contact one-item-selected" contact_id="0" contact_name="0">
+				<a>
+					<i class="fa fa-exchange" aria-hidden="true"></i> &nbsp; &nbsp; Kiểm tra chuyên cần
+				</a>
+			</li>
 
 			<?php if ($controller == 'student') { ?>
 				<li contact_id="0" contact_name="0" class="transfer_one_contact one-item-selected">
@@ -129,14 +129,20 @@
 					</a>
 				</li>
 			<?php } else { ?>
-				<li>
-					<a class="edit_item" edit-url="" data-modal-name="edit-item-modal" item_id="0">
+                <li class="edit_class" item_id="0">
+                    <a>
+                        <i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp;Chăm sóc lớp
+                    </a>
+                </li>
+
+				<li class="edit_item" item_id="0" edit-url="" data-modal-name="edit-item-modal">
+					<a>
 						<i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp; Chỉnh sửa
 					</a>
 				</li>
 
-				<li>
-					<a href="#" class="delete_item" item_id="0">
+				<li href="#" class="delete_item" item_id="0">
+					<a>
 						<i class="fa fa-trash-o" aria-hidden="true"></i> &nbsp; &nbsp; Xóa dòng
 					</a>
 				</li>
@@ -176,14 +182,14 @@
 				</a>
 			</li>
 		<?php } else if ($this->role_id == 7) { ?>
-			<li>
-				<a class="edit_item" edit-url="" data-modal-name="edit-item-modal" item_id="0">
+			<li class="edit_item" edit-url="" data-modal-name="edit-item-modal" item_id="0">
+				<a>
 					<i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp; Chỉnh sửa
 				</a>
 			</li>
 		<?php } else if ($this->role_id == 14) { ?>
-			<li>
-				<a class="edit_item" edit-url="" data-modal-name="edit-item-modal" item_id="0">
+			<li class="edit_item" edit-url="" data-modal-name="edit-item-modal" item_id="0">
+				<a>
 					<i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp; Chỉnh sửa
 				</a>
 			</li>

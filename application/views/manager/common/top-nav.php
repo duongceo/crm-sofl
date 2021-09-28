@@ -55,22 +55,25 @@
 
 					</a>
 
-                    <li class="dropdown-hover pull-right" style="margin-right: 10%">
+                    <?php if ($this->role_id == 12) { ?>
+                        <li class="dropdown-hover pull-right" style="margin-right: 10%">
 
-                        <a href="javascript:;" class="noti dropdown-toggle" data-toggle="dropdown" aria-expanded="false" style="position: relative">
+                            <a href="javascript:;" class="noti dropdown-toggle" data-toggle="dropdown" aria-expanded="false" style="position: relative">
 
-                            <i class="fa fa-volume-control-phone" aria-hidden="true"></i> &nbsp;
+                                <i class="fa fa-volume-control-phone" aria-hidden="true"></i> &nbsp;
 
-                            Contact cần gọi lại
-                            <sup> <span class="badge bg-red" id="num_noti"></span> </sup>
+                                Contact cần gọi lại
 
-                        </a>
+                                <sup> <span class="badge bg-red" id="num_noti"></span> </sup>
 
-                        <ul class="dropdown-menu" id="noti_contact_recall">
+                            </a>
 
-                        </ul>
+                            <ul class="dropdown-menu" id="noti_contact_recall">
 
-                    </li>
+                            </ul>
+
+                        </li>
+                    <?php } ?>
 				<?php } ?>
 
             </ul>

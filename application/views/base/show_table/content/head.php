@@ -6,11 +6,15 @@ thì người dùng vẫn có thể nhìn thấy các trường head là gì (d�
 
     <tr>
 
-<!--        <th class="tbl_selection_2 check_all">-->
+<!--        --><?php //if ($this->controller != 'class_study') { ?>
 <!---->
-<!--            Chọn <i class="fa fa-check" aria-hidden="true"></i>-->
+<!--            <th class="tbl_selection_2 check_all">-->
 <!---->
-<!--        </th>-->
+<!--                Chọn <i class="fa fa-check" aria-hidden="true"></i>-->
+<!---->
+<!--            </th>-->
+<!---->
+<!--        --><?php //} ?>
 
         <?php
 

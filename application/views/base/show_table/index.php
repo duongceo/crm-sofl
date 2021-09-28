@@ -1,23 +1,23 @@
 
-<?php  $class_contact = ($this->agent->is_mobile()) ? '' : 'list_contact list_contact_2';?>
+<?php  $class_contact = ($this->agent->is_mobile()) ? '' : 'list_contact list_contact_2'; ?>
+
 <div class="table-responsive">
 
-	<table class="table table-bordered table-striped table-fixed-head <?php echo  $class_contact ?>">
+    <table class="table table-bordered table-striped table-fixed-head <?php echo  $class_contact ?>">
 
-		<?php
+        <?php
 
-		$data['head_tbl'] = $this->list_view;
-	//    echo'<pre>';print_r($data);die();
+        $data['head_tbl'] = $this->list_view;
 
-		$this->load->view('base/show_table/content/head', $data);
+        $this->load->view('base/show_table/content/head', $data);
 
-	   // $this->load->view('base/show_table/content/search', $data);
+       // $this->load->view('base/show_table/content/search', $data);
 
-		$this->load->view('base/show_table/content/body', $data);
+        $this->load->view('base/show_table/content/body', $data);
 
-		?>
+        ?>
 
-	</table>
+    </table>
 
 </div>
 

@@ -824,11 +824,11 @@ $(".delete_item").confirm({
 	}
 });
 
-$(document).on('click', 'a.edit_item', function (e) {
+$(document).on('click', 'li.edit_item', function (e) {
 	e.preventDefault();
-	var item_id = $(this).attr("item_id");
-	var url = $(this).attr("edit-url");
-	var modalName = $(this).attr("data-modal-name");
+	let item_id = $(this).attr("item_id");
+	let url = $(this).attr("edit-url");
+	let modalName = $(this).attr("data-modal-name");
 	// alert(url); return false;
 	$.ajax({
 		url: url,
@@ -838,7 +838,7 @@ $(document).on('click', 'a.edit_item', function (e) {
 		},
 		success: function (data) {
 			$("." + modalName).remove();
-			var newModal = `<div class="${modalName}"></div>`;
+			let newModal = `<div class="${modalName}"></div>`;
 			$(".modal-append-to").append(newModal);
 			$(`.${modalName}`).html(data);
 		},
@@ -2058,9 +2058,9 @@ $(document).on('contextmenu', 'tr.custom_right_menu', function (e) {
     let controller = $("#input_controller").val();
     right_context_menu_display(controller, contact_id, contact_name, duplicate_id, contact_phone);
 
-    /* marketing */
+    /* lớp học */
     let item_id = $(this).attr('item_id');
-    $(".delete_item, .edit_item, .form_plugin, .view_student").attr('item_id', item_id);
+    $(".delete_item, .edit_item, .form_plugin, .view_student, .edit_class").attr('item_id', item_id);
     let editURL = $(this).attr('edit-url');
     $(".edit_item").attr('edit-url', editURL);
 
@@ -2096,13 +2096,15 @@ $(document).on('contextmenu', 'tr.custom_right_menu', function (e) {
      * Nếu dòng đó đang không chọn (đã click trái) thì bỏ chọn và bỏ check những dòng đã chọn
      */
     let is_checked_input = $(this).find('input[type="checkbox"]');
-    if (!is_checked_input[0].checked) {
-        $(".checked").removeClass("checked");
-        uncheck_checked();
-    } else {
-        unselect_not_checked();
+    if (is_checked_input[0] !== undefined) {
+        if (!is_checked_input[0].checked) {
+            $(".checked").removeClass("checked");
+            uncheck_checked();
+        } else {
+            unselect_not_checked();
+        }
+        $(this).addClass('checked'); /*.find('[name="contact_id[]"]').prop('checked', true); */
     }
-    $(this).addClass('checked'); /*.find('[name="contact_id[]"]').prop('checked', true); */
 });
 
 
@@ -2115,7 +2117,7 @@ $(document).on("click", "td.tbl_name, td.tbl_address", function () {
     } else {
         $(this).parent().addClass('checked');
     }
-    var input_checkbox = $(this).parent().find('.tbl-item-checkbox');
+    let input_checkbox = $(this).parent().find('.tbl-item-checkbox');
     if (input_checkbox.is(":checked")) {
         input_checkbox.prop('checked', false);
     } else {
@@ -3912,6 +3914,29 @@ $('.send_mail_teacher').on('click', function (e) {
             $(".popup-wrapper").hide();
         },
     });
+});
+
+$(".edit_class").on('click', function (e) {
+    e.preventDefault();
+    let item_id = $(this).attr("item_id");
+    let url = $("#base_url").val() + "staff_managers/class_study/show_edit_care_class";
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: {
+            item_id: item_id
+        },
+        success: function (data) {
+            $("." + modalName).remove();
+            let newModal = `<div class="${modalName}"></div>`;
+            $(".modal-append-to").append(newModal);
+            $(`.${modalName}`).html(data);
+        },
+        complete: function () {
+            $(`.${modalName} .modal`).modal("show");
+        }
+    });
+    // $(".show_edit_class").modal("show");
 });
 
 
