@@ -552,6 +552,8 @@ class Test1 extends CI_Controller {
 			'crlf' => '\r\n',
 			'mailtype' => 'html',
 		);
+
+        $this->email->initialize($config);
 		
         //$this->email->from('minhduc.sofl@gmail.com', 'TRUNG TÂM NGOẠI NGỮ SOFL');
         $this->email->from('nv.quang.2897@gmail.com', 'TRUNG TÂM NGOẠI NGỮ SOFL');
