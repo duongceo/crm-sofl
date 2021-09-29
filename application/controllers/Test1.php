@@ -573,6 +573,42 @@ class Test1 extends CI_Controller {
         exit();
     }
 
+    function test_phpmailer() {
+        $this->load->library("phpmailer_lib");
+        $mail = $this->phpmailer_lib->load();
+
+        $mail->isSMTP();
+        $mail->Host     = 'ssl://smtp.gmail.com';
+        $mail->SMTPAuth = true;
+        $mail->Username = 'nv.quang.2897@gmail.com';
+        $mail->Password = 'ngovanquang';
+        $mail->SMTPSecure = 'tls';
+        $mail->Port     = 465;
+
+        $mail->setFrom('nv.quang.2897@gmail.com', 'NgoQuang');
+
+        $mail->addAddress('ngovanquang281997@gmail.com');
+
+        // Email subject
+        $mail->Subject = 'Send Email via SMTP using PHPMailer in CodeIgniter';
+
+        // Set email format to HTML
+        $mail->isHTML(true);
+
+        // Email body content
+        $mailContent = "<h1>Send HTML Email using SMTP in CodeIgniter</h1>
+            <p>This is a test email sending using SMTP mail server with PHPMailer.</p>";
+        $mail->Body = $mailContent;
+
+        // Send email
+        if(!$mail->send()){
+            echo 'Message could not be sent. <br>';
+            echo 'Mailer Error: ' . $mail->ErrorInfo;
+        }else{
+            echo 'Message has been sent';
+        }
+    }
+
 }
 
 
