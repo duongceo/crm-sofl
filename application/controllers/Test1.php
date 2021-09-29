@@ -573,7 +573,7 @@ class Test1 extends CI_Controller {
     function test_pdf_2() {
 //        $this->load->view('staff_managers/class_study/contract_teacher');
         $this->load->library('pdf');
-        $pdf = $this->pdf->load();
+        $pdf = $this->pdf;
         $pdf->allow_charset_conversion=true;  // Set by default to TRUE
         $pdf->charset_in='UTF-8';
         $pdf->autoLangToFont = true;
