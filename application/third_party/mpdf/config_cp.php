@@ -86,7 +86,7 @@ function GetLangOpts($llcc, $adobeCJK) {
 	  CASE "th":  $unifonts = "garuda,garudaB,garudaI,garudaBI,norasi,norasiB,norasiI,norasiBI";  break;
 
 	  // VIETNAMESE
-	  CASE "vi":  
+	  CASE "vi":
 		$unifonts = "opensans,opensansB,opensansI,opensansBI"; break;
 //		$unifonts = "opensans,vutimes,dejavusans,dejavusansB,dejavusansI,dejavusansBI,dejavusanscondensed,dejavusanscondensedB,dejavusanscondensedI,dejavusanscondensedBI"; break;
 
