@@ -87,6 +87,7 @@ function GetLangOpts($llcc, $adobeCJK) {
 
 	  // VIETNAMESE
 	  CASE "vi":
+		//$unifonts = "vutimes"; break;
 		$unifonts = "opensans,opensansB,opensansI,opensansBI"; break;
 //		$unifonts = "opensans,vutimes,dejavusans,dejavusansB,dejavusansI,dejavusansBI,dejavusanscondensed,dejavusanscondensedB,dejavusanscondensedI,dejavusanscondensedBI"; break;
 
