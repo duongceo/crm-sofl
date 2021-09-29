@@ -538,14 +538,29 @@ class Test1 extends CI_Controller {
             'bonus' => 1,
             'fine' => 1,
         );
-
-        $this->load->library('email');
-
-        $this->email->from('minhduc.sofl@gmail.com', 'TRUNG TÂM NGOẠI NGỮ SOFL');
+		
+		$this->load->library('email');
+		
+		$config = Array(
+			'protocol' => 'smtp',
+			'smtp_host' => 'ssl://smtp.gmail.com',
+			'smtp_port' => 587,
+			'smtp_user' => 'nv.quang.2897@gmail.com',
+			'smtp_pass' => 'ngovanquang',
+			'charset' => 'utf-8',
+			'newline' => '\r\n',
+			'crlf' => '\r\n',
+			'mailtype' => 'html',
+		);
+		
+        //$this->email->from('minhduc.sofl@gmail.com', 'TRUNG TÂM NGOẠI NGỮ SOFL');
+        $this->email->from('nv.quang.2897@gmail.com', 'TRUNG TÂM NGOẠI NGỮ SOFL');
         $this->email->to('ngovanquang281997@gmail.com');
 
         $this->email->subject('SOFL GỬI BẢNG KÊ LƯƠNG THÁNG ');
-        $message = $this->load->view('staff_managers/teacher/test_mail', $data, true);
+        //$message = $this->load->view('staff_managers/teacher/email_salary', $data, true);
+		
+		$message = '<h1>Hi Ngo Quangs</h1>';
         $this->email->message($message);
 
         if ($this->email->send()) {
@@ -558,7 +573,7 @@ class Test1 extends CI_Controller {
     function test_pdf_2() {
 //        $this->load->view('staff_managers/class_study/contract_teacher');
         $this->load->library('pdf');
-        $pdf = $this->pdf->load();
+        $pdf = $this->pdf;
         $pdf->allow_charset_conversion=true;  // Set by default to TRUE
         $pdf->charset_in='UTF-8';
         $pdf->autoLangToFont = true;
@@ -572,6 +587,35 @@ class Test1 extends CI_Controller {
         $pdf->Output("$output", 'I'); // save to file because we can
         exit();
     }
+	
+	function test_mailphp() {
+		$to = 'ngovanquang281997@gmail.com'; //writing mail to the user
+		$subject = "Hii";
+		$message = "<table>
+		<tr><td> HelloQuang,</td></tr>
+		<tr><td> Some Text </td></tr>
+		<tr><td> Some Text </td></tr>
+		<tr><td> Some Text </td></tr>
+		<tr><td> Some Text </td></tr>
+		</table>" ;
+		$from = "nv.quang.2897@gmail.com";
+		// To send HTML mail, the Content-type header must be set
+			$headers  = 'MIME-Version: 1.0' . "\r\n";
+			$headers .= "Content-type:text/html;charset=iso-8859-1" . "\r\n";
+
+			//$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+		// Additional headers
+		$headers .= 'From: Team <nv.quang.2897@gmail.com>' . "\r\n";
+
+		if(mail($to,$subject,$message,$headers))
+		{
+			echo "0";// mail sent Successfully.
+		}
+		else
+		{
+			echo "1";
+		}
+	}
 
     function test_phpmailer() {
         $this->load->library("phpmailer_lib");
