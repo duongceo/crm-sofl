@@ -723,4 +723,33 @@ class Class_study extends MY_Table {
 		 echo json_encode($response);
 		 die;
 	 }
+
+	 function show_edit_care_class() {
+         $post = $this->input->post();
+         $input['where'] = array('id' => $post['item_id']);
+         $data['class'] = $this->{$this->model}->load_all($input);
+
+         $this->load->view('staff_managers/class_study/show_edit_class', $data);
+     }
+
+     function action_edit_care_class() {
+	    $this->load->model('class_edit_log_model');
+	    $post = $this->input->post();
+
+	    $id = $post['id'];
+	    unset($post['id']);
+
+	    $class_care_log = array(
+	        'class_study_id' => $id,
+            'number_care' => $post['number_care'],
+            'time_created' => time()
+        );
+
+	    $post['date_last_update'] = time();
+
+	    $this->{$this->model}->update(array('id' => $id), $post);
+	    $this->class_edit_log_model->insert($class_care_log);
+
+	    show_error_and_redirect('Chăm sóc lớp học thành công!');
+     }
 }

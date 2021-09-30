@@ -554,7 +554,7 @@ class Common extends MY_Controller {
             $param['date_recall'] = (isset($post['date_recall']) && $post['date_recall'] != '') ? strtotime($post['date_recall']) : 0;
 //			print_arr($param);
             /* Kiểm tra điều kiện các trạng thái và ngày hẹn gọi lại có logic ko */
-            if (isset($post['call_status_id'])) {
+            if (isset($post['call_status_id']) && $post['level_student_id'] != 'L8.1') {
 				if ($post['call_status_id'] == 0) {
 					$result['success'] = 0;
 					$result['message'] = 'Bạn phải cập nhật trạng thái cuộc gọi!';
@@ -630,7 +630,7 @@ class Common extends MY_Controller {
                 	$param['level_contact_detail'] = '';
 				}
 				
-			} else if (isset($post['date_rgt_study']) && $post['date_rgt_study'] != '') {
+			} else if (isset($post['date_rgt_study']) && $post['date_rgt_study'] != '' && $post['level_student_id'] != 'L8.1') {
 				$result['success'] = 0;
 				$result['message'] = 'Học viên đã đăng ký thì mới có ngày đăng ký học';
 				echo json_encode($result);
@@ -904,7 +904,7 @@ class Common extends MY_Controller {
 			}
         }
 		
-		if ($level_student != '') {
+		if ($level_student != '' && $level_student != 'L8.1') {
 			if (!in_array($level_contact_id, array('L5', 'L5.1', 'L5.2', 'L5.3', 'L5.4')) || $call_status_id != _DA_LIEN_LAC_DUOC_) {
 				return false;
 			}
