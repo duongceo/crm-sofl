@@ -402,7 +402,6 @@ class Teacher extends MY_Table {
             'bonus' => ($bonus[0]['money'] != '') ? $bonus[0]['money'] : 0,
             'fine' => ($fine[0]['money'] != '') ? $fine[0]['money'] : 0,
         );
-        $this->load->view('staff_managers/teacher/email_salary', $data, true);
 
         $this->load->library('email');
         $this->email->from('minhduc.sofl@gmail.com', 'TRUNG TÂM NGOẠI NGỮ SOFL');

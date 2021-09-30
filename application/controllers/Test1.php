@@ -19,7 +19,7 @@ class Test1 extends CI_Controller {
         $this->load->model('account_fb_model');
 
         $accountFBADS = $this->account_fb_model->load_all();
-		
+
 		$url = 'https://graph.facebook.com/v4.0/act_2580696332214816/insights?fields=spend,campaign_id,campaign_name,reach,outbound_clicks&level=campaign&limit=5000&time_range={"since":"' . $today_fb_format . '","until":"' . $today_fb_format . '"}&access_token=' . ACCESS_TOKEN;
 		$acc = get_fb_request($url);
 		$spend = json_decode(json_encode($acc->data), true);
@@ -27,14 +27,14 @@ class Test1 extends CI_Controller {
 
 		foreach ($spend as $key => $value1) {
             	$input['where'] = $where = array(
-            		'campaign_id' => $this->find_campaign_id($value1['campaign_id']), 
+            		'campaign_id' => $this->find_campaign_id($value1['campaign_id']),
             		'time' => $today
             	);
             	// echo $value1['campaign_id'].'<br>';
             	// echo "<pre>";print_r($input['where']);die();
             	if (!empty($this->campaign_spend_model->load_all($input))) {
                 	$this->campaign_spend_model->delete($where);
-            	} 
+            	}
 
             	if ($value1['spend'] > 0) {
                     $param['spend'] = $value1['spend'];
@@ -66,14 +66,14 @@ class Test1 extends CI_Controller {
 
             // foreach ($spend as $key => $value1) {
             // 	$input['where'] = $where = array(
-            // 		'campaign_id' => $this->find_campaign_id($value1['campaign_id']), 
+            // 		'campaign_id' => $this->find_campaign_id($value1['campaign_id']),
             // 		'time' => $today
             // 	);
             // 	// echo $value1['campaign_id'].'<br>';
             // 	// echo "<pre>";print_r($input['where']);die();
             // 	if (!empty($this->campaign_spend_model->load_all($input))) {
             //     	$this->campaign_spend_model->delete($where);
-            // 	} 
+            // 	}
 
             // 	if ($value1['spend'] > 0) {
             //         if ($value['USD'] == 1) {
@@ -97,7 +97,7 @@ class Test1 extends CI_Controller {
         echo "success";
 
     }
-	
+
 	function test(){
 		phpinfo();
 	}
@@ -252,12 +252,12 @@ class Test1 extends CI_Controller {
             'id_lakita' => $post['id_lakita']
             //'course_code' => $post['course_code']
         );
-        
+
         $data = array(
             'date_active' => time(),
             'account_active' => '1'
         );
-        
+
         $contact_active = $this->contacts_model->load_all($input);
         if (!empty($contact_active)) {
             $this->contacts_model->update($where, $data);
@@ -266,16 +266,16 @@ class Test1 extends CI_Controller {
                 'phone' => $post['phone']
                 //'course_code' => $post['course_code']
             );
-            
+
             $this->contacts_model->update($where, $data);
         }
-        
+
         $this->response('success', 200);
     }
     */
-	
+
 	function get_contact() {
-		
+
 		$input['select'] = 'name, phone, level_contact_id, language_id';
 		$input['where'] = array(
 			'is_hide' => '0',
@@ -283,7 +283,7 @@ class Test1 extends CI_Controller {
 		);
 		$cts = $this->contacts_model->load_all($input);
 		//print_arr($cts);
-		
+
 		$this->load->library('PHPExcel');
 		$objPHPExcel = new PHPExcel();
 //		$objPHPExcel = PHPExcel_IOFactory::createReader('Excel2007');
@@ -500,7 +500,7 @@ class Test1 extends CI_Controller {
 	public function update_opening_class() {
 		$from_date = strtotime(date('d-m-Y')) - 7*60*60;
 		$to_date = strtotime(date('d-m-Y'));
-		
+
 		//echo $from_date; die;
 		$input['where'] = array(
 			'time_start >=' => $from_date,
@@ -526,6 +526,7 @@ class Test1 extends CI_Controller {
 	}
 
 	public function send_email() {
+
         $data['teacher'] = array(
             'name' => 1,
             'phone' => 1,
@@ -540,29 +541,13 @@ class Test1 extends CI_Controller {
         );
 		
 		$this->load->library('email');
-		
-		$config = Array(
-			'protocol' => 'smtp',
-			'smtp_host' => 'ssl://smtp.gmail.com',
-			'smtp_port' => 587,
-			'smtp_user' => 'nv.quang.2897@gmail.com',
-			'smtp_pass' => 'ngovanquang',
-			'charset' => 'utf-8',
-			'newline' => '\r\n',
-			'crlf' => '\r\n',
-			'mailtype' => 'html',
-		);
 
-        $this->email->initialize($config);
-		
-        //$this->email->from('minhduc.sofl@gmail.com', 'TRUNG TÂM NGOẠI NGỮ SOFL');
-        $this->email->from('nv.quang.2897@gmail.com', 'TRUNG TÂM NGOẠI NGỮ SOFL');
+		$this->email->from('minhduc.sofl@gmail.com', 'TRUNG TÂM NGOẠI NGỮ SOFL');
         $this->email->to('ngovanquang281997@gmail.com');
 
-        $this->email->subject('SOFL GỬI BẢNG KÊ LƯƠNG THÁNG ');
-        //$message = $this->load->view('staff_managers/teacher/email_salary', $data, true);
-		
-		$message = '<h1>Hi Ngo Quangs</h1>';
+        $subject = 'SOFL GỬI BẢNG KÊ LƯƠNG THÁNG ';
+        $this->email->subject($subject);
+        $message = $this->load->view('staff_managers/teacher/email_salary', $data, true);
         $this->email->message($message);
 
         if ($this->email->send()) {
@@ -575,7 +560,7 @@ class Test1 extends CI_Controller {
     function test_pdf_2() {
 //        $this->load->view('staff_managers/class_study/contract_teacher');
         $this->load->library('pdf');
-        $pdf = $this->pdf;
+        $pdf = $this->pdf->load();
         $pdf->allow_charset_conversion=true;  // Set by default to TRUE
         $pdf->charset_in='UTF-8';
         $pdf->autoLangToFont = true;
@@ -589,7 +574,7 @@ class Test1 extends CI_Controller {
         $pdf->Output("$output", 'I'); // save to file because we can
         exit();
     }
-	
+
 	function test_mailphp() {
 		$to = 'ngovanquang281997@gmail.com'; //writing mail to the user
 		$subject = "Hii";
