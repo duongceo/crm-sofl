@@ -538,14 +538,29 @@ class Test1 extends CI_Controller {
             'bonus' => 1,
             'fine' => 1,
         );
+		
+		$this->load->library('email');
+		$config = Array(
+			'protocol' => 'smtp',
+			'smtp_host' => 'ssl://smtp.gmail.com',
+			'smtp_port' => 587,
+			'smtp_user' => 'nv.quang.2897@gmail.com',
+			'smtp_pass' => 'ngovanquang',
+			'charset' => 'utf-8',
+			'newline' => '\r\n',
+			'crlf' => '\r\n',
+			'mailtype' => 'html',
+		);
+		$this->email->initialize($config);
 
-        $this->load->library('email');
-
-        $this->email->from('minhduc.sofl@gmail.com', 'TRUNG TÂM NGOẠI NGỮ SOFL');
+        //$this->email->from('minhduc.sofl@gmail.com', 'TRUNG TÂM NGOẠI NGỮ SOFL');
+        $this->email->from('nv.quang.2897@gmail.com', 'TRUNG TÂM NGOẠI NGỮ SOFL');
         $this->email->to('ngovanquang281997@gmail.com');
 
         $this->email->subject('SOFL GỬI BẢNG KÊ LƯƠNG THÁNG ');
-        $message = $this->load->view('staff_managers/teacher/test_mail', $data, true);
+        //$message = $this->load->view('staff_managers/teacher/email_salary', $data, true);
+		
+		$message = '<h1>Hi Ngo Quangs</h1>';
         $this->email->message($message);
 
         if ($this->email->send()) {
