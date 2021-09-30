@@ -28,7 +28,6 @@ class Student extends MY_Controller {
 			'channel' => array(),
 			'branch' => array(),
 			'level_language' => array(),
-			'language_study' => array(),
 			'level_contact' => array(
 				'where' => array(
 					'parent_id' => ''
@@ -39,7 +38,12 @@ class Student extends MY_Controller {
 					'parent_id' => ''
 				)
 			),
-			'character_class' => array()
+            'level_study' => array(),
+            'character_class' => array(),
+            'status_for_lecture' => array(),
+            'status_for_teacher' => array(),
+            'status_end_student' => array(),
+            'customer_call_status' => array()
 		);
 		return array_merge($this->data, $this->_get_require_data($require_model));
 	}
@@ -181,8 +185,8 @@ class Student extends MY_Controller {
 		$data['progress'] = $this->GetProccessThisMonth();
 		$data['progressType'] = 'Doanh thu tại cơ sở tháng này';
 
-        $data['left_col'] = array('is_old', 'date_rgt', 'date_handover', 'date_recall', 'date_confirm', 'date_rgt_study', 'date_paid', 'study_date_start', 'study_date_end');
-        $data['right_col'] = array('language', 'call_status', 'level_contact', 'level_contact_detail', 'level_student', 'level_student_detail', 'payment_method_rgt');
+        $data['left_col'] = array('is_old', 'date_rgt', 'date_handover', 'date_recall', 'date_confirm', 'date_rgt_study', 'date_paid', 'study_date_start', 'study_date_end', 'date_recall_customer_care', 'date_customer_care_call');
+        $data['right_col'] = array('language', 'call_status', 'level_contact', 'level_contact_detail', 'level_student', 'level_study', 'payment_method_rgt', 'customer_care_call_stt', 'status_lecture', 'status_teacher', 'status_end_student');
 
         $this->table .= 'fee paid call_stt level_contact date_rgt date_last_calling';
         $data['table'] = explode(' ', $this->table);

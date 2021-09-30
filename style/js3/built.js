@@ -388,7 +388,6 @@ Array.prototype.unique = function () {
     });
 };
 
-
 let url = $("#base_url").val() + "sale/noti_contact_recall";
 noti = () => {
     $.ajax({
@@ -406,6 +405,7 @@ noti = () => {
                                     class="ajax-request-modal"
                                     data-contact-id ="${this.id}"
                                     data-modal-name="edit-contact-modal"
+                                    data_type_modal="${data.type_modal}"
                                     data-url="common/show_edit_contact_modal"> ${this.name}  - ${this.phone} - Thời gian gọi lại ${this.date_recall} 
                                     </a>`;
                 content_noti += `</li>`;
@@ -455,7 +455,7 @@ noti = () => {
     });
 };
 
-if ($("#input_controller").val() == 'sale' || $("#input_role_id").val() == 12) {
+if ($("#input_controller").val() == 'sale' || $("#input_controller").val() == 'student') {
     setInterval(noti, 10000);
 }
 

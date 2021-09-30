@@ -393,6 +393,7 @@ class Teacher extends MY_Table {
         $data['teacher'] = array(
             'name' => $teacher[0]['name'],
             'phone' => $teacher[0]['phone'],
+            'bank' => $teacher[0]['bank'],
             'class_study_id' => $post['class_study_id'],
             'time_start' => $class[0]['time_start'],
             'time_end_expected' => $class[0]['time_end_expected'],
