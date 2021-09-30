@@ -548,8 +548,24 @@ class Test1 extends CI_Controller {
         $subject = 'SOFL GỬI BẢNG KÊ LƯƠNG THÁNG ';
         $this->email->subject($subject);
         $message = $this->load->view('staff_managers/teacher/email_salary', $data, true);
-        $this->email->message($message);
+		$config = Array(
+			'protocol' => 'smtp',
+			'smtp_host' => 'ssl://smtp.gmail.com',
+			'smtp_port' => 465,
+			'smtp_user' => 'nv.quang.2897@gmail.com',
+			'smtp_pass' => '********',
+			'charset' => 'utf-8',
+			'newline' => "\r\n",
+			'crlf' => "\r\n",
+			'mailtype' => 'html',
+		);
+        $this->email->initialize($config);
+        $this->email->from('nv.quang.2897@gmail.com', 'Ngo Quang');
+        $this->email->to('ngovanquang281997@gmail.com');
+        $this->email->subject('Test mail');
+		$message = '<h1>Hi Test mail !!!!!!</h1>';
 
+        $this->email->message($message);
         if ($this->email->send()) {
             echo 'Your Email has successfully been sent.';
         } else {
@@ -574,6 +590,7 @@ class Test1 extends CI_Controller {
         $pdf->Output("$output", 'I'); // save to file because we can
         exit();
     }
+<<<<<<< HEAD
 
 	function test_mailphp() {
 		$to = 'ngovanquang281997@gmail.com'; //writing mail to the user
@@ -603,6 +620,8 @@ class Test1 extends CI_Controller {
 			echo "1";
 		}
 	}
+=======
+>>>>>>> 188700fea39c18bcf883e31c33c816d26ec2b8f1
 
     function test_phpmailer() {
         $this->load->library("phpmailer_lib");
