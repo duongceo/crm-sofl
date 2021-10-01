@@ -540,7 +540,6 @@ class Test1 extends CI_Controller {
         );
 		
 		$this->load->library('email');
-
 		$this->email->from('minhduc.sofl@gmail.com', 'TRUNG TÂM NGOẠI NGỮ SOFL');
         $this->email->to('ngovanquang281997@gmail.com');
 
