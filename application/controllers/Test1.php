@@ -526,7 +526,6 @@ class Test1 extends CI_Controller {
 	}
 
 	public function send_email() {
-
         $data['teacher'] = array(
             'name' => 1,
             'phone' => 1,
