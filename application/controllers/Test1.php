@@ -545,7 +545,7 @@ class Test1 extends CI_Controller {
 		$this->email->from('minhduc.sofl@gmail.com', 'TRUNG TÂM NGOẠI NGỮ SOFL');
         $this->email->to('ngovanquang281997@gmail.com');
 
-        $subject = 'SOFL GỬI BẢNG KÊ LƯƠNG THÁNG ';
+        $subject = 'SOFL GỬI BẢNG KÊ LƯƠNG THÁNG';
         $this->email->subject($subject);
         $message = $this->load->view('staff_managers/teacher/email_salary', $data, true);
         
