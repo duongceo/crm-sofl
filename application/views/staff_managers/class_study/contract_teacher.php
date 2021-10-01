@@ -629,7 +629,6 @@
 
         .c1 {
             padding-top: 12pt;
-            padding-bottom: 12pt;
             line-height: 1.15;
             orphans: 2;
             widows: 2;
@@ -927,10 +926,10 @@
         <tr>
             <td class="c50" colspan="1" rowspan="1" style="text-align: center">
                 <p class="c10">
-                    <span class="c0">C&Ocirc;NG TY TNHH D&#7882;CH V&#7908; V&Agrave; &nbsp;&#272;&Agrave;O T&#7840;O MINH &#272;&#7912;C</span>
+                    <span class="c0" style="font-size: 16px">C&Ocirc;NG TY TNHH D&#7882;CH V&#7908; V&Agrave; &#272;&Agrave;O T&#7840;O MINH &#272;&#7912;C</span>
                 </p>
                 <p>
-                    <span class="c0">TRUNG T&Acirc;M NGO&#7840;I NG&#7918; SOFL</span>
+                    <span class="c0" style="font-size: 16px">TRUNG T&Acirc;M NGO&#7840;I NG&#7918; SOFL</span>
                 </p>
                 <p class="c41 c53">
                     <span class="c2">&nbsp;S&#7889;:</span>
@@ -941,7 +940,7 @@
 
             <td class="c15 c21" colspan="1" rowspan="1" style="text-align: center; padding-left: 50px;">
                 <p class="c10">
-                    <span class="c0">C&#7896;NG HO&Agrave; X&Atilde; H&#7896;I CH&#7910; NGH&#296;A VI&#7878;T NAM</span>
+                    <span class="c0" style="font-size: 16px">C&#7896;NG HO&Agrave; X&Atilde; H&#7896;I CH&#7910; NGH&#296;A VI&#7878;T NAM</span>
                 </p>
                 <p class="c10"><span class="c0">&#272;&#7897;c l&#7853;p - T&#7921; do - H&#7841;nh ph&uacute;c</span></p>
                 <p class="c40 c13 c45"><span class="c0"></span></p>
@@ -956,10 +955,11 @@
     </table>
     <p class="c13 c28"><span class="c0"></span></p>
     <p class="c10"><span class="c39">H&#7906;P &#272;&#7890;NG GI&#7842;NG D&#7840;Y</span></p>
-    <p class="c10"><span class="c0">&nbsp;</span></p>
-    <p class="c1"><span class="c0">- C&#259;n c&#432;&#769; Gi&acirc;&#769;y phe&#769;p &#273;a&#768;o ta&#803;o s&ocirc;&#769; 2330/Q&#272; cu&#777;a S&#417;&#777; gia&#769;o du&#803;c va&#768; &#272;a&#768;o ta&#803;o v&ecirc;&#768; vi&ecirc;&#803;c tha&#768;nh l&acirc;&#803;p Trung t&acirc;m ngoa&#803;i ng&#432;&#771; SOFL; </span>
+    <p class="c1">
+        <span class="c0">- C&#259;n c&#432;&#769; Gi&acirc;&#769;y phe&#769;p &#273;a&#768;o ta&#803;o s&ocirc;&#769; 2330/Q&#272; cu&#777;a S&#417;&#777; gia&#769;o du&#803;c va&#768; &#272;a&#768;o ta&#803;o v&ecirc;&#768; vi&ecirc;&#803;c tha&#768;nh l&acirc;&#803;p Trung t&acirc;m ngoa&#803;i ng&#432;&#771; SOFL; </span>
     </p>
-    <p class="c1"><span class="c0">- &nbsp;C&#259;n c&#7913; v&agrave;o n&#7897;i dung, ch&#432;&#417;ng tr&igrave;nh, k&#7871; ho&#7841;ch gi&#7843;ng d&#7841;y v&agrave; &#273;&agrave;o t&#7841;o c&#7911;a Trung t&acirc;m Ngoa&#803;i ng&#432;&#771; SOFL;</span>
+    <p class="c1">
+        <span class="c0">- &nbsp;C&#259;n c&#7913; v&agrave;o n&#7897;i dung, ch&#432;&#417;ng tr&igrave;nh, k&#7871; ho&#7841;ch gi&#7843;ng d&#7841;y v&agrave; &#273;&agrave;o t&#7841;o c&#7911;a Trung t&acirc;m Ngoa&#803;i ng&#432;&#771; SOFL;</span>
     </p>
     <p class="c1"><span class="c0">- &nbsp;C&#259;n c&#7913; v&agrave;o nhu c&#7847;u v&agrave; kh&#7843; n&#259;ng gi&#7843;ng d&#7841;y c&#7911;a gi&aacute;o vi&ecirc;n.</span>
     </p>
@@ -983,9 +983,9 @@
                 class="c0">&hellip;</span></p>
     <p class="c1"><span class="c2">&#272;&#417;n v&#7883; c&ocirc;ng t&aacute;c: Trung t&acirc;m Ngo&#7841;i Ng&#7919; SOFL c&#417; s&#7903; </span><span
                 class="c0 c9">&lt;C&#417; s&#7903;&gt;</span></p>
-    <p class="c1"><span class="c0">Cu&#768;ng tho&#777;a thu&#7841;&#770;n, th&#432;&#803;c hi&#7865;&#770;n ca&#769;c &#273;i&ecirc;&#768;u khoa&#777;n sau:</span>
+    <p class="c1"><span class="c0">Cu&#768;ng tho&#777;a thu&#7853;n, th&#432;&#803;c hi&#7879;n ca&#769;c &#273;i&ecirc;&#768;u khoa&#777;n sau:</span>
     </p>
-    <p class="c15 c19"><span class="c11">&#272;i&ecirc;&#768;u 1. Be&#770;n B &#273;&ocirc;&#768;ng y&#769; gia&#777;ng da&#803;y cho be&#770;n A theo ca&#769;c n&#7885;&#770;i dung, ye&#770;u c&acirc;&#768;u sau:</span>
+    <p class="c15 c19"><span class="c11">&#272;i&ecirc;&#768;u 1. Bên B &#273;&ocirc;&#768;ng y&#769; gia&#777;ng da&#803;y cho bên A theo ca&#769;c nội dung, yêu c&acirc;&#768;u sau:</span>
     </p>
     <p class="c1 c15"><span class="c2">Nh&#7853;n gi&#7843;ng d&#7841;y cho B&ecirc;n A trong th&#7901;i gian k&#7875; t&#7915; ng&agrave;y </span><span
                 class="c2 c9">...</span><span class="c2">&nbsp;&#273;&#7871;n ng&agrave;y d&#7921; ki&#7871;n</span><span
@@ -1016,8 +1016,10 @@
         <tbody>
         <tr class="c17">
             <td class="c30" colspan="1" rowspan="1"><p class="c1"><span class="c0">&nbsp;</span></p></td>
-            <td class="c54" colspan="3" rowspan="1"><p class="c10"><span class="c0">B&#7843;ng quy &#273;&#7883;nh kh&ocirc;ng giao l&#7899;p (&aacute;p d&#7909;ng t&#7845;t c&#7843; c&aacute;c l&#7899;p) </span>
-                </p></td>
+            <td class="c54" colspan="3" rowspan="1">
+                <p class="c10"><span class="c0">B&#7843;ng quy &#273;&#7883;nh kh&ocirc;ng giao l&#7899;p (&aacute;p d&#7909;ng t&#7845;t c&#7843; c&aacute;c l&#7899;p) </span>
+                </p>
+            </td>
         </tr>
         <tr class="c31">
             <td class="c7" colspan="1" rowspan="1"><p class="c1"><span class="c0">Level</span></p></td>
@@ -1045,7 +1047,8 @@
         </tbody>
     </table>
     <p class="c1"><span class="c0">&nbsp;</span></p>
-    <p class="c1"><span class="c0">*** C&aacute;c tr&#432;&#7901;ng h&#7907;p &#273;&#7863;c bi&#7879;t s&#7869; c&oacute; c&aacute;ch t&iacute;nh v&agrave; &aacute;p d&#7909;ng ri&ecirc;ng.</span>
+    <p class="c1">
+        <span class="c0">*** C&aacute;c tr&#432;&#7901;ng h&#7907;p &#273;&#7863;c bi&#7879;t s&#7869; c&oacute; c&aacute;ch t&iacute;nh v&agrave; &aacute;p d&#7909;ng ri&ecirc;ng.</span>
     </p>
     <p class="c1 c13"><span class="c0"></span></p>
     <p class="c1"><span class="c0">&nbsp;* C&aacute;ch t&iacute;nh t&#7881; l&#7879; h&#7885;c vi&ecirc;n l&ecirc;n</span>
@@ -1123,7 +1126,7 @@
     <p class="c1"><span class="c0">- C&oacute; ch&#7871; &#273;&#7897; th&#432;&#7903;ng ph&ugrave; h&#7907;p v&#7899;i t&#7915;ng gi&aacute;o vi&ecirc;n x&eacute;t theo n&#259;ng l&#7921;c, kinh nghi&#7879;m, s&#7921; nhi&#7879;t t&igrave;nh, t&#7881; l&#7879; h&#7885;c vi&ecirc;n &#273;&#259;ng k&yacute; l&ecirc;n. </span>
     </p>
     <p class="c1"><span class="c11">&#272;i&#7873;u 3. Cam k&#7871;t th&#7921;c hi&#7879;n</span></p>
-    <p class="c1 c15"><span class="c0">- Hai be&#770;n cam k&ecirc;&#769;t th&#432;&#803;c hi&#7865;&#770;n &#273;u&#769;ng ca&#769;c &#273;i&ecirc;&#768;u khoa&#777;n &#273;a&#771; ky&#769; k&ecirc;&#769;t.</span>
+    <p class="c1 c15"><span class="c0">- Hai bên cam k&ecirc;&#769;t th&#432;&#803;c hi&#7879;n &#273;u&#769;ng ca&#769;c &#273;i&ecirc;&#768;u khoa&#777;n &#273;a&#771; ky&#769; k&ecirc;&#769;t.</span>
     </p>
     <p class="c22 c15"><span class="c0">- Trong qu&aacute; tr&igrave;nh th&#7921;c hi&#7879;n n&#7871;u c&oacute; kh&oacute; kh&#259;n ph&aacute;t sinh m&#7895;i b&ecirc;n ph&#7843;i c&oacute; tr&aacute;ch nhi&#7879;m th&ocirc;ng b&aacute;o cho nhau v&agrave; c&ugrave;ng b&agrave;n b&#7841;c &#273;&#7875; th&#7921;c hi&#7879;n t&#7889;t H&#7907;p &#273;&#7891;ng, b&ecirc;n n&agrave;o vi ph&#7841;m c&aacute;c &#273;i&#7873;u kho&#7843;n &#273;&atilde; k&yacute; k&#7871;t ph&#7843;i ch&#7883;u tr&aacute;ch nhi&#7879;m v&agrave; x&#7917; l&yacute; theo ph&aacute;p l&#7879;nh h&#7907;p &#273;&#7891;ng kinh t&#7871;.</span>
     </p>
