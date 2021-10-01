@@ -12,6 +12,7 @@
                 <tr style="background: #53b9e9">
                     <th>Họ tên</th>
                     <th>SĐT</th>
+                    <th>STK</th>
                     <th>Mã lớp</th>
                     <th>Ngày KG</th>
                     <th>Ngoại ngữ</th>
@@ -28,6 +29,7 @@
                 <tr align="center">
                     <td><?php echo $teacher['name'] ?></td>
                     <td><?php echo $teacher['phone'] ?></td>
+                    <td><?php echo $teacher['bank'] ?></td>
                     <td><?php echo $teacher['class_study_id'] ?></td>
                     <td><?php echo date('d-m-Y', $teacher['time_start']) ?></td>
                     <td><?php echo $teacher['language'] ?></td>
