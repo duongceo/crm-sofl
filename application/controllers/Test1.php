@@ -557,21 +557,80 @@ class Test1 extends CI_Controller {
     }
 
     function test_pdf_2() {
-//        $this->load->view('staff_managers/class_study/contract_teacher');
+	    $data['class'] = array(
+            'id' => 1284,
+            'class_study_id' => 'BY1-135',
+            'name_class' => '',
+            'classroom_id' => '',
+            'branch_id' => 2,
+            'day_id' => 3,
+            'time_id' => 11,
+            'level_language_id' => 48,
+            'language_id' => 3,
+            'number_student' => 0,
+            'number_student_max' => 0,
+            'time_start' => 1627318800,
+            'time_end_expected' => 1640883600,
+            'time_end_real' => '',
+            'teacher_id' => 0,
+            'total_lesson' => 45,
+            'lesson_learned' => 0,
+            'lecture' => 0,
+            'salary_per_day' => 0,
+            'active' => 1,
+            'character_class_id' => 2,
+            'status' => 1,
+            'priority_id' => 0,
+            'number_care' => 1,
+            'survey' => 1,
+            'rate' => 1,
+            'class_care_status' => 2,
+            'time_created' => 1625735835,
+            'date_last_update' => 1632824399,
+            'time' => '19h30 - 21h30',
+            'day' => 'Thứ 3 - 5 - 7'
+        );
+
+	    $data['teacher'] = array(
+            'id' => 94,
+            'name' => 'Huỳnh Như Tâm',
+            'phone' => 395725641,
+            'address' => '',
+            'branch_id' => 0,
+            'language_id' => 3,
+            'email' => 'ngovanquang281997@gmail.com',
+            'bank' => '',
+            'active' => 1,
+            'time_created' => 1615540005,
+            'birthday' => ''
+        );
+
         $this->load->library('pdf');
         $pdf = $this->pdf->load();
         $pdf->allow_charset_conversion=true;  // Set by default to TRUE
         $pdf->charset_in='UTF-8';
         $pdf->autoLangToFont = true;
-
         ini_set('memory_limit', '256M');
-        $html = $this->load->view('staff_managers/class_study/contract_teacher', [], true);
-
+        $html = $this->load->view('staff_managers/class_study/contract_teacher', $data, true);
         // render the view into HTML
         $pdf->WriteHTML($html); // write the HTML into the PDF
-        $output = 'itemreport' . date('Y_m_d_H_i_s') . '_.pdf';
-        $pdf->Output("$output", 'I'); // save to file because we can
-        exit();
+        $output = 'class_' . date('Y_m_d') . '_.pdf';
+        $pdf->Output('public/hd_khoahoc/' . $output, "F"); // save to file because we can
+
+        $this->load->library('email');
+        $this->email->from('minhduc.sofl@gmail.com', 'TRUNG TÂM NGOẠI NGỮ SOFL');
+        $this->email->to('ngovanquang281997@gmail.com');
+        $subject = 'SOFL GỬI BẢNG KÊ LƯƠNG THÁNG';
+        $this->email->subject($subject);
+        $message = 'SOFL gửi hợp đồng khóa học';
+        $this->email->message($message);
+        $this->email->attach('public/hd_khoahoc/' . $output);
+
+        if ($this->email->send()) {
+            echo 'Your Email has successfully been sent.';
+        } else {
+            show_error($this->email->print_debugger());
+        }
     }
 
     function test_phpmailer() {

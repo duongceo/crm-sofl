@@ -2065,7 +2065,7 @@ $(document).on('contextmenu', 'tr.custom_right_menu', function (e) {
     $(".edit_item").attr('edit-url', editURL);
 
     let class_study_id = $(this).attr('class_study_id');
-    $(".mechanism_teacher").attr('class_study_id', class_study_id);
+    $(".mechanism_teacher, .email_contract").attr('class_study_id', class_study_id);
 
     let menu = $(".menu");
     menu.hide();
@@ -3937,6 +3937,47 @@ $(".edit_class").on('click', function (e) {
         }
     });
     // $(".show_edit_class").modal("show");
+});
+
+$(".email_contract").on('click', function (e) {
+    e.preventDefault();
+    let class_study_id = $(this).attr('class_study_id');
+    $("#class_study_id").val(class_study_id);
+    $.ajax({
+        url: $('#base_url').val() + 'staff_managers/class_study/send_mail_contract',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            class_study_id : class_study_id,
+        },
+        beforeSend: function() {
+            $(".popup-wrapper").show();
+        },
+        success: function (data) {
+            if (data.success) {
+                $.notify(data.message, {
+                    position: "top left",
+                    className: 'success',
+                    showDuration: 200,
+                    autoHideDelay: 5000
+                });
+            } else {
+                $.notify('Có lỗi xảy ra! Nội dung: ' + data.message, {
+                    position: "top left",
+                    className: 'error',
+                    showDuration: 200,
+                    autoHideDelay: 7000
+                });
+            }
+        },
+        error: function(errorThrown) {
+            alert(errorThrown);
+            $(".popup-wrapper").hide();
+        },
+        complete: function() {
+            $(".popup-wrapper").hide();
+        },
+    });
 });
 
 

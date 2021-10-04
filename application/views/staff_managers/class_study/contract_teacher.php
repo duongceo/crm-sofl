@@ -593,8 +593,7 @@
 
         .c19 {
             padding-top: 12pt;
-            padding-bottom: 12pt;
-            line-height: 1.1500000000000001;
+            line-height: 1.15;
             orphans: 2;
             widows: 2;
             text-align: justify
@@ -602,8 +601,7 @@
 
         .c8 {
             padding-top: 12pt;
-            padding-bottom: 12pt;
-            line-height: 1.15;
+            line-height: 1;
             orphans: 2;
             widows: 2;
             text-align: left
@@ -753,7 +751,7 @@
         }
 
         .c9 {
-            background-color: #ffff00
+            /*background-color: #ffff00*/
         }
 
         .c23 {
@@ -933,7 +931,7 @@
                 </p>
                 <p class="c41 c53">
                     <span class="c2">&nbsp;S&#7889;:</span>
-                    <span class="c9 c23">&nbsp;&lt;M&atilde; l&#7899;p&gt;</span>
+                    <span class="c9 c23">&nbsp;<?php echo $class['class_study_id'] ?></span>
                     <span class="c23">/&#272;T-SOFL/2021</span>
                 </p>
             </td>
@@ -945,8 +943,8 @@
                 <p class="c10"><span class="c0">&#272;&#7897;c l&#7853;p - T&#7921; do - H&#7841;nh ph&uacute;c</span></p>
                 <p class="c40 c13 c45"><span class="c0"></span></p>
                 <p class="c8">
-                    <span class="c2 c34">H&agrave; N&#7897;i, ng&agrave;y &nbsp;</span>
-                    <span class="c2 c9 c34">&lt;khai gi&#7843;ng&gt;</span>
+                    <span class="c2 c34">H&agrave; N&#7897;i, ng&agrave;y </span>
+                    <span class="c2 c9 c34"><?php echo date('d/m/Y', $class['time_start']) ?></span>
                     <span class="c6 c2"></span>
                 </p>
             </td>
@@ -964,42 +962,51 @@
     <p class="c1"><span class="c0">- &nbsp;C&#259;n c&#7913; v&agrave;o nhu c&#7847;u v&agrave; kh&#7843; n&#259;ng gi&#7843;ng d&#7841;y c&#7911;a gi&aacute;o vi&ecirc;n.</span>
     </p>
     <p class="c1"><span class="c2">H&ocirc;m nay, &nbsp;ng&agrave;y </span><span
-                class="c2 c9">&lt;khai gi&#7843;ng&gt;</span><span class="c0">, ch&uacute;ng t&ocirc;i g&#7891;m:</span></p>
+                class="c2 c9"><?php echo date('d/m/Y', $class['time_start']) ?></span><span class="c0">, ch&uacute;ng t&ocirc;i g&#7891;m:</span></p>
     <p class="c1"><span class="c11">B&ecirc;n A: TRUNG TÂM NGOẠI NGỮ SOFL</span></p>
     <p class="c1"><span class="c2">&Ocirc;ng/b&agrave;: </span><span
                 class="c0 c9">Tr&#7847;n Th&#7883; Thanh Tuy&#7873;n</span></p>
     <p class="c1"><span class="c2">Ch&#7913;c v&#7909;: </span><span class="c0 c9">Trưởng phòng tuyển sinh</span>
     </p>
     <p class="c1"><span class="c2">&#272;i&#7879;n tho&#7841;i: </span><span class="c0 c9">0968486299</span></p>
-    <p class="c8"><span class="c27">B&ecirc;n B: &lt;</span><span class="c0 c9">H&#7885; t&ecirc;n gi&aacute;o vi&ecirc;n&gt;</span>
+    <p class="c8">
+        <span class="c27">B&ecirc;n B: </span>
+        <span class="c0 c9" style="text-transform: uppercase"><?php echo $teacher['name'] ?></span>
     </p>
-    <p class="c8"><span class="c2">Ng&agrave;y th&aacute;ng n&#259;m sinh: </span><span class="c2 c9">&lt;Ng&agrave;y th&aacute;ng n&#259;m sinh gi&aacute;o vi&ecirc;n&gt;</span>
+    <p class="c8"><span class="c2">Ng&agrave;y th&aacute;ng n&#259;m sinh: </span><span class="c2 c9"><?php echo ($teacher['birthday'] != '') ? date('d/m/Y', $teacher['birthday']) : '' ?></span>
     </p>
-    <p class="c1"><span class="c2">S&#7889; CMND/CCCD: </span><span class="c2 c9">&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;</span><span
-                class="c0">..</span></p>
-    <p class="c1"><span class="c2">S&#7889; &#273;i&#7879;n tho&#7841;i: </span><span class="c2 c9">....&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;</span><span
-                class="c0">&hellip;..</span></p>
-    <p class="c1"><span class="c2">&#272;&#7883;a ch&#7881;: </span><span class="c2 c9">&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;</span><span
-                class="c0">&hellip;</span></p>
+    <p class="c1"><span class="c2">S&#7889; CMND/CCCD: </span>
+        <span class="c2 c9">&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;</span>
+        <span class="c0">..</span></p>
+    <p class="c1">
+        <span class="c2">S&#7889; &#273;i&#7879;n tho&#7841;i: </span>
+        <span class="c2 c9"><?php echo $teacher['phone'] ?></span>
+    </p>
+    <p class="c1">
+        <span class="c2">&#272;&#7883;a ch&#7881;: </span>
+        <span class="c2 c9"><?php echo ($teacher['address'] != '') ? $teacher['address'] : '' ?></span>
+    </p>
     <p class="c1"><span class="c2">&#272;&#417;n v&#7883; c&ocirc;ng t&aacute;c: Trung t&acirc;m Ngo&#7841;i Ng&#7919; SOFL c&#417; s&#7903; </span><span
-                class="c0 c9">&lt;C&#417; s&#7903;&gt;</span></p>
+                class="c0 c9"><?php echo ($class['branch_id'] - 1) ?></span></p>
     <p class="c1"><span class="c0">Cu&#768;ng tho&#777;a thu&#7853;n, th&#432;&#803;c hi&#7879;n ca&#769;c &#273;i&ecirc;&#768;u khoa&#777;n sau:</span>
     </p>
-    <p class="c15 c19"><span class="c11">&#272;i&ecirc;&#768;u 1. Bên B &#273;&ocirc;&#768;ng y&#769; gia&#777;ng da&#803;y cho bên A theo ca&#769;c nội dung, yêu c&acirc;&#768;u sau:</span>
+    <p class="c15 c19">
+        <span class="c11">&#272;i&ecirc;&#768;u 1. Bên B &#273;&ocirc;&#768;ng y&#769; gia&#777;ng da&#803;y cho bên A theo ca&#769;c nội dung, yêu c&acirc;&#768;u sau:</span>
     </p>
     <p class="c1 c15"><span class="c2">Nh&#7853;n gi&#7843;ng d&#7841;y cho B&ecirc;n A trong th&#7901;i gian k&#7875; t&#7915; ng&agrave;y </span><span
-                class="c2 c9">...</span><span class="c2">&nbsp;&#273;&#7871;n ng&agrave;y d&#7921; ki&#7871;n</span><span
-                class="c2 c9">&hellip;&hellip;...</span><span class="c0">&nbsp;v&#7899;i kh&#7889;i l&#432;&#7907;ng v&agrave; kinh ph&iacute; c&#7909; th&#7875; nh&#432; sau:</span>
+                class="c2 c9"> <?php echo date('d/m/Y', $class['time_start']) ?> </span><span class="c2">&nbsp;&#273;&#7871;n ng&agrave;y d&#7921; ki&#7871;n</span><span
+                class="c2 c9"> <?php echo date('d/m/Y', $class['time_end_expected']) ?> </span><span class="c0">&nbsp;v&#7899;i kh&#7889;i l&#432;&#7907;ng v&agrave; kinh ph&iacute; c&#7909; th&#7875; nh&#432; sau:</span>
     </p>
-    <p class="c1 c15"><span class="c2">- &nbsp;Kho&aacute; h&#7885;c: </span><span class="c2 c9">&lt;T&ecirc;n kho&aacute; h&#7885;c&gt;, </span><span
-                class="c2">khung gi&#7901; </span><span class="c2 c9">&lt;gi&#7901; h&#7885;c&gt;</span><span class="c2">&nbsp;th&#432;&#769; </span><span
-                class="c2 c9">&lt;ng&agrave;y h&#7885;c&gt;</span><span class="c0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>
+    <p class="c1 c15"><span class="c2">- &nbsp;Kho&aacute; h&#7885;c: </span><span class="c2 c9"><?php echo $class['class_study_id'] ?> </span><span
+                class="c2"> khung gi&#7901; </span><span class="c2 c9"><?php echo $class['time'] ?> </span><span
+                class="c2 c9"><?php echo $class['day'] ?></span><span class="c0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span>
     </p>
-    <p class="c1 c15"><span class="c2">- T&#7893;ng s&#7889; bu&#7893;i d&#7841;y/kh&oacute;a: </span><span class="c2 c9">&lt; t&#7893;ng s&#7889; bu&#7893;i&gt;</span><span
-                class="c2">bu&#7893;i </span></p>
+    <p class="c1 c15"><span class="c2">- T&#7893;ng s&#7889; bu&#7893;i d&#7841;y/kh&oacute;a: </span>
+        <span class="c2 c9"><?php echo $class['total_lesson'] ?> </span>
+        <span class="c2">bu&#7893;i </span></p>
     <p class="c1 c15"><span class="c2">- T&#7893;ng s&#7889; bu&#7893;i &#273;&#432;&#7907;c thanh to&aacute;n:</span><span
-                class="c2 c9">&nbsp;&lt;t&#7893;ng s&#7889; bu&#7893;i&gt;</span><span class="c2">. &nbsp;&#272;&#417;n gi&aacute;: </span><span
-                class="c2 c9">&lt;L&#432;&#417;ng/Bu&#7893;i&gt;</span><span class="c0">. T&#7893;ng l&#432;&#417;ng th&#7921;c t&#7871; m&#7895;i kh&oacute;a c&oacute; th&#7875; c&oacute; s&#7921; thay &#273;&#7893;i theo s&#7889; bu&#7893;i d&#7841;y th&#7921;c t&#7871; c&#7911;a Gi&aacute;o vi&ecirc;n. &nbsp;</span>
+                class="c2 c9">&nbsp;<?php echo $class['total_lesson'] ?></span><span class="c2">. &nbsp;&#272;&#417;n gi&aacute;: </span><span
+                class="c2 c9"><?php echo h_number_format($class['salary_per_day']) ?>VNĐ</span><span class="c0">. T&#7893;ng l&#432;&#417;ng th&#7921;c t&#7871; m&#7895;i kh&oacute;a c&oacute; th&#7875; c&oacute; s&#7921; thay &#273;&#7893;i theo s&#7889; bu&#7893;i d&#7841;y th&#7921;c t&#7871; c&#7911;a Gi&aacute;o vi&ecirc;n. &nbsp;</span>
     </p>
     <p class="c1"><span class="c0">M&#7912;C TH&#431;&#7902;NG KPI D&#7920; KI&#7870;N CHO L&#7898;P: </span></p>
     <p class="c1"><span class="c0 c9">Gi&aacute;o vi&ecirc;n s&#7869; &#273;&#432;&#7907;c th&#432;&#7903;ng KPI khi t&#7927; l&#7879; h&#7885;c vi&ecirc;n &#273;&#259;ng k&yacute; h&#7885;c l&ecirc;n &gt;=60%. M&#7913;c th&#432;&#7903;ng dao &#273;&#7897;ng t&#7915; 300,000 &#273;&#7891;ng &#273;&#7871;n 2,000,000 &#273;&#7891;ng.</span>

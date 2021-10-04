@@ -752,4 +752,60 @@ class Class_study extends MY_Table {
 
 	    show_error_and_redirect('Chăm sóc lớp học thành công!');
      }
+
+     function send_mail_contract() {
+         $this->load->model('class_study_model');
+         $this->load->model('teacher_model');
+         $this->load->model('time_model');
+         $this->load->model('day_model');
+
+         $post = $this->input->post();
+
+         $input_class['where'] = array('class_study_id' => $post['class_study_id']);
+         $class = $this->class_study_model->load_all($input_class);
+
+         if ($class[0]['teacher_id'] != 0) {
+             $input_teacher['where'] = array('id' => $class[0]['teacher_id']);
+             $teacher = $this->teacher_model->load_all($input_teacher);
+             $class[0]['time'] = $this->time_model->get_time($class[0]['time_id']);
+             $class[0]['day'] = $this->day_model->get_day($class[0]['day_id']);
+             $data['class'] = $class[0];
+             $data['teacher'] = $teacher[0];
+
+             $this->load->library('pdf');
+             $pdf = $this->pdf->load();
+             $pdf->allow_charset_conversion = true;
+             $pdf->charset_in='UTF-8';
+             $pdf->autoLangToFont = true;
+             ini_set('memory_limit', '256M');
+             $html = $this->load->view('staff_managers/class_study/contract_teacher', $data, true);
+             $pdf->WriteHTML($html);
+             $output = 'contract_class_' . $post['class_study_id'] . '_'. date('d_m_Y') . '_.pdf';
+             $pdf->Output('public/hd_khoahoc/' . $output, "F");
+
+             $this->load->library('email');
+             $this->email->from('minhduc.sofl@gmail.com', 'TRUNG TÂM NGOẠI NGỮ SOFL');
+             $this->email->to('ngovanquang281997@gmail.com');
+             $subject = 'SOFL GỬI HỢP ĐỒNG KHÓA HỌC LỚP ' . $post['class_study_id'];
+             $this->email->subject($subject);
+             $message = 'SOFL gửi hợp đồng khóa học';
+             $this->email->message($message);
+             $this->email->attach('public/hd_khoahoc/' . $output);
+
+             if ($this->email->send()) {
+                 $result['success'] = true;
+                 $result['message'] =  'Đã tạo hợp đồng và gửi mail thành công';
+             } else {
+                 $result['success'] = false;
+                 $result['message'] =  'Có gì đó ko đúng, chưa gửi đc mail';
+                 show_error($this->email->print_debugger());
+             }
+         } else {
+             $result['success'] = false;
+             $result['message'] =  'Lớp chưa có giáo viên';
+         }
+
+         echo json_encode($result);
+     }
+
 }

@@ -141,18 +141,24 @@
 					</a>
 				</li>
 
-				<li href="#" class="delete_item" item_id="0">
-					<a>
-						<i class="fa fa-trash-o" aria-hidden="true"></i> &nbsp; &nbsp; Xóa dòng
-					</a>
-				</li>
+<!--				<li href="#" class="delete_item" item_id="0">-->
+<!--					<a>-->
+<!--						<i class="fa fa-trash-o" aria-hidden="true"></i> &nbsp; &nbsp; Xóa dòng-->
+<!--					</a>-->
+<!--				</li>-->
 
 				<?php if ($controller == 'class_study') { ?>
+                    <li class="email_contract" class_study_id="">
+                        <a>
+                            <i class="fa fa-info-circle" aria-hidden="true"></i> &nbsp; &nbsp; Gửi mail hợp đồng
+                        </a>
+                    </li>
+
 					<li class="view_student" item_id="0" show_url="staff_managers/class_study/show_student">
-						<a>
-							<i class="fa fa-info-circle" aria-hidden="true"></i> &nbsp; &nbsp; Xem danh sách học viên
-						</a>
-					</li>
+                        <a>
+                            <i class="fa fa-info-circle" aria-hidden="true"></i> &nbsp; &nbsp; Xem danh sách học viên
+                        </a>
+                    </li>
 
                     <li class="mechanism_teacher" class_study_id="">
                         <a>
