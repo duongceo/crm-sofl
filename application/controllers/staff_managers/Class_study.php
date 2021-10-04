@@ -586,7 +586,7 @@ class Class_study extends MY_Table {
 		);
 		$input['where']['level_contact_id'] = 'L5';
 		$input['where']['level_contact_detail !='] = 'L5.4';
-//		$student = $this->contacts_model->load_all($input);
+		$input['where_in']['level_study_id'] = array('L7', '');
 
 		$require_model = array(
 			'class_study' => array(
