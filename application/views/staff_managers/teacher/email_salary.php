@@ -2,9 +2,9 @@
     <div class="row">
         <p>
             Dear Thầy/ Cô <br>
-            Trung tâm gửi bảng kê lương tháng 06/2021. Nếu có thắc mắc vui lòng phản hồi lại bằng email này.
-            Lương sẽ được chuyển từ ngày 10- 15 hàng tháng, nếu bên Trung tâm chưa gửi được đúng thời hạn sẽ báo trực tiếp với Thầy/ Cô.
-            Khi nhận được lương vui lòng BÁO LẠI. Mọi thắc mắc về lương không giải quyết sau ngày m5.
+            Trung tâm gửi bảng kê lương trực tuyến tháng 09/2020.
+            Nếu có gì thắc mắc Anh / Chị phản hồi qua zalo SĐT 0965 860 288. Lương sẽ được chuyển từ ngày 10- 20 hàng tháng, nếu bên Trung tâm chưa gửi được đúng thời hạn sẽ báo trực tiếp với Anh/ Chị.
+            Khi nhận được lương vui lòng BÁO LẠI. Mọi thắc mắc về lương không giải quyết sau ngày m10.
         </p>
 
         <table border="1" cellpadding="0" cellspacing="0"  width="100%">

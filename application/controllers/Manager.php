@@ -940,7 +940,7 @@ class Manager extends MY_Controller {
                     'where' => array('level_student_id' => 'L7', 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
                 ),
                 'L8' => array(
-                    'where' => array('level_contact_id' => 'L5', 'is_old' => 1, 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
+                    'where' => array('level_contact_id' => 'L5', 'level_student_id !=' => 'L8.1', 'is_old' => 1, 'date_rgt >=' => $startDate, 'date_rgt <=' => $endDate),
                 ),
                 'LC' => array(
                     'where' => array('date_rgt >=' => $startDate, 'date_rgt <=' => $endDate,
@@ -992,7 +992,7 @@ class Manager extends MY_Controller {
 					'where' => array('level_student_id' => 'L7', 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate),
 				),
 				'L8' => array(
-					'where' => array('level_contact_id' => 'L5', 'is_old' => 1, 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
+					'where' => array('level_contact_id' => 'L5', 'level_student_id !=' => 'L8.1', 'is_old' => 1, 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
 				),
                 'LC' => array(
                     'where' => array('date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate,
