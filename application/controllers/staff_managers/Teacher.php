@@ -292,11 +292,11 @@ class Teacher extends MY_Table {
 
             if (!empty($class_teacher_owner)) {
                 foreach ($class_teacher_owner as $item_class) {
-                    $input_lesson_learned['select'] = 'DISTINCT(time_update)';
+                    $input_lesson_learned['select'] = 'DISTINCT(lesson_learned)';
                     $input_lesson_learned['where'] = array(
                         'class_study_id' => $item_class['class_study_id'],
-                        'time_update >=' => $startDate,
-                        'time_update <=' => $endDate
+                        'time_created >=' => $startDate,
+                        'time_created <=' => $endDate
                     );
 
                     $input_mechanism['select'] = 'SUM(money) as money, reason';
