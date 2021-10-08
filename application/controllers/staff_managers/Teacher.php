@@ -285,9 +285,11 @@ class Teacher extends MY_Table {
         foreach ($data['rows'] as $key => &$item_teacher) {
             $input_class['where'] = array(
                 'teacher_id' => $item_teacher['id'],
-                'character_class_id' => 2
+                'lesson_learned !=' => '0'
             );
+            $input_class['where_in']['character_class_id'] = array(2, 3);
             $class_teacher_owner = $this->class_study_model->load_all($input_class);
+
             if (!empty($class_teacher_owner)) {
                 foreach ($class_teacher_owner as $item_class) {
                     $input_lesson_learned['select'] = 'DISTINCT(time_update)';

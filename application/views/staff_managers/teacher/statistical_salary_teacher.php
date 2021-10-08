@@ -15,6 +15,7 @@
             <table class="table table-bordered table-striped">
                 <thead>
                     <tr>
+                        <th>STK</th>
                         <th>Học tên</th>
                         <th>Mã lớp</th>
                         <th>Ngày KG</th>
@@ -33,6 +34,7 @@
                 <tbody>
                 <?php foreach ($rows as $item) { ?>
                     <tr>
+                        <td class="text-center" rowspan="<?php echo count($item['attendance']) ?>"><?php echo $item['bank'] ?></td>
                         <td class="text-center" rowspan="<?php echo count($item['attendance']) ?>"><?php echo $item['name'] ?></td>
                         <td class="text-center"><?php echo $item['attendance'][0]['class_study_id'] ?></td>
                         <td class="text-center"><?php echo date('d-m-Y', $item['attendance'][0]['time_start']) ?></td>
