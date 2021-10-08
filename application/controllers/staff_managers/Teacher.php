@@ -422,7 +422,7 @@ class Teacher extends MY_Table {
                 $param['teacher_id'] = $post['teacher_id'];
                 $param['reason'] = 'Đã gửi mail bảng lương';
                 $param['send_mail_salary'] = 1;
-                $param['time_created'] = time();
+                $param['time_created'] = strtotime($post['start_date']) + 7*3600;
                 $this->mechanism_model->insert($param);
 
                 $result['success'] = true;
