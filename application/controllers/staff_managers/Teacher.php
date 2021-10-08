@@ -375,11 +375,11 @@ class Teacher extends MY_Table {
 
         $teacher = $this->teacher_model->load_all($input_teacher);
 
-        $input_lesson_learned['select'] = 'DISTINCT(time_update)';
+        $input_lesson_learned['select'] = 'DISTINCT(lesson_learned)';
         $input_lesson_learned['where'] = array(
             'class_study_id' => $post['class_study_id'],
-            'time_update >=' => strtotime($post['start_date']),
-            'time_update <=' => strtotime($post['end_date'])
+            'time_created >=' => strtotime($post['start_date']),
+            'time_created <=' => strtotime($post['end_date'])
         );
 
         $input_mechanism['select'] = 'SUM(money) as money, reason';
