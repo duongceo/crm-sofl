@@ -33,7 +33,7 @@
 							<td class="text-center">Buổi <?php echo $item['lesson_learned'] ?></td>
 							<td><?php echo $item['lecture'] ?></td>
 							<td class="text-center text-primary">
-								<a href="<?php echo base_url() .'student/check_diligence_class?class_study_id='.$item['class_study_id']. '&time_update='.$item['time_update'] ?>" class="btn btn-success">Xem chi tiết</a>
+								<a href="<?php echo base_url() .'student/check_diligence_class?class_study_id='.$item['class_study_id']. '&time_created='.$item['time_created'] ?>" class="btn btn-success">Xem chi tiết</a>
 							</td>
 						</tr>
 					<?php } ?>
