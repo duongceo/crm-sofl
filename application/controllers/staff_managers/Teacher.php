@@ -364,6 +364,13 @@ class Teacher extends MY_Table {
 
 	    $post = $this->input->post();
 
+	    if (empty($post['class_study_id'] ||empty($post['teacher_id']))) {
+            $result['success'] = false;
+            $result['message'] =  'Không có thông tin giáo viên hoặc thông tin lớp';
+            echo json_encode($result);
+            die();
+        }
+
         $input_class['where'] = array(
             'class_study_id' => $post['class_study_id']
         );

@@ -485,7 +485,7 @@ class Student extends MY_Controller {
 					'class_study_id' => $item->class_id,
 					'contact_id' => $item->contact_id,
 					'presence_id' => $item->presence_id,
-					'time_update' => time(),
+					'time_update' => strtotime(date("d/m/Y H:i")),
 					'note' => $item->note,
 					'lesson_learned' => trim($post['lesson_learned']),
 					'lecture' => $post['lecture'],
@@ -495,7 +495,7 @@ class Student extends MY_Controller {
 //				$this->attendance_model->insert($param);
 
 				if (empty($contact_attend)) {
-                    $param['time_created'] = (isset($post['date_diligence']) && $post['date_diligence'] != '') ? strtotime($post['date_diligence']) : time();
+                    $param['time_created'] = (isset($post['date_diligence']) && $post['date_diligence'] != '') ? strtotime($post['date_diligence']) : strtotime(date("d/m/Y H:i"));
                     $this->attendance_model->insert($param);
 				} else {
 					$this->attendance_model->update($input_attend['where'], $param);
