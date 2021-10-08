@@ -234,7 +234,7 @@ class Teacher extends MY_Table {
         $require_model = array(
             'class_study' => array(
                 'where' => array(
-                    'character_class_id' => 2,
+                    'character_class_id !=' => 1,
                     'teacher_id !=' => '0'
                 ),
                 'order' => array(

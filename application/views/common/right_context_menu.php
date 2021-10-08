@@ -117,11 +117,11 @@
 					</a>
 				</li>
 
-				<li class="divide_contact divide_multi_contact multi-item-selected">
-					<a>
-						<i class="fa fa-hand-paper-o" aria-hidden="true"></i> &nbsp; &nbsp; Phân các contact đã chọn cho TVTS...
-					</a>
-				</li>
+<!--				<li class="divide_contact divide_multi_contact multi-item-selected">-->
+<!--					<a>-->
+<!--						<i class="fa fa-hand-paper-o" aria-hidden="true"></i> &nbsp; &nbsp; Phân các contact đã chọn cho TVTS...-->
+<!--					</a>-->
+<!--				</li>-->
 
 				<li class="merge_contact one-item-selected" contact_id="0" contact_name="0">
 					<a>
