@@ -62,6 +62,13 @@
 			</a>
 		</li>
 
+        <li>
+            <a href="<?php echo base_url('staff_managers/teacher/statistical_salary_teacher'); ?>">
+                <img src="<?php echo base_url(); ?>public/images/view-all.png">
+                <span> Thống kê lương giáo viên </span>
+            </a>
+        </li>
+
 		<li>
 
 			<a href="<?php echo base_url('home/logout'); ?>">
