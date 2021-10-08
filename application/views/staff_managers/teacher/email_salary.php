@@ -3,9 +3,10 @@
         <p>
             Dear Thầy/ Cô <br>
             Trung tâm gửi bảng kê lương trực tuyến.
-            Nếu có gì thắc mắc Anh / Chị phản hồi qua zalo SĐT 0965 860 288. Lương sẽ được chuyển từ ngày 10- 20 hàng tháng, nếu bên Trung tâm chưa gửi được đúng thời hạn sẽ báo trực tiếp với Anh/ Chị.
+            Lương sẽ được chuyển từ ngày 10- 20 hàng tháng, nếu bên Trung tâm chưa gửi được đúng thời hạn sẽ báo trực tiếp với Anh/ Chị.
             Khi nhận được lương vui lòng BÁO LẠI. Mọi thắc mắc về lương không giải quyết sau ngày m10.
         </p>
+        <h3>Vui lòng không phản lại hồi lại mail này. Nếu có gì thắc mắc Anh / Chị phản hồi qua zalo SĐT 0965 860 288</h3>
 
         <table border="1" cellpadding="0" cellspacing="0"  width="100%">
             <thead>
