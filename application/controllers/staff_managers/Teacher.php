@@ -375,60 +375,66 @@ class Teacher extends MY_Table {
 
         $teacher = $this->teacher_model->load_all($input_teacher);
 
-        $input_lesson_learned['select'] = 'DISTINCT(lesson_learned)';
-        $input_lesson_learned['where'] = array(
-            'class_study_id' => $post['class_study_id'],
-            'time_created >=' => strtotime($post['start_date']),
-            'time_created <=' => strtotime($post['end_date'])
-        );
+        if ($teacher[0]['email'] != '') {
+            $input_lesson_learned['select'] = 'DISTINCT(lesson_learned)';
+            $input_lesson_learned['where'] = array(
+                'class_study_id' => $post['class_study_id'],
+                'time_created >=' => strtotime($post['start_date']),
+                'time_created <=' => strtotime($post['end_date'])
+            );
 
-        $input_mechanism['select'] = 'SUM(money) as money, reason';
-        $input_mechanism['where'] = array(
-            'class_study_id' => $post['class_study_id'],
-            'teacher_id' => $post['teacher_id'],
-            'time_created >=' => strtotime($post['start_date']),
-            'time_created <=' => strtotime($post['end_date'])
-        );
-        $bonus = $this->mechanism_model->load_all(array_merge_recursive($input_mechanism, array('where' => array('mechanism' => 1))));
-        $fine = $this->mechanism_model->load_all(array_merge_recursive($input_mechanism, array('where' => array('mechanism' => '0'))));
+            $input_mechanism['select'] = 'SUM(money) as money, reason';
+            $input_mechanism['where'] = array(
+                'class_study_id' => $post['class_study_id'],
+                'teacher_id' => $post['teacher_id'],
+                'time_created >=' => strtotime($post['start_date']),
+                'time_created <=' => strtotime($post['end_date'])
+            );
+            $bonus = $this->mechanism_model->load_all(array_merge_recursive($input_mechanism, array('where' => array('mechanism' => 1))));
+            $fine = $this->mechanism_model->load_all(array_merge_recursive($input_mechanism, array('where' => array('mechanism' => '0'))));
 
-        $data['teacher'] = array(
-            'name' => $teacher[0]['name'],
-            'phone' => $teacher[0]['phone'],
-            'bank' => $teacher[0]['bank'],
-            'class_study_id' => $post['class_study_id'],
-            'time_start' => $class[0]['time_start'],
-            'time_end_expected' => $class[0]['time_end_expected'],
-            'language' => $this->language_study_model->find_language_name($class[0]['language_id']),
-            'salary_per_day' => $class[0]['salary_per_day'],
-            'lesson_learned' => count($this->attendance_model->load_all($input_lesson_learned)),
-            'bonus' => ($bonus[0]['money'] != '') ? $bonus[0]['money'] : 0,
-            'fine' => ($fine[0]['money'] != '') ? $fine[0]['money'] : 0,
-        );
+            $data['teacher'] = array(
+                'name' => $teacher[0]['name'],
+                'phone' => $teacher[0]['phone'],
+                'bank' => $teacher[0]['bank'],
+                'class_study_id' => $post['class_study_id'],
+                'time_start' => $class[0]['time_start'],
+                'time_end_expected' => $class[0]['time_end_expected'],
+                'language' => $this->language_study_model->find_language_name($class[0]['language_id']),
+                'salary_per_day' => $class[0]['salary_per_day'],
+                'lesson_learned' => count($this->attendance_model->load_all($input_lesson_learned)),
+                'bonus' => ($bonus[0]['money'] != '') ? $bonus[0]['money'] : 0,
+                'fine' => ($fine[0]['money'] != '') ? $fine[0]['money'] : 0,
+            );
 
-        $this->load->library('email');
-        $this->email->from('minhduc.sofl@gmail.com', 'TRUNG TÂM NGOẠI NGỮ SOFL');
-        $this->email->to($teacher[0]['email']);
+            $this->load->library('email');
+            $this->email->from('minhduc.sofl@gmail.com', 'TRUNG TÂM NGOẠI NGỮ SOFL');
+            $mail_teacher = trim($teacher[0]['email']);
+            $this->email->to($mail_teacher);
+//          $this->email->to('ngovanquang281997@gmail.com');
+            $subject = 'SOFL GỬI BẢNG KÊ LƯƠNG THÁNG ' . date('m/Y', strtotime($post['start_date'])) . ' - Mã lớp ' . $post['class_study_id'];
+            $this->email->subject($subject);
+            $message = $this->load->view('staff_managers/teacher/email_salary', $data, true);
+            $this->email->message($message);
 
-        $subject = 'SOFL GỬI BẢNG KÊ LƯƠNG THÁNG ' . date('m/Y', strtotime($post['start_date'])) . ' - Mã lớp ' . $post['class_study_id'];
-        $this->email->subject($subject);
-        $message = $this->load->view('staff_managers/teacher/email_salary', $data, true);
-        $this->email->message($message);
+            if ($this->email->send()) {
+                $param['class_study_id'] = $post['class_study_id'];
+                $param['teacher_id'] = $post['teacher_id'];
+                $param['reason'] = 'Đã gửi mail bảng lương';
+                $param['send_mail_salary'] = 1;
+                $param['time_created'] = time();
+                $this->mechanism_model->insert($param);
 
-        if ($this->email->send()) {
-            $param['class_study_id'] = $post['class_study_id'];
-            $param['teacher_id'] = $post['teacher_id'];
-            $param['reason'] = 'Đã gửi mail bảng lương';
-            $param['send_mail_salary'] = 1;
-            $param['time_created'] = time();
-            $this->mechanism_model->insert($param);
-
-            $result['success'] = true;
-            $result['message'] =  'Đã gửi mail thành công';
+                $result['success'] = true;
+                $result['message'] =  'Đã gửi mail thành công';
+            } else {
+                $result['success'] = false;
+                $result['message'] =  'Có gì đó ko đúng, chưa gửi đc mail';
+                show_error($this->email->print_debugger());
+            }
         } else {
             $result['success'] = false;
-            $result['message'] =  'Có gì đó ko đúng, chưa gửi đc mail';
-            show_error($this->email->print_debugger());
+            $result['message'] =  'Giáo viên này chưa có email';
         }
 
         echo json_encode($result);
