@@ -10,7 +10,7 @@
         </div>
 
         <div class="clearfix"></div>
-
+        <h1 class="text-center">Tổng lương : <span class="text-primary"><?php echo h_number_format($total_salary) ?></span></h1>
         <div class="table-responsive">
             <table class="table table-bordered table-striped">
                 <thead>
