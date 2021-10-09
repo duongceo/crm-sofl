@@ -777,10 +777,7 @@ class MY_Table extends MY_Controller {
 					}
 				}
 
-//                print_arr($input_get);
-
                 /*sắp xếp*/
-
                 if (strpos($key, "order_new_") !== FALSE && $value != '0' && $value != '') { //nếu tồn tại biến get order
 
                     $column_name = substr($key, strlen("order_new_"));
@@ -830,10 +827,11 @@ class MY_Table extends MY_Controller {
                 }
 
                 /*Lọc theo mảng (chọn nhiều)*/
-
                 if (strpos($key, "filter_arr_multi_") !== FALSE && !empty($value)) {
 
                     $column_name = substr($key, strlen("filter_arr_multi_"));
+
+                    if ($column_name == 'teacher_id') $column_name = 'id';
 
                     $input_get['where_in'][$column_name] = $value;
 
@@ -865,6 +863,7 @@ class MY_Table extends MY_Controller {
             }
 
         }
+
 
         return array(
 

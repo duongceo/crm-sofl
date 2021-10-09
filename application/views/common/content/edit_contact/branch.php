@@ -1,7 +1,4 @@
 
-<!--<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />-->
-<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>-->
-
 <tr>
 	<td class="text-right"> Cơ sở </td>
 	<td>
@@ -17,7 +14,7 @@
 </tr>
 
 <tr class="ajax_class_id">
-	<td class="text-right"> Mã lớp học </td>
+	<td class="text-right"> Lớp học </td>
 	<td>
 		<div class="input-group">
 			<select class="form-control course_code_select" name="class_study_id">
@@ -30,7 +27,7 @@
 			</select>
 
 			<div class="input-group-btn">
-				<a style="margin: auto;" target="_blank" href="<?php echo base_url('staff_managers/class_study')?>" class="btn btn-success">Tạo mã lớp</a>
+				<a style="margin: auto;padding: 8px;" target="_blank" href="<?php echo base_url('staff_managers/class_study')?>" class="btn btn-success">Tạo mã lớp</a>
 			</div>
 		</div>
 	</td>

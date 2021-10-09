@@ -130,10 +130,6 @@ $table_id = isset($value['table_id']) ? $value['table_id'] : 'id';
 
 </tr>
 
-<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
-
 <script>
 	$(document).ready(function() {
 		$('.item_id').select2({

@@ -699,23 +699,34 @@ class Class_study extends MY_Table {
 	 }
 
 	 function update_data_inline() {
-		 $post = $this->input->post();
+	     $this->load->model('notes_model');
+	     $post = $this->input->post();
 		 $response = array();
 
 		 if (!empty($post['data_now'])) {
-			 $where = array('id' => $post['class_id']);
-			 if ($post['column'] == 'lesson_learned') {
-				 $param['lesson_learned'] = $post['data_now'];
-			 } else if ($post['column'] == 'lecture') {
-				 $param['lecture'] = $post['data_now'];
-			 }
-			 $param['date_last_update'] = time();
+		     if ($post['column'] != 'note') {
+                 $where = array('id' => $post['class_id']);
+                 if ($post['column'] == 'lesson_learned') {
+                     $param['lesson_learned'] = $post['data_now'];
+                 } else if ($post['column'] == 'lecture') {
+                     $param['lecture'] = $post['data_now'];
+                 }
+                 $param['date_last_update'] = time();
 
-			 if ($this->{$this->model}->update($where, $param)) {
-				 $response['success'] = 1;
-			 } else {
-				 $response['success'] = 0;
-			 }
+                 if ($this->{$this->model}->update($where, $param)) {
+                     $response['success'] = 1;
+                 } else {
+                     $response['success'] = 0;
+                 }
+             } else {
+                 $param['content'] = $post['data_now'];
+                 $param['class_study_id'] = $post['class_id'];
+                 $param['time_created'] = time();
+                 $param['sale_id'] = $this->user_id;
+                 $param['role_id'] = $this->role_id;
+                 $this->notes_model->insert($param);
+                 $response['success'] = 1;
+             }
 		 } else {
 			 $response['success'] = 0;
 		 }

@@ -3763,12 +3763,18 @@ $(document).on('click', '.merge_contact', function (e) {
 
 $(document).on('click', '.update_data_inline', function(e) {
 	e.preventDefault();
-	let value_current = $(this).parent().find('.value_current').val();
+    let column = $(this).parent().attr('column');
+    let value_current = $(this).parent().find('.value_current').val();
 	let form = '<form class="form-inline"> ' +
 		'<input style="max-width: 43%" type="text" value='+value_current+'> ' +
-		'<button class="update_inline_now">OK</button> ' +
+		'<button class="update_inline_now">Lưu</button> ' +
 		'</form>';
-
+    if (column === 'note') {
+        form = '<form class="form-inline"> ' +
+        '<textarea style="width: 85%" rows="2" value=""></textarea>' +
+        '<button class="btn btn-sm btn-primary update_inline_now">Lưu</button> ' +
+        '</form>';
+    }
 	$(this).parent().html(form);
 });
 
@@ -3778,6 +3784,10 @@ $(document).on('click', '.update_inline_now', function (e) {
 	let data_now = $(this).parent().find('input').val();
 	let column = $(this).parent().attr('column');
 	let class_id = $(this).parent().parent().attr('item_id');
+
+	if (column === 'note') {
+        data_now = $(this).parent().find('textarea').val();
+    }
 
 	$.ajax({
 		url: url,
@@ -3797,8 +3807,13 @@ $(document).on('click', '.update_inline_now', function (e) {
 					'<button style="margin-right: 0" type="button" class="btn btn-default btn-sm update_data_inline">' +
 					'<span class="glyphicon glyphicon-edit"></span>' +
 					'</button>';
+                if (column === 'note') {
+                    content = data_now + '<br><button style="margin-right: 0" type="button" class="btn btn-primary btn-sm update_data_inline">' +
+                        '        <span class="glyphicon glyphicon-edit"></span>' +
+                        '    </button>';
+                }
 
-				let today = new Date();
+                let today = new Date();
 				let dd = String(today.getDate()).padStart(2, '0');
 				let mm = String(today.getMonth() + 1).padStart(2, '0');
 				let yyyy = today.getFullYear();

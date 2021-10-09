@@ -54,6 +54,10 @@ class Teacher extends MY_Table {
 //			'profit' => array(
 //				'name_display' => 'Lợi nhuận',
 //			),
+            'teacher' => array(
+                'name_display' => 'Tên giảng viên',
+                'display' => 'none',
+            ),
 			'active' => array(
 				'type' => 'active',
 				'name_display' => 'Hoạt động'
@@ -67,6 +71,7 @@ class Teacher extends MY_Table {
 	public function index($offset = 0) {
 		$require_model = array(
 			'branch' => array(),
+            'teacher' => array()
 		);
 
 		$this->data = $this->_get_require_data($require_model);
@@ -92,6 +97,11 @@ class Teacher extends MY_Table {
 					'type' => 'arr_multi'
 				),
 			),
+            'right_filter' => array(
+                'teacher' => array(
+                    'type' => 'arr_multi'
+                ),
+            )
 		);
 
 		$data['list_title'] = 'Giảng viên';
@@ -282,6 +292,7 @@ class Teacher extends MY_Table {
         $endDate = trim($dateArr[1]);
         $endDate = strtotime(str_replace("/", "-", $endDate)) + 3600 * 24 - 1;
 
+        $data['total_salary'] = 0;
         foreach ($data['rows'] as $key => &$item_teacher) {
             $input_class['where'] = array(
                 'teacher_id' => $item_teacher['id'],
@@ -298,38 +309,46 @@ class Teacher extends MY_Table {
                         'time_created >=' => $startDate,
                         'time_created <=' => $endDate
                     );
+                    $total_lesson = count($this->attendance_model->load_all($input_lesson_learned));
 
-                    $input_mechanism['select'] = 'SUM(money) as money, reason';
-                    $input_mechanism['where'] = array(
-                        'class_study_id' => $item_class['class_study_id'],
-                        'teacher_id' => $item_teacher['id'],
-                        'time_created >=' => $startDate,
-                        'time_created <=' => $endDate
-                    );
-                    $bonus = $this->mechanism_model->load_all(array_merge_recursive($input_mechanism, array('where' => array('mechanism' => 1))));
-                    $fine = $this->mechanism_model->load_all(array_merge_recursive($input_mechanism, array('where' => array('mechanism' => '0'))));
-                    unset($input_mechanism['select']);
-                    $paid_salary = $this->mechanism_model->load_all(array_merge_recursive($input_mechanism, array('where' => array('send_mail_salary' => 1))));
+                    if ($total_lesson) {
+                        $input_mechanism['select'] = 'SUM(money) as money, reason';
+                        $input_mechanism['where'] = array(
+                            'class_study_id' => $item_class['class_study_id'],
+                            'teacher_id' => $item_teacher['id'],
+                            'time_created >=' => $startDate,
+                            'time_created <=' => $endDate
+                        );
+                        $bonus = $this->mechanism_model->load_all(array_merge_recursive($input_mechanism, array('where' => array('mechanism' => 1))));
+                        $fine = $this->mechanism_model->load_all(array_merge_recursive($input_mechanism, array('where' => array('mechanism' => '0'))));
+                        unset($input_mechanism['select']);
+                        $paid_salary = $this->mechanism_model->load_all(array_merge_recursive($input_mechanism, array('where' => array('send_mail_salary' => 1))));
 
-                    $item_teacher['attendance'][] = array(
-                        'class_study_id' => $item_class['class_study_id'],
-                        'time_start' => $item_class['time_start'],
-                        'time_end_real' => $item_class['time_end_real'],
-                        'language' => $this->language_study_model->find_language_name($item_class['language_id']),
-                        'salary_per_day' => $item_class['salary_per_day'],
-                        'lesson_learned' => count($this->attendance_model->load_all($input_lesson_learned)),
-                        'reason' => $this->mechanism_model->load_all($input_mechanism)[0]['reason'],
-                        'bonus' => ($bonus[0]['money'] != '') ? $bonus[0]['money'] : 0,
-                        'fine' => ($fine[0]['money'] != '') ? $fine[0]['money'] : 0,
-                        'paid_salary' => (!empty($paid_salary)) ? $paid_salary[0]['reason'] : ''
-                    );
+                        $item_teacher['attendance'][] = array(
+                            'class_study_id' => $item_class['class_study_id'],
+                            'time_start' => $item_class['time_start'],
+                            'time_end_real' => $item_class['time_end_real'],
+                            'language' => $this->language_study_model->find_language_name($item_class['language_id']),
+                            'salary_per_day' => $item_class['salary_per_day'],
+                            'lesson_learned' => $total_lesson,
+                            'reason' => $this->mechanism_model->load_all($input_mechanism)[0]['reason'],
+                            'bonus' => ($bonus[0]['money'] != '') ? $bonus[0]['money'] : 0,
+                            'fine' => ($fine[0]['money'] != '') ? $fine[0]['money'] : 0,
+                            'paid_salary' => (!empty($paid_salary)) ? $paid_salary[0]['reason'] : ''
+                        );
+
+                        $data['total_salary'] = $data['total_salary'] + ($total_lesson * $item_class['salary_per_day']);
+                    }
+                }
+                if (!isset($item_teacher['attendance'])) {
+                    unset($data['rows'][$key]);
                 }
             } else {
                 unset($data['rows'][$key]);
             }
         }
 
-//        print_arr($data['rows']);
+//        print_arr($data);
 
         $data['left_col'] = array('date_happen_1', 'language', 'branch');
         $data['startDate'] = $startDate;
@@ -429,7 +448,7 @@ class Teacher extends MY_Table {
                 $param['teacher_id'] = $post['teacher_id'];
                 $param['reason'] = 'Đã gửi mail bảng lương';
                 $param['send_mail_salary'] = 1;
-                $param['time_created'] = strtotime($post['start_date']) + 7*3600;
+                $param['time_created'] = time() - 25*24*3600;
                 $this->mechanism_model->insert($param);
 
                 $result['success'] = true;

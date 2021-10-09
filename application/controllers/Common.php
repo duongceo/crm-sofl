@@ -130,7 +130,8 @@ class Common extends MY_Controller {
                 'phone_foreign' => 'edit',
 				'address' => 'edit',
 				'branch' => 'edit',
-				'language' => 'edit',
+                'class_foreign_id' => 'edit',
+                'language' => 'edit',
 //				'level_language' => 'edit',
 //                'class_study_id' => 'edit',
                 'fee' => 'edit',
@@ -497,6 +498,10 @@ class Common extends MY_Controller {
                 }
             }
 
+            if (!empty($post['class_foreign_id'])) {
+                $param['class_foreign_id'] = implode(';', $post['class_foreign_id']);
+            }
+
             if ($post['fee'] != 0) {
 				$param['fee'] = str_replace(',', '', $post['fee']);
 			}
@@ -553,6 +558,7 @@ class Common extends MY_Controller {
 
             $param['date_recall'] = (isset($post['date_recall']) && $post['date_recall'] != '') ? strtotime($post['date_recall']) : 0;
 //			print_arr($param);
+
             /* Kiểm tra điều kiện các trạng thái và ngày hẹn gọi lại có logic ko */
             if (isset($post['call_status_id']) && $post['level_student_id'] != 'L8.1') {
 				if ($post['call_status_id'] == 0) {
@@ -1962,7 +1968,7 @@ class Common extends MY_Controller {
 				}
 				$str .= '</select>
 						<div class="input-group-btn">
-							<a style="padding: 10px;" target="_blank" href="' . base_url('staff_managers/class_study') . '" class="btn btn-success" >Tạo mã lớp</a>
+							<a style="padding: 8px;" target="_blank" href="' . base_url('staff_managers/class_study') . '" class="btn btn-success" >Tạo mã lớp</a>
 						</div>
 					</div>
 				</td>
