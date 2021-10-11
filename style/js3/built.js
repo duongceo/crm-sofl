@@ -249,26 +249,6 @@ check_edit_contact = () => {
     return true;
 };
 
-/*
-check_rule_call_stt = (call_status_id, ordering_status_id) => {
-	if (call_status_id == _SO_MAY_SAI_ || call_status_id == _KHONG_NGHE_MAY_ || call_status_id == _NHAM_MAY_) {
-		if (ordering_status_id != _CHUA_CHAM_SOC_ && ordering_status_id != _CONTACT_TU_VAN_TRUNG_CHET_ && ordering_status_id != _CONTACT_DANG_KY_TRUNG_CHET_ && ordering_status_id != _CONTACT_CHET_) {
-			return false;
-		}
-	}
-	if (call_status_id == _DA_LIEN_LAC_DUOC_) {
-		if (ordering_status_id == _CHUA_CHAM_SOC_) {
-			return false;
-		}
-	}
-//        if (call_status_id == _CONTACT_CHET_ && (ordering_status_id == _DONG_Y_MUA_ || ordering_status_id == _TU_CHOI_MUA_)) {
-//            return false;
-//        }
-	return true;
-};
-
- */
-
 check_logic_call_stt_level = (call_status_id, level_contact) => {
 	if (call_status_id == _SO_MAY_SAI_ || call_status_id == _KHONG_NGHE_MAY_ || call_status_id == _NHAM_MAY_) {
 		if (level_contact != '') {
@@ -307,13 +287,6 @@ now_greater_than_input_date = date_string => {
     return (now_timestamp > input_timestamp);
 };
 
-
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 setEqualTableHeight = () => {
     if ($(".table-view-1").height() > $(".table-view-2").height()) {
         $(".table-view-2").height($(".table-view-1").height());
@@ -344,13 +317,13 @@ setEqualTableHeight = () => {
  */
 
 $.fn.setFixTable = function (_tableID) {
-    var cloneHead = $($(this).children()[0]).clone();
+    let cloneHead = $($(this).children()[0]).clone();
     $(this).prepend(cloneHead);
-    var fixedHead = $(this).children()[0];
-    var originHead = $(this).children()[1];
+    let fixedHead = $(this).children()[0];
+    let originHead = $(this).children()[1];
     $(originHead).addClass("table-head-pos");
     $(fixedHead).addClass("fixed-table").css("display", "none");
-    var key = 1;
+    let key = 1;
     $(".table-head-pos>tr>th").each(function () {
         $(this).attr('id', 'th_fix_id_' + key++);
     });
@@ -365,9 +338,9 @@ $.fn.setFixTable = function (_tableID) {
                 "display": "block"
             });
             $('[id^="th_"]').each(function () {
-                var myID = $(this).attr("id");
-                var mywidth = $(this).width();
-                var myheight = $(this).height();
+                let myID = $(this).attr("id");
+                let mywidth = $(this).width();
+                let myheight = $(this).height();
                 $("#f_" + myID).width(mywidth);
                 $("#f_" + myID).height(myheight);
             });
@@ -2060,7 +2033,7 @@ $(document).on('contextmenu', 'tr.custom_right_menu', function (e) {
 
     /* lớp học */
     let item_id = $(this).attr('item_id');
-    $(".delete_item, .edit_item, .form_plugin, .view_student, .edit_class").attr('item_id', item_id);
+    $(".delete_item, .edit_item, .form_plugin, .view_student, .edit_class, .class_own_teacher").attr('item_id', item_id);
     let editURL = $(this).attr('edit-url');
     $(".edit_item").attr('edit-url', editURL);
 
@@ -3767,7 +3740,7 @@ $(document).on('click', '.update_data_inline', function(e) {
     let value_current = $(this).parent().find('.value_current').val();
 	let form = '<form class="form-inline"> ' +
 		'<input style="max-width: 43%" type="text" value='+value_current+'> ' +
-		'<button class="update_inline_now">Lưu</button> ' +
+		'<button class="update_inline_now"mechanism_teacher>Lưu</button> ' +
 		'</form>';
     if (column === 'note') {
         form = '<form class="form-inline"> ' +
@@ -3874,11 +3847,11 @@ $(".mechanism_teacher").on('click', function (e) {
     $(".show_mechanism_teacher").modal("show");
 });
 
-$('.export_excel').on('click', function (e) {
-    e.preventDefault();
-    let teacher_id = $(this).attr('teacher_id');
-    let class_study_id = $(this).attr('class_study_id');
-});
+// $('.export_excel').on('click', function (e) {
+//     e.preventDefault();
+//     let teacher_id = $(this).attr('teacher_id');
+//     let class_study_id = $(this).attr('class_study_id');
+// });
 
 $('.send_mail_teacher').on('click', function (e) {
     e.preventDefault();
@@ -3904,7 +3877,7 @@ $('.send_mail_teacher').on('click', function (e) {
         success: function (data) {
             if (data.success) {
                 _this_.parent().parent().find('td.paid_salary').html('<p class="bg-success">Đã gửi mail lương</p>');
-                _this_.attr('disabled', true);
+                // _this_.attr('disabled', true);
 
                 $.notify(data.message, {
                     position: "top left",
@@ -3935,6 +3908,8 @@ $(".edit_class").on('click', function (e) {
     e.preventDefault();
     let item_id = $(this).attr("item_id");
     let url = $("#base_url").val() + "staff_managers/class_study/show_edit_care_class";
+    let modal_name = 'show_edit_class';
+
     $.ajax({
         url: url,
         type: "POST",
@@ -3992,6 +3967,32 @@ $(".email_contract").on('click', function (e) {
         complete: function() {
             $(".popup-wrapper").hide();
         },
+    });
+});
+
+$(".class_own_teacher").on('click', function (e) {
+    e.preventDefault();
+    let teacher_id = $(this).attr("item_id");
+    let url = $("#base_url").val() + "staff_managers/teacher/show_class_own_teacher";
+    let modal_name = 'show_class_own_teacher';
+
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: {
+            teacher_id: teacher_id
+        },
+        success: function (data) {
+            // console.log(modalName); return false;
+            // $(".show_class_own_teacher").modal("show");
+            $("." + modal_name).remove();
+            let newModal = `<div class="${modal_name}"></div>`;
+            $(".modal-append-to").append(newModal);
+            $(`.${modal_name}`).html(data);
+        },
+        complete: function () {
+            $(`.${modal_name} .modal`).modal("show");
+        }
     });
 });
 

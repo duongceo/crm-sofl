@@ -106,7 +106,7 @@
 
 			<li class="check_diligence set_data_contact one-item-selected" contact_id="0" contact_name="0">
 				<a>
-					<i class="fa fa-exchange" aria-hidden="true"></i> &nbsp; &nbsp; Kiểm tra chuyên cần
+					<i class="fa fa-exchange" aria-hidden="true"></i> &nbsp; &nbsp; Kiểm tra chuyên cần của học viên
 				</a>
 			</li>
 
@@ -128,13 +128,8 @@
 						<i class="fa fa-exchange" aria-hidden="true"></i> &nbsp; &nbsp; Ghép contact
 					</a>
 				</li>
-			<?php } else { ?>
-                <li class="edit_class" item_id="0">
-                    <a>
-                        <i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp;Chăm sóc lớp
-                    </a>
-                </li>
 
+			<?php } else { ?>
 				<li class="edit_item" item_id="0" edit-url="" data-modal-name="edit-item-modal">
 					<a>
 						<i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp; Chỉnh sửa
@@ -148,6 +143,12 @@
 <!--				</li>-->
 
 				<?php if ($controller == 'class_study') { ?>
+                    <li class="edit_class" item_id="0">
+                        <a>
+                            <i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp;Chăm sóc lớp
+                        </a>
+                    </li>
+
                     <li class="email_contract" class_study_id="">
                         <a>
                             <i class="fa fa-info-circle" aria-hidden="true"></i> &nbsp; &nbsp; Gửi mail hợp đồng
@@ -167,7 +168,15 @@
                     </li>
 				<?php } ?>
 
-			<?php } ?>
+                <?php if ($controller == 'teacher') { ?>
+                    <li class="class_own_teacher">
+                        <a>
+                            <i class="fa fa-info-circle" aria-hidden="true"></i> &nbsp; &nbsp; Check lớp học
+                        </a>
+                    </li>
+                <?php } ?>
+
+            <?php } ?>
 
         <?php } else if ($this->role_id == 11) { ?> <!-- Trực page -->
 			<li class="divide_one_contact_achor one-item-selected" contact_id="" contact_name="">
