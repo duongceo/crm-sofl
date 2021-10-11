@@ -485,7 +485,7 @@ class Student extends MY_Controller {
 					'class_study_id' => $item->class_id,
 					'contact_id' => $item->contact_id,
 					'presence_id' => $item->presence_id,
-					'time_update' => strtotime(date("d/m/Y H:i")),
+					'time_update' => strtotime(date("d-m-Y H:i")),
 					'note' => $item->note,
 					'lesson_learned' => trim($post['lesson_learned']),
 					'lecture' => $post['lecture'],
@@ -495,7 +495,7 @@ class Student extends MY_Controller {
 //				$this->attendance_model->insert($param);
 
 				if (empty($contact_attend)) {
-                    $param['time_created'] = (isset($post['date_diligence']) && $post['date_diligence'] != '') ? strtotime($post['date_diligence']) : strtotime(date("d/m/Y H:i"));
+                    $param['time_created'] = (isset($post['date_diligence']) && $post['date_diligence'] != '') ? strtotime($post['date_diligence']) : strtotime(date("d-m-Y H:i"));
                     $this->attendance_model->insert($param);
 				} else {
 					$this->attendance_model->update($input_attend['where'], $param);
@@ -562,7 +562,7 @@ class Student extends MY_Controller {
 		$input['select'] = 'DISTINCT(lesson_learned), class_study_id, lecture, time_update';
         $input['where'] = array();
 		$input['order'] = array('lesson_learned' => 'DESC');
-        $input['limit'] = array(30, 0);
+        $input['limit'] = array(200, 0);
 
         if (isset($get['class_study_id']) && $get['class_study_id'] != '') {
             $input['where'] = array('class_study_id' => $get['class_study_id']);
