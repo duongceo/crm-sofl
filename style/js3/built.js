@@ -2483,11 +2483,11 @@ $(".btn-export-one-contact-for-send-vnpost").on('click', function (e) {
 /* 32b339fca68db27aa480 -- f3c70a5a0960d7b811c9*/
 
 Pusher.logToConsole = true;
-var pusher = new Pusher('f3c70a5a0960d7b811c9', {
+let pusher = new Pusher('f3c70a5a0960d7b811c9', {
     cluster: 'ap1',
     encrypted: true
 });
-var channel = pusher.subscribe('my-channel');
+let channel = pusher.subscribe('my-channel');
 channel.bind('notice', function (data) {
     /*$("#notificate")[0].play();*/
     n = new Notification(
@@ -2540,7 +2540,7 @@ channel.bind('marketer_note', function (data) {
 		);
 		
 		if ($("#input_controller").val() === 'sale' && data.sale === $("#input_user_id").val()) {
-			var append = ` <div style="position: fixed; left:10px; bottom: 10px; z-index: 999999999; 
+			let append = ` <div style="position: fixed; left:10px; bottom: 10px; z-index: 999999999; 
                                     background-color: #fff; display: inline-block; width: 30%; border-radius: 5px" class="my-notify">
                                         <div style="position:absolute; right: 5px; top:5px; cursor: pointer" class="close-notify"> 
                                             <i class="fa fa-times-circle" style="font-size: 20px;" aria-hidden="true"></i> 
@@ -2581,6 +2581,7 @@ $(document).on('hide.bs.modal', '.modal', function () {
         $(this).find(".modal-dialog").attr('class', 'modal-dialog fadeOut animated');
     }
 });
+
 $(document).on('show.bs.modal', '.modal', function () {
     /*
      * Nạp lại các date picker
@@ -2598,7 +2599,7 @@ $(document).on('show.bs.modal', '.modal', function () {
 
     setTimeout(function () {
         setEqualTableHeight();
-    }, 1000);
+    }, 1500);
     if ($(this).find(".modal-dialog").attr('class').search('btn-very-lg') != -1) {
         $(this).find(".modal-dialog").attr('class', 'modal-dialog fadeIn animated btn-very-lg');
     } else if ($(this).find(".modal-dialog").attr('class').search('modal-lg') != -1) {
@@ -2606,35 +2607,30 @@ $(document).on('show.bs.modal', '.modal', function () {
     } else {
         $(this).find(".modal-dialog").attr('class', 'modal-dialog fadeIn animated');
     }
-    var zIndex = 1040 + (10 * $('.modal:visible').length);
+    let zIndex = 1040 + (10 * $('.modal:visible').length);
     $(this).css('z-index', zIndex);
     setTimeout(function () {
         $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
     }, 0);
 });
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 /*
 Xem tất cả contact mà có đăng kí nhiều lần
  */
 $(document).on("click", ".ajax-request-modal", function (e) {
     e.stopPropagation();
     e.preventDefault();
-    var _this = $(this);
+    let _this = $(this);
     setTimeout(function () {
      	if($(".checked").length) {
 			$(".checked").removeClass("checked");
 		}
        /*   _this.parent().parent().addClass("checked"); */
 
-        var contact_id = _this.attr("data-contact-id");
-        var url = $("#base_url").val() + _this.attr("data-url");
-        var modalName = _this.attr("data-modal-name");
-        var controller = _this.attr("data-controller");
+        let contact_id = _this.attr("data-contact-id");
+        let url = $("#base_url").val() + _this.attr("data-url");
+        let modalName = _this.attr("data-modal-name");
+        let controller = _this.attr("data-controller");
         let type_modal = _this.attr("data_type_modal");
 		
         $.ajax({
@@ -2659,7 +2655,7 @@ $(document).on("click", ".ajax-request-modal", function (e) {
                     return false;
                 } else {
                     $("." + modalName).remove();
-                    var newModal = `<div class="${modalName}"></div>`;
+                    let newModal = `<div class="${modalName}"></div>`;
                     $(".modal-append-to").append(newModal);
                     $(`.${modalName}`).html(data.message);
                 }
@@ -2671,20 +2667,20 @@ $(document).on("click", ".ajax-request-modal", function (e) {
 
 $(document).on('click', '.change-form-submit-url', function (e) {
     e.preventDefault();
-    var form = $(this).data("form-id");
-    var action = $(this).data("action");
-    var method = $(this).data("method");
-    var url = $("#base_url").val() + action;
+    let form = $(this).data("form-id");
+    let action = $(this).data("action");
+    let method = $(this).data("method");
+    let url = $("#base_url").val() + action;
     $("#" + form).attr("action", url).attr("method", method).submit(); 
 });
 
 var modalName = "navbar-search-modal";
 $(function () {
-    var locationHash = location.hash;
+    let locationHash = location.hash;
     if (locationHash.indexOf("search") > -1) {
-        var hashSearch = locationHash.substring(1);
-        var searchArr = hashSearch.split("=");
-        var searchStr = searchArr[1];
+        let hashSearch = locationHash.substring(1);
+        let searchArr = hashSearch.split("=");
+        let searchStr = searchArr[1];
         $(".input-navbar-search").val(searchStr);
         $.ajax({
             url: $("#base_url").val() + $("#input_controller").val() + '/search',
@@ -2694,7 +2690,7 @@ $(function () {
             },
             success: data => {
                 $("." + modalName).remove();
-                var newModal = `<div class="${modalName}"></div>`;
+                let newModal = `<div class="${modalName}"></div>`;
                 if ($("#action_contact").length) {
                     $("#action_contact").append(newModal);
                 } else {
@@ -2719,13 +2715,13 @@ $(".btn-navbar-search").click(function (e) {
         });
         return false;
     }
-    var locationOrigin = location.href.split("#");
+    let locationOrigin = location.href.split("#");
     location.href = locationOrigin[0] + '#search=' + $(".input-navbar-search").val();
 
     if ($("#input_sub_folder").val() != '') {
-    	var url = $("#base_url").val() + $("#input_sub_folder").val() + '/' + $("#input_controller").val() + '/search';
+        let url = $("#base_url").val() + $("#input_sub_folder").val() + '/' + $("#input_controller").val() + '/search';
 	} else {
-		var url = $("#base_url").val() + $("#input_controller").val() + '/search';
+        let url = $("#base_url").val() + $("#input_controller").val() + '/search';
 	}
 
     $.ajax({
@@ -2759,7 +2755,7 @@ $(".anchor-navbar-search").click(function (e) {
         },
         success: data => {
             $("." + modalName).remove();
-            var newModal = `<div class="${modalName}"></div>`;
+            let newModal = `<div class="${modalName}"></div>`;
             if ($("#action_contact").length) {
                 $("#action_contact").append(newModal);
             } else {
@@ -2783,10 +2779,10 @@ $(document).on('click', '.export-to-excel', function (e) {
     } else {
         $(".popup-wrapper").show();
         setTimeout(function(){ $(".popup-wrapper").hide();}, 3000);
-        var form = $(this).data("form-id");
-        var action = $(this).data("action");
-        var method = $(this).data("method");
-        var url = $("#base_url").val() + action;
+        let form = $(this).data("form-id");
+        let action = $(this).data("action");
+        let method = $(this).data("method");
+        let url = $("#base_url").val() + action;
         $("#" + form).attr("action", url).attr("method", method).submit();
     }
 });
@@ -2794,7 +2790,7 @@ $(document).on('click', '.export-to-excel', function (e) {
 $(".export-all-to-excel").remove();
 $(".btn-export-all-contact-to-excel").click(function (e) {
 	e.preventDefault();
-	var formID = $(this).attr('data-form-id');
+    let formID = $(this).attr('data-form-id');
 	$("#"+formID).append('<input type="text" class="export-all-to-excel" name="export_all" value="yes" />');
 	$("#"+formID).attr("action", "#").attr("method", "GET").submit();
 	$(".export-all-to-excel").remove();
@@ -2920,7 +2916,6 @@ $(".divide_contact_auto").on('click', function (e) {
     $("#action_contact").removeClass("form-inline");
     $(".divide_multi_contact_auto_modal").modal("show");
     /*$(".divide_multi_contact_modal").modal("hide");*/
-    // alert('chào');
 });
 
 /*=================================== chia từng contact một (form modal)================================================*/
@@ -2949,8 +2944,8 @@ $(".divide_contact_even").on('click', function (e) {
 /*===================================== phân contact bằng ajax ==============*/
 $(document).on('click', '.btn-divide-one-contact', function (e) {
     e.preventDefault();
-    var url = $(this).parents('#divide_one_contact').attr("action");
-    var contact_id = $("#contact_id_input").val();
+    let url = $(this).parents('#divide_one_contact').attr("action");
+    let contact_id = $("#contact_id_input").val();
     $.ajax({
         url: url,
         type: "POST",
@@ -3030,11 +3025,11 @@ $(document).on('click', '.btn-divide-multi-contact', function (e) {
 /* phân đều contact*/
 $(document).on('click', '.btn-divide-multi-contact-auto', function (e) {
     e.preventDefault();
-    var url = $('#base_url').val() + "manager/divide_contact_auto";
+    let url = $('#base_url').val() + "manager/divide_contact_auto";
     /*
      * Lấy các contact chăm sóc để ẩn đi
      */
-    var contactIdArray = [];
+    let contactIdArray = [];
     $('input[type="checkbox"]').each(
 		function () {
 			if ($(this).is(":checked")) {
@@ -3048,7 +3043,7 @@ $(document).on('click', '.btn-divide-multi-contact-auto', function (e) {
     /*data = sale_id_array;*/
     // console.log(data);
     // return false;
-    var data = $('#action_contact').serialize();
+    let data = $('#action_contact').serialize();
     
     $.ajax({
         url: url,

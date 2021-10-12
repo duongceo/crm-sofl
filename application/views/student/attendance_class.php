@@ -98,7 +98,8 @@
 			</table>
 			<div class="text-center">
 				<button class="btn btn-lg btn-success btn-attendance">Lưu</button>
-			</div>
+                <a class="btn btn-lg btn-primary" href="<?php echo base_url().'student/manager_diligence?class_study_id='.$class ?>">Kiểm tra điểm danh</a>
+            </div>
 		</div>
 	</div>
 </div>
