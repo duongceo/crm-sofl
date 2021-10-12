@@ -21,7 +21,7 @@
 				<tbody>
 					<?php foreach ($list_diligence_detail as $item) { ?>
 						<tr>
-							<td class="text-center"><?php echo date('d-m-Y H:i', $item['time_created']) ?></td>
+							<td class="text-center"><?php echo date('d-m-Y', $item['time_created']) ?></td>
 							<td class="text-center"><?php echo $item['contact_name'] ?></td>
 							<td class="text-center">
 								<?php foreach ($presence as $value) { 

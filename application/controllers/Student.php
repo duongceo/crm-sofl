@@ -597,7 +597,7 @@ class Student extends MY_Controller {
 		$get = $this->input->get();
 		$input['where'] = array(
 			'class_study_id' => $get['class_study_id'],
-			'time_update' => $get['time_update']
+			'time_created' => $get['time_created']
 		);
 		$data['list_diligence_detail'] = $this->attendance_model->load_all($input);
 		foreach($data['list_diligence_detail'] as &$item) {
