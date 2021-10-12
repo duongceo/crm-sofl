@@ -3908,7 +3908,7 @@ $(".edit_class").on('click', function (e) {
     e.preventDefault();
     let item_id = $(this).attr("item_id");
     let url = $("#base_url").val() + "staff_managers/class_study/show_edit_care_class";
-    let modal_name = 'show_edit_class';
+    // let modal_name = 'show_edit_class';
 
     $.ajax({
         url: url,
