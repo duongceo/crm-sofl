@@ -21,22 +21,27 @@
 //				}
 //				?>
 
-				<form action="" class="form-search" method="GET">
+                <?php if ($this->role_id != 8) { ?>
 
-					<input type="text" class="form-control input-navbar-search" name="search_all" placeholder="Tìm mọi thứ...."
+                    <form action="" class="form-search" method="GET">
 
-						 value="<?php echo isset($_GET['search_all']) ? $_GET['search_all'] : ''; ?>">
+                        <input type="text" class="form-control input-navbar-search" name="search_all" placeholder="Tìm mọi thứ...."
 
-					<span class="input-group-btn" >
+                             value="<?php echo isset($_GET['search_all']) ? $_GET['search_all'] : ''; ?>">
 
-						<button class="btn btn-default btn-navbar-search" type="submit">
+                        <span class="input-group-btn" >
 
-							<span class="glyphicon glyphicon-search"></span>
+                            <button class="btn btn-default btn-navbar-search" type="submit">
 
-						</button>
+                                <span class="glyphicon glyphicon-search"></span>
 
-					</span>
-				</form>
+                            </button>
+
+                        </span>
+
+                    </form>
+
+                <?php } ?>
 
 				<?php if (!$this->agent->mobile) { ?>
 					<li class="pull-right">

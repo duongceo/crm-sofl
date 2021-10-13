@@ -54,7 +54,7 @@
 		<!--		</script>-->
 		<script type="text/javascript" src="<?php echo base_url(); ?>style/js/simple.money.format.js"></script>
 
-		<?php if ($this->controller == 'sale' || $this->controller == 'cod') { ?>
+		<?php if ($this->controller == 'sale') { ?>
 			<script src="https://minio.infra.omicrm.com/statics/web-sdk/v17/sdk.min.js"></script>
 			<script>
 				$(document).ready(function () {

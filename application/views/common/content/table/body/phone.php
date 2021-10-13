@@ -4,9 +4,13 @@
 
     data-clipboard-text="<?php echo trim($value['phone']); ?>">
 
-    <?php echo h_phone_format($value['phone']); ?> 
+    <?php echo h_phone_format($value['phone']); ?>
 
-     <input type="text" id="input-copy-<?php echo $idCopy?>" value="<?php echo $value['phone'];?>" />
+    <?php if (!$this->agent->mobile) { ?>
+
+        <input type="text" id="input-copy-<?php echo $idCopy?>" value="<?php echo $value['phone'];?>" />
+
+    <?php } ?>
 
 <!--    <sup>
 

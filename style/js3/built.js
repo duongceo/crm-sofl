@@ -429,7 +429,7 @@ noti = () => {
     });
 };
 
-if ($("#input_controller").val() == 'sale' || $("#input_controller").val() == 'student') {
+if ($("#input_controller").val() == 'sale' || ($("#input_controller").val() == 'student' && $("#input_role_id").val() == 12)) {
     setInterval(noti, 10000);
 }
 

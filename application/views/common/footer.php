@@ -93,7 +93,7 @@ integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="ano
 <?php } ?>
 
 
-<?php if ($this->controller == 'sale' || $this->controller == 'cod') { ?>
+<?php if ($this->controller == 'sale') { ?>
 
     <?php if ($time_remaining > 0) { ?>
 
