@@ -1076,6 +1076,7 @@ class MY_Table extends MY_Controller {
 			'level_contact_detail !=' => 'L5.4',
 		);
         $input['where_in']['level_study_id'] = array('L7', '');
+        $input['where_in']['level_student_id'] = array('L8', 'L8.1', '');
     	return count($this->contacts_model->load_all($input));
 	}
 
