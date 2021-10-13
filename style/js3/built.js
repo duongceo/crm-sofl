@@ -137,15 +137,16 @@ check_edit_contact = () => {
         });
         return false;
     }
-    if ($("select.edit_payment_method_rgt").val() == 0) {
-        $.alert({
-            theme: 'modern',
-            type: 'red',
-            title: 'Có lỗi xảy ra!',
-            content: 'Bạn cần cập nhật hình thức thanh toán!'
-        });
-        return false;
-    }
+
+    // if ($("select.edit_payment_method_rgt").val() == 0) {
+    //     $.alert({
+    //         theme: 'modern',
+    //         type: 'red',
+    //         title: 'Có lỗi xảy ra!',
+    //         content: 'Bạn cần cập nhật hình thức thanh toán!'
+    //     });
+    //     return false;
+    // }
 	
     if (call_status_id == 0) {
 		if ($("#input_controller").val() == 'sale') {
@@ -1587,6 +1588,7 @@ $(document).on('click', '.btn-edit-contact', function (e) {
  * Nếu chọn hình thức thanh toán là COD thì ẩn hình thức thanh toán BANKING, và ngược lại
  */
 
+/*
 $(document).on('change', 'select.edit_payment_method_rgt', function (e) {
     if ($(this).val() == 4) {
         $(".tbl_bank").show(1000);
@@ -1600,7 +1602,7 @@ $(document).on('change', 'select.edit_payment_method_rgt', function (e) {
     }
     setEqualTableHeight();
 });
-
+*/
 
 $(document).on('change', 'select.note-cod-sample', function () {
     $('[name="note_cod"]').val($(this).val());
@@ -2598,7 +2600,8 @@ $(document).on('show.bs.modal', '.modal', function () {
 
     setTimeout(function () {
         setEqualTableHeight();
-    }, 1000);
+    }, 1500);
+
     if ($(this).find(".modal-dialog").attr('class').search('btn-very-lg') != -1) {
         $(this).find(".modal-dialog").attr('class', 'modal-dialog fadeIn animated btn-very-lg');
     } else if ($(this).find(".modal-dialog").attr('class').search('modal-lg') != -1) {
@@ -2613,11 +2616,6 @@ $(document).on('show.bs.modal', '.modal', function () {
     }, 0);
 });
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 /*
 Xem tất cả contact mà có đăng kí nhiều lần
  */
@@ -3908,7 +3906,7 @@ $(".edit_class").on('click', function (e) {
     e.preventDefault();
     let item_id = $(this).attr("item_id");
     let url = $("#base_url").val() + "staff_managers/class_study/show_edit_care_class";
-    // let modal_name = 'show_edit_class';
+    let modal_name = 'show_edit_class';
 
     $.ajax({
         url: url,
@@ -3917,13 +3915,13 @@ $(".edit_class").on('click', function (e) {
             item_id: item_id
         },
         success: function (data) {
-            $("." + modalName).remove();
-            let newModal = `<div class="${modalName}"></div>`;
+            $("." + modal_name).remove();
+            let newModal = `<div class="${modal_name}"></div>`;
             $(".modal-append-to").append(newModal);
-            $(`.${modalName}`).html(data);
+            $(`.${modal_name}`).html(data);
         },
         complete: function () {
-            $(`.${modalName} .modal`).modal("show");
+            $(`.${modal_name} .modal`).modal("show");
         }
     });
     // $(".show_edit_class").modal("show");
