@@ -40,13 +40,6 @@ class Sale extends MY_Controller {
     }
 
     function index($offset = 0) {
-//		$this->load->helper('cookie');
-//		$get_cookie = get_cookie('sale_first_login_day');
-////		print_arr($_COOKIE);
-//		if (!isset($get_cookie)) {
-//			redirect(base_url('sale/get_phone_missed_call'));
-//		}
-
         $data = $this->_get_all_require_data();
         $get = $this->input->get();
 
@@ -54,13 +47,9 @@ class Sale extends MY_Controller {
          * Điều kiện lấy contact :contact ở trang chủ là contact chưa gọi lần nào và contact là của riêng TVTS, sắp xếp theo ngày nhận contact
          */
         $conditional['where'] = array('call_status_id' => '0', 'sale_staff_id' => $this->user_id);
-        //$conditional['order'] = array('date_handover' => 'DESC');
 		$conditional['order'] = array('date_rgt' => 'DESC');
 
-        //$this->per_page = 1;
-        
         $data_pagination = $this->_query_all_from_get($get, $conditional, $this->per_page, $offset);
-		//echo '<pre>'; print_r($data_pagination);die;
 
         /* Lấy link phân trang và danh sách contacts */
         $data['pagination'] = $this->_create_pagination_link($data_pagination['total_row']);
@@ -354,7 +343,7 @@ class Sale extends MY_Controller {
 
         $this->table .= 'fee paid call_stt level_contact level_student date_rgt date_last_calling';
 		if ($this->sale_study_abroad == 1) {
-			$this->table = 'selection name address phone language call_stt date_rgt date_handover date_last_calling';
+			$this->table = 'selection name phone address language call_stt date_rgt date_handover date_last_calling';
 		}
         $data['table'] = explode(' ', $this->table);
 
