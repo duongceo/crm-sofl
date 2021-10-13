@@ -6,11 +6,6 @@
  * and open the template in the editor.
  */
 
-/**
- * Description of Sale
- *
- * @author CHUYEN
- */
 class Sale extends MY_Controller {
 
     public $L = array();
