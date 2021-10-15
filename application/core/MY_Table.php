@@ -1072,10 +1072,11 @@ class MY_Table extends MY_Controller {
 	private function get_student_current($class_id) {
     	$input['where'] = array(
     		'class_study_id' => $class_id,
-            '(level_contact_id = "L5" OR level_student_id = "L8.1")' => 'NO-VALUE',
+			'level_contact_id' => 'L5',
 			'level_contact_detail !=' => 'L5.4',
 		);
         $input['where_in']['level_study_id'] = array('L7', '');
+        $input['where_in']['level_student_id'] = array('L8', 'L8.1', '');
     	return count($this->contacts_model->load_all($input));
 	}
 

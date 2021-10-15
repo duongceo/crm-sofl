@@ -584,9 +584,10 @@ class Class_study extends MY_Table {
 		$input['where'] = array(
 			'class_study_id' => $class_study_code[0]['class_study_id'],
 		);
-		$input['where']['(level_contact_id = "L5" OR level_student_id = "L8.1")'] = 'NO-VALUE';
+		$input['where']['level_contact_id'] = 'L5';
 		$input['where']['level_contact_detail !='] = 'L5.4';
 		$input['where_in']['level_study_id'] = array('L7', '');
+		$input['where_in']['level_student_id'] = array('L8', 'L8.1', '');
 
 		$require_model = array(
 			'class_study' => array(
