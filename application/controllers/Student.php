@@ -561,7 +561,7 @@ class Student extends MY_Controller {
 
 		$data['class_study'] = $this->class_study_model->load_all(array('where'=>array('character_class_id' => 2)));
 		$get = $this->input->get();
-		$input['select'] = 'DISTINCT(lesson_learned), class_study_id, lecture, time_update';
+		$input['select'] = 'DISTINCT(lesson_learned), class_study_id, lecture, time_created';
         $input['where'] = array();
 		$input['order'] = array('lesson_learned' => 'DESC');
         $input['limit'] = array(200, 0);
@@ -576,8 +576,8 @@ class Student extends MY_Controller {
             $date_end_arr = trim($dateArr[1]);
             $date_end = strtotime(str_replace("/", "-", $date_end_arr)) + 3600 * 24 - 1;
 
-            $input['where']['time_update >='] = $date_from;
-            $input['where']['time_update <='] = $date_end;
+            $input['where']['time_created >='] = $date_from;
+            $input['where']['time_created <='] = $date_end;
         }
         if (isset($get['filter_class_study_id']) && $get['filter_class_study_id'] != '') {
             $input['where_in'] = array('class_study_id' => $get['filter_class_study_id']);
