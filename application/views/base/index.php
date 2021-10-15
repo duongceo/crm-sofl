@@ -78,15 +78,10 @@ cố định thanh tiêu đề phía trên của bảng khi người dùng cuộ
 
 -->
 
-<?php if ($this->controller == 'class_study') {
-    $this->load->view('staff_managers/class_study/show_student');
-    $this->load->view('staff_managers/class_study/show_diligence');
-    $this->load->view('staff_managers/teacher/show_mechanism_teacher');
-} ?>
+<?php
+$this->load->view('staff_managers/class_study/show_student');
+$this->load->view('staff_managers/class_study/show_diligence');
+$this->load->view('staff_managers/teacher/show_mechanism_teacher');
 
-<?php //if ($this->controller == 'teacher') {
-//    $this->load->view('staff_managers/teacher/show_class_own_teacher');
-//} ?>
-
-<!-- $this->load->view('base/js');-->
+// $this->load->view('base/js');
 
