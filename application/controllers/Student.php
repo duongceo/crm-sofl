@@ -424,11 +424,10 @@ class Student extends MY_Controller {
 		$input['select'] = 'id, name, class_study_id';
 		$input['where'] = array(
 			'class_study_id' => $get['class_study_id'],
-			'level_contact_id' => 'L5',
+            '(level_contact_id = "L5" OR level_student_id = "L8.1")' => 'NO-VALUE',
 			'level_contact_detail !=' => 'L5.4',
 		);
         $input['where_in']['level_study_id'] = array('L7', '');
-        $input['where_in']['level_student_id'] = array('L8', 'L8.1', '');
 
         $data['contact'] = $this->contacts_model->load_all($input);
 
@@ -561,7 +560,7 @@ class Student extends MY_Controller {
 
 		$data['class_study'] = $this->class_study_model->load_all(array('where'=>array('character_class_id' => 2)));
 		$get = $this->input->get();
-		$input['select'] = 'DISTINCT(lesson_learned), class_study_id, lecture, time_created';
+		$input['select'] = 'DISTINCT(lesson_learned), class_study_id, lecture, time_created, time_update';
         $input['where'] = array();
 		$input['order'] = array('lesson_learned' => 'DESC');
         $input['limit'] = array(200, 0);
