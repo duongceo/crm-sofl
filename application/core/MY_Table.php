@@ -1069,7 +1069,7 @@ class MY_Table extends MY_Controller {
 		return $table;
 	}
 
-	private function get_student_current($class_id) {
+	protected function get_student_current($class_id) {
     	$input['where'] = array(
     		'class_study_id' => $class_id,
 			'level_contact_id' => 'L5',
