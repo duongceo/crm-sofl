@@ -33,7 +33,7 @@ class Manager extends MY_Controller {
          * contact ở trang chủ là contact chưa được phân cho TVTS nào và chua gọi lần nào
          */
 
-        $conditional['where'] = array('call_status_id' => '0', 'level_contact_id' => '', 'sale_staff_id' => '0', 'duplicate_id' => '0');
+        $conditional['where'] = array('call_status_id' => '0', 'level_student_id' => '', 'sale_staff_id' => '0', 'duplicate_id' => '0');
         $conditional['order'] = array('date_rgt' => 'DESC');
 		$data_pagination = $this->_query_all_from_get($get, $conditional, $this->per_page, $offset);
         /* Lấy danh sách contacts */
