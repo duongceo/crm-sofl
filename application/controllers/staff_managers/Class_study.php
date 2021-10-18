@@ -606,7 +606,7 @@ class Class_study extends MY_Table {
         $data['contacts'] = $data_pagination['data'];
         $data['total_contact'] = $data_pagination['total_row'];
 
-		$this->table = 'name phone address level_language fee paid fee_missing level_study_detail date_rgt_study';
+		$this->table = 'name phone address level_language fee paid fee_missing level_study_detail date_rgt_study add_contact';
 		if ($this->role_id == 14) {
 			$this->table = 'name address date_rgt_study';
 		}
