@@ -579,28 +579,26 @@ class Class_study extends MY_Table {
 	}
 
 	public function show_student(){
+        $require_model = array(
+            'class_study' => array(
+                'branch_id' => $this->branch_id,
+                'order' => array(
+                    'class_study_id' => 'ASC'
+                )
+            ),
+            'branch' => array(),
+            'level_language' => array(),
+            'language_study' => array(),
+        );
+
+        $data = $this->_get_require_data($require_model);
+
 		$post = $this->input->post();
 		$class_study_code = $this->{$this->model}->get_class_code($post['class_study_id']);
-		$input['where'] = array(
-			'class_study_id' => $class_study_code[0]['class_study_id'],
-		);
+		$input['where']['class_study_id'] = $class_study_code[0]['class_study_id'];
         $input['where']['(level_contact_id = "L5" OR level_student_id = "L8.1")'] = 'NO-VALUE';
 		$input['where']['level_contact_detail !='] = 'L5.4';
 		$input['where_in']['level_study_id'] = array('L7', '');
-
-		$require_model = array(
-			'class_study' => array(
-				'branch_id' => $this->branch_id,
-				'order' => array(
-					'class_study_id' => 'ASC'
-				)
-			),
-			'branch' => array(),
-			'level_language' => array(),
-			'language_study' => array(),
-		);
-
-        $data = $this->_get_require_data($require_model);
 
 		$data_pagination = $this->_query_all_from_get(array(), $input, 40, 0);
 

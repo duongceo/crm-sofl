@@ -430,7 +430,6 @@ class Student extends MY_Controller {
         $input['where_in']['level_study_id'] = array('L7', '');
 
         $data['contact'] = $this->contacts_model->load_all($input);
-
 		$input_class['select'] = 'lesson_learned';
 		$input_class['where'] = array('class_study_id' => $get['class_study_id']);
         $class = $this->class_study_model->load_all($input_class);

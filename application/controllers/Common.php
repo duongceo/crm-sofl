@@ -611,16 +611,15 @@ class Common extends MY_Controller {
 					die;
 				}
 
-				if (isset($post['level_student_id']) && $post['level_student_id'] == 'L6') {
-					if (!isset($post['class_study_id']) || $post['class_study_id'] == '') {
-						$result['success'] = 0;
-						$result['message'] = 'Học viên đã xếp lớp thành công thì phải có mã lớp học';
-						echo json_encode($result);
-						die;
-					}
-				}
+//				if (isset($post['level_student_id']) && $post['level_student_id'] == 'L6') {
+//					if (!isset($post['class_study_id']) || $post['class_study_id'] == '') {
+//						$result['success'] = 0;
+//						$result['message'] = 'Học viên đã xếp lớp thành công thì phải có mã lớp học';
+//						echo json_encode($result);
+//						die;
+//					}
+//				}
 
-				$param['date_rgt_study'] = (isset($post['date_rgt_study']) && $post['date_rgt_study'] != '') ? strtotime($post['date_rgt_study']) : time();
 				$dataPush['message'] = 'Yeah Yeah !!';
                 $dataPush['success'] = '1';
 
@@ -642,6 +641,8 @@ class Common extends MY_Controller {
 				echo json_encode($result);
 				die;
 			}
+
+            $param['date_rgt_study'] = (isset($post['date_rgt_study']) && $post['date_rgt_study'] != '') ? strtotime($post['date_rgt_study']) : time();
 
 			if ($post['paid_today'] != 0) {
 				$post['paid_today'] = str_replace(',', '', $post['paid_today']);
@@ -676,7 +677,6 @@ class Common extends MY_Controller {
 				die;
 			}
 
-			//print_arr($param);
 			if ($this->role_id == 1) {
 				$param['date_last_calling'] = time();
 			}
