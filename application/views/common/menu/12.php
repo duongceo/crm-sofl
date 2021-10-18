@@ -49,6 +49,20 @@
 					</a>
 				</li>
 
+                <li>
+                    <a href="<?php echo base_url('student/contact_reserve'); ?>">
+                        <img src="<?php echo base_url(); ?>public/images/view-all.png">
+                        <span>Danh sách học viên bảo lưu</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="<?php echo base_url('student/contact_refund'); ?>">
+                        <img src="<?php echo base_url(); ?>public/images/view-all.png">
+                        <span>Danh sách học viên rút học phí</span>
+                    </a>
+                </li>
+
 				<li>
 					<a href="<?php echo base_url('student/view_all_contact'); ?>">
 						<img src="<?php echo base_url(); ?>public/images/view-all.png">

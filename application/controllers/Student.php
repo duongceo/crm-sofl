@@ -27,6 +27,7 @@ class Student extends MY_Controller {
 			'sources' => array(),
 			'channel' => array(),
 			'branch' => array(),
+            'language_study' => array(),
 			'level_language' => array(),
 			'level_contact' => array(
 				'where' => array(
@@ -75,7 +76,7 @@ class Student extends MY_Controller {
 		$data['contacts'] = $data_pagination['data'];
 		$data['total_contact'] = $data_pagination['total_row'];
 
-		$data['left_col'] = array('date_rgt', 'date_confirm', 'date_rgt_study', 'date_paid', 'study_date_start', 'study_date_end');
+		$data['left_col'] = array('date_rgt', 'date_rgt_study', 'date_paid', 'study_date_start', 'study_date_end');
 		$data['right_col'] = array('language', 'level_language', 'class_study', 'is_old', 'complete_fee', 'payment_method_rgt');
 
 		$this->table .= 'class_study_id fee paid level_contact level_student date_rgt date_rgt_study';
@@ -88,6 +89,71 @@ class Student extends MY_Controller {
 		$data['content'] = 'common/list_contact';
 		$this->load->view(_MAIN_LAYOUT_, $data);
 	}
+
+    public function contact_reserve($offset=0) {
+        $data = $this->get_all_require_data();
+
+        $get = $this->input->get();
+
+        if ($this->role_id == 12) {
+            $conditional['where']['branch_id'] = $this->branch_id;
+        }
+
+        $conditional['where']['level_study_id'] = 'L7.1';
+        $conditional['or_where']['level_study_detail'] = 'L7.1';
+        $conditional['order'] = array('date_action_of_study' => 'DESC');
+
+        $data_pagination = $this->_query_all_from_get($get, $conditional, $this->per_page, $offset);
+
+        $data['pagination'] = $this->_create_pagination_link($data_pagination['total_row']);
+        $data['contacts'] = $data_pagination['data'];
+        $data['total_contact'] = $data_pagination['total_row'];
+
+        $data['left_col'] = array('date_rgt', 'date_rgt_study', 'date_paid', 'study_date_start', 'study_date_end');
+        $data['right_col'] = array('language', 'class_study', 'complete_fee');
+
+        $this->table .= 'class_study_id fee paid date_rgt date_rgt_study';
+        $data['table'] = explode(' ', $this->table);
+        //echo '<pre>'; print_r($data['table']);die;
+
+        $data['titleListContact'] = 'Danh sách học viên';
+        $data['actionForm'] = '';
+
+        $data['content'] = 'common/list_contact';
+        $this->load->view(_MAIN_LAYOUT_, $data);
+    }
+
+    public function contact_refund($offset=0) {
+        $data = $this->get_all_require_data();
+
+        $get = $this->input->get();
+
+        if ($this->role_id == 12) {
+            $conditional['where']['branch_id'] = $this->branch_id;
+        }
+
+        $conditional['where']['level_contact_detail'] = 'L5.4';
+        $conditional['order'] = array('date_rgt_study' => 'DESC');
+
+        $data_pagination = $this->_query_all_from_get($get, $conditional, $this->per_page, $offset);
+
+        $data['pagination'] = $this->_create_pagination_link($data_pagination['total_row']);
+        $data['contacts'] = $data_pagination['data'];
+        $data['total_contact'] = $data_pagination['total_row'];
+
+        $data['left_col'] = array('date_rgt', 'date_rgt_study', 'date_paid', 'study_date_start', 'study_date_end');
+        $data['right_col'] = array('language', 'class_study', 'is_old', 'complete_fee');
+
+        $this->table .= 'class_study_id fee paid date_rgt date_rgt_study';
+        $data['table'] = explode(' ', $this->table);
+        //echo '<pre>'; print_r($data['table']);die;
+
+        $data['titleListContact'] = 'Danh sách học viên';
+        $data['actionForm'] = '';
+
+        $data['content'] = 'common/list_contact';
+        $this->load->view(_MAIN_LAYOUT_, $data);
+    }
 
 	function contact_sort_class($offset = 0) {
 		$data = $this->get_all_require_data();

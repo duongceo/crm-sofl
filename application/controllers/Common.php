@@ -556,7 +556,7 @@ class Common extends MY_Controller {
 				}
 			}
 
-            $param['date_recall'] = (isset($post['date_recall']) && $post['date_recall'] != '') ? strtotime($post['date_recall']) : 0;
+            $param['date_recall'] = (isset($post['date_recall']) && $post['date_recall'] != '') ? strtotime($post['date_recall']) : '';
 //			print_arr($param);
 
             /* Kiểm tra điều kiện các trạng thái và ngày hẹn gọi lại có logic ko */
@@ -620,6 +620,8 @@ class Common extends MY_Controller {
 //					}
 //				}
 
+//				$param['date_rgt_study'] = (isset($post['date_rgt_study']) && $post['date_rgt_study'] != '') ? strtotime($post['date_rgt_study']) : time();
+
 				$dataPush['message'] = 'Yeah Yeah !!';
                 $dataPush['success'] = '1';
 
@@ -642,9 +644,9 @@ class Common extends MY_Controller {
 				die;
 			}
 
-            $param['date_rgt_study'] = (isset($post['date_rgt_study']) && $post['date_rgt_study'] != '') ? strtotime($post['date_rgt_study']) : time();
+            $param['date_rgt_study'] = (isset($post['date_rgt_study']) && $post['date_rgt_study'] != '') ? strtotime($post['date_rgt_study']) : '';
 
-			if ($post['paid_today'] != 0) {
+            if ($post['paid_today'] != 0) {
 				$post['paid_today'] = str_replace(',', '', $post['paid_today']);
 				$param['paid'] = $rows[0]['paid'] + $post['paid_today'];
 				if (strlen($post['paid_today']) < 5 || strlen($post['paid_today']) > 8 || ((int)$post['paid_today'] > (int)$param['fee'])) {
