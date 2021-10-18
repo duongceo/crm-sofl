@@ -1355,7 +1355,7 @@ class Common extends MY_Controller {
         /*
          * Các trường cần hiện của bảng contact (đã có default)
          */
-        $this->table .= 'fee paid call_stt level_contact date_rgt';
+        $this->table .= 'class_study_id fee paid call_stt level_contact date_rgt';
         $data['table'] = explode(' ', $this->table);
         $data['controller'] = $this->input->post('controller', true);
         $result = array();

@@ -175,7 +175,7 @@
                             Trạng thái học viên
                         </div>
                         <div class="col-md-8 col-xs-8">
-                            <select class="form-control select_contact_status" name="level_student_id">
+                            <select class="form-control" name="level_student_id">
                                 <option value="">Trạng thái học viên</option>
 								<?php foreach ($level_student as $key => $value) { ?>
 									<option value="<?php echo $value['level_id']; ?>" <?php //if ($value['level_id'] == $_GET['level_student_id']) echo 'selected'; ?>>
@@ -229,7 +229,7 @@
 							Trình độ ngoại ngữ
 						</div>
 						<div class="col-md-8 col-xs-8">
-							<select class="form-control" name="level_language_id">
+							<select class="form-control select_contact_status" name="level_language_id">
 								<option value="0"> Trình độ </option>
 								<?php foreach ($level_language as $value) { ?>
 									<option value="<?php echo $value['id']; ?>">

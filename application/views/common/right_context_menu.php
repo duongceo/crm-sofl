@@ -37,6 +37,20 @@
                 </a>
             </li>
 
+            <?php if ($controller == 'class_study' || $controller == 'level_language') { ?>
+                <li class="edit_item" item_id="0" edit-url="" data-modal-name="edit-item-modal">
+                    <a>
+                        <i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp; Chỉnh sửa
+                    </a>
+                </li>
+
+                <li href="#" class="delete_item" item_id="0">
+                    <a>
+                        <i class="fa fa-trash-o" aria-hidden="true"></i> &nbsp; &nbsp; Xóa dòng
+                    </a>
+                </li>
+            <?php } ?>
+
         <?php } else if ($this->role_id == 1) { ?> <!-- TK Sale -->
 
             <li class="ajax-request-modal load-new-contact-id edit-one-contact one-item-selected" data-contact-id ="0" data-modal-name="edit-contact-div"
@@ -136,11 +150,11 @@
 					</a>
 				</li>
 
-<!--				<li href="#" class="delete_item" item_id="0">-->
-<!--					<a>-->
-<!--						<i class="fa fa-trash-o" aria-hidden="true"></i> &nbsp; &nbsp; Xóa dòng-->
-<!--					</a>-->
-<!--				</li>-->
+				<li href="#" class="delete_item" item_id="0">
+					<a>
+						<i class="fa fa-trash-o" aria-hidden="true"></i> &nbsp; &nbsp; Xóa dòng
+					</a>
+				</li>
 
 				<?php if ($controller == 'class_study') { ?>
                     <li class="edit_class" item_id="0">
