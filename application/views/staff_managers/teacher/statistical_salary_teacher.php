@@ -81,10 +81,10 @@
                                         <p class="bg-success"><?php echo $item_attendance['paid_salary'] ?></p>
                                     </td>
                                     <td class="text-center text-primary">
-                                        <button class="btn btn-sm btn-success export_excel" teacher_id="<?php echo $item['id'] ?>" class_id="<?php echo $item_attendance['class_study_id'] ?>">
+                                        <button class="btn btn-sm btn-success export_excel" teacher_id="<?php echo $item['id'] ?>" class_study_id="<?php echo $item_attendance['class_study_id'] ?>">
                                             File excel
                                         </button>
-                                        <button class="btn btn-sm btn-warning send_mail_teacher" teacher_id="<?php echo $item['id'] ?>" class_id="<?php echo $item_attendance['class_study_id'] ?>">
+                                        <button class="btn btn-sm btn-warning send_mail_teacher" teacher_id="<?php echo $item['id'] ?>" class_study_id="<?php echo $item_attendance['class_study_id'] ?>">
                                            Gửi mail
                                         </button>
                                     </td>
