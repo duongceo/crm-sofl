@@ -800,7 +800,7 @@ class Class_study extends MY_Table {
 
              $this->load->library('email');
              $this->email->from('minhduc.sofl@gmail.com', 'TRUNG TÂM NGOẠI NGỮ SOFL');
-             $this->email->to('ngovanquang281997@gmail.com');
+             $this->email->to($teacher[0]['email']);
              $subject = 'SOFL GỬI HỢP ĐỒNG KHÓA HỌC LỚP ' . $post['class_study_id'];
              $this->email->subject($subject);
              $message = 'SOFL gửi hợp đồng khóa học';
