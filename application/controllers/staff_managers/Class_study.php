@@ -773,6 +773,7 @@ class Class_study extends MY_Table {
          $this->load->model('teacher_model');
          $this->load->model('time_model');
          $this->load->model('day_model');
+         $this->load->model('branch_model');
 
          $post = $this->input->post();
 
@@ -784,6 +785,7 @@ class Class_study extends MY_Table {
              $teacher = $this->teacher_model->load_all($input_teacher);
              $class[0]['time'] = $this->time_model->get_time($class[0]['time_id']);
              $class[0]['day'] = $this->day_model->get_day($class[0]['day_id']);
+             $class[0]['branch_name'] = $this->branch_model->find_branch_name($class[0]['branch_id']);
              $data['class'] = $class[0];
              $data['teacher'] = $teacher[0];
 

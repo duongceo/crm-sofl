@@ -586,7 +586,8 @@ class Test1 extends CI_Controller {
             'time_created' => 1625735835,
             'date_last_update' => 1632824399,
             'time' => '19h30 - 21h30',
-            'day' => 'Thứ 3 - 5 - 7'
+            'day' => 'Thứ 3 - 5 - 7',
+            'branch_name' => 'Cơ sở 1'
         );
 
 	    $data['teacher'] = array(
@@ -613,22 +614,22 @@ class Test1 extends CI_Controller {
         // render the view into HTML
         $pdf->WriteHTML($html); // write the HTML into the PDF
         $output = 'class_' . date('Y_m_d') . '_.pdf';
-        $pdf->Output('public/hd_khoahoc/' . $output, "F"); // save to file because we can
+        $pdf->Output('public/hd_khoahoc/' . $output, "I"); // save to file because we can
 
-        $this->load->library('email');
-        $this->email->from('minhduc.sofl@gmail.com', 'TRUNG TÂM NGOẠI NGỮ SOFL');
-        $this->email->to('ngovanquang281997@gmail.com');
-        $subject = 'SOFL GỬI BẢNG KÊ LƯƠNG THÁNG';
-        $this->email->subject($subject);
-        $message = 'SOFL gửi hợp đồng khóa học';
-        $this->email->message($message);
-        $this->email->attach('public/hd_khoahoc/' . $output);
-
-        if ($this->email->send()) {
-            echo 'Your Email has successfully been sent.';
-        } else {
-            show_error($this->email->print_debugger());
-        }
+//        $this->load->library('email');
+//        $this->email->from('minhduc.sofl@gmail.com', 'TRUNG TÂM NGOẠI NGỮ SOFL');
+//        $this->email->to('ngovanquang281997@gmail.com');
+//        $subject = 'SOFL GỬI BẢNG KÊ LƯƠNG THÁNG';
+//        $this->email->subject($subject);
+//        $message = 'SOFL gửi hợp đồng khóa học';
+//        $this->email->message($message);
+//        $this->email->attach('public/hd_khoahoc/' . $output);
+//
+//        if ($this->email->send()) {
+//            echo 'Your Email has successfully been sent.';
+//        } else {
+//            show_error($this->email->print_debugger());
+//        }
     }
 
     function test_phpmailer() {

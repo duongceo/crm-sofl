@@ -954,7 +954,7 @@
     <p class="c13 c28"><span class="c0"></span></p>
     <p class="c10"><span class="c39">H&#7906;P &#272;&#7890;NG GI&#7842;NG D&#7840;Y</span></p>
     <p class="c1">
-        <span class="c0">- C&#259;n c&#432;&#769; Gi&acirc;&#769;y phe&#769;p &#273;a&#768;o ta&#803;o s&ocirc;&#769; 2330/Q&#272; cu&#777;a S&#417;&#777; gia&#769;o du&#803;c va&#768; &#272;a&#768;o ta&#803;o v&ecirc;&#768; vi&ecirc;&#803;c tha&#768;nh l&acirc;&#803;p Trung t&acirc;m ngoa&#803;i ng&#432;&#771; SOFL; </span>
+        <span class="c0">- Căn cứ Giấy phép đào tạo số 2330/QĐ của Sở giáo dục và Đào tạo về việc thành lập Trung tâm ngoại ngữ SOFL; </span>
     </p>
     <p class="c1">
         <span class="c0">- &nbsp;C&#259;n c&#7913; v&agrave;o n&#7897;i dung, ch&#432;&#417;ng tr&igrave;nh, k&#7871; ho&#7841;ch gi&#7843;ng d&#7841;y v&agrave; &#273;&agrave;o t&#7841;o c&#7911;a Trung t&acirc;m Ngoa&#803;i ng&#432;&#771; SOFL;</span>
@@ -986,8 +986,8 @@
         <span class="c2">&#272;&#7883;a ch&#7881;: </span>
         <span class="c2 c9"><?php echo ($teacher['address'] != '') ? $teacher['address'] : '' ?></span>
     </p>
-    <p class="c1"><span class="c2">&#272;&#417;n v&#7883; c&ocirc;ng t&aacute;c: Trung t&acirc;m Ngo&#7841;i Ng&#7919; SOFL c&#417; s&#7903; </span><span
-                class="c0 c9"><?php echo ($class['branch_id'] - 1) ?></span></p>
+    <p class="c1"><span class="c2">&#272;&#417;n v&#7883; c&ocirc;ng t&aacute;c: Trung t&acirc;m Ngo&#7841;i Ng&#7919; SOFL - </span><span
+                class="c0 c9"><?php echo $class['branch_name'] ?></span></p>
     <p class="c1"><span class="c0">Cu&#768;ng tho&#777;a thu&#7853;n, th&#432;&#803;c hi&#7879;n ca&#769;c &#273;i&ecirc;&#768;u khoa&#777;n sau:</span>
     </p>
     <p class="c15 c19">
@@ -1006,7 +1006,7 @@
         <span class="c2">bu&#7893;i </span></p>
     <p class="c1 c15"><span class="c2">- T&#7893;ng s&#7889; bu&#7893;i &#273;&#432;&#7907;c thanh to&aacute;n:</span><span
                 class="c2 c9">&nbsp;<?php echo $class['total_lesson'] ?></span><span class="c2">. &nbsp;&#272;&#417;n gi&aacute;: </span><span
-                class="c2 c9"><?php echo h_number_format($class['salary_per_day']) ?>VNĐ</span><span class="c0">. T&#7893;ng l&#432;&#417;ng th&#7921;c t&#7871; m&#7895;i kh&oacute;a c&oacute; th&#7875; c&oacute; s&#7921; thay &#273;&#7893;i theo s&#7889; bu&#7893;i d&#7841;y th&#7921;c t&#7871; c&#7911;a Gi&aacute;o vi&ecirc;n. &nbsp;</span>
+                class="c2 c9"><?php echo h_number_format($class['salary_per_day']) ?> VNĐ</span><span class="c0">. T&#7893;ng l&#432;&#417;ng th&#7921;c t&#7871; m&#7895;i kh&oacute;a c&oacute; th&#7875; c&oacute; s&#7921; thay &#273;&#7893;i theo s&#7889; bu&#7893;i d&#7841;y th&#7921;c t&#7871; c&#7911;a Gi&aacute;o vi&ecirc;n. &nbsp;</span>
     </p>
     <p class="c1"><span class="c0">M&#7912;C TH&#431;&#7902;NG KPI D&#7920; KI&#7870;N CHO L&#7898;P: </span></p>
     <p class="c1"><span class="c0 c9">Gi&aacute;o vi&ecirc;n s&#7869; &#273;&#432;&#7907;c th&#432;&#7903;ng KPI khi t&#7927; l&#7879; h&#7885;c vi&ecirc;n &#273;&#259;ng k&yacute; h&#7885;c l&ecirc;n &gt;=60%. M&#7913;c th&#432;&#7903;ng dao &#273;&#7897;ng t&#7915; 300,000 &#273;&#7891;ng &#273;&#7871;n 2,000,000 &#273;&#7891;ng.</span>
