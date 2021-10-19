@@ -359,9 +359,7 @@ class Class_study extends MY_Table {
 
 			$post['add_class_study_id'] = $this->replace_str_to_url($post['add_class_study_id']);
 
-			if ($this->{$this->model}->check_exists(array('class_study_id' => $post['add_class_study_id']))) {
-				redirect_and_die('Mã lớp học này đã tồn tại!');
-			}
+            $post['add_class_study_id'] = $this->create_class_id($post['add_class_study_id']);
 
 //			if ($post['add_active'] != '0' && $post['add_active'] != '1') {
 //				redirect_and_die('Trạng thái hoạt động là 0 hoặc 1!');
@@ -577,6 +575,14 @@ class Class_study extends MY_Table {
 
 		show_error_and_redirect('Sửa thông tin lớp học thành công!');
 	}
+
+	private function create_class_id($str) {
+        $class_id = $str . '.' . ($this->branch_id - 1) . rand(0000, 9999);
+        if (!$this->{$this->model}->check_exists(array('class_study_id' => $class_id))) {
+            return $class_id;
+        }
+        $this->create_class_id($str);
+    }
 
 	public function show_student(){
         $require_model = array(

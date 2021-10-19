@@ -290,8 +290,6 @@ class MY_Table extends MY_Controller {
 
         }
 
-//        print_arr($this->conditional);
-
         $this->data['rows'] = $this->{$this->model}->load_all($this->conditional);
 //		echoQuery();die();
 //        print_arr($this->data['rows']);

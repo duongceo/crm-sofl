@@ -92,7 +92,6 @@ integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="ano
 
 <?php } ?>
 
-
 <?php if ($this->controller == 'sale') { ?>
 
     <?php if ($time_remaining > 0) { ?>
@@ -117,7 +116,24 @@ integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="ano
 
     <?php } ?>
 
-<?php } 
+<?php } ?>
+
+<?php if ($this->role_id == 12) { ?>
+    <?php if ($this->controller != 'student') { ?>
+        <script type="text/javascript">
+            $('.show-with-contact').css("display", "none");
+
+            $(document).on('show.bs.modal', '.modal_with_contact', function () {
+                $('.show-with-contact').css("display", "block");
+                $('.show-with-item').css("display", "none");
+            });
+            $(document).on('hide.bs.modal', '.modal_with_contact', function () {
+                $('.show-with-item').css("display", "block");
+                $('.show-with-contact').css("display", "none");
+            });
+        </script>
+    <?php } ?>
+<?php } ?>
 
 
 

@@ -1,4 +1,4 @@
-<div class="modal fade show_student" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade show_student modal_with_contact" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 
 	<div class="modal-dialog btn-very-lg" role="document">
 
