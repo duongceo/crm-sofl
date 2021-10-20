@@ -577,7 +577,7 @@ class Class_study extends MY_Table {
 	}
 
 	private function create_class_id($str, $branch_id) {
-        $class_id = $str . '.' . ($branch_id - 1) . rand(0000, 9999);
+        $class_id = $str . '.' . ($branch_id - 1) . rand(000, 999);
         if (!$this->{$this->model}->check_exists(array('class_study_id' => $class_id))) {
             return $class_id;
         }

@@ -451,6 +451,7 @@ class Marketer extends MY_Controller {
 		} else if ($post['check_contact'] == 0) {
 			$param = array(
 				'call_status_id' => 0,
+                'level_contact_detail' => ''
 			);
 		} else if ($post['check_contact'] == 2) {
 			$param = array(
