@@ -1097,6 +1097,11 @@ class MY_Controller extends CI_Controller {
     }
 
     public function search($offset = 0) {
+        if ($this->role_id == 8 || $this->role_id == 14) {
+            echo '<script> alert("Không có quyền truy cập"); </script>';
+            die();
+        }
+
         $require_model = array(
             'staffs' => array(
                 'where' => array(
@@ -1132,7 +1137,6 @@ class MY_Controller extends CI_Controller {
         $data_pagination = $this->_query_all_from_get($get, $conditional, $this->per_page, $offset);
 
         /*Lấy danh sách contacts*/
-
         $contacts = $data_pagination['data'];
 		if ($this->role_id == 1) {
             $value['marketer_name'] = "";

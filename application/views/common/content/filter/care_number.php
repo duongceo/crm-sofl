@@ -6,6 +6,6 @@
 			<?php for ($i = 1; $i < 6; $i++) { ?>
 				<option value="<?php echo $i?>" <?php if (isset($_GET['filter_care_number']) && $_GET['filter_care_number'] == $i) {echo 'selected';}?>> <?php echo $i?> Lần</option>
 			<?php } ?>
-s		</select>
+		</select>
 	</td>
 </tr>

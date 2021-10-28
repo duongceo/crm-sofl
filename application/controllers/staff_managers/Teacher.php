@@ -306,9 +306,14 @@ class Teacher extends MY_Table {
                     $input_lesson_learned['select'] = 'DISTINCT(lesson_learned)';
                     $input_lesson_learned['where'] = array(
                         'class_study_id' => $item_class['class_study_id'],
+                        'speaker' => 1,
                         'time_created >=' => $startDate,
                         'time_created <=' => $endDate
                     );
+                    if (isset($get['filter_speaker'])) {
+                        $input_lesson_learned['where']['speaker'] = $get['filter_speaker'];
+                    }
+
                     $total_lesson = count($this->attendance_model->load_all($input_lesson_learned));
 
                     if ($total_lesson) {
@@ -351,6 +356,7 @@ class Teacher extends MY_Table {
 //        print_arr($data);
 
         $data['left_col'] = array('date_happen_1', 'language', 'branch');
+        $data['right_col'] = array('speaker');
         $data['startDate'] = $startDate;
         $data['endDate'] = $endDate;
         $data['content'] = 'staff_managers/teacher/statistical_salary_teacher';
@@ -383,7 +389,7 @@ class Teacher extends MY_Table {
 
 	    $post = $this->input->post();
 
-	    if (empty($post['class_study_id'] ||empty($post['teacher_id']))) {
+	    if (empty($post['class_study_id'] || empty($post['teacher_id']))) {
             $result['success'] = false;
             $result['message'] =  'Không có thông tin giáo viên hoặc thông tin lớp';
             echo json_encode($result);
@@ -413,6 +419,7 @@ class Teacher extends MY_Table {
             $input_mechanism['where'] = array(
                 'class_study_id' => $post['class_study_id'],
                 'teacher_id' => $post['teacher_id'],
+                'speaker' => 1,
                 'time_created >=' => strtotime($post['start_date']),
                 'time_created <=' => strtotime($post['end_date'])
             );

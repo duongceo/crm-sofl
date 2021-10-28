@@ -6,7 +6,7 @@
 
         <nav class="" role="navigation">
 
-            <ul class="nav navbar-nav">
+            <ul class="nav navbar-nav" style="margin: 0;">
 
                 <li class="pull-left">
 
@@ -21,27 +21,23 @@
 //				}
 //				?>
 
-                <?php if ($this->role_id != 8) { ?>
+                <form action="" class="form-search" method="GET">
 
-                    <form action="" class="form-search" method="GET">
+                    <input type="text" class="form-control input-navbar-search" name="search_all" placeholder="Tìm mọi thứ...."
 
-                        <input type="text" class="form-control input-navbar-search" name="search_all" placeholder="Tìm mọi thứ...."
+                         value="<?php echo isset($_GET['search_all']) ? $_GET['search_all'] : ''; ?>">
 
-                             value="<?php echo isset($_GET['search_all']) ? $_GET['search_all'] : ''; ?>">
+                    <span class="input-group-btn" >
 
-                        <span class="input-group-btn" >
+                        <button class="btn btn-default btn-navbar-search" type="submit">
 
-                            <button class="btn btn-default btn-navbar-search" type="submit">
+                            <span class="glyphicon glyphicon-search"></span>
 
-                                <span class="glyphicon glyphicon-search"></span>
+                        </button>
 
-                            </button>
+                    </span>
 
-                        </span>
-
-                    </form>
-
-                <?php } ?>
+                </form>
 
 				<?php if (!$this->agent->mobile) { ?>
 					<li class="pull-right">

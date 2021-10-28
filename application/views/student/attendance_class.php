@@ -94,6 +94,18 @@
 							<textarea class="form-control lecture" name="lecture" value=""><?php echo $lecture ?></textarea>
 						</td>
 					</tr>
+
+                    <tr class="text-center">
+                        <td style="font-size: 16px;">
+                            Giáo Viên
+                        </td>
+                        <td>
+                            <select name="speaker" class="form-control speaker">
+                                <option value="1" selected>Giáo viên Việt</option>
+                                <option value="0">Giáo viên bản ngữ</option>
+                            </select>
+                        </td>
+                    </tr>
 				</tbody>
 			</table>
 			<div class="text-center">
@@ -116,6 +128,7 @@
 		let lesson_learned = $('.lesson_learned').val();
 		let date_diligence = $('.date_diligence').val();
 		let lecture = $('.lecture').val();
+		let speaker = $('.speaker').val();
 		let statusList = $('input[type=radio]:checked');
 		let data = [];
 		for (let i=0; i<statusList.length; i++) {
@@ -136,6 +149,7 @@
 				lesson_learned: lesson_learned,
 				date_diligence: date_diligence,
 				lecture: lecture,
+                speaker: speaker
 			},
 			success: function (data) {
 				data = JSON.parse(data);

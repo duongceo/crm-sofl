@@ -555,7 +555,8 @@ class Student extends MY_Controller {
 					'note' => $item->note,
 					'lesson_learned' => trim($post['lesson_learned']),
 					'lecture' => $post['lecture'],
-					'score' => $post['score']
+					'score' => $post['score'],
+                    'speaker' => $post['speaker']
 				);
 
 //				$this->attendance_model->insert($param);

@@ -685,7 +685,9 @@ class Common extends MY_Controller {
             $param['last_activity'] = time();
             $where = array('id' => $id);
             $this->contacts_model->update($where, $param);
-			
+			if (!empty($post['level_study_id']) && !empty($post['class_study_id'])) {
+                $this->set_log_study($id, $post['class_study_id'], $post['level_study_id'], $post['date_action_of_study']);
+            }
             if ($post['note'] != '') {
                 $param2 = array(
                     'contact_id' => $id,
@@ -1269,6 +1271,20 @@ class Common extends MY_Controller {
         $this->call_log_model->insert($data);
     }
 
+    private function set_log_study($contact_id, $class_study_id, $level_study_id, $date_L7) {
+        $this->load->model('log_study_model');
+        $input['where'] = array(
+            'contact_id' => $contact_id,
+            'class_study_id' => $class_study_id,
+            'level_study_id' => $level_study_id,
+        );
+        if (!count($this->log_study_model->load_all($input))) {
+            $param = $input['where'];
+            $param['time_created'] = strtotime($date_L7);
+            $this->log_study_model->insert($param);
+        }
+    }
+
     /*
     function real_search() {
         $require_model = array(
@@ -1650,7 +1666,7 @@ class Common extends MY_Controller {
 			
             $columnName = 'A';
             $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $i++);
-            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['name']);
+            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, html_entity_decode($contact[0]['name']));
             $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['address']);
             $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['phone']);
             $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['fee']);
