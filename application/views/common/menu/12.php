@@ -63,6 +63,13 @@
                     </a>
                 </li>
 
+                <li>
+                    <a href="<?php echo base_url('student/contact_truant'); ?>">
+                        <img src="<?php echo base_url(); ?>public/images/view-all.png">
+                        <span>Danh sách HV có nghỉ học</span>
+                    </a>
+                </li>
+
 				<li>
 					<a href="<?php echo base_url('student/view_all_contact'); ?>">
 						<img src="<?php echo base_url(); ?>public/images/view-all.png">

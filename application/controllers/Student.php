@@ -226,6 +226,58 @@ class Student extends MY_Controller {
 		$data['content'] = 'common/list_contact';
 		$this->load->view(_MAIN_LAYOUT_, $data);
 	}
+
+    public function contact_truant($offset=0) {
+        $this->load->model('attendance_model');
+
+        $data = $this->get_all_require_data();
+
+        $get = $this->input->get();
+
+        $input['select'] = 'DISTINCT(contact_id)';
+        $input['where'] = array('presence_id' => 3);
+        if (isset($get['filter_date_date_happen']) && !empty($get['filter_date_date_happen'])) {
+            $time = $get['filter_date_date_happen'];
+            $dateArr = explode('-', $time);
+            $date_from_arr = trim($dateArr[0]);
+            $date_from = strtotime(str_replace("/", "-", $date_from_arr));
+            $date_end_arr = trim($dateArr[1]);
+            $date_end = strtotime(str_replace("/", "-", $date_end_arr)) + 3600 * 24 - 1;
+
+            $input['where']['time_created >='] = $date_from;
+            $input['where']['time_created <='] = $date_end;
+        }
+
+        $contact_id_arr = $this->attendance_model->load_all($input);
+        foreach ($contact_id_arr as $item) {
+            $contact_id[] = $item['contact_id'];
+        }
+        unset($get['filter_date_date_happen']);
+        $conditional['where_in']['id'] = $contact_id;
+        if ($this->role_id == 12) {
+            $conditional['where']['branch_id'] = $this->branch_id;
+        }
+        $conditional['order'] = array('date_rgt_study' => 'DESC');
+
+        $data_pagination = $this->_query_all_from_get($get, $conditional, $this->per_page, $offset);
+
+        $data['pagination'] = $this->_create_pagination_link($data_pagination['total_row']);
+        $data['contacts'] = $data_pagination['data'];
+        $data['total_contact'] = $data_pagination['total_row'];
+
+        $data['left_col'] = array('date_happen_1', 'date_rgt', 'date_rgt_study', 'date_paid', 'study_date_start', 'study_date_end');
+        $data['right_col'] = array('language', 'class_study', 'is_old', 'complete_fee');
+
+        $this->table .= 'class_study_id fee paid date_rgt date_rgt_study';
+        $data['table'] = explode(' ', $this->table);
+        //echo '<pre>'; print_r($data['table']);die;
+
+        $data['titleListContact'] = 'Danh sách học viên';
+        $data['actionForm'] = '';
+
+        $data['content'] = 'common/list_contact';
+        $this->load->view(_MAIN_LAYOUT_, $data);
+    }
 	
 	function view_all_contact($offset = 0) {
         $data = $this->get_all_require_data();
