@@ -604,7 +604,7 @@ class Class_study extends MY_Table {
 		$input['where']['class_study_id'] = $class_study_code[0]['class_study_id'];
         $input['where']['(level_contact_id = "L5" OR level_student_id = "L8.1")'] = 'NO-VALUE';
 		$input['where']['level_contact_detail !='] = 'L5.4';
-		$input['where_in']['level_study_id'] = array('L7', '');
+		$input['where_in']['level_study_id'] = array('L7', '', 'L7.4');
 
 		$data_pagination = $this->_query_all_from_get(array(), $input, 40, 0);
 

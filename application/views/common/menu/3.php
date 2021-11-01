@@ -50,20 +50,6 @@
                     </a>
 
                 </li>
-				
-				<li>
-
-                    <a href="<?php echo base_url().'manager/contact_cancel'; ?>">
-
-                        <img src="<?php echo base_url(); ?>public/images/new.png"> 
-
-                        <span> Danh sách contact rút học phí
-
-                        </span>
-
-                    </a>
-
-                </li>
 
 <!--                <li>-->
 <!---->

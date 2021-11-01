@@ -100,6 +100,13 @@
 					</a>
 				</li>
 
+                <li>
+                    <a href="<?php echo base_url('staff_managers/book'); ?>">
+                        <img src="<?php echo base_url(); ?>public/images/view-all.png">
+                        <span> Quản lý sách </span>
+                    </a>
+                </li>
+
 				<li>
 					<a href="<?php echo base_url('staff_managers/teacher'); ?>">
 						<img src="<?php echo base_url(); ?>public/images/view-all.png">

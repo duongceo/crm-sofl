@@ -1667,7 +1667,7 @@ class Common extends MY_Controller {
             $columnName = 'A';
             $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $i++);
             $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, html_entity_decode($contact[0]['name']));
-            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['address']);
+            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, html_entity_decode($contact[0]['address']));
             $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['phone']);
             $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['fee']);
             $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $course);
