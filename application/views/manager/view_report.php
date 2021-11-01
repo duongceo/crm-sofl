@@ -132,7 +132,7 @@
 			?>
 
 			<?php
-
+			
 			$report2 = array(
 				array('Nghe Máy/Xử lý', 'NGHE_MAY', 'XU_LY', ($XU_LY != 0) ? round(($NGHE_MAY / $XU_LY) * 100, 2) : 'NAN', 70),
 				array('Ko Nghe Máy/Xử lý', 'KHONG_NGHE_MAY', 'XU_LY', ($XU_LY != 0) ? round(($KHONG_NGHE_MAY / $XU_LY) * 100, 2) : 'NAN', 25),
@@ -175,10 +175,17 @@
 							?>>
 
 							<?php
-
-								echo ($value[$mau_so] != 0) ? round(($value[$tu_so] / $value[$mau_so]) * 100, 2) . '%' : 'NAN';
-
-								?>
+							
+								if ($tu_so == 'L5') {
+									
+									echo ($value[$mau_so] != 0) ? round((($value[$tu_so] + $value['L8']) / $value[$mau_so]) * 100, 2) . '%' : 'NAN';
+									
+								} else {
+									
+									echo ($value[$mau_so] != 0) ? round(($value[$tu_so] / $value[$mau_so]) * 100, 2) . '%' : 'NAN';
+									
+								}
+							?>
 
 							</td>
 
