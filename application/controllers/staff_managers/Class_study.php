@@ -501,7 +501,7 @@ class Class_study extends MY_Table {
 
 			$class_study = $this->{$this->model}->load_all($input);
 
-			$post['edit_class_study_id'] = $this->replace_str_to_url($post['edit_class_study_id']);
+//			$post['edit_class_study_id'] = $this->replace_str_to_url($post['edit_class_study_id']);
 
 			if ($post['edit_class_study_id'] != $class_study[0]['class_study_id'] && $this->{$this->model}->check_exists(array('class_study_id' => $post['edit_class_study_id']))) {
 				redirect_and_die('Mã lớp học này đã tồn tại!');
@@ -563,7 +563,11 @@ class Class_study extends MY_Table {
 //			update trạng thái tham gia học cho các học viên tham gia lớp học này
 			if ($post['edit_character_class_id'] == 2) {
 				$where_contact = array('class_study_id' => $class_study[0]['class_study_id']);
-				$data_contact = array('level_study_id' => 'L7', 'last_activity' => time());
+				$data_contact = array(
+				    'level_study_id' => 'L7',
+                    'date_action_of_study' => time(),
+                    'last_activity' => time()
+                );
 				$this->contacts_model->update($where_contact, $data_contact);
 			}
 			//echoQuery(); die();
