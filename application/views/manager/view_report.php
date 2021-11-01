@@ -139,7 +139,7 @@
 				array('L2/Xử lý', 'L2', 'XU_LY', ($XU_LY != 0) ? round(($L2 / $XU_LY) * 100, 2) : 'NAN', 40),
 				array('L2/Nhận', 'L2', 'NHAN', ($NHAN != 0) ? round(($L2 / $NHAN) * 100, 2) : 'NAN', 40),
 				array('L3/Nhận', 'L3', 'NHAN', ($NHAN != 0) ? round(($L3 / $NHAN) * 100, 2) : 'NAN', 35),
-				array('L5/Nhận', 'L5', 'NHAN', ($NHAN != 0) ? round(($L5 / $NHAN) * 100, 2) : 'NAN', 25),
+				array('L5+L8/Nhận', 'L5', 'NHAN', ($NHAN != 0) ? round((($L5 + $L8)/ $NHAN) * 100, 2) : 'NAN', 25),
 			);
 
 			foreach ($report2 as $values) {

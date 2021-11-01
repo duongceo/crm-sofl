@@ -4,7 +4,7 @@
 		<select class="form-control level_contact_id selectpicker" name="level_contact_id">
 			<option value="">Trạng thái contact</option>
 			<?php
-//			print_arr($rows['level_contact_id']);
+            if ($this->role_id == 1) array_pop($level_contact);
 			foreach ($level_contact as $key => $value) {
 				?>
 				<option value="<?php echo $value['level_id']; ?>">
