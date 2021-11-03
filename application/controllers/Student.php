@@ -519,6 +519,7 @@ class Student extends MY_Controller {
 		);
 
 		if (isset($get['search_class']) && $get['search_class'] != '') {
+            $input = array();
             $input['like']['class_study_id'] = trim($get['search_class']);
 		}
 
@@ -681,7 +682,7 @@ class Student extends MY_Controller {
 		$input['select'] = 'DISTINCT(lesson_learned), class_study_id, lecture, time_created, time_update';
         $input['where'] = array();
 		$input['order'] = array('lesson_learned' => 'DESC');
-        $input['limit'] = array(200, 0);
+        $input['limit'] = array(60, 0);
 
         if (isset($get['class_study_id']) && $get['class_study_id'] != '') {
             $input['where'] = array('class_study_id' => $get['class_study_id']);

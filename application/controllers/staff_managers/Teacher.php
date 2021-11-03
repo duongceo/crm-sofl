@@ -310,10 +310,10 @@ class Teacher extends MY_Table {
                         'time_created >=' => $startDate,
                         'time_created <=' => $endDate
                     );
-                    if (isset($get['filter_speaker'])) {
+                    if (isset($get['filter_speaker']) && $get['filter_speaker'] != '') {
                         $input_lesson_learned['where']['speaker'] = $get['filter_speaker'];
                     }
-
+//                    print_arr($input_lesson_learned);
                     $total_lesson = count($this->attendance_model->load_all($input_lesson_learned));
 
                     if ($total_lesson) {
