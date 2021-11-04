@@ -307,8 +307,8 @@ class Teacher extends MY_Table {
                     $input_lesson_learned['where'] = array(
                         'class_study_id' => $item_class['class_study_id'],
                         'speaker' => 1,
-                        'time_created >=' => $startDate,
-                        'time_created <=' => $endDate
+                        'time_update >=' => $startDate,
+                        'time_update <=' => $endDate
                     );
                     if (isset($get['filter_speaker']) && $get['filter_speaker'] != '') {
                         $input_lesson_learned['where']['speaker'] = $get['filter_speaker'];
@@ -321,8 +321,8 @@ class Teacher extends MY_Table {
                         $input_mechanism['where'] = array(
                             'class_study_id' => $item_class['class_study_id'],
                             'teacher_id' => $item_teacher['id'],
-                            'time_created >=' => $startDate,
-                            'time_created <=' => $endDate
+                            'time_update >=' => $startDate,
+                            'time_update <=' => $endDate
                         );
                         $bonus = $this->mechanism_model->load_all(array_merge_recursive($input_mechanism, array('where' => array('mechanism' => 1))));
                         $fine = $this->mechanism_model->load_all(array_merge_recursive($input_mechanism, array('where' => array('mechanism' => '0'))));
