@@ -604,7 +604,7 @@ class Student extends MY_Controller {
 					'class_study_id' => $item->class_id,
 					'contact_id' => $item->contact_id,
 					'presence_id' => $item->presence_id,
-					'time_update' => strtotime(date("d-m-Y H:i")),
+					//'time_update' => strtotime(date("d-m-Y H:i")),
 					'note' => $item->note,
 					'lesson_learned' => trim($post['lesson_learned']),
 					'lecture' => $post['lecture'],
@@ -612,15 +612,18 @@ class Student extends MY_Controller {
                     'speaker' => $post['speaker']
 				);
 
-//				$this->attendance_model->insert($param);
+				$param['time_update'] = $param['time_created'] = (isset($post['date_diligence']) && $post['date_diligence'] != '') ? strtotime($post['date_diligence']) : strtotime(date("d-m-Y H:i"));
 
+				$this->attendance_model->insert($param);
+
+/*
 				if (empty($contact_attend)) {
                     $param['time_created'] = (isset($post['date_diligence']) && $post['date_diligence'] != '') ? strtotime($post['date_diligence']) : strtotime(date("d-m-Y H:i"));
                     $this->attendance_model->insert($param);
 				} else {
 					$this->attendance_model->update($input_attend['where'], $param);
 				}
-
+*/
 				$class_id = $item->class_id;
 			}
 
@@ -682,7 +685,7 @@ class Student extends MY_Controller {
 
 		$data['class_study'] = $this->class_study_model->load_all(array('where'=>array('character_class_id' => 2)));
 		$get = $this->input->get();
-		$input['select'] = 'DISTINCT(lesson_learned), class_study_id, lecture, time_created, time_update';
+		$input['select'] = 'DISTINCT(lesson_learned), class_study_id, lecture, time_update';
         $input['where'] = array();
 		$input['order'] = array('lesson_learned' => 'DESC');
         $input['limit'] = array(60, 0);
@@ -697,8 +700,8 @@ class Student extends MY_Controller {
             $date_end_arr = trim($dateArr[1]);
             $date_end = strtotime(str_replace("/", "-", $date_end_arr)) + 3600 * 24 - 1;
 
-            $input['where']['time_created >='] = $date_from;
-            $input['where']['time_created <='] = $date_end;
+            $input['where']['time_update >='] = $date_from;
+            $input['where']['time_update <='] = $date_end;
         }
         if (isset($get['filter_class_study_id']) && $get['filter_class_study_id'] != '') {
             $input['where_in'] = array('class_study_id' => $get['filter_class_study_id']);
