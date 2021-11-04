@@ -625,10 +625,13 @@ class Student extends MY_Controller {
 			}
 
 			$input_class['where'] = array('class_study_id' => $class_id);
-			$data_class['lesson_learned'] = $post['lesson_learned'];
-			$data_class['lecture'] = $post['lecture'];
-			
-			$this->class_study_model->update($input_class['where'], $data_class);
+			$class = $this->class_study_model->load_all($input_class);
+
+			if (!empty($class) && $post['lesson_learned'] > $class[0]['lesson_learned']) {
+                $data_class['lesson_learned'] = $post['lesson_learned'];
+                $data_class['lecture'] = $post['lecture'];
+                $this->class_study_model->update($input_class['where'], $data_class);
+            }
 
 			$result['good'] = 1;
 			$result['message'] = 'Điểm danh thành công';
