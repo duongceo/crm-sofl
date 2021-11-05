@@ -612,18 +612,16 @@ class Student extends MY_Controller {
                     'speaker' => $post['speaker']
 				);
 
-				$param['time_update'] = $param['time_created'] = (isset($post['date_diligence']) && $post['date_diligence'] != '') ? strtotime($post['date_diligence']) : strtotime(date("d-m-Y H:i"));
+//				$param['time_update'] = $param['time_created'] = (isset($post['date_diligence']) && $post['date_diligence'] != '') ? strtotime($post['date_diligence']) : strtotime(date("d-m-Y H:i"));
+//				$this->attendance_model->insert($param);
 
-				$this->attendance_model->insert($param);
-
-/*
 				if (empty($contact_attend)) {
                     $param['time_created'] = (isset($post['date_diligence']) && $post['date_diligence'] != '') ? strtotime($post['date_diligence']) : strtotime(date("d-m-Y H:i"));
                     $this->attendance_model->insert($param);
 				} else {
 					$this->attendance_model->update($input_attend['where'], $param);
 				}
-*/
+
 				$class_id = $item->class_id;
 			}
 
