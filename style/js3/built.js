@@ -2978,21 +2978,19 @@ $(document).on('click', '.btn-divide-one-contact', function (e) {
     });
 });
 
-/*
+
 $(document).on('click', '.btn-divide-multi-contact', function (e) {
     e.preventDefault();
-    var url = $('#base_url').val() + "manager/divide_contact";
-    /*
-     * Lấy các contact chăm sóc để ẩn đi
-     */
-/*
-    var contactIdArray = [];
+    let url = $('#base_url').val() + "manager/divide_contact";
+    /*Lấy các contact chăm sóc để ẩn đi*/
+    let contactIdArray = [];
     $('input[type="checkbox"]').each(
-            function () {
-                if ($(this).is(":checked")) {
-                    contactIdArray.push($(this).val());
-                }
-            });
+        function () {
+            if ($(this).is(":checked")) {
+                contactIdArray.push($(this).val());
+            }
+        }
+    );
     $.ajax({
         url: url,
         type: "POST",
@@ -3023,16 +3021,15 @@ $(document).on('click', '.btn-divide-multi-contact', function (e) {
         }
     });
 });
-*/
 
 /* phân đều contact*/
 $(document).on('click', '.btn-divide-multi-contact-auto', function (e) {
     e.preventDefault();
-    var url = $('#base_url').val() + "manager/divide_contact_auto";
+    let url = $('#base_url').val() + "manager/divide_contact_auto";
     /*
      * Lấy các contact chăm sóc để ẩn đi
      */
-    var contactIdArray = [];
+    let contactIdArray = [];
     $('input[type="checkbox"]').each(
 		function () {
 			if ($(this).is(":checked")) {
