@@ -604,7 +604,7 @@ class Student extends MY_Controller {
 					'class_study_id' => $item->class_id,
 					'contact_id' => $item->contact_id,
 					'presence_id' => $item->presence_id,
-					//'time_update' => strtotime(date("d-m-Y H:i")),
+					'time_update' => strtotime(date("d-m-Y H:i")),
 					'note' => $item->note,
 					'lesson_learned' => trim($post['lesson_learned']),
 					'lecture' => $post['lecture'],
