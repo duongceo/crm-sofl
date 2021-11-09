@@ -1126,6 +1126,7 @@ class Manager extends MY_Controller {
         $this->load->helper('manager_helper');
 		$this->load->model('paid_model');
 		$this->load->model('language_study_model');
+		$this->load->model('branch_model');
 		$require_model = array(
 			'branch' => array(
 				'where' => array(
@@ -1156,47 +1157,57 @@ class Manager extends MY_Controller {
 		$date_end = trim($dateArr[1]);
 		$date_end = strtotime(str_replace("/", "-", $date_end)) + 3600 * 24 - 1;
 
-		$input_re = array();
-		$input_re['select'] = 'SUM(paid) as paiding';
-		$input_re['where'] = array(
-			'time_created >=' => $date_from,
-			'time_created <=' => $date_end,
-			'source_revenue_id !=' => 2
-		);
-		if (isset($get['filter_source_revenue_id']) && $get['filter_source_revenue_id'] != '') {
-			unset($input_re['where']['source_revenue_id !=']);
-			$input_re['where_in']['source_revenue_id'] = $get['filter_source_revenue_id'];
-		}
-		
-		$input_source['where'] = array('out_report' => '1');
-		$this->load->model('sources_model');
-		$source = $this->sources_model->load_all($input_source);
-		$source_arr = array();
-		if (!empty($source)) {
-			foreach ($source as $item) {
-				$source_arr[] = $item['id'];
-			}
-		}
+		if ($this->role_id != 12) {
+            $input_re = array();
+            $input_re['select'] = 'SUM(paid) as paiding';
+            $input_re['where'] = array(
+                'time_created >=' => $date_from,
+                'time_created <=' => $date_end,
+                'source_revenue_id !=' => 2
+            );
+            if (isset($get['filter_source_revenue_id']) && $get['filter_source_revenue_id'] != '') {
+                unset($input_re['where']['source_revenue_id !=']);
+                $input_re['where_in']['source_revenue_id'] = $get['filter_source_revenue_id'];
+            }
 
-		$input_language['where']['active'] = 1;
-		$language = $this->language_study_model->load_all($input_language);
+            $input_source['where'] = array('out_report' => '1');
+            $this->load->model('sources_model');
+            $source = $this->sources_model->load_all($input_source);
+            $source_arr = array();
+            if (!empty($source)) {
+                foreach ($source as $item) {
+                    $source_arr[] = $item['id'];
+                }
+            }
 
-		$language_re = array();
-		foreach ($language as $value) {
-			$input_re['where_not_in']['source_id'] = $source_arr;
-			$language_input_re_new = array_merge_recursive(array('where' => array('student_old' => '0', 'language_id' => $value['id'])), $input_re);
-			$language_input_re_old = array_merge_recursive(array('where' => array('student_old' => '1', 'language_id' => $value['id'])), $input_re);
-			$language_input_re = array_merge_recursive(array('where' => array('language_id' => $value['id'])), $input_re);
+            $input_language['where']['active'] = 1;
+            $language = $this->language_study_model->load_all($input_language);
 
-			$language_re[$value['id']]['language_name'] = $value['name'];
-			$language_re[$value['id']]['re_total'] = (int) $this->paid_model->load_all($language_input_re)[0]['paiding'];
-			$language_re[$value['id']]['re_new'] = (int) $this->paid_model->load_all($language_input_re_new)[0]['paiding'];
-			$language_re[$value['id']]['re_old'] = (int) $this->paid_model->load_all($language_input_re_old)[0]['paiding'];
-		}
+            $language_re = array();
+            foreach ($language as $value) {
+                $input_re['where_not_in']['source_id'] = $source_arr;
+                $language_input_re_new = array_merge_recursive(array('where' => array('student_old' => '0', 'language_id' => $value['id'])), $input_re);
+                $language_input_re_old = array_merge_recursive(array('where' => array('student_old' => '1', 'language_id' => $value['id'])), $input_re);
+                $language_input_re = array_merge_recursive(array('where' => array('language_id' => $value['id'])), $input_re);
 
-		$re = array();
-		$total = array();
-		
+                $language_re[$value['id']]['language_name'] = $value['name'];
+                $language_re[$value['id']]['re_total'] = (int) $this->paid_model->load_all($language_input_re)[0]['paiding'];
+                $language_re[$value['id']]['re_new'] = (int) $this->paid_model->load_all($language_input_re_new)[0]['paiding'];
+                $language_re[$value['id']]['re_old'] = (int) $this->paid_model->load_all($language_input_re_old)[0]['paiding'];
+            }
+
+            $re = array();
+            $total = array();
+
+            $data['language_re'] = $language_re;
+        } else {
+            $data['branch'] = array();
+            $data['branch'][] = array(
+		        'id' => $this->branch_id,
+                'name' => $this->branch_model->find_branch_name($this->branch_id)
+            );
+        }
+
 		//unset($data['branch'][0]);
 		foreach ($data['language_study'] as $v_language) {
 			$re_new_temp = 0;
@@ -1235,7 +1246,6 @@ class Manager extends MY_Controller {
 
 		//print_arr($re);
 
-		$data['language_re'] = $language_re;
 		$data['re'] = $re;
 		$data['total'] = $total;
 		$data['startDate'] = $date_from;
