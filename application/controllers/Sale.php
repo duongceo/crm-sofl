@@ -9,13 +9,12 @@
 class Sale extends MY_Controller {
 
     public $L = array();
-    private $sale_study_abroad = 0;
 
     public function __construct() {
         parent::__construct();
-        $input_sale['where']['id'] = $this->user_id;
-        $sale_staff = $this->staffs_model->load_all($input_sale);
-        $this->data['sale_study_abroad'] = $this->sale_study_abroad = $sale_staff[0]['sale_study_abroad'];
+//        $input_sale['where']['id'] = $this->user_id;
+//        $sale_staff = $this->staffs_model->load_all($input_sale);
+//        $this->sale_study_abroad = $sale_staff[0]['sale_study_abroad'];
 
         $this->data['top_nav'] = 'sale/common/top-nav';
         $data['time_remaining'] = 0;

@@ -204,6 +204,8 @@ class Home extends CI_Controller {
 
                 $this->session->set_userdata('language_id', $result[0]['language_id']);
 
+                $this->session->set_userdata('sale_study_abroad', $result[0]['sale_study_abroad']);
+
                 $this->session->set_userdata('pass_ipphone', $result[0]['ipphone_password']);
 
                 $this->session->set_userdata('username_ipphone', $result[0]['ipphone_user_name']);

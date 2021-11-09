@@ -35,6 +35,8 @@ class MY_Controller extends CI_Controller {
 
     public $branch_id = 0;
 
+    public $sale_study_abroad = 0;
+
     public $can_view_contact = 0;
 
     public $can_edit_contact = 0;
@@ -146,6 +148,8 @@ class MY_Controller extends CI_Controller {
         $this->role_id = $this->session->userdata('role_id');
 
         $this->branch_id = $this->session->userdata('branch_id');
+
+        $this->sale_study_abroad = $this->session->userdata('sale_study_abroad');
 
         /* Lấy controller và action */
 
