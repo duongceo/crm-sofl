@@ -55,7 +55,6 @@ class Sale extends MY_Controller {
         $data['right_col'] = array('language');
 
         /* Các trường cần hiện của bảng contact (đã có default) */
-
         $this->table .= 'date_rgt date_handover';
 		if ($this->sale_study_abroad == 1) {
 			$this->table = 'selection name phone address language date_rgt date_handover';
