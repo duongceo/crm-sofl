@@ -301,6 +301,7 @@ class Teacher extends MY_Table {
             $input_class['where_in']['character_class_id'] = array(2, 3);
             $class_teacher_owner = $this->class_study_model->load_all($input_class);
 
+            $total_paid = 0;
             if (!empty($class_teacher_owner)) {
                 foreach ($class_teacher_owner as $item_class) {
                     $input_lesson_learned['select'] = 'DISTINCT(lesson_learned)';
@@ -313,7 +314,6 @@ class Teacher extends MY_Table {
                     if (isset($get['filter_speaker']) && $get['filter_speaker'] != '') {
                         $input_lesson_learned['where']['speaker'] = $get['filter_speaker'];
                     }
-//                    print_arr($input_lesson_learned);
                     $total_lesson = count($this->attendance_model->load_all($input_lesson_learned));
 
                     if ($total_lesson) {
@@ -321,11 +321,13 @@ class Teacher extends MY_Table {
                         $input_mechanism['where'] = array(
                             'class_study_id' => $item_class['class_study_id'],
                             'teacher_id' => $item_teacher['id'],
-                            'time_update >=' => $startDate,
-                            'time_update <=' => $endDate
+                            'time_created >=' => $startDate,
+                            'time_created <=' => $endDate
                         );
                         $bonus = $this->mechanism_model->load_all(array_merge_recursive($input_mechanism, array('where' => array('mechanism' => 1))));
+                        $bonus = ($bonus[0]['money'] != '') ? $bonus[0]['money'] : 0;
                         $fine = $this->mechanism_model->load_all(array_merge_recursive($input_mechanism, array('where' => array('mechanism' => '0'))));
+                        $fine = ($fine[0]['money'] != '') ? $fine[0]['money'] : 0;
                         unset($input_mechanism['select']);
                         $paid_salary = $this->mechanism_model->load_all(array_merge_recursive($input_mechanism, array('where' => array('send_mail_salary' => 1))));
 
@@ -337,13 +339,16 @@ class Teacher extends MY_Table {
                             'salary_per_day' => $item_class['salary_per_day'],
                             'lesson_learned' => $total_lesson,
                             'reason' => $this->mechanism_model->load_all($input_mechanism)[0]['reason'],
-                            'bonus' => ($bonus[0]['money'] != '') ? $bonus[0]['money'] : 0,
-                            'fine' => ($fine[0]['money'] != '') ? $fine[0]['money'] : 0,
+                            'bonus' => $bonus,
+                            'fine' => $fine,
                             'paid_salary' => (!empty($paid_salary)) ? $paid_salary[0]['reason'] : ''
                         );
 
-                        $data['total_salary'] = $data['total_salary'] + ($total_lesson * $item_class['salary_per_day']);
+                        $data['total_salary'] += ($total_lesson * $item_class['salary_per_day']);
+                        $total_paid += ($item_class['salary_per_day'] * $total_lesson) + $bonus - $fine;
                     }
+
+                    $item_teacher['total_paid'] = $total_paid;
                 }
                 if (!isset($item_teacher['attendance'])) {
                     unset($data['rows'][$key]);

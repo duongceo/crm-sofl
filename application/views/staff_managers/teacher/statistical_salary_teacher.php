@@ -27,6 +27,7 @@
                         <th>Tổng lương</th>
                         <th>Phạt</th>
                         <th>Thưởng</th>
+                        <th>Tổng</th>
                         <th>Ghi chú</th>
                         <th>Thao tác</th>
                     </tr>
@@ -49,6 +50,7 @@
                         <td class="text-center">
                             <?php echo h_number_format($item['attendance'][0]['bonus']) ?>
                         </td>
+                        <td class="text-center" rowspan="<?php echo count($item['attendance']) ?>"><?php echo $item['total_paid'] ?></td>
                         <td class="text-center paid_salary">
                             <p class="bg-success"><?php echo $item['attendance'][0]['paid_salary'] ?></p>
                         </td>
