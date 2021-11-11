@@ -3,16 +3,14 @@
 	<h1 class="text-center">Nhật ký thu chi từ ngày <?php echo date('d-m-Y', $startDate); ?> đến ngày <?php echo date('d-m-Y', $endDate); ?></h1>
 	<h1 class="text-center marginbottom35" style="color: #04a2df"> Tổng chi tiêu : <?php echo $total_cost; ?> VNĐ</h1>
 
-	<div class="row">
-		<div class="col-md-10">
-			<form action="#" method="GET" id="action_contact" class="form-inline">
-				<?php $this->load->view('common/content/filter'); ?>
-			</form>
-		</div>
-	</div>
 </div>
 
-<div class="container" style="max-width: 950px">
+<div class="container" style="max-width: 70%" >
+    <div>
+        <form action="#" method="GET" id="action_contact" class="form-inline">
+            <?php $this->load->view('common/content/filter'); ?>
+        </form>
+    </div>
 	<div class="row">
 		<div class="col-md-10">
 			<div class="text-left">
@@ -177,16 +175,28 @@
 								<tr>
 									<td  class="text-right">Ngày chi tiêu</td>
 									<td>
-										<input type="text" class="form-control datepicker" name="day_cost">
+										<input type="text" class="form-control datepicker" name="day_cost" style="width: 100%;">
 									</td>
 								</tr>
 
 								<tr>
 									<td  class="text-right">Số tiền chi tiêu</td>
 									<td>
-										<input type="text" class="form-control" name="cost" />
+										<input type="text" class="form-control" name="cost" style="width: 100%;" />
 									</td>
 								</tr>
+
+                                <td class="text-right"> Nơi thu/chi </td>
+                                <td>
+                                    <select class="form-control selectpicker" name="branch_id">
+                                        <option value=""> Chọn cơ sở </option>
+                                        <?php foreach ($branch as $key => $value) { ?>
+                                            <option value="<?php echo $value['id']; ?>">
+                                                <?php echo $value['name']; ?>
+                                            </option>
+                                        <?php } ?>
+                                    </select>
+                                </td>
 							</table>
 						</div>
 

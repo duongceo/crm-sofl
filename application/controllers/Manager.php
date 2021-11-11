@@ -1283,7 +1283,7 @@ class Manager extends MY_Controller {
 		$date_end = trim($dateArr[1]);
 		$date_end = strtotime(str_replace("/", "-", $date_end)) + 3600 * 24 - 1;
 
-		unset($data['branch'][0]);
+//		unset($data['branch'][0]);
 		$re = array();
 		foreach ($data['branch'] as $v_branch) {
 			foreach ($data['payment_method_rgt'] as $v_payment) {

@@ -375,6 +375,11 @@ class Student extends MY_Controller {
 		$this->load->model('branch_model');
 		$this->load->model('cost_branch_model');
 
+		$require_model = array(
+		    'branch' => array()
+        );
+		$data = $this->_get_require_data($require_model);
+
 		$get = $this->input->get();
 
 		if (isset($get['filter_date_date_happen']) && $get['filter_date_date_happen'] != '') {
@@ -395,15 +400,17 @@ class Student extends MY_Controller {
 			'day_cost <=' => $date_end,
 			'branch_id' => $this->branch_id
 		);
+        $input['limit'] = array(60, 0);
 
 //		if (isset($get['filter_number_records'])) {
 //			$input['limit'] = array($get['filter_number_records']);
 //		} else {
 //			$input['limit'] = array(10);
 //		}
+
 		if ($this->role_id != 12) {
 			unset($input['where']['branch_id']);
-			if (isset($get['filter_branch_id'])) {
+			if (isset($get['filter_branch_id']) && !empty($get['filter_branch_id'])) {
 				$input['where_in']['branch_id'] = $get['filter_branch_id'];
 			}
 			$branch = $this->branch_model->load_all();
@@ -430,9 +437,10 @@ class Student extends MY_Controller {
 			$param['revenue_cost'] = (isset($post['revenue_cost'])) ? $post['revenue_cost'] : 0;
 			$param['day_cost'] = strtotime(str_replace("/", "-", $post['day_cost']));
 			$param['time_created'] = time();
-			$param['branch_id'] = $this->branch_id;
+			$param['branch_id'] = (empty($post['branch_id'])) ? $this->branch_id : $post['branch_id'];
 			$param['user_id'] = $this->user_id;
 			$param['day'] = date('d-m-Y', strtotime($post['day_cost']));
+
 			$this->cost_branch_model->insert($param);
 			redirect(base_url('student/cost_branch'));
 		}
