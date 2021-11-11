@@ -432,7 +432,7 @@ class Student extends MY_Controller {
 
 		$post = $this->input->post();
 		if (isset($post) && !empty($post)) {
-			$param['cost'] = $post['cost'];
+			$param['cost'] = str_replace(',', '', $post['cost']);
 			$param['content_cost'] = $post['content_cost'];
 			$param['revenue_cost'] = (isset($post['revenue_cost'])) ? $post['revenue_cost'] : 0;
 			$param['day_cost'] = strtotime(str_replace("/", "-", $post['day_cost']));

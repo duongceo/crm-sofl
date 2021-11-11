@@ -182,7 +182,7 @@
 								<tr>
 									<td  class="text-right">Số tiền chi tiêu</td>
 									<td>
-										<input type="text" class="form-control" name="cost" style="width: 100%;" />
+										<input type="text" class="form-control money" name="cost" style="width: 100%;" />
 									</td>
 								</tr>
 
@@ -234,4 +234,8 @@
 
 <script>
 	$("[name='revenue_cost']").bootstrapSwitch();
+</script>
+
+<script  type="text/javascript">
+    $('.money').simpleMoneyFormat();
 </script>
