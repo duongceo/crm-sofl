@@ -229,7 +229,7 @@
 
 </div>
 
-<?php if ($this->role_id == 3) { ?>
+<?php if ($this->role_id == 3 || $this->user_id == 16) { ?>
 	<hr>
 	<div class="row">
 

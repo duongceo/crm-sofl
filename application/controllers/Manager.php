@@ -1035,10 +1035,6 @@ class Manager extends MY_Controller {
 			);
 		}
 
-		if ($this->user_id == 16) {
-		    unset($conditionArr['L6'], $conditionArr['L7'], $conditionArr['L8']);
-        }
-
 //		$input_contact = array();
 //		$input_contact['select'] = 'id';
 //		$input_contact['where']['date_paid >='] = $startDate;
@@ -1064,6 +1060,9 @@ class Manager extends MY_Controller {
             }
 			
 			if ($this->role_id == 3 || $this->user_id == 16) {
+                if ($this->user_id == 16 && in_array($key2, array('L6', 'L7', 'L8'))) {
+                    continue;
+                }
 				$temp_language = 0;
 				foreach ($language as $key_language => $value_language) {
 					$conditional = array();
