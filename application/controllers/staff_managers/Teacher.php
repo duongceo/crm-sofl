@@ -148,6 +148,10 @@ class Teacher extends MY_Table {
 
 		if (!empty($post)) {
 
+            if ($this->{$this->model}->check_exists(array('phone' => $post['add_phone']))) {
+                redirect_and_die('Giáo viên này đã tồn tại!');
+            }
+
 			if ($post['add_active'] != '0' && $post['add_active'] != '1') {
 
 				redirect_and_die('Trạng thái hoạt động là 0 hoặc 1!');
@@ -159,7 +163,7 @@ class Teacher extends MY_Table {
 
 				if (isset($post['add_' . $value])) {
 
-					$param[$value] = $post['add_' . $value];
+					$param[$value] = trim($post['add_' . $value]);
 				}
 			}
 
@@ -208,13 +212,9 @@ class Teacher extends MY_Table {
 
 			$input['where'] = array('id' => $id);
 
-			$teacher = $this->{$this->model}->load_all($input);
-
-//			$post['edit_language_id'] = $this->replace_str_to_url($post['edit_language_id']);
-//
-//			if ($post['edit_language_id'] != $classroom[0]['language_id'] && $this->{$this->model}->check_exists(array('language_id' => $post['edit_language_id']))) {
-//				redirect_and_die('Mã ngôn ngữ này đã tồn tại!');
-//			}
+			if ($this->{$this->model}->check_exists(array('phone' => $post['edit_phone']))) {
+				redirect_and_die('Giáo viên này đã tồn tại!');
+			}
 
 			$paramArr = array('phone', 'email', 'branch_id', 'language_id', 'bank', 'name', 'active');
 
@@ -222,7 +222,7 @@ class Teacher extends MY_Table {
 
 				if (isset($post['edit_' . $value])) {
 
-					$param[$value] = $post['edit_' . $value];
+					$param[$value] = trim($post['edit_' . $value]);
 				}
 			}
 
