@@ -25,10 +25,11 @@
 				<tr>
 					<th>Ngày chi tiêu</th>
 					<th>Chi phí</th>
-					<th>Nội dung</th>
-					<th>Ngày nhập</th>
-					<th>Cơ sở</th>
+					<th style="width: 15%;">Nội dung</th>
+					<th>Thu/Chi</th>
+					<th>Nơi thu/chi</th>
 					<th>Người nhập</th>
+                    <th>Ngày nhập</th>
 				</tr>
 			</thead>
 
@@ -40,20 +41,23 @@
 							<?php echo date('d-m-Y', $item['day_cost']); ?>
 						</td>
 						<td class="text-center">
-							<?php echo h_number_format($item['cost']); ?> VNĐ
+							<?php echo h_number_format($item['cost']); ?>
 						</td>
 						<td class="text-justify">
 							<?php echo $item['content_cost']; ?>
 						</td>
-						<td class="text-center">
-							<?php echo date('d-m-Y H:i:s', $item['time_created']); ?>
+                        <td class="text-center">
+							<?php echo ($item['revenue_cost']) ? 'Thu' : 'Chi'; ?>
 						</td>
 						<td class="text-center">
 							<?php echo $item['branch_name']; ?>
 						</td>
 						<td class="text-center">
-							<?php echo $this->session->userdata('name');; ?>
+							<?php echo $item['user_name']; ?>
 						</td>
+                        <td class="text-center">
+                            <?php echo date('d-m-Y H:i:s', $item['time_created']); ?>
+                        </td>
 					</tr>
 				<?php } ?>
 			<?php } ?>

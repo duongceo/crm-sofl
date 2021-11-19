@@ -426,6 +426,7 @@ class Student extends MY_Controller {
 		$total_cost = 0;
 		foreach ($cost as &$item) {
 			$item['branch_name'] = $this->branch_model->find_branch_name($item['branch_id']);
+			$item['user_name'] = $this->staffs_model->find_staff_name($this->user_id);
 			$total_cost += $item['cost'];
 		}
 		unset($item);

@@ -55,7 +55,7 @@ class Teacher extends MY_Table {
 //				'name_display' => 'Lợi nhuận',
 //			),
             'teacher' => array(
-                'name_display' => 'Tên giảng viên',
+                'name_display' => 'Tên giáo viên',
                 'display' => 'none',
             ),
 			'active' => array(
@@ -104,16 +104,14 @@ class Teacher extends MY_Table {
             )
 		);
 
-		$data['list_title'] = 'Giảng viên';
-		$data['edit_title'] = 'Sửa thông tin giảng viên';
+		$data['list_title'] = 'giáo viên';
+		$data['edit_title'] = 'Sửa thông tin giáo viên';
 		$data['content'] = 'base/index';
 		$this->load->view(_MAIN_LAYOUT_, $data);
 	}
 
 	function show_add_item() {
-
 		/*type mặc định là text nên nếu là text sẽ không cần khai báo*/
-
 		$this->list_add = array(
 			'left_table' => array(
 				'name' => array(),
@@ -155,6 +153,7 @@ class Teacher extends MY_Table {
 			if ($post['add_active'] != '0' && $post['add_active'] != '1') {
 
 				redirect_and_die('Trạng thái hoạt động là 0 hoặc 1!');
+
 			}
 
 			$paramArr = array('phone', 'branch_id', 'language_id', 'email', 'bank', 'name', 'active');
@@ -164,6 +163,7 @@ class Teacher extends MY_Table {
 				if (isset($post['add_' . $value])) {
 
 					$param[$value] = trim($post['add_' . $value]);
+
 				}
 			}
 
@@ -171,7 +171,7 @@ class Teacher extends MY_Table {
 
 			$this->{$this->model}->insert($param);
 
-			show_error_and_redirect('Thêm giảng viên thành công!');
+			show_error_and_redirect('Thêm giáo viên thành công!');
 		}
 	}
 
@@ -223,6 +223,7 @@ class Teacher extends MY_Table {
 				if (isset($post['edit_' . $value])) {
 
 					$param[$value] = trim($post['edit_' . $value]);
+
 				}
 			}
 
@@ -233,7 +234,7 @@ class Teacher extends MY_Table {
 			$this->{$this->model}->update($input['where'], $param);
 		}
 
-		show_error_and_redirect('Sửa thông tin giảng viên thành công!');
+		show_error_and_redirect('Sửa thông tin giáo viên thành công!');
 	}
 
 	public function statistical_salary_teacher() {

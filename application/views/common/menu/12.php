@@ -110,7 +110,7 @@
 				<li>
 					<a href="<?php echo base_url('staff_managers/teacher'); ?>">
 						<img src="<?php echo base_url(); ?>public/images/view-all.png">
-						<span> Quản lý giảng viên </span>
+						<span> Quản lý giáo viên </span>
 					</a>
 				</li>
 
