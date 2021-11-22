@@ -307,9 +307,13 @@ class Sale extends MY_Controller {
     function view_all_contact($offset = 0) {
         $data = $this->_get_all_require_data();
         $get = $this->input->get();
-        $conditional['where'] = array('sale_staff_id' => $this->user_id);
         $conditional['order'] = array('date_last_calling' => 'DESC');
-		
+        if (isset($get['filter_sale_id']) && !empty($get['filter_sale_id'])) {
+            $conditional['where_in']['sale_staff_id'] = $get['filter_sale_id'];
+        } else {
+            $conditional['where'] = array('sale_staff_id' => $this->user_id);
+        }
+
 		$input = array();
 		$input['where'] = array(
 			'parent_id !=' => '' 
@@ -321,7 +325,7 @@ class Sale extends MY_Controller {
 		$data['level_student_detail'] = $this->level_student_model->load_all($input);
 		
 		$data['left_col'] = array('care_number', 'language', 'date_rgt', 'date_handover', 'date_confirm', 'date_rgt_study', 'date_last_calling', 'date_transfer');
-        $data['right_col'] = array('call_status', 'level_contact', 'level_contact_detail', 'level_student', 'level_student_detail', 'source', 'class_study');
+        $data['right_col'] = array('sale', 'call_status', 'level_contact', 'level_contact_detail', 'level_student', 'level_student_detail', 'source', 'class_study');
 		
 //		if ($this->user_id == 18) {
 //			unset($conditional['where']['sale_staff_id']);
