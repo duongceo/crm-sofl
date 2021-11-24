@@ -318,8 +318,6 @@ class Student extends MY_Controller {
 
     public function merge_contact() {
 		$post = $this->input->post();
-		print_arr($post);
-
 		$input = array();
 		$input['select'] = 'id, phone';
 		$input['where'] = array('phone' => trim($post['phone_merger']));
@@ -329,7 +327,6 @@ class Student extends MY_Controller {
 		$contact = $this->contacts_model->load_all($input_contact);
 
 		if (!empty($contact_merger)) {
-
 			if ($post['keep_contact'] == 0) {
 				$where_infor = array('contact_id' => $contact_merger[0]['id']);
 				$data = array('contact_id' => $post['contact_id']);
