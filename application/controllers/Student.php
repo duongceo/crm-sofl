@@ -552,7 +552,7 @@ class Student extends MY_Controller {
             '(level_contact_id = "L5" OR level_student_id = "L8.1")' => 'NO-VALUE',
 			'level_contact_detail !=' => 'L5.4',
 		);
-        $input['where_in']['level_study_id'] = array('L7', '');
+        $input['where_in']['level_study_id'] = array('L7', 'L7.4', '');
 
         $data['contact'] = $this->contacts_model->load_all($input);
 		$input_class['select'] = 'lesson_learned';
