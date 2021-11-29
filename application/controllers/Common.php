@@ -517,7 +517,7 @@ class Common extends MY_Controller {
 			
 			if (isset($post['level_contact_id']) && !empty($post['level_contact_id']) && $post['level_contact_id'] != '') {
 				$param['level_contact_id'] = $post['level_contact_id'];
-			} else {
+			} elseif ($param['level_student_id'] != 'L8.1') {
 				$param['level_contact_id'] = $rows[0]['level_contact_id'];
 			}
 			
@@ -685,7 +685,7 @@ class Common extends MY_Controller {
             $param['last_activity'] = time();
             $where = array('id' => $id);
             $this->contacts_model->update($where, $param);
-			if (!empty($post['level_study_id']) && !empty($post['class_study_id'])) {
+			if (!empty($post['level_study_id']) && !empty($post['class_study_id']) && $post['level_study_id'] != $rows[0]['level_study_id']) {
                 $this->set_log_study($id, $post['class_study_id'], $post['level_study_id'], $post['date_action_of_study']);
             }
             if ($post['note'] != '') {
@@ -1271,8 +1271,9 @@ class Common extends MY_Controller {
         $this->call_log_model->insert($data);
     }
 
-    private function set_log_study($contact_id, $class_study_id, $level_study_id, $date_L7) {
+    protected function set_log_study($contact_id, $class_study_id, $level_study_id, $date_L7) {
         $this->load->model('log_study_model');
+        $input_contact['where'] = array('contact_id' => $contact_id);
         $input['where'] = array(
             'contact_id' => $contact_id,
             'class_study_id' => $class_study_id,
