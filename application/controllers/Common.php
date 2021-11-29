@@ -525,7 +525,7 @@ class Common extends MY_Controller {
 				$param['level_contact_detail'] = $post['level_contact_detail'];
 				$level_contact = $param['level_contact_detail'];
 			} else {
-				$level_contact = $param['level_contact_id'];
+				$level_contact = $post['level_contact_id'];
 			}
 
 			if (isset($post['level_student_id']) && !empty($post['level_student_id']) && $post['level_student_id'] != '') {
