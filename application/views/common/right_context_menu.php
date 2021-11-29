@@ -168,6 +168,12 @@
                         </a>
                     </li>
 
+                    <li class="check_L7 show-with-item" class_study_id="">
+                        <a>
+                            <i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp;Thống kê học viên
+                        </a>
+                    </li>
+
                     <li class="email_contract show-with-item" class_study_id="">
                         <a>
                             <i class="fa fa-info-circle" aria-hidden="true"></i> &nbsp; &nbsp; Gửi mail hợp đồng

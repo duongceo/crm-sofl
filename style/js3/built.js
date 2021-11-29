@@ -2040,7 +2040,7 @@ $(document).on('contextmenu', 'tr.custom_right_menu', function (e) {
     $(".edit_item").attr('edit-url', editURL);
 
     let class_study_id = $(this).attr('class_study_id');
-    $(".mechanism_teacher, .email_contract").attr('class_study_id', class_study_id);
+    $(".mechanism_teacher, .email_contract, .check_L7").attr('class_study_id', class_study_id);
 
     let menu = $(".menu");
     menu.hide();
@@ -3804,7 +3804,6 @@ $(document).on('click', '.update_inline_now', function (e) {
 	});
 });
 
-
 $(document).on('click', '.check_diligence', function(e) {
 	e.preventDefault();
 	let contact_id = $(this).attr('contact_id');
@@ -3987,6 +3986,32 @@ $(".class_own_teacher").on('click', function (e) {
         },
         complete: function () {
             $(`.${modal_name} .modal`).modal("show");
+        }
+    });
+});
+
+$(".check_L7").on('click', function (e) {
+    e.preventDefault();
+    let class_study_id = $(this).attr("class_study_id");
+    let url = $("#base_url").val() + "staff_managers/class_study/show_L7";
+    let modal_name = 'show_L7';
+
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: {
+            class_study_id: class_study_id
+        },
+        beforeSend: () => $(".popup-wrapper").show(),
+        success: function (data) {
+            $("." + modal_name).remove();
+            let newModal = `<div class="${modal_name}"></div>`;
+            $(".modal-append-to").append(newModal);
+            $(`.${modal_name}`).html(data);
+        },
+        complete: function () {
+            $(`.${modal_name} .modal`).modal("show");
+            $(".popup-wrapper").hide();
         }
     });
 });

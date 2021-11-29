@@ -839,4 +839,35 @@ class Class_study extends MY_Table {
          echo json_encode($result);
      }
 
+     public function show_L7() {
+         $this->load->model('log_study_model');
+         $post = $this->input->post();
+         $input_contact['select'] = 'id';
+         $input_contact['where']['class_study_id = "'. $post['class_study_id'] .'" OR class_foreign_id LIKE "%'. $post['class_study_id'] .'%"'] = 'NO-VALUE';
+         $data['L7'] = count($this->contacts_model->load_all($input_contact));
+
+         $input['where']['class_study_id'] = $post['class_study_id'];
+         $input['where']['level_study_id'] = 'L7.1';
+         $data['L7_1'] = count($this->log_study_model->load_all($input));
+
+         $input['where']['level_study_id'] = 'L7.2';
+         $data['L7_2'] = count($this->log_study_model->load_all($input));
+
+         $input['where']['level_study_id'] = 'L7.3';
+         $data['L7_3'] = count($this->log_study_model->load_all($input));
+
+         $input['where']['level_study_id'] = 'L7.4';
+         $data['L7_4'] = count($this->log_study_model->load_all($input));
+         if (empty($data['L7_4'])) {
+             $input_contact['where'] = array();
+             $input_contact['where']['level_study_id'] = 'L7.4';
+             $data['L7_4'] = count($this->contacts_model->load_all($input_contact));
+         }
+
+         $input['where']['level_study_id'] = 'L7.5';
+         $data['L7_5'] = count($this->log_study_model->load_all($input));
+
+         echo $this->load->view('staff_managers/class_study/show_L7', $data, true);
+     }
+
 }
