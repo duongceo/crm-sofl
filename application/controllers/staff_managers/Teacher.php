@@ -142,11 +142,9 @@ class Teacher extends MY_Table {
 
 		$post = $this->input->post();
 
-//		 echo "<pre>";print_r($post);die();
-
 		if (!empty($post)) {
 
-            if ($this->{$this->model}->check_exists(array('phone' => $post['add_phone']))) {
+            if ($this->{$this->model}->check_exists(array('phone' => trim($post['add_phone'])))) {
                 redirect_and_die('Giáo viên này đã tồn tại!');
             }
 
@@ -168,6 +166,8 @@ class Teacher extends MY_Table {
 			}
 
 			$param['time_created'] = time();
+
+//			print_arr($param);
 
 			$this->{$this->model}->insert($param);
 
@@ -212,7 +212,9 @@ class Teacher extends MY_Table {
 
 			$input['where'] = array('id' => $id);
 
-			if ($this->{$this->model}->check_exists(array('phone' => $post['edit_phone']))) {
+            $teacher = $this->{$this->model}->load_all($input);
+
+			if ($post['edit_phone'] != $teacher[0]['phone'] && $this->{$this->model}->check_exists(array('phone' => $post['edit_phone']))) {
 				redirect_and_die('Giáo viên này đã tồn tại!');
 			}
 
