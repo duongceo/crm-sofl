@@ -50,6 +50,12 @@
                     </a>
                 </li>
 
+                <li class="view_student show-with-item" item_id="0" show_url="staff_managers/class_study/show_student">
+                    <a>
+                        <i class="fa fa-info-circle" aria-hidden="true"></i> &nbsp; &nbsp; Xem danh sách học viên
+                    </a>
+                </li>
+
                 <li class="check_L7 show-with-item" class_study_id="">
                     <a>
                         <i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp;Thống kê học viên
