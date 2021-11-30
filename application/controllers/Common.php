@@ -517,7 +517,7 @@ class Common extends MY_Controller {
 			
 			if (isset($post['level_contact_id']) && !empty($post['level_contact_id']) && $post['level_contact_id'] != '') {
 				$param['level_contact_id'] = $post['level_contact_id'];
-			} elseif ($param['level_student_id'] != 'L8.1') {
+			} elseif ($post['level_student_id'] != 'L8.1') {
 				$param['level_contact_id'] = $rows[0]['level_contact_id'];
 			}
 			
@@ -525,7 +525,7 @@ class Common extends MY_Controller {
 				$param['level_contact_detail'] = $post['level_contact_detail'];
 				$level_contact = $param['level_contact_detail'];
 			} else {
-				$level_contact = $post['level_contact_id'];
+				$level_contact = $param['level_contact_id'];
 			}
 
 			if (isset($post['level_student_id']) && !empty($post['level_student_id']) && $post['level_student_id'] != '') {
