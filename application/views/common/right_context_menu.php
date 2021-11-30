@@ -49,6 +49,12 @@
                         <i class="fa fa-trash-o" aria-hidden="true"></i> &nbsp; &nbsp; Xóa dòng
                     </a>
                 </li>
+
+                <li class="check_L7 show-with-item" class_study_id="">
+                    <a>
+                        <i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp;Thống kê học viên
+                    </a>
+                </li>
             <?php } ?>
 
         <?php } else if ($this->role_id == 1) { ?> <!-- TK Sale -->
@@ -165,12 +171,6 @@
                     <li class="mechanism_teacher show-with-item" class_study_id="">
                         <a>
                             <i class="fa fa-info-circle" aria-hidden="true"></i> &nbsp; &nbsp; Thêm thưởng phạt giáo viên
-                        </a>
-                    </li>
-
-                    <li class="check_L7 show-with-item" class_study_id="">
-                        <a>
-                            <i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp;Thống kê học viên
                         </a>
                     </li>
 
