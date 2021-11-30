@@ -138,7 +138,7 @@ class Class_study extends MY_Table {
 			
 		);
 		
-		if(in_array($this->role_id, [1, 3, 6])) {
+		if (in_array($this->role_id, [1, 3, 6])) {
 			$list_view = array(
 				'priority' => array(
 					'type' => 'custom',
@@ -177,6 +177,11 @@ class Class_study extends MY_Table {
 					'name_display' => 'Trình độ',
 					//'display' => 'none'
 				),
+                'teacher_id' => array(
+                    'type' => 'custom',
+                    'value' => $this->get_data_from_model('teacher'),
+                    'name_display' => 'Giảng viên',
+                ),
 				'number_student' => array(
 					'name_display' => 'Sĩ số hiện tại',
 				),
