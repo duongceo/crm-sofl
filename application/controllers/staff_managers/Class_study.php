@@ -860,6 +860,7 @@ class Class_study extends MY_Table {
          $data['L7_4'] = count($this->log_study_model->load_all($input));
          if (empty($data['L7_4'])) {
              $input_contact['where'] = array();
+             $input_contact['where']['class_study_id'] = $post['class_study_id'];
              $input_contact['where']['level_study_id'] = 'L7.4';
              $data['L7_4'] = count($this->contacts_model->load_all($input_contact));
          }
