@@ -193,6 +193,20 @@
                     </a>
                 </li>
 
+                <?php if ($this->user_id == 16) { ?>
+                    <li>
+
+                        <a href="<?php echo base_url('manager/view_report_revenue'); ?>">
+
+                            <img src="<?php echo base_url(); ?>public/images/dollar.png">
+
+                            <span> Báo cáo doanh thu </span>
+
+                        </a>
+
+                    </li>
+                <?php } ?>
+
 				<li>
 
 					<a href="<?php echo base_url('manager/view_report_source'); ?>">
