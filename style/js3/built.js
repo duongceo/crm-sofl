@@ -5,10 +5,10 @@
  */
 
 show_number_selected_row = () => {
-    var numberOfChecked = $('input.tbl-item-checkbox:checked').length;
-    var totalCheckboxes = $('input.tbl-item-checkbox').length;
+    let numberOfChecked = $('input.tbl-item-checkbox:checked').length;
+    let totalCheckboxes = $('input.tbl-item-checkbox').length;
     /* Lấy tổng giá */
-    var sum = 0;
+    let sum = 0;
     for (i = 0; i < numberOfChecked; i++) {
     	if ($($('input.tbl-item-checkbox:checked')[i]).parent().parent().find('.paid_real').text() == 0) {
 			sum += 0;
@@ -2583,7 +2583,8 @@ $(document).on('hide.bs.modal', '.modal', function () {
         $(this).find(".modal-dialog").attr('class', 'modal-dialog fadeOut animated');
     }
 });
-$(document).on('show.bs.modal', '.modal', function () {
+
+$(document).on('show.bs.modal', '.modal .edit_item_modal ', function () {
     /*
      * Nạp lại các date picker
      */
@@ -4016,5 +4017,57 @@ $(".check_L7").on('click', function (e) {
     });
 });
 
+$('.paid_salary_teacher').on('click', function (e) {
+    e.preventDefault();
+    let teacher_id = $(this).attr('teacher_id');
+    let class_study_id = $(this).attr('class_study_id');
+    let start_date = $('span#start_date').text();
+    let end_date = $('span#end_date').text();
+    let money = $(this).attr('money');
+    let _this_ = $(this);
+
+    $.ajax({
+        url: $('#base_url').val() + 'staff_managers/teacher/paid_salary_teacher',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            teacher_id : teacher_id,
+            class_study_id : class_study_id,
+            start_date : start_date,
+            end_date : end_date,
+            money : money
+        },
+        beforeSend: function() {
+            $(".popup-wrapper").show();
+        },
+        success: function (data) {
+            if (data.success) {
+                _this_.parent().parent().find('td.paid_salary').html('<p class="bg-primary">Đã trả lương</p>');
+                // _this_.attr('disabled', true);
+
+                $.notify(data.message, {
+                    position: "top left",
+                    className: 'success',
+                    showDuration: 200,
+                    autoHideDelay: 5000
+                });
+            } else {
+                $.notify('Có lỗi xảy ra! Nội dung: ' + data.message, {
+                    position: "top left",
+                    className: 'error',
+                    showDuration: 200,
+                    autoHideDelay: 7000
+                });
+            }
+        },
+        error: function(errorThrown) {
+            alert(errorThrown);
+            $(".popup-wrapper").hide();
+        },
+        complete: function() {
+            $(".popup-wrapper").hide();
+        },
+    });
+});
 
 

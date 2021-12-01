@@ -334,7 +334,8 @@ class Teacher extends MY_Table {
                         $fine = $this->mechanism_model->load_all(array_merge_recursive($input_mechanism, array('where' => array('mechanism' => '0'))));
                         $fine = ($fine[0]['money'] != '') ? $fine[0]['money'] : 0;
                         unset($input_mechanism['select']);
-                        $paid_salary = $this->mechanism_model->load_all(array_merge_recursive($input_mechanism, array('where' => array('send_mail_salary' => 1))));
+                        $send_mail_salary = $this->mechanism_model->load_all(array_merge_recursive($input_mechanism, array('where' => array('send_mail_salary' => 1))));
+                        $paid_salary = $this->mechanism_model->load_all(array_merge_recursive($input_mechanism, array('where' => array('mechanism' => 2))));
 
                         $item_teacher['attendance'][] = array(
                             'class_study_id' => $item_class['class_study_id'],
@@ -346,6 +347,7 @@ class Teacher extends MY_Table {
                             'reason' => $this->mechanism_model->load_all($input_mechanism)[0]['reason'],
                             'bonus' => $bonus,
                             'fine' => $fine,
+                            'send_mail_salary' => (!empty($send_mail_salary)) ? $send_mail_salary[0]['reason'] : '',
                             'paid_salary' => (!empty($paid_salary)) ? $paid_salary[0]['reason'] : ''
                         );
 
@@ -480,6 +482,53 @@ class Teacher extends MY_Table {
             $result['message'] =  'Giáo viên này chưa có email';
         }
 
+        echo json_encode($result);
+        die();
+    }
+
+    public function paid_salary_teacher() {
+        $this->load->model('mechanism_model');
+
+        $post = $this->input->post();
+
+        $result = array();
+        if (empty($post['class_study_id'] || empty($post['teacher_id']))) {
+            $result['success'] = false;
+            $result['message'] =  'Không có thông tin giáo viên hoặc thông tin lớp';
+            echo json_encode($result);
+            die();
+        }
+
+        $param['class_study_id'] = $post['class_study_id'];
+        $param['teacher_id'] = $post['teacher_id'];
+        $param['reason'] = 'Đã trả lương';
+        $param['mechanism'] = 2;
+        $param['money'] = $post['money'];
+        $param['time_created'] = strtotime($post['start_date']) + 3600 * 24;
+//        $param['time_created'] = time();
+
+        $input['where'] = array(
+            'class_study_id' => $post['class_study_id'],
+            'teacher_id' => $post['teacher_id'],
+            'mechanism' => 2,
+        );
+        if (!$this->mechanism_model->check_exists($input['where'])) {
+            if ($this->mechanism_model->insert($param)) {
+                $result['success'] = true;
+                $result['message'] = 'Đã xong';
+            } else {
+                $result['success'] = false;
+                $result['message'] = 'Có gì đó sai khi lưu';
+            }
+        } else {
+            if ($this->mechanism_model->update($input['where'], $param)) {
+                $result['success'] = true;
+                $result['message'] = 'Đã xong';
+            } else {
+                $result['success'] = false;
+                $result['message'] = 'Có gì đó sai khi cập nhật';
+            }
+        }
         echo json_encode($result);
         die();
     }

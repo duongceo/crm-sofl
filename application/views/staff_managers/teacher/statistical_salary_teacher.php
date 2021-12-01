@@ -52,11 +52,13 @@
                         </td>
                         <td class="text-center" rowspan="<?php echo count($item['attendance']) ?>"><?php echo h_number_format($item['total_paid']) ?></td>
                         <td class="text-center paid_salary">
-                            <p class="bg-success"><?php echo $item['attendance'][0]['paid_salary'] ?></p>
+                            <p class="bg-success"><?php echo $item['attendance'][0]['send_mail_salary'] ?></p>
+                            <p class="bg-primary"><?php echo $item['attendance'][0]['paid_salary'] ?></p>
                         </td>
                         <td class="text-center text-primary">
-                            <button class="btn btn-sm btn-success export_excel" teacher_id="<?php echo $item['id'] ?>" class_study_id="<?php echo $item['attendance'][0]['class_study_id'] ?>">
-                                File excel
+                            <button class="btn btn-sm btn-success paid_salary_teacher" teacher_id="<?php echo $item['id'] ?>" class_study_id="<?php echo $item['attendance'][0]['class_study_id'] ?>"
+                                money="<?php echo $item['attendance'][0]['salary_per_day'] * $item['attendance'][0]['lesson_learned']?>">
+                                Đã gửi lương
                             </button>
                             <button class="btn btn-sm btn-warning send_mail_teacher" teacher_id="<?php echo $item['id'] ?>" class_study_id="<?php echo $item['attendance'][0]['class_study_id'] ?>">
                                 Gửi mail
@@ -81,11 +83,13 @@
                                         <?php echo h_number_format($item_attendance['bonus']) ?>
                                     </td>
                                     <td class="text-center paid_salary">
-                                        <p class="bg-success"><?php echo $item_attendance['paid_salary'] ?></p>
+                                        <p class="bg-success"><?php echo $item_attendance['send_mail_salary'] ?></p>
+                                        <p class="bg-primary"><?php echo $item_attendance['paid_salary'] ?></p>
                                     </td>
                                     <td class="text-center text-primary">
-                                        <button class="btn btn-sm btn-success export_excel" teacher_id="<?php echo $item['id'] ?>" class_study_id="<?php echo $item_attendance['class_study_id'] ?>">
-                                            File excel
+                                        <button class="btn btn-sm btn-success paid_salary_teacher" teacher_id="<?php echo $item['id'] ?>" class_study_id="<?php echo $item_attendance['class_study_id'] ?>"
+                                                money="<?php echo $item_attendance['salary_per_day'] * $item_attendance['lesson_learned']?>">
+                                            Đã gửi lương
                                         </button>
                                         <button class="btn btn-sm btn-warning send_mail_teacher" teacher_id="<?php echo $item['id'] ?>" class_study_id="<?php echo $item_attendance['class_study_id'] ?>">
                                            Gửi mail
