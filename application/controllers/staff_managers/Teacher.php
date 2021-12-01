@@ -15,13 +15,13 @@ class Teacher extends MY_Table {
 		$this->init();
 	}
 
-	public function delete_item(){
-		redirect_and_die('Không được xóa!');
-	}
-
-	public function delete_multi_item(){
-		redirect_and_die('Không được xóa!');
-	}
+//	public function delete_item(){
+//		redirect_and_die('Không được xóa!');
+//	}
+//
+//	public function delete_multi_item(){
+//		redirect_and_die('Không được xóa!');
+//	}
 
 	public function init() {
 		$this->controller_path = 'staff_managers/teacher';
@@ -167,9 +167,9 @@ class Teacher extends MY_Table {
 
 			$param['time_created'] = time();
 
-//			print_arr($param);
+			$id = $this->{$this->model}->insert_return_id($param, 'id');
 
-			$this->{$this->model}->insert($param);
+			$this->create_account($param, $id);
 
 			show_error_and_redirect('Thêm giáo viên thành công!');
 		}
@@ -234,6 +234,8 @@ class Teacher extends MY_Table {
 			}
 
 			$this->{$this->model}->update($input['where'], $param);
+
+            $this->create_account($param, $id);
 		}
 
 		show_error_and_redirect('Sửa thông tin giáo viên thành công!');
@@ -496,5 +498,25 @@ class Teacher extends MY_Table {
 
         $this->load->view('staff_managers/teacher/show_class_own_teacher', $data);
 	}
+
+	private function create_account($item, $id) {
+	    if (!$this->staffs_model->check_exists(array('user_name' => $item['phone']))) {
+            $param['name'] = $item['name'];
+            $param['phone'] = $item['phone'];
+            $param['email'] = $item['email'];
+            $param['user_name'] = $item['phone'];
+            $number_first_phone = substr($item['phone'], 0, 1);
+            if ($number_first_phone != '0') {
+                $param['user_name'] = '0'.$item['phone'];
+            }
+            $param['password'] = md5(md5($param['user_name']));
+            $param['teacher_id'] = $id;
+            $param['branch_id'] = $item['branch_id'];
+            $param['language_id'] = $item['language_id'];
+            $param['active'] = 1;
+            $param['role_id'] = 8;
+            $this->staffs_model->insert($param);
+        }
+    }
 
 }

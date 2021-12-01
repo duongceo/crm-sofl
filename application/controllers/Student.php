@@ -518,16 +518,20 @@ class Student extends MY_Controller {
 		$this->load->model('class_study_model');
 		$this->load->model('teacher_model');
 		$this->load->model('level_language_model');
-		$input['where'] = array(
-			'branch_id' => $get['branch_id'],
-			'language_id' => $get['language_id'],
-			'character_class_id' => 2
-		);
+//		$input['where'] = array(
+//			'branch_id' => $get['branch_id'],
+//			'language_id' => $get['language_id'],
+//			'character_class_id' => 2
+//		);
 
-		if (isset($get['search_class']) && $get['search_class'] != '') {
+        $input['where']['teacher_id'] = $this->session->userdata('teacher_id');
+        $input['or_where']['teacher_id_2'] =  $this->session->userdata('teacher_id');
+        $input['where']['character_class_id'] = 2;
+
+        if (isset($get['search_class']) && $get['search_class'] != '') {
             $input = array();
             $input['like']['class_study_id'] = trim($get['search_class']);
-		}
+        }
 
 		$data['class'] = $this->class_study_model->load_all($input);
 		foreach ($data['class'] as &$value) {
@@ -615,7 +619,8 @@ class Student extends MY_Controller {
 					'lesson_learned' => trim($post['lesson_learned']),
 					'lecture' => $post['lecture'],
 					'score' => $post['score'],
-                    'speaker' => $post['speaker']
+                    'speaker' => $post['speaker'],
+                    'teacher_id' => $this->session->userdata('teacher_id')
 				);
 
 //				$param['time_update'] = $param['time_created'] = (isset($post['date_diligence']) && $post['date_diligence'] != '') ? strtotime($post['date_diligence']) : strtotime(date("d-m-Y H:i"));

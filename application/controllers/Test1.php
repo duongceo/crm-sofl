@@ -668,6 +668,30 @@ class Test1 extends CI_Controller {
         }
     }
 
+    public function account_teacher() {
+	    $this->load->model('teacher_model');
+
+	    $teacher = $this->teacher_model->load_all(array('where'=>array('active' => 1)));
+        foreach ($teacher as $item) {
+            $param['name'] = $item['name'];
+            $param['phone'] = $item['phone'];
+            $param['email'] = $item['email'];
+            $param['user_name'] = $item['phone'];
+            $number_first_phone = substr($item['phone'], 0, 1);
+            if ($number_first_phone != '0') {
+                $param['user_name'] = '0'.$item['phone'];
+            }
+            $param['password'] = md5(md5($param['user_name']));
+            $param['teacher_id'] = $item['id'];
+            $param['branch_id'] = $item['branch_id'];
+            $param['language_id'] = $item['language_id'];
+            $param['active'] = 1;
+            $param['role_id'] = 8;
+            $this->staffs_model->insert($param);
+	    }
+        echo 'success';
+    }
+
 }
 
 

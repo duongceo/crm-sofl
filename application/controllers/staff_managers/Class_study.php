@@ -68,7 +68,13 @@ class Class_study extends MY_Table {
 			'teacher_id' => array(
 				'type' => 'custom',
 				'value' => $this->get_data_from_model('teacher'),
-				'name_display' => 'Giảng viên',
+				'name_display' => 'Giáo viên 1',
+			),
+            'teacher_id_2' => array(
+				'type' => 'custom',
+				'value' => $this->get_data_from_model('teacher'),
+				'name_display' => 'Giáo viên 2',
+                'display' => 'none'
 			),
 			'language' => array(
 				'type' => 'custom',
@@ -324,6 +330,10 @@ class Class_study extends MY_Table {
 					'type' => 'array',
 					'value' => $this->get_data_from_model('teacher')
 				),
+                'teacher_id_2' => array(
+                    'type' => 'array',
+                    'value' => $this->get_data_from_model('teacher')
+                ),
 				'salary_per_day' => array(
 					'type' => 'custom'
 				),
@@ -371,7 +381,7 @@ class Class_study extends MY_Table {
 //			}
 
 			$paramArr = array('class_study_id', 'classroom_id', 'branch_id', 'level_language_id', 'language_id', 'day_id', 'time_id', 'priority_id',
-				'number_student', 'number_student_max', 'total_lesson', 'lesson_learned', 'lecture', 'teacher_id', 'character_class_id', 'status', 'active');
+				'number_student', 'number_student_max', 'total_lesson', 'lesson_learned', 'lecture', 'teacher_id', 'teacher_id_2', 'character_class_id', 'status', 'active');
 
 			foreach ($paramArr as $value) {
 
@@ -456,6 +466,10 @@ class Class_study extends MY_Table {
 					'type' => 'array',
 					'value' => $this->get_data_from_model('teacher')
 				),
+                'teacher_id_2' => array(
+                    'type' => 'array',
+                    'value' => $this->get_data_from_model('teacher')
+                ),
 				'salary_per_day' => array(
 					'type' => 'custom'
 				),
@@ -513,7 +527,7 @@ class Class_study extends MY_Table {
 			}
 
 			$paramArr = array('class_study_id', 'branch_id', 'classroom_id', 'level_language_id', 'language_id', 'day_id', 'time_id', 'priority_id',
-				'number_student_max', 'total_lesson', 'lesson_learned', 'lecture', 'teacher_id', 'active', 'character_class_id', 'status');
+				'number_student_max', 'total_lesson', 'lesson_learned', 'lecture', 'teacher_id', 'teacher_id_2', 'active', 'character_class_id', 'status');
 
 			foreach ($paramArr as $value) {
 

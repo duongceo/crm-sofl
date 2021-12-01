@@ -1,13 +1,1 @@
-<tr>
-    <td class = "text-right"> <?php echo h_find_name_display($key, $this->list_view); ?></td>
-    <td style="position: relative;">
-        <input type="text" class="form-control datepicker date_recall" name="edit_<?php echo $key; ?>"
-        <?php
-        if ($row[$key] > 0) {
-            echo 'value = "' . date('d-m-Y', $row[$key]) . '"';
-        }
-        ?>
-               />
-        <a href = "#" class = "reset_datepicker btn btn-primary"> Reset</a>
-    </td>
-</tr>
+<tr>    <td class = "text-right"> <?php echo h_find_name_display($key, $this->list_view); ?></td>    <td style="position: relative;">        <div class="input-group" style="margin: 0;">            <input type="text" class="form-control datepicker" name="edit_<?php echo $key; ?>"                <?php                if ($row[$key] > 0) {                    echo 'value = "' . date('d-m-Y', $row[$key]) . '"';                }                ?>            />            <div class="input-group-btn">                <button class="reset_datepicker btn btn-primary"> Reset</button>            </div>        </div>    </td></tr>

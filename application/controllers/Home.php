@@ -36,9 +36,9 @@ class Home extends CI_Controller {
 
             $role_id = $this->session->userdata('role_id');
 
-            $branch_id = $this->session->userdata('branch_id');
-
-            $language_id = $this->session->userdata('language_id');
+//            $branch_id = $this->session->userdata('branch_id');
+//
+//            $language_id = $this->session->userdata('language_id');
 
 //            echo '<pre>'; print_r($_SESSION); die();
 
@@ -102,7 +102,7 @@ class Home extends CI_Controller {
 
                 case 8:
 
-                    redirect(base_url('student/chose_branch' . $this->initGetVariable));
+                    redirect(base_url('student/get_class_attendance' . $this->initGetVariable));
 
                     break;
 
@@ -199,6 +199,8 @@ class Home extends CI_Controller {
                 $this->session->set_userdata('name', $result[0]['name']);
 
                 $this->session->set_userdata('role_id', $result[0]['role_id']);
+
+                $this->session->set_userdata('teacher_id', $result[0]['teacher_id']);
 
                 $this->session->set_userdata('branch_id', $result[0]['branch_id']);
 
