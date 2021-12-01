@@ -1060,7 +1060,7 @@ class Manager extends MY_Controller {
             }
 			
 			if ($this->role_id == 3 || $this->user_id == 16) {
-                if ($this->user_id == 16 && in_array($key2, array('L6', 'L7', 'L8'))) {
+                if ($this->user_id == 16 && in_array($key2, array('L6', 'L7'))) {
                     continue;
                 }
 				$temp_language = 0;
