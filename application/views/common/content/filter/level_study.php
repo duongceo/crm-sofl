@@ -1,10 +1,10 @@
-<?php if (isset($level_student)) { ?>
+<?php if (isset($level_study)) { ?>
     <tr>
         <td class="text-right"> Trạng thái học tập </td>
         <td>
             <select class="form-control selectpicker" name="filter_level_study_id[]" multiple>
                 <?php
-                foreach ($level_student as $key => $value) {
+                foreach ($level_study as $key => $value) {
                     ?>
                     <option value="<?php echo $value['level_id']; ?>"
                         <?php

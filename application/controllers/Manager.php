@@ -262,9 +262,9 @@ class Manager extends MY_Controller {
 		);
 		
 		$this->load->model('level_contact_model');
-		$this->load->model('level_student_model');
+//		$this->load->model('level_student_model');
 		$data['level_contact_detail'] = $this->level_contact_model->load_all($input);
-		$data['level_student_detail'] = $this->level_student_model->load_all($input);
+//		$data['level_student_detail'] = $this->level_student_model->load_all($input);
 
         $get = $this->input->get();
 //		print_arr($get);
@@ -309,7 +309,7 @@ class Manager extends MY_Controller {
          * Filter ở cột trái và cột phải
          */
         $data['left_col'] = array('care_number', 'sale', 'language', 'level_language', 'date_rgt', 'date_handover', 'date_confirm', 'date_rgt_study', 'date_last_calling', 'date_paid', 'study_date_start', 'study_date_end', 'date_customer_care_call', 'date_transfer');
-        $data['right_col'] = array('branch', 'class_study', 'is_old', 'complete_fee', 'source', 'call_status', 'level_contact', 'level_contact_detail', 'level_student', 'level_student_detail', 'customer_care_call_stt');
+        $data['right_col'] = array('branch', 'class_study', 'is_old', 'complete_fee', 'source', 'call_status', 'level_contact', 'level_contact_detail', 'level_student', 'level_study', 'customer_care_call_stt');
 
         /*
          * Các trường cần hiện của bảng contact (đã có default)
@@ -2649,6 +2649,7 @@ class Manager extends MY_Controller {
 					'parent_id' => ''
 				)
 			),
+            'level_study' => array(),
 			'language_study' => array(),
 			'customer_call_status' => array(),
         );
