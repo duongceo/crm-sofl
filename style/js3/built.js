@@ -2584,7 +2584,7 @@ $(document).on('hide.bs.modal', '.modal', function () {
     }
 });
 
-$(document).on('show.bs.modal', '.modal .edit_item_modal ', function () {
+$(document).on('show.bs.modal', '.modal', function () {
     /*
      * Nạp lại các date picker
      */
@@ -2601,7 +2601,7 @@ $(document).on('show.bs.modal', '.modal .edit_item_modal ', function () {
 
     setTimeout(function () {
         setEqualTableHeight();
-    }, 1500);
+    }, 2500);
 
     if ($(this).find(".modal-dialog").attr('class').search('btn-very-lg') != -1) {
         $(this).find(".modal-dialog").attr('class', 'modal-dialog fadeIn animated btn-very-lg');
