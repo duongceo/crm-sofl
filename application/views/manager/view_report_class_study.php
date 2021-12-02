@@ -65,23 +65,19 @@
 
 <div class="table-responsive">
 	<table class="table table-bordered table-striped view_report">
+        <?php $report = array('HV Khai Giảng', 'HV Kết Thúc', 'HV DK Kết Thúc', 'L7', 'L8', 'L8.1', 'L7/KT', 'L8/KT'); ?>
 		<thead>
 			<tr>
 				<th style="background-color: #4c28c6b3"></th>
-
 				<?php foreach ($language_study as $item_1) { ?>
-					<th style="background-color: #1e5f24" colspan="7"><?php echo $item_1['name']?></th>
+					<th style="background-color: #1e5f24" colspan="<?php echo count($report) ?>"><?php echo $item_1['name']?></th>
 				<?php } ?>
 			</tr>
 
 			<tr>
 				<th style="background: none"></th>
-				<?php
-				foreach ($language_study as $item_1) {
-					$report = array();
-					$report = array('HV Khai Giảng', 'HV Kết Thúc', 'HV DK Kết Thúc', 'L7', 'L8', 'L8.1', 'L7/KT', 'L8/KT');
-					foreach ($report as $value) {
-						?>
+				<?php foreach ($language_study as $item_1) { ?>
+					<?php foreach ($report as $value) { ?>
 						<th style="background-color: #1b6d85">
 							<?php echo $value; ?>
 						</th>
@@ -92,9 +88,7 @@
 		</thead>
 
 		<tbody>
-			<?php
-	//			print_arr($branch);
-				foreach ($branch as $key_branch => $value_branch) { ?>
+			<?php foreach ($branch as $key_branch => $value_branch) { ?>
 				<tr>
 					<td style="background-color: #8aa6c1"><?php echo $key_branch; ?></td>
 					<?php foreach ($value_branch as $item) { ?>
