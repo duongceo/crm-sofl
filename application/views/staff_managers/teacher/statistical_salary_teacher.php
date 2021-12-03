@@ -61,7 +61,7 @@
                                 Đã gửi lương
                             </button>
                             <button class="btn btn-sm btn-warning send_mail_teacher" teacher_id="<?php echo $item['id'] ?>" class_study_id="<?php echo $item['attendance'][0]['class_study_id'] ?>">
-                                Gửi mail
+                                Gửi mail lương
                             </button>
                         </td>
                     </tr>
@@ -92,7 +92,7 @@
                                             Đã gửi lương
                                         </button>
                                         <button class="btn btn-sm btn-warning send_mail_teacher" teacher_id="<?php echo $item['id'] ?>" class_study_id="<?php echo $item_attendance['class_study_id'] ?>">
-                                           Gửi mail
+                                           Gửi mail lương
                                         </button>
                                     </td>
                                 </tr>
