@@ -140,6 +140,7 @@
 			};
 			data.push(std)
 		}
+		let class_study_id = data[0]['class_id'];
 
 		$.ajax({
 			url: $("#base_url").val() + "student/action_attendance",
@@ -149,7 +150,8 @@
 				lesson_learned: lesson_learned,
 				date_diligence: date_diligence,
 				lecture: lecture,
-                speaker: speaker
+                speaker: speaker,
+                class_study_id: class_study_id,
 			},
 			success: function (data) {
 				data = JSON.parse(data);

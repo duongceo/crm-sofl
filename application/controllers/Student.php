@@ -598,8 +598,29 @@ class Student extends MY_Controller {
 		$post = $this->input->post();
 		$result = array();
 
-		$data = json_decode($post['data_attendance']);
+        $input_class['where'] = array('class_study_id' => $post['class_study_id']);
+        $class = $this->class_study_model->load_all($input_class);
 
+        if (empty($class)) {
+            $result['good'] = 0;
+            $result['message'] = 'không có mã lớp';
+            echo json_encode($result);
+            die();
+        } else {
+            if ($post['lesson_learned'] > $class[0]['lesson_learned']) {
+                $data_class['lesson_learned'] = $post['lesson_learned'];
+                $data_class['lecture'] = $post['lecture'];
+                $this->class_study_model->update($input_class['where'], $data_class);
+            }
+            if ($class[0]['total_lesson'] < $post['lesson_learned']) {
+                $result['good'] = 0;
+                $result['message'] = 'Số buổi học đã quá tổng số buổi của khóa học';
+                echo json_encode($result);
+                die();
+            }
+        }
+
+		$data = json_decode($post['data_attendance']);
 		if (!empty($data)) {
 			foreach ($data as $item) {
 				$input_attend = array();
@@ -632,25 +653,14 @@ class Student extends MY_Controller {
 				} else {
 					$this->attendance_model->update($input_attend['where'], $param);
 				}
-
-				$class_id = $item->class_id;
 			}
-
-			$input_class['where'] = array('class_study_id' => $class_id);
-			$class = $this->class_study_model->load_all($input_class);
-
-			if (!empty($class) && $post['lesson_learned'] > $class[0]['lesson_learned']) {
-                $data_class['lesson_learned'] = $post['lesson_learned'];
-                $data_class['lecture'] = $post['lecture'];
-                $this->class_study_model->update($input_class['where'], $data_class);
-            }
 
 			$result['good'] = 1;
 			$result['message'] = 'Điểm danh thành công';
 
 		} else {
 			$result['good'] = 0;
-			$result['message'] = 'Điểm Không thành công';
+			$result['message'] = 'Chưa chọn trạng thái học viên đi học hay nghỉ';
 		}
 
 		echo json_encode($result);
