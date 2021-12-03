@@ -702,7 +702,7 @@ class Student extends MY_Controller {
 		$this->load->model('attendance_model');
 		$this->load->model('class_study_model');
 
-		$data['class_study'] = $this->class_study_model->load_all(array('where'=>array('character_class_id' => 2)));
+		$data['class_study'] = $this->class_study_model->load_all(array('where_in'=>array('character_class_id' => array(2, 3))));
 		$get = $this->input->get();
 		$input['select'] = 'DISTINCT(lesson_learned), class_study_id, lecture, time_update';
         $input['where'] = array();
