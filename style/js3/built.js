@@ -2623,17 +2623,17 @@ Xem tất cả contact mà có đăng kí nhiều lần
 $(document).on("click", ".ajax-request-modal", function (e) {
     e.stopPropagation();
     e.preventDefault();
-    let _this = $(this);
+    var _this = $(this);
     setTimeout(function () {
      	if($(".checked").length) {
 			$(".checked").removeClass("checked");
 		}
        /*   _this.parent().parent().addClass("checked"); */
 
-        let contact_id = _this.attr("data-contact-id");
-        let url = $("#base_url").val() + _this.attr("data-url");
-        let modalName = _this.attr("data-modal-name");
-        let controller = _this.attr("data-controller");
+        var contact_id = _this.attr("data-contact-id");
+        var url = $("#base_url").val() + _this.attr("data-url");
+        var modalName = _this.attr("data-modal-name");
+        var controller = _this.attr("data-controller");
         let type_modal = _this.attr("data_type_modal");
 		
         $.ajax({
@@ -2658,7 +2658,7 @@ $(document).on("click", ".ajax-request-modal", function (e) {
                     return false;
                 } else {
                     $("." + modalName).remove();
-                    let newModal = `<div class="${modalName}"></div>`;
+                    var newModal = `<div class="${modalName}"></div>`;
                     $(".modal-append-to").append(newModal);
                     $(`.${modalName}`).html(data.message);
                 }
@@ -2670,10 +2670,10 @@ $(document).on("click", ".ajax-request-modal", function (e) {
 
 $(document).on('click', '.change-form-submit-url', function (e) {
     e.preventDefault();
-    let form = $(this).data("form-id");
-    let action = $(this).data("action");
-    let method = $(this).data("method");
-    let url = $("#base_url").val() + action;
+    var form = $(this).data("form-id");
+    var action = $(this).data("action");
+    var method = $(this).data("method");
+    var url = $("#base_url").val() + action;
     $("#" + form).attr("action", url).attr("method", method).submit(); 
 });
 
@@ -2718,13 +2718,13 @@ $(".btn-navbar-search").click(function (e) {
         });
         return false;
     }
-    let locationOrigin = location.href.split("#");
+    var locationOrigin = location.href.split("#");
     location.href = locationOrigin[0] + '#search=' + $(".input-navbar-search").val();
 
     if ($("#input_sub_folder").val() != '') {
-        let url = $("#base_url").val() + $("#input_sub_folder").val() + '/' + $("#input_controller").val() + '/search';
+    	var url = $("#base_url").val() + $("#input_sub_folder").val() + '/' + $("#input_controller").val() + '/search';
 	} else {
-        let url = $("#base_url").val() + $("#input_controller").val() + '/search';
+		var url = $("#base_url").val() + $("#input_controller").val() + '/search';
 	}
 
     $.ajax({
@@ -2735,7 +2735,7 @@ $(".btn-navbar-search").click(function (e) {
         },
         success: data => {
             $("." + modalName).remove();
-            let newModal = `<div class="${modalName}"></div>`;
+            var newModal = `<div class="${modalName}"></div>`;
             if ($("#action_contact").length) {
                 $("#action_contact").append(newModal);
             } else {
@@ -3243,8 +3243,8 @@ $(document).on('change', '[name="add_role_id"]', function () {
 });
 
 $(document).on('change', '[name="add_branch_id"], [name="add_language_id"], [name="edit_language_id"]', function () {
-	let item_id = $(this).val();
-    let type_data = $(this).attr("type");
+	var item_id = $(this).val();
+	var type_data = $(this).attr("type");
 	// console.log(item_id);return false;
 	$.ajax({
 		url: $('#base_url').val() + 'staff_managers/class_study/get_data_ajax',
@@ -3269,8 +3269,8 @@ $(document).on('change', '[name="add_branch_id"], [name="add_language_id"], [nam
 });
 
 $(document).on('change', '[name="level_contact_id"], [name="level_student_id"], [name="level_study_id"]', function () {
-    let level_id = $(this).val();
-    let level_contact_array = ['L1', 'L2', 'L3', 'L4', 'L5'];
+	var level_id = $(this).val();
+	var level_contact_array = ['L1', 'L2', 'L3', 'L4', 'L5'];
 	// var level_student_array = ['L6', 'L8'];
 	//console.log(level_id);return false;
 	$.ajax({
@@ -3293,8 +3293,8 @@ $(document).on('change', '[name="level_contact_id"], [name="level_student_id"], 
 });
 
 $(document).on('change', '[name="language_id"], [name="branch_id"], [name="payment_method_rgt"]', function () {
-    let level_id = $(this).val();
-    let type = $(this).attr("type");
+	var level_id = $(this).val();
+	var type = $(this).attr("type");
 	// console.log(type);return false;
 	$.ajax({
 		url: $('#base_url').val() + 'common/get_data_ajax',
