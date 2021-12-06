@@ -154,18 +154,17 @@ class Contact_excel extends MY_Table {
 		foreach ($data1 as $row) {
 			$stt = $row[0];
 			if ($stt != '') {
-
 				$receive_contact[] = array(
 					'name' => $row[0],
 //					'email' => $row[1],
 					'phone' => $row[2],
 					'branch_id' => $row[3],
 					'language_id' => $row[4],
-					'date_rgt' => strtotime($row[5]),
+					'date_rgt' => (!empty($row[5])) ? strtotime($row[5]) : time(),
 					'note' => $row[6],
 					'source_id' => $row[7],
 					'address' => $row[8],
-					'birthday' => strtotime($row[9]),
+					'birthday' => (!empty($row[9])) ? strtotime($row[9]) : '',
 				);
 			}
 		}
