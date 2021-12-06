@@ -1,5 +1,5 @@
 
-<tr>
+<tr class="ajax_level_language">
 
 	<td class="text-right"> Trình độ</td>
 

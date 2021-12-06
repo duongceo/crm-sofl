@@ -1053,7 +1053,9 @@ class MY_Table extends MY_Controller {
 
 		$input = array();
 
-		$input['where']['active'] = '1';
+		if ($table != 'level_language') {
+            $input['where']['active'] = 1;
+        }
 
 //		các điều kiện lấy dữ liệu từng bảng và dùng cho thêm mới, chỉnh sửa
 		if ($key != 'show') {

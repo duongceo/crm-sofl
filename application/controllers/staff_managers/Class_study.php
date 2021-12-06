@@ -380,7 +380,7 @@ class Class_study extends MY_Table {
 //				redirect_and_die('Trạng thái hoạt động là 0 hoặc 1!');
 //			}
 
-			$paramArr = array('class_study_id', 'classroom_id', 'branch_id', 'level_language_id', 'language_id', 'day_id', 'time_id', 'priority_id',
+			$paramArr = array('class_study_id', 'classroom_id', 'branch_id', 'language_id', 'day_id', 'time_id', 'priority_id',
 				'number_student', 'number_student_max', 'total_lesson', 'lesson_learned', 'lecture', 'teacher_id', 'teacher_id_2', 'character_class_id', 'status', 'active');
 
 			foreach ($paramArr as $value) {
@@ -391,6 +391,8 @@ class Class_study extends MY_Table {
 
 				}
 			}
+
+			$param['level_language_id'] = $post['level_language_id'];
 
 			if ($post['add_salary_per_day'] != 0) {
 				$param['salary_per_day'] = str_replace(',', '', $post['add_salary_per_day']);
@@ -538,6 +540,8 @@ class Class_study extends MY_Table {
 				}
 
 			}
+
+            $param['level_language_id'] = $post['level_language_id'];
 
 			if ($post['edit_salary_per_day'] != 0) {
 				$param['salary_per_day'] = str_replace(',', '', $post['edit_salary_per_day']);
@@ -707,7 +711,7 @@ class Class_study extends MY_Table {
 
 			 $data = $this->level_language_model->load_all($input);
 			 $title = 'Trình độ';
-			 $name = 'add_level_language_id';
+			 $name = 'level_language_id';
 		 }
 
 		 if (isset($data)) {
