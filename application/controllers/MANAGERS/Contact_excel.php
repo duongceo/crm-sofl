@@ -173,7 +173,7 @@ class Contact_excel extends MY_Table {
 //		echo '<pre>';print_r($receive_contact);die();
 
 		foreach ($receive_contact as $value) {
-			if ($value['source_id'] == 10) {
+			if ($value['source_id'] == 10 || $value['source_id'] == 9) {
 				$is_old = 1;
 				$dupliacte = 0;
 			} else {
