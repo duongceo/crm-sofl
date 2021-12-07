@@ -28,6 +28,9 @@ class Level_language extends MY_Table {
 		$this->view_path = 'staff_managers/level_language';
 		$this->sub_folder = 'staff_managers';
 		$list_view = array(
+            'id' => array(
+                'name_display' => 'ID',
+            ),
 			'name' => array(
 				'name_display' => 'Khóa học',
 			),

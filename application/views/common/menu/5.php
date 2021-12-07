@@ -103,33 +103,15 @@ s
 
                 </li>
 
-<!--                <li>-->
-<!---->
-<!--                    <a href="--><?php //echo base_url('MANAGERS/marketers'); ?><!--">-->
-<!---->
-<!--                        <img src="--><?php //echo base_url(); ?><!--public/images/marketer.png">   -->
-<!---->
-<!--                        <span> Quản lý Marketer </span> -->
-<!---->
-<!--                    </a>-->
-<!---->
-<!--                </li>-->
-<!---->
-<!--                <li>-->
-<!---->
-<!--                    <a href="--><?php //echo base_url('warehouse'); ?><!--">-->
-<!---->
-<!--                        <img src="--><?php //echo base_url(); ?><!--public/images/warehouse.png"> -->
-<!---->
-<!--                        <span> Quản lý Kho email  </span>-->
-<!---->
-<!--                    </a>-->
-<!---->
-<!--                </li>-->
+                <li>
+                    <a href="<?php echo base_url('staff_managers/level_language'); ?>">
+                        <img src="<?php echo base_url(); ?>public/images/view-all.png">
+                        <span> Quản lý Khóa học </span>
+                    </a>
+                </li>
     
             </ul>
         </li>
-        
 
         <li>
             <a href="#homeSubmenu_2" data-toggle="collapse" aria-expanded="false">
