@@ -558,7 +558,7 @@ class Class_study extends MY_Table {
 				}
 			}
 
-			print_arr($param);
+//			print_arr($param);
 
 			if (isset($param['time_end_real']) || isset($param['time_end_expected'])) {
 				if ($param['time_end_real'] <= $param['time_start'] && $param['time_end_expected'] <= $param['time_start']) {
