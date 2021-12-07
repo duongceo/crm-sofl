@@ -423,6 +423,7 @@ class Teacher extends MY_Table {
             $input_lesson_learned['select'] = 'DISTINCT(lesson_learned)';
             $input_lesson_learned['where'] = array(
                 'class_study_id' => $post['class_study_id'],
+                'speaker' => 1,
                 'time_update >=' => strtotime($post['start_date']),
                 'time_update <=' => strtotime($post['end_date']) + 3600 * 24 - 1
             );
@@ -431,7 +432,6 @@ class Teacher extends MY_Table {
             $input_mechanism['where'] = array(
                 'class_study_id' => $post['class_study_id'],
                 'teacher_id' => $post['teacher_id'],
-                'speaker' => 1,
                 'time_update >=' => strtotime($post['start_date']),
                 'time_update <=' => strtotime($post['end_date']) + 3600 * 24 - 1
             );
