@@ -392,7 +392,9 @@ class Class_study extends MY_Table {
 				}
 			}
 
-			$param['level_language_id'] = $post['level_language_id'];
+            if (isset($post['level_language_id']) && !empty($post['level_language_id'])) {
+                $param['level_language_id'] = $post['level_language_id'];
+            }
 
 			if ($post['add_salary_per_day'] != 0) {
 				$param['salary_per_day'] = str_replace(',', '', $post['add_salary_per_day']);
@@ -541,7 +543,9 @@ class Class_study extends MY_Table {
 
 			}
 
-            $param['level_language_id'] = $post['level_language_id'];
+			if (isset($post['level_language_id']) && !empty($post['level_language_id'])) {
+                $param['level_language_id'] = $post['level_language_id'];
+            }
 
 			if ($post['edit_salary_per_day'] != 0) {
 				$param['salary_per_day'] = str_replace(',', '', $post['edit_salary_per_day']);
@@ -554,7 +558,7 @@ class Class_study extends MY_Table {
 				}
 			}
 
-//			print_arr($param);
+			print_arr($param);
 
 			if (isset($param['time_end_real']) || isset($param['time_end_expected'])) {
 				if ($param['time_end_real'] <= $param['time_start'] && $param['time_end_expected'] <= $param['time_start']) {
