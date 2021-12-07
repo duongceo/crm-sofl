@@ -839,7 +839,7 @@ class Sale extends MY_Controller {
     }
     //end
 	
-	private function _set_call_log($id, $post, $rows) {
+	private function _set_call_log($id, $post) {
         $data = array();
         $data['contact_id'] = $id;
         $data['staff_id'] = $this->user_id;
