@@ -140,7 +140,11 @@
 			};
 			data.push(std)
 		}
-		let class_study_id = data[0]['class_id'];
+		if (typeof data === 'undefined' || data.length === 0) {
+            alert('Chưa chọn trạng thái học viên đi học hay nghỉ');
+            return false;
+        }
+        let class_study_id = data[0]['class_id'];
 
 		$.ajax({
 			url: $("#base_url").val() + "student/action_attendance",
@@ -153,9 +157,12 @@
                 speaker: speaker,
                 class_study_id: class_study_id,
 			},
+            beforeSend: function() {
+                $(".popup-wrapper").show();
+            },
 			success: function (data) {
 				data = JSON.parse(data);
-				if (data.good == 1) {
+				if (data.good) {
 					$.notify(data.message, {
 						position: "top left",
 						className: 'success',
@@ -171,6 +178,9 @@
 					});
 				}
 			},
+            complete: function() {
+                $(".popup-wrapper").hide();
+            },
 		});
 	});
 </script>

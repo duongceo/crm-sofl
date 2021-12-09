@@ -612,11 +612,16 @@ class Student extends MY_Controller {
                 $data_class['lecture'] = $post['lecture'];
                 $this->class_study_model->update($input_class['where'], $data_class);
             }
-            if ($class[0]['total_lesson'] < $post['lesson_learned']) {
+            if ($post['lesson_learned'] > $class[0]['total_lesson']) {
                 $result['good'] = 0;
                 $result['message'] = 'Số buổi học đã quá tổng số buổi của khóa học';
                 echo json_encode($result);
                 die();
+            } elseif ($post['lesson_learned'] == $class[0]['total_lesson']) {
+                $data_class = array();
+                $data_class['time_end_real'] = strtotime(date('d-m-Y'));
+                $data_class['character_class_id'] = 3;
+                $this->class_study_model->update($input_class['where'], $data_class);
             }
         }
 
@@ -655,11 +660,11 @@ class Student extends MY_Controller {
 				}
 			}
 
-			$result['good'] = 1;
+			$result['good'] = true;
 			$result['message'] = 'Điểm danh thành công';
 
 		} else {
-			$result['good'] = 0;
+			$result['good'] = false;
 			$result['message'] = 'Chưa chọn trạng thái học viên đi học hay nghỉ';
 		}
 

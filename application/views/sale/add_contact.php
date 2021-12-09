@@ -59,12 +59,13 @@
                     ?>
                 </table>
             </div>
+            <input type="hidden" name="contact_old_id" value="<?php echo (isset($_GET['contact_old_id'])) ? $_GET['contact_old_id'] : '' ?>">
 
             <div class="clearfix"></div>
 
             <div class="text-center">
-            <button type="submit" class="btn btn-success btn-lg"> <i class="fa fa-floppy-o" aria-hidden="true"></i> &nbsp; Lưu Lại</button>
-        </div>
+                <button type="submit" class="btn btn-success btn-lg"> <i class="fa fa-floppy-o" aria-hidden="true"></i> &nbsp; Lưu Lại</button>
+            </div>
         </div>
     </div>
 </form>

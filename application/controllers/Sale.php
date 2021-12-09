@@ -620,7 +620,7 @@ class Sale extends MY_Controller {
 
                 if ($input['level_student_id'] == 'L8.1') {
                     if (isset($input['date_rgt_study']) && $input['date_rgt_study'] != '') {
-                        $param['date_rgt_study'] = strtotime($input['date_rgt_study']);
+                        $param['date_rgt_study'] = (!empty($input['date_rgt_study'])) ? strtotime($input['date_rgt_study']) : time();
                     }
                 }
 				
@@ -685,6 +685,12 @@ class Sale extends MY_Controller {
                 $id = $this->contacts_model->insert_return_id($param, 'id');
 				$this->contacts_backup_model->insert($param);
 //				$id_backup = $this->contacts_backup_model->insert_return_id($param, 'id');
+				if ((isset($input['contact_old_id']) && !empty($input['contact_old_id'])) && $input['level_student_id'] == 'L8') {
+                    $param_L7['level_study_id'] = 'L7.6';
+                    $param_L7['date_action_of_study'] = time();
+                    $where_L7 = array('id' => $input['contact_old_id']);
+                    $this->contacts_model->update($where_L7, $param_L7);
+                }
 				
                 if ($input['note'] != '') {
 					$param2 = array(
