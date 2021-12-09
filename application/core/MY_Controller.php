@@ -1113,13 +1113,11 @@ class MY_Controller extends CI_Controller {
                     'active' => 1
                 )
             ),
-
             'class_study' => array(
                 'where' => array(
                     'active' => 1
                 )
             ),
-
             'call_status' => array(),
             'sources' => array(),
 			'channel' => array(),

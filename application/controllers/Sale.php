@@ -793,7 +793,7 @@ class Sale extends MY_Controller {
 			$data = $this->_get_require_data($require_model);
 
             $data['add_left'] = array('name', 'phone', 'address', 'branch', 'language', 'date_rgt', 'is_old');
-            $data['add_right'] = array('call_stt', 'level_contact', 'date_rgt_study', 'level_student', 'fee', 'paid', 'date_paid', 'payment_method_rgt');
+            $data['add_right'] = array('call_stt', 'level_contact', 'date_rgt_study', 'level_student', 'fee', 'paid', 'date_paid', 'payment_method_rgt', 'note');
 
 //			if ($this->role_id == 12 || $this->role_id == 6) {
 //				$data['top_nav'] = 'manager/common/top-nav';
