@@ -1164,9 +1164,9 @@ class MY_Controller extends CI_Controller {
             $this->table .= ' add_contact';
         }
 
-//		if($this->role_id == 3){
-//			$this->table .= ' matrix';
-//		}
+		if ($this->role_id == 11){
+			$this->table .= ' sale';
+		}
 		
         if ($this->role_id == 10) {
             $this->table = 'selection name phone fee paid date_rgt_study';
