@@ -4,7 +4,7 @@
 
     <td>
 		<div class="input-group">
-			<input type="tel" class="form-control" value="<?php echo $rows['phone']; ?>" name="phone" />
+			<input type="tel" class="form-control" value="<?php echo $rows['phone'] ?>" name="phone" />
 
 			<div class="input-group-btn">
 
@@ -20,7 +20,7 @@
 <script>
 	$('.btn-call-phone').on('click', function(e) {
 		e.preventDefault();
-		var phone = $('[name="phone"]').val();
+		let phone = $('[name="phone"]').val();
 		// alert(phone);
 		omiSDK.makeCall(phone);
 	});

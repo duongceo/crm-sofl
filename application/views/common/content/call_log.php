@@ -63,25 +63,25 @@
 
                 <tr>
 
-                    <td>
+                    <td class="text-center">
 
                         Lần gọi thứ <?php echo $key_call_log + 1; ?>
 
                     </td>
 
-                    <td>
+                    <td class="text-center">
 
                         <?php echo date('d/m/Y H:i:s', $value_call_log['time_created']); ?>
 
                     </td>
 
-                    <td>
+                    <td class="text-center">
 
                         <?php echo $value_call_log['staff_name']; ?>
 
                     </td>
 
-                    <td>
+                    <td class="text-center">
 
                         <?php echo $value_call_log['call_status_desc']; ?>
 

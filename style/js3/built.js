@@ -1630,7 +1630,7 @@ $(function () {
         } else {
             $(".filter-tbl-1").height($(".filter-tbl-2").height());
         }
-    }, 300);
+    }, 500);
 });
 
 /*
@@ -2387,14 +2387,10 @@ $(function () {
         $(this).find('.child_menu').stop(true, true).fadeOut(200);
     });
 
-    /*
-     * Sửa lại value của thẻ input curr_url
-     */
+    /* Sửa lại value của thẻ input curr_url */
     $("#curr_url").val(location.href);
 
-    /*
-     * Nếu click vào nút filter nâng cao thì đổi icon
-     */
+    /* Nếu click vào nút filter nâng cao thì đổi icon */
     $(document).on('click', '.show-more-table-info', function (e) {
         e.stopPropagation();
         let contactId = $(this).attr('contact-id');
@@ -2410,9 +2406,7 @@ $(function () {
         console.log(1);
     });
 
-    /*
-     * Nếu filter nâng cao được mở ra thì điều chỉnh chiều cao 2 cột bằng nhau
-     */
+    /* Nếu filter nâng cao được mở ra thì điều chỉnh chiều cao 2 cột bằng nhau */
 	if($('#input_controller').val() == 'affiliate'){
 		$('#collapse-filter').show();
 	}
@@ -2429,9 +2423,7 @@ $(function () {
     $('#collapse-filter').on('hidden.bs.collapse', function () {
         $(this).prev().find(".fa").removeClass("fa-arrow-circle-up").addClass("fa-arrow-circle-down");
     });
-    /*
-     * Kiểm tra xem có biến search là view_detail_contact không, nếu có sẽ hiển thị chi tiết contact
-     */
+    /* Kiểm tra xem có biến search là view_detail_contact không, nếu có sẽ hiển thị chi tiết contact */
     let searchParams = new URLSearchParams(window.location.search);
     if (searchParams.has('view_detail_contact')) {
         var contatctID = $.trim(searchParams.get('view_detail_contact'));

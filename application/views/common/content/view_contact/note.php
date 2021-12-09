@@ -23,25 +23,23 @@
                 <tbody>
                     <?php foreach ($notes as $key => $value) { ?>
                         <tr>
-                            <td class="center">
+                            <td class="text-center">
                                 <?php echo $key + 1; ?>
                             </td>
-                            <td class="center">
+                            <td>
                                 <?php echo $value['content']; ?>
-                            </td>	
-                            <td class="center">
+                            </td>
+                            <td class="text-center">
                                 <?php echo date(_DATE_FORMAT_, $value['time_created']); ?>
                             </td>
-							
-                            <td class="center">
+                            <td class="text-center">
                                 <?php
-								
-                                foreach ($staffs as $key2 => $value2) {
-                                    if ($value['sale_id'] == $value2['id']) {
-                                        echo $value2['name'];
-                                        break;
+                                    foreach ($staffs as $key2 => $value2) {
+                                        if ($value['sale_id'] == $value2['id']) {
+                                            echo $value2['name'];
+                                            break;
+                                        }
                                     }
-                                }
                                 ?>
                             </td>
                         </tr>

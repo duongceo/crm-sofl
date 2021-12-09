@@ -530,7 +530,6 @@ class Sale extends MY_Controller {
                 $data['content'] = 'sale/add_contact';
                 $this->load->view(_MAIN_LAYOUT_, $data);
             } else {
-				//echo '<pre>';print_r($input);die;
 				if ($input['is_old'] == 0) {
 					$param['duplicate_id'] = $this->_find_dupliacte_contact($input['email'], trim($input['phone']), $input['language_id']);
 					if ($param['duplicate_id'] > 0) {
@@ -548,17 +547,13 @@ class Sale extends MY_Controller {
                 $param['class_study_id'] = $input['class_study_id'];
                 $param['source_id'] = $input['source_id'];
                 $param['payment_method_rgt'] = $input['payment_method_rgt'];
-//                $param['fee'] = $input['fee'];
-//                $param['paid'] = $input['paid'];
                 $param['channel_id'] = $input['channel_id'];
-                $param['date_rgt'] = strtotime($input['date_rgt']);
+                $param['date_rgt'] = (!empty($input['date_rgt'])) ? strtotime($input['date_rgt']) : time();
                 $param['level_contact_id'] = $input['level_contact_id'];
                 $param['level_student_id'] = $input['level_student_id'];
                 $param['call_status_id'] = $input['call_status_id'];
                 $param['is_old'] = $input['is_old'];
 
-//                print_arr($param);
-				
 				switch($this->role_id){
 					case 1:
 						$param['sale_staff_id'] = $this->user_id;
@@ -673,8 +668,6 @@ class Sale extends MY_Controller {
 
 				//$param['date_rgt'] = time();
                 $param['date_handover'] = time();
-                
-//                print_arr($param);
                 $param['last_activity'] = time();
 //                $param['source_sale_id'] = $input['source_sale_id'];
                 
@@ -722,7 +715,6 @@ class Sale extends MY_Controller {
 //						'account_banking_id' => $input['account_banking_id'],
 						'source_revenue_id' => 1
 					);
-					//print_arr($param2);
 					$this->load->model('paid_model');
 					$this->paid_model->insert($param3);
 				}
@@ -799,6 +791,10 @@ class Sale extends MY_Controller {
             );
 //            $data = array_merge($this->data, $this->_get_require_data($require_model));
 			$data = $this->_get_require_data($require_model);
+
+            $data['add_left'] = array('name', 'phone', 'address', 'branch', 'language', 'date_rgt', 'is_old');
+            $data['add_right'] = array('call_stt', 'level_contact', 'date_rgt_study', 'level_student', 'fee', 'paid', 'date_paid', 'payment_method_rgt');
+
 //			if ($this->role_id == 12 || $this->role_id == 6) {
 //				$data['top_nav'] = 'manager/common/top-nav';
 //			}

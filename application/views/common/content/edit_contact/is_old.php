@@ -1,7 +1,7 @@
 <tr>
     <td class="text-right"> Học viên mới hay cũ ? </td>
     <td>  
-        <div class="radio" style="margin-top: 0;">
+        <div class="radio">
             <label class="radio-inline" style="width: 45%">
                 <input type="radio" name="is_old" value="0" <?php if($rows['is_old'] == 0){echo 'checked="checked"';} ?>> Mới
             </label>

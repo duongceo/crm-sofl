@@ -25,7 +25,7 @@ class Common extends MY_Controller {
             echo 'Không tồn tại contact này!';
             die;
         }
-        //$contact_code = $rows[0]['phone'] . '_' . $rows[0]['course_code'];
+
 		$contact_id = $rows[0]['id'];
         $require_model = array(
             'staffs' => array(),
@@ -209,7 +209,7 @@ class Common extends MY_Controller {
             die;
         }
 
-        if ($this->role_id != 1 && $this->role_id != 2 && $this->role_id != 10 && $this->role_id != 12) {
+        if ($this->role_id != 1 && $this->role_id != 10 && $this->role_id != 12) {
             $result['success'] = 0;
             $result['message'] = 'Bạn không có quyền chỉnh sửa contact này!';
             echo json_encode($result);
@@ -217,7 +217,6 @@ class Common extends MY_Controller {
         }
 
         $id = trim($post['contact_id']);
-        //$contact_code = $rows[0]['phone'] . '_' . $rows[0]['course_code'];
 		$contact_id = $rows[0]['id'];
 		if ($id != $contact_id) {
 			$result['success'] = 0;
@@ -234,7 +233,6 @@ class Common extends MY_Controller {
             ),
             'branch' => array(),
             'notes' => array(
-                //'where' => array('contact_code' => $contact_code),
 				'where' => array(
 				    'contact_id' => $contact_id,
                     'type_note' => '0'
@@ -297,16 +295,13 @@ class Common extends MY_Controller {
 					'order' => array('time_created' => 'ASC')
 				),
 			);
-
-			$edited_contact = true;
 		}
 
-		$this->load->model('level_contact_model');
-		if ($rows[0]['level_contact_detail'] != '') {
-			$rows[0]['level_contact_name'] = $this->level_contact_model->get_name_from_level($rows[0]['level_contact_detail']);
-		} else {
-			$rows[0]['level_contact_name'] = $this->level_contact_model->get_name_from_level($rows[0]['level_contact_id']);
-		}
+//		if ($rows[0]['level_contact_detail'] != '') {
+//			$rows[0]['level_contact_name'] = $this->level_contact_model->get_name_from_level($rows[0]['level_contact_detail']);
+//		} else {
+//			$rows[0]['level_contact_name'] = $this->level_contact_model->get_name_from_level($rows[0]['level_contact_id']);
+//		}
 
 //		$this->load->model('level_student_model');
 //		if ($rows[0]['level_student_detail'] != '') {
@@ -315,27 +310,30 @@ class Common extends MY_Controller {
 //			$rows[0]['level_student_name'] = $this->level_student_model->get_name_from_level($rows[0]['level_student_id']);
 //		}
 
-		$this->load->model('level_study_model');
-		if ($rows[0]['level_study_detail'] != '') {
-			$rows[0]['level_study_name'] = $this->level_study_model->get_name_from_level($rows[0]['level_study_detail']);
-		} else {
-			$rows[0]['level_study_name'] = $this->level_study_model->get_name_from_level($rows[0]['level_study_id']);
-		}
+//		$this->load->model('level_study_model');
+//		if ($rows[0]['level_study_detail'] != '') {
+//			$rows[0]['level_study_name'] = $this->level_study_model->get_name_from_level($rows[0]['level_study_detail']);
+//		} else {
+//			$rows[0]['level_study_name'] = $this->level_study_model->get_name_from_level($rows[0]['level_study_id']);
+//		}
 
         $data = $this->_get_require_data($require_model);
 
+        $this->load->model('level_contact_model');
+        $data['level_contact_detail'] = $this->level_contact_model->load_all(array('where' => array('parent_id' => $rows[0]['level_contact_id'], 'parent_id !=' => '')));
+
         $data['view_edit_left'] = $left_edit;
         $data['view_edit_right'] = $right_edit;
+        $edited_contact = true;
 
         if ($this->role_id == 1) {
             $edited_contact = $this->_can_edit_by_sale($rows[0]['call_status_id'], $rows[0]['level_contact_id']);
-//			$data['action_url'] = 'common/update_before_edit_contact/' . $id;
         }
 
-        if ($this->role_id == 12) {
+//        if ($this->role_id == 12) {
 //			$edited_contact = $this->_can_edit_by_branch($rows[0]['branch_id']);
-			$edited_contact = true;
-		}
+//			$edited_contact = true;
+//		}
 		
         $data['contact_id'] = $id;
         $data['edited_contact'] = $edited_contact;
