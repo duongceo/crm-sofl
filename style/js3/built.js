@@ -3234,9 +3234,9 @@ $(document).on('change', '[name="add_role_id"]', function () {
 	});
 });
 
-$(document).on('change', '[name="add_branch_id"], [name="add_language_id"], [name="edit_language_id"]', function () {
-	var item_id = $(this).val();
-	var type_data = $(this).attr("type");
+$(document).on('change', '[name="add_branch_id"], [name="add_language_id"], [name="edit_language_id"], [name="filter_arr_multi_language_id"]', function () {
+	let item_id = $(this).val();
+	let type_data = $(this).attr("type");
 	// console.log(item_id);return false;
 	$.ajax({
 		url: $('#base_url').val() + 'staff_managers/class_study/get_data_ajax',
@@ -3249,7 +3249,7 @@ $(document).on('change', '[name="add_branch_id"], [name="add_language_id"], [nam
 		success: function (data) {
 			if (type_data == 'branch') {
 				$(".ajax_class_study").html(data);
-			} else if (type_data == 'language') {
+			} else if (type_data == 'language' || type_data == 'filter_language') {
 				$(".ajax_level_language").html(data);
 			}
 		},
@@ -3261,8 +3261,8 @@ $(document).on('change', '[name="add_branch_id"], [name="add_language_id"], [nam
 });
 
 $(document).on('change', '[name="level_contact_id"], [name="level_student_id"], [name="level_study_id"]', function () {
-	var level_id = $(this).val();
-	var level_contact_array = ['L1', 'L2', 'L3', 'L4', 'L5'];
+	let level_id = $(this).val();
+	let level_contact_array = ['L1', 'L2', 'L3', 'L4', 'L5'];
 	// var level_student_array = ['L6', 'L8'];
 	//console.log(level_id);return false;
 	$.ajax({
@@ -3285,8 +3285,8 @@ $(document).on('change', '[name="level_contact_id"], [name="level_student_id"], 
 });
 
 $(document).on('change', '[name="language_id"], [name="branch_id"], [name="payment_method_rgt"]', function () {
-	var level_id = $(this).val();
-	var type = $(this).attr("type");
+	let level_id = $(this).val();
+	let type = $(this).attr("type");
 	// console.log(type);return false;
 	$.ajax({
 		url: $('#base_url').val() + 'common/get_data_ajax',

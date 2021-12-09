@@ -14,7 +14,6 @@
 
  */
 
-
 $field = isset($value['field']) ? $value['field'] : ($key.'_id');
 
 $field_name = isset($value['field_name']) ? $value['field_name'] : 'name';
@@ -87,12 +86,9 @@ $table_id = isset($value['table_id']) ? $value['table_id'] : 'id';
 
     <td>
 
-		<select class="form-control item_id" name="<?php echo $get_name; ?>[]" multiple="multiple">
-			<?php
+		<select class="form-control item_id" name="<?php echo $get_name; ?>" multiple="multiple">
 
-			foreach ($$key as $value) {
-
-				?>
+            <?php foreach ($$key as $value) { ?>
 
 				<option value="<?php echo $value[$table_id]; ?>"
 
@@ -120,11 +116,8 @@ $table_id = isset($value['table_id']) ? $value['table_id'] : 'id';
 
 				</option>
 
-				<?php
+            <?php } ?>
 
-			}
-
-			?>
 		</select>
     </td>
 
@@ -133,7 +126,8 @@ $table_id = isset($value['table_id']) ? $value['table_id'] : 'id';
 <script>
 	$(document).ready(function() {
 		$('.item_id').select2({
-			placeholder: 'Tìm Kiếm',
+			placeholder: 'Tìm kiếm',
+            width: "100%",
 		});
 	});
 </script>

@@ -238,10 +238,10 @@ class Class_study extends MY_Table {
 					'type' => 'arr_multi'
 				),
 				'language' => array(
-					'type' => 'arr_multi'
+					'type' => 'custom'
 				),
 				'level_language' => array(
-					'type' => 'arr_multi'
+					'type' => 'custom'
 				),
 			),
 
@@ -363,7 +363,6 @@ class Class_study extends MY_Table {
 		);
 
 		parent::show_add_item();
-//		$this->load->view('base/add_item/ajax_content');
 	}
 
 	function action_add_item() {
@@ -707,7 +706,7 @@ class Class_study extends MY_Table {
 			 $data = $this->classroom_model->load_all($input);
 			 $title = 'Phòng học';
 			 $name = 'add_classroom_id';
-		 } elseif ($post['type'] == 'language') {
+		 } elseif ($post['type'] == 'language' || $post['type'] == 'filter_language') {
 			 $this->load->model('level_language_model');
 			 $input['where'] = array(
 				 'language_id' => $post['data_id']
@@ -715,28 +714,26 @@ class Class_study extends MY_Table {
 
 			 $data = $this->level_language_model->load_all($input);
 			 $title = 'Trình độ';
-			 $name = 'level_language_id';
+			 if ($post['type'] == 'language') {
+                 $name = 'level_language_id';
+             } elseif ($post['type'] == 'filter_language') {
+                 $name = 'filter_arr_multi_level_language_id';
+             }
 		 }
 
 		 if (isset($data)) {
 			 $context = '<td class="text-right"> '.$title. '</td>
-
 				<td>';
-
-					 $context .= "<select class='form-control selectpicker' name='{$name}'>";
-
-					 $context .= '<option value="">'.$title.'</option>';
-
-					 foreach ($data as $value) {
-						 if ($post['type'] == 'branch') {
-							 $context .= "<option value='{$value['classroom_id']}'> {$value['classroom_id']} </option>";
-						 } elseif ($post['type'] == 'language') {
-							 $context .= "<option value='{$value['id']}'> {$value['name']} </option>";
-						 }
-					 }
-
-					 $context .= '</select>
-				
+             $context .= "<select class='form-control selectpicker' name='{$name}'>";
+             $context .= '<option value="">'.$title.'</option>';
+             foreach ($data as $value) {
+                 if ($post['type'] == 'branch') {
+                     $context .= "<option value='{$value['classroom_id']}'> {$value['classroom_id']} </option>";
+                 } elseif ($post['type'] == 'language' || $post['type'] == 'filter_language') {
+                     $context .= "<option value='{$value['id']}'> {$value['name']} </option>";
+                 }
+             }
+             $context .= '</select>
 				</td>';
 
 			 echo $context;die();
