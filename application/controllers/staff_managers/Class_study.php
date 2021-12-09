@@ -557,8 +557,6 @@ class Class_study extends MY_Table {
 				}
 			}
 
-//			print_arr($param);
-
 			if (isset($param['time_end_real']) || isset($param['time_end_expected'])) {
 				if ($param['time_end_real'] <= $param['time_start'] && $param['time_end_expected'] <= $param['time_start']) {
 					redirect_and_die('Ngày kết thúc ko thể trước ngày khai giảng');
@@ -606,7 +604,12 @@ class Class_study extends MY_Table {
                 );
                 $this->contacts_model->update($where_contact, $data_contact);
             }
-			//echoQuery(); die();
+
+            if ($post['edit_class_study_id'] != $class_study[0]['class_study_id']) {
+                $where_contact = array('class_study_id' => $class_study[0]['class_study_id']);
+                $param_contact['class_study_id'] = $post['edit_class_study_id'];
+                $this->contacts_model->update($where_contact, $param_contact);
+            }
 
 			$param['date_last_update'] = time();
 

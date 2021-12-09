@@ -86,7 +86,7 @@ $table_id = isset($value['table_id']) ? $value['table_id'] : 'id';
 
     <td>
 
-		<select class="form-control item_id" name="<?php echo $get_name; ?>" multiple="multiple">
+		<select class="form-control item_id" name="<?php echo $get_name; ?>[]" multiple="multiple">
 
             <?php foreach ($$key as $value) { ?>
 
