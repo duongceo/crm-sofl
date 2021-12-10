@@ -406,11 +406,13 @@ class Class_study extends MY_Table {
 				}
 			}
 
-			if (isset($param['time_end_real']) || isset($param['time_end_expected'])) {
+			if (!empty($param['time_end_expected'])) {
 				if ($param['time_end_real'] <= $param['time_start'] && $param['time_end_expected'] <= $param['time_start']) {
 					redirect_and_die('Ngày kết thúc ko thể trước ngày khai giảng');
 				}
-			}
+			} else {
+                $param['time_end_expected'] = $this->get_time_end_expected($param['total_lesson'], $param['day_id'], $param['time_start']);
+            }
 
 			$param['time_created'] = time();
 			$param['date_last_update'] = time();
@@ -557,11 +559,15 @@ class Class_study extends MY_Table {
 				}
 			}
 
-			if (isset($param['time_end_real']) || isset($param['time_end_expected'])) {
+			if (!empty($param['time_end_real']) || !empty($param['time_end_expected'])) {
 				if ($param['time_end_real'] <= $param['time_start'] && $param['time_end_expected'] <= $param['time_start']) {
 					redirect_and_die('Ngày kết thúc ko thể trước ngày khai giảng');
 				}
 			}
+
+            if (empty($param['time_end_expected'])) {
+                $param['time_end_expected'] = $this->get_time_end_expected($param['total_lesson'], $param['day_id'], $param['time_start']);
+            }
 
 			if ((!isset($post['edit_active']) && empty($post['edit_active'])) || $post['edit_character_class_id'] == 3) {
 				$param['active'] = 0;
@@ -625,6 +631,20 @@ class Class_study extends MY_Table {
             return $class_id;
         }
         $this->create_class_id($str, $branch_id);
+    }
+    
+    private function get_time_end_expected($total_lesson, $day, $time_start) {
+	    $this->load->model('day_model');
+	    $time_end_expected = '';
+	    if ($total_lesson == 0 || $day == 0 || $time_start == '') {
+	        return $time_end_expected;
+        }
+        $weekday = $this->day_model->get_day($day);
+	    $total_weekday = count(explode('-', $weekday));
+        $total_day = ceil($total_lesson / $total_weekday) * 7;
+        $time_end_expected = strtotime('+'.$total_day.' days', $time_start);
+
+        return $time_end_expected;
     }
 
 	public function show_student(){

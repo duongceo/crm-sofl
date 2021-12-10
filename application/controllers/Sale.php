@@ -478,56 +478,65 @@ class Sale extends MY_Controller {
                 $this->session->set_tempdata('message', 'Có lỗi xảy ra trong quá trình nhập liệu', 2);
                 $this->session->set_tempdata('msg_success', 0, 2);
                 $require_model = array(
-					'branch' => array(),
-					'language_study' => array(),
-					'call_status' => array(),
-					'level_contact' => array(
-						'where' => array(
-							'parent_id' => ''
-						),
-					),
-					'level_student' => array(
-						'where' => array(
-							'parent_id' => ''
-						),
-					),
-					'level_language' => array(),
-					'class_study' => array(),
-					'sources' => array(),
-					'payment_method_rgt' => array(),
-					'account_banking' => array(),
-//					'campaign' =>array(
-//						'where' => array('active' => '1', 'marketer_id' => $this->user_id),
-//						'order' => array(
-//							'name' => 'ASC'
-//						)
-//					),
-//					'adset' =>array(
-//						'where' => array('active' => '1', 'marketer_id' => $this->user_id),
-//						'order' => array(
-//							'name' => 'ASC'
-//						)
-//					),
-//					'ad' =>array(
-//						'where' => array('active' => '1', 'marketer_id' => $this->user_id),
-//						'order' => array(
-//							'name' => 'ASC'
-//						)
-//					),
-					'channel' => array(
-						'where' => array('active' => '1'),
-						'order' => array('name' => 'ASC')
-					),
-					'staffs' => array(
-						'where' => array(
-							'role_id' => 1,
-							'active' => 1
-						)
-					),
-				);
-                $data = array_merge($this->data, $this->_get_require_data($require_model));
-//                print_arr($data);
+                    'branch' => array(),
+                    'language_study' => array(),
+                    'call_status' => array(),
+                    'level_contact' => array(
+                        'where' => array(
+                            'parent_id' => ''
+                        ),
+                    ),
+                    'level_student' => array(
+                        'where' => array(
+                            'parent_id' => ''
+                        ),
+                    ),
+                    'level_language' => array(),
+                    'class_study' => array(),
+                    'sources' => array(),
+                    'payment_method_rgt' => array(),
+                    'account_banking' => array(),
+//				'campaign' =>array(
+//					'where' => array('active' => '1', 'marketer_id' => $this->user_id),
+//					'order' => array(
+//						'name' => 'ASC'
+//					)
+//				),
+//				'adset' =>array(
+//					'where' => array('active' => '1', 'marketer_id' => $this->user_id),
+//					'order' => array(
+//						'name' => 'ASC'
+//					)
+//				),
+//				'ad' =>array(
+//					'where' => array('active' => '1', 'marketer_id' => $this->user_id),
+//					'order' => array(
+//						'name' => 'ASC'
+//					)
+//				),
+                    'channel' => array(
+                        'where' => array('active' => '1'),
+                        'order' => array('name' => 'ASC')
+                    ),
+                    'staffs' => array(
+                        'where' => array(
+                            'role_id' => 1,
+                            'active' => 1
+                        )
+                    ),
+                );
+//            $data = array_merge($this->data, $this->_get_require_data($require_model));
+                $data = $this->_get_require_data($require_model);
+
+                $data['add_left'] = array('name', 'phone', 'address', 'branch', 'language', 'date_rgt', 'is_old');
+                $data['add_right'] = array('call_stt', 'level_contact', 'date_rgt_study', 'level_student', 'fee', 'paid', 'date_paid', 'payment_method_rgt', 'note');
+
+    //			if ($this->role_id == 12 || $this->role_id == 6) {
+    //				$data['top_nav'] = 'manager/common/top-nav';
+    //			}
+    //            print_arr($data);
                 $data['content'] = 'sale/add_contact';
+
                 $this->load->view(_MAIN_LAYOUT_, $data);
             } else {
 				if ($input['is_old'] == 0) {

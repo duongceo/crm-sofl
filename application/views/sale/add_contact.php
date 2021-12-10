@@ -1,7 +1,7 @@
 
 <?php  $data['rows'] = $_GET ?>
 <h3 class="text-center paddingtop20"> Thêm mới 1 contact</h3>
-
+<?php echo validation_errors(); ?>
 <form method="post" action="<?php echo base_url('sale/add_contact'); ?>">
     <div class="container">
         <div class="row">

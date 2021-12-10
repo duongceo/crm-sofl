@@ -2584,7 +2584,8 @@ $(document).on('show.bs.modal', '.modal', function () {
     $(".datepicker").datepicker({dateFormat: "dd-mm-yy"});
     $(".reset_datepicker").click(function (e) {
         e.preventDefault();
-        $(".datepicker").val("");
+        // $(".datepicker").val("");
+        $(this).parent().parent().find(".datepicker").val('');
 		$(this).parent().parent().find(".datetimepicker").val('');
     });
     $('.datetimepicker').datetimepicker({
