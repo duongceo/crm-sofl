@@ -531,9 +531,9 @@ class Sale extends MY_Controller {
                 $data['add_left'] = array('name', 'phone', 'address', 'branch', 'language', 'date_rgt', 'is_old');
                 $data['add_right'] = array('call_stt', 'level_contact', 'date_rgt_study', 'level_student', 'fee', 'paid', 'date_paid', 'payment_method_rgt', 'note');
 
-    //			if ($this->role_id == 12 || $this->role_id == 6) {
-    //				$data['top_nav'] = 'manager/common/top-nav';
-    //			}
+    			if ($this->role_id == 1) {
+    				$data['top_nav'] = 'sale/common/top-nav';
+    			}
     //            print_arr($data);
                 $data['content'] = 'sale/add_contact';
 
@@ -810,9 +810,9 @@ class Sale extends MY_Controller {
             $data['add_left'] = array('name', 'phone', 'address', 'branch', 'language', 'date_rgt', 'is_old');
             $data['add_right'] = array('call_stt', 'level_contact', 'date_rgt_study', 'level_student', 'fee', 'paid', 'date_paid', 'payment_method_rgt', 'note');
 
-//			if ($this->role_id == 12 || $this->role_id == 6) {
-//				$data['top_nav'] = 'manager/common/top-nav';
-//			}
+            if ($this->role_id == 1) {
+                $data['top_nav'] = 'sale/common/top-nav';
+            }
 //            print_arr($data);
             $data['content'] = 'sale/add_contact';
 

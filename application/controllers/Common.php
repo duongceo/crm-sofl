@@ -486,9 +486,9 @@ class Common extends MY_Controller {
             $dataPush['success'] = '0';
 
             $post = $this->input->post();
-//			print_arr($post);
             $param = array();
-            $post_arr = array('name', 'phone', 'phone_foreign', 'address', 'branch_id', 'language_id', 'class_study_id', 'level_language_id', 'payment_method_rgt', 'call_status_id', 'is_old', 'complete_fee');
+            $post_arr = array('name', 'phone', 'phone_foreign', 'address', 'branch_id', 'language_id', 'class_study_id', 'level_student_id',
+            'level_language_id', 'payment_method_rgt', 'call_status_id', 'is_old', 'complete_fee', 'level_contact_id', 'level_contact_detail');
 
             foreach ($post_arr as $value) {
                 if (isset($post[$value])) {
@@ -513,24 +513,22 @@ class Common extends MY_Controller {
 				}
 			}
 			
-			if (isset($post['level_contact_id']) && !empty($post['level_contact_id']) && $post['level_contact_id'] != '') {
-				$param['level_contact_id'] = $post['level_contact_id'];
-			} elseif ($post['level_student_id'] != 'L8.1') {
-				$param['level_contact_id'] = $rows[0]['level_contact_id'];
-			}
-			
-			if (isset($post['level_contact_detail']) && !empty($post['level_contact_detail']) && $post['level_contact_detail'] != '') {
-				$param['level_contact_detail'] = $post['level_contact_detail'];
-				$level_contact = $param['level_contact_detail'];
-			} else {
-				$level_contact = $param['level_contact_id'];
-			}
-
-			if (isset($post['level_student_id']) && !empty($post['level_student_id']) && $post['level_student_id'] != '') {
-				$param['level_student_id'] = $post['level_student_id'];
-			} else {
-				$param['level_student_id'] = '';
-			}
+//			if (isset($post['level_contact_id']) && !empty($post['level_contact_id']) && $post['level_contact_id'] != '') {
+//				$param['level_contact_id'] = $post['level_contact_id'];
+//			}
+//
+//			if (isset($post['level_contact_detail']) && !empty($post['level_contact_detail']) && $post['level_contact_detail'] != '') {
+//				$param['level_contact_detail'] = $post['level_contact_detail'];
+//				$level_contact = $param['level_contact_detail'];
+//			} else {
+//				$level_contact = $param['level_contact_id'];
+//			}
+//
+//			if (isset($post['level_student_id']) && !empty($post['level_student_id']) && $post['level_student_id'] != '') {
+//				$param['level_student_id'] = $post['level_student_id'];
+//			} else {
+//				$param['level_student_id'] = '';
+//			}
 
 //			if (isset($post['level_student_detail']) && !empty($post['level_student_detail']) && $post['level_student_detail'] != '') {
 //				$param['level_student_detail'] = $post['level_student_detail'];
@@ -578,7 +576,7 @@ class Common extends MY_Controller {
 				}
 			}
 
-            $check_rule = $this->_check_rule($param['call_status_id'], $level_contact, $param['level_student_id'],  $param['date_recall']);
+            $check_rule = $this->_check_rule($param['call_status_id'], $param['level_contact_id'], $param['level_student_id'],  $param['date_recall']);
 
             if ($check_rule == false) {
                 $result['success'] = 0;
@@ -900,7 +898,8 @@ class Common extends MY_Controller {
     }
 
     private function _check_rule($call_status_id, $level_contact_id, $level_student, $date_recall) {
-        if ($call_status_id == '0' || $call_status_id == _SO_MAY_SAI_ || $call_status_id == _KHONG_NGHE_MAY_ || $call_status_id == _NHAM_MAY_ || $call_status_id == _KHONG_LIEN_LAC_DUOC_) {
+//        if ($call_status_id == '0' || $call_status_id == _SO_MAY_SAI_ || $call_status_id == _KHONG_NGHE_MAY_ || $call_status_id == _NHAM_MAY_ || $call_status_id == _KHONG_LIEN_LAC_DUOC_) {
+        if (in_array($call_status_id, array(0, _SO_MAY_SAI_, _KHONG_NGHE_MAY_, _NHAM_MAY_, _KHONG_LIEN_LAC_DUOC_))) {
             if ($level_contact_id != '') {
                 return false;
             }
