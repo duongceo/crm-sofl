@@ -844,6 +844,12 @@ class Class_study extends MY_Table {
          if ($class[0]['teacher_id'] != 0) {
              $input_teacher['where'] = array('id' => $class[0]['teacher_id']);
              $teacher = $this->teacher_model->load_all($input_teacher);
+             if (empty($teacher[0]['email'])) {
+                 $result['success'] = false;
+                 $result['message'] =  'Giáo viên chưa có mail';
+                 echo json_encode($result);
+                 die();
+             }
              $class[0]['time'] = $this->time_model->get_time($class[0]['time_id']);
              $class[0]['day'] = $this->day_model->get_day($class[0]['day_id']);
              $class[0]['branch_name'] = $this->branch_model->find_branch_name($class[0]['branch_id']);
@@ -863,7 +869,7 @@ class Class_study extends MY_Table {
 
              $this->load->library('email');
              $this->email->from('minhduc.sofl@gmail.com', 'TRUNG TÂM NGOẠI NGỮ SOFL');
-             $this->email->to($teacher[0]['email']);
+             $this->email->to(trim($teacher[0]['email']));
              $subject = 'SOFL GỬI HỢP ĐỒNG KHÓA HỌC LỚP ' . $post['class_study_id'];
              $this->email->subject($subject);
              $message = 'SOFL gửi hợp đồng khóa học';
