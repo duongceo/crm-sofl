@@ -622,6 +622,18 @@ class Student extends MY_Controller {
                 $data_class['time_end_real'] = strtotime(date('d-m-Y'));
                 $data_class['character_class_id'] = 3;
                 $this->class_study_model->update($input_class['where'], $data_class);
+
+                $data = json_decode($post['data_attendance']);
+                if (!empty($data)) {
+                    foreach ($data as $item) {
+                        $where_contact = array('id' => $item->contact_id);
+                        $param_contact = array(
+                            'level_study_id' => 'L7.4',
+                            'date_action_of_study' => time()
+                        );
+                        $this->contacts_model->update($where_contact, $param_contact);
+                    }
+                }
             }
         }
 
