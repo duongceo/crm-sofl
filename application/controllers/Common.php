@@ -512,7 +512,7 @@ class Common extends MY_Controller {
 					die;
 				}
 			}
-			
+
 //			if (isset($post['level_contact_id']) && !empty($post['level_contact_id']) && $post['level_contact_id'] != '') {
 //				$param['level_contact_id'] = $post['level_contact_id'];
 //			}
@@ -538,10 +538,6 @@ class Common extends MY_Controller {
 				$param['level_study_id'] = $post['level_study_id'];
 				$param['date_action_of_study'] = (isset($post['date_action_of_study']) && $post['date_action_of_study'] != '') ? strtotime($post['date_action_of_study']) : '';
 			}
-
-//			if (isset($post['level_study_detail']) && !empty($post['level_study_detail']) && $post['level_study_detail'] != '') {
-//				$param['level_study_detail'] = $post['level_study_detail'];
-//			}
 			
 			if ($post['level_student_id'] == 'L8') {
 				if ($post['is_old'] == 0) {
@@ -575,6 +571,11 @@ class Common extends MY_Controller {
 					}
 				}
 			}
+
+            if ($this->role_id == 1 && $rows[0]['level_contact_id'] == 'L5') {
+                $param['level_contact_id'] = 'L5';
+                $param['level_contact_detail'] = $rows[0]['level_contact_detail'];
+            }
 
             $check_rule = $this->_check_rule($param['call_status_id'], $param['level_contact_id'], $param['level_student_id'],  $param['date_recall']);
 
@@ -615,8 +616,6 @@ class Common extends MY_Controller {
 //						die;
 //					}
 //				}
-
-//				$param['date_rgt_study'] = (isset($post['date_rgt_study']) && $post['date_rgt_study'] != '') ? strtotime($post['date_rgt_study']) : time();
 
 				$dataPush['message'] = 'Yeah Yeah !!';
                 $dataPush['success'] = '1';
@@ -799,11 +798,10 @@ class Common extends MY_Controller {
 
     //Tạo tài khoản học viên
     public function create_new_account_student($name = '', $phone = '', $level_language_id = '') {
+        $student = array();
         if ($phone != '' && $level_language_id != '') {
 			$this->load->model('level_language_model');
 			$contact_s = $this->level_language_model->find_course_combo($level_language_id);
-//			echo $contact_s;die();
-			// $courseCode = explode(",", $contact_s);
 			$contact = array(
 				'course_code' => $contact_s,
 				'name' => $name,
@@ -813,10 +811,9 @@ class Common extends MY_Controller {
 
 			$student = $this->_create_account_student_offline($contact);
 //			return json_encode($student); die();
-			return $student;
         }
+        return $student;
     }
-    //end
 
     //api tạo tài khoản cho học viên
     private function _create_account_student_offline($contact) {
