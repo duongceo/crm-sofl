@@ -189,7 +189,7 @@ class MY_Controller extends CI_Controller {
 
             if ($value['id'] == $this->session->userdata('role_id')) {
 
-                $this->data['role_name'] = $value['position'];
+                $this->data['role_name'] = $value['name'];
 
                 break;
 

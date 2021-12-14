@@ -40,7 +40,7 @@ class Staff extends MY_Table {
 				'name_display' => 'Số ĐT',
 			),
 
-			'role_id' => array(
+			'role' => array(
 				'type' => 'custom',
 				'value' => $this->get_data_from_model('role'),
 				'name_display' => 'Vị trí',
@@ -72,12 +72,15 @@ class Staff extends MY_Table {
 		$this->set_offset($offset);
 		$this->show_table();
 		$data = $this->data;
+        $data['role'] = $this->get_data_from_model('role');
+        $this->list_filter = array(
+            'left_filter' => array(
+                'role' => array(
+                    'type' => 'arr_multi'
+                ),
+            )
+        );
 
-//		$data['slide_menu'] = 'cod/common/slide-menu';
-//		if($this->role_id == 1){
-//			$data['top_nav'] = 'sale/common/top-nav';
-//			$data['slide_menu'] = 'sale/common/slide-menu';
-//		}
 		$data['list_title'] = 'nhân viên';
 		$data['edit_title'] = 'Sửa thông tin nhân viên';
 		$data['content'] = 'base/index';
