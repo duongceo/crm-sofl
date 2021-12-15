@@ -238,9 +238,17 @@
 					</a>
 				</li>
 			<?php } ?>
+
+            <?php if ($controller == 'teacher') { ?>
+                <li class="class_own_teacher show-with-item">
+                    <a>
+                        <i class="fa fa-info-circle" aria-hidden="true"></i> &nbsp; &nbsp; Check lớp học
+                    </a>
+                </li>
+            <?php } ?>
 		<?php } ?>
 
-        <?php if ($this->role_id != 12) { ?>
+        <?php if ($this->role_id != 12 && $this->role_id != 14) { ?>
             <li class="ajax-request-modal load-new-contact-id one-item-selected" data-contact-id ="0" data-modal-name="view-detail-contact-div" data-url="common/view_detail_contact">
                 <a>
                     <i class="fa fa-info-circle" aria-hidden="true"></i> &nbsp; &nbsp; Chi tiết contact

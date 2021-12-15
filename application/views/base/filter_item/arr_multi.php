@@ -82,7 +82,7 @@ $table_id = isset($value['table_id']) ? $value['table_id'] : 'id';
 
 <tr>
 
-    <td class="text-right"> <?php echo h_find_name_display($key, $this->list_view); ?> ? </td>
+    <td class="text-right"> <?php echo h_find_name_display($key, $this->list_view); ?> </td>
 
     <td>
 

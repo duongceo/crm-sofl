@@ -536,13 +536,18 @@ class Teacher extends MY_Table {
     public function show_class_own_teacher() {
 	    $this->load->model('class_study_model');
 	    $this->load->model('level_language_model');
+	    $this->load->model('day_model');
+	    $this->load->model('time_model');
+
 	    $post = $this->input->post();
 	    $input = array('where'=> array('teacher_id' => $post['teacher_id']));
         $data['class'] = $this->class_study_model->load_all($input);
 
-        foreach ($data['class'] as $class) {
+        foreach ($data['class'] as &$class) {
             $class['level_study_class'] = $this->level_language_model->get_name_level_language($class['level_language_id']);
             $class['number_student'] = $this->get_student_current($class['level_language_id']);
+            $class['day_display'] = $this->day_model->get_day($class['day_id']);
+            $class['time_display'] = $this->time_model->get_time($class['time_id']);
         }
 
         $this->load->view('staff_managers/teacher/show_class_own_teacher', $data);
