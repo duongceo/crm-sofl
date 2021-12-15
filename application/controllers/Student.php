@@ -423,7 +423,7 @@ class Student extends MY_Controller {
 		$total_cost = 0;
 		foreach ($cost as &$item) {
 			$item['branch_name'] = $this->branch_model->find_branch_name($item['branch_id']);
-			$item['user_name'] = $this->staffs_model->find_staff_name($this->user_id);
+			$item['user_name'] = $this->staffs_model->find_staff_name($item['user_id']);
 			$total_cost += $item['cost'];
 		}
 		unset($item);
@@ -433,6 +433,7 @@ class Student extends MY_Controller {
 			$param['cost'] = str_replace(',', '', $post['cost']);
 			$param['content_cost'] = $post['content_cost'];
 			$param['revenue_cost'] = (isset($post['revenue_cost'])) ? $post['revenue_cost'] : 0;
+			$param['paid_status'] = (isset($post['paid_status'])) ? $post['paid_status'] : 0;
 			$param['day_cost'] = strtotime(str_replace("/", "-", $post['day_cost']));
 			$param['time_created'] = time();
 			$param['branch_id'] = (empty($post['branch_id'])) ? $this->branch_id : $post['branch_id'];
@@ -459,7 +460,7 @@ class Student extends MY_Controller {
 				}
 
 				$input_cost = array_merge_recursive($input_report, array('where' => array('revenue_cost' => '0')));
-				$input_revenue = array_merge_recursive($input_report, array('where' => array('revenue_cost' => 1)));
+				$input_revenue = array_merge_recursive($input_report, array('where' => array('revenue_cost' => 1, 'paid_status' => 1)));
 
 				$cost_day = $this->cost_branch_model->load_all($input_cost);
 				if (!empty($cost_day)) {

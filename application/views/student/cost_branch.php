@@ -29,6 +29,7 @@
 					<th>Thu/Chi</th>
 					<th>Nơi thu/chi</th>
 					<th>Người nhập</th>
+                    <th>Trạng thái</th>
                     <th>Ngày nhập</th>
 				</tr>
 			</thead>
@@ -56,6 +57,13 @@
 							<?php echo $item['user_name']; ?>
 						</td>
                         <td class="text-center">
+                            <?php if ($item['paid_status']) { ?>
+                                <p class="bg-success">Đã thanh toán</p>
+                            <?php } else { ?>
+                                <p class="bg-warning">Chưa thanh toán</p>
+                            <?php } ?>
+                        </td>
+                        <td class="text-center">
                             <?php echo date('d-m-Y H:i:s', $item['time_created']); ?>
                         </td>
 					</tr>
@@ -67,7 +75,7 @@
 </div>
 
 <hr>
-<h3 class="text-center">Thống kê chi tiêu</h3>
+<h3 class="text-center">Thống kê đã chi tiêu</h3>
 <div class="row">
 	<div class="col-lg-2 col-md-2 col-xs-5" style="padding-right: 0">
 		<div class="table-responsive">
@@ -190,17 +198,19 @@
 									</td>
 								</tr>
 
-                                <td class="text-right"> Nơi thu/chi </td>
-                                <td>
-                                    <select class="form-control selectpicker" name="branch_id">
-                                        <option value=""> Chọn cơ sở </option>
-                                        <?php foreach ($branch as $key => $value) { ?>
-                                            <option value="<?php echo $value['id']; ?>">
-                                                <?php echo $value['name']; ?>
-                                            </option>
-                                        <?php } ?>
-                                    </select>
-                                </td>
+                                <tr>
+                                    <td class="text-right"> Nơi thu/chi </td>
+                                    <td>
+                                        <select class="form-control selectpicker" name="branch_id">
+                                            <option value=""> Chọn cơ sở </option>
+                                            <?php foreach ($branch as $key => $value) { ?>
+                                                <option value="<?php echo $value['id']; ?>">
+                                                    <?php echo $value['name']; ?>
+                                                </option>
+                                            <?php } ?>
+                                        </select>
+                                    </td>
+                                </tr>
 							</table>
 						</div>
 
@@ -221,9 +231,17 @@
 										Thu Khác - Chi Tiêu
 									</td>
 									<td>
-										<input type="checkbox" name="revenue_cost" value="1" data-off-text="Chi Tiêu" data-on-text="Thu khác" data-handle-width="100">
+										<input type="checkbox" class="switch_select" name="revenue_cost" value="1" data-off-text="Chi Tiêu" data-on-text="Thu khác" data-handle-width="100">
 									</td>
 								</tr>
+                                <tr>
+                                    <td class="text-right">
+                                        Thanh Toán ?
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" class="switch_select" name="paid_status" value="1" data-off-text="Chưa TT" data-on-text="Đã TT" data-handle-width="100">
+                                    </td>
+                                </tr>
 							</table>
 						</div>
 						<div class="text-center">
@@ -237,9 +255,9 @@
 </div>
 
 <script>
-	$("[name='revenue_cost']").bootstrapSwitch();
+	$(".switch_select").bootstrapSwitch();
 </script>
 
-<script  type="text/javascript">
+<script type="text/javascript">
     $('.money').simpleMoneyFormat();
 </script>
