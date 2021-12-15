@@ -167,12 +167,12 @@ class Class_study extends MY_Table {
 					'name_display' => 'Phòng học',
 					'display' => 'none'
 				),
-				'time_id' => array(
+				'time' => array(
 					'type' => 'custom',
 					'value' => $this->get_data_from_model('time'),
 					'name_display' => 'Giờ học',
 				),
-				'day_id' => array(
+				'day' => array(
 					'type' => 'custom',
 					'value' => $this->get_data_from_model('day'),
 					'name_display' => 'Ngày học',
