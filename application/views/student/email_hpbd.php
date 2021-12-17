@@ -6,7 +6,7 @@
             Cảm ơn bạn đã tham gia học tại SOFL.
         </p>
         <div>
-            <img class="img-responsive" src="<?php echo base_url()?>public/images/cmsn.png" alt="" style="max-width: 30%; display: block; margin-left: auto; margin-right: auto;">
+            <img class="img-responsive" src="<?php echo base_url()?>public/images/cmsn.png" alt="">
         </div>
     </div>
 </div>
