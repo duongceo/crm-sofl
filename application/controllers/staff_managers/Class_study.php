@@ -239,9 +239,12 @@ class Class_study extends MY_Table {
                 'day' => array(
                     'type' => 'custom'
                 ),
-				'branch' => array(
-					'type' => 'arr_multi'
-				),
+                'time' => array(
+                    'type' => 'custom'
+                ),
+                'branch' => array(
+                    'type' => 'arr_multi'
+                ),
 				'language' => array(
 					'type' => 'custom'
 				),
@@ -251,12 +254,15 @@ class Class_study extends MY_Table {
 			),
 
 			'left_filter' => array(
-                'time' => array(
-                    'type' => 'custom'
-                ),
 				'character_class' => array(
 					'type' => 'arr_multi'
 				),
+                'survey' => array(
+                    'type' => 'custom'
+                ),
+                'number_care' => array(
+                    'type' => 'custom'
+                ),
 				'time_start' => array(
 					'type' => 'datetime'
 				),
@@ -575,6 +581,10 @@ class Class_study extends MY_Table {
 
             if (empty($param['time_end_expected'])) {
                 $param['time_end_expected'] = $this->get_time_end_expected($param['total_lesson'], $param['day_id'], $param['time_start']);
+            }
+
+            if (!empty($param['time_end_real'])) {
+                $param['character_class_id'] = 3;
             }
 
 			if ((!isset($post['edit_active']) && empty($post['edit_active'])) || $post['edit_character_class_id'] == 3) {

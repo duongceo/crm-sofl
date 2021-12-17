@@ -475,6 +475,10 @@ class Sale extends MY_Controller {
             if ($this->form_validation->run() == FALSE) {
                 $this->session->set_tempdata('message', 'Có lỗi xảy ra trong quá trình nhập liệu', 2);
                 $this->session->set_tempdata('msg_success', 0, 2);
+
+                $this->load->model('level_language_model');
+                $this->load->model('class_study_model');
+
                 $require_model = array(
                     'branch' => array(),
                     'language_study' => array(),
@@ -489,8 +493,8 @@ class Sale extends MY_Controller {
                             'parent_id' => ''
                         ),
                     ),
-                    'level_language' => array(),
-                    'class_study' => array(),
+//                    'level_language' => array(),
+//                    'class_study' => array(),
                     'sources' => array(),
                     'payment_method_rgt' => array(),
                     'account_banking' => array(),
@@ -505,8 +509,19 @@ class Sale extends MY_Controller {
                         )
                     ),
                 );
-//            $data = array_merge($this->data, $this->_get_require_data($require_model));
                 $data = $this->_get_require_data($require_model);
+
+                if (isset($_GET['language_id']) && !empty($_GET['language_id'])) {
+                    $data['level_language'] = $this->level_language_model->load_all(array('where' => array('language_id' => $_GET['language_id'])));
+                } else {
+                    $data['level_language'] = $this->level_language_model->load_all(array());
+                }
+
+                if (isset($_GET['branch_id']) && !empty($_GET['branch_id'])) {
+                    $data['class_study'] = $this->class_study_model->load_all(array('where' => array('branch_id' => $_GET['branch_id'])));
+                } else {
+                    $data['class_study'] = $this->class_study_model->load_all(array());
+                }
 
                 $data['add_left'] = array('name', 'phone', 'email', 'gender', 'address', 'branch', 'language', 'date_rgt');
                 $data['add_right'] = array('call_stt', 'level_contact', 'date_rgt_study', 'is_old', 'level_student', 'fee', 'paid', 'date_paid', 'payment_method_rgt', 'note');
@@ -514,7 +529,6 @@ class Sale extends MY_Controller {
     			if ($this->role_id == 1) {
     				$data['top_nav'] = 'sale/common/top-nav';
     			}
-    //            print_arr($data);
                 $data['content'] = 'sale/add_contact';
 
                 $this->load->view(_MAIN_LAYOUT_, $data);
@@ -737,6 +751,9 @@ class Sale extends MY_Controller {
                 show_error_and_redirect('Thêm thành công contact', $input['back_location']);
             }
         } else {
+            $this->load->model('level_language_model');
+            $this->load->model('class_study_model');
+
             $require_model = array(
             	'branch' => array(),
                 'language_study' => array(),
@@ -751,8 +768,7 @@ class Sale extends MY_Controller {
 						'parent_id' => ''
 					),
 				),
-                'level_language' => array(),
-                'class_study' => array(),
+//                'class_study' => array(),
                 'sources' => array(),
 				'payment_method_rgt' => array(),
 				'account_banking' => array(),
@@ -767,8 +783,19 @@ class Sale extends MY_Controller {
 					)
 				),
             );
-//            $data = array_merge($this->data, $this->_get_require_data($require_model));
 			$data = $this->_get_require_data($require_model);
+
+			if (isset($_GET['language_id']) && !empty($_GET['language_id'])) {
+			    $data['level_language'] = $this->level_language_model->load_all(array('where' => array('language_id' => $_GET['language_id'])));
+            } else {
+                $data['level_language'] = $this->level_language_model->load_all(array());
+            }
+
+            if (isset($_GET['branch_id']) && !empty($_GET['branch_id'])) {
+                $data['class_study'] = $this->class_study_model->load_all(array('where' => array('branch_id' => $_GET['branch_id'])));
+            } else {
+                $data['class_study'] = $this->class_study_model->load_all(array());
+            }
 
             $data['add_left'] = array('name', 'phone', 'email', 'gender', 'address', 'branch', 'language', 'date_rgt');
             $data['add_right'] = array('call_stt', 'level_contact', 'date_rgt_study', 'is_old', 'level_student', 'fee', 'paid', 'date_paid', 'payment_method_rgt', 'note');
@@ -776,7 +803,6 @@ class Sale extends MY_Controller {
             if ($this->role_id == 1) {
                 $data['top_nav'] = 'sale/common/top-nav';
             }
-//            print_arr($data);
             $data['content'] = 'sale/add_contact';
 
             $this->load->view(_MAIN_LAYOUT_, $data);
