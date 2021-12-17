@@ -2583,12 +2583,107 @@ class Manager extends MY_Controller {
 //		$data['startDate'] = $startDate;
 //		$data['endDate'] = $endDate;
 		$data['left_col'] = array('date_happen_1');
-//		$data['right_col'] = array('source');
-//		$data['load_js'] = array('m_view_report');
 		$data['content'] = 'manager/view_report_sale_handle_source_data';
 //        print_arr($data);
 		$this->load->view(_MAIN_LAYOUT_, $data);
 	}
+
+    function view_report_salary_teacher() {
+        $this->load->model('teacher_model');
+        $this->load->model('language_study_model');
+        $this->load->model('branch_model');
+        $this->load->model('mechanism_model');
+
+        $require_model = array(
+            'branch' => array(
+                'where' => array(
+                    'active' => 1,
+                )
+            ),
+            'language_study' => array(
+                'where' => array(
+                    'is_primary' => 1
+                )
+            ),
+        );
+        $data = array_merge($this->data, $this->_get_require_data($require_model));
+
+        $get = $this->input->get();
+
+        if (isset($get['filter_date_date_happen']) && $get['filter_date_date_happen'] != '') {
+            $time = $get['filter_date_date_happen'];
+        } else {
+            $time = '01' . '/' . date('m') . '/' . date('Y') . ' - ' . date('d') . '/' . date('m') . '/' . date('Y');
+        }
+
+        $dateArr = explode('-', $time);
+        $date_from = strtotime(str_replace("/", "-", trim($dateArr[0])));
+        $date_end = strtotime(str_replace("/", "-", trim($dateArr[1]))) + 3600 * 24 - 1;
+
+        $input_salary = array();
+        $input_salary['select'] = 'SUM(money) as MONEY';
+        $input_salary['where'] = array(
+            'time_created >=' => $date_from,
+            'time_created <=' => $date_end,
+            'mechanism' => 2
+        );
+
+        $salary = array();
+        $total = array();
+
+        //unset($data['branch'][0]);
+        foreach ($data['language_study'] as $v_language) {
+            $re_new_temp = 0;
+            $re_old_temp = 0;
+            foreach ($data['branch'] as $v_branch) {
+                $input_teacher['where'] = array(
+                    'branch_id' => $v_branch['id'],
+                    'language_id' => $v_language['id'],
+                );
+
+                $input_salary = array();
+                $input_salary['select'] = 'SUM(money) as MONEY';
+                $input_re['where'] = array(
+                    'time_created >=' => $date_from,
+                    'time_created <=' => $date_end,
+                    'branch_id' => $v_branch['id'],
+                    'mechanism' => 2
+                );
+
+//                $input_salary['where_in']['teacher_id'] =
+
+                if (isset($get['filter_source_revenue_id']) && $get['filter_source_revenue_id'] != '') {
+                    unset($input_re['where']['source_revenue_id !=']);
+                    $input_re['where_in']['source_revenue_id'] = $get['filter_source_revenue_id'];
+                }
+
+                $input_re_new = array_merge_recursive(array('where' => array('student_old' => '0')), $input_re);
+                $input_re_old = array_merge_recursive(array('where' => array('student_old' => '1')), $input_re);
+
+                $salary[$v_branch['id']]['branch_name'] = $v_branch['name'];
+//				$re[$v_branch['id']][$v_language['id']]['re_total'] = (int) $this->paid_model->load_all($input_re)[0]['paiding'];
+                $salary[$v_branch['id']][$v_language['id']]['re_new'] = (int) $this->paid_model->load_all($input_re_new)[0]['paiding'];
+                $salary[$v_branch['id']][$v_language['id']]['re_old'] = (int) $this->paid_model->load_all($input_re_old)[0]['paiding'];
+
+                $re_new_temp += $salary[$v_branch['id']][$v_language['id']]['re_new'];
+                $total[$v_language['id']]['total_re_new'] = $re_new_temp;
+
+                $re_old_temp += $salary[$v_branch['id']][$v_language['id']]['re_old'];
+                $total[$v_language['id']]['total_re_old'] = $re_old_temp;
+            }
+        }
+
+        //print_arr($salary);
+
+        $data['salary'] = $salary;
+        $data['total'] = $total;
+        $data['startDate'] = $date_from;
+        $data['endDate'] = $date_end;
+
+        $data['left_col'] = array('date_happen_1', 'source_revenue');
+        $data['content'] = 'manager/view_report_revenue';
+        $this->load->view(_MAIN_LAYOUT_, $data);
+    }
 
 	private function get_contact_id($class_id) {
 		$input_contact = array();

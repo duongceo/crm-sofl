@@ -668,28 +668,37 @@ class Test1 extends CI_Controller {
         }
     }
 
-    public function account_teacher() {
-	    $this->load->model('teacher_model');
+    public function send_mail_hpbd() {
+        $this->load->library('email');
 
-	    $teacher = $this->teacher_model->load_all(array('where'=>array('active' => 1)));
-        foreach ($teacher as $item) {
-            $param['name'] = $item['name'];
-            $param['phone'] = $item['phone'];
-            $param['email'] = $item['email'];
-            $param['user_name'] = $item['phone'];
-            $number_first_phone = substr($item['phone'], 0, 1);
-            if ($number_first_phone != '0') {
-                $param['user_name'] = '0'.$item['phone'];
+	    $input['where'] = array(
+//	        'birthday >=' => strtotime(date('d-m-Y')),
+//            'birthday <=' => strtotime(date('d-m-Y')) + 24*60*60 - 1,
+            'birthday' => date('d-m-Y'),
+            'level_contact_id' => 'L5',
+            'level_contact_detail !=' => 'L5.4'
+        );
+
+	    $contacts = $this->contacts_model->load_all($input);
+	    if (!empty($contacts)) {
+            foreach ($contacts as $item) {
+                if (!empty($item['email'])) {
+                    $this->email->from('minhduc.sofl@gmail.com', 'TRUNG TÂM NGOẠI NGỮ SOFL');
+                    $this->email->to(trim($item['email']));
+                    $subject = 'SOFL CHÚC MỪNG SINH NHẬT BẠN' . mb_strtoupper($item['name'], "UTF-8");
+                    $this->email->subject($subject);
+                    $message = $this->load->view('student/email_hpbd', array(), true);
+                    $this->email->message($message);
+                    if ($this->email->send()) {
+                        echo 'Your Email has successfully been sent.';
+                    } else {
+                        echo 'Học viên '. $item['name'] . 'email không đúng';
+                    }
+                } else {
+                    echo 'Học viên '. $item['name'] . 'không có mail';
+                }
             }
-            $param['password'] = md5(md5($param['user_name']));
-            $param['teacher_id'] = $item['id'];
-            $param['branch_id'] = $item['branch_id'];
-            $param['language_id'] = $item['language_id'];
-            $param['active'] = 1;
-            $param['role_id'] = 8;
-            $this->staffs_model->insert($param);
-	    }
-        echo 'success';
+        }
     }
 
 }

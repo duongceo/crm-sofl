@@ -125,10 +125,12 @@ class Common extends MY_Controller {
             $left_edit = array(
 //                'contact_id' => 'view',
                 'name' => 'edit',
-//                'email' => 'edit',
+                'email' => 'edit',
                 'phone' => 'edit',
                 'phone_foreign' => 'edit',
-				'address' => 'edit',
+                'gender' => 'edit',
+                'birthday' => 'edit',
+                'address' => 'edit',
 				'branch' => 'edit',
                 'class_foreign_id' => 'edit',
                 'language' => 'edit',
@@ -487,7 +489,7 @@ class Common extends MY_Controller {
 
             $post = $this->input->post();
             $param = array();
-            $post_arr = array('name', 'phone', 'phone_foreign', 'address', 'branch_id', 'language_id', 'class_study_id', 'level_student_id',
+            $post_arr = array('name', 'phone', 'phone_foreign', 'birthday', 'email', 'gender', 'address', 'branch_id', 'language_id', 'class_study_id', 'level_student_id',
             'level_language_id', 'payment_method_rgt', 'call_status_id', 'is_old', 'complete_fee', 'level_contact_id', 'level_contact_detail');
 
             foreach ($post_arr as $value) {
@@ -549,7 +551,6 @@ class Common extends MY_Controller {
 			}
 
             $param['date_recall'] = (isset($post['date_recall']) && $post['date_recall'] != '') ? strtotime($post['date_recall']) : '';
-//			print_arr($param);
 
             /* Kiểm tra điều kiện các trạng thái và ngày hẹn gọi lại có logic ko */
             if (isset($post['call_status_id']) && $post['level_student_id'] != 'L8.1') {

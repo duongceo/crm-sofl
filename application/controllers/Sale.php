@@ -494,24 +494,6 @@ class Sale extends MY_Controller {
                     'sources' => array(),
                     'payment_method_rgt' => array(),
                     'account_banking' => array(),
-//				'campaign' =>array(
-//					'where' => array('active' => '1', 'marketer_id' => $this->user_id),
-//					'order' => array(
-//						'name' => 'ASC'
-//					)
-//				),
-//				'adset' =>array(
-//					'where' => array('active' => '1', 'marketer_id' => $this->user_id),
-//					'order' => array(
-//						'name' => 'ASC'
-//					)
-//				),
-//				'ad' =>array(
-//					'where' => array('active' => '1', 'marketer_id' => $this->user_id),
-//					'order' => array(
-//						'name' => 'ASC'
-//					)
-//				),
                     'channel' => array(
                         'where' => array('active' => '1'),
                         'order' => array('name' => 'ASC')
@@ -526,8 +508,8 @@ class Sale extends MY_Controller {
 //            $data = array_merge($this->data, $this->_get_require_data($require_model));
                 $data = $this->_get_require_data($require_model);
 
-                $data['add_left'] = array('name', 'phone', 'address', 'branch', 'language', 'date_rgt', 'is_old');
-                $data['add_right'] = array('call_stt', 'level_contact', 'date_rgt_study', 'level_student', 'fee', 'paid', 'date_paid', 'payment_method_rgt', 'note');
+                $data['add_left'] = array('name', 'phone', 'email', 'gender', 'address', 'branch', 'language', 'date_rgt');
+                $data['add_right'] = array('call_stt', 'level_contact', 'date_rgt_study', 'is_old', 'level_student', 'fee', 'paid', 'date_paid', 'payment_method_rgt', 'note');
 
     			if ($this->role_id == 1) {
     				$data['top_nav'] = 'sale/common/top-nav';
@@ -546,6 +528,7 @@ class Sale extends MY_Controller {
 
                 $param['name'] = $input['name'];
                 $param['email'] = $input['email'];
+                $param['gender'] = $input['gender'];
                 $param['address'] = $input['address'];
 				$param['branch_id'] = $input['branch_id'];
 				$param['language_id'] = $input['language_id'];
@@ -773,24 +756,6 @@ class Sale extends MY_Controller {
                 'sources' => array(),
 				'payment_method_rgt' => array(),
 				'account_banking' => array(),
-//				'campaign' =>array(
-//					'where' => array('active' => '1', 'marketer_id' => $this->user_id),
-//					'order' => array(
-//						'name' => 'ASC'
-//					)
-//				),
-//				'adset' =>array(
-//					'where' => array('active' => '1', 'marketer_id' => $this->user_id),
-//					'order' => array(
-//						'name' => 'ASC'
-//					)
-//				),
-//				'ad' =>array(
-//					'where' => array('active' => '1', 'marketer_id' => $this->user_id),
-//					'order' => array(
-//						'name' => 'ASC'
-//					)
-//				),
 				'channel' => array(
 					'where' => array('active' => '1'),
 					'order' => array('name' => 'ASC')
@@ -805,8 +770,8 @@ class Sale extends MY_Controller {
 //            $data = array_merge($this->data, $this->_get_require_data($require_model));
 			$data = $this->_get_require_data($require_model);
 
-            $data['add_left'] = array('name', 'phone', 'address', 'branch', 'language', 'date_rgt', 'is_old');
-            $data['add_right'] = array('call_stt', 'level_contact', 'date_rgt_study', 'level_student', 'fee', 'paid', 'date_paid', 'payment_method_rgt', 'note');
+            $data['add_left'] = array('name', 'phone', 'email', 'gender', 'address', 'branch', 'language', 'date_rgt');
+            $data['add_right'] = array('call_stt', 'level_contact', 'date_rgt_study', 'is_old', 'level_student', 'fee', 'paid', 'date_paid', 'payment_method_rgt', 'note');
 
             if ($this->role_id == 1) {
                 $data['top_nav'] = 'sale/common/top-nav';
