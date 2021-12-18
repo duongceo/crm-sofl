@@ -212,7 +212,7 @@
 
 						<img src="<?php echo base_url(); ?>public/images/report.png">
 
-						<span> Xem báo cáo lớp học</span>
+						<span> Xem báo cáo lớp học và thống kê HV </span>
 
 					</a>
 

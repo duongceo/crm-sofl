@@ -523,7 +523,7 @@ class Sale extends MY_Controller {
                     $data['class_study'] = $this->class_study_model->load_all(array());
                 }
 
-                $data['add_left'] = array('name', 'phone', 'email', 'gender', 'address', 'branch', 'language', 'date_rgt');
+                $data['add_left'] = array('name', 'phone', 'email', 'gender', 'birthday', 'address', 'branch', 'language', 'date_rgt');
                 $data['add_right'] = array('call_stt', 'level_contact', 'date_rgt_study', 'is_old', 'level_student', 'fee', 'paid', 'date_paid', 'payment_method_rgt', 'note');
 
     			if ($this->role_id == 1) {
@@ -543,6 +543,7 @@ class Sale extends MY_Controller {
                 $param['name'] = $input['name'];
                 $param['email'] = $input['email'];
                 $param['gender'] = $input['gender'];
+                $param['birthday'] = $input['birthday'];
                 $param['address'] = $input['address'];
 				$param['branch_id'] = $input['branch_id'];
 				$param['language_id'] = $input['language_id'];
@@ -797,7 +798,7 @@ class Sale extends MY_Controller {
                 $data['class_study'] = $this->class_study_model->load_all(array());
             }
 
-            $data['add_left'] = array('name', 'phone', 'email', 'gender', 'address', 'branch', 'language', 'date_rgt');
+            $data['add_left'] = array('name', 'phone', 'email', 'gender', 'birthday', 'address', 'branch', 'language', 'date_rgt');
             $data['add_right'] = array('call_stt', 'level_contact', 'date_rgt_study', 'is_old', 'level_student', 'fee', 'paid', 'date_paid', 'payment_method_rgt', 'note');
 
             if ($this->role_id == 1) {

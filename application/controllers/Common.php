@@ -67,6 +67,7 @@ class Common extends MY_Controller {
 //            'email' => 'view',
             'phone' => 'view',
             'phone_foreign' => 'view',
+            'address' => 'view',
             'branch' => 'view',
             'language' => 'view',
             //'class_study_id' => 'view',
