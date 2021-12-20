@@ -31,6 +31,7 @@
 						<th>Nghỉ không phép</th>
 						<th>Ghi chú</th>
                         <th>Điểm</th>
+                        <th>Đánh giá HV</th>
                     </tr>
 				</thead>
 
@@ -57,7 +58,10 @@
 								<input type="text" class="form-control" name="note_<?php echo $item['id']?>" value="<?php echo ($item['note'] != '') ? $item['note']:''?>" style="width: 100%">
 							</td>
                             <td class="text-center">
-                                <input type="text" class="form-control" name="score" value="<?php echo ($item['score'] != '') ? $item['score'] : ''?>" style="width: 50%">
+                                <input type="number" class="form-control" name="score_<?php echo $item['id']?>" value="<?php echo ($item['score'] != '') ? $item['score'] : ''?>" style="width: 50%; margin-left: 25%;">
+                            </td>
+                            <td class="text-center">
+                                <input type="text" class="form-control" name="evaluate_<?php echo $item['id']?>" value="<?php echo ($item['note'] != '') ? $item['note']:''?>" style="width: 100%">
                             </td>
 						</tr>
 					<?php } ?>
@@ -136,7 +140,9 @@
 				'class_id' : $('input[name="class_study_id"]').val(),
 				'contact_id' : $(statusList[i]).attr('contact_id'),
 				'presence_id' : $(statusList[i]).val(),
-				'note' : $('[name=note_'+$(statusList[i]).attr('contact_id')+']').val()
+				'note' : $('[name=note_'+$(statusList[i]).attr('contact_id')+']').val(),
+				'score' : $('[name=score_'+$(statusList[i]).attr('contact_id')+']').val(),
+				'evaluate' : $('[name=evaluate_'+$(statusList[i]).attr('contact_id')+']').val()
 			};
 			data.push(std)
 		}

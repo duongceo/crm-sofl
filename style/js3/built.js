@@ -105,7 +105,7 @@ right_context_menu_display = (controller, contact_id, contact_name, duplicate_id
 		/* $(".transfer_one_contact_to_manager").attr('contact_name', contact_name) */
 		$(".merge_contact").attr('contact_id', contact_id);
 		$(".merge_contact").attr('contact_name', contact_name);
-
+        $(".update_cost_student").attr('contact_id', contact_id);
     }
 };
 
@@ -3120,15 +3120,15 @@ $(document).on('click', '.btn-cod-transfer-multi-contact-submit',function (e){
 
 $(document).on('click', '.transfer_contact, .transfer_one_contact', function (e) {
     e.preventDefault();
-    var action = $(this).attr("class").split(" ");
+    let action = $(this).attr("class").split(" ");
     if (action[0] == "transfer_contact") {
         $("#action_contact").removeClass("form-inline");
         $(".transfer_multi_contact_modal").modal("show");
     } else {
         $(".checked").removeClass("checked");
         $(this).parent().parent().addClass("checked");
-        var contact_id = $(this).attr("contact_id");
-        var contact_name = $(this).attr("contact_name");
+        let contact_id = $(this).attr("contact_id");
+        let contact_name = $(this).attr("contact_name");
         $("#contact_id_input").val(contact_id);
         $(".contact_name_replacement").text(contact_name);
         $(".transfer_one_contact_modal").modal("show");
@@ -3544,7 +3544,7 @@ $(document).ready(function() {
  */
 
 $('.contact-sale-have-to-call').click(function(){
-    var type = $(this).attr('type');
+    let type = $(this).attr('type');
     // console.log(type);return false;
     $.ajax({
 		type: "POST",
@@ -3615,8 +3615,8 @@ $('.btn-note-contact').on('click', function(e) {
 
 $('.view_student').on('click', function (e) {
 	e.preventDefault();
-	var class_study_id = $(this).attr('item_id');
-	var url = $('#base_url').val() + $(this).attr('show_url');
+	let class_study_id = $(this).attr('item_id');
+	let url = $('#base_url').val() + $(this).attr('show_url');
 	$.ajax({
 		url: url,
 		type: 'POST',
@@ -3650,8 +3650,8 @@ $(".btn-export-excel-manager").on('click', function (e) {
 
 $(".search_phone").on('dblclick', function (e) {
 	e.preventDefault();
-	var phone_number = $(this).attr('type').trim();
-	var url =  $('#base_url').val() + 'sale/get_contact_from_phone';
+	let phone_number = $(this).attr('type').trim();
+	let url =  $('#base_url').val() + 'sale/get_contact_from_phone';
 	$.ajax({
 		url: url,
 		type: 'POST',
@@ -3971,7 +3971,6 @@ $(".class_own_teacher").on('click', function (e) {
             teacher_id: teacher_id
         },
         success: function (data) {
-            // console.log(modalName); return false;
             // $(".show_class_own_teacher").modal("show");
             $("." + modal_name).remove();
             let newModal = `<div class="${modal_name}"></div>`;
@@ -4061,6 +4060,34 @@ $('.paid_salary_teacher').on('click', function (e) {
             $(".popup-wrapper").hide();
         },
     });
+});
+
+$(".update_cost_student").on('click', function (e) {
+    e.preventDefault();
+    $(".checked").removeClass("checked");
+    $(this).parent().parent().addClass("checked");
+    let contact_id = $(this).attr("contact_id");
+    let modal_name = 'view_update_cost_student';
+
+    $.ajax({
+        url: $("#base_url").val() + "sale/view_update_cost_student",
+        type: "POST",
+        data: {
+            contact_id: contact_id
+        },
+        beforeSend: () => $(".popup-wrapper").show(),
+        success: function (data) {
+            $("." + modal_name).remove();
+            let newModal = `<div class="${modal_name}"></div>`;
+            $(".modal-append-to").append(newModal);
+            $(`.${modal_name}`).html(data);
+        },
+        complete: function () {
+            $(`.${modal_name} .modal`).modal("show");
+            $(".popup-wrapper").hide();
+        }
+    });
+    // $(".view_update_cost_student").modal("show");
 });
 
 

@@ -557,7 +557,7 @@ class Student extends MY_Controller {
             '(level_contact_id = "L5" OR level_student_id = "L8.1")' => 'NO-VALUE',
 			'level_contact_detail !=' => 'L5.4',
 		);
-        $input['where_in']['level_study_id'] = array('L7', 'L7.4', '');
+        $input['where_not_in']['level_study_id'] = array('L7.1', 'L7.2', 'L7.3');
 
         $data['contact'] = $this->contacts_model->load_all($input);
 		$input_class['select'] = 'lesson_learned';
@@ -573,7 +573,6 @@ class Student extends MY_Controller {
 					'contact_id' => $value['id'],
 					'time_update >=' => strtotime(date('d-m-Y'))
 				);
-
 				$contact_attend = $this->attendance_model->load_all($input_attend);
 				if (!empty($contact_attend)) {
 					$value['presence_id'] = $contact_attend[0]['presence_id'];

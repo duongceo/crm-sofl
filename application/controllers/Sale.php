@@ -1478,4 +1478,42 @@ class Sale extends MY_Controller {
 		$data['table'] = explode(' ', $this->table);
 		echo $this->load->view('common/content/tbl_contact', $data, TRUE);
 	}
+
+    public function view_update_cost_student() {
+        $this->load->model('cost_branch_model');
+        $this->load->model('branch_model');
+        $post = $this->input->post();
+
+        $input['where'] = array('contact_id' => $post['contact_id']);
+        $data['cost_student'] = $this->cost_branch_model->load_all($input);
+        foreach ($data['cost_student'] as &$value) {
+            $value['branch_name'] = $this->branch_model->find_branch_name($value['branch_id']);
+            $value['user_name'] = $this->staffs_model->find_staff_name($value['user_id']);
+        }
+        unset($value);
+
+        $data['contact_id'] = $post['contact_id'];
+        $data['branch'] = $this->branch_model->load_all(array());
+
+        echo $this->load->view('sale/modal/update_cost_student', $data, TRUE);
+    }
+
+	public function update_cost_student() {
+        $this->load->model('cost_branch_model');
+        $post = $this->input->post();
+
+        $param['contact_id'] = $post['contact_id'];
+        $param['cost'] = str_replace(',', '', $post['cost']);
+        $param['content_cost'] = $post['content_cost'];
+        $param['paid_status'] = (isset($post['paid_status'])) ? $post['paid_status'] : 0;
+        $param['day_cost'] = strtotime(str_replace("/", "-", $post['day_cost']));
+        $param['time_created'] = time();
+        $param['branch_id'] = (empty($post['branch_id'])) ? $this->branch_id : $post['branch_id'];
+        $param['user_id'] = $this->user_id;
+        $param['day'] = date('d-m-Y', strtotime($post['day_cost']));
+
+        $this->cost_branch_model->insert($param);
+
+        show_error_and_redirect('Đã cập nhật chi phí thành công');
+    }
 }
