@@ -58,7 +58,7 @@
 
                 <li class="check_L7 show-with-item" class_study_id="">
                     <a>
-                        <i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp;Thống kê học viên
+                        <i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp;Thống kê tỷ lệ HV đk đi lên
                     </a>
                 </li>
             <?php } ?>
@@ -83,6 +83,14 @@
 					<i class="fa fa-exchange" aria-hidden="true"></i>  &nbsp; &nbsp; Chuyển nhượng các contact đã chọn
 				</a>
             </li>
+
+            <?php if ($this->sale_study_abroad) { ?>
+                <li contact_id="0" class="update_cost_student one-item-selected">
+                    <a>
+                        <i class="fa fa-pencil-square" aria-hidden="true"></i>  &nbsp; &nbsp; Cập nhât chi phí
+                    </a>
+                </li>
+            <?php } ?>
 
         <?php } else if ($this->role_id == 10) { ?>  <!-- TK CSKH -->
             <li class="ajax-request-modal load-new-contact-id edit-one-contact one-item-selected" data-contact-id ="0" data-modal-name="edit-contact-div"
@@ -174,6 +182,12 @@
                         </a>
                     </li>
 
+                    <li class="check_L7 show-with-item" class_study_id="">
+                        <a>
+                            <i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp;Thống kê tỷ lệ HV đk đi lên
+                        </a>
+                    </li>
+
                     <li class="mechanism_teacher show-with-item" class_study_id="">
                         <a>
                             <i class="fa fa-info-circle" aria-hidden="true"></i> &nbsp; &nbsp; Thêm thưởng phạt giáo viên
@@ -237,6 +251,12 @@
 						<i class="fa fa-info-circle" aria-hidden="true"></i> &nbsp; &nbsp; Xem danh sách học viên
 					</a>
 				</li>
+
+                <li class="check_L7 show-with-item" class_study_id="">
+                    <a>
+                        <i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp;Thống kê tỷ lệ HV đk đi lên
+                    </a>
+                </li>
 			<?php } ?>
 
             <?php if ($controller == 'teacher') { ?>
