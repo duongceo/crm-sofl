@@ -28,7 +28,7 @@
                                 <td class="text-center"><?php echo $L7_3 ?></td>
                                 <td class="text-center"><?php echo $L7_4 ?></td>
                                 <td class="text-center"><?php echo $L7_6 ?></td>
-                                <td class="text-center"><?php echo ($L7 != 0) ? round($L7_5/$L7, 2) : 0 ?></td>
+                                <td class="text-center"><?php echo ($L7 != 0) ? round($L7_6/$L7, 2) : 0 ?></td>
                             </tr>
                         </tbody>
                     </table>
