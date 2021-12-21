@@ -267,7 +267,7 @@
             </ul>
         </li>
 
-		<?php if ($this->user_id == 74) { ?>
+		<?php if ($this->sale_study_abroad == 1) { ?>
 			<li>
 				<a href="<?php echo base_url('student/cost_branch'); ?>">
 					<img src="<?php echo base_url(); ?>public/images/add-contact.png">
