@@ -11,7 +11,7 @@
 
 			<?php foreach ($arr as $key => $value) { ?>
 
-				<option value="<?php echo $value['id'] ?>" <?php echo ($row['role_id'] == $value['id'])?'selected':''?>> <?php echo $value['position'] ?></option>
+				<option value="<?php echo $value['id'] ?>" <?php echo ($row['role_id'] == $value['id'])?'selected':''?>> <?php echo $value['name'] ?></option>
 
 			<?php } ?>
 

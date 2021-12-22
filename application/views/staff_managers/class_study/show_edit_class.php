@@ -1,4 +1,4 @@
-<div class="modal fade show_edit_class" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog btn-very-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -56,6 +56,20 @@
                                             <option value="0">Bình thường</option>
                                             <option value="1" <?php echo $class[0]['class_care_status'] == 1 ? 'selected' : ''; ?> style="background-color: #BE3E41; color: #fff;">Cần đặc biệt chăm sóc</option>
                                             <option value="2" <?php echo $class[0]['class_care_status'] == 2 ? 'selected' : ''; ?> style="background-color: #BF9D60; color: #fff;">Cần theo dõi chăm sóc</option>
+                                        </select>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="text-center">Người chăm sóc</td>
+                                    <td>
+                                        <select class="form-control selectpicker" name="staff_customer_id">
+                                            <option value="0">Người chăm sóc</option>
+                                            <?php foreach ($staff_customer as $item) { ?>
+                                                <option value="<?php echo $item['id'] ?>" <?php echo ($item['id'] == $class[0]['staff_customer_id']) ? 'selected' : ''?>>
+                                                    <?php echo $item['name'] ?>
+                                                </option>
+                                            <?php } ?>
                                         </select>
                                     </td>
                                 </tr>

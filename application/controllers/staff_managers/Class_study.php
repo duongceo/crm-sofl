@@ -823,6 +823,13 @@ class Class_study extends MY_Table {
          $input['where'] = array('id' => $post['item_id']);
          $data['class'] = $this->{$this->model}->load_all($input);
 
+         $input_staff['where'] = array(
+             'role_id' => 10,
+             'branch_id' => $this->branch_id,
+             'active' => 1
+         );
+         $data['staff_customer'] = $this->staffs_model->load_all($input_staff);
+
          $this->load->view('staff_managers/class_study/show_edit_class', $data);
      }
 
@@ -836,6 +843,7 @@ class Class_study extends MY_Table {
 	    $class_care_log = array(
 	        'class_study_id' => $id,
             'number_care' => $post['number_care'],
+            'staff_customer_id' => (!empty($post['staff_customer_id'])) ? $post['staff_customer_id'] : $this->user_id,
             'time_created' => time()
         );
 
