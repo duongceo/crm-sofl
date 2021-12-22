@@ -21,6 +21,7 @@
 						<th>Lớp</th>
 						<th>Buổi học</th>
 						<th>Bài học</th>
+						<th>Giáo viên dạy</th>
 						<th>Trạng thái</th>
 					</tr>
 				</thead>
@@ -32,6 +33,13 @@
 							<td class="text-center"><?php echo $item['class_study_id'] ?></td>
 							<td class="text-center">Buổi <?php echo $item['lesson_learned'] ?></td>
 							<td><?php echo $item['lecture'] ?></td>
+							<td class="text-center">
+                            <?php if ($item['speaker'] == 1) {
+                                echo 'Giáo viên Việt';
+                            } else {
+                                echo 'Giáo viên bản ngữ';
+                            } ?>
+                            </td>
 							<td class="text-center text-primary">
 								<a href="<?php echo base_url() .'student/check_diligence_class?class_study_id='.$item['class_study_id']. '&time_update='.$item['time_update'] ?>" class="btn btn-success">Xem chi tiết</a>
 							</td>

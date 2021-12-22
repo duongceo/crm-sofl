@@ -721,7 +721,7 @@ class Student extends MY_Controller {
 
 		$data['class_study'] = $this->class_study_model->load_all(array('where_in'=>array('character_class_id' => array(2, 3))));
 		$get = $this->input->get();
-		$input['select'] = 'DISTINCT(lesson_learned), class_study_id, lecture, time_update';
+		$input['select'] = 'DISTINCT(lesson_learned), class_study_id, lecture, time_update, speaker';
         $input['where'] = array();
 		$input['order'] = array('lesson_learned' => 'DESC');
         $input['limit'] = array(60, 0);
