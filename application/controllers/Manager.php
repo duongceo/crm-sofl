@@ -1853,7 +1853,8 @@ class Manager extends MY_Controller {
             ),
 			'language_study' => array(
 				'where' => array(
-					'out_report' => '0'
+					'out_report' => '0',
+                    'active' => 1
 				)
 			),
 		);
@@ -1876,7 +1877,6 @@ class Manager extends MY_Controller {
 		$endDate = strtotime(str_replace("/", "-", $endDate)) + 3600 * 24 - 1;
 
 //		echo $startDate . ' - ' . $endDate;die;
-
 		$conditionArr = array(
 			'ĐA_KG' => array(
 				'where' => array('time_start >=' => $startDate, 'time_start <=' => $endDate, 'character_class_id' => 2),

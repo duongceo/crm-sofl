@@ -219,7 +219,8 @@ class Class_study extends MY_Table {
 			'branch' => array(),
 			'language_study' => array(
 				'where' => array(
-					'out_report' => '0'
+					'out_report' => '0',
+                    'active' => 1
 				)
 			),
 			'level_language' => array(),

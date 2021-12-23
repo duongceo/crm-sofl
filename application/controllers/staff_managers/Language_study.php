@@ -28,6 +28,10 @@ class Language_study extends MY_Table {
 		$this->view_path = 'staff_managers/language_study';
 		$this->sub_folder = 'staff_managers';
 		$list_view = array(
+            'id' => array(
+                'name_display' => 'ID',
+//				'order' => '1'
+            ),
 			'language_id' => array(
 				'name_display' => 'Mã ngôn ngữ',
 //				'order' => '1'
@@ -66,9 +70,7 @@ class Language_study extends MY_Table {
 	}
 
 	function show_add_item() {
-
 		/*type mặc định là text nên nếu là text sẽ không cần khai báo*/
-
 		$this->list_add = array(
 			'left_table' => array(
 				'language_id' => array(),
