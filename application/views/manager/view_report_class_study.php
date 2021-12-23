@@ -99,7 +99,7 @@
 						<td><?php echo $item['L8']; ?></td>
 						<td><?php echo $item['L8.1']; ?></td>
 						<td style="background-color: #9cc2cb"><?php echo round($item['L7'] / $item['HV_ĐA_KT'] * 100, 2) . '%'; ?></td>
-						<td style="background-color: #9cc2cb"><?php echo round($item['L8'] / $item['HV_ĐA_KT'] * 100, 2) . '%'; ?></td>
+						<td style="background-color: #9cc2cb"><?php echo round(($item['L8'] + $item['L8.1']) / $item['HV_ĐA_KT'] * 100, 2) . '%'; ?></td>
 					<?php } ?>
 				</tr>
 				<?php } ?>
