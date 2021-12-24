@@ -586,6 +586,17 @@ class Class_study extends MY_Table {
 
             if (!empty($param['time_end_real'])) {
                 $param['character_class_id'] = 3;
+
+                $where_contact = array(
+                    'class_study_id' => $class_study[0]['class_study_id'],
+                    'level_study_id IN ("L7", "")' => 'NO-VALUE'
+                );
+                $data_contact = array(
+                    'level_study_id' => 'L7.4',
+                    'date_action_of_study' => time(),
+                    'last_activity' => time()
+                );
+                $this->contacts_model->update($where_contact, $data_contact);
             }
 
 			if ((!isset($post['edit_active']) && empty($post['edit_active'])) || $post['edit_character_class_id'] == 3) {
@@ -620,7 +631,7 @@ class Class_study extends MY_Table {
 				$this->contacts_model->update($where_contact, $data_contact);
 			}
 
-            if ($post['edit_character_class_id'] == 3) {
+            if ($post['edit_character_class_id'] == 3 && $class_study[0]['character_class_id'] != 3) {
                 $where_contact = array('class_study_id' => $class_study[0]['class_study_id']);
                 $data_contact = array(
                     'level_study_id' => 'L7.4',

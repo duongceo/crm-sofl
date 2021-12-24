@@ -51,7 +51,11 @@ class MY_Model extends CI_Model {
     function update($where = array(), $data = array()) {
         $result = FALSE;
         foreach ($where as $key => $value) {
-            $this->db->where($key, $value);
+            if ($value == "NO-VALUE") {
+                $this->db->where($key);
+            } else {
+                $this->db->where($key, $value);
+            }
         }
         $this->db->update($this->table, $data);
         if ($this->db->affected_rows() >= 0) {

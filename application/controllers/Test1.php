@@ -525,6 +525,32 @@ class Test1 extends CI_Controller {
 		$this->class_study_model->update($input['where'], $data);
 	}
 
+	public function update_contact_complete_fee() {
+	    $this->load->model('paid_model');
+        $input['select'] = 'id, fee';
+	    $input['where'] = array(
+	        'level_contact_id' => 'L5',
+            'level_contact_detail !=' => 'L5.4',
+            'complete_fee' => '0',
+            'fee !=' => '0'
+        );
+
+	    $contacts = $this->contacts_model->load_all($input);
+        foreach ($contacts as $item) {
+            $input_paid['select'] = 'SUM(paid) AS contact_paid';
+            $input_paid['where'] = array(
+                'contact_id' => $item['id']
+            );
+            $contact_paid = $this->paid_model->load_all($input_paid);
+
+            if ($contact_paid[0]['contact_paid'] == $item['fee']) {
+                $input_contact = array('id' => $item['id']);
+                $this->contacts_model->update($input_contact, array('complete_fee' => 1));
+                echo 'update thành công';
+            }
+	    }
+    }
+
 	public function send_email() {
         $data['teacher'] = array(
             'name' => 1,
