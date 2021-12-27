@@ -15,6 +15,8 @@
 
 			<option value="3" <?php echo ($row['priority_id'] == 3) ? 'selected' : '' ; ?>> Ưu tiên 3 - Dự kiến khai giảng </option>
 
+			<option value="4" <?php echo ($row['priority_id'] == 4) ? 'selected' : '' ; ?>> Ưu tiên 4 - Đã kết thúc </option>
+
 		</select>
 
 	</td>

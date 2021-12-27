@@ -230,6 +230,18 @@
 
 				</li>
 
+                <li>
+
+                    <a href="<?php echo base_url('manager/view_report_revenue_class'); ?>">
+
+                        <img src="<?php echo base_url(); ?>public/images/report.png">
+
+                        <span> Báo cáo trạng thái chăm sóc lớp </span>
+
+                    </a>
+
+                </li>
+
 			</ul>
 		</li>
 

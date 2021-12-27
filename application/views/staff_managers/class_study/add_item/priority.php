@@ -15,6 +15,8 @@
 
 			<option value="3"> Ưu tiên 3 - Dự kiến khai giảng </option>
 
+			<option value="4"> Ưu tiên 4 - Đã kết thúc </option>
+
 		</select>
 
 	</td>

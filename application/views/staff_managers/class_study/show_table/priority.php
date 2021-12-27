@@ -6,6 +6,8 @@
 		$color = '#d9d433';
 	} else if ($row['priority_id'] == 3) {
 		$color = '#cd4f4f';
+    } else if ($row['priority_id'] == 4) {
+        $color = '#c36718';
 	} else {
 		$color = 'none';
 	}
