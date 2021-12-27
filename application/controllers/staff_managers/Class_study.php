@@ -605,7 +605,7 @@ class Class_study extends MY_Table {
                 );
                 $data_contact = array(
                     'level_study_id' => 'L7',
-                    'date_action_of_study' => time(),
+                    'date_action_of_study' => $class_study[0]['time_start'],
                 );
                 $this->contacts_model->update($where_contact, $data_contact);
             }
