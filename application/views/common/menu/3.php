@@ -232,7 +232,7 @@
 
                 <li>
 
-                    <a href="<?php echo base_url('manager/view_report_revenue_class'); ?>">
+                    <a href="<?php echo base_url('manager/view_report_care_class'); ?>">
 
                         <img src="<?php echo base_url(); ?>public/images/report.png">
 

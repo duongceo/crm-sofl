@@ -946,6 +946,7 @@ class Class_study extends MY_Table {
          $post = $this->input->post();
          $input_contact['select'] = 'id';
          $input_contact['where']['(class_study_id = "'. $post['class_study_id'] .'" OR class_foreign_id LIKE "%'. $post['class_study_id'] .'%")'] = 'NO-VALUE';
+         $input_contact['where']['level_contact_id'] = 'L5';
          $input_contact['where']['level_contact_detail !='] = 'L5.4';
          $data['L7'] = count($this->contacts_model->load_all($input_contact));
 
@@ -960,20 +961,18 @@ class Class_study extends MY_Table {
          $input['where']['level_study_id'] = 'L7.3';
          $data['L7_3'] = count($this->log_study_model->load_all($input));
 
-         $input['where']['level_study_id'] = 'L7.4';
-         $data['L7_4'] = count($this->log_study_model->load_all($input));
-
+         $input_contact['where'] = array();
+         $input_contact['where']['class_study_id'] = $post['class_study_id'];
+         $input_contact['where']['level_study_id'] = 'L7.4';
+         $data['L7_4'] = count($this->contacts_model->load_all($input_contact));
 //         $input['where']['level_study_id'] = 'L7.5';
 //         $data['L7_5'] = count($this->log_study_model->load_all($input));
 
 //         $input['where']['level_study_id'] = 'L7.6';
 //         $data['L7_6'] = count($this->log_study_model->load_all($input));
-//         if (empty($data['L7_6'])) {
-             $input_contact['where'] = array();
-             $input_contact['where']['class_study_id'] = $post['class_study_id'];
-             $input_contact['where']['level_study_id'] = 'L7.6';
-             $data['L7_6'] = count($this->contacts_model->load_all($input_contact));
-//         }
+
+         $input_contact['where']['level_study_id'] = 'L7.6';
+         $data['L7_6'] = count($this->contacts_model->load_all($input_contact));
 
          echo $this->load->view('staff_managers/class_study/show_L7', $data, true);
      }

@@ -1964,7 +1964,7 @@ class Manager extends MY_Controller {
 
 		$input = array();
 		$input['where'] = array('role_id' => 10, 'active' => 1);
-		$staff_customer_care_today = $staff_customer_care= $this->staffs_model->load_all($input);
+		$staff_customer_care_today = $staff_customer_care = $this->staffs_model->load_all($input);
 
 		/* Mảng chứa các ngày lẻ */
 		if (isset($get['filter_date_date_happen']) && $get['filter_date_date_happen'] != '') {
@@ -2682,6 +2682,94 @@ class Manager extends MY_Controller {
 
         $data['left_col'] = array('date_happen_1', 'source_revenue');
         $data['content'] = 'manager/view_report_revenue';
+        $this->load->view(_MAIN_LAYOUT_, $data);
+    }
+
+    public function view_report_care_class() {
+        $this->load->model('class_study_model');
+        $require_model = array(
+            'language_study' => array(
+                'where' => array(
+                    'out_report' => '0',
+                    'active' => 1
+                )
+            ),
+        );
+
+        $data = array_merge($this->data, $this->_get_require_data($require_model));
+        $get = $this->input->get();
+
+        $input = array();
+        $input['where'] = array('role_id' => 10, 'active' => 1);
+        $staff_customer_care = $this->staffs_model->load_all($input);
+
+        /* Mảng chứa các ngày lẻ */
+        if (isset($get['filter_date_date_happen']) && $get['filter_date_date_happen'] != '') {
+            $time = $get['filter_date_date_happen'];
+        } else {
+            $time = '01' . '/' . date('m') . '/' . date('Y') . ' - ' . date('d') . '/' . date('m') . '/' . date('Y');
+        }
+
+        $dateArr = explode('-', $time);
+        $startDate = trim($dateArr[0]);
+        $startDate = strtotime(str_replace("/", "-", $startDate));
+        $endDate = trim($dateArr[1]);
+        $endDate = strtotime(str_replace("/", "-", $endDate)) + 3600 * 24 - 1;
+
+        $conditionArr = array(
+//            'PHIEU_DANH_GIA' => array(
+//                'where' => array('customer_care_call_id !=' => '0'),
+//            ),
+            'DA_CHAM' => array(
+                'where' => array('number_care !=' => '0'),
+            ),
+            'LAN_1' => array(
+                'where' => array('number_care' => 1),
+            ),
+            'LAN_2' => array(
+                'where' => array('number_care' => 2),
+            ),
+            'LAN_3' => array(
+                'where' => array('number_care' => 3),
+            ),
+        );
+
+        unset($get['filter_date_date_happen']);
+
+        $conditional_date_end_expected = array();
+        $conditional_date_end_expected['where']['time_end_expected >='] = $startDate;
+        $conditional_date_end_expected['where']['time_end_expected <='] = $endDate;
+
+        $conditional_date_end_real = array();
+        $conditional_date_end_real['where']['time_end_real >='] = $startDate;
+        $conditional_date_end_real['where']['time_end_real <='] = $endDate;
+
+        $data_end_expected = $data_end_real = array();
+        foreach ($conditionArr as $key2 => $value2) {
+//            $temp_cc = 0;
+            foreach ($staff_customer_care as $key_staff => $value_staff) {
+                $conditional_staff = array();
+                $conditional_staff['select'] = 'id';
+                $conditional_staff['where']['staff_customer_id'] = $value_staff['id'];
+                $conditional = array_merge_recursive($conditional_staff, $value2);
+                $staff_customer_care[$key_staff][$key2] = count($this->class_study_model->load_all($conditional));
+//                $temp_cc += $staff_customer_care[$key_staff][$key2];
+//                $data[$key2] = $temp_cc;
+                $conditional_end_expected = array_merge_recursive($conditional, $conditional_date_end_expected);
+                $data_end_expected[$value_staff['name']][$key2] = count($this->class_study_model->load_all($conditional_end_expected));
+
+                $conditional_end_real = array_merge_recursive($conditional, $conditional_date_end_real);
+                $data_end_real[$value_staff['name']][$key2] = count($this->class_study_model->load_all($conditional_end_real));
+            }
+        }
+
+        $data['staffs'] = $staff_customer_care;
+        $data['data_end_expected'] = $data_end_expected;
+        $data['data_end_real'] = $data_end_real;
+        $data['startDate'] = $startDate;
+        $data['endDate'] = $endDate;
+        $data['left_col'] = array('date_happen_1');
+        $data['content'] = 'manager/view_report_care_class';
         $this->load->view(_MAIN_LAYOUT_, $data);
     }
 
