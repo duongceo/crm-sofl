@@ -1905,7 +1905,6 @@ class Manager extends MY_Controller {
 		unset($get['filter_date_date_happen']);
 
 		$branch = array();
-
 		foreach ($data['branch'] as $key => $value_branch) {
 			foreach ($data['language_study'] as $value_language) {
 				foreach ($conditionArr as $key_class => $value_class) {
@@ -2588,7 +2587,7 @@ class Manager extends MY_Controller {
 		$this->load->view(_MAIN_LAYOUT_, $data);
 	}
 
-    function view_report_salary_teacher() {
+    public function view_report_salary_teacher() {
         $this->load->model('teacher_model');
         $this->load->model('language_study_model');
         $this->load->model('branch_model');
@@ -2687,16 +2686,7 @@ class Manager extends MY_Controller {
 
     public function view_report_care_class() {
         $this->load->model('class_study_model');
-        $require_model = array(
-            'language_study' => array(
-                'where' => array(
-                    'out_report' => '0',
-                    'active' => 1
-                )
-            ),
-        );
 
-        $data = array_merge($this->data, $this->_get_require_data($require_model));
         $get = $this->input->get();
 
         $input = array();
@@ -2717,9 +2707,9 @@ class Manager extends MY_Controller {
         $endDate = strtotime(str_replace("/", "-", $endDate)) + 3600 * 24 - 1;
 
         $conditionArr = array(
-//            'PHIEU_DANH_GIA' => array(
-//                'where' => array('customer_care_call_id !=' => '0'),
-//            ),
+            'CHUA_CHAM' => array(
+                'where' => array('number_care' => '0'),
+            ),
             'DA_CHAM' => array(
                 'where' => array('number_care !=' => '0'),
             ),
@@ -2770,6 +2760,96 @@ class Manager extends MY_Controller {
         $data['endDate'] = $endDate;
         $data['left_col'] = array('date_happen_1');
         $data['content'] = 'manager/view_report_care_class';
+        $this->load->view(_MAIN_LAYOUT_, $data);
+    }
+
+    public function view_report_care_class_total() {
+        $this->load->model('class_study_model');
+        $require_model = array(
+            'language_study' => array(
+                'where' => array(
+                    'out_report' => '0',
+                    'active' => 1
+                )
+            ),
+            'branch' => array(
+                'where' => array(
+                    'active' => 1
+                )
+            )
+        );
+
+        $data = array_merge($this->data, $this->_get_require_data($require_model));
+        $get = $this->input->get();
+
+        /* Mảng chứa các ngày lẻ */
+        if (isset($get['filter_date_date_happen']) && $get['filter_date_date_happen'] != '') {
+            $time = $get['filter_date_date_happen'];
+        } else {
+            $time = '01' . '/' . date('m') . '/' . date('Y') . ' - ' . date('d') . '/' . date('m') . '/' . date('Y');
+        }
+
+        $dateArr = explode('-', $time);
+        $startDate = trim($dateArr[0]);
+        $startDate = strtotime(str_replace("/", "-", $startDate));
+        $endDate = trim($dateArr[1]);
+        $endDate = strtotime(str_replace("/", "-", $endDate)) + 3600 * 24 - 1;
+
+        $conditionArr = array(
+            'CHUA_CHAM' => array(
+                'where' => array('number_care' => '0'),
+            ),
+            'DA_CHAM' => array(
+                'where' => array('number_care !=' => '0'),
+            ),
+            'LAN_1' => array(
+                'where' => array('number_care' => 1),
+            ),
+            'LAN_2' => array(
+                'where' => array('number_care' => 2),
+            ),
+            'LAN_3' => array(
+                'where' => array('number_care' => 3),
+            ),
+        );
+
+        unset($get['filter_date_date_happen']);
+
+        $conditional_date_end_expected = array();
+        $conditional_date_end_expected['where']['time_end_expected >='] = $startDate;
+        $conditional_date_end_expected['where']['time_end_expected <='] = $endDate;
+
+        $conditional_date_end_real = array();
+        $conditional_date_end_real['where']['time_end_real >='] = $startDate;
+        $conditional_date_end_real['where']['time_end_real <='] = $endDate;
+
+        $branch = $data_end_expected = $data_end_real = array();
+        foreach ($conditionArr as $key2 => $value2) {
+            foreach ($data['branch'] as $key => $value_branch) {
+                foreach ($data['language_study'] as $value_language) {
+                    $conditional = array();
+                    $conditional['select'] = 'id';
+                    $conditional['where']['branch_id'] = $value_branch['id'];
+                    $conditional['where']['language_id'] = $value_language['id'];
+                    $conditional = array_merge_recursive($conditional, $value2);
+                    $branch[$value_branch['name']][$value_language['name']][$key2] = count($this->class_study_model->load_all($conditional));
+
+                    $conditional_end_expected = array_merge_recursive($conditional, $conditional_date_end_expected);
+                    $data_end_expected[$value_branch['name']][$value_language['name']][$key2] = count($this->class_study_model->load_all($conditional_end_expected));
+
+                    $conditional_end_real = array_merge_recursive($conditional, $conditional_date_end_real);
+                    $data_end_real[$value_branch['name']][$value_language['name']][$key2] = count($this->class_study_model->load_all($conditional_end_real));
+                }
+            }
+        }
+
+        $data['branch'] = $branch;
+        $data['data_end_expected'] = $data_end_expected;
+        $data['data_end_real'] = $data_end_real;
+        $data['startDate'] = $startDate;
+        $data['endDate'] = $endDate;
+        $data['left_col'] = array('date_happen_1');
+        $data['content'] = 'manager/view_report_care_class_total';
         $this->load->view(_MAIN_LAYOUT_, $data);
     }
 

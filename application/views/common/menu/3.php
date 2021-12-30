@@ -232,11 +232,11 @@
 
                 <li>
 
-                    <a href="<?php echo base_url('manager/view_report_care_class'); ?>">
+                    <a href="<?php echo base_url('manager/view_report_care_class_total'); ?>">
 
                         <img src="<?php echo base_url(); ?>public/images/report.png">
 
-                        <span> Báo cáo trạng thái chăm sóc lớp </span>
+                        <span> Báo cáo tổng trạng thái chăm sóc lớp </span>
 
                     </a>
 
@@ -274,6 +274,18 @@
 					</a>
 
 				</li>
+
+                <li>
+
+                    <a href="<?php echo base_url('manager/view_report_care_class'); ?>">
+
+                        <img src="<?php echo base_url(); ?>public/images/report.png">
+
+                        <span> Báo cáo trạng thái chăm sóc lớp </span>
+
+                    </a>
+
+                </li>
 
 			</ul>
 		</li>

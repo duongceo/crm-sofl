@@ -9,13 +9,10 @@
 </form>
 
 <div class="table-responsive">
-	<table class="table table-bordered table-striped view_report">
+	<table class="table table-bordered table-striped view_report" style="table-layout: fixed; width: 100%">
 		<thead>
 			<tr>
 				<th style="background: none"></th>
-	<!--			<th colspan="2">Hàn</th>-->
-	<!--			<th colspan="2">Nhật</th>-->
-	<!--			<th colspan="2">Trung</th>-->
 				<?php foreach ($language_study as $item) { ?>
 					<th colspan="3">
 						<?php echo $item['name']; ?>
@@ -35,9 +32,7 @@
 						</th>
 					<?php } ?>
 				<?php } ?>
-
-		<!--		<th style="background-color: #1e5f24"> Tổng </th>-->
-			</tr>
+            </tr>
 		</thead>
 
 		<tbody>

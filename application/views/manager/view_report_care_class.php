@@ -11,6 +11,7 @@
 
 <?php
     $report = array(
+        array('Chưa chăm', 'CHUA_CHAM', $CHUA_CHAM),
         array('Đã chăm', 'DA_CHAM', $DA_CHAM),
         array('1 lần', 'LAN_1', $LAN_1),
         array('2 lần', 'LAN_2', $LAN_2),
@@ -52,7 +53,7 @@
 <hr>
 <div class="row">
     <div class="col-md-10 col-md-offset-1">
-        <h3 class="text-center marginbottom20"> Báo cáo chăm sóc với các lớp dự kiến khai giảng trong ngày <?php echo date('d-m-Y', $startDate); ?> đến ngày <?php echo date('d-m-Y', $endDate); ?></h3>
+        <h3 class="text-center marginbottom20"> Báo cáo chăm sóc với các lớp dự kiến kết thúc ngày <?php echo date('d-m-Y', $startDate); ?> đến ngày <?php echo date('d-m-Y', $endDate); ?></h3>
     </div>
 </div>
 
@@ -98,7 +99,7 @@
         <thead>
             <tr>
                 <th style="background: none" class="staff_0"></th>
-                <?php foreach ($data_end_expected as $key => $value) { ?>
+                <?php foreach ($data_end_real as $key => $value) { ?>
                     <th style="background: #0f846c">
                         <?php echo $key; ?>
                     </th>
