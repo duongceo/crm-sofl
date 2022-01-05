@@ -429,12 +429,12 @@ class Teacher extends MY_Table {
                 'time_update <=' => strtotime($post['end_date']) + 3600 * 24 - 1
             );
 
-            $input_mechanism['select'] = 'SUM(money) as money, reason';
+            $input_mechanism['select'] = 'SUM(money) as money';
             $input_mechanism['where'] = array(
                 'class_study_id' => $post['class_study_id'],
                 'teacher_id' => $post['teacher_id'],
-                'time_update >=' => strtotime($post['start_date']),
-                'time_update <=' => strtotime($post['end_date']) + 3600 * 24 - 1
+                'time_created >=' => strtotime($post['start_date']),
+                'time_created <=' => strtotime($post['end_date']) + 3600 * 24 - 1
             );
             $bonus = $this->mechanism_model->load_all(array_merge_recursive($input_mechanism, array('where' => array('mechanism' => 1))));
             $fine = $this->mechanism_model->load_all(array_merge_recursive($input_mechanism, array('where' => array('mechanism' => '0'))));
