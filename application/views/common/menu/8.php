@@ -16,19 +16,14 @@
 	</div>
 
     <ul class="list-unstyled components">
-        
-<!--        <li>-->
-<!---->
-<!--            <a href="--><?php //echo base_url('giang-vien/danh-sach-da-dang-ky.html'); ?><!--">-->
-<!---->
-<!--                <img src="--><?php //echo base_url(); ?><!--public/images/add-contact.png"> -->
-<!---->
-<!--                <span> Danh sách đăng ký</span>-->
-<!---->
-<!--            </a>-->
-<!---->
-<!--        </li>-->
-<!---->
+
+        <li>
+            <a href="<?php echo base_url('staff_managers/class_study'); ?>">
+                <img src="<?php echo base_url(); ?>public/images/view-all.png">
+                <span> Danh sách lớp học </span>
+            </a>
+        </li>
+
 <!--        <li>-->
 <!---->
 <!--            <a href="--><?php //echo base_url('giang-vien/doanh-thu-theo-khoa.html'); ?><!--">-->

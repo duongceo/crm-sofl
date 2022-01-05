@@ -664,7 +664,7 @@ class Student extends MY_Controller {
 //				$param['time_update'] = $param['time_created'] = (isset($post['date_diligence']) && $post['date_diligence'] != '') ? strtotime($post['date_diligence']) : strtotime(date("d-m-Y H:i"));
 //				$this->attendance_model->insert($param);
 
-				if (empty($contact_attend)) {
+                if (empty($contact_attend)) {
                     $param['time_created'] = (isset($post['date_diligence']) && $post['date_diligence'] != '') ? strtotime($post['date_diligence']) : strtotime(date("d-m-Y H:i"));
                     $this->attendance_model->insert($param);
 				} else {

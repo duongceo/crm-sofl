@@ -266,9 +266,15 @@
                     </a>
                 </li>
             <?php } ?>
+        <?php } else if ($this->role_id == 8) { ?>
+            <li class="check_L7 show-with-item" class_study_id="">
+                <a>
+                    <i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp;Thống kê tỷ lệ HV đk đi lên
+                </a>
+            </li>
 		<?php } ?>
 
-        <?php if ($this->role_id != 12 && $this->role_id != 14) { ?>
+        <?php if (!in_array($this->role_id, array(8, 12, 14))) { ?>
             <li class="ajax-request-modal load-new-contact-id one-item-selected" data-contact-id ="0" data-modal-name="view-detail-contact-div" data-url="common/view_detail_contact">
                 <a>
                     <i class="fa fa-info-circle" aria-hidden="true"></i> &nbsp; &nbsp; Chi tiết contact

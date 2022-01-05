@@ -208,7 +208,10 @@ class Class_study extends MY_Table {
 				),
 			);
 		}
-		//print_arr($list_view);
+		if ($this->role_id == 8) {
+            unset($list_view['notes']);
+        }
+
 		$this->set_list_view($list_view);
 		$this->set_model('class_study_model');
 		$this->load->model('class_study_model');
@@ -280,12 +283,14 @@ class Class_study extends MY_Table {
 		);
 
 		$conditional = array();
-		
 		if ($this->role_id == 12 && $_GET['filter_class_id'] == '' && empty($_GET['filter_arr_multi_branch_id'])) {
 			$conditional['where']['branch_id'] = $this->branch_id;
-		} else if ($this->role_id == 14) {
+		} elseif ($this->role_id == 14) {
 			$conditional['where_in']['language_id'] = explode(',', $this->session->userdata('language_id'));
-		}
+		} elseif ($this->role_id == 8) {
+            $conditional['where']['teacher_id'] = $this->session->userdata('teacher_id');
+            $conditional['or_where']['teacher_id_2'] = $this->session->userdata('teacher_id');
+        }
 
 		$this->set_conditional($conditional);
 		$this->set_offset($offset);
