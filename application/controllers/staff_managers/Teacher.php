@@ -312,7 +312,7 @@ class Teacher extends MY_Table {
                     $input_lesson_learned['select'] = 'DISTINCT(lesson_learned)';
                     $input_lesson_learned['where'] = array(
                         'teacher_id' => $item_teacher['id'],
-                        'class_study_id' => $item_class['class_study_id'],
+                        //'class_study_id' => $item_class['class_study_id'],
                         'speaker' => 1,
                         'time_update >=' => $startDate,
                         'time_update <=' => $endDate
@@ -555,15 +555,20 @@ class Teacher extends MY_Table {
 	}
 
 	private function create_account($item, $id) {
-	    if (!$this->staffs_model->check_exists(array('user_name' => $item['phone']))) {
+        $phone = $item['phone'];
+        $number_first_phone = substr($item['phone'], 0, 1);
+        if ($number_first_phone != '0') {
+            $phone = '0'.$item['phone'];
+        }
+	    if (!$this->staffs_model->check_exists(array('user_name' => $phone))) {
             $param['name'] = $item['name'];
             $param['phone'] = $item['phone'];
             $param['email'] = $item['email'];
-            $param['user_name'] = $item['phone'];
-            $number_first_phone = substr($item['phone'], 0, 1);
-            if ($number_first_phone != '0') {
-                $param['user_name'] = '0'.$item['phone'];
-            }
+            $param['user_name'] = $phone;
+//            $number_first_phone = substr($item['phone'], 0, 1);
+//            if ($number_first_phone != '0') {
+//                $param['user_name'] = '0'.$item['phone'];
+//            }
             $param['password'] = md5(md5($param['user_name']));
             $param['teacher_id'] = $id;
             $param['branch_id'] = $item['branch_id'];
