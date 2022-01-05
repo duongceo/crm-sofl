@@ -311,8 +311,8 @@ class Teacher extends MY_Table {
                 foreach ($class_teacher_owner as $item_class) {
                     $input_lesson_learned['select'] = 'DISTINCT(lesson_learned)';
                     $input_lesson_learned['where'] = array(
-                        'teacher_id' => $item_teacher['id'],
-                        //'class_study_id' => $item_class['class_study_id'],
+//                        'teacher_id' => $item_teacher['id'],
+                        'class_study_id' => $item_class['class_study_id'],
                         'speaker' => 1,
                         'time_update >=' => $startDate,
                         'time_update <=' => $endDate
