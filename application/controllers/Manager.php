@@ -1040,7 +1040,7 @@ class Manager extends MY_Controller {
 //		$input_contact['where']['date_paid >='] = $startDate;
 //		$input_contact['where']['date_paid <='] = $endDate;
 //		$input_contact['where']['level_contact_id'] = 'L5';
-		
+
 		foreach ($conditionArr as $key2 => $value2) {
 			$temp_sale = 0;
         	foreach ($staffs as $key_staff => $value_staff) {
@@ -1058,7 +1058,7 @@ class Manager extends MY_Controller {
 				$staffs[$key_staff]['RE'] = $this->get_re($conditional_1, $startDate, $endDate);
 				//$data['RE'] += $staffs[$key_staff]['RE'];
             }
-			
+
 			if ($this->role_id == 3 || $this->user_id == 16) {
                 if ($this->user_id == 16 && in_array($key2, array('L6', 'L7'))) {
                     continue;
@@ -1085,29 +1085,12 @@ class Manager extends MY_Controller {
 				}
 			}
         }
-		
+
 		$total_re = 0;
 		foreach ($staffs as $value) {
 			$total_re += $value['RE'];
 			$data['RE'] = $total_re;
 		}
-
-//		Tính thời gian thực hiện của khối lệnh trên
-//		$time_end = microtime(true);
-//		$execution_time = ($time_end - $time_start)/60;
-//		echo '<b>Total Execution Time:</b> '.$execution_time.' Mins';die();
-
-//		foreach ($staffs as $key => $value) {
-//            $input = array();
-//            $input['where']['staff_id'] = $value['id'];
-//            $input['where']['time >'] = $startDate;
-//            $input['where']['time <'] = $endDate;
-//            $staffs[$key]['LUOT_GOI'] = count($this->call_log_model->load_all($input));
-//            $conditionArr['LUOT_GOI']['sum'] += $staffs[$key]['LUOT_GOI'];
-//            if ($value['id'] == 163) { // ko tính contact trùng vào tổng
-//                $conditionArr['LUOT_GOI']['sum'] = $conditionArr['LUOT_GOI']['sum'] - $staffs[$key]['LUOT_GOI'];
-//            }
-//        }
 
 		$data['language'] = $language;
 //		$data['source'] = $source;
@@ -2851,6 +2834,128 @@ class Manager extends MY_Controller {
         $data['left_col'] = array('date_happen_1');
         $data['content'] = 'manager/view_report_care_class_total';
         $this->load->view(_MAIN_LAYOUT_, $data);
+    }
+
+    function view_report_staff_care_branch() {
+        $require_model = array(
+            'language_study' => array(
+                'where' => array(
+                    'out_report' => '0'
+                )
+            ),
+            'branch' => array()
+        );
+        $data = array_merge($this->data, $this->_get_require_data($require_model));
+
+        $get = $this->input->get();
+
+        $input = array();
+        $input['select'] = 'id, name';
+        $input['where'] = array('role_id' => 12, 'active' => 1);
+        $staffs = $this->staffs_model->load_all($input);
+
+        /* Mảng chứa các ngày lẻ */
+        if (isset($get['filter_date_date_happen']) && $get['filter_date_date_happen'] != '') {
+            $time = $get['filter_date_date_happen'];
+        } else {
+            $time = '01' . '/' . date('m') . '/' . date('Y') . ' - ' . date('d') . '/' . date('m') . '/' . date('Y');
+        }
+
+        $dateArr = explode('-', $time);
+        $startDate = trim($dateArr[0]);
+        $startDate = strtotime(str_replace("/", "-", $startDate));
+        $endDate = trim($dateArr[1]);
+        $endDate = strtotime(str_replace("/", "-", $endDate)) + 3600 * 24 - 1;
+
+        $conditionArr = array(
+                'NHAN' => array(
+                    'where' => array('call_status_id NOT IN (1, 3, 5)' => 'NO-VALUE', 'level_contact_detail NOT IN ("L1.1", "L1.2", "L1.3")' => 'NO-VALUE', 'duplicate_id' => '0', 'date_handover >=' => $startDate, 'date_handover <=' => $endDate),
+                ),
+                'CHUA_GOI' => array(
+                    'where' => array('call_status_id' => '0', 'level_contact_id' => '', 'date_handover >=' => $startDate, 'date_handover <=' => $endDate),
+                ),
+                'XU_LY' => array(
+                    'where' => array('call_status_id !=' => '0', 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate),
+                ),
+                'NGHE_MAY' => array(
+                    'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate),
+                ),
+                'KHONG_NGHE_MAY' => array(
+                    'where' => array('call_status_id' => _KHONG_NGHE_MAY_, 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate),
+                ),
+                'L1' => array(
+                    'where' => array('date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate, 'level_contact_id' => 'L1'),
+                ),
+                'L2' => array(
+                    'where' => array('level_contact_id' => 'L2', 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate),
+                ),
+                'L3' => array(
+                    'where' => array('level_contact_id' => 'L3', 'date_confirm >=' => $startDate, 'date_confirm <=' => $endDate),
+                ),
+                'L4' => array(
+                    'where' => array('level_contact_id' => 'L4', 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate),
+                ),
+                'L5' => array(
+                    'where' => array('duplicate_id' => '0', 'level_contact_id' => 'L5', 'is_old' => '0', 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
+                ),
+                'L6' => array(
+                    'where' => array('level_student_id' => 'L6', 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
+                ),
+                'L7' => array(
+                    'where' => array('level_student_id' => 'L7', 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate),
+                ),
+                'L8' => array(
+                    'where' => array('level_contact_id' => 'L5', 'level_student_id !=' => 'L8.1', 'is_old' => 1, 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
+                ),
+                'LC' => array(
+                    'where' => array('date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate,
+                        '(`call_status_id` = ' . _SO_MAY_SAI_ . ' OR `call_status_id` = ' . _NHAM_MAY_ . ' OR `call_status_id` = 5 OR `level_contact_detail` IN ("L1.1", "L1.2", "L1.3"))' => 'NO-VALUE'),
+                ),
+                /*
+                'CON_CUU_DUOC' => array(
+                    'where' => array('date_rgt >' => $startDate, 'date_rgt <' => $endDate,
+                        '(`call_status_id` = ' . _KHONG_NGHE_MAY_ . ' OR `ordering_status_id` in (' . _BAN_GOI_LAI_SAU_ . ' , ' . _CHAM_SOC_SAU_MOT_THOI_GIAN_ . ',' . _LAT_NUA_GOI_LAI_ . '))' => 'NO-VALUE'),
+                ),
+                */
+            );
+
+        unset($get['filter_date_date_happen']);
+
+        foreach ($conditionArr as $key2 => $value2) {
+            $temp_sale = 0;
+            foreach ($staffs as $key_staff => $value_staff) {
+                $conditional_1 = array();
+                $conditional_1['where']['staff_care_branch_id'] = $value_staff['id'];
+                //$conditional_1['where_not_in']['source_id'] = $source_arr;
+                $conditional = array_merge_recursive($conditional_1, $value2);
+                $staffs[$key_staff][$key2] = $this->_query_for_report($get, $conditional);
+                //$conditionArr_staff[$key2]['sum'] += $staffs[$key][$key2];
+                $temp_sale += $staffs[$key_staff][$key2];
+                if ($value_staff['out_report'] == 1) { // ko tính contact này vào tổng
+                    $temp_sale = $temp_sale - $staffs[$key_staff][$key2];
+                }
+                $data[$key2] = $temp_sale;
+                $staffs[$key_staff]['RE'] = $this->get_re($conditional_1, $startDate, $endDate);
+                //$data['RE'] += $staffs[$key_staff]['RE'];
+            }
+        }
+
+        $total_re = 0;
+        foreach ($staffs as $value) {
+            $total_re += $value['RE'];
+            $data['RE'] = $total_re;
+        }
+
+        $data['staffs'] = $staffs;
+        $data['startDate'] = $startDate;
+        $data['endDate'] = $endDate;
+        $data['left_col'] = array('branch', 'date_happen_1');
+        $data['right_col'] = array('language');
+        $data['content'] = 'manager/view_report_staff_care_branch';
+        if($this->role_id == 1){
+            $data['top_nav'] = 'sale/common/top-nav';
+        }
+        $this->	load->view(_MAIN_LAYOUT_, $data);
     }
 
 	private function get_contact_id($class_id) {

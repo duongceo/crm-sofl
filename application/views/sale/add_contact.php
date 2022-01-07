@@ -15,20 +15,36 @@
                         }
                     ?>
 
-                    <?php if (in_array($this->role_id, [1, 3, 6, 11, 12])) { ?>
-                    <tr>
-                        <td class="text-right"> Nhân viên sale </td>
-                        <td>
-                            <select class="form-control selectpicker" name="sale_staff_id">
-                                <option value="0"> Chọn nhân viên sale </option>
-                                <?php foreach ($staffs as $key => $value) { ?>
-                                    <option value="<?php echo $value['id']; ?>">
-                                        <?php echo $value['name']; ?>
-                                    </option>
-                                <?php } ?>
-                            </select>
-                        </td>
-                    </tr>
+                    <?php if (in_array($this->role_id, [1, 3, 6, 11])) { ?>
+                        <tr>
+                            <td class="text-right"> Nhân viên sale </td>
+                            <td>
+                                <select class="form-control selectpicker" name="sale_staff_id">
+                                    <option value="0"> Chọn nhân viên sale </option>
+                                    <?php foreach ($staffs as $key => $value) { ?>
+                                        <option value="<?php echo $value['id']; ?>">
+                                            <?php echo $value['name']; ?>
+                                        </option>
+                                    <?php } ?>
+                                </select>
+                            </td>
+                        </tr>
+                    <?php } ?>
+
+                    <?php if ($this->role_id == 12) { ?>
+                        <tr>
+                            <td class="text-right"> Nhân viên chăm sóc cơ sở </td>
+                            <td>
+                                <select class="form-control selectpicker" name="staff_care_branch_id">
+                                    <option value="0"> Chọn nhân viên </option>
+                                    <?php foreach ($staff_care_branch as $key => $value) { ?>
+                                        <option value="<?php echo $value['id']; ?>">
+                                            <?php echo $value['name']; ?>
+                                        </option>
+                                    <?php } ?>
+                                </select>
+                            </td>
+                        </tr>
                     <?php } ?>
 
                     <tr>
