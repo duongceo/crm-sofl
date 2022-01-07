@@ -283,7 +283,7 @@ class Class_study extends MY_Table {
 		);
 
 		$conditional = array();
-		if ($this->role_id == 12 && $_GET['filter_class_id'] == '' && empty($_GET['filter_arr_multi_branch_id'])) {
+		if ($this->role_id == 12 && empty($_GET['filter_class_id']) && empty($_GET['filter_arr_multi_branch_id'])) {
 			$conditional['where']['branch_id'] = $this->branch_id;
 		} elseif ($this->role_id == 14) {
 			$conditional['where_in']['language_id'] = explode(',', $this->session->userdata('language_id'));
