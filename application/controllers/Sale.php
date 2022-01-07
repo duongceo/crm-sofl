@@ -511,6 +511,13 @@ class Sale extends MY_Controller {
                 );
                 $data = $this->_get_require_data($require_model);
 
+                $input_staff_branch['where'] = array(
+                    'role_id' => 12,
+                    'branch_id' => $this->branch_id,
+                    'active' => 1
+                );
+                $data['staff_care_branch'] = $this->staffs_model->load_all($input_staff_branch);
+
                 if (isset($_GET['language_id']) && !empty($_GET['language_id'])) {
                     $data['level_language'] = $this->level_language_model->load_all(array('where' => array('language_id' => $_GET['language_id'])));
                 } else {
@@ -558,6 +565,7 @@ class Sale extends MY_Controller {
                 $param['level_student_id'] = $input['level_student_id'];
                 $param['call_status_id'] = $input['call_status_id'];
                 $param['is_old'] = $input['is_old'];
+                $param['staff_care_branch_id'] = $input['staff_care_branch_id'];
 
 				switch($this->role_id){
 					case 1:
@@ -785,6 +793,13 @@ class Sale extends MY_Controller {
 				),
             );
 			$data = $this->_get_require_data($require_model);
+
+            $input_staff_branch['where'] = array(
+                'role_id' => 12,
+                'branch_id' => $this->branch_id,
+                'active' => 1
+            );
+            $data['staff_care_branch'] = $this->staffs_model->load_all($input_staff_branch);
 
 			if (isset($_GET['language_id']) && !empty($_GET['language_id'])) {
 			    $data['level_language'] = $this->level_language_model->load_all(array('where' => array('language_id' => $_GET['language_id'])));

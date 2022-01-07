@@ -287,6 +287,18 @@
 
                 </li>
 
+                <li>
+
+                    <a href="<?php echo base_url('manager/view_report_staff_care_branch'); ?>">
+
+                        <img src="<?php echo base_url(); ?>public/images/report.png">
+
+                        <span> Báo cáo nhân viên chăm sóc cơ sở </span>
+
+                    </a>
+
+                </li>
+
 			</ul>
 		</li>
 

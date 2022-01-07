@@ -852,7 +852,7 @@ class Class_study extends MY_Table {
          $data['class'] = $this->{$this->model}->load_all($input);
 
          $input_staff['where'] = array(
-             'role_id' => 10,
+             'role_id' => 12,
              'branch_id' => $this->branch_id,
              'active' => 1
          );
