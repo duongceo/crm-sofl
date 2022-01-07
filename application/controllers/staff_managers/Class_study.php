@@ -209,7 +209,7 @@ class Class_study extends MY_Table {
 			);
 		}
 		if ($this->role_id == 8) {
-            unset($list_view['notes']);
+
         }
 
 		$this->set_list_view($list_view);
@@ -678,7 +678,7 @@ class Class_study extends MY_Table {
         }
         $this->create_class_id($str, $branch_id);
     }
-    
+
     private function get_time_end_expected($total_lesson, $day, $time_start) {
 	    $this->load->model('day_model');
 	    $time_end_expected = '';
@@ -852,7 +852,7 @@ class Class_study extends MY_Table {
          $data['class'] = $this->{$this->model}->load_all($input);
 
          $input_staff['where'] = array(
-             'role_id' => 12,
+             'role_id' => 10,
              'branch_id' => $this->branch_id,
              'active' => 1
          );
