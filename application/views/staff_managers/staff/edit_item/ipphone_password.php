@@ -1,4 +1,4 @@
-<?php if ($row['role_id'] == _SALE_) { ?>
+<?php if ($row['role_id'] == 1) { ?>
 
     <tr class="ipphone">
 
