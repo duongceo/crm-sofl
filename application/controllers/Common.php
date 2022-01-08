@@ -676,9 +676,9 @@ class Common extends MY_Controller {
 				die;
 			}
 
-			if ($this->role_id == 1) {
-				$param['date_last_calling'] = time();
-			}
+//			if ($this->role_id == 1) {
+//				$param['date_last_calling'] = time();
+//			}
             $param['last_activity'] = time();
             $where = array('id' => $id);
             $this->contacts_model->update($where, $param);

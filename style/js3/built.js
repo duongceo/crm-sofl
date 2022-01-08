@@ -3215,7 +3215,7 @@ $(document).on('change', '[name="add_landingpage_id"]', function () {
 });
 
 $(document).on('change', '[name="add_role_id"]', function () {
-	var role_id = $(this).val();
+	let role_id = $(this).val();
 	// console.log(role_id);return false;
 	$.ajax({
 		url: $('#base_url').val() + 'staff_managers/staff/get_kpi',
@@ -3226,6 +3226,11 @@ $(document).on('change', '[name="add_role_id"]', function () {
 
 		success: function (data) {
 			$(".ajax_kpi").html(data);
+            if (role_id == 1) {
+                $(".ipphone").show();
+            } else {
+                $(".ipphone").hide();
+            }
 		},
 
 		complete: function () {

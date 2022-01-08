@@ -105,6 +105,12 @@ class Staff extends MY_Table {
 					'type' => 'array',
 					'value' => $this->get_data_from_model('role')
 				),
+                'ipphone_user_name' => array(
+                    'type' => 'custom'
+                ),
+                'ipphone_password' => array(
+                    'type' => 'custom'
+                ),
 				'branch_id' => array(
 					'type' => 'array',
 					'value' => $this->get_data_from_model('branch')
@@ -154,6 +160,9 @@ class Staff extends MY_Table {
 				$param['targets'] = md5(md5($post['add_targets']));
 			}
 
+            $param['ipphone_user_name'] = trim($post['ipphone_user_name']);
+            $param['ipphone_password'] = trim($post['ipphone_password']);
+
 			$param['time_created'] = time();
 
 			$this->{$this->model}->insert($param);
@@ -178,6 +187,12 @@ class Staff extends MY_Table {
 					'type' => 'array',
 					'value' => $this->get_data_from_model('role')
 				),
+                'ipphone_user_name' => array(
+                    'type' => 'custom'
+                ),
+                'ipphone_password' => array(
+                    'type' => 'custom'
+                ),
 				'branch_id' => array(
 					'type' => 'array',
 					'value' => $this->get_data_from_model('branch')
@@ -226,6 +241,9 @@ class Staff extends MY_Table {
 			if (!isset($post['edit_active']) && empty($post['edit_active'])) {
 				$param['active'] = 0;
 			}
+
+            $param['ipphone_user_name'] = trim($post['ipphone_user_name']);
+            $param['ipphone_password'] = trim($post['ipphone_password']);
 
 			$this->{$this->model}->update($input['where'], $param);
 		}
