@@ -677,7 +677,7 @@ class Common extends MY_Controller {
 			}
 
 //			if ($this->role_id == 1) {
-//				$param['date_last_calling'] = time();
+            $param['date_last_calling'] = time();
 //			}
             $param['last_activity'] = time();
             $where = array('id' => $id);
