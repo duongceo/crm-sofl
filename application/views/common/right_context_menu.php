@@ -61,6 +61,12 @@
                         <i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp;Thống kê tỷ lệ HV đk đi lên
                     </a>
                 </li>
+
+                <li class="mechanism_teacher show-with-item" class_study_id="">
+                    <a>
+                        <i class="fa fa-info-circle" aria-hidden="true"></i> &nbsp; &nbsp; Thêm thưởng phạt giáo viên
+                    </a>
+                </li>
             <?php } ?>
 
         <?php } else if ($this->role_id == 1) { ?> <!-- TK Sale -->
@@ -239,6 +245,37 @@
 					<i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp; Chỉnh sửa
 				</a>
 			</li>
+            <?php if ($controller == 'class_study') { ?>
+                <li class="edit_class item_not_contact show-with-item" item_id="0">
+                    <a>
+                        <i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp;Chăm sóc lớp
+                    </a>
+                </li>
+
+                <li class="view_student show-with-item" item_id="0" show_url="staff_managers/class_study/show_student">
+                    <a>
+                        <i class="fa fa-info-circle" aria-hidden="true"></i> &nbsp; &nbsp; Xem danh sách học viên
+                    </a>
+                </li>
+
+                <li class="check_L7 show-with-item" class_study_id="">
+                    <a>
+                        <i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp;Thống kê tỷ lệ HV đk đi lên
+                    </a>
+                </li>
+
+                <li class="mechanism_teacher show-with-item" class_study_id="">
+                    <a>
+                        <i class="fa fa-info-circle" aria-hidden="true"></i> &nbsp; &nbsp; Thêm thưởng phạt giáo viên
+                    </a>
+                </li>
+
+                <li class="email_contract show-with-item" class_study_id="">
+                    <a>
+                        <i class="fa fa-info-circle" aria-hidden="true"></i> &nbsp; &nbsp; Gửi mail hợp đồng
+                    </a>
+                </li>
+            <?php } ?>
 		<?php } else if ($this->role_id == 14) { ?>
 			<li class="edit_item" edit-url="" data-modal-name="edit-item-modal" item_id="0">
 				<a>

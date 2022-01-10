@@ -139,4 +139,4 @@ define('MARKETER_ROLE_ID', 6);
 define('MARKETING_KPI_PER_DAY', 150);
 define('TVTS_KPI_PER_DAY', 101);
 
-define('_VER_CACHED_', '8.1.2021');
+define('_VER_CACHED_', '10.1.2021');

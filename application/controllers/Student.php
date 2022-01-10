@@ -299,11 +299,13 @@ class Student extends MY_Controller {
 		$this->load->model('level_student_model');
 		$data['level_contact_detail'] = $this->level_contact_model->load_all($input);
 		$data['level_student_detail'] = $this->level_student_model->load_all($input);
+
+		$data['staff_care_branch'] = $this->staffs_model->load_all(array('where'=>array('role' => 12, 'active' => 1)));
 		
 		$data['progress'] = $this->GetProccessThisMonth();
 		$data['progressType'] = 'Doanh thu tại cơ sở tháng này';
 
-        $data['left_col'] = array('is_old', 'date_rgt', 'date_handover', 'date_recall', 'date_confirm', 'date_rgt_study', 'date_paid', 'study_date_start', 'study_date_end', 'date_recall_customer_care', 'date_customer_care_call');
+        $data['left_col'] = array('is_old', 'staff_care_branch', 'date_rgt', 'date_handover', 'date_recall', 'date_confirm', 'date_rgt_study', 'date_paid', 'study_date_start', 'study_date_end', 'date_recall_customer_care', 'date_customer_care_call');
         $data['right_col'] = array('language', 'call_status', 'level_contact', 'level_contact_detail', 'level_student', 'level_study', 'payment_method_rgt', 'customer_care_call_stt', 'status_lecture', 'status_teacher', 'status_end_student');
 
         $this->table .= 'fee paid call_stt level_contact date_rgt date_last_calling';
@@ -439,6 +441,7 @@ class Student extends MY_Controller {
 			$param['branch_id'] = (empty($post['branch_id'])) ? $this->branch_id : $post['branch_id'];
 			$param['user_id'] = $this->user_id;
 			$param['day'] = date('d-m-Y', strtotime($post['day_cost']));
+			$param['bank'] = $post['bank'];
 
 			$this->cost_branch_model->insert($param);
 			redirect(base_url('student/cost_branch'));
@@ -489,6 +492,26 @@ class Student extends MY_Controller {
 
 		$this->load->view(_MAIN_LAYOUT_, $data);
 	}
+
+	public function paid_cost_branch() {
+	    $this->load->model('cost_branch_model');
+	    $post = $this->input->post();
+        $result = array();
+
+        if (!empty($post)) {
+	        $where = array('id' => $post['cost_id']);
+	        $param['paid_status'] = 1;
+
+	        $this->cost_branch_model->update($where, $param);
+
+            $result['success'] = true;
+        } else {
+	        $result['success'] = false;
+	        $result['message'] = 'Có lỗi xảy ra';
+        }
+
+        echo json_encode($result);
+    }
 
 	public function chose_branch() {
 		$data = $this->data;

@@ -25,7 +25,8 @@
 				<tr>
 					<th>Ngày chi tiêu</th>
 					<th>Chi phí</th>
-					<th style="width: 15%;">Nội dung</th>
+                    <th>Ngân hàng</th>
+                    <th style="width: 12%;">Nội dung</th>
 					<th>Thu/Chi</th>
 					<th>Nơi thu/chi</th>
 					<th>Người nhập</th>
@@ -35,40 +36,44 @@
 			</thead>
 
 			<tbody id="log-body">
-			<?php if (isset($cost) && !empty($cost)) { ?>
-				<?php foreach ($cost as $item){ ?>
-					<tr>
-						<td class="text-center">
-							<?php echo date('d-m-Y', $item['day_cost']); ?>
-						</td>
-						<td class="text-center">
-							<?php echo h_number_format($item['cost']); ?>
-						</td>
-						<td class="text-justify">
-							<?php echo $item['content_cost']; ?>
-						</td>
-                        <td class="text-center">
-							<?php echo ($item['revenue_cost']) ? 'Thu' : 'Chi'; ?>
-						</td>
-						<td class="text-center">
-							<?php echo $item['branch_name']; ?>
-						</td>
-						<td class="text-center">
-							<?php echo $item['user_name']; ?>
-						</td>
-                        <td class="text-center">
-                            <?php if ($item['paid_status']) { ?>
-                                <p class="bg-success">Đã thanh toán</p>
-                            <?php } else { ?>
-                                <p class="bg-warning">Chưa thanh toán</p>
-                            <?php } ?>
-                        </td>
-                        <td class="text-center">
-                            <?php echo date('d-m-Y H:i:s', $item['time_created']); ?>
-                        </td>
-					</tr>
-				<?php } ?>
-			<?php } ?>
+			    <?php if (isset($cost) && !empty($cost)) { ?>
+                    <?php foreach ($cost as $item){ ?>
+                        <tr>
+                            <td class="text-center">
+                                <?php echo date('d-m-Y', $item['day_cost']); ?>
+                            </td>
+                            <td class="text-center">
+                                <?php echo h_number_format($item['cost']); ?>
+                            </td>
+                            <td class="text-justify">
+                                <?php echo $item['bank']; ?>
+                            </td>
+                            <td class="text-justify">
+                                <?php echo $item['content_cost']; ?>
+                            </td>
+                            <td class="text-center">
+                                <?php echo ($item['revenue_cost']) ? 'Thu' : 'Chi'; ?>
+                            </td>
+                            <td class="text-center">
+                                <?php echo $item['branch_name']; ?>
+                            </td>
+                            <td class="text-center">
+                                <?php echo $item['user_name']; ?>
+                            </td>
+                            <td class="text-center cost_branch">
+                                <?php if ($item['paid_status']) { ?>
+                                    <p class="bg-success">Đã thanh toán</p>
+                                <?php } else { ?>
+                                    <p class="bg-warning">Chưa thanh toán</p>
+                                    <button class="btn btn-xs btn-primary btn_paid_cost_branch" cost_id="<?php echo  $item['id'] ?>">Thanh toán</button>
+                                <?php } ?>
+                            </td>
+                            <td class="text-center">
+                                <?php echo date('d-m-Y H:i:s', $item['time_created']); ?>
+                            </td>
+                        </tr>
+                    <?php } ?>
+                <?php } ?>
 			</tbody>
 		</table>
 	</div>
@@ -209,6 +214,13 @@
                                                 </option>
                                             <?php } ?>
                                         </select>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td  class="text-right">Ngân hàng</td>
+                                    <td>
+                                        <input type="text" class="form-control" name="bank" style="width: 100%;" />
                                     </td>
                                 </tr>
 							</table>

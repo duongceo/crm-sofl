@@ -3689,8 +3689,8 @@ $(".recall_missed").confirm({
 		confirm: {
 			text: 'Có',
 			action: function () {
-				var phone_number = $('.search_phone').attr("type").trim();
-				var url = $("#base_url").val() + 'sale/update_missed_call';
+				let phone_number = $('.search_phone').attr("type").trim();
+				let url = $("#base_url").val() + 'sale/update_missed_call';
 				// alert(url); return false;
 				$.ajax({
 					type: "POST",
@@ -4094,5 +4094,33 @@ $(".update_cost_student").on('click', function (e) {
     });
     // $(".view_update_cost_student").modal("show");
 });
+
+$(".btn_paid_cost_branch").on('click', function (e) {
+    e.preventDefault();
+
+    let _this_ = $(this);
+    let cost_id = _this_.attr("cost_id");
+    $.ajax({
+        url: $("#base_url").val() + "student/paid_cost_branch",
+        type: "POST",
+        dataType: 'json',
+        data: {
+            cost_id: cost_id
+        },
+        beforeSend: () => $(".popup-wrapper").show(),
+        success: function (data) {
+            if (data.success) {
+                _this_.parent().parent().find('td.cost_branch').html('<p class="bg-success">Đã thanh toán</p>');
+            } else {
+                alert(data.message);
+            }
+        },
+        complete: function () {
+            $(".popup-wrapper").hide();
+        }
+    });
+});
+
+
 
 
