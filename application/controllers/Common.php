@@ -95,7 +95,7 @@ class Common extends MY_Controller {
 			//'date_receive_cost' => 'view'
         );
 
-        $data['staff_care_branch'] = $this->staffs_model->load_all(array('where'=>array('role' => 12, 'active' => 1)));
+        $data['staff_care_branch'] = $this->staffs_model->load_all(array('where'=>array('role_id' => 12, 'active' => 1)));
 		
         $data['view_edit_left'] = $left_view;
         $data['view_edit_right'] = $right_view;

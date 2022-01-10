@@ -300,7 +300,7 @@ class Student extends MY_Controller {
 		$data['level_contact_detail'] = $this->level_contact_model->load_all($input);
 		$data['level_student_detail'] = $this->level_student_model->load_all($input);
 
-		$data['staff_care_branch'] = $this->staffs_model->load_all(array('where'=>array('role' => 12, 'active' => 1)));
+		$data['staff_care_branch'] = $this->staffs_model->load_all(array('where'=>array('role_id' => 12, 'active' => 1)));
 		
 		$data['progress'] = $this->GetProccessThisMonth();
 		$data['progressType'] = 'Doanh thu tại cơ sở tháng này';
