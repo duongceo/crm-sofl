@@ -401,11 +401,13 @@ class Student extends MY_Controller {
 		);
         $input['limit'] = array(60, 0);
 
-//		if (isset($get['filter_number_records'])) {
-//			$input['limit'] = array($get['filter_number_records']);
-//		} else {
-//			$input['limit'] = array(10);
-//		}
+        if (isset($get['filter_sale_study_abroad']) && !empty($get['filter_sale_study_abroad'])) {
+            $input['where']['user_id'] = $get['filter_sale_study_abroad'];
+        }
+
+        if (isset($get['filter_paid_status']) && !empty($get['filter_paid_status'])) {
+            $input['where']['paid_status'] = $get['filter_paid_status'];
+        }
 
 		if ($this->role_id != 12) {
 			unset($input['where']['branch_id']);
@@ -450,7 +452,7 @@ class Student extends MY_Controller {
 		$date_for_report = $this->display_date($date_from_arr, $date_end_arr);
 
 		$report_cost = array();
-		$report_revenue = array();
+//		$report_revenue = array();
 		foreach ($date_for_report as $value_date) {
 			foreach ($branch as $value_branch) {
 				$input_report['select'] = 'SUM(cost) AS COST';
@@ -463,7 +465,7 @@ class Student extends MY_Controller {
 				}
 
 				$input_cost = array_merge_recursive($input_report, array('where' => array('revenue_cost' => '0')));
-				$input_revenue = array_merge_recursive($input_report, array('where' => array('revenue_cost' => 1, 'paid_status' => 1)));
+//				$input_revenue = array_merge_recursive($input_report, array('where' => array('revenue_cost' => 1, 'paid_status' => 1)));
 
 				$cost_day = $this->cost_branch_model->load_all($input_cost);
 				if (!empty($cost_day)) {
@@ -471,22 +473,24 @@ class Student extends MY_Controller {
 					$report_cost[$value_branch['name']][$value_date] = $cost_day[0]['COST'];
 				}
 
-				$revenue_day = $this->cost_branch_model->load_all($input_revenue);
-				if (!empty($revenue_day)) {
-					$report_revenue[$value_branch['name']]['total'] += $revenue_day[0]['COST'];
-					$report_revenue[$value_branch['name']][$value_date] = $revenue_day[0]['COST'];
-				}
+//				$revenue_day = $this->cost_branch_model->load_all($input_revenue);
+//				if (!empty($revenue_day)) {
+//					$report_revenue[$value_branch['name']]['total'] += $revenue_day[0]['COST'];
+//					$report_revenue[$value_branch['name']][$value_date] = $revenue_day[0]['COST'];
+//				}
 			}
 		}
 
+		$data['sale_study_abroad'] = $this->staffs_model->load_all(array('where' => array('sale_study_abroad' => 1)));
 		$data['cost'] = $cost;
 		$data['report_cost'] = $report_cost;
-		$data['report_revenue'] = $report_revenue;
+//		$data['report_revenue'] = $report_revenue;
 		$data['date'] = array_reverse($date_for_report);
 		$data['total_cost'] = str_replace(',', '.', number_format($total_cost));
 		$data['startDate'] = isset($date_from) ? $date_from : '0';
 		$data['endDate'] = isset($date_end) ? $date_end : '0';
-		$data['left_col'] = array('date_happen_1', 'branch');
+		$data['left_col'] = array('date_happen_1', 'branch', 'paid_status');
+		$data['right_col'] = array('sale_study_abroad');
 		$data['content'] = 'student/cost_branch';
 		//echo '<pre>';print_r($data);die();
 
@@ -644,19 +648,19 @@ class Student extends MY_Controller {
                 $data_class = array();
                 $data_class['time_end_real'] = strtotime(date('d-m-Y'));
                 $data_class['character_class_id'] = 3;
+                $data_class['priority_id'] = 4;
                 $this->class_study_model->update($input_class['where'], $data_class);
 
-                $data = json_decode($post['data_attendance']);
-                if (!empty($data)) {
-                    foreach ($data as $item) {
-                        $where_contact = array('id' => $item->contact_id);
-                        $param_contact = array(
-                            'level_study_id' => 'L7.4',
-                            'date_action_of_study' => time()
-                        );
-                        $this->contacts_model->update($where_contact, $param_contact);
-                    }
-                }
+                $where_contact = array(
+                    'class_study_id' => $post['class_study_id'],
+                    'level_study_id IN ("L7", "")' => 'NO-VALUE',
+                    'level_contact_id' => 'L5'
+                );
+                $param_contact = array(
+                    'level_study_id' => 'L7.4',
+                    'date_action_of_study' => time()
+                );
+                $this->contacts_model->update($where_contact, $param_contact);
             }
         }
 

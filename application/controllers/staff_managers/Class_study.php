@@ -209,7 +209,7 @@ class Class_study extends MY_Table {
 			);
 		}
 		if ($this->role_id == 8) {
-
+            unset($list_view['notes']);
         }
 
 		$this->set_list_view($list_view);
@@ -591,10 +591,12 @@ class Class_study extends MY_Table {
 
             if (!empty($param['time_end_real'])) {
                 $param['character_class_id'] = 3;
+                $param['priority_id'] = 4;
 
                 $where_contact = array(
                     'class_study_id' => $class_study[0]['class_study_id'],
-                    'level_study_id IN ("L7", "")' => 'NO-VALUE'
+                    'level_study_id IN ("L7", "")' => 'NO-VALUE',
+                    'level_contact_id' => 'L5'
                 );
                 $data_contact = array(
                     'level_study_id' => 'L7.4',
@@ -603,6 +605,7 @@ class Class_study extends MY_Table {
                 $this->contacts_model->update($where_contact, $data_contact);
             } elseif (!empty($class_study[0]['time_end_real'])) {
                 $param['character_class_id'] = 2;
+                $param['priority_id'] = 3;
 
                 $where_contact = array(
                     'class_study_id' => $class_study[0]['class_study_id'],
