@@ -18,6 +18,13 @@
     <ul class="list-unstyled components">
 
         <li>
+            <a href="<?php echo base_url('student/get_class_attendance'); ?>">
+                <img src="<?php echo base_url(); ?>public/images/view-all.png">
+                <span> Điểm danh lớp </span>
+            </a>
+        </li>
+
+        <li>
             <a href="<?php echo base_url('staff_managers/class_study'); ?>">
                 <img src="<?php echo base_url(); ?>public/images/view-all.png">
                 <span> Danh sách lớp học </span>

@@ -19,13 +19,11 @@
 
 		<li>
 
-            <a href="<?php echo base_url().'manager/contact_cancel'; ?>">
+            <a href="<?php echo base_url('student/contact_refund'); ?>">
 
                 <img src="<?php echo base_url(); ?>public/images/new.png"> 
 
-                <span> Danh sách contact rút học phí
-
-                </span>
+                <span> Danh sách contact rút học phí </span>
 
             </a>
 

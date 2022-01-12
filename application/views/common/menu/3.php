@@ -22,33 +22,18 @@
             </a>
             <ul class="collapse list-unstyled" id="homeSubmenu">
                 <li>
-
                     <a href="<?php echo base_url(); ?>">
-
-                        <img src="<?php echo base_url(); ?>public/images/new.png"> 
-
-                        <span> Danh sách contact mới không trùng (<?php echo $this->L['L1'];?>)
-
-                        <!-- <sup> <span class="badge bg-red"> <?php //echo $this->L['L1'];?> </span> </sup> -->
-
-                        </span>
-
+                        <img src="<?php echo base_url(); ?>public/images/new.png">
+                        <span> Danh sách contact mới không trùng (<?php echo $this->L['L1'];?>)</span>
                     </a>
-
                 </li>
                 
                 <li>
-
                     <a href="<?php echo base_url().'/quan-ly/contact-moi-trung.html'; ?>">
-
-                        <img src="<?php echo base_url(); ?>public/images/new.png"> 
-
+                        <img src="<?php echo base_url(); ?>public/images/new.png">
                         <span> Danh sách contact mới bị trùng (<?php echo $this->L['L1_trung'];?>)
-
                         </span>
-
                     </a>
-
                 </li>
 
 <!--                <li>-->
@@ -68,17 +53,9 @@
                 <li>
 
                     <a href="<?php echo base_url('quan-ly/xem-tat-ca-contact.html'); ?>">
-
-                        <img src="<?php echo base_url(); ?>public/images/view-all.png"> 
-
-                        <span> Danh sách toàn bộ contact (<?php echo $this->L['all'];?>)
-
-            <!--<sup> <span class="badge bg-red"> <?php echo $this->L['all'];?> </span> </sup>-->
-
-                        </span>
-
+                        <img src="<?php echo base_url(); ?>public/images/view-all.png">
+                        <span> Danh sách toàn bộ contact (<?php echo $this->L['all'];?>)</span>
                     </a>
-
                 </li>
             </ul>
         </li>
@@ -90,113 +67,67 @@
             </a>
             <ul class="collapse list-unstyled" id="homeSubmenu_3">
                 <li>
-
                     <a href="<?php echo base_url('quan-ly/xem-bao-cao-tu-van-tuyen-sinh.html'); ?>">
-
                         <img src="<?php echo base_url(); ?>public/images/tvts.png">
-
                         <span> Báo cáo TVTS </span>
-
                     </a>
-
                 </li>
 
 				<li>
-
 					<a href="<?php echo base_url('manager/view_report_sale_handle'); ?>">
-
 						<img src="<?php echo base_url(); ?>public/images/report.png">
-
 						<span> Báo cáo xử lý contact </span>
-
 					</a>
-
 				</li>
 
 				<li>
-
 					<a href="<?php echo base_url('manager/view_report_sale_handle_source_data'); ?>">
-
 						<img src="<?php echo base_url(); ?>public/images/report.png">
-
 						<span> Báo cáo xử lý contact - Nguồn Data lạnh </span>
-
 					</a>
-
 				</li>
 
 				<li>
-
 					<a href="<?php echo base_url('manager/view_report_revenue'); ?>">
-
 						<img src="<?php echo base_url(); ?>public/images/dollar.png">
-
 						<span> Báo cáo doanh thu </span>
-
 					</a>
-
 				</li>
 
 				<li>
-
 					<a href="<?php echo base_url('manager/view_report_payment_method'); ?>">
-
 						<img src="<?php echo base_url(); ?>public/images/dollar.png">
-
 						<span> Báo cáo doanh thu - HTTT </span>
-
 					</a>
-
 				</li>
 
                 <li>
-
                     <a href="<?php echo base_url('manager/view_report_student_branch'); ?>">
-
                         <img src="<?php echo base_url(); ?>public/images/view-general-report.png">
-
                         <span> Báo cáo học viên tại cơ sở  </span>
-
                     </a>
-
                 </li>
 
                 <li>
-
                     <a href="<?php echo base_url('manager/view_report_source'); ?>">
-
                         <img src="<?php echo base_url(); ?>public/images/report.png">
-
                         <span> Xem báo cáo theo nguồn </span>
-
                     </a>
-
                 </li>
 
 				<li>
-
 					<a href="<?php echo base_url('manager/view_report_sale_source'); ?>">
-
 						<img src="<?php echo base_url(); ?>public/images/report.png">
-
 						<span> Xem báo cáo theo Nguồn - Sale </span>
-
 					</a>
-
 				</li>
 
 				<li>
-
 					<a href="<?php echo base_url('manager/view_report_sale_language'); ?>">
-
 						<img src="<?php echo base_url(); ?>public/images/report.png">
-
 						<span> Xem báo cáo theo Tiếng - Sale </span>
-
 					</a>
-
 				</li>
-                
             </ul>
         </li>
 
@@ -207,41 +138,32 @@
 			</a>
 			<ul class="collapse list-unstyled" id="homeSubmenu_4">
 				<li>
-
 					<a href="<?php echo base_url('manager/view_report_class_study'); ?>">
-
 						<img src="<?php echo base_url(); ?>public/images/report.png">
-
 						<span> Xem báo cáo lớp học và thống kê tỷ lệ HV đk lên </span>
-
 					</a>
-
 				</li>
 
 				<li>
-
 					<a href="<?php echo base_url('manager/view_report_revenue_class'); ?>">
-
 						<img src="<?php echo base_url(); ?>public/images/report.png">
-
 						<span> Báo cáo thông tin lớp học</span>
-
 					</a>
-
 				</li>
 
                 <li>
-
                     <a href="<?php echo base_url('manager/view_report_care_class_total'); ?>">
-
                         <img src="<?php echo base_url(); ?>public/images/report.png">
-
                         <span> Báo cáo tổng trạng thái chăm sóc lớp </span>
-
                     </a>
-
                 </li>
 
+                <li>
+                    <a href="<?php echo base_url('manager/view_report_ty_le_dang_ky_di_len'); ?>">
+                        <img src="<?php echo base_url(); ?>public/images/report.png">
+                        <span> Thống kê lớp có tỷ lệ HV đk đi lên theo 6 LV </span>
+                    </a>
+                </li>
 			</ul>
 		</li>
 
@@ -252,53 +174,32 @@
 			</a>
 			<ul class="collapse list-unstyled" id="homeSubmenu_5">
 				<li>
-
 					<a href="<?php echo base_url('manager/view_report_customer_care'); ?>">
-
 						<img src="<?php echo base_url(); ?>public/images/report.png">
-
 						<span> Xem báo chăm sóc hv đi lên </span>
-
 					</a>
-
 				</li>
 
 				<li>
-
 					<a href="<?php echo base_url('manager/view_report_care_L7'); ?>">
-
 						<img src="<?php echo base_url(); ?>public/images/report.png">
-
 						<span> Xem báo các trạng thái L7</span>
-
 					</a>
-
 				</li>
 
                 <li>
-
                     <a href="<?php echo base_url('manager/view_report_care_class'); ?>">
-
                         <img src="<?php echo base_url(); ?>public/images/report.png">
-
                         <span> Báo cáo trạng thái chăm sóc lớp </span>
-
                     </a>
-
                 </li>
 
                 <li>
-
                     <a href="<?php echo base_url('manager/view_report_staff_care_branch'); ?>">
-
                         <img src="<?php echo base_url(); ?>public/images/report.png">
-
                         <span> Báo cáo nhân viên chăm sóc cơ sở </span>
-
                     </a>
-
                 </li>
-
 			</ul>
 		</li>
 
@@ -309,29 +210,18 @@
 			</a>
 			<ul class="collapse list-unstyled" id="homeSubmenu_compare">
 				<li>
-
 					<a href="<?php echo base_url('manager/view_report_compare_source'); ?>">
-
 						<img src="<?php echo base_url(); ?>public/images/view-all.png" alt="">
-
 						<span> Bảng so sánh các nguồn </span>
-
 					</a>
-
 				</li>
 
 				<li>
-
 					<a href="<?php echo base_url('manager/view_report_compare_sale'); ?>">
-
 						<img src="<?php echo base_url(); ?>public/images/view-all.png" alt="">
-
 						<span> Bảng so sánh các sale </span>
-
 					</a>
-
 				</li>
-
 			</ul>
 		</li>
 
@@ -341,19 +231,6 @@
                 <span>Thêm contact</span>
             </a>
             <ul class="collapse list-unstyled" id="homeSubmenu_6">
-
-<!--                <li>-->
-<!---->
-<!--                    <a class="add-new-contact-modal" href="--><?php //echo base_url('quan-ly/them-contact.html'); ?><!--">-->
-<!---->
-<!--                        <img src="--><?php //echo base_url(); ?><!--public/images/add-contact.png"> -->
-<!---->
-<!--                        <span> Thêm mới contact </span>-->
-<!--    -->
-<!--                    </a>-->
-<!---->
-<!--                </li>-->
-
                 <li>
                     <a href="<?php echo base_url('manager/them-contact-file-excel.html');?>">
                         <img src="<?php echo base_url(); ?>public/images/courses.png">
@@ -392,29 +269,18 @@
 			</a>
 		</li>
 
-
 		<li>
-
 			<a href="<?php echo base_url('sale/view_history_call'); ?>">
-
 				<img src="<?php echo base_url(); ?>public/images/view-all.png">
-
 				<span> Lịch sử cuộc gọi </span>
-
 			</a>
-
 		</li>
 
         <li>
             <a href="<?php echo base_url('home/logout'); ?>">
-
-                <img src="<?php echo base_url(); ?>public/images/logout.png"> 
-
+                <img src="<?php echo base_url(); ?>public/images/logout.png">
                 <span> Đăng xuất  </span>
-
             </a>
         </li>
-
     </ul>
-
 </nav>

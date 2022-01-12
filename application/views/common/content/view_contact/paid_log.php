@@ -5,18 +5,22 @@
 		<td>
 			<table class="table table-bordered table-striped call-log">
 				<thead>
-				<tr>
-					<th>
-						Lần đóng
-					</th>
-					<th>
-						Thời gian
-					</th>
-					<th>
-						Tiền
-					</th>
-				</tr>
+                    <tr>
+                        <th>
+                            Lần đóng
+                        </th>
+                        <th>
+                            Thời gian
+                        </th>
+                        <th>
+                            Tiền
+                        </th>
+                        <th>
+                            Ngân hàng
+                        </th>
+                    </tr>
 				</thead>
+
 				<tbody>
 				<?php foreach ($paid as $key => $value) { ?>
 					<tr>
@@ -29,7 +33,16 @@
 						<td class="text-center">
 							<?php echo h_number_format($value['paid']); ?>
 						</td>
-
+                        <td class="text-center">
+                            <?php
+                                foreach ($account_banking as $item) {
+                                    if ($item['id'] == $value['account_banking_id']) {
+                                        echo $value['bank'];
+                                        break;
+                                    }
+                                }
+                            ?>
+                        </td>
 					</tr>
 				<?php } ?>
 				</tbody>

@@ -309,7 +309,15 @@
                     <i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp;Thống kê tỷ lệ HV đk đi lên
                 </a>
             </li>
-		<?php } ?>
+        <?php } else if ($this->role_id == 13) { ?>
+            <?php if ($this->controller == 'student') { ?>
+                <li class="refund_contact" contact_id="0">
+                    <a>
+                        <i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp;Hoàn học phí
+                    </a>
+                </li>
+            <?php } ?>
+        <?php } ?>
 
         <?php if (!in_array($this->role_id, array(8, 12, 14))) { ?>
             <li class="ajax-request-modal load-new-contact-id one-item-selected" data-contact-id ="0" data-modal-name="view-detail-contact-div" data-url="common/view_detail_contact">

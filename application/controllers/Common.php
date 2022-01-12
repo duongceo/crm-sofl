@@ -231,7 +231,7 @@ class Common extends MY_Controller {
 		}
 
 		$require_model = array(
-            'staffs' => array(),
+//            'staffs' => array(),
             'class_study' => array(
 				'where' => array('branch_id' => $rows[0]['branch_id']),
                 'order' => array('class_study_id' => 'ASC')
@@ -280,6 +280,7 @@ class Common extends MY_Controller {
             ),
             'payment_method_rgt' => array(),
 			'language_study' => array(),
+            'account_banking' => array()
         );
 
 		if ($this->role_id == 10 || ($this->role_id == 12 && $post['type_modal'] == 'customer_care')) {
@@ -355,7 +356,7 @@ class Common extends MY_Controller {
 //		$input_paid_log['order'] = array('time_created' => 'ASC');
 		$this->load->model('paid_model');
 		$paid = $this->paid_model->load_all($input_paid_log);
-		if (isset($paid)) {
+		if (!empty($paid)) {
 			$rows[0]['paid'] = $paid[0]['paiding'];
 		}
 

@@ -1307,8 +1307,7 @@ class Manager extends MY_Controller {
 		$this->load->view(_MAIN_LAYOUT_, $data);
 	}
 
-//    Báo cáo số lượng học viên của cơ sở
-	function view_report_student_branch() {
+	public function view_report_student_branch() {
 		$require_model = array(
 			'branch' => array(),
 			'language_study' => array(
@@ -1614,13 +1613,13 @@ class Manager extends MY_Controller {
 					'where' => array('level_contact_id' => 'L2', 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate),
 				),
 				'L3' => array(
-					'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L3', 'date_confirm >=' => $startDate, 'date_confirm <=' => $endDate),
+					'where' => array('level_contact_id' => 'L3', 'date_confirm >=' => $startDate, 'date_confirm <=' => $endDate),
 				),
 				'L5' => array(
-					'where' => array('duplicate_id' => '0', 'call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => '0', 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
+					'where' => array('level_contact_id' => 'L5', 'is_old' => '0', 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
 				),
 				'L8' => array(
-					'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'level_contact_id' => 'L5', 'is_old' => 1, 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
+					'where' => array('level_contact_id' => 'L5', 'is_old' => 1, 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
 				),
 			);
 		}
@@ -2836,7 +2835,7 @@ class Manager extends MY_Controller {
         $this->load->view(_MAIN_LAYOUT_, $data);
     }
 
-    function view_report_staff_care_branch() {
+    public function view_report_staff_care_branch() {
         $require_model = array(
             'language_study' => array(
                 'where' => array(
@@ -2955,6 +2954,96 @@ class Manager extends MY_Controller {
         if($this->role_id == 1){
             $data['top_nav'] = 'sale/common/top-nav';
         }
+        $this->	load->view(_MAIN_LAYOUT_, $data);
+    }
+
+    public function view_report_ty_le_dang_ky_di_len() {
+        $this->load->model('class_study_model');
+        $require_model = array(
+            'branch' => array(
+                'where' => array(
+                    'active' => 1
+                )
+            )
+        );
+        $data = array_merge($this->data, $this->_get_require_data($require_model));
+
+        $get = $this->input->get();
+
+        /* Mảng chứa các ngày lẻ */
+        if (isset($get['filter_date_date_happen']) && $get['filter_date_date_happen'] != '') {
+            $time = $get['filter_date_date_happen'];
+        } else {
+            $time = '01' . '/' . date('m') . '/' . date('Y') . ' - ' . date('d') . '/' . date('m') . '/' . date('Y');
+        }
+
+        $dateArr = explode('-', $time);
+        $startDate = trim($dateArr[0]);
+        $startDate = strtotime(str_replace("/", "-", $startDate));
+        $endDate = trim($dateArr[1]);
+        $endDate = strtotime(str_replace("/", "-", $endDate)) + 3600 * 24 - 1;
+
+        unset($get['filter_date_date_happen']);
+
+        if ($this->role_id != 12) {
+            unset($data['branch'][0], $data['branch'][8]);
+            $branch = $data['branch'];
+        } else {
+            $branch[] = array('id' => $this->branch_id, 'name' => $this->branch_model->find_branch_name($this->branch_id));
+        }
+
+        $level = array(
+            array('LV0', 0, 40),
+            array('LV1', 40, 60),
+            array('LV2', 60, 70),
+            array('LV3', 70, 80),
+            array('LV4', 80, 90),
+            array('LV5', 90, 100),
+            array('LV6', 100, 110),
+        );
+
+        foreach ($branch as $key_branch => $value_branch) {
+            $conditional_class['select'] = 'id, class_study_id';
+            $conditional_class['where']['branch_id'] = $value_branch['id'];
+            $conditional_class['where']['time_end_real >='] = $startDate;
+            $conditional_class['where']['time_end_real <='] = $endDate;
+
+            $class_of_branch = $this->class_study_model->load_all($conditional_class);
+            if (!empty($class_of_branch)) {
+                foreach ($class_of_branch as $value_class) {
+                    $input_contact['select'] = 'id';
+                    $input_contact['where']['(class_study_id = "'. $value_class['class_study_id'] .'" OR class_foreign_id LIKE "%'. $value_class['class_study_id'] .'%")'] = 'NO-VALUE';
+                    $input_contact['where']['level_contact_id'] = 'L5';
+                    $input_contact['where']['level_contact_detail !='] = 'L5.4';
+                    $L7 = count($this->contacts_model->load_all($input_contact));
+
+                    $input_contact['where'] = array();
+                    $input_contact['where']['class_study_id'] = $value_class['class_study_id'];
+                    $input_contact['where']['level_study_id'] = 'L7.6';
+                    $L7_6 = count($this->contacts_model->load_all($input_contact));
+
+                    if ($L7) {
+                        foreach ($level as $value_level) {
+                            list($name, $limit1, $limit2) = $value_level;
+                            if ($limit1 <= round($L7_6/$L7 * 100) && round($L7_6/$L7 * 100) < $limit2) {
+                                $branch[$name] += 1;
+                            };
+                        }
+                    }
+                }
+            }
+        }
+
+//        print_arr($branch);
+
+        $data['level'] = $level;
+        $data['branch'] = $branch;
+        $data['startDate'] = $startDate;
+        $data['endDate'] = $endDate;
+        $data['left_col'] = array('date_happen_1');
+//        $data['right_col'] = array('language');
+        $data['content'] = 'manager/view_report_ty_le_dang_ky_di_len';
+
         $this->	load->view(_MAIN_LAYOUT_, $data);
     }
 
