@@ -2978,15 +2978,12 @@ class Manager extends MY_Controller {
         }
 
         $dateArr = explode('-', $time);
-        $startDate = trim($dateArr[0]);
-        $startDate = strtotime(str_replace("/", "-", $startDate));
-        $endDate = trim($dateArr[1]);
-        $endDate = strtotime(str_replace("/", "-", $endDate)) + 3600 * 24 - 1;
+        $startDate = strtotime(str_replace("/", "-", trim($dateArr[0])));
+        $endDate = strtotime(str_replace("/", "-", trim($dateArr[1]))) + 3600 * 24 - 1;
 
         unset($get['filter_date_date_happen']);
 
         if ($this->role_id != 12) {
-            unset($data['branch'][0], $data['branch'][8]);
             $branch = $data['branch'];
         } else {
             $branch[] = array('id' => $this->branch_id, 'name' => $this->branch_model->find_branch_name($this->branch_id));
