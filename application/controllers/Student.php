@@ -405,7 +405,7 @@ class Student extends MY_Controller {
             $input['where']['user_id'] = $get['filter_sale_study_abroad'];
         }
 
-        if (isset($get['filter_paid_status']) && !empty($get['filter_paid_status'])) {
+        if (isset($get['filter_paid_status']) && $get['filter_paid_status'] != '') {
             $input['where']['paid_status'] = $get['filter_paid_status'];
         }
 
