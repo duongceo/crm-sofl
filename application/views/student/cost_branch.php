@@ -11,6 +11,7 @@
             <?php $this->load->view('common/content/filter'); ?>
         </form>
     </div>
+
 	<div class="row">
 		<div class="col-md-10">
 			<div class="text-left">

@@ -2,17 +2,15 @@
 <div class="row">
 	<h3 class="text-center">Nhật ký đã nhập từ ngày <?php echo date('d-m-Y', $startDate); ?> đến ngày <?php echo date('d-m-Y', $endDate); ?></h3>
 	<h3 class="text-center marginbottom35"> Tổng chi phí MKT : <?php echo $total_spend; ?> VNĐ</h3>
-	
-	<div class="row">
-		<div class="col-md-10">
-			<form action="#" method="GET" id="action_contact" class="form-inline">
-				<?php $this->load->view('common/content/filter'); ?>
-			</form>
-		</div>
-	</div>
 </div>
 
-<div class="container" style="max-width: 910px;">
+<div class="container" style="max-width: 70%;">
+    <div>
+        <form action="#" method="GET" id="action_contact" class="form-inline">
+            <?php $this->load->view('common/content/filter'); ?>
+        </form>
+    </div>
+
 	<div class="row">
 		<div class="col-md-10">
 			<div class="text-left">
@@ -55,7 +53,6 @@
 						<td class="text-center">
 							<?php echo date('d-m-Y H:i:s', $item['time_created']); ?>
 						</td>
-
 					</tr>
 				<?php } ?>
 			<?php } ?>
@@ -63,7 +60,6 @@
 	</table>
 	</div>
 </div>
-
 
 <br>
 <hr>
