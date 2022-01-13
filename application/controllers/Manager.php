@@ -2999,7 +2999,7 @@ class Manager extends MY_Controller {
             array('LV6', 100, 110),
         );
 
-        foreach ($branch as $key_branch => $value_branch) {
+        foreach ($branch as $key_branch => &$value_branch) {
             $conditional_class['select'] = 'id, class_study_id';
             $conditional_class['where']['branch_id'] = $value_branch['id'];
             $conditional_class['where']['time_end_real >='] = $startDate;
@@ -3021,17 +3021,17 @@ class Manager extends MY_Controller {
 
                     if ($L7) {
                         foreach ($level as $value_level) {
+                            $temp = 0;
                             list($name, $limit1, $limit2) = $value_level;
                             if ($limit1 <= round($L7_6/$L7 * 100) && round($L7_6/$L7 * 100) < $limit2) {
-                                $branch[$name] += 1;
+                                $temp += 1;
+                                $value_branch[$name] += $temp;
                             };
                         }
                     }
                 }
             }
         }
-
-//        print_arr($branch);
 
         $data['level'] = $level;
         $data['branch'] = $branch;
