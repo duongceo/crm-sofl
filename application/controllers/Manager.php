@@ -3008,25 +3008,25 @@ class Manager extends MY_Controller {
             $class_of_branch = $this->class_study_model->load_all($conditional_class);
             if (!empty($class_of_branch)) {
                 foreach ($class_of_branch as $value_class) {
+                    $input_contact = array();
                     $input_contact['select'] = 'id';
                     $input_contact['where']['(class_study_id = "'. $value_class['class_study_id'] .'" OR class_foreign_id LIKE "%'. $value_class['class_study_id'] .'%")'] = 'NO-VALUE';
                     $input_contact['where']['level_contact_id'] = 'L5';
                     $input_contact['where']['level_contact_detail !='] = 'L5.4';
                     $L7 = count($this->contacts_model->load_all($input_contact));
-
-                    $input_contact['where'] = array();
-                    $input_contact['where']['class_study_id'] = $value_class['class_study_id'];
-                    $input_contact['where']['level_study_id'] = 'L7.6';
-                    $L7_6 = count($this->contacts_model->load_all($input_contact));
-
                     if ($L7) {
+                        $input_contact['where'] = array();
+                        $input_contact['where']['class_study_id'] = $value_class['class_study_id'];
+                        $input_contact['where']['level_study_id'] = 'L7.6';
+                        $L7_6 = count($this->contacts_model->load_all($input_contact));
+
                         foreach ($level as $value_level) {
                             $temp = 0;
                             list($name, $limit1, $limit2) = $value_level;
                             if ($limit1 <= round($L7_6/$L7 * 100) && round($L7_6/$L7 * 100) < $limit2) {
                                 $temp += 1;
-                                $value_branch[$name] += $temp;
                             };
+                            $value_branch[$name] += $temp;
                         }
                     }
                 }

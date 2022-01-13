@@ -29,7 +29,9 @@
                     <td style="background-color: #8aa6c1"> <?php echo $value_branch['name']; ?> </td>
                     <?php foreach ($level as $item) { ?>
                         <?php list($name, $value2, $total) = $item; ?>
-                        <td><?php echo $value_branch[$name]; ?></td>
+                        <td>
+                            <?php echo $value_branch[$name]; ?>
+                        </td>
                     <?php } ?>
                 </tr>
             <?php } ?>
