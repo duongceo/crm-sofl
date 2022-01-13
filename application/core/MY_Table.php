@@ -710,8 +710,6 @@ class MY_Table extends MY_Controller {
 
         $has_user_order = 0; //cờ kiểm tra nếu người dùng chọn order rồi thì ko order mặc định là id nữa
 
-//        print_arr($get);
-
         if (is_array($get) && !empty($get)) {
 
             foreach ($get as $key => $value) {
@@ -735,9 +733,8 @@ class MY_Table extends MY_Controller {
                     $input_get['like'][$column_name] = $value;
 
                 }*/
-                /*
-                 *  search all
-                 */
+
+                /* search all */
                 if (isset($get['search_all']) && trim($get['search_all']) != '') {
 
 					$searchStr = trim($get['search_all']);
@@ -787,7 +784,6 @@ class MY_Table extends MY_Controller {
                 }
 
                 /* lọc theo các loại ngày */
-
                 if (strpos($key, "filter_date_from_") !== FALSE && $value != '') {
 
                     $column_name = substr($key, strlen("filter_date_from_"));

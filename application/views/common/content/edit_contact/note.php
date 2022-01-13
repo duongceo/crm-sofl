@@ -46,7 +46,7 @@
 
                         <tr>
 
-                            <td class="center">
+                            <td class="text-center">
 
                                 <?php echo $key + 1; ?>
 
@@ -64,7 +64,7 @@
 
                             </td>
 
-                            <td class="center">
+                            <td class="text-center">
 
                                 <?php
 

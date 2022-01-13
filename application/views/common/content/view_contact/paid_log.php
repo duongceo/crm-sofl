@@ -33,11 +33,11 @@
 						<td class="text-center">
 							<?php echo h_number_format($value['paid']); ?>
 						</td>
-                        <td class="text-center">
+                        <td>
                             <?php
                                 foreach ($account_banking as $item) {
                                     if ($item['id'] == $value['account_banking_id']) {
-                                        echo $value['bank'];
+                                        echo $item['bank'];
                                         break;
                                     }
                                 }

@@ -267,6 +267,9 @@ class Class_study extends MY_Table {
                 'number_care' => array(
                     'type' => 'custom'
                 ),
+                'level' => array(
+                    'type' => 'custom'
+                ),
 				'time_start' => array(
 					'type' => 'datetime'
 				),
@@ -297,6 +300,44 @@ class Class_study extends MY_Table {
 		$this->show_table();
 
 		$data = $this->data;
+		if (!empty($_GET['filter_level']) && !empty($_GET['filter_date_time_end_real'])) {
+            $level = array(
+                array('LV0', 0, 40),
+                array('LV1', 40, 60),
+                array('LV2', 60, 70),
+                array('LV3', 70, 80),
+                array('LV4', 80, 90),
+                array('LV5', 90, 100),
+                array('LV6', 100, 110),
+            );
+            $rows = array();
+            foreach ($data['rows'] as $value_class) {
+                $input_contact = array();
+                $input_contact['select'] = 'id';
+                $input_contact['where']['(class_study_id = "'. $value_class['class_study_id'] .'" OR class_foreign_id LIKE "%'. $value_class['class_study_id'] .'%")'] = 'NO-VALUE';
+                $input_contact['where']['level_contact_id'] = 'L5';
+                $input_contact['where']['level_contact_detail !='] = 'L5.4';
+                $L7 = count($this->contacts_model->load_all($input_contact));
+                if ($L7) {
+                    $input_contact['where'] = array();
+                    $input_contact['where']['class_study_id'] = $value_class['class_study_id'];
+                    $input_contact['where']['level_study_id'] = 'L7.6';
+                    $L7_6 = count($this->contacts_model->load_all($input_contact));
+
+                    foreach ($level as $value_level) {
+                        list($name, $limit1, $limit2) = $value_level;
+                        if ($_GET['filter_level'] == $name) {
+                            if (round($L7_6/$L7 * 100) >= $limit1 && round($L7_6/$L7 * 100) < $limit2) {
+                                $rows[] = $value_class;
+                                break;
+                            };
+                        }
+                    }
+                }
+            }
+            $data['rows'] = $rows;
+            $data['total_rows'] = count($data['rows']);
+        }
 
 		$data['list_title'] = 'Lớp học';
 		$data['edit_title'] = 'Sửa thông tin lớp học';
@@ -312,7 +353,6 @@ class Class_study extends MY_Table {
 		}
 
 		/*type mặc định là text nên nếu là text sẽ không cần khai báo*/
-
 		$this->list_add = array(
 			'left_table' => array(
 				'class_study_id' => array(),
