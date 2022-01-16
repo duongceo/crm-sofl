@@ -66,7 +66,9 @@
                                     <p class="bg-success">Đã thanh toán</p>
                                 <?php } else { ?>
                                     <p class="bg-warning">Chưa thanh toán</p>
-                                    <button class="btn btn-xs btn-primary btn_paid_cost_branch" cost_id="<?php echo  $item['id'] ?>">Thanh toán</button>
+                                    <?php if ($this->role_id == 13) { ?>
+                                        <button class="btn btn-xs btn-primary btn_paid_cost_branch" type_money="cost_branch" cost_id="<?php echo  $item['id'] ?>">Thanh toán</button>
+                                    <?php } ?>
                                 <?php } ?>
                             </td>
                             <td class="text-center">

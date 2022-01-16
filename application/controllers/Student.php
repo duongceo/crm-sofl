@@ -1,6 +1,7 @@
 <?php
 
 class Student extends MY_Controller {
+
 	public function __construct() {
 		parent::__construct();
 	}
@@ -138,13 +139,35 @@ class Student extends MY_Controller {
         $data_pagination = $this->_query_all_from_get($get, $conditional, $this->per_page, $offset);
 
         $data['pagination'] = $this->_create_pagination_link($data_pagination['total_row']);
-        $data['contacts'] = $data_pagination['data'];
+        $contacts = $data_pagination['data'];
         $data['total_contact'] = $data_pagination['total_row'];
+
+        $this->load->model('cost_branch_model');
+        foreach ($contacts as &$value) {
+            $input = array();
+            $input['where'] = array('contact_id' => $value['id']);
+            $input['order'] = array('id' => 'DESC');
+            $money_refund = $this->cost_branch_model->load_all($input);
+            if (!empty($money_refund)) {
+                $value['money_refund'] = $money_refund[0]['cost'];
+                $value['date_refund'] = $money_refund[0]['day_cost'];
+                $value['bank_info'] = $money_refund[0]['bank'];
+            } else {
+                $value['money_refund'] = $value['date_refund'] = $value['bank_info'] = '';
+            }
+        }
+        unset($value);
+
+        usort($contacts, function ($item1, $item2) {
+            return $item2['date_refund'] - $item1['date_refund'];
+        });
+
+        $data['contacts'] = $contacts;
 
         $data['left_col'] = array('date_rgt', 'date_rgt_study', 'date_paid', 'study_date_start', 'study_date_end');
         $data['right_col'] = array('language', 'class_study', 'is_old', 'complete_fee');
 
-        $this->table .= 'class_study_id fee paid date_rgt date_rgt_study';
+        $this->table .= 'fee paid money_refund date_refund bank_info';
         $data['table'] = explode(' ', $this->table);
         //echo '<pre>'; print_r($data['table']);die;
 
@@ -503,12 +526,25 @@ class Student extends MY_Controller {
         $result = array();
 
         if (!empty($post)) {
-	        $where = array('id' => $post['cost_id']);
-	        $param['paid_status'] = 1;
+            $where = array();
+            if ($post['type_money'] == 'cost_branch') {
+                $where = array('id' => $post['cost_id']);
+            } elseif ($post['type_money'] == 'cost_branch') {
+                $where = array('contact_id' => $post['cost_id']);
 
-	        $this->cost_branch_model->update($where, $param);
-
-            $result['success'] = true;
+                $where_contact = array('id' => $post['cost_id']);
+                $param_contact['level_contact_id'] = 'L5.5';
+                $this->contacts_model->update($where_contact, $param_contact);
+            }
+            $param['paid_status'] = 1;
+            $param['date_paid'] = time();
+            if (!empty($where)) {
+                $this->cost_branch_model->update($where, $param);
+                $result['success'] = true;
+            } else {
+                $result['success'] = false;
+                $result['message'] = 'Có lỗi xảy ra';
+            }
         } else {
 	        $result['success'] = false;
 	        $result['message'] = 'Có lỗi xảy ra';

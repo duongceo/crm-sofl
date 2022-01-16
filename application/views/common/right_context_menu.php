@@ -150,6 +150,12 @@
 				</a>
 			</li>
 
+            <li class="update_cost_student one-item-selected" contact_id="0">
+                <a>
+                    <i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp;Hoàn học phí
+                </a>
+            </li>
+
 			<?php if ($controller == 'student') { ?>
 				<li contact_id="0" contact_name="0" class="transfer_one_contact one-item-selected show-with-contact">
 					<a>
@@ -309,14 +315,6 @@
                     <i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp;Thống kê tỷ lệ HV đk đi lên
                 </a>
             </li>
-        <?php } else if ($this->role_id == 13) { ?>
-            <?php if ($this->controller == 'student') { ?>
-                <li class="refund_contact" contact_id="0">
-                    <a>
-                        <i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp;Hoàn học phí
-                    </a>
-                </li>
-            <?php } ?>
         <?php } ?>
 
         <?php if (!in_array($this->role_id, array(8, 12, 14))) { ?>

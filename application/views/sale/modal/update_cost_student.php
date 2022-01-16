@@ -1,126 +1,77 @@
 
 <div class="modal fade view_update_cost_student" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-
     <div class="modal-dialog btn-very-lg" role="document">
-
         <div class="modal-content">
-
             <div class="modal-header">
-
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-
                 <h4 class="modal-title" id="myModalLabel"> Cập nhật chi phí của du học sinh </h4>
-
             </div>
 
             <div class="modal-body">
-
                 <table class="table table-striped table-bordered table-hover call-log">
-
                     <thead>
-
                         <tr>
+                            <th>
+                                Lần đóng tiền
+                            </th>
 
-                        <th>
+                            <th>
+                                Thời gian
+                            </th>
 
-                            Lần đóng tiền
+                            <th>
+                                Số tiền
+                            </th>
 
-                        </th>
+                            <th>
+                                Cơ sở
+                            </th>
 
-                        <th>
+                            <th>
+                                Nội dung
+                            </th>
 
-                            Thời gian
-
-                        </th>
-
-                        <th>
-
-                            Tiền đóng
-
-                        </th>
-
-                        <th>
-
-                            Cơ sở
-
-                        </th>
-
-                        <th>
-
-                            Nội dung
-
-                        </th>
-
-                        <th>
-
-                            Người thu tiền
-
-                        </th>
-
-                    </tr>
-
+                            <th>
+                                Người thu tiền
+                            </th>
+                        </tr>
                     </thead>
 
                     <tbody>
+                        <?php
+                        if (isset($cost_student)) {
+                            foreach ($cost_student as $key => $value) {
+                                ?>
+                                <tr>
+                                    <td class="text-center">
+                                        Lần thứ <?php echo $key + 1; ?>
+                                    </td>
 
-                    <?php
+                                    <td class="text-center">
+                                        <?php echo date('d/m/Y H:i', $value['day_cost']); ?>
+                                    </td>
 
-                    if (isset($cost_student)) {
+                                    <td class="text-center">
+                                        <?php echo h_number_format($value['cost']); ?>
+                                    </td>
 
-                        foreach ($cost_student as $key => $value) {
+                                    <td class="text-center">
+                                        <?php echo $value['branch_name']; ?>
+                                    </td>
 
-                            ?>
+                                    <td class="text-center">
+                                        <?php echo html_entity_decode($value['content_cost']); ?>
+                                    </td>
 
-                            <tr>
-
-                                <td class="text-center">
-
-                                    Lần đóng thứ <?php echo $key + 1; ?>
-
-                                </td>
-
-                                <td class="text-center">
-
-                                    <?php echo date('d/m/Y H:i', $value['day_cost']); ?>
-
-                                </td>
-
-                                <td class="text-center">
-
-                                    <?php echo h_number_format($value['cost']); ?>
-
-                                </td>
-
-                                <td class="text-center">
-
-                                    <?php echo $value['branch_name']; ?>
-
-                                </td>
-
-                                <td class="text-center">
-
-                                    <?php echo html_entity_decode($value['content_cost']); ?>
-
-                                </td>
-
-                                <td class="text-center">
-
-                                    <?php echo $value['user_name']; ?>
-
-                                </td>
-
-                            </tr>
-
-                            <?php
-
+                                    <td class="text-center">
+                                        <?php echo $value['user_name']; ?>
+                                    </td>
+                                </tr>
+                                <?php
+                            }
                         }
-
-                    }
-
-                    ?>
-
+                        ?>
                     </tbody>
-
                 </table>
 
                 <form action="<?php echo base_url('sale/update_cost_student') ?>" method="POST" class="form-inline" role="form">
@@ -129,24 +80,19 @@
                         <div class="col-md-6">
                             <table class="table table-striped table-bordered table-hover table-1 table-view-1">
                                 <tr>
-                                    <td  class="text-right">Ngày chi tiêu</td>
+                                    <td  class="text-right">Ngày chi tiêu/rút tiền</td>
                                     <td>
                                         <input type="text" class="form-control datetimepicker" name="day_cost" style="width: 100%;">
                                     </td>
                                 </tr>
 
                                 <tr>
-                                    <td  class="text-right">Số tiền chi tiêu</td>
+                                    <td  class="text-right">Số tiền chi/ hoàn lại</td>
                                     <td>
                                         <input type="text" class="form-control money" name="cost" style="width: 100%;" />
                                     </td>
                                 </tr>
 
-                            </table>
-                        </div>
-
-                        <div class="col-md-6">
-                            <table class="table table-striped table-bordered table-hover table-2 table-view-2">
                                 <tr>
                                     <td class="text-right"> Nơi thu/chi </td>
                                     <td>
@@ -161,13 +107,29 @@
                                     </td>
                                 </tr>
 
+                            </table>
+                        </div>
+
+                        <div class="col-md-6">
+                            <table class="table table-striped table-bordered table-hover table-2 table-view-2">
                                 <tr>
                                     <td class="text-right">
                                         Nội dung chi tiêu
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <textarea class="form-control" rows="4" cols="50" name="content_cost"></textarea>
+                                            <textarea class="form-control" rows="2" cols="50" name="content_cost"></textarea>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="text-right">
+                                        Thông tin ngân hàng
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <textarea class="form-control" rows="2" cols="50" name="bank"></textarea>
                                         </div>
                                     </td>
                                 </tr>

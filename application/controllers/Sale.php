@@ -1526,6 +1526,7 @@ class Sale extends MY_Controller {
         $param['branch_id'] = (empty($post['branch_id'])) ? $this->branch_id : $post['branch_id'];
         $param['user_id'] = $this->user_id;
         $param['day'] = date('d-m-Y', strtotime($post['day_cost']));
+        $param['bank'] = $post['bank'];
 
         $this->cost_branch_model->insert($param);
 

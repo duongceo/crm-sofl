@@ -106,6 +106,7 @@ right_context_menu_display = (controller, contact_id, contact_name, duplicate_id
 		$(".merge_contact").attr('contact_id', contact_id);
 		$(".merge_contact").attr('contact_name', contact_name);
         $(".update_cost_student").attr('contact_id', contact_id);
+        $(".refund_contact").attr('contact_id', contact_id);
     }
 };
 
@@ -4100,12 +4101,14 @@ $(".btn_paid_cost_branch").on('click', function (e) {
 
     let _this_ = $(this);
     let cost_id = _this_.attr("cost_id");
+    let type_money = _this_.attr("type_money");
     $.ajax({
         url: $("#base_url").val() + "student/paid_cost_branch",
         type: "POST",
         dataType: 'json',
         data: {
-            cost_id: cost_id
+            cost_id: cost_id,
+            type_money: type_money
         },
         beforeSend: () => $(".popup-wrapper").show(),
         success: function (data) {
