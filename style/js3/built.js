@@ -65,8 +65,6 @@ uncheck_not_checked = () => {
 right_context_menu_display = (controller, contact_id, contact_name, duplicate_id, contact_phone) => {
     $(".load-new-contact-id").attr('data-contact-id', contact_id);
     // $("a.view_duplicate").attr("duplicate_id", duplicate_id);
-    /*$("a.send_to_mobile").attr("contact_name", contact_name).attr("contact_phone", contact_phone);*/
-    /*$("a.btn-export-one-contact-for-send-vnpost").attr('data-contact-id', contact_id);*/
 	/*$("a.restore-infor").attr('data-contact-id', contact_id);*/
 
     /* Nếu chọn nhiều contact thì ẩn menu xem chi tiết contact và phân 1 contact */
@@ -81,9 +79,8 @@ right_context_menu_display = (controller, contact_id, contact_name, duplicate_id
     }
 	
 	$(".note_contact").attr('contact_name', contact_name);
-
-	// $(".set_data_contact").attr('contact_id', contact_id);
 	$(".set_data_contact").attr({'contact_id':contact_id, 'contact_name':contact_name});
+    $(".update_cost_student").attr('contact_id', contact_id);
 
     if (controller === 'manager' || controller === 'care_page') {
         $(".divide_one_contact_achor").attr('contact_id', contact_id);
@@ -105,7 +102,6 @@ right_context_menu_display = (controller, contact_id, contact_name, duplicate_id
 		/* $(".transfer_one_contact_to_manager").attr('contact_name', contact_name) */
 		$(".merge_contact").attr('contact_id', contact_id);
 		$(".merge_contact").attr('contact_name', contact_name);
-        $(".update_cost_student").attr('contact_id', contact_id);
         $(".refund_contact").attr('contact_id', contact_id);
     }
 };

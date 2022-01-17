@@ -150,7 +150,7 @@
 				</a>
 			</li>
 
-            <li class="update_cost_student one-item-selected" contact_id="0">
+            <li class="update_cost_student one-item-selected show-with-contact" contact_id="0">
                 <a>
                     <i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp;Hoàn học phí
                 </a>

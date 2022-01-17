@@ -152,8 +152,9 @@ class Student extends MY_Controller {
                 $value['money_refund'] = $money_refund[0]['cost'];
                 $value['date_refund'] = $money_refund[0]['day_cost'];
                 $value['bank_info'] = $money_refund[0]['bank'];
+                $value['date_paid_refund'] = $money_refund[0]['date_paid'];
             } else {
-                $value['money_refund'] = $value['date_refund'] = $value['bank_info'] = '';
+                $value['money_refund'] = $value['date_refund'] = $value['bank_info'] = $value['date_paid_refund'] = '';
             }
         }
         unset($value);
@@ -167,7 +168,7 @@ class Student extends MY_Controller {
         $data['left_col'] = array('date_rgt', 'date_rgt_study', 'date_paid', 'study_date_start', 'study_date_end');
         $data['right_col'] = array('language', 'class_study', 'is_old', 'complete_fee');
 
-        $this->table .= 'fee paid money_refund date_refund bank_info';
+        $this->table .= 'fee paid money_refund date_refund bank_info date_paid_refund';
         $data['table'] = explode(' ', $this->table);
         //echo '<pre>'; print_r($data['table']);die;
 

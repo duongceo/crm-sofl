@@ -1,3 +1,3 @@
 <th>
-    Ngày hoàn tiền
+    Ngày Y/C hoàn tiền
 </th>
