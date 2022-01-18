@@ -1944,7 +1944,7 @@ class Manager extends MY_Controller {
 		$get = $this->input->get();
 
 		$input = array();
-		$input['where'] = array('role_id' => 10, 'active' => 1);
+		$input['where'] = array('role_id' => 12, 'active' => 1);
 		$staff_customer_care_today = $staff_customer_care = $this->staffs_model->load_all($input);
 
 		/* Mảng chứa các ngày lẻ */
@@ -1999,7 +1999,7 @@ class Manager extends MY_Controller {
 			$temp_cc = 0;
 			foreach ($staff_customer_care as $key_staff => $value_staff) {
 				$conditional_staff = array();
-				$conditional_staff['where']['customer_care_staff_id'] = $value_staff['id'];
+				$conditional_staff['where']['staff_care_branch_id'] = $value_staff['id'];
 				$conditional = array_merge_recursive($conditional_staff, $conditional_date, $value2);
 				$staff_customer_care[$key_staff][$key2] = $this->_query_for_report($get, $conditional);
 
