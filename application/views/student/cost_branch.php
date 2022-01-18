@@ -2,7 +2,6 @@
 <div class="row">
 	<h1 class="text-center">Nhật ký thu chi từ ngày <?php echo date('d-m-Y', $startDate); ?> đến ngày <?php echo date('d-m-Y', $endDate); ?></h1>
 	<h1 class="text-center marginbottom35" style="color: #04a2df"> Tổng chi tiêu : <?php echo $total_cost; ?> VNĐ</h1>
-
 </div>
 
 <div class="container" style="max-width: 70%" >

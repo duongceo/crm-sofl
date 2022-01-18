@@ -139,36 +139,27 @@ class Teacher extends MY_Table {
 	}
 
 	function action_add_item() {
-
 		$post = $this->input->post();
-
 		if (!empty($post)) {
-
             if ($this->{$this->model}->check_exists(array('phone' => trim($post['add_phone'])))) {
                 redirect_and_die('Giáo viên này đã tồn tại!');
             }
 
 			if ($post['add_active'] != '0' && $post['add_active'] != '1') {
-
 				redirect_and_die('Trạng thái hoạt động là 0 hoặc 1!');
-
 			}
 
 			$paramArr = array('phone', 'branch_id', 'language_id', 'email', 'bank', 'name', 'active');
-
 			foreach ($paramArr as $value) {
-
 				if (isset($post['add_' . $value])) {
-
 					$param[$value] = trim($post['add_' . $value]);
-
 				}
 			}
 
+            $param = isset($post['teacher_abroad']) ? $post['teacher_abroad'] : 0;
+
 			$param['time_created'] = time();
-
 			$id = $this->{$this->model}->insert_return_id($param, 'id');
-
 			$this->create_account($param, $id);
 
 			show_error_and_redirect('Thêm giáo viên thành công!');
@@ -199,19 +190,14 @@ class Teacher extends MY_Table {
 		);
 
 		parent::show_edit_item();
-
 	}
 
 	function action_edit_item($id) {
-
 		$post = $this->input->post();
 
 		if (!empty($post)) {
-
 			$input = array();
-
 			$input['where'] = array('id' => $id);
-
             $teacher = $this->{$this->model}->load_all($input);
 
 			if ($post['edit_phone'] != $teacher[0]['phone'] && $this->{$this->model}->check_exists(array('phone' => $post['edit_phone']))) {
@@ -219,13 +205,9 @@ class Teacher extends MY_Table {
 			}
 
 			$paramArr = array('phone', 'email', 'branch_id', 'language_id', 'bank', 'name', 'active');
-
 			foreach ($paramArr as $value) {
-
 				if (isset($post['edit_' . $value])) {
-
 					$param[$value] = trim($post['edit_' . $value]);
-
 				}
 			}
 
@@ -233,8 +215,9 @@ class Teacher extends MY_Table {
 				$param['active'] = 0;
 			}
 
-			$this->{$this->model}->update($input['where'], $param);
+            $param = isset($post['teacher_abroad']) ? $post['teacher_abroad'] : 0;
 
+			$this->{$this->model}->update($input['where'], $param);
             $this->create_account($param, $id);
 		}
 
@@ -365,8 +348,6 @@ class Teacher extends MY_Table {
                 unset($data['rows'][$key]);
             }
         }
-
-//        print_arr($data);
 
         $data['left_col'] = array('date_happen_1', 'language', 'branch');
         $data['right_col'] = array('speaker');
@@ -577,6 +558,59 @@ class Teacher extends MY_Table {
             $param['role_id'] = 8;
             $this->staffs_model->insert($param);
         }
+    }
+
+    public function order_teacher_abroad() {
+	    $this->load->model('order_teacher_abroad_model');
+	    $this->load->model('teacher_model');
+
+        $require_model = array(
+            'teacher' => array(
+                'where' => array(
+                    'active' => 1,
+                    'teacher_abroad' => 1
+                ),
+            ),
+            'class_study' => array(
+                'where' => array(
+                    'teacher_id' => $this->session->userdata('teacher_id'),
+                ),
+                'or_where' => array(
+                    'teacher_id_2' => $this->session->userdata('teacher_id')
+                )
+            )
+        );
+
+        $data = $this->_get_require_data($require_model);
+
+        if ($this->role_id == 8) {
+            $input['where'] = array(
+                'user_order' => $this->session->userdata('teacher_id')
+            );
+        }
+        $input['order'] = array('day_order' => 'DESC');
+
+        $data['order_teacher'] = $this->order_teacher_abroad_model->load_all($input);
+        foreach ($data['order_teacher'] as &$item) {
+            $item['teacher_name'] = $this->teacher_model->find_teacher_name($item['teacher_id']);
+            $item['user_order_name'] = $this->teacher_model->find_teacher_name($item['user_order']);
+        }
+        unset($item);
+
+        $post = $this->input->post();
+        if (isset($post) && !empty($post)) {
+            $param = $post;
+            $param['day_order'] = strtotime($post['day_order']);
+            $param['time_created'] = time();
+            $param['user_order'] = $this->session->userdata('teacher_id');
+
+            $this->order_teacher_abroad_model->insert($param);
+
+            redirect(current_url());
+        }
+
+        $data['content'] = 'staff_managers/teacher/view_order_teacher_abroad';
+        $this->load->view(_MAIN_LAYOUT_, $data);
     }
 
 }
