@@ -587,6 +587,10 @@ class Teacher extends MY_Table {
             $input['where'] = array(
                 'user_order' => $this->session->userdata('teacher_id')
             );
+        } elseif ($this->role_id == 14) {
+            $input['where'] = array(
+                'language_id' => $this->session->userdata('language_id')
+            );
         }
         $input['order'] = array('day_order' => 'DESC');
 
@@ -603,6 +607,7 @@ class Teacher extends MY_Table {
             $param['day_order'] = strtotime($post['day_order']);
             $param['time_created'] = time();
             $param['user_order'] = $this->session->userdata('teacher_id');
+            $param['language_id'] = $this->session->userdata('language_id');
 
             $this->order_teacher_abroad_model->insert($param);
 
@@ -611,6 +616,38 @@ class Teacher extends MY_Table {
 
         $data['content'] = 'staff_managers/teacher/view_order_teacher_abroad';
         $this->load->view(_MAIN_LAYOUT_, $data);
+    }
+
+    public function view_confirm_order_teacher_abroad() {
+        $post = $this->input->post();
+        $require_model = array(
+            'teacher' => array(
+                'where' => array(
+                    'teacher_abroad' => 1,
+                    'active' => 1,
+                    'language_id' => $this->session->userdata('language_id')
+                ),
+            ),
+        );
+        $data = $this->_get_require_data($require_model);
+        $data['order_id'] = $post['order_id'];
+
+        echo $this->load->view('staff_managers/teacher/modal/confirm_order_teacher_abroad', $data, true);
+    }
+
+    public function confirm_order() {
+	    $this->load->model('order_teacher_abroad_model');
+        $post = $this->input->post();
+        if (isset($post) && !empty($post)) {
+            $where = array('id' => $post['order_id']);
+            unset($post['order_id']);
+            $param = $post;
+            $param['day_confirm'] = time();
+
+            $this->order_teacher_abroad_model->update($where, $param);
+
+            redirect(base_url('staff_managers/teacher/order_teacher_abroad'));
+        }
     }
 
 }

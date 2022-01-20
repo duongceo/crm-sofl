@@ -28,6 +28,9 @@
                     <th>Giáo viên</th>
                     <th>Thông tin giáo viên</th>
                     <th>Người đặt lịch</th>
+                    <?php if ($this->role_id == 14) { ?>
+                        <th>Xác nhận</th>
+                    <?php } ?>
                 </tr>
             </thead>
 
@@ -42,17 +45,14 @@
                             <?php echo $item['class_study_id']; ?>
                         </td>
                         <td class="text-center">
-                            <?php if ($item['paid_status']) { ?>
+                            <?php if ($item['confirm']) { ?>
                                 <p class="bg-success">Đã xác nhận</p>
                             <?php } else { ?>
                                 <p class="bg-warning">Chưa xác nhận</p>
-<!--                                --><?php //if ($this->role_id == 14) { ?>
-<!--                                    <a class="btn btn-xs btn-primary btn_paid_cost_branch">Thanh toán</a>-->
-<!--                                --><?php //} ?>
                             <?php } ?>
                         </td>
                         <td class="text-center">
-                            <?php echo ($item['has_teacher']) ? 'Có GV' : 'Chưa có GV'; ?>
+                            <?php echo ($item['has_teacher']) ? '<p class="bg-success">Có giáo viên</p>' : '<p class="bg-warning">Chưa có giáo viên</p>'; ?>
                         </td>
                         <td class="text-center">
                             <?php echo $item['teacher_name']; ?>
@@ -60,6 +60,13 @@
                         <td class="text-center">
                             <?php echo $item['user_order_name']; ?>
                         </td>
+                        <?php if ($this->role_id == 14) { ?>
+                            <td class="text-center">
+                                <button class="btn btn-primary confirm_order_teacher_abroad" order_id="<?php echo $item['id']; ?>">
+                                    Xác nhận lịch
+                                </button>
+                            </td>
+                        <?php } ?>
                     </tr>
                 <?php } ?>
             <?php } ?>
@@ -68,7 +75,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="modal-id" role="dialog">
+<div class="modal fade" role="dialog">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -81,21 +88,9 @@
                         <div class="col-md-6">
                             <table class="table table-striped table-bordered table-hover table-1 table-view-1">
                                 <tr>
-                                    <td  class="text-right">Ngày học</td>
+                                    <td  class="text-right">Ngày cần học</td>
                                     <td>
                                         <input type="text" class="form-control datepicker" name="day_order" style="width: 100%;">
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td class="text-right">Lớp</td>
-                                    <td>
-                                        <select class="form-control select_search" name="class_study_id">
-                                            <option value=""> Lớp </option>
-                                            <?php foreach ($class_study as $key => $value) { ?>
-                                                <option value="<?php echo $value['class_study_id'] ?>"> <?php echo $value['class_study_id'] ?></option>
-                                            <?php } ?>
-                                        </select>
                                     </td>
                                 </tr>
                             </table>
@@ -104,30 +99,12 @@
                         <div class="col-md-6">
                             <table class="table table-striped table-bordered table-hover table-2 table-view-2">
                                 <tr>
-                                    <td class="text-right">
-                                        Xác nhận của phòng đào tạo
-                                    </td>
+                                    <td class="text-right">Lớp</td>
                                     <td>
-                                        <input type="checkbox" class="switch_select" name="confirm" value="1" data-off-text="Chưa xác nhận" data-on-text="Đã xác nhận" data-handle-width="100">
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td class="text-right">
-                                        Có giáo viên không ?
-                                    </td>
-                                    <td>
-                                        <input type="checkbox" class="switch_select" name="has_teacher" value="1" data-off-text="Chưa có" data-on-text="Đã có" data-handle-width="100">
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td class="text-right">Giảng viên</td>
-                                    <td>
-                                        <select class="form-control select_search" name="teacher_id">
-                                            <option value="0"> Chọn giảng viên</option>
-                                            <?php foreach ($teacher as $key => $value) { ?>
-                                                <option value="<?php echo $value['id'] ?>"> <?php echo $value['name'] ?></option>
+                                        <select class="form-control select_search" name="class_study_id">
+                                            <option value=""> Lớp </option>
+                                            <?php foreach ($class_study as $key => $value) { ?>
+                                                <option value="<?php echo $value['class_study_id'] ?>"> <?php echo $value['class_study_id'] ?></option>
                                             <?php } ?>
                                         </select>
                                     </td>
@@ -143,15 +120,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    $(".switch_select").bootstrapSwitch();
-</script>
-
-<script>
-	$(document).ready(function() {
-		$('.select_search').select2({
-			width: '100%',
-		});
-	});
-</script>

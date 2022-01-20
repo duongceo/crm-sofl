@@ -36,6 +36,13 @@
         </li>
 
         <li>
+            <a href="https://docs.google.com/spreadsheets/d/169-619KYMGNLZSonynjiS5NB-4Mkr2Apy_wIEFg1s8o/edit?usp=sharing" target="_blank">
+                <img src="<?php echo base_url(); ?>public/images/view-all.png">
+                <span> Nội quy - Thưởng - Vi phạm đối với GV </span>
+            </a>
+        </li>
+
+        <li>
             <a href="<?php echo base_url('home/logout'); ?>">
                 <img src="<?php echo base_url(); ?>public/images/logout.png">
                 <span> Đăng xuất  </span>

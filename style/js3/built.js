@@ -4120,6 +4120,33 @@ $(".btn_paid_cost_branch").on('click', function (e) {
     });
 });
 
+$(".confirm_order_teacher_abroad").on('click', function (e) {
+    e.preventDefault();
+    $(".checked").removeClass("checked");
+    let order_id = $(this).attr("order_id");
+    let modal_name = 'view_confirm_order_teacher_abroad';
+
+    $.ajax({
+        url: $("#base_url").val() + "staff_managers/teacher/view_confirm_order_teacher_abroad",
+        type: "POST",
+        data: {
+            order_id: order_id
+        },
+        beforeSend: () => $(".popup-wrapper").show(),
+        success: function (data) {
+            $("." + modal_name).remove();
+            let newModal = `<div class="${modal_name}"></div>`;
+            $(".modal-append-to").append(newModal);
+            $(`.${modal_name}`).html(data);
+        },
+        complete: function () {
+            $(`.${modal_name} .modal`).modal("show");
+            $(".popup-wrapper").hide();
+        }
+    });
+    // $(".view_update_cost_student").modal("show");
+});
+
 
 
 
