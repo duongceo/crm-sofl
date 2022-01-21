@@ -156,7 +156,7 @@ class Teacher extends MY_Table {
 				}
 			}
 
-            $param = isset($post['teacher_abroad']) ? $post['teacher_abroad'] : 0;
+            $param['teacher_abroad'] = isset($post['teacher_abroad']) ? $post['teacher_abroad'] : 0;
 
 			$param['time_created'] = time();
 			$id = $this->{$this->model}->insert_return_id($param, 'id');
@@ -215,7 +215,7 @@ class Teacher extends MY_Table {
 				$param['active'] = 0;
 			}
 
-            $param = isset($post['teacher_abroad']) ? $post['teacher_abroad'] : 0;
+            $param['teacher_abroad'] = isset($post['teacher_abroad']) ? $post['teacher_abroad'] : 0;
 
 			$this->{$this->model}->update($input['where'], $param);
             $this->create_account($param, $id);
