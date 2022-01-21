@@ -191,7 +191,7 @@ class Student extends MY_Controller {
 		}
 
 		$conditional['where']['level_contact_id'] = 'L5';
-		$conditional['where']['level_contact_detail '] = 'L5.4';
+		$conditional['where']['level_contact_detail !='] = 'L5.4';
 		$conditional['where']['class_study_id !='] = '';
 		$conditional['order'] = array('date_rgt_study' => 'DESC');
 
@@ -833,5 +833,81 @@ class Student extends MY_Controller {
         $data['content'] = 'student/check_diligence_class';
 		$this->load->view(_MAIN_LAYOUT_, $data);
 	}
+
+	public function view_feedback_end_course() {
+        $this->load->model('feedback_student_model');
+        $this->load->model('attendance_model');
+        $this->load->model('class_study_model');
+        $get = $this->input->get();
+        $input['select'] = 'id, name, class_study_id';
+        $input['where'] = array(
+            'class_study_id' => $get['class_study_id'],
+            '(level_contact_id = "L5" OR level_student_id = "L8.1")' => 'NO-VALUE',
+            'level_contact_detail !=' => 'L5.4',
+        );
+        $input['where_not_in']['level_study_id'] = array('L7.1', 'L7.2', 'L7.3');
+
+        $data['contact'] = $this->contacts_model->load_all($input);
+
+        if (!empty($data['contact'])) {
+            foreach ($data['contact'] as &$value) {
+                $input_attend = array();
+                $input_attend['where'] = array(
+                    'contact_id' => $value['id'],
+                );
+                $contact_attend = $this->feedback_student_model->load_all($input_attend);
+                if (!empty($contact_attend)) {
+                    $value['score'] = $contact_attend[0]['score'];
+                    $value['feedback'] = $contact_attend[0]['feedback'];
+                }
+            }
+            unset($value);
+        }
+
+        $data['content'] = 'student/view_feedback_student_end_course';
+        $this->load->view(_MAIN_LAYOUT_, $data);
+    }
+
+    public function action_feedback_student() {
+        $this->load->model('feedback_student_model');
+
+        $post = $this->input->post();
+        $result = array();
+
+        $data = json_decode($post['data_feedback']);
+        if (!empty($data)) {
+            foreach ($data as $item) {
+                $input_feedback = array();
+                $input_feedback['where'] = array(
+                    'contact_id' => $item->contact_id,
+                );
+                $contact_attend = $this->feedback_student_model->load_all($input_feedback);
+
+                $param = array(
+                    'class_study_id' => $item->class_study_id,
+                    'contact_id' => $item->contact_id,
+                    'feedback' => $item->feedback,
+                    'score' => $item->score,
+                );
+
+                if (empty($contact_attend)) {
+                    $param['time_created'] = time();
+                    $this->feedback_student_model->insert($param);
+                } else {
+                    $this->feedback_student_model->update($input_feedback['where'], $param);
+                }
+            }
+
+            $result['good'] = true;
+            $result['message'] = 'Lưu thành công';
+
+        } else {
+            $result['good'] = false;
+            $result['message'] = 'Chưa đánh giá hết học viên';
+        }
+
+        echo json_encode($result);
+        die();
+    }
 
 }
