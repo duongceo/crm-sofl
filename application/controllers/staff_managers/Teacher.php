@@ -313,6 +313,7 @@ class Teacher extends MY_Table {
                             'time_created >=' => $startDate,
                             'time_created <=' => $endDate
                         );
+						
                         $bonus = $this->mechanism_model->load_all(array_merge_recursive($input_mechanism, array('where' => array('mechanism' => 1))));
                         $bonus = ($bonus[0]['money'] != '') ? $bonus[0]['money'] : 0;
                         $fine = $this->mechanism_model->load_all(array_merge_recursive($input_mechanism, array('where' => array('mechanism' => '0'))));
