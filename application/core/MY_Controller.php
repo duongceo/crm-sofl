@@ -398,8 +398,6 @@ class MY_Controller extends CI_Controller {
 
         $input_get_arr = $this->_get_query_condition_arr($get);
 
-//        print_arr($input_get_arr);
-
         $input_get = $input_get_arr['input_get'];
 
         $has_user_order = $input_get_arr['has_user_order'];
@@ -436,14 +434,11 @@ class MY_Controller extends CI_Controller {
 
         }
 
-//		print_arr($input);
 
         $total_row = $this->contacts_model->m_count_all_result_from_get($input);
-//		echoQuery(); die();
         $result['total_row'] = $total_row; //lấy tổng dòng
 
         //lấy data sau khi phân trang
-
         $offset_max = intval($total_row / $limit) * $limit;  //vị trí tối đa
 
         $offset1 = ($offset > $offset_max) ? $offset_max : ((($offset < 0) ? 0 : $offset));
@@ -464,9 +459,6 @@ class MY_Controller extends CI_Controller {
 			$item['paid'] = $this->paid_model->load_all($input_paid)[0]['paiding'];
 		}
 		unset($item);
-		
-//		print_arr($result['data']);
-        // echoQuery();
 
         /*Lấy thông tin 1 contact đăng ký nhiều khóa học*/
 
@@ -519,7 +511,6 @@ class MY_Controller extends CI_Controller {
     protected function _query_for_report($get = [], $condition = []) {
 
     	unset($condition['sum']);
-//    	print_arr($condition);
 
         $input = array();
 
@@ -872,50 +863,7 @@ class MY_Controller extends CI_Controller {
 
         }
 
-        /*
-
-         * Các trường hợp đặc biệt
-
-         * 1. Báo đỏ, báo vàng sau khi giao đơn cho đơn vị giao hàng
-
-         * lớn hơn 3, 5 ngày mà vẫn chưa thu đc tiền
-
-         */
-
-//        if (isset($get['filter_warning_cod']) && $get['filter_warning_cod'] != 'empty') {
-//
-//            if ($get['filter_warning_cod'] == 'red') {
-//
-//                $query = '((FLOOR((' . time() . ' - `date_print_cod`) / (60 * 60 * 24)) > 5 ' .
-//
-//                        'AND `cod_status_id` = 1)'
-//
-//                        . ' OR `weight_envelope` > 50)';
-//
-//                $input_get['where'][$query] = 'NO-VALUE';
-//
-//            }
-//
-//            if ($get['filter_warning_cod'] == 'yellow') {
-//
-//                $query = '(FLOOR((' . time() . ' - `date_print_cod`) / (60 * 60 * 24)) <= 5 AND '
-//
-//                        . 'FLOOR((' . time() . ' - `date_print_cod`) / (60 * 60 * 24)) >= 3 '
-//
-//                        . 'AND `cod_status_id` = 1)';
-//
-//                $input_get['where'][$query] = 'NO-VALUE';
-//
-//            }
-//
-//        }
-
-        /*
-
-         * Filter date
-
-         */
-
+        /* Filter date */
         foreach ($get as $key => $value) {
 
             if (strpos($key, "filter_date_") !== FALSE && $value != '') {
@@ -954,8 +902,6 @@ class MY_Controller extends CI_Controller {
 
             $input_get['or_like']['email'] = $searchStr;
 
-//            $input_get['or_like']['matrix'] = $searchStr;
-
             $input_get['group_end_or_like']['id'] = $searchStr;
 
         }
@@ -973,13 +919,10 @@ class MY_Controller extends CI_Controller {
 				$input['where'] = array('staff_id' => $this->user_id);
 			}
 
-			$array_contact_id = array();
-			foreach ($called as $value) {
-				$array_contact_id[] = $value['contact_id'];
-			}
+            $array_contact_id = array_column($called, 'contact_id');
 			if (!empty($array_contact_id)) {
 				$input_get['where_in']['id'] = $array_contact_id;
-			}
+			} else $input_get['where']['id'] = 0;
 		}
 
         if (isset($get['filter_study_date_start']) && !empty($get['filter_study_date_start'])) {
@@ -999,10 +942,7 @@ class MY_Controller extends CI_Controller {
 			$class = $this->class_study_model->load_all($input_class);
 
 			if (!empty($class)) {
-				$class_array = array();
-				foreach ($class as $value) {
-					$class_array[] = $value['class_study_id'];
-				}
+                $class_array = array_column($class, 'class_study_id');
 				$input_get['where_in']['class_study_id'] = $class_array;
 			} else $input_get['where']['class_study_id'] = 'NONE';
 		}
@@ -1024,13 +964,22 @@ class MY_Controller extends CI_Controller {
 			$class = $this->class_study_model->load_all($input_class);
 
 			if (!empty($class)) {
-				$class_array = array();
-				foreach ($class as $value) {
-					$class_array[] = $value['class_study_id'];
-				}
+                $class_array = array_column($class, 'class_study_id');
 				$input_get['where_in']['class_study_id'] = $class_array;
 			} else $input_get['where']['class_study_id'] = 'NONE';
 		}
+
+        if (isset($get['filter_character_class_id']) && !empty($get['filter_character_class_id'])) {
+            $this->load->model('class_study_model');
+            $input = array();
+            $input['select'] = 'class_study_id';
+            $input['where_in']['character_class_id'] = $get['filter_character_class_id'];
+            $class_study = $this->class_study_model->load_all($input);
+            $array_class_id = array_column($class_study, 'class_study_id');
+            if (!empty($array_class_id)) {
+                $input_get['where_in']['class_study_id'] = $array_class_id;
+            } else $input_get['where']['class_study_id'] = 'NONE';
+        }
 
         return array(
 

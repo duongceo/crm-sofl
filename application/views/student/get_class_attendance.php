@@ -26,6 +26,7 @@
 						<th>Giảng viên</th>
 						<th>Điểm danh</th>
 						<th>Kiểm tra chuyên cần</th>
+						<th>Đánh giá cuối khóa</th>
 					</tr>
 				</thead>
 
@@ -41,6 +42,9 @@
 							<td class="text-center">
 								<a class="btn btn-primary" href="<?php echo base_url().'student/manager_diligence?class_study_id='.$item['class_study_id']?>">Kiểm tra chuyên cần</a>
 							</td>
+                            <td class="text-center">
+                                <a class="btn btn-primary" href="<?php echo base_url().'student/view_feedback_end_course?class_study_id='.$item['class_study_id']?>">Đánh giá cuối khóa</a>
+                            </td>
 						</tr>
 					<?php } ?>
 				</tbody>

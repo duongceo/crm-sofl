@@ -3237,7 +3237,7 @@ $(document).on('change', '[name="add_role_id"]', function () {
 	});
 });
 
-$(document).on('change', '[name="add_branch_id"], [name="add_language_id"], [name="edit_language_id"], [name="filter_arr_multi_language_id"]', function () {
+$(document).on('change', '[name="add_branch_id"], [name="add_language_id"], [name="edit_language_id"], [name="filter_arr_multi_language_id"], [name="filter_language_id"]', function () {
 	let item_id = $(this).val();
 	let type_data = $(this).attr("type");
 	// console.log(item_id);return false;

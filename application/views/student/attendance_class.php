@@ -4,21 +4,23 @@
 		<br>
 		<h1 class="text-center">Danh sách học viên điểm danh lớp <b class="text-primary"><?php echo $class ?></b></h1>
 		<br>
-<!--		<div>-->
-<!--			<div class="form-group">-->
-<!--				<div class="row">-->
-<!--					<div class="col-md-5 col-xs-4 offset-md-4 text-right">-->
-<!--						Ngày điểm danh-->
-<!--					</div>-->
-<!--					<div class=' col-md-3 col-xs-8 input-group date'>-->
-<!--						<input type='text' class="form-control date_diligence" name='date_diligence' value="" style="z-index: 0" />-->
-<!--						<span class="input-group-addon">-->
-<!--		                    <span class="glyphicon glyphicon-calendar"></span>-->
-<!--		                </span>-->
-<!--					</div>-->
-<!--				</div>-->
-<!--			</div>-->
-<!--		</div>-->
+        <?php if ($this->role_id == 12) { ?>
+            <div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-5 col-xs-4 offset-md-4 text-right">
+                            Ngày điểm danh
+                        </div>
+                        <div class=' col-md-3 col-xs-8 input-group date'>
+                            <input type='text' class="form-control date_diligence" name='date_diligence' value="" style="z-index: 0" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php } ?>
 
 		<div class="table-responsive">
 			<table class="table table-bordered table-striped table-fixed-head">
@@ -74,22 +76,6 @@
 						</td>
 					</tr>
 
-<!--					<tr>-->
-<!--						<td class="text-center" style="font-size: 16px;">-->
-<!--							Số giờ học-->
-<!--						</td>-->
-<!--						<td class="text-center">-->
-<!--                            <select class="form-control hour" name="hour">-->
-<!--                                <option value="1.5">1.5 Giờ</option>-->
-<!--                                <option value="2">2 Giờ</option>-->
-<!--                                <option value="2.5">2.5 Giờ</option>-->
-<!--                                <option value="3">3 Giờ</option>-->
-<!--                                <option value="3.5">3.5 Giờ</option>-->
-<!--                                <option value="4">4 Giờ</option>-->
-<!--                            </select>-->
-<!--						</td>-->
-<!--					</tr>-->
-
 					<tr>
 						<td class="text-center" style="font-size: 16px;">
 							Tiến độ bài học
@@ -101,7 +87,7 @@
 
                     <tr class="text-center">
                         <td style="font-size: 16px;">
-                            Giáo Viên
+                            Giáo viên
                         </td>
                         <td>
                             <select name="speaker" class="form-control speaker">
@@ -110,6 +96,21 @@
                             </select>
                         </td>
                     </tr>
+                    <?php if ($this->role_id == 12) { ?>
+                        <tr class="text-center">
+                            <td style="font-size: 16px;">
+                                Tên giáo viên
+                            </td>
+                            <td>
+                                <select name="teacher_id" class="form-control teacher_id">
+                                    <option value="0">Tên giáo viên</option>
+                                    <?php foreach ($teacher as $item) { ?>
+                                        <option value="<?php echo $item['id'] ?>"><?php echo $item['name'] ?></option>
+                                    <?php } ?>
+                                </select>
+                            </td>
+                        </tr>
+                    <?php } ?>
 				</tbody>
 			</table>
 			<div class="text-center">
@@ -126,6 +127,15 @@
     });
 </script>
 
+<script>
+    $(document).ready(function() {
+        $('.teacher_id').select2({
+            placeholder: 'Tìm tên giáo viên',
+            width: '100%'
+        });
+    });
+</script>
+
 <script type="text/javascript">
 	$(document).on('click', '.btn-attendance', function (e) {
 		e.preventDefault();
@@ -133,6 +143,7 @@
 		let date_diligence = $('.date_diligence').val();
 		let lecture = $('.lecture').val();
 		let speaker = $('.speaker').val();
+		let teacher_id = $('.teacher_id').val();
 		let statusList = $('input[type=radio]:checked');
 		let data = [];
 		for (let i=0; i<statusList.length; i++) {
@@ -162,6 +173,7 @@
 				lecture: lecture,
                 speaker: speaker,
                 class_study_id: class_study_id,
+                teacher_id: teacher_id
 			},
             beforeSend: function() {
                 $(".popup-wrapper").show();

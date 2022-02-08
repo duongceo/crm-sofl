@@ -2,7 +2,7 @@
     <tr>
         <td class="text-right"> Ngoại ngữ </td>
         <td>
-            <select class="form-control selectpicker" name="filter_language_id[]" multiple>
+            <select class="form-control selectpicker" type="filter_language" name="filter_language_id">
                 <?php
                 foreach ($language_study as $key => $value) {
                     ?>

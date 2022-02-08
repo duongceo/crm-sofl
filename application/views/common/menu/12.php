@@ -16,12 +16,6 @@
 	</div>
 
 	<ul class="list-unstyled components">
-<!--		<li>-->
-<!--			<a href="--><?php //echo base_url('staff_managers/class_time'); ?><!--">-->
-<!--				<img src="--><?php //echo base_url(); ?><!--public/images/view-all.png">-->
-<!--				<span>Danh sách phòng & ca học</span>-->
-<!--			</a>-->
-<!--		</li>-->
 		<li>
 			<a href="#submenu" data-toggle="collapse" aria-expanded="false">
 				<img src="<?php echo base_url(); ?>public/images/view-all.png">
@@ -151,106 +145,69 @@
 				<span>Báo Cáo</span>
 			</a>
 			<ul class="collapse list-unstyled" id="homeSubmenu_3">
-
 				<li>
-
 					<a href="<?php echo base_url('manager/view_report_revenue'); ?>">
-
 						<img src="<?php echo base_url(); ?>public/images/dollar.png">
-
 						<span> Báo cáo doanh thu </span>
-
 					</a>
-
 				</li>
 
 				<li>
-
 					<a href="<?php echo base_url('manager/view_report_payment_method'); ?>">
-
 						<img src="<?php echo base_url(); ?>public/images/dollar.png">
-
 						<span> Báo cáo doanh thu - HTTT </span>
-
 					</a>
-
 				</li>
 
 				<li>
-
 					<a href="<?php echo base_url('manager/view_report_revenue_class'); ?>">
-
 						<img src="<?php echo base_url(); ?>public/images/dollar.png">
-
 						<span> Báo cáo doanh thu lớp học</span>
-
 					</a>
-
 				</li>
 
 				<li>
-
 					<a href="<?php echo base_url('manager/view_report_student_branch'); ?>">
-
 						<img src="<?php echo base_url(); ?>public/images/view-general-report.png">
-
 						<span> Báo cáo học viên tại cơ sở  </span>
-
 					</a>
-
 				</li>
 
 				<li>
-
 					<a href="<?php echo base_url('manager/view_report_class_study'); ?>">
-
 						<img src="<?php echo base_url(); ?>public/images/report.png">
-
 						<span> Xem báo cáo lớp học </span>
-
 					</a>
-
 				</li>
 
 				<li>
-
 					<a href="<?php echo base_url('manager/view_report_care_L7'); ?>">
-
 						<img src="<?php echo base_url(); ?>public/images/report.png">
-
 						<span> Xem báo các trạng thái L7</span>
-
 					</a>
-
 				</li>
 
                 <li>
-
                     <a href="<?php echo base_url('manager/view_report_staff_care_branch'); ?>">
-
                         <img src="<?php echo base_url(); ?>public/images/report.png">
-
                         <span> Báo cáo nhân viên chăm sóc cơ sở </span>
-
                     </a>
-
                 </li>
-
 			</ul>
 		</li>
 
+        <li>
+            <a href="<?php echo base_url('student/chose_language?branch_id=' . $this->branch_id); ?>">
+                <img src="<?php echo base_url(); ?>public/images/add-contact.png">
+                <span> Điểm danh lớp học </span>
+            </a>
+        </li>
+
 		<li>
-
 			<a href="<?php echo base_url('home/logout'); ?>">
-
 				<img src="<?php echo base_url(); ?>public/images/logout.png">
-
 				<span> Đăng xuất  </span>
-
 			</a>
-
 		</li>
-
     </ul>
-
 </nav>

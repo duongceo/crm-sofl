@@ -202,7 +202,7 @@ class Student extends MY_Controller {
 		$data['total_contact'] = $data_pagination['total_row'];
 
 		$data['left_col'] = array('character_class', 'date_rgt_study', 'date_paid', 'study_date_start', 'study_date_end');
-		$data['right_col'] = array('language', 'class_study', 'is_old', 'complete_fee');
+		$data['right_col'] = array('language', 'level_language', 'class_study', 'is_old', 'complete_fee');
 
 		$this->table .= 'class_study_id fee paid level_contact level_student date_rgt_study';
 		$data['table'] = explode(' ', $this->table);
@@ -238,7 +238,7 @@ class Student extends MY_Controller {
 		$data['total_contact'] = $data_pagination['total_row'];
 
 		$data['left_col'] = array('date_recall', 'date_rgt_study', 'study_date_start', 'study_date_end');
-		$data['right_col'] = array('language', 'is_old', 'complete_fee');
+		$data['right_col'] = array('language', 'level_language', 'is_old', 'complete_fee');
 
 		$this->table .= 'class_study_id fee paid level_contact level_student date_rgt_study';
 		$data['table'] = explode(' ', $this->table);
@@ -559,7 +559,6 @@ class Student extends MY_Controller {
 		$this->load->model('branch_model');
 		$data['branch'] = $this->branch_model->load_all();
 		unset($data['branch'][8]);
-//		print_arr($data);
 		$data['content'] = 'student/chose_branch';
 		$this->load->view(_MAIN_LAYOUT_, $data);
 	}
@@ -614,6 +613,8 @@ class Student extends MY_Controller {
 	public function attendance_class() {
 		$this->load->model('attendance_model');
 		$this->load->model('class_study_model');
+		$this->load->model('teacher_model');
+
 		$get = $this->input->get();
 		$input['select'] = 'id, name, class_study_id';
 		$input['where'] = array(
@@ -651,6 +652,7 @@ class Student extends MY_Controller {
 
 		$data['class'] = $get['class_study_id'];
 		$data['lesson_learned'] = $lesson_learned;
+		$data['teacher'] = $this->teacher_model->load_all(array('where' => array('active' => 1)));
 		$data['lecture'] = $lecture;
 		$data['content'] = 'student/attendance_class';
 		$this->load->view(_MAIN_LAYOUT_, $data);
@@ -701,6 +703,12 @@ class Student extends MY_Controller {
             }
         }
 
+        if ($this->role_id == 12) {
+            $teacher_id = $post['teacher_id'];
+        } else {
+            $teacher_id = $this->session->userdata('teacher_id');
+        }
+
 		$data = json_decode($post['data_attendance']);
 		if (!empty($data)) {
 			foreach ($data as $item) {
@@ -722,11 +730,12 @@ class Student extends MY_Controller {
 					'lecture' => $post['lecture'],
 					'score' => $post['score'],
                     'speaker' => $post['speaker'],
-                    'teacher_id' => $this->session->userdata('teacher_id')
+                    'teacher_id' => $teacher_id
 				);
 
-//				$param['time_update'] = $param['time_created'] = (isset($post['date_diligence']) && $post['date_diligence'] != '') ? strtotime($post['date_diligence']) : strtotime(date("d-m-Y H:i"));
-//				$this->attendance_model->insert($param);
+				if ($this->role_id == 12) {
+                    $param['time_update'] = $param['time_created'] = (isset($post['date_diligence']) && $post['date_diligence'] != '') ? strtotime($post['date_diligence']) : strtotime(date("d-m-Y H:i"));
+                }
 
                 if (empty($contact_attend)) {
                     $param['time_created'] = (isset($post['date_diligence']) && $post['date_diligence'] != '') ? strtotime($post['date_diligence']) : strtotime(date("d-m-Y H:i"));
@@ -738,7 +747,6 @@ class Student extends MY_Controller {
 
 			$result['good'] = true;
 			$result['message'] = 'Điểm danh thành công';
-
 		} else {
 			$result['good'] = false;
 			$result['message'] = 'Chưa chọn trạng thái học viên đi học hay nghỉ';
@@ -908,6 +916,10 @@ class Student extends MY_Controller {
 
         echo json_encode($result);
         die();
+    }
+
+    public function show_feedback_student() {
+	    $post = $this->input->post();
     }
 
 }

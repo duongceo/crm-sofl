@@ -75,7 +75,7 @@
     </div>
 </div>
 
-<div class="modal fade" role="dialog">
+<div class="modal fade" id="modal-id" role="dialog">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -120,3 +120,11 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function() {
+        $('.select_search').select2({
+            width: '100%',
+        });
+    });
+</script>
