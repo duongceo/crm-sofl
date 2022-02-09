@@ -1518,7 +1518,7 @@ class Manager extends MY_Controller {
 		foreach ($data['sources'] as $key_source => $value_source) {
 			$conditional_source = array();
 			$conditional_source['where']['source_id'] = $value_source['id'];
-			$conditional_source['where_not_in']['sale_staff_id'] = array(5, 18);
+//			$conditional_source['where_not_in']['sale_staff_id'] = array(5);
 
 			foreach ($conditionArr as $key_condition => $value) {
 				foreach ($data['language_study'] as $value_language) {

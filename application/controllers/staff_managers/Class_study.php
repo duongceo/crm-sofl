@@ -625,7 +625,7 @@ class Class_study extends MY_Table {
 				}
 			}
 
-            if (empty($param['time_end_expected'])) {
+            if (empty($param['time_end_expected']) || $class_study[0]['time_start'] != $param['time_start']) {
                 $param['time_end_expected'] = $this->get_time_end_expected($param['total_lesson'], $param['day_id'], $param['time_start']);
             }
 
@@ -771,40 +771,6 @@ class Class_study extends MY_Table {
 		$data['table'] = explode(' ', $this->table);
 		$this->load->view('common/content/tbl_contact', $data);
 	}
-
-//	 public function get_classroom() {
-//		$post = $this->input->post();
-//
-//		$this->load->model('classroom_model');
-//		$input['where'] = array(
-//			'branch_id' => $post['branch_id']
-//		);
-//
-//		 $classroom= $this->classroom_model->load_all($input);
-//
-//		if (isset($classroom)) {
-//			$context = '<td class="text-right"> Phòng học </td>
-//
-//			<td>';
-//
-//			$context .= "<select class='form-control selectpicker' name='add_classroom_id'>";
-//
-//					$context .= '<option value="">Phòng học</option>';
-//
-//				foreach ($classroom as $value) {
-//
-//					$context .= "<option value='{$value['id']}'> {$value['classroom_id']} </option>";
-//
-//				}
-//
-//				$context .= '</select>
-//
-//			</td>';
-//
-//				echo $context;
-//		} else echo '';
-//
-//	 }
 
 	 public function get_data_ajax() {
 		 $post = $this->input->post();
