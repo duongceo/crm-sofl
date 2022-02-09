@@ -821,7 +821,8 @@ class Class_study extends MY_Table {
 		 } elseif ($post['type'] == 'language' || $post['type'] == 'filter_language') {
 			 $this->load->model('level_language_model');
 			 $input['where'] = array(
-				 'language_id' => $post['data_id']
+				 'language_id' => $post['data_id'],
+                 'active' => 1
 			 );
 
 			 $data = $this->level_language_model->load_all($input);
