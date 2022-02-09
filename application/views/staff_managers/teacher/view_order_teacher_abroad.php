@@ -24,6 +24,7 @@
                 <tr>
                     <th>Ngày đặt lịch</th>
                     <th>Lớp</th>
+                    <th>Nội dung</th>
                     <th>Xác nhận phòng ĐT</th>
                     <th>Giáo viên</th>
                     <th>Thông tin giáo viên</th>
@@ -43,6 +44,9 @@
                         </td>
                         <td class="text-center">
                             <?php echo $item['class_study_id']; ?>
+                        </td>
+                        <td>
+                            <?php echo $item['content_order']; ?>
                         </td>
                         <td class="text-center">
                             <?php if ($item['confirm']) { ?>
@@ -93,6 +97,17 @@
                                         <input type="text" class="form-control datepicker" name="day_order" style="width: 100%;">
                                     </td>
                                 </tr>
+
+                                <tr>
+                                    <td class="text-right">
+                                        Nội dung
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <textarea class="form-control" rows="2" cols="30" name="content_order"></textarea>
+                                        </div>
+                                    </td>
+                                </tr>
                             </table>
                         </div>
 
@@ -111,9 +126,9 @@
                                 </tr>
                             </table>
                         </div>
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-success btn-lg" style="width: 130px;">Lưu</button>
-                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-success btn-lg" style="width: 130px;">Lưu</button>
                     </div>
                 </form>
             </div>

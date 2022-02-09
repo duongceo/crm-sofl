@@ -203,6 +203,13 @@
             </a>
         </li>
 
+        <li>
+            <a href="<?php echo base_url('staff_managers/teacher/order_teacher_abroad'); ?>">
+                <img src="<?php echo base_url(); ?>public/images/view-all.png">
+                <span> Order lịch học giáo viên bản ngữ</span>
+            </a>
+        </li>
+
 		<li>
 			<a href="<?php echo base_url('home/logout'); ?>">
 				<img src="<?php echo base_url(); ?>public/images/logout.png">
