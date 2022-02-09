@@ -86,8 +86,6 @@ class Teacher extends MY_Table {
 		$this->show_table();
 		$data = $this->data;
 
-//		echo '<pre>';print_r($data);die();
-
 		$this->list_filter = array(
 			'left_filter' => array(
 				'branch' => array(
@@ -128,6 +126,9 @@ class Teacher extends MY_Table {
 					'type' => 'array',
 					'value' => $this->get_data_from_model('branch'),
 				),
+				'teacher_abroad' => array(
+				    'type' => 'custom'
+                ),
 				'active' => array(
 					'type' => 'active'
 				)
@@ -183,6 +184,9 @@ class Teacher extends MY_Table {
 					'value' => $this->get_data_from_model('branch')
 				),
 				'email' => array(),
+                'teacher_abroad' => array(
+                    'type' => 'custom'
+                ),
 				'active' => array(
 					'type' => 'active'
 				)
@@ -626,7 +630,7 @@ class Teacher extends MY_Table {
                 'where' => array(
                     'teacher_abroad' => 1,
                     'active' => 1,
-                    'language_id' => $this->session->userdata('language_id')
+//                    'language_id' => $this->session->userdata('language_id')
                 ),
             ),
         );
