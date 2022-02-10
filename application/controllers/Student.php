@@ -484,8 +484,9 @@ class Student extends MY_Controller {
 				$input_report['where'] = array(
 					'day' => $value_date,
 					'branch_id' => $value_branch['id'],
+                    'paid_status' => 1
 				);
-				if (isset($input['where_in'])) {
+				if (isset($input['where_in']) && !empty($input['where_in'])) {
 					$input_report['where_in'] = $input['where_in'];
 				}
 
