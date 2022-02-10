@@ -421,7 +421,8 @@ class Student extends MY_Controller {
 		$input['where'] = array(
 			'day_cost >=' => $date_from,
 			'day_cost <=' => $date_end,
-			'branch_id' => $this->branch_id
+			'branch_id' => $this->branch_id,
+            'contact_id' => '0'
 		);
         $input['limit'] = array(60, 0);
 
