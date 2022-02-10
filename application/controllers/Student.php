@@ -440,7 +440,7 @@ class Student extends MY_Controller {
 				$input['where_in']['branch_id'] = $get['filter_branch_id'];
 			}
 			$branch = $this->branch_model->load_all();
-			unset($branch[8]);
+			unset($branch[9]);
 			$data['branch'] = $branch;
 		} else {
 			$branch[] = array('id' => $this->branch_id, 'name' => $this->branch_model->find_branch_name($this->branch_id));
@@ -518,7 +518,6 @@ class Student extends MY_Controller {
 		$data['left_col'] = array('date_happen_1', 'branch', 'paid_status');
 		$data['right_col'] = array('sale_study_abroad');
 		$data['content'] = 'student/cost_branch';
-		//echo '<pre>';print_r($data);die();
 
 		$this->load->view(_MAIN_LAYOUT_, $data);
 	}
