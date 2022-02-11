@@ -48,12 +48,12 @@ class Contacts_model extends MY_Model {
     }
 
     function get_contact_name($id) {
-        $code = '';
+        $name = '';
         $input = array();
         $input['where'] = array('id' => $id);
         $rows = $this->load_all($input);
-        $code = $rows[0]['name'];
-        return $code;
+        $name = $rows[0]['name'];
+        return $name;
     }
 	
 	//Quét các contact

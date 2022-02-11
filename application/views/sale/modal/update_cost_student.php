@@ -106,7 +106,6 @@
                                         </select>
                                     </td>
                                 </tr>
-
                             </table>
                         </div>
 
@@ -135,18 +134,14 @@
                                 </tr>
                             </table>
                         </div>
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-success btn-lg" style="width: 130px;">Lưu</button>
-                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-success btn-lg" style="width: 130px;">Lưu</button>
                     </div>
                 </form>
-
             </div>
-
         </div>
-
     </div>
-
 </div>
 
 <script type="text/javascript">

@@ -156,6 +156,12 @@
                 </a>
             </li>
 
+            <li class="show_feedback_student one-item-selected show-with-contact" contact_id="0" class_study_id="">
+                <a>
+                    <i class="fa fa-pencil-square" aria-hidden="true"></i> &nbsp; &nbsp;Xem phiếu đánh giá
+                </a>
+            </li>
+
 			<?php if ($controller == 'student') { ?>
 				<li contact_id="0" contact_name="0" class="transfer_one_contact one-item-selected show-with-contact">
 					<a>

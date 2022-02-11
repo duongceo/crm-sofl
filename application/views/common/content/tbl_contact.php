@@ -70,7 +70,9 @@
 
 							contact_name="<?php echo $value['name']; ?>"
 
-							contact_phone="<?php echo $value['phone']; ?>">
+							contact_phone="<?php echo $value['phone']; ?>"
+
+                            class_study_id="<?php echo $value['class_study_id']; ?>">
 
 								<?php
 

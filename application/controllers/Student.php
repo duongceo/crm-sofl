@@ -920,7 +920,42 @@ class Student extends MY_Controller {
     }
 
     public function show_feedback_student() {
-	    $post = $this->input->post();
+	    $this->load->model('feedback_student_model');
+	    $this->load->model('level_language_model');
+	    $this->load->model('attendance_model');
+	    $this->load->model('class_study_model');
+
+	    $get = $this->input->get();
+
+	    $input['where'] = array(
+	        'contact_id' => $get['contact_id'],
+	        'class_study_id' => $get['class_study_id']
+        );
+
+	    $feedback = $this->feedback_student_model->load_all($input);
+	    if (!empty($feedback)) {
+	        $student = $this->contacts_model->load_all(array('where' => array('id' => $feedback[0]['contact_id'])));
+
+	        $data['course'] = $this->level_language_model->get_name_level_language($student[0]['level_language_id']);
+
+            $input_diligence['seclect'] = 'DISTINCT(lesson_learned)';
+            $input_diligence['where'] = array('contact_id' => $get['contact_id']);
+            $data['diligence'] = count($this->attendance_model->load_all($input_diligence));
+
+            $class = $this->class_study_model->load_all(array('where' => array('class_study_id' => $get['class_study_id'])));
+
+            $data['feedback'] = $feedback[0];
+            $data['student'] = $student[0];
+            $data['class'] = $class[0];
+
+            if (in_array($data['student'][0]['language_id'], array(1, 13))) {
+                $this->load->view('student/feedback/han', $data);
+            } elseif (in_array($data['student'][0]['language_id'], array(2, 14))) {
+                $this->load->view('student/feedback/nhat', $data);
+            } else {
+                $this->load->view('student/feedback/trung', $data);
+            }
+        }
     }
 
 }

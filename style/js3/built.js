@@ -15,8 +15,6 @@ show_number_selected_row = () => {
 		} else {
 			sum += parseInt($($('input.tbl-item-checkbox:checked')[i]).parent().parent().find('.paid_real').text());
 		}
-
-        /*sum += parseInt($($('input.tbl-item-checkbox:checked')[i]).parent().parent().find('.tbl_paid').text());*/
 		/*sum += parseInt($($('input.tbl-item-checkbox:checked')[i]).parent().parent().find('.paid_real').text());*/
     }
     /*sum *= 1000;*/
@@ -81,6 +79,7 @@ right_context_menu_display = (controller, contact_id, contact_name, duplicate_id
 	$(".note_contact").attr('contact_name', contact_name);
 	$(".set_data_contact").attr({'contact_id':contact_id, 'contact_name':contact_name});
     $(".update_cost_student").attr('contact_id', contact_id);
+    $(".show_feedback_student").attr('contact_id', contact_id);
 
     if (controller === 'manager' || controller === 'care_page') {
         $(".divide_one_contact_achor").attr('contact_id', contact_id);
@@ -525,7 +524,6 @@ $(".action-contact-admin").confirm({
         confirm: {
             text: 'Có',
             action: function () {
-
 				var contactIdArray = [];
 				$('input[type="checkbox"]').each(
 					function () {
@@ -696,12 +694,11 @@ $(document).on('click', '.create-campaign-from-fb-2', function (e) {
         }
     });
 });
-
  */
 
 $(document).on('click', 'a.add_item', function (e) {
     e.preventDefault();
-    var url = $("#url_add_item").val();
+    let url = $("#url_add_item").val();
     $.ajax({
         url: url,
         type: "POST",
@@ -2037,7 +2034,7 @@ $(document).on('contextmenu', 'tr.custom_right_menu', function (e) {
     $(".edit_item").attr('edit-url', editURL);
 
     let class_study_id = $(this).attr('class_study_id');
-    $(".mechanism_teacher, .email_contract, .check_L7").attr('class_study_id', class_study_id);
+    $(".mechanism_teacher, .email_contract, .check_L7, .show_feedback_student").attr('class_study_id', class_study_id);
 
     let menu = $(".menu");
     menu.hide();
@@ -3629,7 +3626,6 @@ $('.view_student').on('click', function (e) {
 			$(".popup-wrapper").show();
 		},
 		success: function (data) {
-			console.log(data);
 			$('.body-modal-show-student').html('');
 			$('.body-modal-show-student').append(data);
 			$('.show_student').modal('show');
@@ -4144,7 +4140,15 @@ $(".confirm_order_teacher_abroad").on('click', function (e) {
             $(".popup-wrapper").hide();
         }
     });
-    // $(".view_update_cost_student").modal("show");
+});
+
+$(".show_feedback_student").on('click', function (e) {
+    e.preventDefault();
+    let contact_id = $(this).attr("contact_id");
+    let class_study_id = $(this).attr("class_study_id");
+    let url = $("#base_url").val() + "student/show_feedback_student?contact_id=" + contact_id + "&class_study_id=" + class_study_id;
+
+    location.assign(url);
 });
 
 

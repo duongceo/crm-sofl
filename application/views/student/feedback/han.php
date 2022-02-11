@@ -20,31 +20,31 @@
                             <div class="col-md-24">
                                 <div class="form-group">
                                     <label class="text-nau">Họ và tên học viên</label>
-                                    <input id="keyword1" type="text" value="" placeholder="Họ và tên học viên" name="name" class="form-control"/>
+                                    <input id="keyword1" type="text" value="<?php echo $student['name'] ?>" placeholder="Họ và tên học viên" name="name" class="form-control"/>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="text-nau">Số điện thoại</label>
-                                    <input id="keyword1" type="text" value="" placeholder="Số điện thoại" name="phone" class="form-control"/>
+                                    <input id="keyword1" type="text" value="<?php echo $student['phone'] ?>" placeholder="Số điện thoại" name="phone" class="form-control"/>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="text-nau">Ngày sinh</label>
-                                    <input id="keyword1" type="text" value="" placeholder="Ngày sinh" name="date" class="form-control"/>
+                                    <input id="keyword1" type="text" value="<?php echo date('d/m/Y', $student['birthday']) ?>" placeholder="Ngày sinh" name="date" class="form-control"/>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="text-nau">Khóa học</label>
-                                    <input id="keyword1" type="text" value="" placeholder="Khóa học" name="cate" class="form-control"/>
+                                    <input id="keyword1" type="text" value="<?php echo $student['course'] ?>" placeholder="Khóa học" name="cate" class="form-control"/>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="text-nau">Mã lớp</label>
-                                    <input id="keyword1" type="text" value="" placeholder="Mã lớp" name="class" class="form-control"/>
+                                    <input id="keyword1" type="text" value="<?php echo $student['class_study_id'] ?>" placeholder="Mã lớp" name="class" class="form-control"/>
                                 </div>
                             </div>
                         </div>
@@ -57,33 +57,29 @@
                         <div class="khoi-bo row text-justify">
                             <div class="col-md-17">
                                 <div class="titles"><span >Chuyên cần</span></div>
-                                <div>Anh/chị đã tham gia ....../...... ( số buổi tham gia/tổng số buổi).</div>
+                                <div>Anh/chị đã tham gia <?php echo $diligence ?>/<?php echo $class['total_lesson'] ?> ( số buổi tham gia/tổng số buổi).</div>
                             </div>
                             <div class="col-md-7">
                                 <div class="khung-d text-center">
                                     <div class="title-d"><span >Điểm kiểm tra</span></div>
-                                    <div class="diem">10</div>
+                                    <div class="diem"><?php echo $feedback['score'] ?></div>
                                 </div>
                             </div>
 
                             <div class="col-md-24">
                                 <div><span class="titles">Chia sẻ của giáo viên</span></div>
                                 <div>
-                                    ...........................................................................................................................................................
-                                    ...........................................................................................................................................................
-                                    ...........................................................................................................................................................
-                                    ...........................................................................................................................................................
-                                    ...........................................................................................................................................................
+                                    <?php echo $feedback['feedback'] ?>
                                 </div>
                             </div>
 
                             <div class="col-md-24">
                                 <div class="titles"><span >Lời cám ơn</span></div>
                                 <div>
-                                    SOFL chân thành cảm ơn Anh/Chị ................................................. đã tham gia học tại SOFL khoá ..............................................................................
-                                    <br/>Hy vọng rằng Anh/Chị đã có những trải nghiệm bổ ích khi tham gia học .............................
+                                    SOFL chân thành cảm ơn Anh/Chị <?php echo $student['name'] ?> đã tham gia học tại SOFL khoá <?php echo $course ?>
+                                    <br/>Hy vọng rằng Anh/Chị đã có những trải nghiệm bổ ích khi tham gia học <?php echo $course ?>
                                     <br/>Nếu có điều gì chưa làm hài lòng Anh/Chị, SOFL thực xin lỗi và rất mong Anh/Chị có thể chia sẻ qua hotline Chăm sóc: 0963 604 299 để SOFL có thể rút kinh nghiệm, hoàn thiện tốt hơn và đồng hành cùng Anh/Chị trong các khoá học tiếp theo.
-                                    <br/>Xin chúc Anh/Chị thành công trên con đường chinh phục .........................................................
+                                    <br/>Xin chúc Anh/Chị thành công trên con đường chinh phục <?php echo $course ?>
                                     <br/>Cảm ơn Anh/Chị đã là một phần quan trọng không thể thiếu của SOFL.
                                 </div>
                             </div>
