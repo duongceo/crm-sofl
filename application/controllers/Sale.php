@@ -1041,7 +1041,7 @@ class Sale extends MY_Controller {
 				die('Không tồn tại khách hàng này! Mã lỗi : 30203');
 			}
 
-            if ($rows[0]['sale_staff_id'] != $this->user_id && $this->role_id != 16) {
+            if ($rows[0]['sale_staff_id'] != $this->user_id && $this->role_id != 12 && $this->role_id != 16) {
                 $msg = 'Contact này không được phân cho bạn vì vậy bạn không thể chuyển nhượng contact này!';
                 show_error_and_redirect($msg, $_SERVER['HTTP_REFERER'], false);
             }
