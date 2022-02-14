@@ -220,7 +220,6 @@ class Sale extends MY_Controller {
 
     public function transfer_one_contact() {
         $post = $this->input->post();
-//		echo '<pre>'; print_r($post);die;
         $this->_action_transfer_contact($post['sale_id'], array($post['contact_id']), $post['note']);
     }
 	
@@ -1042,7 +1041,7 @@ class Sale extends MY_Controller {
 				die('Không tồn tại khách hàng này! Mã lỗi : 30203');
 			}
 
-            if ($rows[0]['sale_staff_id'] != $this->user_id && $this->role_id != 12) {
+            if ($rows[0]['sale_staff_id'] != $this->user_id && $this->role_id != 16) {
                 $msg = 'Contact này không được phân cho bạn vì vậy bạn không thể chuyển nhượng contact này!';
                 show_error_and_redirect($msg, $_SERVER['HTTP_REFERER'], false);
             }

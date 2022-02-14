@@ -735,7 +735,7 @@ class Student extends MY_Controller {
 				);
 
 				if ($this->role_id == 12) {
-                    $param['time_update'] = $param['time_created'] = (isset($post['date_diligence']) && $post['date_diligence'] != '') ? strtotime($post['date_diligence']) : strtotime(date("d-m-Y H:i"));
+				    $param['time_update'] = $param['time_created'] = (isset($post['date_diligence']) && $post['date_diligence'] != '') ? strtotime($post['date_diligence']) : strtotime(date("d-m-Y H:i"));
                 }
 
                 if (empty($contact_attend)) {
