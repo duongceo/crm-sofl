@@ -326,7 +326,6 @@ class Marketer extends MY_Controller {
 		);
 		
 		$data = $this->_get_require_data($require_model);
-//		echo '<pre>'; print_r($data); die();
 
 		$get = $this->input->get();
 		

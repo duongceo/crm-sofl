@@ -588,6 +588,8 @@ class Teacher extends MY_Table {
 
         $data = $this->_get_require_data($require_model);
 
+        $get = $this->input->get();
+
         if ($this->role_id == 8) {
             $input['where'] = array(
                 'user_order' => $this->session->userdata('teacher_id')
@@ -605,7 +607,27 @@ class Teacher extends MY_Table {
                 'language_id' => $language_in
             );
         }
+
+        if (isset($get['filter_teacher_id']) && !empty($get['filter_teacher_id'])) {
+            $input['where_in']['teacher_id'] = $get['filter_teacher_id'];
+        }
+
+        if (isset($get['filter_date_date_happen']) && $get['filter_date_date_happen'] != '') {
+            $dateArr = explode('-', $get['filter_date_date_happen']);
+            $date_from_arr = trim($dateArr[0]);
+            $date_from = strtotime(str_replace("/", "-", $date_from_arr));
+            $date_end_arr = trim($dateArr[1]);
+            $date_end = strtotime(str_replace("/", "-", $date_end_arr)) + 3600 * 24 - 1;
+
+            $input['where']['day_order >='] = $date_from;
+            $input['where']['day_order <='] = $date_end;
+        }
+        if (isset($get['filter_class_study_id']) && $get['filter_class_study_id'] != '') {
+            $input['where_in'] = array('class_study_id' => $get['filter_class_study_id']);
+        }
+
         $input['order'] = array('day_order' => 'DESC');
+        $input['limit'] = array(60, 0);
 
         $data['order_teacher'] = $this->order_teacher_abroad_model->load_all($input);
         foreach ($data['order_teacher'] as &$item) {
@@ -627,6 +649,7 @@ class Teacher extends MY_Table {
             redirect(current_url());
         }
 
+        $data['left_col'] = array('date_happen_1', 'teacher');
         $data['content'] = 'staff_managers/teacher/view_order_teacher_abroad';
         $this->load->view(_MAIN_LAYOUT_, $data);
     }

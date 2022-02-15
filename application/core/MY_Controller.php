@@ -315,7 +315,6 @@ class MY_Controller extends CI_Controller {
     }
 
     /*Lấy các data cần thiết (để truyền sang view)*/
-
     protected function _get_require_data($require_model) {
 
         $data = array();
@@ -531,6 +530,7 @@ class MY_Controller extends CI_Controller {
         $input = array_merge_recursive($input, $input_get_arr['input_get']);
 
         $total_row = count($this->contacts_model->load_all($input));
+
         return $total_row;
 
     }

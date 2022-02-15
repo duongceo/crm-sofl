@@ -4,11 +4,11 @@
 </div>
 
 <div class="container">
-<!--    <div>-->
-<!--        <form action="#" method="GET" id="action_contact" class="form-inline">-->
-<!--            --><?php //$this->load->view('common/content/filter'); ?>
-<!--        </form>-->
-<!--    </div>-->
+    <div>
+        <form action="#" method="GET" id="action_contact" class="form-inline">
+            <?php $this->load->view('common/content/filter'); ?>
+        </form>
+    </div>
 
     <div class="row">
         <div class="col-md-10">
