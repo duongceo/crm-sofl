@@ -593,8 +593,16 @@ class Teacher extends MY_Table {
                 'user_order' => $this->session->userdata('teacher_id')
             );
         } elseif ($this->role_id == 14) {
-            $input['where'] = array(
-                'language_id' => $this->session->userdata('language_id')
+            $language = $this->session->userdata('language_id');
+            if ($language == 1) {
+                $language_in = array(1, 13);
+            } elseif ($language == 2) {
+                $language_in = array(2, 14);
+            } else {
+                $language_in = array(3, 15);
+            }
+            $input['where_in'] = array(
+                'language_id' => $language_in
             );
         }
         $input['order'] = array('day_order' => 'DESC');
