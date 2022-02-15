@@ -568,6 +568,8 @@ class Teacher extends MY_Table {
     public function order_teacher_abroad() {
 	    $this->load->model('order_teacher_abroad_model');
 	    $this->load->model('teacher_model');
+	    $this->load->model('class_study_model');
+	    $this->load->model('time_model');
 
         $require_model = array(
             'teacher' => array(
@@ -633,6 +635,8 @@ class Teacher extends MY_Table {
         foreach ($data['order_teacher'] as &$item) {
             $item['teacher_name'] = $this->teacher_model->find_teacher_name($item['teacher_id']);
             $item['user_order_name'] = $this->teacher_model->find_teacher_name($item['user_order']);
+            $class = $this->class_study_model->load_all(array('where' => array('class_study_id' => $item['class_study_id'])));
+            $item['time_study'] = $this->time_model->get_time($class[0]['time_id']);
         }
         unset($item);
 

@@ -23,6 +23,7 @@
             <thead>
                 <tr>
                     <th>Ngày đặt lịch</th>
+                    <th>Giờ</th>
                     <th>Lớp</th>
                     <th>Nội dung</th>
                     <th>Xác nhận phòng ĐT</th>
@@ -41,6 +42,9 @@
                     <tr>
                         <td class="text-center">
                             <?php echo date('d-m-Y', $item['day_order']); ?>
+                        </td>
+                        <td class="text-center">
+                            <?php echo $item['time_study']; ?>
                         </td>
                         <td class="text-center">
                             <?php echo $item['class_study_id']; ?>
