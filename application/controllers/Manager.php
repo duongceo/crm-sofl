@@ -1268,8 +1268,9 @@ class Manager extends MY_Controller {
 		$date_from = strtotime(str_replace("/", "-", $date_from));
 		$date_end = trim($dateArr[1]);
 		$date_end = strtotime(str_replace("/", "-", $date_end)) + 3600 * 24 - 1;
+        $date_for_report = $this->display_date(trim($dateArr[0]), trim($dateArr[1]));
 
-//		unset($data['branch'][0]);
+        $cash_day = array();
 		$re = array();
 		foreach ($data['branch'] as $v_branch) {
 			foreach ($data['payment_method_rgt'] as $v_payment) {
@@ -1295,13 +1296,29 @@ class Manager extends MY_Controller {
 					}
 				}
 			}
+
+            foreach ($date_for_report as $value_date) {
+                $input_paid_date['select'] = 'SUM(paid) AS PAID';
+                $input_paid_date['where'] = array(
+                    'day' => $value_date,
+                    'branch_id' => $v_branch['id'],
+                    'payment_method_id' => 1
+                );
+
+                $cash = $this->paid_model->load_all($input_paid_date);
+                if (!empty($cash)) {
+                    $cash_day[$v_branch['name']]['total'] += $cash_day[0]['PAID'];
+                    $cash_day[$v_branch['name']][$value_date] = $cash_day[0]['PAID'];
+                }
+            }
 		}
 
 //		print_arr($re);
 		$data['re'] = $re;
 		$data['startDate'] = $date_from;
 		$data['endDate'] = $date_end;
-
+		$data['cash'] = $cash_day;
+		$data['date'] = $date_for_report;
 		$data['left_col'] = array('date_happen_1', 'language');
 		$data['content'] = 'manager/view_report_payment_method';
 		$this->load->view(_MAIN_LAYOUT_, $data);
@@ -1422,10 +1439,7 @@ class Manager extends MY_Controller {
 			}
 			$branch['total'] = $total;
 			$branch['total']['name'] = 'Tổng';
-//			print_arr($branch);
 		}
-
-	//	print_arr($branch);
 
 		$data['branch'] = $branch;
 		$data['startDate'] = $startDate;

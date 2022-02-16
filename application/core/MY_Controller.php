@@ -991,18 +991,6 @@ class MY_Controller extends CI_Controller {
 
     }
 
-	protected function display_date($date1, $date2, $format = 'd-m-Y' ) {
-		$dates = array();
-		$current = strtotime(str_replace("/", "-", $date1));
-		$date2 = strtotime(str_replace("/", "-", $date2));
-		$stepVal = '+1 day';
-		while($current <= $date2) {
-			$dates[] = date($format, $current);
-			$current = strtotime($stepVal, $current);
-		}
-		return $dates;
-	}
-
     protected function _ajax_redirect($location = '') {
 
         $location = empty($location) ? '/' : $location;
@@ -1309,6 +1297,18 @@ class MY_Controller extends CI_Controller {
 		$progress['total_old'] = $total_old;
 
         return $progress;
+    }
+
+    protected function display_date($date1, $date2, $format = 'd-m-Y' ) {
+        $dates = array();
+        $current = strtotime(str_replace("/", "-", $date1));
+        $date2 = strtotime(str_replace("/", "-", $date2));
+        $stepVal = '+1 day';
+        while($current <= $date2) {
+            $dates[] = date($format, $current);
+            $current = strtotime($stepVal, $current);
+        }
+        return $dates;
     }
 
 }
