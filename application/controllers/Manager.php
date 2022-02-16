@@ -1307,8 +1307,8 @@ class Manager extends MY_Controller {
 
                 $cash = $this->paid_model->load_all($input_paid_date);
                 if (!empty($cash)) {
-                    $cash_day[$v_branch['name']]['total'] += $cash_day[0]['PAID'];
-                    $cash_day[$v_branch['name']][$value_date] = $cash_day[0]['PAID'];
+                    $cash_day[$v_branch['name']]['total'] += $cash[0]['PAID'];
+                    $cash_day[$v_branch['name']][$value_date] = $cash[0]['PAID'];
                 }
             }
 		}
