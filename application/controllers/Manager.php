@@ -1268,7 +1268,7 @@ class Manager extends MY_Controller {
 		$date_from = strtotime(str_replace("/", "-", $date_from));
 		$date_end = trim($dateArr[1]);
 		$date_end = strtotime(str_replace("/", "-", $date_end)) + 3600 * 24 - 1;
-        $date_for_report = $this->display_date(trim($dateArr[0]), trim($dateArr[1]));
+        $date_for_report = $this->display_date(trim($dateArr[0]), trim($dateArr[1]), 'Y-m-d');
 
         $cash_day = array();
 		$re = array();
