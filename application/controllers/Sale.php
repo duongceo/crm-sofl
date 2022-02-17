@@ -668,7 +668,7 @@ class Sale extends MY_Controller {
 						show_error_and_redirect('Contact đóng tiền thì phải có ngày đóng tiền', 0, $input['back_location']);
 					}
 				}
-				
+
 				if (isset($input['sale_staff_id']) && $input['sale_staff_id'] != 0) {
 					$param['sale_staff_id'] = $input['sale_staff_id'];
 				}
