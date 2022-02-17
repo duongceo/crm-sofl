@@ -105,7 +105,9 @@ class Marketing extends MY_Controller {
 
 		$data['contacts'] = $contact;
 
-		$data['left_col'] = array('care_number', 'language', 'level_language', 'sale', 'marketer', 'date_rgt', 'date_handover', 'date_confirm', 'date_rgt_study', 'date_last_calling');
+		$data['care_page_staff'] = $this->staffs_model->load_all(array('where' => array('role_id' => 11, 'active' => 1)));
+
+		$data['left_col'] = array('care_number', 'language', 'level_language', 'sale', 'marketer', 'care_page_staff', 'date_rgt', 'date_handover', 'date_confirm', 'date_rgt_study', 'date_last_calling');
         $data['right_col'] = array('branch', 'is_old', 'complete_fee', 'source', 'call_status', 'level_contact', 'level_contact_detail', 'level_student', 'level_student_detail');
 
 		$this->table .= 'fee paid call_stt level_contact date_rgt link';
@@ -532,7 +534,7 @@ class Marketing extends MY_Controller {
 
 	protected function GetProccessMarketerToday(){
 
-		$marketers = $this->staffs_model->GetActiveMarketers();
+		$marketers = $this->staffs_model->load_all(array('where' => array('role_id' => 11, 'active' => 1)));
 
 		$total_kpi_mkt = 0;
 
@@ -545,7 +547,7 @@ class Marketing extends MY_Controller {
 			$inputContact['select'] = 'id';
 
 			$inputContact['where'] = array(
-				'marketer_id' => $marketer['id'],
+				'care_page_staff_id' => $marketer['id'],
 				'date_rgt >=' => strtotime(date('d-m-Y')),
 			);
 
@@ -582,7 +584,7 @@ class Marketing extends MY_Controller {
 	protected function GetProccessMarketerThisMonth()
 	{
 
-		$marketers = $this->staffs_model->GetActiveMarketers();
+		$marketers = $this->staffs_model->load_all(array('where' => array('role_id' => 11, 'active' => 1)));
 
 		$total_kpi_mkt = 0;
 
@@ -594,7 +596,7 @@ class Marketing extends MY_Controller {
 
 			$inputContact['select'] = 'id';
 
-			$inputContact['where'] = array('marketer_id' => $marketer['id'], 'date_rgt >' => strtotime(date('01-m-Y')));
+			$inputContact['where'] = array('care_page_staff_id' => $marketer['id'], 'date_rgt >' => strtotime(date('01-m-Y')));
 
 			$today = $this->contacts_model->load_all($inputContact);
 

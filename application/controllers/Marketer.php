@@ -14,18 +14,6 @@ class Marketer extends MY_Controller {
 
     }
 
-//    function delete_item() {
-//
-//        die('Không thể xóa, liên hệ admin để biết thêm chi tiết');
-//
-//    }
-//
-//    function delete_multi_item() {
-//
-//        show_error_and_redirect('Không thể xóa, liên hệ admin để biết thêm chi tiết', '', FALSE);
-//
-//    }
-
     function index($offset = 0) {
 		$data = $this->_get_all_require_data();
 		$get = $this->input->get();
@@ -121,6 +109,7 @@ class Marketer extends MY_Controller {
 		$data['total_contact'] = $data_pagination['total_row'];
 
 		$contact = $data_pagination['data'];
+        $data['contacts'] = $contact;
 
 //		$this->load->model('call_log_model');
 //		foreach ($contact as &$value) {
@@ -128,10 +117,10 @@ class Marketer extends MY_Controller {
 //			$value['care_number'] = count($this->call_log_model->load_all($input));
 //		}
 
-		$data['contacts'] = $contact;
-		
+        $data['care_page_staff'] = $this->staffs_model->load_all(array('where' => array('role_id' => 11, 'active' => 1)));
+
 		$data['left_col'] = array('channel', 'date_rgt', 'date_handover');
-		$data['right_col'] = array('call_status');
+		$data['right_col'] = array('call_status', 'care_page_staff');
 		$this->table .= 'channel campaign date_rgt call_stt level_contact';
 		$data['table'] = explode(' ', $this->table);
 
@@ -219,7 +208,7 @@ class Marketer extends MY_Controller {
 
 	protected function GetProccessMarketerToday() {
 
-		$marketers = $this->staffs_model->GetActiveMarketers();
+		$marketers = $this->staffs_model->load_all(array('where' => array('role_id' => 11, 'active' => 1)));
 
 		$total_kpi_mkt = 0;
 
@@ -232,8 +221,11 @@ class Marketer extends MY_Controller {
 			$inputContact['select'] = 'id';
 
 			$inputContact['where'] = array(
-				'marketer_id' => $marketer['id'],
-				'date_rgt >=' => strtotime(date('d-m-Y')),
+
+				'care_page_staff_id' => $marketer['id'],
+
+				'date_rgt >=' => strtotime(date('d-m-Y'))
+
 			);
 
 			$today = $this->contacts_model->load_all($inputContact);
@@ -268,7 +260,7 @@ class Marketer extends MY_Controller {
 
 	protected function GetProccessMarketerThisMonth() {
 
-		$marketers = $this->staffs_model->GetActiveMarketers();
+		$marketers = $this->staffs_model->load_all(array('where' => array('role_id' => 11, 'active' => 1)));
 
 		$total_kpi_mkt = 0;
 
@@ -280,7 +272,7 @@ class Marketer extends MY_Controller {
 
 			$inputContact['select'] = 'id';
 
-			$inputContact['where'] = array('marketer_id' => $marketer['id'], 'date_rgt >' => strtotime(date('01-m-Y')));
+			$inputContact['where'] = array('care_page_staff_id' => $marketer['id'], 'date_rgt >' => strtotime(date('01-m-Y')));
 
 			$today = $this->contacts_model->load_all($inputContact);
 

@@ -573,6 +573,9 @@ class Sale extends MY_Controller {
 					case 6:
 						$param['marketer_id'] = $this->user_id;
 						break;
+                    case 11:
+                        $param['care_page_staff_id'] = $this->user_id;
+                        break;
 				}
 				
 				if ($this->role_id == 12) {

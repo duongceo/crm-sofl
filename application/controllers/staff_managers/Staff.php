@@ -156,8 +156,8 @@ class Staff extends MY_Table {
 			if (isset($post['add_max_contact'])) {
 				$param['max_contact'] = md5(md5($post['add_max_contact']));
 			}
-			if (isset($post['add_targets'])) {
-				$param['targets'] = md5(md5($post['add_targets']));
+			if (isset($post['targets'])) {
+				$param['targets'] = $post['targets'];
 			}
 
             $param['ipphone_user_name'] = trim($post['ipphone_user_name']);
@@ -191,6 +191,9 @@ class Staff extends MY_Table {
                     'type' => 'custom'
                 ),
                 'ipphone_password' => array(
+                    'type' => 'custom'
+                ),
+				'targets' => array(
                     'type' => 'custom'
                 ),
 				'branch_id' => array(
@@ -242,6 +245,10 @@ class Staff extends MY_Table {
 				$param['active'] = 0;
 			}
 
+            if (isset($post['targets'])) {
+                $param['targets'] = $post['targets'];
+            }
+
             $param['ipphone_user_name'] = trim($post['ipphone_user_name']);
             $param['ipphone_password'] = trim($post['ipphone_password']);
 
@@ -259,10 +266,10 @@ class Staff extends MY_Table {
 				<td>
 					<input type="text" name="add_max_contact" class="form-control" value="" />
 				</td>';
-		} elseif ($post['role_id'] == 6) {
+		} elseif ($post['role_id'] == 6 || $post['role_id'] == 11) {
 			echo '<td class="text-right"> KPI </td>
 				<td>
-					<input type="text" name="add_targets" class="form-control" value="" />
+					<input type="text" name="targets" class="form-control" value="" />
 				</td>';
 		}
 	}
