@@ -34,6 +34,10 @@
                             <th>
                                 Người thu tiền
                             </th>
+
+                            <th>
+                                Xóa
+                            </th>
                         </tr>
                     </thead>
 
@@ -66,6 +70,11 @@
                                     <td class="text-center">
                                         <?php echo $value['user_name']; ?>
                                     </td>
+                                    <?php if ($this->role_id == 12) { ?>
+                                        <td class="text-center">
+                                            <button class="btn btn-danger btn-sm delete_common" type_delete="refund" delete_id="<?php echo $value['id'] ?>">Xóa</button>
+                                        </td>
+                                    <?php } ?>
                                 </tr>
                                 <?php
                             }
