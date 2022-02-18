@@ -370,6 +370,7 @@ class Marketer extends MY_Controller {
 		if (isset($spend)) {
 			foreach ($spend as $value) {
 				$data['spend'][] = array(
+				    'id' => $value['id'],
 					'channel_name' => $this->channel_model->find_channel_name($value['channel_id']),
 					'language_name' => $this->language_study_model->find_language_name($value['language_id']),
 					'location' => $this->location_model->find_location_name($value['location_id']),

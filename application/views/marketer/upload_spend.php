@@ -29,6 +29,9 @@
 				<th>Ngày</th>
 				<th>Chi phí</th>
 				<th>Ngày nhập</th>
+                <?php if ($this->role_id == 5) { ?>
+                    <th>Xóa</th>
+                <?php } ?>
 			</tr>
 		</thead>
 		<tbody id="log-body">
@@ -53,6 +56,12 @@
 						<td class="text-center">
 							<?php echo date('d-m-Y H:i:s', $item['time_created']); ?>
 						</td>
+
+                        <?php if ($this->role_id == 5) { ?>
+                            <td class="text-center">
+                                <button class="btn btn-danger btn-sm delete_common" type_delete="spend" delete_id="<?php echo $item['id'] ?>">Xóa</button>
+                            </td>
+                        <?php } ?>
 					</tr>
 				<?php } ?>
 			<?php } ?>

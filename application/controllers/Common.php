@@ -2029,4 +2029,30 @@ class Common extends MY_Controller {
 		}
 	}
 
+	public function delete_common() {
+        $post = $this->input->post();
+
+        $result = array();
+        if (!empty($post)) {
+            if ($post['type_delete'] == 'paid') {
+                $this->load->model('paid_model');
+                $this->paid_model->delete(array('id' => $post['delete_id']));
+
+                $result['success'] = true;
+                $result['message'] = 'Xóa thành công';
+            } elseif ($post['type_delete'] == 'spend') {
+                $this->load->model('spending_model');
+                $this->spending_model->delete(array('id' => $post['delete_id']));
+
+                $result['success'] = true;
+                $result['message'] = 'Xóa thành công';
+            }
+        } else {
+            $result['success'] = false;
+            $result['message'] = 'Xóa không thành công';
+        }
+
+        echo json_encode($result);
+    }
+
 }

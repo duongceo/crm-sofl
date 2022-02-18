@@ -4,34 +4,32 @@
 			<th>
 				Lần đóng tiền
 			</th>
-
 			<th>
 				Thời gian
 			</th>
-
 			<th>
 				Tiền đóng
 			</th>
-
 			<th>
 				Cơ sở
 			</th>
-
 			<th>
 				Ngôn ngữ
 			</th>
-
 			<th>
 				Cũ X Mới
 			</th>
-
 			<th>
 				Nguồn thu
 			</th>
-
 			<th>
 				Hình thức thanh toán
 			</th>
+            <?php if ($this->role_id == 3 || $this->role_id == 12) { ?>
+                <th>
+                    Xóa
+                </th>
+            <?php } ?>
 		</tr>
 	</thead>
 
@@ -72,8 +70,13 @@
                     <td class="text-center">
                         <?php echo $value_paid_log['payment_method_name']?>
                     </td>
-                </tr>
 
+                    <?php if ($this->role_id == 3 || $this->role_id == 12) { ?>
+                        <td class="text-center">
+                            <button class="btn btn-danger btn-sm delete_common" type_delete="paid" delete_id="<?php echo $value_paid_log['id'] ?>">Xóa</button>
+                        </td>
+                    <?php } ?>
+                </tr>
                 <?php
             }
         }

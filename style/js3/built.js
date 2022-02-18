@@ -4151,6 +4151,34 @@ $(".show_feedback_student").on('click', function (e) {
     location.assign(url);
 });
 
+$(document).on('click', '.delete_common', e => {
+    let right = confirm("Bạn có chắc chắn muốn xóa ?");
+    if (right === true) {
+        let del = $(e.target);
+        let delete_id = $(e.target).attr("delete_id");
+        let type_delete = $(e.target).attr("type_delete");
+        $.ajax({
+            type: "POST",
+            dataType: 'json',
+            url: $("#base_url").val() + "common/delete_common",
+            data: {
+                delete_id: delete_id,
+                type_delete: type_delete
+            },
+            success: data => {
+                if (data.success) {
+                    alert(data.message);
+                    del.parent().parent().hide();
+                } else {
+                    alert(data.message);
+                }
+            },
+            error: errorThrown => alert(errorThrown)
+        });
+        return false;
+    }
+});
+
 
 
 
