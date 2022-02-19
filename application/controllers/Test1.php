@@ -532,7 +532,7 @@ class Test1 extends CI_Controller {
 	        'level_contact_id' => 'L5',
             'level_contact_detail !=' => 'L5.4',
             'complete_fee' => '0',
-//            'fee !=' => '0'
+            'fee !=' => '0'
         );
 
 	    $contacts = $this->contacts_model->load_all($input);
