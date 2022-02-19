@@ -3725,15 +3725,17 @@ $(document).on('click', '.update_data_inline', function(e) {
 	e.preventDefault();
     let column = $(this).parent().attr('column');
     let value_current = $(this).parent().find('.value_current').val();
-	let form = '<form class="form-inline"> ' +
-		'<input style="max-width: 43%" type="text" value='+value_current+'> ' +
-		'<button class="update_inline_now"mechanism_teacher>Lưu</button> ' +
-		'</form>';
+	let form = '';
     if (column === 'note') {
         form = '<form class="form-inline"> ' +
         '<textarea style="width: 85%" rows="2" value=""></textarea>' +
         '<button class="btn btn-sm btn-primary update_inline_now">Lưu</button> ' +
         '</form>';
+    } else {
+        form = '<form class="form-inline"> ' +
+            '<input style="max-width: 43%" type="text" value=' + value_current + '> ' +
+            '<button class="update_inline_now" mechanism_teacher>Lưu</button> ' +
+            '</form>';
     }
 	$(this).parent().html(form);
 });
@@ -3744,6 +3746,8 @@ $(document).on('click', '.update_inline_now', function (e) {
 	let data_now = $(this).parent().find('input').val();
 	let column = $(this).parent().attr('column');
 	let class_id = $(this).parent().parent().attr('item_id');
+	let date_update = $(this).parent().parent().attr('date_update');
+	let lesson_learned = $(this).parent().parent().attr('lesson_learned');
 
 	if (column === 'note') {
         data_now = $(this).parent().find('textarea').val();
@@ -3756,7 +3760,9 @@ $(document).on('click', '.update_inline_now', function (e) {
 		data: {
 			data_now : data_now,
 			column : column,
-			class_id: class_id
+			class_id: class_id,
+            date_update: date_update,
+            lesson_learned: lesson_learned
 		},
 		// beforeSend: function() {
 		// 	$(".popup-wrapper").show();

@@ -32,6 +32,8 @@
                     <th>Người đặt lịch</th>
                     <?php if ($this->role_id == 14) { ?>
                         <th>Xác nhận</th>
+                    <?php } else { ?>
+                        <th>Xóa</th>
                     <?php } ?>
                 </tr>
             </thead>
@@ -73,6 +75,10 @@
                                 <button class="btn btn-primary confirm_order_teacher_abroad" order_id="<?php echo $item['id']; ?>">
                                     Xác nhận lịch
                                 </button>
+                            </td>
+                        <?php } else { ?>
+                            <td class="text-center">
+                                <button class="btn btn-danger btn-sm delete_common" type_delete="order_teacher" delete_id="<?php echo $item['id'] ?>">Xóa</button>
                             </td>
                         <?php } ?>
                     </tr>

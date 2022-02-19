@@ -2052,6 +2052,12 @@ class Common extends MY_Controller {
 
                 $result['success'] = true;
                 $result['message'] = 'Xóa thành công';
+            } elseif ($post['type_delete'] == 'order_teacher') {
+                $this->load->model('order_teacher_abroad_model');
+                $this->order_teacher_abroad_model->delete(array('id' => $post['delete_id']));
+
+                $result['success'] = true;
+                $result['message'] = 'Xóa thành công';
             }
         } else {
             $result['success'] = false;

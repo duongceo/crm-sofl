@@ -30,19 +30,29 @@
 					<?php foreach ($list_diligence as $item) { ?>
 						<tr>
 							<td class="text-center"><?php echo date('d-m-Y', $item['time_update']) ?></td>
-							<td class="text-center"><?php echo $item['class_study_id'] ?></td>
-							<td class="text-center">Buổi <?php echo $item['lesson_learned'] ?></td>
+							<td class="text-center">
+                                <?php echo $item['class_study_id'] ?>
+                            </td>
+							<td class="text-center" column="diligence" item_id="<?php echo $item['class_study_id'] ?>" date_update="<?php echo $item['time_update'] ?>" lesson_learned="<?php echo $item['lesson_learned'] ?>">
+                                Buổi <?php echo $item['lesson_learned'] ?>
+                                <input type="hidden" class="value_current" value="<?php echo $item['lesson_learned']?>">
+                                <?php if ($this->role_id == 12) { ?>
+                                    <button style="margin-right: 0" class="btn btn-default btn-sm update_data_inline">
+                                        <span class="glyphicon glyphicon-edit"></span>
+                                    </button>
+                                <?php } ?>
+                            </td>
 							<td><?php echo $item['lecture'] ?></td>
 							<td class="text-center">
-                            <?php if ($item['speaker'] == 1) {
-                                echo 'Giáo viên Việt';
-                            } else {
-                                echo 'Giáo viên bản ngữ';
-                            } ?>
+                                <?php if ($item['speaker'] == 1) {
+                                    echo 'Giáo viên Việt';
+                                } else {
+                                    echo 'Giáo viên bản ngữ';
+                                } ?>
                             </td>
 							<td class="text-center text-primary">
 								<a href="<?php echo base_url() .'student/check_diligence_class?class_study_id='.$item['class_study_id']. '&time_update='.$item['time_update'] ?>" class="btn btn-success">Xem chi tiết</a>
-							</td>
+                            </td>
 						</tr>
 					<?php } ?>
 				</tbody>

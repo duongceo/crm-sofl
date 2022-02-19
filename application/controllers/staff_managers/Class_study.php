@@ -820,12 +820,11 @@ class Class_study extends MY_Table {
 	 }
 
 	 function update_data_inline() {
-	     $this->load->model('notes_model');
 	     $post = $this->input->post();
 		 $response = array();
 
 		 if (!empty($post['data_now'])) {
-		     if ($post['column'] != 'note') {
+		     if ($post['column'] == 'lesson_learned') {
                  $where = array('id' => $post['class_id']);
                  if ($post['column'] == 'lesson_learned') {
                      $param['lesson_learned'] = $post['data_now'];
@@ -839,7 +838,8 @@ class Class_study extends MY_Table {
                  } else {
                      $response['success'] = 0;
                  }
-             } else {
+             } elseif ($post['column'] == 'note') {
+                 $this->load->model('notes_model');
                  $param['content'] = $post['data_now'];
                  $param['class_study_id'] = $post['class_id'];
                  $param['time_created'] = time();
@@ -847,6 +847,18 @@ class Class_study extends MY_Table {
                  $param['role_id'] = $this->role_id;
                  $this->notes_model->insert($param);
                  $response['success'] = 1;
+             } else {
+                 $this->load->model('attendance_model');
+
+                 $where = array(
+                     'class_study_id' => $post['class_id'],
+                     'time_update' => $post['date_update'],
+                     'lesson_learned' => $post['lesson_learned']
+                 );
+                 $param['lesson_learned'] = $post['data_now'];
+                 if ($this->attendance_model->update($where, $param)) {
+                     $response['success'] = 1;
+                 }
              }
 		 } else {
 			 $response['success'] = 0;

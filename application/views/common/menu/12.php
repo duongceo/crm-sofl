@@ -8,9 +8,7 @@
 		<h3>Menu :))</h3>
 		<?php if ($this->agent->mobile) { ?>
 			<a href="javascript:;" class="user-profile" style="font-size: 16px; color: #f0f0f0 !important;">
-
 				<img src="<?php echo base_url(); ?>style/img/logo.png" alt=""> <span> <?php echo $this->session->userdata('name'); ?> </span>
-
 			</a>
 		<?php } ?>
 	</div>
@@ -47,6 +45,13 @@
                     <a href="<?php echo base_url('student/contact_reserve'); ?>">
                         <img src="<?php echo base_url(); ?>public/images/view-all.png">
                         <span>Danh sách học viên bảo lưu</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="<?php echo base_url('student/contact_not_paid'); ?>">
+                        <img src="<?php echo base_url(); ?>public/images/view-all.png">
+                        <span>Danh sách học viên chưa hoàn thành học phí</span>
                     </a>
                 </li>
 
