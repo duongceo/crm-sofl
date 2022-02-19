@@ -192,7 +192,7 @@ class Student extends MY_Controller {
 
 		$conditional['where']['level_contact_id'] = 'L5';
 		$conditional['where']['level_contact_detail !='] = 'L5.4';
-		$conditional['where']['complete_fee'] = '0';
+        $conditional['where']['class_study_id !='] = '';
 		$conditional['order'] = array('date_rgt_study' => 'DESC');
 
 		$data_pagination = $this->_query_all_from_get($get, $conditional, $this->per_page, $offset);
@@ -228,7 +228,7 @@ class Student extends MY_Controller {
 
 		$conditional['where']['level_contact_id'] = 'L5';
 		$conditional['where']['level_contact_detail !='] = 'L5.4';
-		$conditional['where']['class_study_id !='] = '';
+        $conditional['where']['complete_fee'] = '0';
 		$conditional['order'] = array('date_rgt_study' => 'DESC');
 
 		$data_pagination = $this->_query_all_from_get($get, $conditional, $this->per_page, $offset);
