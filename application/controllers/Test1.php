@@ -543,7 +543,7 @@ class Test1 extends CI_Controller {
             );
             $contact_paid = $this->paid_model->load_all($input_paid);
 
-            if ($contact_paid[0]['contact_paid'] == $item['fee']) {
+            if ($contact_paid[0]['contact_paid'] >= $item['fee']) {
                 $input_contact = array('id' => $item['id']);
                 $this->contacts_model->update($input_contact, array('complete_fee' => 1));
                 echo 'update thành công';
