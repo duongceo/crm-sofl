@@ -3,7 +3,7 @@
 
     <div class="col-md-10 col-md-offset-1">
 
-        <h3 class="text-center marginbottom20"> Báo cáo tư vấn tuyển sinh từ ngày <?php echo date('d-m-Y', $startDate); ?> đến ngày <?php echo date('d-m-Y', $endDate); ?></h3>
+        <h3 class="text-center marginbottom20"> Báo cáo tỷ lệ kpi sale theo ngoại ngữ ngày <?php echo date('d-m-Y', $startDate); ?> đến ngày <?php echo date('d-m-Y', $endDate); ?></h3>
 
     </div>
 
@@ -14,16 +14,6 @@
     <?php $this->load->view('common/content/filter'); ?>
 
 </form>
-
-<div class="row">
-
-    <div class="col-md-10 col-md-offset-1">
-
-        <h3 class="text-center marginbottom20"> Báo cáo tỷ lệ kpi sale theo ngoại ngữ ngày <?php echo date('d-m-Y', $startDate); ?> đến ngày <?php echo date('d-m-Y', $endDate); ?></h3>
-
-    </div>
-
-</div>
 
 <div class="table-responsive">
 
