@@ -874,7 +874,8 @@ class Manager extends MY_Controller {
 					'out_report' => '0'
 				)
 			),
-			'branch' => array()
+			'branch' => array(),
+			'sources' => array()
 		);
 		$data = array_merge($this->data, $this->_get_require_data($require_model));
 		$language = $data['language_study'];
