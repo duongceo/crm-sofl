@@ -73,6 +73,13 @@
                     </a>
                 </li>
 
+                <li>
+                    <a href="<?php echo base_url('manager/view_report_kpi_sale'); ?>">
+                        <img src="<?php echo base_url(); ?>public/images/tvts.png">
+                        <span> Báo cáo KPI Sale theo tiếng </span>
+                    </a>
+                </li>
+
 				<li>
 					<a href="<?php echo base_url('manager/view_report_sale_handle'); ?>">
 						<img src="<?php echo base_url(); ?>public/images/report.png">

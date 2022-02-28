@@ -875,7 +875,7 @@ class Manager extends MY_Controller {
 				)
 			),
 			'branch' => array(),
-			'sources' => array()
+//			'sources' => array()
 		);
 		$data = array_merge($this->data, $this->_get_require_data($require_model));
 		$language = $data['language_study'];
@@ -1010,15 +1010,13 @@ class Manager extends MY_Controller {
 
 //		$time_start = microtime(true);
 
-		$input_source['where'] = array('out_report' => '1');
-		$this->load->model('sources_model');
-		$source = $this->sources_model->load_all($input_source);
-		$source_arr = array();
-		if (!empty($source)) {
-			foreach ($source as $item) {
-				$source_arr[] = $item['id'];
-			}
-		}
+//		$input_source['where'] = array('out_report' => '1');
+//		$this->load->model('sources_model');
+//		$source = $this->sources_model->load_all($input_source);
+//		$source_arr = array();
+//		if (!empty($source)) {
+//            $source_arr = array_column($source, 'id');
+//		}
 
 		if ($this->role_id == 11) {
 			$conditionArr = array(
@@ -1045,9 +1043,6 @@ class Manager extends MY_Controller {
         	foreach ($staffs as $key_staff => $value_staff) {
 				$conditional_1 = array();
 				$conditional_1['where']['sale_staff_id'] = $value_staff['id'];
-				if ($this->role_id == 1) {
-                    $conditional_1['where']['source_id !='] = 6;
-                }
 				//$conditional_1['where_not_in']['source_id'] = $source_arr;
 				$conditional = array_merge_recursive($conditional_1, $value2);
                 $staffs[$key_staff][$key2] = $this->_query_for_report($get, $conditional);
@@ -1069,7 +1064,10 @@ class Manager extends MY_Controller {
 				foreach ($language as $key_language => $value_language) {
 					$conditional = array();
 					$conditional['where']['language_id'] = $value_language['id'];
-					$conditional['where_not_in']['source_id'] = $source_arr;
+//					$conditional['where_not_in']['source_id'] = $source_arr;
+                    if ($this->role_id == 1) {
+                        $conditional['where_in']['source_id'] = array(1, 2, 3, 5, 7, 8, 12, 16, 17, 18);
+                    }
 //					$conditional['where_not_in']['sale_staff_id'] = array(5, 18);
 					if ($key2 == 'NHAN' && !isset($get['tic_report'])) {
 						unset($value2['where']['date_handover >='], $value2['where']['date_handover <=']);
@@ -1081,7 +1079,6 @@ class Manager extends MY_Controller {
 					}
 					$conditional = array_merge_recursive($conditional, $value2);
 					$language[$key_language][$key2] = $this->_query_for_report($get, $conditional);
-					//echoQuery(); die;
 					$temp_language += $language[$key_language][$key2];
 					$data[$key2 . '_L'] = $temp_language;
 				}
@@ -1099,7 +1096,7 @@ class Manager extends MY_Controller {
         $data['staffs'] = $staffs;
         $data['startDate'] = $startDate;
         $data['endDate'] = $endDate;
-        $data['left_col'] = array('branch', 'source', 'date_happen_1', 'tic_report');
+        $data['left_col'] = array('branch', 'date_happen_1', 'tic_report');
         $data['right_col'] = array('is_old', 'language');
         $data['load_js'] = array('m_view_report');
         $data['content'] = 'manager/view_report';
@@ -1107,6 +1104,119 @@ class Manager extends MY_Controller {
             $data['top_nav'] = 'sale/common/top-nav';
         }
 //        print_arr($data);
+        $this->	load->view(_MAIN_LAYOUT_, $data);
+    }
+
+    function view_report_kpi_sale() {
+        $require_model = array(
+            'language_study' => array(
+                'where' => array(
+                    'out_report' => '0'
+                )
+            ),
+        );
+        $data = array_merge($this->data, $this->_get_require_data($require_model));
+        $language = $data['language_study'];
+
+        $get = $this->input->get();
+
+//        $input = array();
+//        $input['select'] = 'id, name, out_report';
+//        $input['where'] = array('role_id' => 1, 'active' => 1);
+//        $staffs = $this->staffs_model->load_all($input);
+
+        /* Mảng chứa các ngày lẻ */
+        if (isset($get['filter_date_date_happen']) && $get['filter_date_date_happen'] != '') {
+            $time = $get['filter_date_date_happen'];
+        } else {
+            $time = '01' . '/' . date('m') . '/' . date('Y') . ' - ' . date('d') . '/' . date('m') . '/' . date('Y');
+        }
+
+        $dateArr = explode('-', $time);
+        $startDate = trim($dateArr[0]);
+        $startDate = strtotime(str_replace("/", "-", $startDate));
+        $endDate = trim($dateArr[1]);
+        $endDate = strtotime(str_replace("/", "-", $endDate)) + 3600 * 24 - 1;
+
+        $conditionArr = array(
+            'NHAN' => array(
+                'where' => array('call_status_id NOT IN (1, 3, 5)' => 'NO-VALUE', 'level_contact_detail NOT IN ("L1.1", "L1.2", "L1.3")' => 'NO-VALUE', 'duplicate_id' => '0', 'date_handover >=' => $startDate, 'date_handover <=' => $endDate),
+            ),
+            'CHUA_GOI' => array(
+                'where' => array('call_status_id' => '0', 'level_contact_id' => '', 'date_handover >=' => $startDate, 'date_handover <=' => $endDate),
+            ),
+            'XU_LY' => array(
+                'where' => array('call_status_id !=' => '0', 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate),
+            ),
+            'NGHE_MAY' => array(
+                'where' => array('call_status_id' => _DA_LIEN_LAC_DUOC_, 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate),
+            ),
+            'KHONG_NGHE_MAY' => array(
+                'where' => array('call_status_id' => _KHONG_NGHE_MAY_, 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate),
+            ),
+            'L1' => array(
+                'where' => array('date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate, 'level_contact_id' => 'L1'),
+            ),
+            'L2' => array(
+                'where' => array('level_contact_id' => 'L2', 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate),
+            ),
+            'L3' => array(
+                'where' => array('level_contact_id' => 'L3', 'date_confirm >=' => $startDate, 'date_confirm <=' => $endDate),
+            ),
+            'L4' => array(
+                'where' => array('level_contact_id' => 'L4', 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate),
+            ),
+            'L5' => array(
+                'where' => array('duplicate_id' => '0', 'level_contact_id' => 'L5', 'is_old' => '0', 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
+            ),
+            'L6' => array(
+                'where' => array('level_student_id' => 'L6', 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
+            ),
+            'L7' => array(
+                'where' => array('level_student_id' => 'L7', 'date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate),
+            ),
+            'L8' => array(
+                'where' => array('level_contact_id' => 'L5', 'level_student_id !=' => 'L8.1', 'is_old' => 1, 'date_rgt_study >=' => $startDate, 'date_rgt_study <=' => $endDate),
+            ),
+            'LC' => array(
+                'where' => array('date_last_calling >=' => $startDate, 'date_last_calling <=' => $endDate,
+                    '(`call_status_id` = ' . _SO_MAY_SAI_ . ' OR `call_status_id` = ' . _NHAM_MAY_ . ' OR `call_status_id` = 5 OR `level_contact_detail` IN ("L1.1", "L1.2", "L1.3"))' => 'NO-VALUE'),
+            ),
+        );
+
+        unset($get['filter_date_date_happen']);
+        foreach ($conditionArr as $key2 => $value2) {
+            $temp_language = 0;
+            foreach ($language as $key_language => $value_language) {
+                $conditional = array();
+                $conditional['where']['language_id'] = $value_language['id'];
+                $conditional['where_in']['source_id'] = array(1, 2, 3, 5, 7, 8, 12, 16, 17, 18);
+//					$conditional['where_not_in']['sale_staff_id'] = array(5, 18);
+//                if ($key2 == 'NHAN' && !isset($get['tic_report'])) {
+//                    unset($value2['where']['date_handover >='], $value2['where']['date_handover <=']);
+//                    $value2['where']['date_rgt >='] = $startDate;
+//                    $value2['where']['date_rgt <='] = $endDate;
+//                }
+                $conditional = array_merge_recursive($conditional, $value2);
+                $language[$key_language][$key2] = $this->_query_for_report($get, $conditional);
+                $temp_language += $language[$key_language][$key2];
+                $data[$key2 . '_L'] = $temp_language;
+            }
+        }
+
+//        $total_re = 0;
+//        foreach ($staffs as $value) {
+//            $total_re += $value['RE'];
+//            $data['RE'] = $total_re;
+//        }
+
+        $data['language'] = $language;
+        $data['startDate'] = $startDate;
+        $data['endDate'] = $endDate;
+        $data['left_col'] = array('date_happen_1');
+//        $data['right_col'] = array();
+        $data['content'] = 'manager/view_report_kpi_sale';
+
         $this->	load->view(_MAIN_LAYOUT_, $data);
     }
 
