@@ -879,9 +879,7 @@ class Manager extends MY_Controller {
 		$data = array_merge($this->data, $this->_get_require_data($require_model));
 		$language = $data['language_study'];
 
-//		$this->load->model('call_log_model');
         $get = $this->input->get();
-		//echo '<pre>'; print_r($get);die;
 
 		$input = array();
 		$input['select'] = 'id, name, out_report';
@@ -1046,6 +1044,9 @@ class Manager extends MY_Controller {
         	foreach ($staffs as $key_staff => $value_staff) {
 				$conditional_1 = array();
 				$conditional_1['where']['sale_staff_id'] = $value_staff['id'];
+				if ($this->role_id == 1) {
+                    $conditional_1['where']['source_id !='] = 6;
+                }
 				//$conditional_1['where_not_in']['source_id'] = $source_arr;
 				$conditional = array_merge_recursive($conditional_1, $value2);
                 $staffs[$key_staff][$key2] = $this->_query_for_report($get, $conditional);
@@ -1097,7 +1098,7 @@ class Manager extends MY_Controller {
         $data['staffs'] = $staffs;
         $data['startDate'] = $startDate;
         $data['endDate'] = $endDate;
-        $data['left_col'] = array('branch', 'date_happen_1', 'tic_report');
+        $data['left_col'] = array('branch', 'source', 'date_happen_1', 'tic_report');
         $data['right_col'] = array('is_old', 'language');
         $data['load_js'] = array('m_view_report');
         $data['content'] = 'manager/view_report';
