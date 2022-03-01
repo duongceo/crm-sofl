@@ -137,6 +137,7 @@ class Care_page extends MY_Controller {
 					'active' => 1
 				)
 			),
+            'sources' => array(),
 			'branch' => array(),
 			'language_study' => array(),
 			'level_language' => array(),
