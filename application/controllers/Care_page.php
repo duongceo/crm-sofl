@@ -41,7 +41,7 @@ class Care_page extends MY_Controller {
         $data['C3Team'] = $data['progress']['C3Team'];
         $data['C3Total'] = $data['progress']['total_kpi_mkt'];
 
-		$data['titleListContact'] = 'Danh sách contact đã nhập vào hôm nay';
+		$data['titleListContact_mkt'] = 'Danh sách contact đã nhập vào hôm nay';
 		$data['actionForm'] = 'manager/divide_contact';
 		$informModal = 'manager/modal/divide_contact';
 		$data['informModal'] = explode(' ', $informModal);
