@@ -94,27 +94,23 @@ class Care_page extends MY_Controller {
 		$data = $this->_get_all_require_data();
 		$get = $this->input->get();
 
-		$conditional['where']['care_page_staff_id !='] = '0';
+        $data['care_page_staff'] = $this->staffs_model->load_all(array('where' => array('role_id' => 11, 'active' => 1)));
+
+        $conditional['where']['care_page_staff_id !='] = '0';
 		$conditional['order'] = array('date_handover' => 'DESC');
 
 		$data_pagination = $this->_query_all_from_get($get, $conditional, $this->per_page, $offset);
 
-		/*
-         * Lấy link phân trang và danh sách contacts
-         */
+		/* Lấy link phân trang và danh sách contacts */
 		$data['pagination'] = $this->_create_pagination_link($data_pagination['total_row']);
 		$data['contacts'] = $data_pagination['data'];
 		$data['total_contact'] = $data_pagination['total_row'];
 
-		/*
-         * Filter ở cột trái và cột phải
-         */
+		/* Filter ở cột trái và cột phải */
 		$data['left_col'] = array('date_rgt', 'source', 'branch');
-        $data['right_col'] = array('language');
+        $data['right_col'] = array('language', 'care_page_staff');
 
-		/*
-         * Các trường cần hiện của bảng contact (đã có default)
-         */
+		/* Các trường cần hiện của bảng contact (đã có default) */
 		$this->table = 'selection name phone branch language level_language date_rgt date_handover';
 		$data['table'] = explode(' ', $this->table);
 
