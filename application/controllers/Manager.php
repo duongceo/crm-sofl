@@ -1356,6 +1356,7 @@ class Manager extends MY_Controller {
 
     public function view_report_payment_method() {
 		$this->load->model('paid_model');
+		$this->load->model('branch_model');
 		$this->load->model('language_study_model');
 		$require_model = array(
 			'branch' => array(),
@@ -1381,6 +1382,11 @@ class Manager extends MY_Controller {
 		$date_end = trim($dateArr[1]);
 		$date_end = strtotime(str_replace("/", "-", $date_end)) + 3600 * 24 - 1;
         $date_for_report = $this->display_date(trim($dateArr[0]), trim($dateArr[1]), 'Y-m-d');
+
+        if ($this->role_id == 12) {
+            $branch[] = array('id' => $this->branch_id, 'name' => $this->branch_model->find_branch_name($this->branch_id));
+            $data['branch'] = $branch;
+        }
 
         $cash_day = array();
 		$re = array();

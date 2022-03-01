@@ -35,6 +35,12 @@ class Care_page extends MY_Controller {
 		$this->table = 'selection name phone branch language level_language date_rgt date_handover';
 		$data['table'] = explode(' ', $this->table);
 
+        $data['progressType_mkt'] = 'Tiến độ các Team ngày hôm nay';
+        $data['progress'] = $this->GetProccessMarketerToday();
+        $data['marketers'] = $data['progress']['marketers'];
+        $data['C3Team'] = $data['progress']['C3Team'];
+        $data['C3Total'] = $data['progress']['total_kpi_mkt'];
+
 		$data['titleListContact'] = 'Danh sách contact đã nhập vào hôm nay';
 		$data['actionForm'] = 'manager/divide_contact';
 		$informModal = 'manager/modal/divide_contact';
@@ -103,8 +109,8 @@ class Care_page extends MY_Controller {
 		/*
          * Filter ở cột trái và cột phải
          */
-		$data['left_col'] = array('date_rgt');
-//        $data['right_col'] = array('');
+		$data['left_col'] = array('date_rgt', 'source', 'branch');
+        $data['right_col'] = array('language');
 
 		/*
          * Các trường cần hiện của bảng contact (đã có default)
@@ -137,4 +143,56 @@ class Care_page extends MY_Controller {
 		);
 		return array_merge($this->data, $this->_get_require_data($require_model));
 	}
+
+    protected function GetProccessMarketerToday() {
+
+        $carepage_staff = $this->staffs_model->load_all(array('where' => array('role_id' => 11, 'active' => 1)));
+
+        $total_kpi_mkt = 0;
+
+        foreach ($carepage_staff as $key => &$marketer) {
+
+            $marketer['targets'] = round($marketer['targets'] / 30, 1);
+
+            $total_kpi_mkt += $marketer['targets'];
+
+            $inputContact = array();
+
+            $inputContact['select'] = 'id';
+
+            $inputContact['where'] = array(
+
+                'care_page_staff_id' => $marketer['id'],
+
+                'date_rgt >=' => strtotime(date('d-m-Y'))
+
+            );
+
+            $today = $this->contacts_model->load_all($inputContact);
+
+            $marketer['totalC3'] = count($today);
+
+            $marketer['progress'] = ($marketer['targets'] > 0) ? round(($marketer['totalC3'] / $marketer['targets']) * 100, 2) : 'N/A';
+        }
+
+        unset($marketer);
+
+        usort($marketers, function($a, $b) {
+
+            return -$a['totalC3'] + $b['totalC3'];
+
+        });
+
+        $inputContact = array();
+
+        $inputContact['select'] = 'id';
+
+        $inputContact['where'] = array('date_rgt >' => strtotime(date('d-m-Y')));
+
+        $today = $this->contacts_model->load_all($inputContact);
+
+        $C3Team = count($today);
+
+        return array('marketers' => $carepage_staff, 'C3Team' => $C3Team, 'total_kpi_mkt' => $total_kpi_mkt);
+    }
 }

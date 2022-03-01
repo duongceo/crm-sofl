@@ -17,17 +17,6 @@
 <div class="table-responsive">
 	<table class="table table-bordered table-striped view_report">
 		<thead>
-	<!--	<tr>-->
-	<!--		<th style="background: none"></th>-->
-	<!--		--><?php //foreach ($payment_method_rgt as $value) { ?>
-	<!--			--><?php //if ($value['id'] == 4) { ?>
-	<!--				<th colspan="--><?php //echo count($account_banking)?><!--">--><?php //echo $value['method']?><!--</th>-->
-	<!--			--><?php //} ?>
-	<!--			<th>-->
-	<!--				--><?php //echo $value['method']; ?>
-	<!--			</th>-->
-	<!--		--><?php //} ?>
-	<!--	</tr>-->
 			<tr>
 				<th style="background: none" rowspan="2"></th>
 				<th rowspan="2">Tiền Mặt</th>

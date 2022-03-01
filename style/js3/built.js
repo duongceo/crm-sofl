@@ -3740,7 +3740,7 @@ $(document).on('click', '.update_data_inline', function(e) {
 	$(this).parent().html(form);
 });
 
-$(document).on('click', '.update_inline_now', function (e) {
+$(document).on('click', '.update_inline_now, .confirm_class', function (e) {
 	e.preventDefault();
 	let url =  $("#base_url").val() + 'staff_managers/class_study/update_data_inline';
 	let data_now = $(this).parent().find('input').val();
@@ -3748,6 +3748,7 @@ $(document).on('click', '.update_inline_now', function (e) {
 	let class_id = $(this).parent().parent().attr('item_id');
 	let date_update = $(this).parent().parent().attr('date_update');
 	let lesson_learned = $(this).parent().parent().attr('lesson_learned');
+	let _this = $(this);
 
 	if (column === 'note') {
         data_now = $(this).parent().find('textarea').val();
@@ -3777,6 +3778,10 @@ $(document).on('click', '.update_inline_now', function (e) {
                     content = data_now + '<br><button style="margin-right: 0" type="button" class="btn btn-primary btn-sm update_data_inline">' +
                         '        <span class="glyphicon glyphicon-edit"></span>' +
                         '    </button>';
+                }
+                if (column == 'confirm') {
+                    content = '<p class="bg-success"> Đã xác nhận </p>';
+                    _this.parent().html(content);
                 }
 
                 let today = new Date();

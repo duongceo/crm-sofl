@@ -71,7 +71,7 @@
                         <?php echo $value_paid_log['payment_method_name']?>
                     </td>
 
-                    <?php if ($this->role_id == 3 || $this->role_id == 12) { ?>
+                    <?php if ($this->role_id == 3) { ?>
                         <td class="text-center">
                             <button class="btn btn-danger btn-sm delete_common" type_delete="paid" delete_id="<?php echo $value_paid_log['id'] ?>">Xóa</button>
                         </td>
