@@ -153,6 +153,7 @@ class Student extends MY_Controller {
                 $value['date_refund'] = $money_refund[0]['day_cost'];
                 $value['bank_info'] = $money_refund[0]['bank'];
                 $value['date_paid_refund'] = $money_refund[0]['date_paid'];
+                $value['paid_status'] = $money_refund[0]['paid_status'];
             } else {
                 $value['money_refund'] = $value['date_refund'] = $value['bank_info'] = $value['date_paid_refund'] = '';
             }
