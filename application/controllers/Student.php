@@ -166,8 +166,8 @@ class Student extends MY_Controller {
 
         $data['contacts'] = $contacts;
 
-        $data['left_col'] = array('date_rgt', 'date_rgt_study', 'date_paid', 'study_date_start', 'study_date_end');
-        $data['right_col'] = array('language', 'class_study', 'is_old', 'complete_fee');
+        $data['left_col'] = array('date_rgt', 'date_rgt_study', 'search_phone_number');
+        $data['right_col'] = array('language', 'complete_fee');
 
         $this->table .= 'fee paid money_refund date_refund bank_info date_paid_refund';
         $data['table'] = explode(' ', $this->table);

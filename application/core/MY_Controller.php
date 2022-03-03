@@ -981,6 +981,12 @@ class MY_Controller extends CI_Controller {
             } else $input_get['where']['class_study_id'] = 'NONE';
         }
 
+        if (isset($get['filter_search_phone_number']) && !empty(trim($get['filter_search_phone_number']))) {
+            $search_phone = trim($get['filter_search_phone_number']);
+            $input_get['like']['phone'] = $search_phone;
+            $input_get['or_like']['phone_foreign'] = $search_phone;
+        }
+
         return array(
 
             'input_get' => $input_get,
