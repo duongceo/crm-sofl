@@ -1,4 +1,4 @@
-<td class="text-center">
+<td class="text-center cost_branch">
     <?php if (!empty($value['money_refund'])) { ?>
         <p><?php echo h_number_format($value['money_refund']); ?></p>
         <?php if ($this->role_id == '13') { ?>
