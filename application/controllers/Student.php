@@ -568,7 +568,7 @@ class Student extends MY_Controller {
             $where = array();
             if ($post['type_money'] == 'cost_branch') {
                 $where = array('id' => $post['cost_id']);
-            } elseif ($post['type_money'] == 'cost_branch') {
+            } elseif ($post['type_money'] == 'refund') {
                 $where = array('contact_id' => $post['cost_id']);
 
                 $where_contact = array('id' => $post['cost_id']);
