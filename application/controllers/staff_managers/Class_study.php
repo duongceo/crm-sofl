@@ -746,6 +746,7 @@ class Class_study extends MY_Table {
     }
 
 	public function show_student(){
+	    $this->load->model('notes_model');
         $require_model = array(
             'class_study' => array(
                 'branch_id' => $this->branch_id,
@@ -770,10 +771,26 @@ class Class_study extends MY_Table {
 		$data_pagination = $this->_query_all_from_get(array(), $input, 40, 0);
 
 		$data['pagination'] = $this->_create_pagination_link($data_pagination['total_row']);
-        $data['contacts'] = $data_pagination['data'];
+        $contacts = $data_pagination['data'];
         $data['total_contact'] = $data_pagination['total_row'];
 
-		$this->table = 'name phone address level_language fee paid fee_missing level_study_detail date_rgt_study add_contact';
+        foreach ($contacts as &$value) {
+            $input = array();
+            $input['where'] = array('contact_id' => $value['id']);
+            $input['order'] = array('id' => 'DESC');
+            $input['limit'] = array(1, 0);
+            $last_note = $this->notes_model->load_all($input);
+            $notes = '';
+            if (!empty($last_note)) {
+                $notes .= '<p>' . date('d/m/Y', $last_note[0]['time_created']) . ' => ' . $last_note[0]['content'] . '</p>';
+            }
+            $value['last_note'] = $notes;
+        }
+        unset($value);
+
+        $data['contacts'] = $contacts;
+
+		$this->table = 'name phone last_note level_language fee paid fee_missing level_study_detail date_rgt_study add_contact';
 		if ($this->role_id == 14) {
 			$this->table = 'name address date_rgt_study';
 		}

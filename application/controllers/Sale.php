@@ -102,7 +102,6 @@ class Sale extends MY_Controller {
         $this->load->model('notes_model');
         foreach ($contacts as &$value) {
             $input = array();
-            //$input['where'] = array('contact_code' => $value['phone'] . '_' . $value['course_code']);
 			$input['where'] = array('contact_id' => $value['id']);
             $input['order'] = array('id' => 'DESC');
             $last_note = $this->notes_model->load_all($input);
