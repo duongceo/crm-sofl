@@ -57,7 +57,7 @@
 							<?php echo date('d-m-Y H:i:s', $item['time_created']); ?>
 						</td>
 
-                        <?php if ($this->role_id == 5) { ?>
+                        <?php if ($this->user_id == 62) { ?>
                             <td class="text-center">
                                 <button class="btn btn-danger btn-sm delete_common" type_delete="spend" delete_id="<?php echo $item['id'] ?>">Xóa</button>
                             </td>

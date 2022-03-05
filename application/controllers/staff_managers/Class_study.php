@@ -137,10 +137,15 @@ class Class_study extends MY_Table {
 				'type' => 'custom',
 				'name_display' => 'Ghi chú'
 			),
-			'date_last_update' => array(
+            'confirm' => array(
 				'type' => 'custom',
-				'name_display' => 'Cập nhật cuối'
+				'name_display' => 'Xác nhận KG'
 			),
+//			'date_last_update' => array(
+//				'type' => 'custom',
+//				'name_display' => 'Cập nhật cuối'
+//			),
+
 		);
 		
 		if (in_array($this->role_id, [1, 6])) {
@@ -211,10 +216,10 @@ class Class_study extends MY_Table {
             unset($list_view['notes']);
         }
 
-        if ($this->role_id == 3) {
-            unset($list_view['date_last_update']);
-            $list_view = array_merge($list_view, array('confirm' => array('type' => 'custom', 'name_display' => 'Người xác nhận')));
-        }
+//        if ($this->role_id == 3) {
+//            unset($list_view['date_last_update']);
+//            $list_view = array_merge($list_view, array('confirm' => array('type' => 'custom', 'name_display' => 'Người xác nhận')));
+//        }
 
 		$this->set_list_view($list_view);
 		$this->set_model('class_study_model');

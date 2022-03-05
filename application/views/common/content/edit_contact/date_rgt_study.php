@@ -6,7 +6,7 @@
 
         <div class="input-group" style="margin: 0;">
 
-           <input type="text" class="form-control datetimepicker" name="date_rgt_study"
+           <input type="text" class="form-control datetimepicker" name="date_rgt_study" <?php echo ($this->role_id == 1) ? 'disabled' : '' ?>
 
         	<?php if ($rows['date_rgt_study'] > 0) { ?>
 

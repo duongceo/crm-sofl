@@ -1342,7 +1342,7 @@ class Manager extends MY_Controller {
         	}
 		}
 
-		//print_arr($re);
+//		print_arr($re);
 
 		$data['re'] = $re;
 		$data['total'] = $total;
@@ -1351,6 +1351,66 @@ class Manager extends MY_Controller {
 
 		$data['left_col'] = array('date_happen_1', 'source_revenue');
         $data['content'] = 'manager/view_report_revenue';
+        $this->load->view(_MAIN_LAYOUT_, $data);
+    }
+
+    function view_report_revenue_expect() {
+        $this->load->model('language_study_model');
+        $this->load->model('branch_model');
+        $require_model = array(
+            'branch' => array(
+                'where' => array(
+                    'active' => 1
+                )
+            ),
+            'language_study' => array(
+                'where' => array(
+                    'active' => 1,
+                    'out_report' => '0'
+                )
+            ),
+        );
+        $data = array_merge($this->data, $this->_get_require_data($require_model));
+
+        $get = $this->input->get();
+
+        if (isset($get['filter_date_date_happen']) && $get['filter_date_date_happen'] != '') {
+            $time = $get['filter_date_date_happen'];
+        } else {
+            $time = '01' . '/' . date('m') . '/' . date('Y') . ' - ' . date('d') . '/' . date('m') . '/' . date('Y');
+        }
+
+        $dateArr = explode('-', $time);
+        $date_from = trim($dateArr[0]);
+        $date_from = strtotime(str_replace("/", "-", $date_from));
+        $date_end = trim($dateArr[1]);
+        $date_end = strtotime(str_replace("/", "-", $date_end)) + 3600 * 24 - 1;
+
+//        $conditionArr = array(
+//            'L5' => array(
+//                'where' => array('level_contact_id' => 'L5', 'date_rgt_study >=' => $date_from, 'date_rgt_study <=' => $date_end),
+//            ),
+//        );
+        unset($get['filter_date_date_happen']);
+        foreach ($data['language_study'] as &$value_language) {
+            $conditional = array();
+            $conditional['where'] = array(
+                'language_id' => $value_language['id'],
+                'level_contact_id' => 'L5',
+                'date_rgt_study >=' => $date_from,
+                'date_rgt_study <=' => $date_end
+            );
+            $value_language['RE'] = (int) $this->_query_for_report_re($get, $conditional);
+            foreach ($data['branch'] as &$value_branch) {
+                $conditional['where']['branch_id'] = $value_branch['id'];
+                $value_branch[$value_language['id']]['RE'] = (int) $this->_query_for_report_re($get, $conditional);
+            }
+        }
+
+        $data['startDate'] = $date_from;
+        $data['endDate'] = $date_end;
+        $data['left_col'] = array('date_happen_1', 'source_revenue');
+        $data['content'] = 'manager/view_report_revenue_expect';
         $this->load->view(_MAIN_LAYOUT_, $data);
     }
 

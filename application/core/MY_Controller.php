@@ -539,7 +539,7 @@ class MY_Controller extends CI_Controller {
 		
         $input = array();
 
-        $input['select'] = 'SUM(paid) AS st_paid';
+        $input['select'] = 'SUM(fee) AS st_fee';
 
         if (!empty($condition)) {
 
@@ -554,11 +554,11 @@ class MY_Controller extends CI_Controller {
         $input_get_arr = $this->_get_query_condition_arr($get);
 
         $input = array_merge_recursive($input, $input_get_arr['input_get']);
-		//print_arr($input);
 
         $total_contact = $this->contacts_model->load_all($input);
+
 		//print_arr($total_contact);
-		return $total_contact[0]['st_paid'];
+		return $total_contact[0]['st_fee'];
 		
     }
 
