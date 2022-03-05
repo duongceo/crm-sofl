@@ -2,8 +2,11 @@
     <?php if (!empty($row['user_confirm'])) { ?>
         <p class="bg-success"> Đã xác nhận </p>
     <?php } else { ?>
-        <button style="margin-right: 0" type="button" class="btn btn-success confirm_class">
+        <p class="bg-danger"> Chưa xác nhận </p>
+        <?php if ($this->role_id == 3) { ?>
+            <button style="margin-right: 0" type="button" class="btn btn-success confirm_class">
             Xác nhận
-        </button>
+            </button>
+        <?php } ?>
     <?php } ?>
 </td>
