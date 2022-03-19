@@ -355,7 +355,7 @@ class Marketer extends MY_Controller {
 //		} else {
 //			$input['limit'] = array(31);
 //		}
-		if ($this->role_id != 6) {
+		if ($this->role_id != 6 || $this->user_id == 62) {
 			unset($input['where']['marketer_id']);
 			$marketer = $this->staffs_model->load_all(array('where' => array('role_id' => 6, 'active' => 1)));
 			$data['marketers'] = $marketer;
