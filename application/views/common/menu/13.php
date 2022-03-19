@@ -8,49 +8,31 @@
 		<h3>Menu :))</h3>
 		<?php if ($this->agent->mobile) { ?>
 			<a href="javascript:;" class="user-profile" style="font-size: 16px; color: #f0f0f0 !important;">
-
 				<img src="<?php echo base_url(); ?>style/img/logo.png" alt=""> <span> <?php echo $this->session->userdata('name'); ?> </span>
-
 			</a>
 		<?php } ?>
 	</div>
 
 	<ul class="list-unstyled components">
-
 		<li>
-
             <a href="<?php echo base_url('student/contact_refund'); ?>">
-
-                <img src="<?php echo base_url(); ?>public/images/new.png"> 
-
+                <img src="<?php echo base_url(); ?>public/images/new.png">
                 <span> Danh sách contact rút học phí </span>
-
             </a>
-
         </li>
 
 		<li>
-
 			<a href="<?php echo base_url('manager/view_report_revenue'); ?>">
-
 				<img src="<?php echo base_url(); ?>public/images/report.png">
-
 				<span> Báo cáo doanh thu </span>
-
 			</a>
-
 		</li>
 
 		<li>
-
 			<a href="<?php echo base_url('manager/view_report_payment_method'); ?>">
-
 				<img src="<?php echo base_url(); ?>public/images/dollar.png">
-
 				<span> Báo cáo doanh thu - HTTT </span>
-
 			</a>
-
 		</li>
 
 		<li>
@@ -68,17 +50,10 @@
         </li>
 
 		<li>
-
 			<a href="<?php echo base_url('home/logout'); ?>">
-
 				<img src="<?php echo base_url(); ?>public/images/logout.png">
-
 				<span> Đăng xuất  </span>
-
 			</a>
-
 		</li>
-
 	</ul>
-
 </nav>

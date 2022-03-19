@@ -472,6 +472,11 @@ class Student extends MY_Controller {
             $input['where']['paid_status'] = $get['filter_paid_status'];
         }
 
+        if (isset($get['filter_refund']) && !empty($get['filter_refund'])) {
+            unset($input['where']['contact_id']);
+            $input['where']['contact_id !='] = '0';
+        }
+
 		if ($this->role_id != 12) {
 			unset($input['where']['branch_id']);
 			if (isset($get['filter_branch_id']) && !empty($get['filter_branch_id'])) {
@@ -554,7 +559,7 @@ class Student extends MY_Controller {
 		$data['startDate'] = isset($date_from) ? $date_from : '0';
 		$data['endDate'] = isset($date_end) ? $date_end : '0';
 		$data['left_col'] = array('date_happen_1', 'branch', 'paid_status');
-		$data['right_col'] = array('sale_study_abroad');
+		$data['right_col'] = array('sale_study_abroad', 'refund');
 		$data['content'] = 'student/cost_branch';
 
 		$this->load->view(_MAIN_LAYOUT_, $data);
