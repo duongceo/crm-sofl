@@ -4,7 +4,7 @@
 	<h1 class="text-center marginbottom35" style="color: #04a2df"> Tổng chi tiêu : <?php echo $total_cost; ?> VNĐ</h1>
 </div>
 
-<div class="container" style="max-width: 70%" >
+<div class="container" >
     <div>
         <form action="#" method="GET" id="action_contact" class="form-inline">
             <?php $this->load->view('common/content/filter'); ?>
