@@ -533,6 +533,10 @@ class Student extends MY_Controller {
 					$input_report['where_in'] = $input['where_in'];
 				}
 
+                if (isset($get['filter_refund']) && !empty($get['filter_refund'])) {
+                    $input_report['where']['contact_id !='] = '0';
+                }
+
 				$input_cost = array_merge_recursive($input_report, array('where' => array('revenue_cost' => '0')));
 //				$input_revenue = array_merge_recursive($input_report, array('where' => array('revenue_cost' => 1, 'paid_status' => 1)));
 
