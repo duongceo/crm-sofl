@@ -641,14 +641,14 @@ class Common extends MY_Controller {
                 	$param['level_contact_detail'] = '';
 				}
 				
-			} else if (isset($post['date_rgt_study']) && $post['date_rgt_study'] != '' && $post['level_student_id'] != 'L8.1') {
+			} elseif (isset($post['date_rgt_study']) && $post['date_rgt_study'] != '' && $post['level_student_id'] != 'L8.1') {
 				$result['success'] = 0;
 				$result['message'] = 'Học viên đã đăng ký thì mới có ngày đăng ký học';
 				echo json_encode($result);
 				die;
 			}
 
-            $param['date_rgt_study'] = (isset($post['date_rgt_study']) && $post['date_rgt_study'] != '') ? strtotime($post['date_rgt_study']) : '';
+            $param['date_rgt_study'] = (isset($post['date_rgt_study']) && $post['date_rgt_study'] != '') ? strtotime($post['date_rgt_study']) : time();
 
             if ($post['paid_today'] != 0) {
 				$post['paid_today'] = str_replace(',', '', $post['paid_today']);
@@ -688,7 +688,9 @@ class Common extends MY_Controller {
 //			}
             $param['last_activity'] = time();
             $where = array('id' => $id);
+            print_arr($param);
             $this->contacts_model->update($where, $param);
+
 			if (!empty($post['level_study_id']) && !empty($post['class_study_id']) && $post['level_study_id'] != $rows[0]['level_study_id']) {
                 $this->set_log_study($id, $post['class_study_id'], $post['level_study_id'], $post['date_action_of_study']);
             }
