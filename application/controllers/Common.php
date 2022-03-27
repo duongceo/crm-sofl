@@ -688,7 +688,7 @@ class Common extends MY_Controller {
 //			}
             $param['last_activity'] = time();
             $where = array('id' => $id);
-            print_arr($param);
+
             $this->contacts_model->update($where, $param);
 
 			if (!empty($post['level_study_id']) && !empty($post['class_study_id']) && $post['level_study_id'] != $rows[0]['level_study_id']) {
