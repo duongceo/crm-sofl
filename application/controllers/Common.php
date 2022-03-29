@@ -648,7 +648,9 @@ class Common extends MY_Controller {
 				die;
 			}
 
-            $param['date_rgt_study'] = (isset($post['date_rgt_study']) && $post['date_rgt_study'] != '') ? strtotime($post['date_rgt_study']) : time();
+			if ($post['level_contact_id'] == 'L5' || $post['level_student_id'] == 'L8.1') {
+                $param['date_rgt_study'] = (isset($post['date_rgt_study']) && $post['date_rgt_study'] != '') ? strtotime($post['date_rgt_study']) : time();
+            }
 
             if ($post['paid_today'] != 0) {
 				$post['paid_today'] = str_replace(',', '', $post['paid_today']);
