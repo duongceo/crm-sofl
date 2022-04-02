@@ -266,9 +266,6 @@ class Teacher extends MY_Table {
         if (isset($get['filter_language_id']) && !empty($get['filter_language_id'])) {
             $input_teacher['where_in']['language_id'] = $get['filter_language_id'];
         }
-        if (isset($get['filter_branch_id']) && !empty($get['filter_branch_id'])) {
-            $input_teacher['where_in']['branch_id'] = $get['filter_branch_id'];
-        }
 
         $data['rows'] = $this->{$this->model}->load_all($input_teacher);
 
@@ -291,6 +288,9 @@ class Teacher extends MY_Table {
                 'lesson_learned !=' => '0'
             );
             $input_class['where_in']['character_class_id'] = array(2, 3);
+            if (isset($get['filter_branch_id']) && !empty($get['filter_branch_id'])) {
+                $input_class['where_in']['branch_id'] = $get['filter_branch_id'];
+            }
             $class_teacher_owner = $this->class_study_model->load_all($input_class);
 
             $total_paid = 0;
