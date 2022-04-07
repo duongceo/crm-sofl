@@ -49,6 +49,13 @@
             </a>
         </li>
 
+        <li>
+            <a href="<?php echo base_url('manager/statistic_refund_student'); ?>">
+                <img src="<?php echo base_url(); ?>public/images/view-all.png">
+                <span> Thống kê tiền hoàn học phí học viên </span>
+            </a>
+        </li>
+
 		<li>
 			<a href="<?php echo base_url('home/logout'); ?>">
 				<img src="<?php echo base_url(); ?>public/images/logout.png">

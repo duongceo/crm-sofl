@@ -3236,6 +3236,62 @@ class Manager extends MY_Controller {
         $this->	load->view(_MAIN_LAYOUT_, $data);
     }
 
+    public function statistic_refund_student() {
+        $this->load->model('cost_branch_model');
+
+        $require_model = array(
+            'branch' => array(
+                'where' => array(
+                    'active' => 1
+                )
+            )
+        );
+        $data = array_merge($this->data, $this->_get_require_data($require_model));
+
+        $get = $this->input->get();
+
+        /* Mảng chứa các ngày lẻ */
+        if (isset($get['filter_date_date_happen']) && $get['filter_date_date_happen'] != '') {
+            $time = $get['filter_date_date_happen'];
+        } else {
+            $time = '01' . '/' . date('m') . '/' . date('Y') . ' - ' . date('d') . '/' . date('m') . '/' . date('Y');
+        }
+
+        $dateArr = explode('-', $time);
+        $date_from = strtotime(str_replace("/", "-", trim($dateArr[0])));
+        $date_end = strtotime(str_replace("/", "-", trim($dateArr[1]))) + 3600 * 24 - 1;
+
+        unset($get['filter_date_date_happen']);
+
+        if ($this->role_id != 12) {
+            $branch = $data['branch'];
+        } else {
+            $branch[] = array('id' => $this->branch_id, 'name' => $this->branch_model->find_branch_name($this->branch_id));
+        }
+
+        foreach ($branch as $key_branch => &$value_branch) {
+            $input = array();
+            $input_report['select'] = 'SUM(cost) AS COST';
+            $input['where'] = array(
+                'date_paid >=' => $date_from,
+                'date_paid <=' => $date_end,
+                'branch_id' => $value_branch['id'],
+                'contact_id !=' => '0',
+                'paid_status' => 1
+            );
+            $value_branch['cost'] = $this->cost_branch_model->load_all($input)[0]['COST'];
+        }
+
+        $data['branch'] = $branch;
+        $data['startDate'] = $date_from;
+        $data['endDate'] = $date_end;
+        $data['left_col'] = array('date_happen_1');
+//        $data['right_col'] = array('language');
+        $data['content'] = 'manager/statistic_refund_student';
+
+        $this->	load->view(_MAIN_LAYOUT_, $data);
+    }
+
 	private function get_contact_id($class_id) {
 		$input_contact = array();
 		$input_contact['select'] = 'id';
@@ -3686,138 +3742,7 @@ class Manager extends MY_Controller {
         die;
     }
 	/* ====================xuất file excel (end)============================== */
-	
-//	public function view_report_power_bi() {
-//		//$data['bi'] = '<iframe width="100%" height="600" src="https://app.powerbi.com/view?r=eyJrIjoiMGI4ZTA3NjMtNmJmOS00MGIwLWE4NDUtZTBiOWQ4YTZiMzZhIiwidCI6Ijc3MWEwYTMzLTUxY2ItNGNiNS1hZGQ2LWVmNGIwNzJiYThkOSIsImMiOjEwfQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe>';
-//		$data['bi'] = '<iframe width="100%" height="600" src="https://app.powerbi.com/view?r=eyJrIjoiMmI5NmE3OTgtNTFmZS00NjA1LTgxMjktZjgxNWJmZTQzZGY0IiwidCI6Ijc3MWEwYTMzLTUxY2ItNGNiNS1hZGQ2LWVmNGIwNzJiYThkOSIsImMiOjEwfQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe>';
-//		$data['slide_menu'] = 'manager/common/menu';
-//		$data['top_nav'] = 'manager/common/top-nav';
-//		$data['content'] = 'manager/view_report_power_bi';
-//		$this->load->view(_MAIN_LAYOUT_, $data);
-//	}
 
-//    public function detail_contact() {
-//        $post = $this->input->post();
-//        // echo "<pre>"; print_r($post);die();
-//
-//        $this->load->model('sources_model');
-//        $input_source['where'] = array();
-//        $source = $this->sources_model->load_all($input_source);
-//
-//        $this->load->model('call_status_model');
-//        $input_call_stt['where'] = array();
-//        $call_stt = $this->call_status_model->load_all($input_call_stt);
-//
-//        if (isset($post['time_start']) || isset($post['time_end'])) {
-//        	$date_start = $post['time_start'];
-//        	$date_end = $post['time_end'];
-//
-//        } else {
-//	        $date_start = strtotime(date('01-m-Y'));
-//	        // $date_start = 1561939200;
-//	        $date_end = mktime(23, 59, 59, date('m'), date('d'), date('Y'));
-//	        // $date_end = 1564531200;
-//        }
-//        //echo "<pre>"; print_r($call_stt);die();
-//
-//		switch ($post['type_contact']) {
-//            case 'L1':
-//                foreach ($source as $key => $value) {
-//					$input_L1['where'] = array(
-//						'source_id' => $value['id'],
-//						'sale_staff_id' => $post['staff_id'],
-//						'date_rgt >=' => $date_start,
-//						'date_rgt <=' => $date_end,
-//						// 'date_handover >=' => $date_start,
-//						// 'date_handover <=' => $date_end,
-
-//						'duplicate_id' => '0'
-//					);
-//					$L1 = $this->contacts_model->load_all($input_L1);
-//
-//					$sum_L[] = array(
-//						'head' => $this->sources_model->find_source_name($value['id']),
-//						'sum' => count($L1),
-//						'type_ct' => 'L1'
-//					);
-//				}
-//				break;
-//
-//            case 'L2':
-//				foreach ($call_stt as $key => $value) {
-//					$input_L2['where'] = array(
-//						'call_status_id' => $value['id'],
-//						'sale_staff_id' => $post['staff_id'],
-//						'date_rgt >=' => $date_start,
-//						'date_rgt <=' => $date_end,
-//						// 'date_handover >=' => $date_start,
-//						// 'date_handover <=' => $date_end,
-
-//						'duplicate_id' => '0'
-//					);
-//					$L2 = $this->contacts_model->load_all($input_L2);
-//
-//					$sum_L[] = array(
-//						'head' => $this->call_status_model->find_call_status_desc($value['id']),
-//						'sum' => count($L2),
-//						'type_ct' => 'L2'
-//					);
-//				}
-//				break;
-//
-//			case 'L6':
-//				foreach ($source as $key => $value) {
-//					$input_L6['where'] = array(
-//						'source_id' => $value['id'],
-//						'sale_staff_id' => $post['staff_id'],
-//						// 'date_rgt >=' => $date_start,
-//						// 'date_rgt <=' => $date_end,
-//						'date_rgt >=' => $date_start,
-//						'date_rgt <=' => $date_end,
-
-//						'duplicate_id' => '0',
-//						'call_status_id' => _DA_LIEN_LAC_DUOC_,
-//						'ordering_status_id' => _DONG_Y_MUA_
-//					);
-//					$L6 = $this->contacts_model->load_all($input_L6);
-//
-//					$sum_L[] = array(
-//						'head' => $this->sources_model->find_source_name($value['id']),
-//						'sum' => count($L6),
-//						'type_ct' => 'L6'
-//					);
-//				}
-//				break;
-//        }
-//
-//       // echo '<pre>';print_r($sum_L);die;
-//
-//        $body = '<table class="table table-bordered table-striped table-hover table-view-2">
-//
-//				<thead>
-//					<tr>';
-//						foreach ($sum_L as $key => $value) {
-//							$body .= '<th>' . $value['head'] . '</th>';
-//
-//						}
-//
-//					$body .= '</tr>
-//
-//				</thead>
-//
-//				<tbody>';
-//
-//					foreach ($sum_L as $key => $value) {
-//						$body .= '<td class="text-center"> <strong>'.$value['sum'].'</strong> - <i>'.(round($value['sum']/$post['total'], 4)*100).'% </i>'.'</td>';
-//					}
-//
-//			   $body .= '</tbody>
-//
-//			</table>';
-//
-//      	echo $body;
-//
-//    }
 
 
 }
