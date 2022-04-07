@@ -23,7 +23,7 @@
             <tr>
                 <td style="background-color: #8aa6c1"> <?php echo $value_branch['name']; ?> </td>
                 <td>
-                    <?php echo $value_branch['cost']; ?>
+                    <?php echo h_number_format($value_branch['cost']); ?>
                 </td>
             </tr>
         <?php } ?>
