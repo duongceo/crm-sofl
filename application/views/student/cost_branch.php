@@ -45,7 +45,7 @@
                             <td class="text-center">
                                 <?php echo h_number_format($item['cost']); ?>
                             </td>
-                            <td class="text-justify">
+                            <td>
                                 <?php echo $item['bank']; ?>
                             </td>
                             <td class="text-justify">

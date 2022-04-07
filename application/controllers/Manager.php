@@ -3271,7 +3271,7 @@ class Manager extends MY_Controller {
 
         foreach ($branch as $key_branch => &$value_branch) {
             $input = array();
-            $input_report['select'] = 'SUM(cost) AS COST';
+            $input['select'] = 'SUM(cost) AS COST';
             $input['where'] = array(
                 'date_paid >=' => $date_from,
                 'date_paid <=' => $date_end,
@@ -3279,7 +3279,8 @@ class Manager extends MY_Controller {
                 'contact_id !=' => '0',
                 'paid_status' => 1
             );
-            $value_branch['cost'] = $this->cost_branch_model->load_all($input)[0]['COST'];
+            $cost = $this->cost_branch_model->load_all($input);
+            $value_branch['cost'] = $cost[0]['COST'];
         }
 
         $data['branch'] = $branch;
