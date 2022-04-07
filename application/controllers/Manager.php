@@ -3269,6 +3269,7 @@ class Manager extends MY_Controller {
             $branch[] = array('id' => $this->branch_id, 'name' => $this->branch_model->find_branch_name($this->branch_id));
         }
 
+        $total_cost = 0;
         foreach ($branch as $key_branch => &$value_branch) {
             $input = array();
             $input['select'] = 'SUM(cost) AS COST';
@@ -3281,9 +3282,11 @@ class Manager extends MY_Controller {
             );
             $cost = $this->cost_branch_model->load_all($input);
             $value_branch['cost'] = $cost[0]['COST'];
+            $total_cost += $value_branch['cost'];
         }
 
         $data['branch'] = $branch;
+        $data['total_cost'] = $total_cost;
         $data['startDate'] = $date_from;
         $data['endDate'] = $date_end;
         $data['left_col'] = array('date_happen_1');

@@ -1,7 +1,7 @@
 
 <div class="row">
     <div class="col-md-10 col-md-offset-1">
-        <h3 class="text-center marginbottom20"> Báo cáo trạng thái chăm sóc lớp học từ ngày <?php echo date('d-m-Y', $startDate); ?> đến ngày <?php echo date('d-m-Y', $endDate); ?></h3>
+        <h3 class="text-center marginbottom20"> Thống kê tiền hoàn học phí từ ngày <?php echo date('d-m-Y', $startDate); ?> đến ngày <?php echo date('d-m-Y', $endDate); ?></h3>
     </div>
 </div>
 
@@ -19,14 +19,18 @@
         </thead>
 
         <tbody>
-        <?php foreach ($branch as $key_branch => $value_branch) { ?>
+            <?php foreach ($branch as $key_branch => $value_branch) { ?>
+                <tr>
+                    <td style="background-color: #8aa6c1"> <?php echo $value_branch['name']; ?> </td>
+                    <td>
+                        <?php echo h_number_format($value_branch['cost']); ?>
+                    </td>
+                </tr>
+            <?php } ?>
             <tr>
-                <td style="background-color: #8aa6c1"> <?php echo $value_branch['name']; ?> </td>
-                <td>
-                    <?php echo h_number_format($value_branch['cost']); ?>
-                </td>
+                <td style="background-color: #3a87ad"><h5>Tổng</h5></td>
+                <td><?php echo h_number_format($total_cost) ?></td>
             </tr>
-        <?php } ?>
         </tbody>
     </table>
 </div>
