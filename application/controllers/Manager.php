@@ -3355,8 +3355,8 @@ class Manager extends MY_Controller {
                 'contact_id' => '0',
                 'paid_status' => 1
             );
-            $cost = $this->cost_branch_model->load_all($input);
-            $value_branch['cost_branch'] = $cost[0]['COST'];
+            $cost_branch = $this->cost_branch_model->load_all($input);
+            $value_branch['cost_branch'] = $cost_branch[0]['COST'];
             $data['total_cost_branch'] += $value_branch['cost_branch'];
 
             $input = array();
@@ -3368,8 +3368,8 @@ class Manager extends MY_Controller {
                 'mechanism' => 2
             );
 
-            $cost = $this->mechanism_model->load_all($input);
-            $value_branch['salary_teacher'] = $cost[0]['salary_teacher'];
+            $salary_teacher = $this->mechanism_model->load_all($input);
+            $value_branch['salary_teacher'] = $salary_teacher[0]['salary_teacher'];
             $data['total_salary_teacher'] += $value_branch['salary_teacher'];
 
             $input = array();
@@ -3379,8 +3379,8 @@ class Manager extends MY_Controller {
                 'day_spend <=' => $date_end
             );
 
-            $cost = $this->spending_model->load_all($input);
-            $value_branch['spend_mkt'] = $cost[0]['spend_mkt'];
+            $spend_mkt = $this->spending_model->load_all($input);
+            $value_branch['spend_mkt'] = $spend_mkt[0]['spend_mkt'];
             $data['total_spend_mkt'] += $value_branch['spend_mkt'];
 
             $input_re = array();
@@ -3391,7 +3391,7 @@ class Manager extends MY_Controller {
                 'branch_id' => $value_branch['id'],
             );
 
-            $re = $this->paid_model->load_all($input_re)[0]['RE'];
+            $re = $this->paid_model->load_all($input_re);
             $value_branch['RE'] = $re[0]['RE'];
             $data['total_re'] += $value_branch['RE'];
         }
