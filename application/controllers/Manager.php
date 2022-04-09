@@ -3393,7 +3393,7 @@ class Manager extends MY_Controller {
         );
 
         $spend_mkt = $this->spending_model->load_all($input);
-        $data['total_spend_mkt'] = $spend_mkt['spend_mkt'];
+        $data['total_spend_mkt'] = $spend_mkt[0]['spend_mkt'];
 
         $data['branch'] = $branch;
         $data['startDate'] = $date_from;
