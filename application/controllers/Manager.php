@@ -3372,17 +3372,6 @@ class Manager extends MY_Controller {
             $value_branch['salary_teacher'] = $salary_teacher[0]['salary_teacher'];
             $data['total_salary_teacher'] += $value_branch['salary_teacher'];
 
-            $input = array();
-            $input['select'] = 'SUM(spend) AS spend_mkt';
-            $input['where'] = array(
-                'day_spend >=' => $date_from,
-                'day_spend <=' => $date_end
-            );
-
-            $spend_mkt = $this->spending_model->load_all($input);
-            $value_branch['spend_mkt'] = $spend_mkt[0]['spend_mkt'];
-            $data['total_spend_mkt'] += $value_branch['spend_mkt'];
-
             $input_re = array();
             $input_re['select'] = 'SUM(paid) as RE';
             $input_re['where'] = array(
@@ -3395,6 +3384,16 @@ class Manager extends MY_Controller {
             $value_branch['RE'] = $re[0]['RE'];
             $data['total_re'] += $value_branch['RE'];
         }
+
+        $input = array();
+        $input['select'] = 'SUM(spend) AS spend_mkt';
+        $input['where'] = array(
+            'day_spend >=' => $date_from,
+            'day_spend <=' => $date_end
+        );
+
+        $spend_mkt = $this->spending_model->load_all($input);
+        $data['total_spend_mkt'] = $spend_mkt['spend_mkt'];
 
         $data['branch'] = $branch;
         $data['startDate'] = $date_from;
