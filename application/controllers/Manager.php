@@ -3296,6 +3296,116 @@ class Manager extends MY_Controller {
         $this->	load->view(_MAIN_LAYOUT_, $data);
     }
 
+    public function view_report_finance() {
+        $this->load->model('cost_branch_model');
+        $this->load->model('spending_model');
+        $this->load->model('mechanism_model');
+        $this->load->model('paid_model');
+
+        $require_model = array(
+            'branch' => array(
+                'where' => array(
+                    'active' => 1
+                )
+            )
+        );
+        $data = array_merge($this->data, $this->_get_require_data($require_model));
+
+        $get = $this->input->get();
+
+        /* Mảng chứa các ngày lẻ */
+        if (isset($get['filter_date_date_happen']) && $get['filter_date_date_happen'] != '') {
+            $time = $get['filter_date_date_happen'];
+        } else {
+            $time = '01' . '/' . date('m') . '/' . date('Y') . ' - ' . date('d') . '/' . date('m') . '/' . date('Y');
+        }
+
+        $dateArr = explode('-', $time);
+        $date_from = strtotime(str_replace("/", "-", trim($dateArr[0])));
+        $date_end = strtotime(str_replace("/", "-", trim($dateArr[1]))) + 3600 * 24 - 1;
+
+        unset($get['filter_date_date_happen']);
+
+        if ($this->role_id != 12) {
+            $branch = $data['branch'];
+        } else {
+            $branch[] = array('id' => $this->branch_id, 'name' => $this->branch_model->find_branch_name($this->branch_id));
+        }
+
+        foreach ($branch as $key_branch => &$value_branch) {
+            $input = array();
+            $input['select'] = 'SUM(cost) AS REFUND';
+            $input['where'] = array(
+                'date_paid >=' => $date_from,
+                'date_paid <=' => $date_end,
+                'branch_id' => $value_branch['id'],
+                'contact_id !=' => '0',
+                'paid_status' => 1
+            );
+            $cost = $this->cost_branch_model->load_all($input);
+            $value_branch['refund'] = $cost[0]['REFUND'];
+            $data['total_refund'] += $value_branch['refund'];
+
+            $input = array();
+            $input['select'] = 'SUM(cost) AS COST';
+            $input['where'] = array(
+                'day_cost >=' => $date_from,
+                'day_cost <=' => $date_end,
+                'branch_id' => $value_branch['id'],
+                'contact_id' => '0',
+                'paid_status' => 1
+            );
+            $cost = $this->cost_branch_model->load_all($input);
+            $value_branch['cost_branch'] = $cost[0]['COST'];
+            $data['total_cost_branch'] += $value_branch['cost_branch'];
+
+            $input = array();
+            $input['select'] = 'SUM(money) AS salary_teacher';
+            $input['where'] = array(
+                'time_created >=' => $date_from,
+                'time_created <=' => $date_end,
+                'branch_id' => $value_branch['id'],
+                'mechanism' => 2
+            );
+
+            $cost = $this->mechanism_model->load_all($input);
+            $value_branch['salary_teacher'] = $cost[0]['salary_teacher'];
+            $data['total_salary_teacher'] += $value_branch['salary_teacher'];
+
+            $input = array();
+            $input['select'] = 'SUM(spend) AS spend_mkt';
+            $input['where'] = array(
+                'day_spend >=' => $date_from,
+                'day_spend <=' => $date_end
+            );
+
+            $cost = $this->spending_model->load_all($input);
+            $value_branch['spend_mkt'] = $cost[0]['spend_mkt'];
+            $data['total_spend_mkt'] += $value_branch['spend_mkt'];
+
+            $input_re = array();
+            $input_re['select'] = 'SUM(paid) as RE';
+            $input_re['where'] = array(
+                'time_created >=' => $date_from,
+                'time_created <=' => $date_end,
+                'branch_id' => $value_branch['id'],
+            );
+
+            $re = $this->paid_model->load_all($input_re)[0]['RE'];
+            $value_branch['RE'] = $re[0]['RE'];
+            $data['total_re'] += $value_branch['RE'];
+        }
+
+        $data['branch'] = $branch;
+        $data['startDate'] = $date_from;
+        $data['endDate'] = $date_end;
+        $data['left_col'] = array('date_happen_1');
+//        $data['right_col'] = array('language');
+        $data['content'] = 'manager/view_report_finance';
+
+        $this->	load->view(_MAIN_LAYOUT_, $data);
+    }
+
 	private function get_contact_id($class_id) {
 		$input_contact = array();
 		$input_contact['select'] = 'id';

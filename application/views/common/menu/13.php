@@ -56,6 +56,13 @@
             </a>
         </li>
 
+        <li>
+            <a href="<?php echo base_url('manager/view_report_finance'); ?>">
+                <img src="<?php echo base_url(); ?>public/images/view-all.png">
+                <span> Báo cáo tài chính kinh doanh </span>
+            </a>
+        </li>
+
 		<li>
 			<a href="<?php echo base_url('home/logout'); ?>">
 				<img src="<?php echo base_url(); ?>public/images/logout.png">
