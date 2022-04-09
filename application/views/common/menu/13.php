@@ -57,6 +57,13 @@
         </li>
 
         <li>
+            <a href="<?php echo base_url('manager/view_report_salary_teacher'); ?>">
+                <img src="<?php echo base_url(); ?>public/images/view-all.png">
+                <span> Thống kê tiền lương giáo viên </span>
+            </a>
+        </li>
+
+        <li>
             <a href="<?php echo base_url('manager/view_report_finance'); ?>">
                 <img src="<?php echo base_url(); ?>public/images/view-all.png">
                 <span> Báo cáo tài chính kinh doanh </span>
