@@ -59,7 +59,7 @@
         <li>
             <a href="<?php echo base_url('manager/view_report_salary_teacher'); ?>">
                 <img src="<?php echo base_url(); ?>public/images/view-all.png">
-                <span> Thống kê tiền lương giáo viên </span>
+                <span> Thống kê tiền lương giáo viên theo cơ sở </span>
             </a>
         </li>
 
