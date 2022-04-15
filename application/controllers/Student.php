@@ -995,9 +995,9 @@ class Student extends MY_Controller {
             $data['student'] = $student[0];
             $data['class'] = $class[0];
 
-            if (in_array($data['student'][0]['language_id'], array(1, 13))) {
+            if (in_array($data['student']['language_id'], array(1, 13))) {
                 $this->load->view('student/feedback/han', $data);
-            } elseif (in_array($data['student'][0]['language_id'], array(2, 14))) {
+            } elseif (in_array($data['student']['language_id'], array(2, 14))) {
                 $this->load->view('student/feedback/nhat', $data);
             } else {
                 $this->load->view('student/feedback/trung', $data);
