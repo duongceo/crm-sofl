@@ -292,6 +292,26 @@ ul.list-items > li:last-child {
     padding-left: 10px;
 }
 
+.bg-han{
+    background: #fff url(../images/bg-han.png) no-repeat;
+    min-height: 150px;
+    max-width: 594px;
+    margin: auto;
+    padding-top: 150px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.bg-trung{
+    background: #fff url(../images/bg-trung.png) no-repeat;
+    min-height: 150px;
+    max-width: 594px;
+    margin: auto;
+    padding-top: 150px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
 .form{
       background: url(../images/form.png) top right 50px no-repeat;
       

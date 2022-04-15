@@ -12,7 +12,7 @@
 
     <body>
         <div class="wraper">
-            <div class="bg-do">
+            <div class="bg-trung">
                 <div class="">
                     <div class="row can-deu">
                         <div class="col-md-20 form ">
