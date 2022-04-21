@@ -462,7 +462,8 @@ class Student extends MY_Controller {
 			'branch_id' => $this->branch_id,
             'contact_id' => '0'
 		);
-        $input['limit'] = array(60, 0);
+
+        $input['limit'] = (!empty($get['filter_number_records'])) ? array($get['filter_number_records'], 0) : array(150, 0);
 
         if (isset($get['filter_sale_study_abroad']) && !empty($get['filter_sale_study_abroad'])) {
             $input['where']['user_id'] = $get['filter_sale_study_abroad'];
