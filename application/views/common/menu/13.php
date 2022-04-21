@@ -15,6 +15,21 @@
 
 	<ul class="list-unstyled components">
 		<li>
+			<a href="#home_1" data-toggle="collapse" aria-expanded="false">
+				<img src="<?php echo base_url(); ?>public/images/report.png">
+				<span>Quản lý</span>
+			</a>
+			<ul class="collapse list-unstyled" id="home_1">
+				<li>
+					<a href="<?php echo base_url('staff_managers/staff/view_salary_staff'); ?>">
+						<img src="<?php echo base_url(); ?>public/images/view-all.png">
+						<span> Lương nhân viên </span>
+					</a>
+				</li>
+			</ul>
+		</li>
+
+		<li>
             <a href="<?php echo base_url('student/contact_refund'); ?>">
                 <img src="<?php echo base_url(); ?>public/images/new.png">
                 <span> Danh sách contact rút học phí </span>

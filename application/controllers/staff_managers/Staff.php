@@ -274,4 +274,72 @@ class Staff extends MY_Table {
 		}
 	}
 
+	public function view_salary_staff() {
+		$this->load->model('salary_staff_model');
+
+		$data = $this->data;
+
+		$get = $this->input->get();
+
+		if (isset($get['filter_date_date_happen']) && $get['filter_date_date_happen'] != '') {
+			$time = $get['filter_date_date_happen'];
+		} else {
+			$time = '01' . '/' . date('m') . '/' . date('Y') . ' - ' . date('d') . '/' . date('m') . '/' . date('Y');
+		}
+
+		$dateArr = explode('-', $time);
+		$date_from_arr = trim($dateArr[0]);
+		$date_from = strtotime(str_replace("/", "-", $date_from_arr));
+		$date_end_arr = trim($dateArr[1]);
+		$date_end = strtotime(str_replace("/", "-", $date_end_arr)) + 3600 * 24 - 1;
+
+		$input = array();
+		$input['where'] = array(
+			'day_salary >=' => $date_from,
+			'day_salary <=' => $date_end,
+		);
+		$input['limit'] = array(100, 0);
+
+		if (isset($get['filter_search_name']) && !empty($get['filter_search_name'])) {
+			$input['like']['name'] = $get['filter_search_name'];
+		}
+
+		$input['order']['day_salary'] = 'desc';
+
+		$cost = $this->salary_staff_model->load_all($input);
+
+		$post = $this->input->post();
+		if (isset($post) && !empty($post)) {
+			$param['name'] = $post['name'];
+			$param['salary_basic'] = str_replace(',', '', $post['salary_basic']);
+			$param['work_per_month'] = $post['work_per_month'];
+			$param['work_diligence'] = $post['work_diligence'];
+			$param['work_OT'] = $post['work_OT'];
+			$param['punish_late'] = str_replace(',', '', $post['punish_late']);
+			$param['com'] = str_replace(',', '', $post['com']);
+			$param['kpi_per_kol'] = str_replace(',', '', $post['kpi_per_kol']);
+			$param['union'] = str_replace(',', '', $post['union']);
+			$param['cost_other'] = str_replace(',', '', $post['cost_other']);
+			$param['insurance'] = str_replace(',', '', $post['insurance']);
+			$param['allowance'] = str_replace(',', '', $post['allowance']);
+			$param['salary_other'] = str_replace(',', '', $post['salary_other']);
+			$param['day_salary'] = strtotime(str_replace("/", "-", $post['day_salary']));
+			$param['time_created'] = time();
+			$param['user_id'] = $this->user_id;
+			$param['day'] = date('d-m-Y', strtotime($post['day_salary']));
+			$param['on_leave'] = $post['on_leave'];
+
+			$this->salary_staff_model->insert($param);
+			redirect(base_url('staff_managers/staff/view_salary_staff'));
+		}
+
+		$data['cost'] = $cost;
+		$data['startDate'] = isset($date_from) ? $date_from : '0';
+		$data['endDate'] = isset($date_end) ? $date_end : '0';
+		$data['left_col'] = array('date_happen_1');
+		$data['content'] = 'staff_managers/staff/view_salary_staff';
+
+		$this->load->view(_MAIN_LAYOUT_, $data);
+	}
+
 }
