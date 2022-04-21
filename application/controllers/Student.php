@@ -460,7 +460,6 @@ class Student extends MY_Controller {
 			'day_cost >=' => $date_from,
 			'day_cost <=' => $date_end,
 			'branch_id' => $this->branch_id,
-            'contact_id' => '0'
 		);
 
         $input['limit'] = (!empty($get['filter_number_records'])) ? array($get['filter_number_records'], 0) : array(150, 0);
@@ -474,7 +473,6 @@ class Student extends MY_Controller {
         }
 
         if (isset($get['filter_refund']) && !empty($get['filter_refund'])) {
-            unset($input['where']['contact_id']);
             $input['where']['contact_id !='] = '0';
         }
 
