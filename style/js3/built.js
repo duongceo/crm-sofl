@@ -429,93 +429,6 @@ if ($("#input_controller").val() == 'sale' || ($("#input_controller").val() == '
     setInterval(noti, 10000);
 }
 
-/*
-$(document).on('click', '.delete_one_contact_admin', e => {
-    var r = confirm("Bạn có chắc chắn muốn xóa contact này không?");
-    if (r == true) {
-        var del = $(e.target);
-        var contact_id = $(e.target).attr("contact_id");
-        $.ajax({
-            type: "POST",
-            url: $("#base_url").val() + "admin/delete_one_contact",
-            data: {
-                contact_id: contact_id
-            },
-            success: data => {
-                console.log(data);
-                if (data === '1')
-                {
-                    del.parent().parent().hide();
-                    //location.reload();
-                } else {
-                    alert(data);
-                }
-            },
-            error: errorThrown => alert(errorThrown)
-        });
-        return false;
-    }
-});
-$(document).on('click', '.delete_forever_one_contact_admin', function (e) {
-    var r = confirm("Bạn có chắc chắn muốn xóa contact này không?");
-    if (r == true) {
-        var del = $(this);
-        var contact_id = $(this).attr("contact_id");
-        e.preventDefault();
-        $.ajax({
-            type: "POST",
-            url: $("#base_url").val() + "admin/delete_forever_one_contact",
-            data: {
-                contact_id: contact_id
-            },
-            success: data => {
-                if (data === '1')
-                {
-                    del.parent().parent().hide();
-                    //location.reload();
-                } else {
-                    alert(data);
-                }
-            },
-            error: errorThrown => alert(errorThrown)
-        });
-    }
-});
-
-*//* 
- * Copyright (C) 2017 Phạm Ngọc Chuyển <chuyenpn at lakita.vn>
- *
- */
-
-/*
-$(document).on('click', '.retrieve-contact', function (e) {
-	var r = confirm("Bạn có chắc chắn muốn thu hồi contact này không?");
-	if (r == true) {
-		e.preventDefault();
-		var del = $(this);
-		var contact_id = $(this).attr("data-contact-id");
-		$.ajax({
-			type: "POST",
-			url: $("#base_url").val() + "admin/retrieve_contact",
-			data: {
-				contact_id: contact_id
-			},
-			success: data => {
-				if (data === '1') {
-					alert('Thu hồi thành công contact');
-					//del.parent().parent().hide();
-					location.reload();
-				} else {
-					alert(data);
-				}
-			},
-			error: errorThrown => alert(errorThrown)
-		});
-	}
-});
-
- */
-
 $(".action-contact-admin").confirm({
     theme: 'supervan', // 'material', 'bootstrap',
     title: "Bạn có chắc chắn với hành động này không?",
@@ -573,129 +486,6 @@ $(".action-contact-admin").confirm({
     }
 });
 
-/*
-$(document).on('click', '.create-adset-from-fb', function (e) {
-	e.preventDefault();
-	$(".add-name-from-fb").val($(this).attr("adset-name"));
-	$(".add-adset-id-from-fb").val($(this).attr("id-fb"));
-	$campaignOption = ' <select class="form-control selectpicker" name="add_campaign_id" tabindex="-98"> ' +
-		'<option value="' + $(this).attr("campaign-crm-id") + '" selected="selected"> ' + $(this).attr("campaign-name-facebook") + '</option>' +
-		'</select>';
-	$(".select-campaign-fetch").html("");
-	$(".select-campaign-fetch").append($campaignOption);
-	console.log($(this).attr("id-fb"));
-	$(".add_item_from_fb_modal").modal("show");
-});
-
- */
-
-/*
-$(document).on('click', '.add-item-fetch', function (e) {
-	e.preventDefault();
-	var url = $("#url-add-item-fetch").val();
-	$.ajax({
-		url: url,
-		type: "POST",
-		beforeSend: () => $(".popup-wrapper").show(),
-		success: function (data) {
-			$("div.replace_content_add_item_fetch_modal").html(data);
-		},
-		complete: function () {
-			$(".add_item_modal_fetch").modal({backdrop: 'static', keyboard: false});
-			$(".popup-wrapper").hide();
-		}
-	});
-});
-
- */
-/*
-$(document).on('click', '.create-campaign-from-fb', function (e) {
-    e.preventDefault();
-    $(".add-name-from-fb").val($(this).attr("campaign-name"));
-    $(".add-campaign-id-from-fb").val($(this).attr("id-fb"));
-    $(".add_item_from_fb_modal").modal("show");
-});
-
- */
-
-/*
-$(document).on('click', '.create-campaign-from-fb-2', function (e) {
-    e.preventDefault();
-    var _this = $(this);
-    $.confirm({
-        theme: 'supervan', 
-        title: 'Bạn có chắc chắn muốn tạo link này không?',
-        content: 'Việc tạo link này đồng nghĩa với việc tạo các campaign, adset và ad tương ứng, \n\
-                nếu chúng không tồn tại',
-        buttons: {
-            confirm: {
-                text: 'Đồng ý',
-                action: function () {
-                    if (_this.parent().parent().find('select.select-landing-page').val() == 0) {
-                        $.alert({
-                            theme: 'modern',
-                            type: 'red',
-                            title: 'Có lỗi xảy ra!',
-                            content: 'Vui lòng chọn landing page!'
-                        });
-                    } else {
-                        $.ajax({
-                            url: $("#url-add-item-from-fb-2").val(),
-                            type: "POST",
-                            beforeSend: () => $(".popup-wrapper").show(),
-                            data: {
-                                fb_account_id: _this.attr('fb-account-id'),
-                                fb_campaign_id: _this.attr('fb-campaign-id'),
-                                fb_campaign_name: _this.attr('fb-campaign-name'),
-                                fb_adset_id: _this.attr('fb-adset-id'),
-                                fb_adset_name: _this.attr('fb-adset-name'),
-                                fb_ad_id: _this.attr('fb-ad-id'),
-                                fb_ad_name: _this.attr('fb-ad-name'),
-                                landing_page_id: _this.parent().parent().find('select.select-landing-page').val()
-                            },
-                            success: function (data) {
-                                $.alert({
-                                    theme: 'modern',
-                                    title: 'Tạo thành công link',
-                                    content: data
-                                });
-                                _this.text("Đã tạo");
-                                _this.removeClass("btn-success");
-                                _this.addClass("btn-danger");
-                                _this.attr("disabled", "disabled");
-                            },
-                            complete: function () {
-                                $(".popup-wrapper").hide();
-                            },
-                            error: function (error) {
-                                $.alert({
-                                    theme: 'modern',
-                                    type: 'red',
-                                    title: 'Có lỗi xảy ra!',
-                                    content: error
-                                });
-                            }
-                        });
-                    }
-
-                }},
-            cancel: {
-                text: 'Nope',
-                action: function () {
-                }},
-            somethingElse: {
-                text: 'Khác',
-                btnClass: 'btn-blue',
-                keys: ['enter', 'shift'],
-                action: function () {
-
-                }
-            }
-        }
-    });
-});
- */
-
 $(document).on('click', 'a.add_item', function (e) {
     e.preventDefault();
     let url = $("#url_add_item").val();
@@ -710,43 +500,6 @@ $(document).on('click', 'a.add_item', function (e) {
         }
     });
 });
-
-/*
-$(".delete_multi_item").confirm({
-	theme: 'supervan', // 'material', 'bootstrap',
-	title: 'Bạn có chắc chắn muốn xóa các dòng đã chọn không?',
-	content: 'Hãy nhớ thứ tự xóa là xóa ad => xóa adset => xóa campaign.',
-	buttons: {
-		confirm: {
-			text: 'Xóa',
-			action: function () {
-				if ($('input.tbl-item-checkbox:checked').length == 0) {
-					$.alert({
-						theme: 'modern',
-						type: 'red',
-						title: 'Có lỗi xảy ra!',
-						content: 'Vui lòng chọn dòng cần xóa!'
-					});
-				} else {
-					$("#form_item").attr("action", $("#url_delete_multi_item").val()).attr("method", "POST");
-					$("#form_item").submit();
-				}
-			}},
-		cancel: {
-			text: 'Nope',
-			action: function () {
-			}},
-		somethingElse: {
-			text: 'Khác',
-			btnClass: 'btn-blue',
-			keys: ['enter', 'shift'],
-			action: function () {
-
-			}
-		}
-	}
-});
-*/
 
 $(".delete_item").confirm({
 	theme: 'supervan', // 'material', 'bootstrap',
@@ -816,16 +569,10 @@ $(document).on('click', 'li.edit_item', function (e) {
 	});
 });
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 $(document).on('click', '.adset-detail', function (e) {
     e.preventDefault();
-    var url = $(this).attr("data-url");
-    var modalName = $(this).attr("data-modal-name");
+	let url = $(this).attr("data-url");
+	let modalName = $(this).attr("data-modal-name");
     $.ajax({
         url: url,
         type: "GET",
@@ -847,8 +594,8 @@ $(document).on('click', '.adset-detail', function (e) {
 
 $(document).on('click', '.campaign-detail', function (e) {
     e.preventDefault();
-    var url = $(this).attr("data-url");
-    var modalName = $(this).attr("data-modal-name");
+    let url = $(this).attr("data-url");
+	let modalName = $(this).attr("data-modal-name");
     $.ajax({
         url: url,
         type: "GET",
@@ -870,9 +617,9 @@ $(document).on('click', '.campaign-detail', function (e) {
 
 $(document).on('click', '.form_plugin', function (e) {
     e.preventDefault();
-    var item_id = $(this).attr("item_id");
-    var url = $('#base_url').val() + $(this).attr("edit-url");
-    var modalName = $(this).attr("data-modal-name");
+    let item_id = $(this).attr("item_id");
+	let url = $('#base_url').val() + $(this).attr("edit-url");
+	let modalName = $(this).attr("data-modal-name");
     
     $.ajax({
         url: url,
@@ -971,85 +718,7 @@ $(document).on("change", '.toggle-input [name="edit_active"]', function () {
     });
 });
 
-/*
-$(function () {
-    $.each($(".tbl_pricepC3"), function () {
-        if (parseInt($(this).text().replace(".", "")) > 50000) {
-            $(this).addClass("bg-red");
-        }
-        ;
-    });
-     $('.progress .progress-bar').css("width",
-			function () {
-				return $(this).attr("aria-valuenow") + "%";
-			}
-        );
-});
 
- */
-
-/*
-$(document).on('click', '.delete_bill', function (e) {
-    var r = confirm("Bạn có chắc chắn muốn xóa dòng đối soát này không?");
-    if (r == true) {
-        var del = $(this);
-        var bill_id = $(this).attr("bill_id");
-        e.preventDefault();
-        $.ajax({
-            type: "POST",
-            url: $("#base_url").val() + "CODS/check_L8/delete_bill",
-            data: {
-                bill_id: bill_id
-            },
-            success: data => {
-                console.log(data);
-                if (data === '1')
-                {
-                    del.parent().parent().parent().hide();
-                    //location.reload();
-                } else {
-                    alert(data);
-                }
-            },
-            error: errorThrown => alert(errorThrown)
-        });
-    }
-});
-
- */
-/*
-$(document).on('click', '.edit_bill', function (e) {
-    e.preventDefault();
-    var bill_id = $(this).attr("bill_id");
-    var url = $("#base_url").val() + "CODS/check_L8/show_edit_bill";
-    $.ajax({
-        url: url,
-        type: "POST",
-        data: {
-            bill_id: bill_id
-        },
-        success: data => {
-            console.log(data);
-            $("div.replace_content_edit_bill_modal").html(data);
-        },
-        complete: () => $(".edit_bill_modal").modal("show")
-    });
-});
-
- */
-/*
-$(".btn-export-excel").on('click', function (e) {
-    e.preventDefault();
-    $("#action_contact").attr("action", $("#base_url").val() + "cod/export_for_print");
-    $("#action_contact").submit();
-});
-$(".btn-export-for-send-vnpost").on('click', function (e) {
-    e.preventDefault();
-    $("#action_contact").attr("action", $("#base_url").val() + "cod/export_for_send_vnpost");
-    $("#action_contact").submit();
-});
-
- */
 
 /* click để khôi phục contact*/
 $(".restore-multi-infor").on('click', function (e) {
@@ -1064,382 +733,6 @@ $(".restore-infor").on('click', function (e) {
     $("#action_contact").attr("action", $("#base_url").val() + "common/restore_infor");
     $("#action_contact").submit();
 });
-
-/*
-$(".btn-export-excel-for-viettel").on('click',function (e) {
-    e.preventDefault();
-    $("#action_contact").attr("action", $("#base_url").val() + "cod/export_for_send_provider");
-    $("#action_contact").submit();
-});
-$('.export_to_string').on('click', function (e) {
-    e.preventDefault();
-    var modalName = 'export-to-string-modal';
-    $.ajax({
-        url: $("#base_url").val() + "cod/export_to_string",
-        type: "POST",
-        data: $("#action_contact").serialize(),
-        success: data => {
-            $("." + modalName).remove();
-            var newModal = `<div class="${modalName}"></div>`;
-            $(".modal-append-to").append(newModal);
-            $(`.${modalName}`).html(data);
-        },
-        complete: () => $(`.${modalName} .modal`).modal("show")
-    });
-});
-*/
-
-/*
-$(".btn-reset-provider").on('click', function (e) {
-    e.preventDefault();
-    $("#action_contact").removeClass("form-inline");
-    $(".reset_provider_modal").modal("show");
-});
-$(".btn-reset-provider").on('show.bs.modal', '.modal', function () {
-    $("#action_contact").addClass("form-inline");
-});
-
-$(document).on('click', '.select_provider', function (e) {
-    $("#action_contact").removeClass("form-inline");
-    e.preventDefault();
-    $(".edit_multi_cod_contact").modal("show");
-});
-
-$(".btn-modal_edit-multi-contact").on('click', function (e) {
-    e.preventDefault();
-    var error = false;
-
-    if (!error) {
-        var url = $("#base_url").val() + "common/action_edit_multi_cod_contact";
-
-        var contactIdArray = [];
-        $('input[type="checkbox"]').each(
-                function () {
-                    if ($(this).is(":checked")) {
-                        contactIdArray.push($(this).val());
-                    }
-                });
-        $.ajax({
-            url: url,
-            type: "POST",
-            dataType: 'json',
-            data: $("#action_contact").serialize(),
-            success: function (data) {
-                if (data.success == 1) {
-                    $("#send_email_sound")[0].play();
-                    $.notify(data.message, {
-                        position: "top left",
-                        className: 'success',
-                        showDuration: 200,
-                        autoHideDelay: 5000
-                    });
-                    $.each(contactIdArray, function(){
-                        $('tr[contact_id="'+this+'"]').remove();
-                    });
-                    $(".edit_multi_cod_contact").modal("hide");
-                } else {
-                    $("#send_email_error")[0].play();
-                    $.notify('Có lỗi xảy ra! Nội dung: ' + data.message, {
-                        position: "top left",
-                        className: 'error',
-                        showDuration: 200,
-                        autoHideDelay: 7000
-                    });
-                }
-            },
-            complete: function () {
-
-            }
-        });
-        //$("#action_contact").submit();
-    }
-});
-*/
-
-/*
-$(document).on('click', '.btn-send-account-lakita', function (e) {
-    e.preventDefault();
-    var contact_id = $(this).attr("contact_id");
-    var email_send_lakita = $(".email_send_lakita").val();
-    var phone_send_lakita = $(".phone_send_lakita").val();
-    var url = $("#base_url").val() + "send_email/send_account_lakita";
-    $.ajax({
-        url: url,
-        type: "POST",
-        data: {
-            contact_id: contact_id,
-            email_send_lakita:email_send_lakita,
-            phone_send_lakita:phone_send_lakita
-        },
-        dataType: 'json',
-        beforeSend: () => {
-            clearInterval(notiContactRecall);
-            $(".popup-wrapper").show();
-        },
-        success: data => {
-            console.log(data.success);
-            if (data.success == 0) {
-                $("#send_email_error")[0].play();
-                $.notify('Có lỗi xảy ra! Nội dung: ' + data.message, {
-                    position: "top left",
-                    className: 'error',
-                    showDuration: 200,
-                    autoHideDelay: 7000
-                });
-            } else {
-                $("#send_email_sound")[0].play();
-                $.notify('Gửi email thành công!', {
-                    position: "top left",
-                    className: 'success',
-                    showDuration: 200,
-                    autoHideDelay: 3000
-                });
-            }
-        },
-        complete: () => {
-            notiContactRecall = setInterval(noti, 10000);
-            $(".popup-wrapper").hide();
-        },
-        error: () => {
-            $("#send_email_error")[0].play();
-            $.notify('Có lỗi xảy ra trong quá trình gửi email!', {
-                position: "top left",
-                className: 'error',
-                showDuration: 200,
-                autoHideDelay: 3000
-            });
-        }
-    });
-});
-
- */
-/*
-$(document).on('click', '.btn-send-account-other-email', function (e) {
-    e.preventDefault();
-    $('.other-email').show();
-});
-
- */
-
-/*
-$(document).on('click', '.send-lakita-account-combo-course', function (e) {
-    e.preventDefault();
-    var url = $('#base_url').val() + "send_email/SendLakitaAccountComboCourse";
-    if ($('input.tbl-item-checkbox:checked').length == 0) {
-        $.alert({
-            theme: 'modern',
-            type: 'red',
-            title: 'Có lỗi xảy ra!',
-            content: 'Vui lòng chọn contact cần gửi email!'
-        });
-    } else {
-         //  Lấy số tiền
-        var numberOfChecked = $('input.tbl-item-checkbox:checked').length;
-        var contactIdArray = [];
-        $('input[type="checkbox"]').each(
-                function () {
-                    if ($(this).is(":checked")) {
-                        contactIdArray.push($(this).val());
-                    }
-                });
-
-        $.ajax({
-            url: $('#base_url').val() + "common/check_is_one_email",
-            type: "POST",
-            dataType: 'json',
-            data: {contact : contactIdArray},
-            beforeSend: () => {
-                clearInterval(notiContactRecall);
-                $(".popup-wrapper").show();
-            },
-            success: data =>{
-                if(data.num_email != 1){
-                     $.alert({
-                        theme: 'modern',
-                        type: 'red',
-                        title: 'Có lỗi xảy ra!',
-                        content: 'Các contact đã chọn không có cùng địa chỉ email. \n\
-                        Bạn cần sửa lại email để đảm bảo cùng là 1 người!'
-                    });
-                }else{
-                    $.confirm({
-                        theme: 'supervan',
-                        title: 'Kiểm tra thông tin gửi email và tài khoản ngân hàng',
-                        content: 'Email: ' + data.email + ', '
-                                + 'combo ' + numberOfChecked + ' khóa học',
-                        buttons: {
-                            confirm: {
-                                text: 'Xác nhận !',
-                                action: function () {
-                                    $.ajax({
-                                        url: url,
-                                        type: "POST",
-                                        dataType: 'json',
-                                        data: {contact_id : contactIdArray},
-                                        beforeSend: () => {
-                                            clearInterval(notiContactRecall);
-                                            $(".popup-wrapper").show();
-                                        },
-                                        success: data => {
-                                            if (data.success == 1) {
-                                                $("#send_email_sound")[0].play();
-                                                $.notify(data.message, {
-                                                    position: "top left",
-                                                    className: 'success',
-                                                    showDuration: 200,
-                                                    autoHideDelay: 5000
-                                                });
-                                            } else {
-                                                $("#send_email_error")[0].play();
-                                                $.notify('Có lỗi xảy ra! Nội dung: ' + data.message, {
-                                                    position: "top left",
-                                                    className: 'error',
-                                                    showDuration: 200,
-                                                    autoHideDelay: 7000
-                                                });
-                                            }
-                                        },
-                                        complete: () => {
-                                            notiContactRecall = setInterval(noti, 10000);
-                                            $(".popup-wrapper").hide();
-                                        },
-                                        error: () => {
-                                            $("#send_email_error")[0].play();
-                                            $.notify('Có lỗi xảy ra trong quá trình gửi email!', {
-                                                position: "top left",
-                                                className: 'error',
-                                                showDuration: 200,
-                                                autoHideDelay: 3000
-                                            });
-                                        }
-                                    });
-                                }},
-                            cancel: {
-                                text: 'Cancel',
-                                action: function () {
-                                }},
-                            somethingElse: {
-                                text: 'Khác',
-                                btnClass: 'btn-blue',
-                                keys: ['enter', 'shift'],
-                                action: function () {
-
-                                }
-                            }
-                        }
-                    });
-                }
-            },
-            complete: () => {
-                notiContactRecall = setInterval(noti, 10000);
-                $(".popup-wrapper").hide();
-            },
-
-        });
-    }
-});
-
- */
-
-/*
-$(".send-email-to-viettel").confirm({
-    theme: 'supervan', // 'material', 'bootstrap',
-    title: 'Bạn có chắc chắn muốn gửi email cho Viettel không?',
-    content: 'Hãy đảm bảo rằng các contact được chọn đang là trạng thái "đang giao hàng"!',
-    buttons: {
-        confirm: {
-            text: 'Gửi',
-            action: function () {
-                if ($('input.tbl-item-checkbox:checked').length == 0) {
-                    $.alert({
-                        theme: 'modern',
-                        type: 'red',
-                        title: 'Có lỗi xảy ra!',
-                        content: 'Vui lòng chọn contact cần gửi email!'
-                    });
-                } else {
-                    //if ($('select[name="filter_provider_id"]').val() != 1) {//
-  //                      $.alert({//
-  //                          theme: 'modern',//
- //                           type: 'red',
-  //                          title: 'Có lỗi xảy ra!',
-    //                        content: 'Vui lòng chọn đơn vị giao hàng là Viettel!'
-      //                  });
-        //            } else {
-                        var _this = this.$target;
-                        var form = _this.data("form-id");
-                        var action = _this.data("action");
-                        var method = _this.data("method");
-                        var url = $("#base_url").val() + action;
-                        $("#" + form).attr("action", url).attr("method", method).submit();
-                   // }
-                }
-            }},
-        cancel: {
-            text: 'Nope',
-            action: function () {
-            }},
-        somethingElse: {
-            text: 'Khác',
-            btnClass: 'btn-blue',
-            keys: ['enter', 'shift'],
-            action: function () {
-
-            }
-        }
-    }
-});
- */
-
-/*
-$(".send-email-to-vnpost").confirm({
-    theme: 'supervan', // 'material', 'bootstrap',
-    title: 'Bạn có chắc chắn muốn gửi email cho VNPOST không?',
-    content: 'Hãy đảm bảo rằng các contact được chọn đang là trạng thái "đang giao hàng"!',
-    buttons: {
-        confirm: {
-            text: 'Gửi',
-            action: function () {
-                if ($('input.tbl-item-checkbox:checked').length == 0) {
-                    $.alert({
-                        theme: 'modern',
-                        type: 'red',
-                        title: 'Có lỗi xảy ra!',
-                        content: 'Vui lòng chọn contact cần gửi email!'
-                    });
-                } else {
-                    //if ($('select[name="filter_provider_id"]').val() != 1) {//
-  //                      $.alert({//
-  //                          theme: 'modern',//
- //                           type: 'red',
-  //                          title: 'Có lỗi xảy ra!',
-    //                        content: 'Vui lòng chọn đơn vị giao hàng là Viettel!'
-      //                  });
-        //            } else {send-email-to-viettel
-                        var _this = this.$target;
-                        var form = _this.data("form-id");
-                        var action = _this.data("action");
-                        var method = _this.data("method");
-                        var url = $("#base_url").val() + action;
-                        $("#" + form).attr("action", url).attr("method", method).submit();
-                   // }
-                }
-            }},
-        cancel: {
-            text: 'Nope',
-            action: function () {
-            }},
-        somethingElse: {
-            text: 'Khác',
-            btnClass: 'btn-blue',
-            keys: ['enter', 'shift'],
-            action: function () {
-
-            }
-        }
-    }
-});
-*/
 
 //add-new-contact-modal
 $(document).on("click", ".add-new-contact-modal", function (e) {
@@ -1550,17 +843,6 @@ $(document).on('click', '.btn-edit-contact', function (e) {
                 });
                 $(".edit_contact_modal").modal("hide");
 
-				/*
-				if (data.role == 1 && data.new == 1) {
-					$('#paging').load($('#base_url').val() + 'tu-van-tuyen-sinh/trang-chu.html #paging');
-					$('.list_contact_2').load($("#base_url").val() + 'tu-van-tuyen-sinh/trang-chu.html .list_contact_2');
-					$('.total').load($("#base_url").val() + 'tu-van-tuyen-sinh/trang-chu.html .total');
-					//$('.paging_down').remove();
-				} else {
-					$('tr[contact_id="' + contact_id + '"]').remove();
-				}
-				*/
-				
                 if((data.role == 10 && data.hide == 1) || data.role == 1){
                     $('tr[contact_id="' + contact_id + '"]').remove();
                 }
@@ -1577,26 +859,6 @@ $(document).on('click', '.btn-edit-contact', function (e) {
         complete: () => $(".popup-wrapper").hide()
     });
 });
-
-/*
- * Nếu chọn hình thức thanh toán là COD thì ẩn hình thức thanh toán BANKING, và ngược lại
- */
-
-/*
-$(document).on('change', 'select.edit_payment_method_rgt', function (e) {
-    if ($(this).val() == 4) {
-        $(".tbl_bank").show(1000);
-    } else {
-        $(".tbl_bank").hide();
-    }
-    if ($(this).val() == 1) {
-        $(".tbl_cod").show(1000);
-    } else {
-        $(".tbl_cod").hide();
-    }
-    setEqualTableHeight();
-});
-*/
 
 $(document).on('change', 'select.note-cod-sample', function () {
     $('[name="note_cod"]').val($(this).val());
@@ -1627,390 +889,7 @@ $(function () {
     }, 500);
 });
 
-/*
-$(document).on('click', '.btn-send-banking-info', function (e) {
-    e.preventDefault();
-    var contact_id = $(this).attr("contact_id");
-    var url = $("#base_url").val() + "send_email/send_banking_info";
-    $.ajax({
-        url: url,
-        type: "POST",
-        data: {
-            contact_id: contact_id,
-            name: $(".edit-contact-name").val(),
-            email: $(".edit-contact-email").val(),
-            price_purchase: $(".edit-contact-price-purchase").val()
-        },
-        dataType: 'json',
-        beforeSend: () => $(".popup-wrapper").show(),
-        success: data => {
-            if (data.success == 1) {
-                $("#send_email_sound")[0].play();
-                $.notify('Gửi email thành công!', {
-                    position: "top left",
-                    className: 'success',
-                    showDuration: 200,
-                    autoHideDelay: 3000
-                });
-            } else {
-                $("#send_email_error")[0].play();
-                $.notify('Có lỗi xảy ra. Nội dung: ' + data.message, {
-                    position: "top left",
-                    className: 'error',
-                    showDuration: 200,
-                    autoHideDelay: 3000
-                });
-            }
-        },
-        complete: () => $(".popup-wrapper").hide(),
-        error: () => {
-            $("#send_email_error")[0].play();
-            $.notify('Có lỗi xảy ra trong quá trình gửi email!', {
-                position: "top left",
-                className: 'error',
-                showDuration: 200,
-                autoHideDelay: 3000
-            });
-        }
-    });
-});
-
- */
-
-/*
-$(document).on('click', '.send-banking-info-multi-course', function (e) {
-    e.preventDefault();
-    var url = $('#base_url').val() + "send_email/send_banking_info";
-    if ($('input.tbl-item-checkbox:checked').length == 0) {
-        $.alert({
-            theme: 'modern',
-            type: 'red',
-            title: 'Có lỗi xảy ra!',
-            content: 'Vui lòng chọn contact cần gửi email!'
-        });
-    } else {
-  		// lay tien
-        var numberOfChecked = $('input.tbl-item-checkbox:checked').length;
-        var sum = 0;
-        for (i = 0; i < numberOfChecked; i++) {
-            sum += parseInt($($('input.tbl-item-checkbox:checked')[i]).parent().parent().find('.tbl_price_purchase').text());
-        }
-        sum *= 1000;
-        var emailArr = [];
-        var contactName = '';
-        $('input.tbl-item-checkbox:checked').each(function () {
-            var contactId = $(this).parent().parent().find('.show-more-table-info').attr("contact-id");
-            contactName = $(this).parent().parent().find('.tbl_name').text();
-            emailArr.push($.trim($("#" + contactId).find(".extra-view-contact-email").text()));
-        });
-        contactName = $.trim(contactName);
-        contactName = contactName.substring(0, contactName.length - 1);
-        var emailUnique = emailArr.unique();
-        if (emailUnique.length > 1) {
-            $.alert({
-                theme: 'modern',
-                type: 'red',
-                title: 'Có lỗi xảy ra!',
-                content: 'Các contact đã chọn không có cùng địa chỉ email. \n\
-                Bạn cần sửa lại email để đảm bảo cùng là 1 người!'
-            });
-        } else if (emailUnique.length == 1 && emailUnique[0] == '') {
-            $.alert({
-                theme: 'modern',
-                type: 'red',
-                title: 'Có lỗi xảy ra!',
-                content: 'Email rỗng. Vui lòng kiểm tra lại!'
-            });
-        } else {
-            $.confirm({
-                theme: 'supervan',
-                title: 'Kiểm tra thông tin gửi email',
-                content: 'Họ tên: ' + contactName + ', email: ' + emailUnique[0] + ', số tiền: '
-                        + sum.toLocaleString() + '. Combo ' + numberOfChecked + ' khóa học',
-                buttons: {
-                    confirm: {
-                        text: 'Look good!',
-                        action: function () {
-                            $.ajax({
-                                url: url,
-                                type: "POST",
-                                dataType: 'json',
-                                data: {
-                                    name: contactName,
-                                    email: emailUnique[0],
-                                    price_purchase: sum,
-                                    number_of_course: numberOfChecked
-                                },
-                                beforeSend: () => $(".popup-wrapper").show(),
-                                success: data => {
-                                    if (data.success == 1) {
-                                        $("#send_email_sound")[0].play();
-                                        $.notify(data.message, {
-                                            position: "top left",
-                                            className: 'success',
-                                            showDuration: 200,
-                                            autoHideDelay: 5000
-                                        });
-                                    } else {
-                                        $("#send_email_error")[0].play();
-                                        $.notify('Có lỗi xảy ra! Nội dung: ' + data.message, {
-                                            position: "top left",
-                                            className: 'error',
-                                            showDuration: 200,
-                                            autoHideDelay: 7000
-                                        });
-                                    }
-                                },
-                                complete: () => $(".popup-wrapper").hide(),
-                                error: () => {
-                                    $("#send_email_error")[0].play();
-                                    $.notify('Có lỗi xảy ra trong quá trình gửi email!', {
-                                        position: "top left",
-                                        className: 'error',
-                                        showDuration: 200,
-                                        autoHideDelay: 3000
-                                    });
-                                }
-                            });
-                        }},
-                    cancel: {
-                        text: 'Cancel',
-                        action: function () {
-                        }},
-                    somethingElse: {
-                        text: 'Khác',
-                        btnClass: 'btn-blue',
-                        keys: ['enter', 'shift'],
-                        action: function () {
-
-                        }
-                    }
-                }
-            });
-        }
-        console.log(emailArr.unique());
-    }
-});
-*/
-
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
-var nameArr = {
-   id: {
-       name: 'ID Contact',
-       type: 'text'
-   },
-   name: {
-       name: 'Họ và tên',
-       type: 'text'
-   },
-   email: {
-       name: 'Email',
-       type: 'text'
-   },
-   price_purchase: {
-       name: 'Giá tiền mua',
-       type: 'currency'
-   },
-   call_status_id: {
-       name: 'Trạng thái gọi',
-       type: 'array'
-   }
-};
-
-$(document).on('click', '.action_view_detail_contact', function (e) {
-   e.preventDefault();
-   var url = $("#base_url").val() + "common/view_detail_contact";
-   var contact_id = $(this).attr("contact_id");
-   $.ajax({
-       url: url,
-       type: "POST",
-       data: {
-           contact_id: contact_id
-       },
-       dataType: "json",
-       success: function (data) {
-           var result = gen_result(data);
-           $("div.replace_content_view_detail_contact").html(result);
-       },
-       complete: function () {
-           $(".view_detail_contact_modal").modal("show");
-       }
-   });
-});
-
-function gen_result(data) {
-   var result = `<div class="row real-search-result-replace">`;
-   result += `<div class="col-md-6">
-                   <table class="table table-striped table-bordered table-hover table-view-1">`;
-   for (var prop in data.view_edit_left) {
-       result += v_row(prop, data);
-   }
-   result += `</table></div>`;
-   result += `</div>`;
-   return result;
-}
-
-function v_row(prop, data) {
-   var result = ``;
-   console.log(prop);
-   console.log(nameArr[prop]);
-   result = `<tr>
-                     <td class="text-right"> ` + nameArr[prop]['name'] + `</td>
-                     <td>`;
-   if (nameArr[prop]['type'] === 'text') {
-       result += data['rows'][prop];
-       result += ` <input type="text" class="form-control datepicker date_recall" name="date_recall" />`;
-   }
-   if (nameArr[prop]['type'] === 'currency') {
-       result += digits(data['rows'][prop]) + ' VNĐ';
-   }
-
-   result += `       </td>
-             </tr>`;
-
-   return result;
-}
-
-function v_call_status(call_status_id1, call_status_arr) {
-   var result = ``;
-   var name = '' + {call_status_id1} + '';
-   $.each(call_status_arr, function () {
-       if (call_status_id1 === this.id) {
-           result = `<tr>
-                       <td class="text-right"> ` + nameArr.name + `</td>
-                       <td>
-                           ${this.name}
-                       </td>
-                     </tr>`;
-       }
-   });
-   return result;
-}
-
-function e_call_status(call_status_id, call_status_arr) {
-   console.log(call_status_id);
-   var result = `<tr>
-   <td class="text-right"> Trạng thái gọi </td>
-   <td>
-       <select class="form-control call_status_id selectpicker" name="call_status_id">`;
-   $.each(call_status_arr, function () {
-       result += ` <option value="${this.id}" ${ (this.id === call_status_id) ? 'selected' : '' }>
-               ${ this.name}
-               </option>`;
-   });
-   result += `</select></td></tr>`;
-   return result;
-}
-
-function digits(number){
-   return number.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") ;
-};
-
- */
-
-/* 
- * Copyright (C) 2017 Phạm Ngọc Chuyển <chuyenpn at lakita.vn>
- *
- */
-/*
-$('.tbl_name').on('click', 'span.badge-star', function (e) {
-    e.stopPropagation();
-    e.preventDefault();
-    var contact_phone = $(this).attr("contact_phone");
-    var contact_course_code = $(this).attr("contact_course_code");
-    var controller = $(this).attr("controller");
-    var url = $("#base_url").val() + "common/view_contact_star";
-    //console.log(url);
-    $.ajax({
-        url: url,
-        type: "POST",
-        data: {
-            contact_phone: contact_phone,
-            contact_course_code: contact_course_code,
-            controller: controller
-        },
-        success: data => $("div.replace_content_view_contact_star").html(data),
-        complete: () => $(".view_contact_star_modal").modal("show")
-    });
-});
-*/
-
 $('.view_contact_star_modal').on('hide.bs.modal', () => setTimeout(() => $("div.replace_content_view_contact_star").html(""), 1000));
-
-/*
-$(document).on('click', 'aaction_view_detail_contact', function (e) {
-    e.preventDefault();
-    $(".checked").removeClass("checked");
-    $(this).parent().parent().addClass("checked");
-    var contact_id = $(this).attr("contact_id");
-    var url = $("#base_url").val() + "common/view_detail_contact";
-    //console.log(url);
-    $.ajax({
-        url: url,
-        type: "POST",
-        data: {
-            contact_id: contact_id
-        },
-        success: data => $("div.replace_content_view_detail_contact").html(data),
-        complete: () => $(".view_detail_contact_modal").modal("show")
-    });
-});
-
-$('.view_detail_contact_modal').on('shown.bs.modal',  () => {
-    if ($(".table-view-1").height() > $(".table-view-2").height())
-    {
-        $(".table-view-2").height($(".table-view-1").height());
-    } else
-    {
-        $(".table-view-1").height($(".table-view-2").height());
-    }
-});
-
-$(document).on("click", ".view_contact_phone", () => {
-    document.querySelector("#input-copy").select();
-    document.execCommand('copy');
-    $.notify("Copy thành công vào clipboard", {
-            position: "top left",
-            className: 'success',
-            showDuration: 200,
-            autoHideDelay: 2000
-        });
-});
-*/
-/*
-$(document).on('click', '.action_view_detail_contact', function (e) {
-    e.preventDefault();
-    $(".checked").removeClass("checked");
-    $(this).parent().parent().addClass("checked");
-    var contact_id = $(this).attr("contact_id");
-    var url = $("#base_url").val() + "common/view_detail_contact";
-    $.ajax({
-        url: url,
-        type: "POST",
-        data: {
-            contact_id: contact_id
-        },
-        success: data => {
-            $(".modal-detail-contact").remove();
-            var modalViewContactDetail = "<div class='modal-detail-contact'></div>";
-            $(".modal-append-to").append(modalViewContactDetail);
-            $(".modal-detail-contact").html(data);
-        },
-        complete: () => $(".modal-detail-contact .modal").modal("show")
-    });
-});
-*/
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /*
  * Hiển thị menu chuột phải
@@ -2150,52 +1029,6 @@ $(document).on('click', '.check_all', function () {
         show_number_selected_row();
     }
 });
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * Hiển thị tên khóa học khi click vào mã khóa học
- */
-
-/*
-$(document).on('click', '.find-course-code', function () {
-	 var _this = $(this);
-	 $.ajax({
-	 url: $("#base_url").val() + "common/find_course_name",
-	 type: 'post',
-	 dataType: "json",
-	 data: {course_code: $(this).text().trim()},
-	 success: data => {
-			console.log(data);
-			if (_this.parent().attr('class') === 'view_course_code') {
-				 _this.notify(data.name, {
-				 position: "top left",
-				 className: 'success',
-				 showDuration: 200,
-				 autoHideDelay: 4000
-				 });
-			} else {
-				 _this.notify(data.name, {
-				 position: "top center",
-				 className: 'success',
-				 showDuration: 200,
-				 autoHideDelay: 4000
-				 });
-			}
-
-			if($('#input_controller').val() == 'affiliate' && data.url.error == 0){
-				var win = window.open(data.url.slug, '_blank');
-				win.focus();
-			}
-			
-		}
-	 });
- });
-
- */
 
 $(".datepicker").datepicker({
 		dateFormat: "dd-mm-yy"
@@ -2432,42 +1265,6 @@ $(function () {
     }
 });
 
-/*
-$(".send_to_mobile").on('click', function (e) {
-    e.preventDefault();
-    var contact_phone = $(this).attr("contact_phone");
-    var contact_name = $(this).attr("contact_name");
-    $.ajax({
-        url: $("#base_url").val() + 'common/send_phone_to_mobile',
-        type: 'post',
-        data: {
-            contact_phone: contact_phone,
-            contact_name: contact_name
-        },
-        success:  () =>  {
-            $.notify('Gửi thành công đến mobile!', {
-                position: "top left",
-                className: 'success',
-                showDuration: 200,
-                autoHideDelay: 3000
-            });
-        }
-    });
-});
-
- */
-
-/*
-$(".btn-export-one-contact-for-send-vnpost").on('click', function (e) {
-    e.preventDefault();
-    var data_contact_id = $(this).attr("data-contact-id");
-    console.log(data_contact_id);
-    $("input[value='"+data_contact_id+"']").prop( "checked", true );
-    $("#action_contact").attr("action", $("#base_url").val() + "cod/export_for_send_vnpost");
-    $("#action_contact").submit();
-});
-
- */
 /* 32b339fca68db27aa480 -- f3c70a5a0960d7b811c9*/
 
 Pusher.logToConsole = true;
@@ -2785,113 +1582,6 @@ $(".btn-export-all-contact-to-excel").click(function (e) {
 	$("#"+formID).attr("action", "#").attr("method", "GET").submit();
 	$(".export-all-to-excel").remove();
 });
-/*
-shortcut.add("Ctrl+s", function () {
-    $(".btn-edit-contact").click();
-});
-shortcut.add("Ctrl+Shift+a", function () {
-    $("input.tbl-item-checkbox").prop('checked', true);
-    $('.custom_right_menu').addClass('checked');
-    show_number_selected_row();
-});
-shortcut.add("Esc", function () {
-    $("input.tbl-item-checkbox").prop('checked', false);
-    $('.checked').removeClass('checked');
-    $(".menu").hide();
-});
-
- */
-
-/*
-shortcut.add("Ctrl+i", function () {
-    $(".add_item_modal_fetch").modal('hide');
-});
-
- */
-
-/*
-$("a.cancel_one_contact").on('click', function (e) {
-    var del = $(this);
-    var sale_id = $(this).attr("sale_id");
-    var total_contact_for_sale = $(".total_contact_sale_" + sale_id).text();
-    e.preventDefault();
-    $.ajax({
-        type: "POST",
-        url: $("#base_url").val() + "manager/cancel_one_contact",
-        data: {
-            contact_id: $(this).attr("contact_id")
-        },
-        beforeSend: function () {
-            //$(".popup-wrapper").show();
-        },
-        success: function (data) {
-            if (data === '1')
-            {
-                del.parent().parent().hide();
-                $(".total_contact_sale_" + sale_id).text(total_contact_for_sale - 1);
-            } else {
-                alert(data);
-            }
-        },
-        error: function (errorThrown) {
-            alert(errorThrown);
-        },
-        complete: function () {
-            //    $(".popup-wrapper").hide();
-        }
-    });
-});
-
- */
-
-/*
-$(".cancel_multi_contact").on('click', function (e) {
-    $("#action_contact").attr("action", $("#base_url").val() + "manager/cancel_multi_contact");
-    $("#action_contact").submit();
-});
-
- */
-
-/*
-$("#delete_contact").on('click', function (e) {
-    e.preventDefault();
-    var r = confirm("Are you sure?");
-    if (r === true) {
-        $("#action_contact").attr("action", $("#base_url").val() + "manager/delete_contact");
-        $("#action_contact").submit();
-    }
-});
-
- */
-
-/*
-$(document).on('click', '.delete_one_contact', function (e) {
-	var del = $(this);
-	var contact_id = $(this).attr("contact_id");
-	e.preventDefault();
-	$.ajax({
-		type: "POST",
-		url: $("#base_url").val() + "manager/delete_one_contact",
-		data: {
-			contact_id: contact_id
-		},
-		success: function (data) {
-			if (data === '1')
-			{
-				//del.parent().parent().hide();
-				$(".duplicate_" + contact_id).hide();
-				//location.reload();
-			} else {
-				alert(data);
-			}
-		},
-		error: function () {
-			alert(errorThrown);
-		}
-	});
-});
-
- */
 
 /*=================================== chia contact đã chọn (form modal)================================================*/
 $(".divide_contact").on('click', function (e) {
@@ -3075,43 +1765,6 @@ $("input.reset_form").on('click', function (e) {
     $('.selectpicker').selectpicker('deselectAll');
 });
 
-/*
-$(document).on('change', 'select.select_script', function () {
-    //console.log($(this));
-    var url = $("#base_url").val() + "sale/show_script_modal";
-    if ($(this).val() != 0) {
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: {
-                script_id: $(this).val()
-            },
-            success: data => $("div.replace_content_script").html(data),
-            complete: () =>$(".script_modal").modal("show")
-        });
-    }
-});
-
- */
-
-/* cod chuyển nhượng nhiều contact */
-/*
-var action_old = $("#action_contact").attr('action');
-$(document).on('click', '.cod_transfer_multi_contact',function (e){
-    e.preventDefault();
-    $("#action_contact").removeClass("form-inline");
-    $(".transfer_multi_contact_modal").modal("show");
-    var action_new = $('#base_url').val() + 'cod/transfer_contact';
-    $("#action_contact").attr('action',action_new);  
-});
-$(document).on('click', '.btn-cod-transfer-multi-contact-submit',function (e){
-        e.preventDefault();
-        // $("#action_contact").submit();
-        $("#action_contact").submit();
-        $("#action_contact").attr('action',action_old);
-});
-*/
-
 $(document).on('click', '.transfer_contact, .transfer_one_contact', function (e) {
     e.preventDefault();
     let action = $(this).attr("class").split(" ");
@@ -3128,22 +1781,6 @@ $(document).on('click', '.transfer_contact, .transfer_one_contact', function (e)
         $(".transfer_one_contact_modal").modal("show");
     }
 });
-
-/*
-$(document).on('click', '.transfer_one_contact_to_manager', function(e) {
-	e.preventDefault();
-	//var action = $(this).attr("class").split(" ");
-	$(".checked").removeClass("checked");
-    $(this).parent().parent().addClass("checked");
-	var contact_id = $(this).attr("contact_id");
-	var contact_name = $(this).attr("contact_name");
-	$("#contact_id_input_to_manager").val(contact_id);
-	$(".contact_name_replacement").text(contact_name);
-	$('.transfer_one_contact_to_manager_modal').modal('show');
-	//alert(action[0]);
-	//console.log(contact_id);
-});
- */
 
 $(document).on('change', '[name="add_channel_id"], [name="edit_channel_id"]', function () {
     var channel_id = $(this).val();
@@ -3310,187 +1947,11 @@ $(document).on('change', '[name="language_id"], [name="branch_id"], [name="payme
 	});
 });
 
-/* xóa giảng viên */
-/*
-$(document).ready(function () {
-    $(document).on('click', '.btn_delete_teacher', function (e) {
-        var r = confirm("Bạn có chắc chắn muốn xóa Giảng viên này không?");
-        if (r == true) {
-            var del = $(this);
-            var teacher_id = $(this).attr("teacher_id");
-            e.preventDefault();
-            $.ajax({
-                type: "POST",
-                url: $("#base_url").val() + "MANAGERS/teacher/delete_teacher",
-                data: {
-                    teacher_id: teacher_id
-                },
-                success: function (data) {
-                  //console.log(data);
-                    if (data === '1')
-                    {
-                        del.parent().parent().parent().hide();
-                        //location.reload();
-                    } else {
-                        alert(data);
-                    }
-                },
-                error: function (errorThrown) {
-                    alert(errorThrown);
-                }
-            });
-        }
-    });
-});
-
- */
-
- /* thêm giảng viên mới */
-/*
-$(function () {
-    $(document).on('click', '.btn_manage_teacher', function (e) {
-        e.preventDefault();
-        var teacher_id = $(this).attr("teacher_id");
-        var url = $("#base_url").val() + "MANAGERS/teacher/show_edit_teacher";
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: {
-                teacher_id: teacher_id
-            },
-            success: function (data) {
-                console.log(data);
-                $("div.replace_content_edit_teacher_modal").html(data);
-            },
-            complete: function () {
-                $(".edit_teacher_modal").modal("show");
-            }
-        });
-    });
-    $('.edit_teacher_modal').on('shown.bs.modal', function () {
-        if ($(".table-1").height() > $(".table-2").height())
-        {
-            $(".table-2").height($(".table-1").height());
-        } else
-        {
-            $(".table-1").height($(".table-2").height());
-        }
-    });
-});
-
- */
-
-/* check khi thêm khóa học có phải combo không */
-/*
-$( document ).ready(function() {
-    $(document).on('switchChange.bootstrapSwitch', "[name='add_is_combo']", function (event, state) {
-        if ($(this).bootstrapSwitch('state')) {
-            // nếu có là combo
-             $(".combo_course").attr('disabled',false);
-        }else {
-			 // nếu ko là combo
-             $(".combo_course").attr('disabled',true);
-        }
-    });
-    $(document).on('click', '.btn-success', function (e) {
-        if($('#input_controller').val() == 'course' && $('#input_method').val() == 'index'){
-            var is_combo = $("[name='add_is_combo']").bootstrapSwitch('state');
-            var combo_course = $("[name='add_combo_course[]']").val();
-            if(is_combo == true && combo_course == null){
-                e.preventDefault();
-                $.alert({
-                    theme: 'modern',
-                    type: 'red',
-                    title: 'Có lỗi xảy ra!',
-                    content: 'Bạn muốn tạo combo nhưng chưa chọn khóa học!'
-                });
-            }else if(is_combo == true && combo_course != null && combo_course.length == 1){
-                e.preventDefault();
-                $.alert({
-                    theme: 'modern',
-                    type: 'red',
-                    title: 'Có lỗi xảy ra!',
-                    content: 'Combo phải từ 2 khóa trở lên!'
-                });
-            }else{
-                combo_course == null;
-            }
-        }
-    });
-});
-*/
-
-/* check khi sửa khóa học có phải combo không */
-/*
-$( document ).ready(function() {
-    $(document).on('switchChange.bootstrapSwitch', "[name='edit_is_combo']", function (event, state) {
-        if ($(this).bootstrapSwitch('state')) {
-            //  nếu có là combo
-             $(".combo_course").attr('disabled',false);
-        }else {
-            //  nếu ko là combo
-             $(".combo_course").attr('disabled',true);
-        }
-    });
-    $(document).on('click', '.btn-success', function (e) {
-        if($('#input_controller').val() == 'course' && $('#input_method').val() == 'index'){
-            var is_combo = $("[name='edit_is_combo']").bootstrapSwitch('state');
-            var combo_course = $("[name='edit_combo_course[]']").val();
-            if(is_combo == true && combo_course == null){
-                e.preventDefault();
-                $.alert({
-                    theme: 'modern',
-                    type: 'red',
-                    title: 'Có lỗi xảy ra!',
-                    content: 'Bạn muốn tạo combo nhưng chưa chọn khóa học!'
-                });
-            }else if(is_combo == true && combo_course != null && combo_course.length == 1){
-                e.preventDefault();
-                $.alert({
-                    theme: 'modern',
-                    type: 'red',
-                    title: 'Có lỗi xảy ra!',
-                    content: 'Combo phải từ 2 khóa trở lên!'
-                });
-            }else{
-                combo_course == null;
-            }
-        }
-    });
-});
-*/
-
 $(document).ready(function() {
     $(".show_popup").click(function(){
         $(".popup-wrapper").show();
     })
 });
-
-/*
-$(document).ready(function() {
-    $(".get_link").click(function(e){
-        e.preventDefault()
-        var slug = $(this).attr('slug');
-        var course_code = $(this).attr('course_code');
-        
-        var url = $("#base_url").val() + "affiliate/show_link_tracking";
-
-            $.ajax({
-                url: url,
-                type: "POST",
-                data: {
-                    slug: slug,
-                    course_code:course_code
-                },
-                success: data => $("div.replace_link_modal").html(data),
-                complete: () => $(".get_link_modal").modal("show")
-            });
-
-        $
-    })
-});
-
- */
 
 $(document).on("click", ".copy_link_tracking", function () {
     var textCopy = document.getElementById("id_link_tracking_"+$(this).attr('id_link_tracking'));
@@ -3506,41 +1967,6 @@ $(document).on("click", ".copy_link_tracking", function () {
 })
 
 $.fn.modal.Constructor.prototype.enforceFocus = function() {};
-
-/*
-$(document).ready(function() {
-	$(document).on("click", ".show_detail", function(e) {
-		e.preventDefault();
-		//alert('sfsdf');
-		var staff_id = $(this).attr('staff_id');
-		var type_contact = $(this).attr('type_contact');
-		var time_start = $(this).attr('time_start');
-		var time_end = $(this).attr('time_end');
-		var total = $(this).attr('total');
-		var url = $("#base_url").val() + 'manager/detail_contact';
-		$.ajax({
-			url: url,
-			type: "POST",
-			dataType: 'text',
-			data: {
-				staff_id: staff_id,
-				type_contact: type_contact,
-				time_start: time_start,
-				time_end: time_end,
-				total: total
-			},
-			success: function (result) {
-				//console.log(result);
-				$("div.replace_content_detail").html(result),
-				$('.detail_infor').modal('show');
-            }, 
-		});
-		//console.log(staff_id);
-		//alert(staff_id);
-	});
-});
-
- */
 
 $('.contact-sale-have-to-call').click(function(){
     let type = $(this).attr('type');
@@ -3843,12 +2269,6 @@ $(".mechanism_teacher").on('click', function (e) {
     $("#class_study_id").val(class_study_id);
     $(".show_mechanism_teacher").modal("show");
 });
-
-// $('.export_excel').on('click', function (e) {
-//     e.preventDefault();
-//     let teacher_id = $(this).attr('teacher_id');
-//     let class_study_id = $(this).attr('class_study_id');
-// });
 
 $('.send_mail_teacher').on('click', function (e) {
     e.preventDefault();
@@ -4188,6 +2608,37 @@ $(document).on('click', '.delete_common', e => {
         });
         return false;
     }
+});
+
+$(".salary-staff").on('click', function (e) {
+	e.preventDefault();
+	$(".checked").removeClass("checked");
+	$(this).parent().parent().addClass("checked");
+
+	let _this = this.$target;
+	let staff_id = _this.attr("item_id");
+
+	let modal_name = 'view_add_salary_staff';
+
+	$.ajax({
+		url: $("#base_url").val() + "staff_managers/staff/view_add_salary",
+		type: "POST",
+		data: {
+			contact_id: contact_id
+		},
+		beforeSend: () => $(".popup-wrapper").show(),
+		success: function (data) {
+			$("." + modal_name).remove();
+			let newModal = `<div class="${modal_name}"></div>`;
+			$(".modal-append-to").append(newModal);
+			$(`.${modal_name}`).html(data);
+		},
+		complete: function () {
+			$(`.${modal_name} .modal`).modal("show");
+			$(".popup-wrapper").hide();
+		}
+	});
+	// $(".view_update_cost_student").modal("show");
 });
 
 

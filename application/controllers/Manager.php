@@ -3255,11 +3255,7 @@ class Manager extends MY_Controller {
         $this->load->model('paid_model');
 
         $require_model = array(
-            'branch' => array(
-                'where' => array(
-                    'active' => 1
-                )
-            )
+            'branch' => array()
         );
         $data = array_merge($this->data, $this->_get_require_data($require_model));
 
