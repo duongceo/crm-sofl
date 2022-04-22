@@ -3348,7 +3348,8 @@ class Manager extends MY_Controller {
 		$input['select'] = 'SUM(total_salary_real) AS TOTAL';
 		$input['where'] = array(
 			'day_salary >=' => $date_from,
-			'day_salary <=' => $date_end
+			'day_salary <=' => $date_end,
+			'paid_status' => 1
 		);
 
 		$salary_staff = $this->salary_staff_model->load_all($input);

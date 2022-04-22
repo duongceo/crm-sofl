@@ -298,12 +298,12 @@ class Staff extends MY_Table {
 			'day_salary >=' => $date_from,
 			'day_salary <=' => $date_end,
 		);
-		$input['limit'] = array(100, 0);
 
 		if (isset($get['filter_search_name']) && !empty($get['filter_search_name'])) {
 			$input['like']['name'] = $get['filter_search_name'];
 		}
 
+		$input['limit'] = array(100, 0);
 		$input['order']['day_salary'] = 'desc';
 
 		$salary = $this->salary_staff_model->load_all($input);
@@ -337,7 +337,7 @@ class Staff extends MY_Table {
 		$data['salary'] = $salary;
 		$data['startDate'] = isset($date_from) ? $date_from : '0';
 		$data['endDate'] = isset($date_end) ? $date_end : '0';
-		$data['left_col'] = array('date_happen_1');
+		$data['left_col'] = array('date_happen_1', '');
 		$data['content'] = 'staff_managers/staff/salary/view_salary_staff';
 
 		$this->load->view(_MAIN_LAYOUT_, $data);
@@ -385,6 +385,32 @@ class Staff extends MY_Table {
 		} else {
 			$result['success'] = false;
 			$result['message'] =  'Chưa có email';
+		}
+
+		echo json_encode($result);
+		die();
+	}
+
+	public function paid_salary_staff() {
+		$this->load->model('salary_staff_model');
+		$post = $this->input->post();
+		$result = array();
+
+		if (!empty($post)) {
+			$where = array('id' => $post['salary_id']);
+
+			$param['paid_status'] = 1;
+			$param['day_paid_salary'] = time();
+			if (!empty($where)) {
+				$this->salary_staff_model->update($where, $param);
+				$result['success'] = true;
+			} else {
+				$result['success'] = false;
+				$result['message'] = 'Có lỗi xảy ra';
+			}
+		} else {
+			$result['success'] = false;
+			$result['message'] = 'Không có dữ liệu';
 		}
 
 		echo json_encode($result);

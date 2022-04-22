@@ -121,9 +121,9 @@
 								<p class="bg-warning">Chưa gửi mail</p>
 							<?php } ?>
 							<?php if ($item['paid_status']) { ?>
-								<p class="bg-success">Đã gửi lương</p>
+								<p class="bg-primary">Đã gửi lương</p>
 							<?php } else { ?>
-								<p class="bg-warning">Chưa gửi lương</p>
+								<p class="bg-danger">Chưa gửi lương</p>
 							<?php } ?>
 						</td>
 						<td class="text-center text-primary">
@@ -197,12 +197,6 @@
 									</td>
 								</tr>
 								<tr>
-									<td  class="text-right">Com</td>
-									<td>
-										<input type="text" class="form-control money" name="com" style="width: 100%;" />
-									</td>
-								</tr>
-								<tr>
 									<td  class="text-right">Lương tháng</td>
 									<td>
 										<input type="text" class="form-control datepicker" name="day_salary" required="required" style="width: 100%;">
@@ -213,6 +207,12 @@
 
 						<div class="col-md-6">
 							<table class="table table-striped table-bordered table-hover table-2 table-view-2">
+								<tr>
+									<td  class="text-right">Com</td>
+									<td>
+										<input type="text" class="form-control money" name="com" style="width: 100%;" />
+									</td>
+								</tr>
 								<tr>
 									<td  class="text-right">KPI/KOL</td>
 									<td>

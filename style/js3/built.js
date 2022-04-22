@@ -2654,6 +2654,52 @@ $('.send_mail_salary_staff').on('click', function (e) {
 	});
 });
 
+$('.paid_salary_staff').on('click', function (e) {
+	e.preventDefault();
+	let salary_id = $(this).attr('salary_id');
+	let _this_ = $(this);
+
+	$.ajax({
+		url: $('#base_url').val() + 'staff_managers/staff/paid_salary_staff',
+		type: 'POST',
+		dataType: 'json',
+		data: {
+			salary_id : salary_id
+		},
+		beforeSend: function() {
+			$(".popup-wrapper").show();
+		},
+		success: function (data) {
+			if (data.success) {
+				_this_.parent().parent().find('td.paid_salary').html('<p class="bg-primary">Đã trả lương</p>');
+				// _this_.attr('disabled', true);
+
+				$.notify(data.message, {
+					position: "top left",
+					className: 'success',
+					showDuration: 200,
+					autoHideDelay: 5000
+				});
+			} else {
+				$.notify('Có lỗi xảy ra! Nội dung: ' + data.message, {
+					position: "top left",
+					className: 'error',
+					showDuration: 200,
+					autoHideDelay: 7000
+				});
+			}
+		},
+		error: function(errorThrown) {
+			alert(errorThrown);
+			$(".popup-wrapper").hide();
+		},
+		complete: function() {
+			$(".popup-wrapper").hide();
+		},
+	});
+});
+
+
 
 
 
