@@ -311,6 +311,7 @@ class Staff extends MY_Table {
 		$post = $this->input->post();
 		if (isset($post) && !empty($post)) {
 			$param['name'] = $post['name'];
+			$param['email'] = trim($post['email']);
 			$param['salary_basic'] = str_replace(',', '', $post['salary_basic']);
 			$param['work_per_month'] = $post['work_per_month'];
 			$param['work_diligence'] = $post['work_diligence'];
@@ -340,6 +341,49 @@ class Staff extends MY_Table {
 		$data['content'] = 'staff_managers/staff/salary/view_salary_staff';
 
 		$this->load->view(_MAIN_LAYOUT_, $data);
+	}
+
+	public function send_mail_salary_staff() {
+		$this->load->model('salary_staff_model');
+
+		$post = $this->input->post();
+
+		$input['where'] = array(
+			'id' => $post['salary_id']
+		);
+
+		$salary_staff = $this->salary_staff_model->load_all($input);
+		$data['salary'] = $salary_staff ? $salary_staff[0] : array();
+
+		if (!empty($salary_staff[0]['email'])) {
+			$this->load->library('email');
+			$this->email->from('minhduc.sofl@gmail.com', 'TRUNG TÂM NGOẠI NGỮ SOFL');
+			$mail_teacher = trim($salary_staff[0]['email']);
+			$this->email->to($mail_teacher);
+//          $this->email->to('ngovanquang281997@gmail.com');
+			$subject = '[SOFL] GỬI BẢNG KÊ LƯƠNG';
+			$this->email->subject($subject);
+			$message = $this->load->view('staff_managers/staff/salary/email_salary_staff', $data, true);
+			$this->email->message($message);
+
+			if ($this->email->send()) {
+				$param['day_send_mail'] = time();
+				$this->salary_staff_model->update(array('id' => $salary_staff[0]['id']), $param);
+
+				$result['success'] = true;
+				$result['message'] =  'Đã gửi mail thành công';
+			} else {
+				$result['success'] = false;
+				$result['message'] =  'Có gì đó ko đúng, chưa gửi đc mail';
+				show_error($this->email->print_debugger());
+			}
+		} else {
+			$result['success'] = false;
+			$result['message'] =  'Chưa có email';
+		}
+
+		echo json_encode($result);
+		die();
 	}
 
 }

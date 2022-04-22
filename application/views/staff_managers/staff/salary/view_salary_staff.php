@@ -1,7 +1,7 @@
 
 <div class="row">
 	<h1 class="text-center">Nhật ký thu chi từ ngày <?php echo date('d-m-Y', $startDate); ?> đến ngày <?php echo date('d-m-Y', $endDate); ?></h1>
-	<h1 class="text-center marginbottom35" style="color: #04a2df"> Tổng chi tiêu : <?php echo $total_cost; ?> VNĐ</h1>
+<!--	<h1 class="text-center marginbottom35" style="color: #04a2df"> Tổng lương : --><?php //echo $total_cost; ?><!-- VNĐ</h1>-->
 </div>
 
 <div class="container" >
@@ -203,6 +203,12 @@
 									<td class="text-right">Họ tên</td>
 									<td>
 										<input type="text" class="form-control" name="name" style="width: 100%;" />
+									</td>
+								</tr>
+								<tr>
+									<td class="text-right">Email</td>
+									<td>
+										<input type="text" class="form-control" name="email" style="width: 100%;" />
 									</td>
 								</tr>
 								<tr>
