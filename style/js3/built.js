@@ -2610,35 +2610,48 @@ $(document).on('click', '.delete_common', e => {
     }
 });
 
-$(".salary-staff").on('click', function (e) {
+$('.send_mail_salary_staff').on('click', function (e) {
 	e.preventDefault();
-	$(".checked").removeClass("checked");
-	$(this).parent().parent().addClass("checked");
-
-	let _this = this.$target;
-	let staff_id = _this.attr("item_id");
-
-	let modal_name = 'view_add_salary_staff';
+	let salary_id = $(this).attr('salary_id');
+	let _this_ = $(this);
 
 	$.ajax({
-		url: $("#base_url").val() + "staff_managers/staff/view_add_salary",
-		type: "POST",
+		url: $('#base_url').val() + 'staff_managers/staff/send_mail_salary_staff',
+		type: 'POST',
+		dataType: 'json',
 		data: {
-			contact_id: contact_id
+			salary_id : salary_id
 		},
-		beforeSend: () => $(".popup-wrapper").show(),
+		beforeSend: function() {
+			$(".popup-wrapper").show();
+		},
 		success: function (data) {
-			$("." + modal_name).remove();
-			let newModal = `<div class="${modal_name}"></div>`;
-			$(".modal-append-to").append(newModal);
-			$(`.${modal_name}`).html(data);
+			if (data.success) {
+				_this_.parent().parent().find('td.paid_salary').html('<p class="bg-success">Đã gửi mail lương</p>');
+
+				$.notify(data.message, {
+					position: "top left",
+					className: 'success',
+					showDuration: 200,
+					autoHideDelay: 5000
+				});
+			} else {
+				$.notify('Có lỗi xảy ra! Nội dung: ' + data.message, {
+					position: "top left",
+					className: 'error',
+					showDuration: 200,
+					autoHideDelay: 7000
+				});
+			}
 		},
-		complete: function () {
-			$(`.${modal_name} .modal`).modal("show");
+		complete: function() {
 			$(".popup-wrapper").hide();
-		}
+		},
+		error: function(errorThrown) {
+			alert(errorThrown);
+			$(".popup-wrapper").hide();
+		},
 	});
-	// $(".view_update_cost_student").modal("show");
 });
 
 

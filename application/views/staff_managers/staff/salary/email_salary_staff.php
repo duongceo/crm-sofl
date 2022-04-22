@@ -31,11 +31,7 @@
 			</thead>
 
 			<tbody>
-				<?php
-					$salary_month = ($salary['salary_basic']/ $salary['work_per_month']) * $salary['work_diligence'];
-					$salary_real = (($salary['salary_basic']/ $salary['work_per_month']) * 1.5) * $salary['work_diligence'];
-					$total_salary_real = $salary_month + $salary_real - $salary['punish_late'] + $salary['com'] + $salary['kpi_per_kol'] - $salary['federation'] - $salary['cost_other'] - $salary['insurance'] + $salary['allowance'] + $salary['salary_other'];
-				?>
+
 				<tr align="center">
 					<td class="text-center">
 						<?php echo html_entity_decode($salary['name']) ?>

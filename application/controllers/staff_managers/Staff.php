@@ -356,10 +356,14 @@ class Staff extends MY_Table {
 		$data['salary'] = $salary_staff ? $salary_staff[0] : array();
 
 		if (!empty($salary_staff[0]['email'])) {
+			$data['salary_month'] = ($salary_staff[0]['salary_basic'] / $salary_staff[0]['work_per_month']) * $salary_staff[0]['work_diligence'];
+			$data['salary_real'] = (($salary_staff[0]['salary_basic'] / $salary_staff[0]['work_per_month']) * 1.5) * $salary_staff[0]['work_OT'];
+			$data['total_salary_real'] = $data['salary_month'] + $data['salary_real'] - $salary_staff[0]['punish_late'] + $salary_staff[0]['com'] + $salary_staff[0]['kpi_per_kol'] - $salary_staff[0]['federation'] - $salary_staff[0]['cost_other'] - $salary_staff[0]['insurance'] + $salary_staff[0]['allowance'] + $salary_staff[0]['salary_other'];
+
 			$this->load->library('email');
 			$this->email->from('minhduc.sofl@gmail.com', 'TRUNG TÂM NGOẠI NGỮ SOFL');
-			$mail_teacher = trim($salary_staff[0]['email']);
-			$this->email->to($mail_teacher);
+			$mail_staff = trim($salary_staff[0]['email']);
+			$this->email->to($mail_staff);
 //          $this->email->to('ngovanquang281997@gmail.com');
 			$subject = '[SOFL] GỬI BẢNG KÊ LƯƠNG';
 			$this->email->subject($subject);
@@ -368,6 +372,7 @@ class Staff extends MY_Table {
 
 			if ($this->email->send()) {
 				$param['day_send_mail'] = time();
+				$param['total_salary_real'] = $data['total_salary_real'];
 				$this->salary_staff_model->update(array('id' => $salary_staff[0]['id']), $param);
 
 				$result['success'] = true;

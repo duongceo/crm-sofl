@@ -14,7 +14,7 @@
 	<div class="row">
 		<div class="col-md-10">
 			<div class="text-left">
-				<a class="btn btn-primary" data-toggle="modal" href='#modal-id'>Nhập thu chi</a>
+				<a class="btn btn-primary" data-toggle="modal" href='#modal-id'>Nhập lương</a>
 			</div>
 		</div>
 	</div>
@@ -41,7 +41,7 @@
 					<th>Tổng thực lĩnh</th>
 					<th>Lấy phép</th>
 					<th>Ngày nhập</th>
-					<th>Người nhập</th>
+<!--					<th>Người nhập</th>-->
 					<th>Thao tác</th>
 				</tr>
 			</thead>
@@ -51,7 +51,7 @@
 				<?php foreach ($salary as $item){ ?>
 					<?php
 						$salary_month = ($item['salary_basic']/ $item['work_per_month']) * $item['work_diligence'];
-						$salary_real = (($item['salary_basic']/ $item['work_per_month']) * 1.5) * $item['work_diligence'];
+						$salary_real = (($item['salary_basic']/ $item['work_per_month']) * 1.5) * $item['work_OT'];
 						$total_salary_real = $salary_month + $salary_real - $item['punish_late'] + $item['com'] + $item['kpi_per_kol'] - $item['federation'] - $item['cost_other'] - $item['insurance'] + $item['allowance'] + $item['salary_other'];
 					?>
 					<tr>
@@ -109,18 +109,20 @@
 						<td class="text-center">
 							<?php echo $item['on_leave']; ?>
 						</td>
-						<td class="text-center cost_branch">
-							<?php if ($item['paid_status']) { ?>
-								<p class="bg-success">Đã thanh toán</p>
-							<?php } else { ?>
-								<p class="bg-warning">Chưa thanh toán</p>
-								<?php if ($this->role_id == 13) { ?>
-									<button class="btn btn-xs btn-primary" salary_id="<?php echo $item['id'] ?>">Thanh toán</button>
-								<?php } ?>
-							<?php } ?>
-						</td>
 						<td class="text-center">
 							<?php echo date('d-m-Y H:i:s', $item['time_created']); ?>
+						</td>
+						<td class="text-center paid_salary">
+							<?php if ($item['day_send_mail']) { ?>
+								<p class="bg-success">Đã gửi mail</p>
+							<?php } else { ?>
+								<p class="bg-warning">Chưa gửi mail</p>
+							<?php } ?>
+							<?php if ($item['paid_status']) { ?>
+								<p class="bg-success">Đã gửi lương</p>
+							<?php } else { ?>
+								<p class="bg-warning">Chưa gửi lương</p>
+							<?php } ?>
 						</td>
 						<td class="text-center text-primary">
 							<button class="btn btn-sm btn-success paid_salary_staff" salary_id="<?php echo $item['id'] ?>">
@@ -137,55 +139,6 @@
 		</table>
 	</div>
 </div>
-
-<!--<hr>-->
-<!--<h3 class="text-center">Thống kê đã chi tiêu</h3>-->
-<!--<div class="row">-->
-<!--	<div class="col-lg-2 col-md-2 col-xs-5" style="padding-right: 0">-->
-<!--		<div class="table-responsive">-->
-<!--			<table class="table table-bordered table-striped view_report">-->
-<!--				<thead class="table-head-pos">-->
-<!--				<tr>-->
-<!--					<th style="height: 50px; background: none;"></th>-->
-<!--					<th style="background-color: #147c67"">Tổng chi tiêu</th>-->
-<!--				</tr>-->
-<!--				</thead>-->
-<!---->
-<!--				<tbody>-->
-<!--				--><?php //foreach ($report_cost as $key_report => $item_report_cost) { ?>
-<!--					<tr>-->
-<!--						<td style="background: #48baad; height: 50px;"> --><?php //echo $key_report; ?><!-- </td>-->
-<!--						<td> --><?php //echo number_format($item_report_cost['total'], 0, ",", "."); ?><!-- </td>-->
-<!--					</tr>-->
-<!--				--><?php //} ?>
-<!--				</tbody>-->
-<!--			</table>-->
-<!--		</div>-->
-<!--	</div>-->
-<!---->
-<!--	<div class="col-lg-10 col-md-10 col-xs-7" style="padding-left: 0">-->
-<!--		<div class="table-responsive">-->
-<!--			<table class="table table-bordered table-striped view_report gr4-table">-->
-<!--				<thead class="table-head-pos">-->
-<!--				<tr>-->
-<!--					--><?php //foreach ($date as $item) { ?>
-<!--						<th style="min-width: 180px; height: 50px; background-color: #4689c8"> --><?php //echo $item ?><!--</th>-->
-<!--					--><?php //} ?>
-<!--				</tr>-->
-<!--				</thead>-->
-<!--				<tbody>-->
-<!--				--><?php //foreach ($report_cost as $key_report => $item_report) { ?>
-<!--					<tr>-->
-<!--						--><?php //foreach ($date as $item) { ?>
-<!--							<td style="height: 50px;">--><?php //echo number_format($item_report[$item], 0, ",", ".")?><!--</td>-->
-<!--						--><?php //} ?>
-<!--					</tr>-->
-<!--				--><?php //} ?>
-<!--				</tbody>-->
-<!--			</table>-->
-<!--		</div>-->
-<!--	</div>-->
-<!--</div>-->
 
 <div class="modal fade" id="modal-id" role="dialog">
 	<div class="modal-dialog modal-lg">
@@ -248,9 +201,9 @@
 									</td>
 								</tr>
 								<tr>
-									<td  class="text-right">Ngày chi tiêu</td>
+									<td  class="text-right">Lương tháng</td>
 									<td>
-										<input type="text" class="form-control datepicker" name="day_cost" style="width: 100%;">
+										<input type="text" class="form-control datepicker" name="day_salary" style="width: 100%;">
 									</td>
 								</tr>
 							</table>
@@ -295,12 +248,6 @@
 									</td>
 								</tr>
 								<tr>
-									<td  class="text-right">Lương tháng</td>
-									<td>
-										<input type="text" class="form-control datepicker" name="day_salary" style="width: 100%;">
-									</td>
-								</tr>
-								<tr>
 									<td  class="text-right">Lấy phép</td>
 									<td>
 										<input type="text" class="form-control" name="on_leave" style="width: 100%;" />
@@ -308,9 +255,9 @@
 								</tr>
 							</table>
 						</div>
-						<div class="text-center">
-							<button type="submit" class="btn btn-success btn-lg" style="width: 130px;">Lưu</button>
-						</div>
+					</div>
+					<div class="text-center">
+						<button type="submit" class="btn btn-success btn-lg" style="width: 130px;">Lưu</button>
 					</div>
 				</form>
 			</div>
