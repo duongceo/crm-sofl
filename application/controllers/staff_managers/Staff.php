@@ -306,7 +306,7 @@ class Staff extends MY_Table {
 
 		$input['order']['day_salary'] = 'desc';
 
-		$cost = $this->salary_staff_model->load_all($input);
+		$salary = $this->salary_staff_model->load_all($input);
 
 		$post = $this->input->post();
 		if (isset($post) && !empty($post)) {
@@ -318,7 +318,7 @@ class Staff extends MY_Table {
 			$param['punish_late'] = str_replace(',', '', $post['punish_late']);
 			$param['com'] = str_replace(',', '', $post['com']);
 			$param['kpi_per_kol'] = str_replace(',', '', $post['kpi_per_kol']);
-			$param['union'] = str_replace(',', '', $post['union']);
+			$param['federation'] = str_replace(',', '', $post['federation']);
 			$param['cost_other'] = str_replace(',', '', $post['cost_other']);
 			$param['insurance'] = str_replace(',', '', $post['insurance']);
 			$param['allowance'] = str_replace(',', '', $post['allowance']);
@@ -333,11 +333,11 @@ class Staff extends MY_Table {
 			redirect(base_url('staff_managers/staff/view_salary_staff'));
 		}
 
-		$data['cost'] = $cost;
+		$data['salary'] = $salary;
 		$data['startDate'] = isset($date_from) ? $date_from : '0';
 		$data['endDate'] = isset($date_end) ? $date_end : '0';
 		$data['left_col'] = array('date_happen_1');
-		$data['content'] = 'staff_managers/staff/view_salary_staff';
+		$data['content'] = 'staff_managers/staff/salary/view_salary_staff';
 
 		$this->load->view(_MAIN_LAYOUT_, $data);
 	}
