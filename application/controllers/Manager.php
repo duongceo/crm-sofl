@@ -3253,6 +3253,7 @@ class Manager extends MY_Controller {
         $this->load->model('spending_model');
         $this->load->model('mechanism_model');
         $this->load->model('paid_model');
+        $this->load->model('salary_staff_model');
 
         $require_model = array(
             'branch' => array()
@@ -3342,6 +3343,16 @@ class Manager extends MY_Controller {
 
         $spend_mkt = $this->spending_model->load_all($input);
         $data['total_spend_mkt'] = $spend_mkt[0]['spend_mkt'];
+
+		$input = array();
+		$input['select'] = 'SUM(total_salary_real) AS TOTAL';
+		$input['where'] = array(
+			'day_salary >=' => $date_from,
+			'day_salary <=' => $date_end
+		);
+
+		$salary_staff = $this->salary_staff_model->load_all($input);
+		$data['total_salary_staff'] = $salary_staff[0]['TOTAL'];
 
         $data['branch'] = $branch;
         $data['startDate'] = $date_from;

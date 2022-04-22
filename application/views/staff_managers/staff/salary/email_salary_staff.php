@@ -2,14 +2,14 @@
 	<div class="row">
 		<p>
 			Công ty TNHH Dịch vụ và Đào tạo Minh Đức,
-			Phòng Kế Toán SOFL thân gửi Anh/Chị bảng lương tháng ...../2022.
+			Phòng Kế Toán SOFL thân gửi Anh/Chị bảng lương tháng <?php echo date('m/Y', $salary['day_salary']) ?>.
 			Mọi thông tin, thắc mắc xin vui lòng gửi về địa chỉ email: ketoan.sofl@gmail.com trước ngày 15.
 			Xin chân thành cảm ơn!
 		</p>
 
 		<table border="1" cellpadding="0" cellspacing="0"  width="100%">
 			<thead>
-				<tr>
+				<tr style="background-color: #ffec5c; color: #0f0f0f">
 					<th>Họ tên</th>
 					<th>Lương cơ bản</th>
 					<th>Công cơ bản/Tháng</th>
@@ -31,7 +31,6 @@
 			</thead>
 
 			<tbody>
-
 				<tr align="center">
 					<td class="text-center">
 						<?php echo html_entity_decode($salary['name']) ?>

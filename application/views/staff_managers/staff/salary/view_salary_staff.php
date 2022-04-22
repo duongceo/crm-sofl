@@ -40,7 +40,9 @@
 					<th>Lương khác</th>
 					<th>Tổng thực lĩnh</th>
 					<th>Lấy phép</th>
+					<th>Lương tháng</th>
 					<th>Ngày nhập</th>
+					<th>Mail/Thanh toán</th>
 <!--					<th>Người nhập</th>-->
 					<th>Thao tác</th>
 				</tr>
@@ -203,7 +205,7 @@
 								<tr>
 									<td  class="text-right">Lương tháng</td>
 									<td>
-										<input type="text" class="form-control datepicker" name="day_salary" style="width: 100%;">
+										<input type="text" class="form-control datepicker" name="day_salary" required="required" style="width: 100%;">
 									</td>
 								</tr>
 							</table>
