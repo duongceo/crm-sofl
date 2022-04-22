@@ -337,7 +337,7 @@ class Staff extends MY_Table {
 		$data['salary'] = $salary;
 		$data['startDate'] = isset($date_from) ? $date_from : '0';
 		$data['endDate'] = isset($date_end) ? $date_end : '0';
-		$data['left_col'] = array('date_happen_1', '');
+		$data['left_col'] = array('date_happen_1', 'search_name');
 		$data['content'] = 'staff_managers/staff/salary/view_salary_staff';
 
 		$this->load->view(_MAIN_LAYOUT_, $data);
