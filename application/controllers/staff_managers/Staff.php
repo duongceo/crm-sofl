@@ -303,7 +303,7 @@ class Staff extends MY_Table {
 			$input['like']['name'] = $get['filter_search_name'];
 		}
 
-		$input['limit'] = array(100, 0);
+		$input['limit'] = ($get['filter_search_name']) ? array($get['filter_search_name'], 0) : array(100, 0);
 		$input['order']['day_salary'] = 'desc';
 
 		$salary = $this->salary_staff_model->load_all($input);
