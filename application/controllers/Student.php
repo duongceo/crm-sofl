@@ -473,7 +473,11 @@ class Student extends MY_Controller {
         }
 
         if (isset($get['filter_refund']) && !empty($get['filter_refund'])) {
-            $input['where']['contact_id !='] = '0';
+			if ($get['filter_refund'] == 1) {
+				$input['where']['contact_id !='] = '0';
+			} elseif ($get['filter_refund'] == 2) {
+				$input['where']['contact_id'] = '0';
+			}
         }
 
 		if ($this->role_id != 12) {
