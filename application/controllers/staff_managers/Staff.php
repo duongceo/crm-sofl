@@ -310,7 +310,7 @@ class Staff extends MY_Table {
 
 		$post = $this->input->post();
 		if (isset($post) && !empty($post)) {
-			$param['name'] = $post['name'];
+			$param['name'] = trim($post['name']);
 			$param['email'] = trim($post['email']);
 			$param['salary_basic'] = str_replace(',', '', $post['salary_basic']);
 			$param['work_per_month'] = $post['work_per_month'];

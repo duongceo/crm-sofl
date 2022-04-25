@@ -19,6 +19,7 @@
                 <th>Chi phí cơ sở</th>
                 <th>Lương giáo viên</th>
                 <th>Chi phí Marketing</th>
+                <th>Lương nhân viên</th>
                 <th>Lợi nhuận</th>
             </tr>
         </thead>
@@ -42,6 +43,9 @@
                     <td>
                         NAN
                     </td>
+					<td>
+						NAN
+					</td>
                     <td>
                         <?php
                             $profit = (int) $value_branch['RE'] - (int) $value_branch['refund'] - (int) $value_branch['cost_branch'] - (int) $value_branch['salary_teacher'];
@@ -57,10 +61,11 @@
                 <td><h5><?php echo h_number_format($total_cost_branch) ?></h5></td>
                 <td><h5><?php echo h_number_format($total_salary_teacher) ?></h5></td>
                 <td><h5><?php echo h_number_format($total_spend_mkt) ?></h5></td>
+                <td><h5><?php echo h_number_format($total_salary_staff) ?></h5></td>
                 <td>
                     <h5>
                         <?php
-                            $total_profit = (int) $total_re - (int) $total_refund - (int) $total_cost_branch - (int) $total_salary_teacher - (int) $total_spend_mkt;
+                            $total_profit = (int) $total_re - (int) $total_refund - (int) $total_cost_branch - (int) $total_salary_teacher - (int) $total_spend_mkt - (int) $total_salary_staff;
                             echo h_number_format($total_profit);
                         ?>
                     </h5>

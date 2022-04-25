@@ -106,10 +106,10 @@
 							<?php echo h_number_format($total_salary_real); ?>
 						</td>
 						<td class="text-center">
-							<?php echo date('d-m-Y', $item['day_salary']); ?>
+							<?php echo $item['on_leave']; ?>
 						</td>
 						<td class="text-center">
-							<?php echo $item['on_leave']; ?>
+							<?php echo date('d-m-Y', $item['day_salary']); ?>
 						</td>
 						<td class="text-center">
 							<?php echo date('d-m-Y H:i:s', $item['time_created']); ?>
@@ -133,7 +133,7 @@
 							<button class="btn btn-xs btn-success send_mail_salary_staff" salary_id="<?php echo $item['id'] ?>">
 								Gửi mail lương
 							</button>
-							<button class="btn btn-xs btn-danger delete_common" salary_id="<?php echo $item['id'] ?>" type_delete="salary_staff">
+							<button class="btn btn-xs btn-danger delete_common" delete_id="<?php echo $item['id'] ?>" type_delete="salary_staff">
 								Xóa
 							</button>
 						</td>
