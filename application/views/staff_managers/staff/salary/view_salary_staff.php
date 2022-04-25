@@ -109,7 +109,7 @@
 							<?php echo $item['on_leave']; ?>
 						</td>
 						<td class="text-center">
-							<?php echo date('d-m-Y', $item['day_salary']); ?>
+							<?php echo date('m-Y', $item['day_salary']); ?>
 						</td>
 						<td class="text-center">
 							<?php echo date('d-m-Y H:i:s', $item['time_created']); ?>
