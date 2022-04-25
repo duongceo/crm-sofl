@@ -63,12 +63,12 @@
             </a>
         </li>
 
-<!--		<li>-->
-<!--			<a href="--><?php //echo base_url('staff_managers/staff/view_salary_staff'); ?><!--">-->
-<!--				<img src="--><?php //echo base_url(); ?><!--public/images/view-all.png">-->
-<!--				<span> Lương nhân viên </span>-->
-<!--			</a>-->
-<!--		</li>-->
+		<li>
+			<a href="<?php echo base_url('staff_managers/staff/view_salary_staff'); ?>">
+				<img src="<?php echo base_url(); ?>public/images/view-all.png">
+				<span> Lương nhân viên </span>
+			</a>
+		</li>
 
         <li>
             <a href="<?php echo base_url('manager/view_report_finance'); ?>">

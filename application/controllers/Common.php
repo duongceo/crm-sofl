@@ -2062,7 +2062,13 @@ class Common extends MY_Controller {
 
                 $result['success'] = true;
                 $result['message'] = 'Xóa thành công';
-            }
+            } elseif ($post['type_delete'] == 'salary_staff') {
+				$this->load->model('salary_staff_model');
+				$this->salary_staff_model->delete(array('id' => $post['delete_id']));
+
+				$result['success'] = true;
+				$result['message'] = 'Xóa thành công';
+			}
         } else {
             $result['success'] = false;
             $result['message'] = 'Xóa không thành công';

@@ -364,7 +364,6 @@ class Staff extends MY_Table {
 			$this->email->from('minhduc.sofl@gmail.com', 'TRUNG TÂM NGOẠI NGỮ SOFL');
 			$mail_staff = trim($salary_staff[0]['email']);
 			$this->email->to($mail_staff);
-//          $this->email->to('ngovanquang281997@gmail.com');
 			$subject = '[SOFL] GỬI BẢNG KÊ LƯƠNG';
 			$this->email->subject($subject);
 			$message = $this->load->view('staff_managers/staff/salary/email_salary_staff', $data, true);

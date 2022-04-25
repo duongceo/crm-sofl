@@ -2627,7 +2627,7 @@ $('.send_mail_salary_staff').on('click', function (e) {
 		},
 		success: function (data) {
 			if (data.success) {
-				_this_.parent().parent().find('td.paid_salary').html('<p class="bg-success">Đã gửi mail lương</p>');
+				_this_.parent().parent().find('td.paid_salary_mail').html('<p class="bg-success">Đã gửi mail lương</p>');
 
 				$.notify(data.message, {
 					position: "top left",
@@ -2671,8 +2671,7 @@ $('.paid_salary_staff').on('click', function (e) {
 		},
 		success: function (data) {
 			if (data.success) {
-				_this_.parent().parent().find('td.paid_salary').html('<p class="bg-primary">Đã trả lương</p>');
-				// _this_.attr('disabled', true);
+				_this_.parent().parent().find('td.paid_salary_notification').html('<p class="bg-primary">Đã trả lương</p>');
 
 				$.notify(data.message, {
 					position: "top left",

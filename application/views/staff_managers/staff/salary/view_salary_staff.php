@@ -114,24 +114,27 @@
 						<td class="text-center">
 							<?php echo date('d-m-Y H:i:s', $item['time_created']); ?>
 						</td>
-						<td class="text-center paid_salary">
+						<td class="text-center">
 							<?php if ($item['day_send_mail']) { ?>
-								<p class="bg-success">Đã gửi mail</p>
+								<p class="bg-success paid_salary_mail">Đã gửi mail</p>
 							<?php } else { ?>
-								<p class="bg-warning">Chưa gửi mail</p>
+								<p class="bg-warning paid_salary_mail">Chưa gửi mail</p>
 							<?php } ?>
 							<?php if ($item['paid_status']) { ?>
-								<p class="bg-primary">Đã gửi lương</p>
+								<p class="bg-primary paid_salary_notification">Đã gửi lương</p>
 							<?php } else { ?>
-								<p class="bg-danger">Chưa gửi lương</p>
+								<p class="bg-danger paid_salary_notification">Chưa gửi lương</p>
 							<?php } ?>
 						</td>
 						<td class="text-center text-primary">
-							<button class="btn btn-sm btn-success paid_salary_staff" salary_id="<?php echo $item['id'] ?>">
+							<button class="btn btn-xs btn-primary paid_salary_staff" salary_id="<?php echo $item['id'] ?>">
 								Đã gửi lương
 							</button>
-							<button class="btn btn-sm btn-warning send_mail_salary_staff" salary_id="<?php echo $item['id'] ?>">
+							<button class="btn btn-xs btn-success send_mail_salary_staff" salary_id="<?php echo $item['id'] ?>">
 								Gửi mail lương
+							</button>
+							<button class="btn btn-xs btn-danger delete_common" salary_id="<?php echo $item['id'] ?>" type_delete="salary_staff">
+								Xóa
 							</button>
 						</td>
 					</tr>
