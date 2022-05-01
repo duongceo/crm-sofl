@@ -127,10 +127,10 @@
 							<?php } ?>
 						</td>
 						<td class="text-center text-primary">
-							<button class="btn btn-xs btn-primary paid_salary_staff" salary_id="<?php echo $item['id'] ?>">
+							<button class="btn btn-xs btn-primary paid_salary_staff" salary_id="<?php echo $item['id'] ?>" total_salary_real="<?php echo $total_salary_real ?>">
 								Đã gửi lương
 							</button>
-							<button class="btn btn-xs btn-success send_mail_salary_staff" salary_id="<?php echo $item['id'] ?>" total_salary_real="<?php echo $total_salary_real ?>">
+							<button class="btn btn-xs btn-success send_mail_salary_staff" salary_id="<?php echo $item['id'] ?>">
 								Gửi mail lương
 							</button>
 							<button class="btn btn-xs btn-danger delete_common" delete_id="<?php echo $item['id'] ?>" type_delete="salary_staff">

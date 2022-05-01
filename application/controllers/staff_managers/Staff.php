@@ -404,6 +404,7 @@ class Staff extends MY_Table {
 			if (!empty($where)) {
 				$this->salary_staff_model->update($where, $param);
 				$result['success'] = true;
+				$result['message'] = 'Đã tích thanh toán';
 			} else {
 				$result['success'] = false;
 				$result['message'] = 'Có lỗi xảy ra';
