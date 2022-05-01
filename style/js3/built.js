@@ -2657,6 +2657,7 @@ $('.send_mail_salary_staff').on('click', function (e) {
 $('.paid_salary_staff').on('click', function (e) {
 	e.preventDefault();
 	let salary_id = $(this).attr('salary_id');
+	let total_salary_real = $(this).attr('total_salary_real');
 	let _this_ = $(this);
 
 	$.ajax({
@@ -2664,7 +2665,8 @@ $('.paid_salary_staff').on('click', function (e) {
 		type: 'POST',
 		dataType: 'json',
 		data: {
-			salary_id : salary_id
+			salary_id : salary_id,
+            total_salary_real : total_salary_real
 		},
 		beforeSend: function() {
 			$(".popup-wrapper").show();

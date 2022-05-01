@@ -400,6 +400,7 @@ class Staff extends MY_Table {
 
 			$param['paid_status'] = 1;
 			$param['day_paid_salary'] = time();
+			$param['total_salary_real'] = $post['total_salary_real'];
 			if (!empty($where)) {
 				$this->salary_staff_model->update($where, $param);
 				$result['success'] = true;
