@@ -67,7 +67,7 @@
                                     <p class="bg-warning">Chưa thanh toán</p>
                                     <?php if ($this->role_id == 13) { ?>
                                         <button class="btn btn-xs btn-primary btn_paid_cost_branch" type_money="cost_branch" cost_id="<?php echo  $item['id'] ?>">Thanh toán</button>
-                                        <button class="btn btn-xs btn-danger delete_common" type_delete="cost_branch" delete_id="<?php echo  $item['id'] ?>">Thanh toán</button>
+                                        <button class="btn btn-xs btn-danger delete_common" type_delete="cost_branch" delete_id="<?php echo  $item['id'] ?>">Xóa</button>
                                     <?php } ?>
                                 <?php } ?>
                             </td>
