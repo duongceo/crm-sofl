@@ -2050,7 +2050,7 @@ class Common extends MY_Controller {
 
                 $result['success'] = true;
                 $result['message'] = 'Xóa thành công';
-            } elseif ($post['type_delete'] == 'refund') {
+            } elseif ($post['type_delete'] == 'refund' || $post['type_delete'] == 'cost_branch') {
                 $this->load->model('cost_branch_model');
                 $this->cost_branch_model->delete(array('id' => $post['delete_id']));
 
