@@ -267,7 +267,6 @@ class Manager extends MY_Controller {
 //		$data['level_student_detail'] = $this->level_student_model->load_all($input);
 
         $get = $this->input->get();
-//		print_arr($get);
         /*
          * Điều kiện lấy contact :
          * lấy tất cả contact nên $conditional là mảng rỗng
@@ -278,7 +277,6 @@ class Manager extends MY_Controller {
         if (isset($get['export_all'])) {
             $post = [];
             $allContact = $this->_query_all_from_get($get, $conditional, 100000, $offset);
-              // echoQuery();die;
             foreach ($allContact['data'] as $value) {
                 $post['contact_id'][] = $value['id'];
             }
@@ -3815,7 +3813,5 @@ class Manager extends MY_Controller {
         die;
     }
 	/* ====================xuất file excel (end)============================== */
-
-
 
 }
