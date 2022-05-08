@@ -17,7 +17,7 @@
                 <thead>
                     <tr>
                         <th>STK</th>
-                        <th>Học tên</th>
+                        <th>Họ tên</th>
                         <th>Mã lớp</th>
                         <th>Ngày KG</th>
 <!--                        <th>Ngày KT</th>-->

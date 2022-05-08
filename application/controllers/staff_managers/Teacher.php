@@ -358,6 +358,9 @@ class Teacher extends MY_Table {
         $data['right_col'] = array('speaker');
         $data['startDate'] = $startDate;
         $data['endDate'] = $endDate;
+        if ($get['filter_export_excel']) {
+            $this->ExportToExcelReport($data);
+        }
         $data['content'] = 'staff_managers/teacher/statistical_salary_teacher';
         $this->load->view(_MAIN_LAYOUT_, $data);
     }
@@ -690,6 +693,39 @@ class Teacher extends MY_Table {
 
             redirect(base_url('staff_managers/teacher/order_teacher_abroad'));
         }
+    }
+
+    private function ExportToExcelReport($data = array()) {
+        $this->load->library('PHPExcel');
+        $objPHPExcel = new PHPExcel();
+        $objPHPExcel->setActiveSheetIndex(0);
+
+        //set tên các cột cần in
+        $columnName = 'A';
+        $rowCount = 1;
+
+        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Tên giáo viên');
+        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Ngân hàng');
+        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Tổng tiền');
+        $rowCount++;
+
+        foreach ($data['rows'] as $value) {
+            $columnName = 'A';
+            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, html_entity_decode($value['name']));
+            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, html_entity_decode($value['bank']));
+            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, h_number_format($value['total_paid']));
+            $objPHPExcel->getActiveSheet()->getRowDimension($rowCount)->setRowHeight(35);
+            $rowCount++;
+        }
+
+//        $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        ob_end_clean();
+        header('Content-Type: application/vnd.ms-excel; charset=utf-8');
+        header('Content-Disposition: attachment; filename="Bao_cao_tai_chinh_thang_' . date('m_Y', $data['startDate']) . '.xlsx"');
+        header('Cache-Control: max-age=0');
+        $objWriter->save('php://output');
+        die;
     }
 
 }

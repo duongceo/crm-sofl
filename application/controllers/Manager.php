@@ -3425,127 +3425,6 @@ class Manager extends MY_Controller {
         return array_merge($this->data, $this->_get_require_data($require_model));
     }
 
-
-     /* ====================xuất file excel============================== */
-     /*
-    function export_for_send_provider() {
-
-        $post = $this->input->post();
-        if (empty($post['contact_id'])) {
-            show_error_and_redirect('Vui lòng chọn contact cần xuất file excel', '', 0);
-        }
-        $this->load->model('call_status_model');
-        $this->load->model('ordering_status_model');
-        $this->load->model('cod_status_model');
-        $this->load->model('notes_model');
-        $this->load->model('staffs_model');
-        $this->load->library('PHPExcel');
-        $objPHPExcel = new PHPExcel();
-        $objPHPExcel->setActiveSheetIndex(0);
-        // $objPHPExcel->getActiveSheet()->getStyle("A1:H1")->getFont()->setSize(11)->setBold(true)->setName('Times New Roman');
-        //     ->getColor()->setRGB('FFFFFF')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $styleArray = array(
-            'font' => array(
-                'bold' => true,
-                'color' => array('rgb' => 'FFFFFF'),
-                'size' => 15,
-                'name' => 'Times New Roman'
-            ),
-            'alignment' => array(
-                'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-                'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER
-            )
-        );
-        $objPHPExcel->getActiveSheet()->getStyle("A1:I1")->applyFromArray($styleArray);
-        $objPHPExcel->getActiveSheet()->getStyle("A1:I1")->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setARGB('548235');
-        $objPHPExcel->getActiveSheet()->getStyle("A1:I1")->getBorders()->getAllBorders()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
-        $objPHPExcel->getActiveSheet()->getStyle("A2:I100")->getFont()->setSize(15)->setName('Times New Roman');
-        $objPHPExcel->getActiveSheet()->getRowDimension('1')->setRowHeight(40);
-        $objPHPExcel->getActiveSheet()->getSheetView()->setZoomScale(73);
-
-        foreach (range('A', 'G') as $columnID) {
-            $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)
-                    ->setAutoSize(true);
-        }
-
-        //set độ rộng của các cột
-        $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(5);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(15);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(20);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(25);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(15);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(25);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(15);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(20);
-        $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(30);
-
-        //set tên các cột cần in
-        $rowCount = 1;
-        $objPHPExcel->getActiveSheet()->SetCellValue('A' . $rowCount, 'Contact id');
-        $objPHPExcel->getActiveSheet()->SetCellValue('B' . $rowCount, 'Họ tên');
-        $objPHPExcel->getActiveSheet()->SetCellValue('C' . $rowCount, 'Email');
-        $objPHPExcel->getActiveSheet()->SetCellValue('D' . $rowCount, 'SĐT');
-        $objPHPExcel->getActiveSheet()->SetCellValue('E' . $rowCount, 'Địa chỉ');
-        $objPHPExcel->getActiveSheet()->SetCellValue('F' . $rowCount, 'Trạng thái gọi');
-        $objPHPExcel->getActiveSheet()->SetCellValue('G' . $rowCount, 'Trạng thái đơn hàng');
-        $objPHPExcel->getActiveSheet()->SetCellValue('H' . $rowCount, 'Trạng thái giao hàng');
-        $objPHPExcel->getActiveSheet()->SetCellValue('I' . $rowCount, 'Ma trận');
-        $objPHPExcel->getActiveSheet()->SetCellValue('J' . $rowCount, 'Ghi chú');
-        $rowCount++;
-
-        //đổ dữ liệu ra file excel
-        foreach ($post['contact_id'] as $key => $value) {
-            $input = array();
-            $input['where'] = array('id' => $value);
-            $contact = $this->contacts_model->load_all($input)[0];
-
-            $all_note = '';
-            $note = array();
-            $note['where'] = array('contact_id' => $value);
-            $notes = $this->notes_model->load_all($note);
-            if (!empty($notes)) {
-                foreach ($notes as $value2) {
-                    $all_note .= 'Ngày: ' . date('H:i:s d/m/Y', $value2['time']) . ' - Người viết: '
-                            . $this->staffs_model->find_staff_name($value2['sale_id']) . ' - Nội dung: ' . html_entity_decode($value2['content']);
-                }
-            }
-
-            $objPHPExcel->getActiveSheet()->SetCellValue('A' . $rowCount, $contact['id']);
-            $objPHPExcel->getActiveSheet()->SetCellValue('B' . $rowCount, $contact['name']);
-            $objPHPExcel->getActiveSheet()->SetCellValue('C' . $rowCount, $contact['email']);
-            $objPHPExcel->getActiveSheet()->SetCellValue('D' . $rowCount, $contact['phone']);
-            $objPHPExcel->getActiveSheet()->SetCellValue('E' . $rowCount, $contact['address']);
-            $objPHPExcel->getActiveSheet()->SetCellValue('F' . $rowCount, $this->call_status_model->find_call_status_desc($contact['call_status_id']));
-            $objPHPExcel->getActiveSheet()->SetCellValue('G' . $rowCount, $this->ordering_status_model->find_ordering_status_desc($contact['ordering_status_id']));
-            $objPHPExcel->getActiveSheet()->SetCellValue('H' . $rowCount, $this->cod_status_model->find_cod_status_desc($contact['cod_status_id']));
-            $objPHPExcel->getActiveSheet()->SetCellValue('I' . $rowCount, $contact['matrix']);
-            $objPHPExcel->getActiveSheet()->SetCellValue('J' . $rowCount, $all_note);
-            $objPHPExcel->getActiveSheet()->getRowDimension($rowCount)->setRowHeight(35);
-            $BStyle = array(
-                'borders' => array(
-                    'allborders' => array(
-                        'style' => PHPExcel_Style_Border::BORDER_THICK,
-                        'color' => array('rgb' => '151313')
-                    )
-                )
-            );
-            $objPHPExcel->getActiveSheet()->getStyle('A' . $rowCount . ':H' . $rowCount)->applyFromArray($BStyle);
-            $rowCount++;
-        }
-//die;
-        $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
-        header('Content-Type: application/vnd.ms-excel');
-        header('Content-Disposition: attachment;filename="02.Lakita_gui_danh_sach_khach_hang v' . date('Y.m.d') . '.xlsx"');
-        header('Cache-Control: max-age=0');
-        $objWriter->save('php://output');
-        die;
-
-    }
-     */
-     /* ====================xuất file excel (end)============================== */
-
-    // </editor-fold>
-
     protected function GetProccessToday() {
         //L6,L8 tính theo ngày
         $total = $this->GetProccessThisMonth();
@@ -3620,7 +3499,6 @@ class Manager extends MY_Controller {
         return $progress;
     }
 	
-	//làm KPI động thì làm ở chỗ nãy
     protected function GetProccessThisMonth() {
 		// tính L6,L8 theo thang
         $qr = $this->staffs_model->SumTarget();
@@ -3826,7 +3704,6 @@ class Manager extends MY_Controller {
         $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Chi phí marketing');
         $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Lương nhân viên');
         $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Lợi nhuận');
-
         $rowCount++;
 
         foreach ($data['branch'] as $value) {
@@ -3841,10 +3718,10 @@ class Manager extends MY_Controller {
             $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'NAN');
             $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, h_number_format($profit));
             $objPHPExcel->getActiveSheet()->getRowDimension($rowCount)->setRowHeight(35);
-
             $rowCount++;
         }
 
+        $columnName = 'A';
         $profit_total = (int) $data['total_re'] - (int) $data['total_refund'] - (int) $data['total_cost_branch'] - (int) $data['total_salary_teacher'] - (int) $data['total_spend_mkt'] - (int) $data['total_salary_staff'];
         $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Tổng');
         $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, h_number_format($data['RE']));
@@ -3854,11 +3731,13 @@ class Manager extends MY_Controller {
         $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, h_number_format($data['total_spend_mkt']));
         $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, h_number_format($data['total_salary_staff']));
         $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, h_number_format($profit_total));
-        $objPHPExcel->getActiveSheet()->getRowDimension($rowCount)->setRowHeight(50);
+        $objPHPExcel->getActiveSheet()->getRowDimension($rowCount)->setRowHeight(40);
 
-        $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
-        header('Content-Type: application/vnd.ms-excel;charset=utf-8');
-        header('Content-Disposition: attachment;filename="Bao_cao_tai_chinh_thang_' . date('m_Y', $data['startDate']) . '.xlsx"');
+//        $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        ob_end_clean();
+        header('Content-Type: application/vnd.ms-excel; charset=utf-8');
+        header('Content-Disposition: attachment; filename="Bao_cao_tai_chinh_thang_' . date('m_Y', $data['startDate']) . '.xlsx"');
         header('Cache-Control: max-age=0');
         $objWriter->save('php://output');
         die;
