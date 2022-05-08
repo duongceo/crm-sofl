@@ -327,14 +327,6 @@ class Manager extends MY_Controller {
         $this->load->view(_MAIN_LAYOUT_, $data);
     }
 
-//    function view_pivot_table() {
-//        $data = $this->data;
-//        $data['left_col'] = array('date_rgt');
-//        $data['load_js'] = array('m_pivot_table');
-//        $data['content'] = 'manager/pivot_table';
-//        $this->load->view(_MAIN_LAYOUT_, $data);
-//    }
-
     function view_duplicate() {
         $require_model = array(
             'staffs' => array(
@@ -3356,7 +3348,11 @@ class Manager extends MY_Controller {
         $data['branch'] = $branch;
         $data['startDate'] = $date_from;
         $data['endDate'] = $date_end;
-        $data['left_col'] = array('date_happen_1');
+
+        if ($get['filter_export_excel']) {
+            $this->ExportToExcelReport($data);
+        }
+        $data['left_col'] = array('date_happen_1', 'export_excel');
 //        $data['right_col'] = array('language');
         $data['content'] = 'manager/view_report_finance';
 
@@ -3627,7 +3623,6 @@ class Manager extends MY_Controller {
 	//làm KPI động thì làm ở chỗ nãy
     protected function GetProccessThisMonth() {
 		// tính L6,L8 theo thang
-        $this->load->model('staffs_model');
         $qr = $this->staffs_model->SumTarget();
 		//echo $qr[0]['targets'];die;
         $total_month_L5 = round($qr[0]['targets']*30);
@@ -3813,5 +3808,60 @@ class Manager extends MY_Controller {
         die;
     }
 	/* ====================xuất file excel (end)============================== */
+
+    private function ExportToExcelReport($data = array()) {
+        $this->load->library('PHPExcel');
+        $objPHPExcel = new PHPExcel();
+        $objPHPExcel->setActiveSheetIndex(0);
+
+        //set tên các cột cần in
+        $columnName = 'A';
+        $rowCount = 1;
+
+        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Cơ sở');
+        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Doanh Thu');
+        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Hoàn học phí');
+        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Chi phí cơ sở');
+        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Lương giáo viên');
+        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Chi phí marketing');
+        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Lương nhân viên');
+        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Lợi nhuận');
+
+        $rowCount++;
+
+        foreach ($data['branch'] as $value) {
+            $profit = (int) $value['RE'] - (int) $value['refund'] - (int) $value['cost_branch'] - (int) $value['salary_teacher'];
+            $columnName = 'A';
+            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $value['name']);
+            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, h_number_format($value['RE']));
+            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, h_number_format($value['refund']));
+            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, h_number_format($value['cost_branch']));
+            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, h_number_format($value['salary_teacher']));
+            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'NAN');
+            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'NAN');
+            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, h_number_format($profit));
+            $objPHPExcel->getActiveSheet()->getRowDimension($rowCount)->setRowHeight(35);
+
+            $rowCount++;
+        }
+
+        $profit_total = (int) $data['total_re'] - (int) $data['total_refund'] - (int) $data['total_cost_branch'] - (int) $data['total_salary_teacher'] - (int) $data['total_spend_mkt'] - (int) $data['total_salary_staff'];
+        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Tổng');
+        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, h_number_format($data['RE']));
+        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, h_number_format($data['refund']));
+        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, h_number_format($data['cost_branch']));
+        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, h_number_format($data['salary_teacher']));
+        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, h_number_format($data['total_spend_mkt']));
+        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, h_number_format($data['total_salary_staff']));
+        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, h_number_format($profit_total));
+        $objPHPExcel->getActiveSheet()->getRowDimension($rowCount)->setRowHeight(50);
+
+        $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
+        header('Content-Type: application/vnd.ms-excel;charset=utf-8');
+        header('Content-Disposition: attachment;filename="Bao_cao_tai_chinh_thang_' . date('m_Y', $data['startDate']) . '.xlsx"');
+        header('Cache-Control: max-age=0');
+        $objWriter->save('php://output');
+        die;
+    }
 
 }

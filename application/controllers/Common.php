@@ -165,10 +165,6 @@ class Common extends MY_Controller {
             );
         }
 
-//        if ($this->role_id == 1) {
-//        	unset($right_edit['level_contact'], $right_edit['level_student'], $right_edit['level_study']);
-//		}
-
         if ($this->role_id == 10 || ($this->role_id == 12 && $post['type_modal'] == 'customer_care')) {  //chăm sóc khách hàng
             $left_edit = array(
                 'contact_id' => 'view',
@@ -307,26 +303,6 @@ class Common extends MY_Controller {
 			);
 		}
 
-//		if ($rows[0]['level_contact_detail'] != '') {
-//			$rows[0]['level_contact_name'] = $this->level_contact_model->get_name_from_level($rows[0]['level_contact_detail']);
-//		} else {
-//			$rows[0]['level_contact_name'] = $this->level_contact_model->get_name_from_level($rows[0]['level_contact_id']);
-//		}
-
-//		$this->load->model('level_student_model');
-//		if ($rows[0]['level_student_detail'] != '') {
-//			$rows[0]['level_student_name'] = $this->level_student_model->get_name_from_level($rows[0]['level_student_detail']);
-//		} else {
-//			$rows[0]['level_student_name'] = $this->level_student_model->get_name_from_level($rows[0]['level_student_id']);
-//		}
-
-//		$this->load->model('level_study_model');
-//		if ($rows[0]['level_study_detail'] != '') {
-//			$rows[0]['level_study_name'] = $this->level_study_model->get_name_from_level($rows[0]['level_study_detail']);
-//		} else {
-//			$rows[0]['level_study_name'] = $this->level_study_model->get_name_from_level($rows[0]['level_study_id']);
-//		}
-
         $data = $this->_get_require_data($require_model);
 
         $this->load->model('level_contact_model');
@@ -339,11 +315,6 @@ class Common extends MY_Controller {
         if ($this->role_id == 1) {
             $edited_contact = $this->_can_edit_by_sale($rows[0]['call_status_id'], $rows[0]['level_contact_id']);
         }
-
-//        if ($this->role_id == 12) {
-//			$edited_contact = $this->_can_edit_by_branch($rows[0]['branch_id']);
-//			$edited_contact = true;
-//		}
 		
         $data['contact_id'] = $id;
         $data['edited_contact'] = $edited_contact;
@@ -386,60 +357,8 @@ class Common extends MY_Controller {
             }
         }
 
-//        $stop_care_call_order_id = array('L4', 'L4.1', 'L4.2', 'L4.3', 'L4.4', 'L4.5');
-//        if (in_array($level_contact, $stop_care_call_order_id)) {
-//			return false;
-//		}
-
         return true;
     }
-
-//    protected function _can_edit_by_branch($branch_id) {
-//    	if ($branch_id == 0 || $this->branch_id == $branch_id) {
-//			return true;
-//		} else return false;
-//	}
-
-//    protected function _can_edit_by_cod($cod_status_id) {
-//        $this->load->model("cod_status_model");
-//        $stop_care_cod_stt_where = array();
-//        $stop_care_cod_stt_where['where'] = array('stop_care' => 1);
-//        $stop_care_call_stt_id = $this->cod_status_model->load_all($stop_care_cod_stt_where);
-//        if (!empty($stop_care_call_stt_id)) {
-//            foreach ($stop_care_call_stt_id as $value) {
-//                if ($value['id'] == $cod_status_id) {
-//                    return false;
-//                }
-//            }
-//        }
-//        return true;
-//    }
-
-//    protected function _can_edit_by_customer_care($cod_status_id) {
-//        $this->load->model("cod_status_model");
-//        $stop_care_cod_stt_where = array();
-//        $stop_care_cod_stt_where['where'] = array('customer_care' => '0');
-//        $stop_care_call_stt_id = $this->cod_status_model->load_all($stop_care_cod_stt_where);
-//        if (!empty($stop_care_call_stt_id)) {
-//            foreach ($stop_care_call_stt_id as $value) {
-//                if ($value['id'] == $cod_status_id) {
-//                    return false;
-//                }
-//            }
-//        }
-//        return true;
-//    }
-	
-	/*update contact trước khi edit*/
-//	function update_before_edit_contact($id = 0){
-//        $post = $this->input->post();
-////        print_arr($post);die();
-//        $param = array();
-//        $param['class_study_id'] = $post['class_study_id'];
-//        $where = array('id' => $id);
-//        $this->contacts_model->update($where, $param);
-//        $this->action_edit_contact($id);
-//    }
 
     function action_edit_contact($id = 0) {
         $result = array();
@@ -522,27 +441,6 @@ class Common extends MY_Controller {
 					die;
 				}
 			}
-
-//			if (isset($post['level_contact_id']) && !empty($post['level_contact_id']) && $post['level_contact_id'] != '') {
-//				$param['level_contact_id'] = $post['level_contact_id'];
-//			}
-//
-//			if (isset($post['level_contact_detail']) && !empty($post['level_contact_detail']) && $post['level_contact_detail'] != '') {
-//				$param['level_contact_detail'] = $post['level_contact_detail'];
-//				$level_contact = $param['level_contact_detail'];
-//			} else {
-//				$level_contact = $param['level_contact_id'];
-//			}
-//
-//			if (isset($post['level_student_id']) && !empty($post['level_student_id']) && $post['level_student_id'] != '') {
-//				$param['level_student_id'] = $post['level_student_id'];
-//			} else {
-//				$param['level_student_id'] = '';
-//			}
-
-//			if (isset($post['level_student_detail']) && !empty($post['level_student_detail']) && $post['level_student_detail'] != '') {
-//				$param['level_student_detail'] = $post['level_student_detail'];
-//			}
 
 			if (isset($post['level_study_id']) && !empty($post['level_study_id']) && $post['level_study_id'] != '') {
 				$param['level_study_id'] = $post['level_study_id'];
@@ -823,7 +721,6 @@ class Common extends MY_Controller {
 			);
 
 			$student = $this->_create_account_student_offline($contact);
-//			return json_encode($student); die();
         }
         return $student;
     }
@@ -955,265 +852,8 @@ class Common extends MY_Controller {
             }
         }
 
-//		$stop_care_call_level_id = array('L4', 'L4.1', 'L4.2', 'L4.3', 'L4.4', 'L4.5');
-//		if (in_array($level_contact, $stop_care_call_level_id)) {
-//			return false;
-//		}
-
         return true;
     }
-
-    /* ================== Chăm sóc 1 contact =========================== */
-
-//    function action_edit_multi_cod_contact() {
-//        $post = $this->input->post();
-//        $result = array();
-//        if (!isset($post['contact_id']) || empty($post['contact_id'])) {
-//            show_error_and_redirect('Bạn cần chọn contact!', '', FALSE);
-//        }
-//        foreach ($post['contact_id'] as $value) {
-//            $input = array();
-//            $input['where'] = array('id' => $value);
-//            $rows = $this->contacts_model->load_all($input);
-//            $this->_action_edit_by_cod($value, $rows, true);
-//        }
-//        $result['success'] = 1;
-//        $result['message'] = 'Chăm sóc thành công contact!';
-//        echo json_encode($result);
-//        die;
-//    }
-
-
-//    private function _action_edit_by_cod($id, $rows, $multi = false) {
-//        $result = array();
-//        // print_arr($rows);
-//        $edited_contact = $this->_can_edit_by_cod($rows[0]['cod_status_id']);
-//        if (!$edited_contact) {
-//            $result['success'] = 0;
-//            $result['message'] = 'Contact này ở trạng thái không thể chăm sóc được nữa, vì vậy bạn không có quyền chăm sóc contact này nữa!';
-//            echo json_encode($result);
-//            die;
-//        }
-//        if (!empty($this->input->post())) {
-//            $post = $this->input->post();
-//            $param = array();
-//            //$param['cod_staff_id'] = $this->user_id;
-//            $post_arr = array('address', 'payment_method_rgt', 'provider_id', 'cod_status_id', 'code_cross_check', 'phone', 'note_cod', 'weight_envelope', 'cod_fee', 'fee_resend', 'date_expect_receive_cod', 'price_purchase', 'is_black');
-//            foreach ($post_arr as $value) {
-//                if (isset($post[$value])) {
-//                    $param[$value] = $post[$value];
-//                }
-//            }
-//            $param['date_recall'] = (isset($post['date_recall']) && $post['date_recall'] != '') ? strtotime($post['date_recall']) : 0;
-//            if ($param['date_recall'] > 0 && $param['date_recall'] < time()) {
-//                $result['success'] = 0;
-//                $result['message'] = 'Ngày hẹn gọi lại không thể là ngày trong quá khứ!';
-//                echo json_encode($result);
-//                die;
-//            }
-//            if (isset($post['date_expect_receive_cod']) && $post['date_expect_receive_cod'] != '') {
-//                if (strtotime($post['date_expect_receive_cod']) < time()) {
-//                    $result['success'] = 0;
-//                    $result['message'] = 'Ngày dự kiến giao hàng không thể là quá khứ!';
-//                    echo json_encode($result);
-//                    die;
-//                } else {
-//                    $param['date_expect_receive_cod'] = strtotime($post['date_expect_receive_cod']);
-//                }
-//            }
-//
-//            $cur_cod_status_id = $rows[0]['cod_status_id'];
-//            $cod_status_id = $post['cod_status_id'];
-//            // $this->_check_cod_stt_avalid($cod_status_id, $cur_cod_status_id);
-//            //nếu trạng thái là đang giao hàng và không có mã vận đơn (không phải tạo bằng tay) thì tạo mã vận đơn
-//            if ($cur_cod_status_id == 0 && $cod_status_id == 1) {
-//                if (!isset($post['code_cross_check']) || $post['code_cross_check'] == '') {
-//                    if (isset($post['provider_id']) && $post['provider_id'] != '' && $post['provider_id'] != 0) {
-//                        $param['code_cross_check'] = $this->_gen_code_cross_check($post, $id);
-//                        $param['date_print_cod'] = time();
-//                    } else {
-//                        $result['success'] = 0;
-//                        $result['message'] = 'Bạn cần chọn đơn vị giao hàng!';
-//                        echo json_encode($result);
-//                        die;
-//                    }
-//                } else {
-//                    $param['date_print_cod'] = time();
-//                }
-//            }
-//            //hạ cấp
-////            if ($cod_status_id == 0) {
-////                $this->load->model('cod_cross_check_model');
-////                $where = array('contact_id' => $id);
-////                $curr = $this->cod_cross_check_model->load_all(array('where' => $where));
-////                if (!empty($curr)) {
-////
-////                    /*
-////                     * Xóa contact đang xóa ở bảng tạm và cập nhật lại mã bill bằng rỗng
-////                     */
-////                    $this->cod_cross_check_model->delete($where);
-////                    $this->contacts_model->update(array('id' => $id), array('code_cross_check' => NULL));
-////                    /*
-////                     * Lấy toàn bộ contact có số thứ tự lớn hơn STT contact dang xóa
-////                     */
-////                    $condition = array(
-////                        'where' => array(
-////                            'date_print_cod' => $curr[0]['date_print_cod'],
-////                            'provider_id' => $curr[0]['provider_id'],
-////                            'number >' => $curr[0]['number']
-////                        )
-////                    );
-////                    $upper = $this->cod_cross_check_model->load_all($condition);
-////
-////                    /*
-////                     * Cập nhật lại các contact đằng sau đúng số thứ tự (STT = STT - 1)
-////                     */
-////                    $this->load->model('providers_model');
-////                    $input_provider = array();
-////                    $input_provider['where'] = array('id' => $curr[0]['provider_id']);
-////                    $provider = $this->providers_model->load_all($input_provider);
-////                    $provider_prefix = $provider[0]['prefix'];
-////                    if (!empty($upper)) {
-////                        foreach ($upper as $value) {
-////                            $u_num = $value['number'] - 1;
-////                            if ($u_num < 10) {
-////                                $u_num = '0' . $u_num;
-////                            }
-////                            $this->cod_cross_check_model->update(array('id' => $value['id']), array('number' => $u_num));
-////                            $u_code = $provider_prefix . $value['date_print_cod'] . $u_num;
-////                            $this->contacts_model->update(array('id' => $value['contact_id']), array('code_cross_check' => $u_code));
-////                        }
-////                    }
-////                }
-////                $param['code_cross_check'] = '';
-////                $param['provider_id'] = '0';
-////            }
-//            //nếu trạng thái đã thu COD, hủy đơn, đã thu Lakita thì cập nhật time
-//            // $receiveCOD = array();
-//            if ($cod_status_id > 1) {
-//                if(($cod_status_id == 2 || $cod_status_id == 3)&& $rows[0]['id_lakita'] == 0){
-//                    $input = array();
-//                    $input['select'] = 'customer_care_staff_id';
-//                    $input['where']['id'] = $id;
-//                    $da_phan_cham_soc = $this->contacts_model->load_all($input);
-//                    if($da_phan_cham_soc[0]['customer_care_staff_id'] != ''){
-//                        $param['customer_care_staff_id'] = $this->_get_customer_care_id_auto();
-//                        $param['date_customer_care_handover'] = time();
-//                    }
-//                }
-//                switch ($cod_status_id) {
-//                    case 2:
-//                        //đã thu COD
-//                        //$receiveCOD[] = $rows[0]['contact_id'];
-//                        $param['date_receive_cod'] = time();
-//                        $param['date_expect_receive_cod'] = '0';
-//                        $param['date_recall'] = 0;
-//                        break;
-//                    case 3:
-//                        //dã thu lakita
-//                        // $receiveCOD[] = $rows[0]['contact_id'];
-//                        $param['date_receive_lakita'] = time();
-//                        $param['date_expect_receive_cod'] = '0';
-//                        $param['date_recall'] = 0;
-//                        break;
-//                    case 4:
-//                        //hủy đơn
-//                        $param['date_receive_cancel_cod'] = time();
-//                        $param['date_expect_receive_cod'] = '0';
-//                        $param['date_recall'] = 0;
-//                        break;
-//                }
-//            } else {
-//                $param['date_receive_cod'] = 0;
-//                $param['date_receive_lakita'] = 0;
-//                $param['date_receive_cancel_cod'] = 0;
-//            }
-//
-//            $where = array('id' => $id);
-//            $param['last_activity'] = time();
-//            $this->contacts_model->update($where, $param);
-//
-//            if (isset($post['note']) && $post['note'] != '') {
-//                $param2 = array(
-//                    'contact_id' => $id,
-//                    'content' => $post['note'],
-//                    'time_created' => time(),
-//                    'sale_id' => $this->user_id,
-//                    'contact_code' => $this->contacts_model->get_contact_code($id)
-//                );
-//                $this->load->model('notes_model');
-//                $this->notes_model->insert($param2);
-//            }
-//            $this->_set_call_log($id, $post, $rows);
-//
-//            if ($multi == false) {
-//                $result['success'] = 1;
-//                $result['role'] = 2;
-//                $result['message'] = 'Chăm sóc thành công contact!';
-//                echo json_encode($result);
-//                die;
-//            }
-//        }
-//    }
-
-//    private function _check_cod_stt_avalid($cod_status_id, $cur_cod_status_id) {
-//        if ($cur_cod_status_id == 1 && $cod_status_id < 1) {
-//            $error = 'Vui lòng cập nhật trạng thái giao COD';
-//            show_error_and_redirect($error, base_url('error'));
-//        }
-//        if ($cur_cod_status_id == 0 && $cod_status_id > 1) {
-//            $error = 'Contact đang ở trạng thái chưa giao hàng, nên không thể cập nhật thành đã thu COD, đã thu Lakita hoặc Hủy đơn được!';
-//            show_error_and_redirect($error, base_url('error'));
-//        }
-//        if (($cur_cod_status_id == 2 || $cur_cod_status_id == 3) && ($cod_status_id == 4 || $cod_status_id <= 1)) {
-//            $error = 'Contact đang ở trạng thái đã thu COD/ đã thu Lakita thì không thể cập nhật thành Hủy đơn hoặc Đang giao hàng được!';
-//            show_error_and_redirect($error, base_url('error'));
-//        }
-//    }
-
-//    private function _gen_code_cross_check($post, $id) {
-//        $code_cross_check = '';
-//        $this->load->model('providers_model');
-//        $input_provider = array();
-//        $input_provider['where'] = array('id' => $post['provider_id']);
-//        $provider = $this->providers_model->load_all($input_provider);
-//        $provider_prefix = $provider[0]['prefix'];
-//
-//        $this->load->model('cod_cross_check_model');
-//        $today = date('dmy'); //lấy định dạng ngày_tháng để ghép vào mã bill
-//        $input_cod_cross_check = array();
-//        $input_cod_cross_check['where'] = array('date_print_cod' => $today, 'provider_id' => $post['provider_id']);
-//        $input_cod_cross_check['order'] = array('id' => 'DESC');
-//        /* Kiểm tra trong bảng tạo mã Bill có contact tạo ngày hôm nay chưa, */
-//        $cod_cross_check = $this->cod_cross_check_model->load_all($input_cod_cross_check);
-//
-//        if (empty($cod_cross_check)) { // nếu chưa thì gán STT = 01,
-//            $code_cross_check = $provider_prefix . $today . '01';
-//            $this->cod_cross_check_model->insert(array('contact_id' => $id, 'date_print_cod' => $today,
-//                'provider_id' => $post['provider_id'], 'number' => 1,
-//                'phone' => $this->contacts_model->get_contact_phone($id), 'code' => $code_cross_check, 'time' => date('Y/m/d H:i:s', time())));
-//        } else {
-//            //kiểm tra 1 khách hàng (cùng số đt) mua nhiều khóa học thì ko tạo mã vận đơn mới, mà dùng mã vận đơn cũ
-//            $input_duplicate = array();
-//            $input_duplicate['where'] = array('date_print_cod' => $today,
-//                'phone' => $this->contacts_model->get_contact_phone($id), 'provider_id' => $post['provider_id']);
-//            $contact_duplicate = $this->cod_cross_check_model->load_all($input_duplicate);
-//            if (!empty($contact_duplicate)) {
-//                $code_cross_check = $contact_duplicate[0]['code'];
-//            } else {
-//                // nếu có rồi thì gán STT = STT + 1 (tăng lên 1 đơn vị)
-//                $number = $cod_cross_check[0]['number'] + 1;
-//                if ($number < 10) {
-//                    $number = '0' . $number;
-//                }
-//                $code_cross_check = $provider_prefix . $today . '' . $number;
-//                $this->cod_cross_check_model->insert(array('contact_id' => $id, 'date_print_cod' => $today,
-//                    'provider_id' => $post['provider_id'], 'number' => $number,
-//                    'phone' => $this->contacts_model->get_contact_phone($id), 'code' => $code_cross_check, 'time' => date('Y/m/d H:i:s', time())));
-//            }
-//        }
-//        return $code_cross_check;
-//    }
 
     private function _set_call_log($id, $post, $rows) {
         $data = array();
@@ -1293,46 +933,6 @@ class Common extends MY_Controller {
         }
     }
 
-    /*
-    function real_search() {
-        $require_model = array(
-            'staffs' => array(
-                'where' => array(
-                    'role_id' => 1
-                )
-            ),
-            'call_status' => array(),
-//            'ordering_status' => array(),
-        );
-        $data = $this->_get_require_data($require_model);
-        $post = $this->input->post();
-        if (!empty($post)) {
-            $input = array();
-            $input['like'] = array($post['type'] => $post['value']);
-            $input['oder'] = array('id' => 'DESC');
-            $input['limit'] = array(10, 0);
-            $data['contacts'] = $this->contacts_model->load_all($input);
-            $total_row = count($data['contacts']);
-            $this->begin_paging = ($total_row == 0) ? 0 : 1;
-            $this->end_paging = ($total_row == 0) ? 0 : $total_row;
-            $this->total_paging = $total_row;
-            $data['controller'] = 'manager';
-        }
-        switch ($this->role_id) {
-            case 1: $data['controller'] = 'sale';
-                break;
-            case 2: $data['controller'] = 'cod';
-                break;
-            case 3: $data['controller'] = 'manager';
-                break;
-        }
-
-        $this->table .= 'date_rgt date_last_calling call_stt level_contact action';
-        $data['table'] = explode(' ', $this->table);
-        $this->load->view('common/real_search', $data);
-    }
-    */
-
     function ViewAllContactCourse() {
         $require_model = array(
             'staffs' => array(
@@ -1357,7 +957,6 @@ class Common extends MY_Controller {
 
         $contact_id = $this->input->post('contact_id', true);
         $contact_phone = $this->contacts_model->get_contact_phone($contact_id);
-        //$contact_course_code = $this->input->post('contact_course_code', true);
 
         $get = $this->input->get();
         /*
@@ -1367,18 +966,12 @@ class Common extends MY_Controller {
         $conditional['where'] = array('phone' => $contact_phone);
         $data_pagination = $this->_query_all_from_get($get, $conditional, $this->per_page, 0, 0);
 
-        /*
-         * Lấy link phân trang và danh sách contacts
-         */
+        /*Lấy link phân trang và danh sách contacts*/
         $data['pagination'] = $this->_create_pagination_link($data_pagination['total_row']);
         $data['contacts'] = $data_pagination['data'];
         $data['total_contact'] = $data_pagination['total_row'];
 
-        //print_arr( $data['contacts']);
-
-        /*
-         * Các trường cần hiện của bảng contact (đã có default)
-         */
+        /*Các trường cần hiện của bảng contact (đã có default)*/
         $this->table .= 'class_study_id fee paid call_stt level_contact date_rgt';
         $data['table'] = explode(' ', $this->table);
         $data['controller'] = $this->input->post('controller', true);
@@ -1388,208 +981,6 @@ class Common extends MY_Controller {
         echo json_encode($result);
         die;
     }
-	
-	/*
-    function find_course_name() {
-        $post = $this->input->post();
-        $input = array();
-        $input['where'] = array('course_code' => $post['course_code']);
-        $this->load->model('courses_model');
-        $courses = $this->courses_model->load_all($input);
-        if (!empty($courses)) {
-			$url = "https://lakita.vn/api/get_course_url?course_code=".$post['course_code'];
-            echo json_encode(array('name' =>  html_entity_decode($courses[0]['name_course']),'url' => json_decode(file_get_contents($url), true) ));
-        }else{
-			echo json_encode(array('name' => 'Không tìm thấy khóa học!','url' => json_decode(file_get_contents($url), true) ));
-		}
-    }
-	*/
-
-//    function send_phone_to_mobile() {
-//        $post = $this->input->post();
-//        $where = array('user_id' => $this->user_id);
-//        $data = array('phone' => $post['contact_phone'], 'name' => $post['contact_name']);
-//        $this->load->model('get_mobile_phone_model');
-//        $this->get_mobile_phone_model->update($where, $data);
-//    }
-
-//    function get_phone_to_mobile() {
-//        $this->load->model('get_mobile_phone_model');
-//        $input = array();
-//        $input['where'] = array('user_id' => $this->user_id);
-//        $rs = $this->get_mobile_phone_model->load_all($input);
-//        echo json_encode($rs[0]);
-//    }
-
-/*
-    public function ExportToExcel_2() {
-
-        $post = $this->input->post();
-        if (empty($post['contact_id'])) {
-            show_error_and_redirect('Vui lòng chọn contact cần xuất file excel', '', 0);
-        }
-        $this->load->library('PHPExcel');
-        $objPHPExcel = new PHPExcel();
-        $objPHPExcel->setActiveSheetIndex(0);
-        // $objPHPExcel->getActiveSheet()->getStyle("A1:H1")->getFont()->setSize(11)->setBold(true)->setName('Times New Roman');
-        //     ->getColor()->setRGB('FFFFFF')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $styleArray = array(
-            'font' => array(
-                'bold' => true,
-                'color' => array('rgb' => 'FFFFFF'),
-                'size' => 15,
-                'name' => 'Times New Roman'
-            ),
-            'alignment' => array(
-                'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-                'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER
-            )
-        );
-        $objPHPExcel->getActiveSheet()->getStyle("A1:R1")->applyFromArray($styleArray);
-        $objPHPExcel->getActiveSheet()->getStyle("A1:R1")->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setARGB('548235');
-        $objPHPExcel->getActiveSheet()->getStyle("A1:R1")->getBorders()->getAllBorders()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
-        $objPHPExcel->getActiveSheet()->getStyle("A2:R200")->getFont()->setSize(15)->setName('Times New Roman');
-        $objPHPExcel->getActiveSheet()->getRowDimension('1')->setRowHeight(40);
-        $objPHPExcel->getActiveSheet()->getSheetView()->setZoomScale(73);
-
-        //set tên các cột cần in
-        $columnName = 'A';
-        $rowCount = 1;
-        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'STT');
-        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Họ tên');
-        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Email');
-        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Số điện thoại');
-        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Địa chỉ');
-        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Mã khóa học');
-        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Ngày đăng ký');
-        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'TVTS');
-        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Giá tiền mua');
-        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Nguồn contact');
-        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Trạng thái gọi');
-        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Trạng thái đơn hàng');
-        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Trạng thái giao hàng');
-        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Đơn vị giao hàng');
-        $objPHPExcel->getActiveSheet()->SetCellValue($columnName . $rowCount, 'Ghi chú cuộc gọi');
-        $rowCount++;
-
-        //đổ dữ liệu ra file excel
-        $i = 1;
-        $this->load->model('sources_model');
-        $this->load->model('call_status_model');
-        $this->load->model('ordering_status_model');
-        $this->load->model('providers_model');
-        foreach ($post['contact_id'] as $value) {
-            $input = array();
-            $input['where'] = array('id' => $value);
-            $contact = $this->contacts_model->load_all($input);
-
-            $this->load->model('notes_model');
-            $input2 = array();
-            $input2['where'] = array('contact_id' => $value);
-            $input2['order'] = array('id' => 'DESC');
-            $last_note = $this->notes_model->load_all($input2);
-            $notes = '';
-            if (!empty($last_note)) {
-                foreach ($last_note as $value2) {
-                    $notes .= date('d/m/Y', $value2['time_created']) . ' ==> ' . $value2['content'] . ' ------ ';
-                }
-            }
-            $notes = html_entity_decode($notes);
-
-            $columnName = 'A';
-
-            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $i++);
-            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['name']);
-            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['email']);
-            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['phone']);
-            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['address']);
-            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['course_code']);
-            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, date('d/m/Y', $contact[0]['date_rgt']));
-            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $this->staffs_model->find_staff_name($contact[0]['sale_staff_id']));
-            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['price_purchase']);
-            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $this->sources_model->find_source_name($contact[0]['source_id']));
-            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $this->call_status_model->find_call_status_desc($contact[0]['call_status_id']));
-            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $this->ordering_status_model->find_ordering_status_desc($contact[0]['ordering_status_id']));
-//            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $this->cod_status_model->find_cod_status_desc($contact[0]['cod_status_id']));
-            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $this->providers_model->find_provider_name($contact[0]['provider_id']));
-            $objPHPExcel->getActiveSheet()->SetCellValue($columnName . $rowCount, $notes);
-            $objPHPExcel->getActiveSheet()->getRowDimension($rowCount)->setRowHeight(35);
-            $BStyle = array(
-                'borders' => array(
-                    'allborders' => array(
-                        'style' => PHPExcel_Style_Border::BORDER_THICK,
-                        'color' => array('rgb' => '151313')
-                    )
-                )
-            );
-            $objPHPExcel->getActiveSheet()->getStyle('A' . $rowCount . ':' . $columnName . $rowCount)->applyFromArray($BStyle);
-            $rowCount++;
-        }
-        foreach (range('A', $columnName) as $columnID) {
-            $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)
-                    ->setAutoSize(true);
-        }
-        $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
-        header('Content-Type: application/vnd.ms-excel');
-        header('Content-Disposition: attachment;filename="Danh_sach_khach_hang v' . date('Y.m.d') . '.xlsx"');
-        header('Cache-Control: max-age=0');
-        $objWriter->save('php://output');
-        die;
-
-    }
-*/
-	/*
-	public function ExportToExcel() {
-		$post = $this->input->post();
-
-		$this->load->library('PHPExcel');
-		$objPHPExcel = new PHPExcel();
-		$objPHPExcel->setActiveSheetIndex(0);
-
-		//set tên các cột cần in
-        $columnName = 'A';
-        $rowCount = 1;
-        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'STT');
-        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Họ tên');
-		$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Email');
-		$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Số điện thoại');
-        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'ID cơ sở');
-        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'ID ngoại ngữ');
-        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Ghi chú');
-        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Ngày đăng ký');
-
-        $rowCount++;
-
-		//đổ dữ liệu ra file excel
-        $i = 1;
-//		$rowCount = 2;
-		foreach ($post['contact_id'] as $value) {
-            $input = array();
-            $input['select'] = 'name, branch_id, language_id, email, phone, date_rgt';
-            $input['where'] = array('id' => $value);
-            $contact = $this->contacts_model->load_all($input);
-
-			$columnName = 'A';
-            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $i++);
-            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['name']);
-			$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['email']);
-			$objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['phone']);
-            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['branch_id']);
-            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['language_id']);
-            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['email']);
-            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, date('d/m/Y H:m', $contact[0]['date_rgt']));
-            $objPHPExcel->getActiveSheet()->getRowDimension($rowCount)->setRowHeight(35);
-			$rowCount++;
-		}
-
-		$objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
-		header('Content-Type: application/vnd.ms-excel');
-		header('Content-Disposition: attachment;filename="Contact_' . date('d/m/Y') . '.xlsx"');
-		header('Cache-Control: max-age=0');
-		$objWriter->save('php://output');
-		die;
-	}
-	*/
 	
 	public function ExportToExcel($post=array()) {
 
@@ -1713,202 +1104,6 @@ class Common extends MY_Controller {
         die;
     }
 
-    /*
-    public function ExportL7ToExcel() {
-
-        $post = $this->input->post();
-        if (empty($post['contact_id'])) {
-            show_error_and_redirect('Vui lòng chọn contact cần xuất file excel', '', 0);
-        }
-        $this->load->library('PHPExcel');
-        $objPHPExcel = new PHPExcel();
-        $objPHPExcel->setActiveSheetIndex(0);
-        // $objPHPExcel->getActiveSheet()->getStyle("A1:H1")->getFont()->setSize(11)->setBold(true)->setName('Times New Roman');
-        //     ->getColor()->setRGB('FFFFFF')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $styleArray = array(
-            'font' => array(
-                'bold' => true,
-                'color' => array('rgb' => 'FFFFFF'),
-                'size' => 15,
-                'name' => 'Times New Roman'
-            ),
-            'alignment' => array(
-                'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-                'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER
-            )
-        );
-        $objPHPExcel->getActiveSheet()->getStyle("A1:R1")->applyFromArray($styleArray);
-        $objPHPExcel->getActiveSheet()->getStyle("A1:R1")->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setARGB('548235');
-        $objPHPExcel->getActiveSheet()->getStyle("A1:R1")->getBorders()->getAllBorders()->setBorderStyle(PHPExcel_Style_Border::BORDER_THICK);
-        $objPHPExcel->getActiveSheet()->getStyle("A2:R200")->getFont()->setSize(15)->setName('Times New Roman');
-        $objPHPExcel->getActiveSheet()->getRowDimension('1')->setRowHeight(40);
-        $objPHPExcel->getActiveSheet()->getSheetView()->setZoomScale(73);
-
-
-        //set tên các cột cần in
-        $columnName = 'A';
-        $rowCount = 1;
-        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'STT');
-        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Họ tên');
-        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Email');
-        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Số điện thoại');
-        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Địa chỉ');
-        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Mã khóa học');
-        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Ngày đăng ký');
-        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'TVTS');
-        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Giá tiền mua');
-        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Nguồn contact');
-        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Trạng thái gọi');
-        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Trạng thái đơn hàng');
-        $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, 'Trạng thái giao hàng');
-        $objPHPExcel->getActiveSheet()->SetCellValue($columnName . $rowCount, 'Ghi chú cuộc gọi');
-        $rowCount++;
-
-        //đổ dữ liệu ra file excel
-        $i = 1;
-        $this->load->model('sources_model');
-        $this->load->model('call_status_model');
-        $this->load->model('ordering_status_model');
-//        $this->load->model('cod_status_model');
-        foreach ($post['contact_id'] as $value) {
-            $input = array();
-            $input['where'] = array('id' => $value);
-            $contact = $this->contacts_model->load_all($input);
-
-            $this->load->model('notes_model');
-            $input2 = array();
-            $input2['where'] = array('contact_id' => $value);
-            $input2['order'] = array('id' => 'DESC');
-            $last_note = $this->notes_model->load_all($input2);
-            $notes = '';
-            if (!empty($last_note)) {
-                foreach ($last_note as $value2) {
-                    $notes .= date('d/m/Y', $value2['time_created']) . ' ==> ' . $value2['content'] . ' ------ ';
-                }
-            }
-            $notes = html_entity_decode($notes);
-
-            $columnName = 'A';
-
-            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $i++);
-            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['name']);
-            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['email']);
-            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['phone']);
-            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['address']);
-            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['course_code']);
-            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, date('d/m/Y', $contact[0]['date_rgt']));
-            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $this->staffs_model->find_staff_name($contact[0]['sale_staff_id']));
-            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $contact[0]['price_purchase']);
-            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $this->sources_model->find_source_name($contact[0]['source_id']));
-            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $this->call_status_model->find_call_status_desc($contact[0]['call_status_id']));
-            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $this->ordering_status_model->find_ordering_status_desc($contact[0]['ordering_status_id']));
-//            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $this->cod_status_model->find_cod_status_desc($contact[0]['cod_status_id']));
-            $objPHPExcel->getActiveSheet()->SetCellValue($columnName . $rowCount, $notes);
-            $objPHPExcel->getActiveSheet()->getRowDimension($rowCount)->setRowHeight(35);
-            $BStyle = array(
-                'borders' => array(
-                    'allborders' => array(
-                        'style' => PHPExcel_Style_Border::BORDER_THICK,
-                        'color' => array('rgb' => '151313')
-                    )
-                )
-            );
-            $objPHPExcel->getActiveSheet()->getStyle('A' . $rowCount . ':R' . $rowCount)->applyFromArray($BStyle);
-            $rowCount++;
-        }
-
-        foreach (range('A', 'R') as $columnID) {
-            $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)
-                    ->setAutoSize(true);
-        }
-
-        $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
-        header('Content-Type: application/vnd.ms-excel');
-        header('Content-Disposition: attachment;filename="Danh_sach_khach_hang v' . date('Y.m.d') . '.xlsx"');
-        header('Cache-Control: max-age=0');
-        $objWriter->save('php://output');
-        die;
-    }
-    */
-
-    // </editor-fold>
-    
-//	function check_is_one_email(){
-//
-//        $post = $this->input->post();
-//
-//        $input = array();
-//        $input['select'] = 'email';
-//        $input['where_in']['id'] = $post['contact'];
-//        $contact = $this->contacts_model->load_all($input);
-//
-//        $email_list = array();
-//        foreach ($contact as $value){
-//            $email_list[] = $value['email'];
-//        }
-//        $email_list = array_unique($email_list);
-//
-//        $result['num_email'] = count($email_list);
-//        $result['email'] = $email_list[0];
-//        echo json_encode($result);
-//    }
-	
-//	function restore_infor(){
-//        $this->load->model('contacts_model');
-//        $this->load->model('contacts_backup_model');
-//        $post = $this->input->post();
-//        if (empty($post['contact_id'])) {
-//            show_error_and_redirect('Vui lòng chọn contact', '', 0);
-//        }
-//
-//        $contact_export = $this->_contact_export($post['contact_id']);
-//
-//        foreach ($contact_export as $value){
-//            $input = array();
-//            $input['select'] = 'name,address,phone,course_code,price_purchase';
-//            $input['where']['id'] = $value['id'];
-//            $restore_infor = $this->contacts_backup_model->load_all($input);
-//            $this->contacts_model->update(array('id' => $value['id']),$restore_infor[0]);
-//        }
-//        show_error_and_redirect('Khôi phục thông tin thành công', '', 0);
-//    }
-
-//    private function _contact_export($ids) {
-//        $this->load->model('Courses_model');
-//        $contacts = array();
-//        $i = 0;
-//        foreach ($ids as $value) {
-//            $input = array();
-//            $input['select'] = 'id, phone, name, address, price_purchase, note_cod, provider_id';
-//            $input['where'] = array('id' => $value);
-//            $contact = $this->contacts_model->load_all($input);
-//            //tìm xem số đt của contact có trong mảng contacts hay chưa,
-//            //nếu chưa thì thêm vào, nếu có thì cộng tiền
-//            $position = found_position_in_array($contact[0]['phone'], $contacts);
-//            if ($position == -1) {
-//                $contacts[$i] = array(
-//                    'id' => $contact[0]['id'],
-//                    'code_cross_check' => $contact[0]['code_cross_check'],
-//                    'course_code' => $contact[0]['course_code'],
-//                    'course_name' => $this->Courses_model->find_course_name($contact[0]['course_code']),
-//                    'name' => $contact[0]['name'],
-//                    'phone' => $contact[0]['phone'],
-//                    'address' => $contact[0]['address'],
-//                    'price_purchase' => $contact[0]['price_purchase'],
-//                    'note_cod' => $contact[0]['note_cod'],
-//                    'cb' => 1,
-//                    'provider_id' => $contact[0]['provider_id']
-//                );
-//                $i++;
-//            } else {
-//                $contacts[$position]['price_purchase'] += $contact[0]['price_purchase'];
-//                $contacts[$position]['course_name'] = 'Khóa học combo';
-//                $contacts[$position]['cb'] += 1;
-//            }
-//        }
-//        return $contacts;
-//    }
-
     public function get_level_contact() {
     	$post = $this->input->post();
 		$input['where'] = array(
@@ -1930,7 +1125,6 @@ class Common extends MY_Controller {
 //			$chil_level = $this->level_student_model->load_all($input);
 //			$name = "level_student_detail";
 //		}
-//		print_arr($chil_level);
     	if (isset($chil_level) && !empty($chil_level)) {
 			 $str = '<td class="text-right">
 					Trạng thái chi tiết
@@ -1956,7 +1150,6 @@ class Common extends MY_Controller {
 			$input['where']['language_id'] = $post['level_id'];
 			$this->load->model('level_language_model');
 			$level_language = $this->level_language_model->load_all($input);
-//			print_arr($level_language);
 
 			if (isset($level_language) && !empty($level_language)) {
 				$str = '<td class="text-right">
