@@ -354,7 +354,7 @@ class Teacher extends MY_Table {
             }
         }
 
-        $data['left_col'] = array('date_happen_1', 'language', 'branch');
+        $data['left_col'] = array('date_happen_1', 'language', 'branch', 'export_excel');
         $data['right_col'] = array('speaker');
         $data['startDate'] = $startDate;
         $data['endDate'] = $endDate;
