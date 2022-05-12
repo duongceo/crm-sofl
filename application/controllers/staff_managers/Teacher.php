@@ -722,7 +722,7 @@ class Teacher extends MY_Table {
         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
         ob_end_clean();
         header('Content-Type: application/vnd.ms-excel; charset=utf-8');
-        header('Content-Disposition: attachment; filename="Bao_cao_tai_chinh_thang_' . date('m_Y', $data['startDate']) . '.xlsx"');
+        header('Content-Disposition: attachment; filename="Thong_ke_luong_giao_vien_thang_' . date('m_Y', $data['startDate']) . '.xlsx"');
         header('Cache-Control: max-age=0');
         $objWriter->save('php://output');
         die;
