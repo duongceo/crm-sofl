@@ -713,7 +713,7 @@ class Teacher extends MY_Table {
             $columnName = 'A';
             $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, html_entity_decode($value['name']));
             $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, html_entity_decode($value['bank']));
-            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, h_number_format($value['total_paid']));
+            $objPHPExcel->getActiveSheet()->SetCellValue($columnName++ . $rowCount, $value['total_paid']);
             $objPHPExcel->getActiveSheet()->getRowDimension($rowCount)->setRowHeight(35);
             $rowCount++;
         }
